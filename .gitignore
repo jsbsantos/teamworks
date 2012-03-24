@@ -1,0 +1,18 @@
+# directories
+_[Rr]e[Ss]harper.*
+[Bb]in
+[Oo]bj/
+[Dd]ebug*/
+[Rr]elease*/
+
+# files
+[Tt]humbs.db 
+*.[Cc]ache
+*.user
+*.suo
+*.bak
+*.ncb
+*.log 
+*.DS_Store
+*.[Pp]ublish.xml
+*.[Rr]e[Ss]harper
