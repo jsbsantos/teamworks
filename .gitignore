@@ -16,3 +16,6 @@ _[Rr]e[Ss]harper.*
 *.DS_Store
 *.[Pp]ublish.xml
 *.[Rr]e[Ss]harper
+
+# nuget
+packages/
