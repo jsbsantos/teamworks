@@ -1,4 +1,4 @@
-# TeamWorks
+# Teamworks
 > a solution  for project planning, managing and colaboration
 
 Um projecto é um esforço temporário realizado por uma equipa, com o objectivo de criar um produto ou serviço. 
