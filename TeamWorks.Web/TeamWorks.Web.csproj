@@ -6,15 +6,17 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{5276C888-F1AA-4F63-BC1E-BBF322EC43B2}</ProjectGuid>
+    <ProjectGuid>{A0746650-91CF-4306-83E4-5D7726B8EB4A}</ProjectGuid>
     <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TeamWorks.Web</RootNamespace>
-    <AssemblyName>TeamWorks.Web</AssemblyName>
+    <RootNamespace>Teamworks.Web</RootNamespace>
+    <AssemblyName>Teamworks.Web</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>false</UseIISExpress>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,6 +36,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.4.1.10331.0\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -118,17 +123,50 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\style.css" />
+    <Content Include="Content\images\glyphicons-halflings-white.png" />
+    <Content Include="Content\images\glyphicons-halflings.png" />
+    <Content Include="Content\js\libs\bootstrap\alert.js" />
+    <Content Include="Content\js\libs\bootstrap\bootstrap.js" />
+    <Content Include="Content\js\libs\bootstrap\bootstrap.min.js" />
+    <Content Include="Content\js\libs\bootstrap\button.js" />
+    <Content Include="Content\js\libs\bootstrap\carousel.js" />
+    <Content Include="Content\js\libs\bootstrap\collapse.js" />
+    <Content Include="Content\js\libs\bootstrap\dropdown.js" />
+    <Content Include="Content\js\libs\bootstrap\modal.js" />
+    <Content Include="Content\js\libs\bootstrap\popover.js" />
+    <Content Include="Content\js\libs\bootstrap\scrollspy.js" />
+    <Content Include="Content\js\libs\bootstrap\tab.js" />
+    <Content Include="Content\js\libs\bootstrap\tooltip.js" />
+    <Content Include="Content\js\libs\bootstrap\transition.js" />
+    <Content Include="Content\js\libs\bootstrap\typeahead.js" />
+    <Content Include="Content\js\libs\jquery-1.7.1-vsdoc.js" />
+    <Content Include="Content\js\libs\jquery-1.7.1.js" />
+    <Content Include="Content\js\libs\jquery-1.7.1.min.js" />
+    <Content Include="Content\js\libs\jquery.unobtrusive-ajax.js" />
+    <Content Include="Content\js\libs\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Content\js\libs\jquery.validate-vsdoc.js" />
+    <Content Include="Content\js\libs\jquery.validate.js" />
+    <Content Include="Content\js\libs\jquery.validate.min.js" />
+    <Content Include="Content\js\libs\jquery.validate.unobtrusive.js" />
+    <Content Include="Content\js\libs\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Content\js\libs\knockout-2.0.0.debug.js" />
+    <Content Include="Content\js\libs\knockout-2.0.0.js" />
+    <Content Include="Content\js\libs\less-1.2.1.min.js" />
+    <Content Include="Content\js\libs\modernizr-2.0.6-development-only.js" />
+    <Content Include="Content\js\libs\_references.js" />
     <Content Include="Global.asax" />
-    <Content Include="Scripts\jquery-1.7.1-vsdoc.js" />
-    <Content Include="Scripts\jquery-1.7.1.js" />
-    <Content Include="Scripts\jquery-1.7.1.min.js" />
+    <Content Include="Scripts\jquery-1.6.2-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.6.2.js" />
+    <Content Include="Scripts\jquery-1.6.2.min.js" />
+    <Content Include="Scripts\jquery-ui-1.8.11.js" />
+    <Content Include="Scripts\jquery-ui-1.8.11.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate-vsdoc.js" />
@@ -154,11 +192,51 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Content\less\bootstrap\accordion.less" />
+    <None Include="Content\less\bootstrap\alerts.less" />
+    <None Include="Content\less\bootstrap\bootstrap.less" />
+    <None Include="Content\less\bootstrap\breadcrumbs.less" />
+    <None Include="Content\less\bootstrap\button-groups.less" />
+    <None Include="Content\less\bootstrap\buttons.less" />
+    <None Include="Content\less\bootstrap\carousel.less" />
+    <None Include="Content\less\bootstrap\close.less" />
+    <None Include="Content\less\bootstrap\code.less" />
+    <None Include="Content\less\bootstrap\component-animations.less" />
+    <None Include="Content\less\bootstrap\dropdowns.less" />
+    <None Include="Content\less\bootstrap\forms.less" />
+    <None Include="Content\less\bootstrap\grid.less" />
+    <None Include="Content\less\bootstrap\hero-unit.less" />
+    <None Include="Content\less\bootstrap\labels.less" />
+    <None Include="Content\less\bootstrap\layouts.less" />
+    <None Include="Content\less\bootstrap\mixins.less" />
+    <None Include="Content\less\bootstrap\modals.less" />
+    <None Include="Content\less\bootstrap\navbar.less" />
+    <None Include="Content\less\bootstrap\navs.less" />
+    <None Include="Content\less\bootstrap\pager.less" />
+    <None Include="Content\less\bootstrap\pagination.less" />
+    <None Include="Content\less\bootstrap\patterns.less" />
+    <None Include="Content\less\bootstrap\popovers.less" />
+    <None Include="Content\less\bootstrap\print.less" />
+    <None Include="Content\less\bootstrap\progress-bars.less" />
+    <None Include="Content\less\bootstrap\reset.less" />
+    <None Include="Content\less\bootstrap\responsive.less" />
+    <None Include="Content\less\bootstrap\scaffolding.less" />
+    <None Include="Content\less\bootstrap\sprites.less" />
+    <None Include="Content\less\bootstrap\tables.less" />
+    <None Include="Content\less\bootstrap\thumbnails.less" />
+    <None Include="Content\less\bootstrap\tooltip.less" />
+    <None Include="Content\less\bootstrap\type.less" />
+    <None Include="Content\less\bootstrap\utilities.less" />
+    <None Include="Content\less\bootstrap\variables.less" />
+    <None Include="Content\less\bootstrap\wells.less" />
+    <None Include="Content\less\style.less" />
+    <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
@@ -177,7 +255,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>49931</DevelopmentServerPort>
+          <DevelopmentServerPort>58045</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>
@@ -190,4 +268,5 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>
