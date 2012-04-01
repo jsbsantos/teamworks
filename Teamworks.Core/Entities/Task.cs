@@ -12,6 +12,5 @@ namespace Teamworks.Core.Entities
         public long Estimated { get; set; }
         public long Consumed { get; set; }
         public DateTime Due { get; set; }
-
     }
 }
