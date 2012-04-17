@@ -175,10 +175,10 @@
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Content\less\helpers.less" />
-    <None Include="Content\less\media-queries.less" />
-    <None Include="Content\less\normalize.less" />
-    <None Include="Content\less\print.less" />
+    <Content Include="Content\less\helpers.less" />
+    <Content Include="Content\less\media-queries.less" />
+    <Content Include="Content\less\normalize.less" />
+    <Content Include="Content\less\print.less" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
