@@ -1,6 +1,6 @@
 namespace Teamworks.Core.Entities
 {
-    public class Reference<T> : Entity where T : Entity
+    public class Reference<T> : Entity<T> where T : Entity<T>
     {
         public static implicit operator Reference<T>(T reference)
         {
