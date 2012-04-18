@@ -36,6 +36,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LowercaseRoutesMVC4">
+      <HintPath>..\packages\LowercaseRoutesMVC4.0.4.1\lib\LowercaseRoutesMVC4.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -129,20 +132,6 @@
   <ItemGroup>
     <Content Include="Content\images\glyphicons-halflings-white.png" />
     <Content Include="Content\images\glyphicons-halflings.png" />
-    <Content Include="Content\js\libs\bootstrap\alert.js" />
-    <Content Include="Content\js\libs\bootstrap\bootstrap.js" />
-    <Content Include="Content\js\libs\bootstrap\bootstrap.min.js" />
-    <Content Include="Content\js\libs\bootstrap\button.js" />
-    <Content Include="Content\js\libs\bootstrap\carousel.js" />
-    <Content Include="Content\js\libs\bootstrap\collapse.js" />
-    <Content Include="Content\js\libs\bootstrap\dropdown.js" />
-    <Content Include="Content\js\libs\bootstrap\modal.js" />
-    <Content Include="Content\js\libs\bootstrap\popover.js" />
-    <Content Include="Content\js\libs\bootstrap\scrollspy.js" />
-    <Content Include="Content\js\libs\bootstrap\tab.js" />
-    <Content Include="Content\js\libs\bootstrap\tooltip.js" />
-    <Content Include="Content\js\libs\bootstrap\transition.js" />
-    <Content Include="Content\js\libs\bootstrap\typeahead.js" />
     <Content Include="Content\js\libs\jquery-1.7.1-vsdoc.js" />
     <Content Include="Content\js\libs\jquery-1.7.1.js" />
     <Content Include="Content\js\libs\jquery-1.7.1.min.js" />
@@ -155,11 +144,13 @@
     <Content Include="Content\js\libs\jquery.validate.unobtrusive.min.js" />
     <Content Include="Content\js\libs\knockout-2.0.0.debug.js" />
     <Content Include="Content\js\libs\knockout-2.0.0.js" />
-    <Content Include="Content\js\libs\less-1.2.1.min.js" />
-    <Content Include="Content\js\libs\modernizr-2.0.6-development-only.js" />
+    <Content Include="Content\js\libs\less-1.3.0.min.js" />
+    <Content Include="Content\js\libs\modernizr-2.5.3-respond-1.1.0.min.js" />
     <Content Include="Content\js\libs\_references.js" />
     <Content Include="Global.asax" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -180,45 +171,14 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\less\bootstrap\accordion.less" />
-    <Content Include="Content\less\bootstrap\alerts.less" />
-    <Content Include="Content\less\bootstrap\bootstrap.less" />
-    <Content Include="Content\less\bootstrap\breadcrumbs.less" />
-    <Content Include="Content\less\bootstrap\button-groups.less" />
-    <Content Include="Content\less\bootstrap\buttons.less" />
-    <Content Include="Content\less\bootstrap\carousel.less" />
-    <Content Include="Content\less\bootstrap\close.less" />
-    <Content Include="Content\less\bootstrap\code.less" />
-    <Content Include="Content\less\bootstrap\component-animations.less" />
-    <Content Include="Content\less\bootstrap\dropdowns.less" />
-    <Content Include="Content\less\bootstrap\forms.less" />
-    <Content Include="Content\less\bootstrap\grid.less" />
-    <Content Include="Content\less\bootstrap\hero-unit.less" />
-    <Content Include="Content\less\bootstrap\labels.less" />
-    <Content Include="Content\less\bootstrap\layouts.less" />
-    <Content Include="Content\less\bootstrap\mixins.less" />
-    <Content Include="Content\less\bootstrap\modals.less" />
-    <Content Include="Content\less\bootstrap\navbar.less" />
-    <Content Include="Content\less\bootstrap\navs.less" />
-    <Content Include="Content\less\bootstrap\pager.less" />
-    <Content Include="Content\less\bootstrap\pagination.less" />
-    <Content Include="Content\less\bootstrap\patterns.less" />
-    <Content Include="Content\less\bootstrap\popovers.less" />
-    <Content Include="Content\less\bootstrap\print.less" />
-    <Content Include="Content\less\bootstrap\progress-bars.less" />
-    <Content Include="Content\less\bootstrap\reset.less" />
-    <Content Include="Content\less\bootstrap\responsive.less" />
-    <Content Include="Content\less\bootstrap\scaffolding.less" />
-    <Content Include="Content\less\bootstrap\sprites.less" />
-    <Content Include="Content\less\bootstrap\tables.less" />
-    <Content Include="Content\less\bootstrap\thumbnails.less" />
-    <Content Include="Content\less\bootstrap\tooltip.less" />
-    <Content Include="Content\less\bootstrap\type.less" />
-    <Content Include="Content\less\bootstrap\utilities.less" />
-    <Content Include="Content\less\bootstrap\variables.less" />
-    <Content Include="Content\less\bootstrap\wells.less" />
     <Content Include="Content\less\style.less" />
     <Content Include="Views\Home\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\less\helpers.less" />
+    <Content Include="Content\less\media-queries.less" />
+    <Content Include="Content\less\normalize.less" />
+    <Content Include="Content\less\print.less" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

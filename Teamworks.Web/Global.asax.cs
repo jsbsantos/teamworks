@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Http;
+﻿using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using LowercaseRoutesMVC4;
 
 namespace Teamworks.Web
 {
@@ -23,14 +20,14 @@ namespace Teamworks.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapHttpRoute(
-                name: "DefaultApi",
+            routes.MapHttpRouteLowercase(
+                name: "api/default",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new {id = RouteParameter.Optional}
                 );
 
-            routes.MapRoute(
-                name: "Default",
+            routes.MapRouteLowercase(
+                name: "default",
                 url: "{controller}/{action}/{id}",
                 defaults: new {controller = "Home", action = "Index", id = UrlParameter.Optional}
                 );
