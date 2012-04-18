@@ -49,6 +49,5 @@ namespace Teamworks.Core.Projects
             project.People = Session.Load<Person>(project.PeopleReference.Select(x => x.Id)).ToList();
             return project;
         }
-
     }
 }

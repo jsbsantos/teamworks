@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entity.cs" />
+    <Compile Include="Extensions\Validator.cs" />
     <Compile Include="Extensions\ILocalData.cs" />
     <Compile Include="Extensions\Local.cs" />
     <Compile Include="People\Permission.cs" />
@@ -74,7 +75,7 @@
     <Compile Include="Projects\Discussion.cs" />
     <Compile Include="Projects\Project.cs" />
     <Compile Include="Projects\Task.cs" />
-    <Compile Include="Projects\TaskLog.cs" />
+    <Compile Include="Projects\TaskLogEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reference.cs" />
   </ItemGroup>

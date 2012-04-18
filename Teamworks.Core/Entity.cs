@@ -4,6 +4,7 @@ using Raven.Client;
 using Raven.Client.Document;
 using Raven.Client.Linq;
 using Teamworks.Core.Entities;
+using Teamworks.Core.Extensions;
 using Teamworks.Core.People;
 
 namespace Teamworks.Core
@@ -78,7 +79,7 @@ namespace Teamworks.Core
     {
         protected static IDocumentSession Session
         {
-            get { return new DocumentStore { ConnectionStringName = "RavenDB" }.OpenSession(); }
+            get { return ((IDocumentSession)Local.Data["ravensession"]); }
         }
 
         #region CRD
@@ -86,14 +87,14 @@ namespace Teamworks.Core
         {
             return Session.Load<T>(id);
         }
-        public static T Add(T user)
+        public static T Add(T entity)
         {
-            Session.Store(user);
-            return user;
+            Session.Store(entity);
+            return entity;
         }
-        public static void Remove(T user)
+        public static void Remove(T entity)
         {
-            Session.Delete(user);
+            Session.Delete(entity);
         }
         public static IRavenQueryable<T> Query()
         {
