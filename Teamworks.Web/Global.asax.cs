@@ -3,6 +3,8 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using LowercaseRoutesMVC4;
+using Newtonsoft.Json;
+using Teamworks.Web.Helpers;
 
 namespace Teamworks.Web
 {
@@ -29,8 +31,9 @@ namespace Teamworks.Web
             routes.MapRouteLowercase(
                 name: "default",
                 url: "{controller}/{action}/{id}",
-                defaults: new {controller = "Home", action = "Index", id = UrlParameter.Optional}
+                defaults: new {controller = "Home", action = "View", id = UrlParameter.Optional}
                 );
+
         }
 
         protected void Application_Start()
@@ -40,7 +43,12 @@ namespace Teamworks.Web
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
 
-            BundleTable.Bundles.RegisterTemplateBundles();
+            HttpConfiguration config = GlobalConfiguration.Configuration;
+            config.Formatters[0] = new JsonNetFormatter();
+
+            BundleTable.Bundles.EnableTeamworksBundle();
         }
+
+
     }
 }
