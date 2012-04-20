@@ -2,26 +2,12 @@
 using System.Linq;
 using System.Net;
 using System.Web.Http;
-using Teamworks.Core.Entities;
+using Teamworks.Core.Projects;
 
 namespace Teamworks.Web.Controllers
 {
     public class ProjectsController : ApiController
     {
-        internal static readonly List<Project> Projects = new List<Project>()
-                                                              {
-                                                                  new Project()
-                                                                      {
-                                                                          Name = "Teamworks",
-                                                                          Description = "Sample project"
-                                                                      },
-                                                                      new Project()
-                                                                          {
-                                                                              Name = "Codegarten",
-                                                                              Description = "Failed project"
-                                                                          }
-                                                              };
-
         public IQueryable<Project> Get()
         {
             return Projects.AsQueryable();
@@ -35,5 +21,19 @@ namespace Teamworks.Web.Controllers
             }
             throw new HttpResponseException(HttpStatusCode.NotFound);
         }
+
+        internal static readonly List<Project> Projects = new List<Project>()
+                                                              {
+                                                                  new Project()
+                                                                      {
+                                                                          Name = "Teamworks",
+                                                                          Description = "Sample project"
+                                                                      },
+                                                                  new Project()
+                                                                      {
+                                                                          Name = "Codegarten",
+                                                                          Description = "Failed project"
+                                                                      }
+                                                              };
     }
 }
