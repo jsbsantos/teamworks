@@ -14,7 +14,8 @@ namespace Teamworks.Core.People
             Password = EncodePassword(password);
             Username = Name = name;
         }
-        private static string EncodePassword(string password)
+
+        public static string EncodePassword(string password)
         {
             return password.GetHashCode().ToString(CultureInfo.InvariantCulture);
         }

@@ -138,7 +138,7 @@ namespace Teamworks.Tests
         {
             string password = "password";
             string expected = password.GetHashCode().ToString(CultureInfo.InvariantCulture);
-            string actual = Person_Accessor.EncodePassword(password);
+            string actual = Person.EncodePassword(password);
             Assert.AreEqual(expected, actual);
         }
     }
