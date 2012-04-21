@@ -44,7 +44,8 @@ namespace Teamworks.Web
             RegisterRoutes(RouteTable.Routes);
 
             HttpConfiguration config = GlobalConfiguration.Configuration;
-            config.Formatters[0] = new JsonNetFormatter();
+            config.Formatters.Remove(config.Formatters.JsonFormatter);
+            config.Formatters.Add(new JsonNetFormatter());
 
             BundleTable.Bundles.EnableTeamworksBundle();
         }

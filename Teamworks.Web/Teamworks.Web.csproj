@@ -132,13 +132,13 @@
     </Compile>
     <Compile Include="Helpers\JsonNetFormatter.cs" />
     <Compile Include="Helpers\PageViewExtensions.cs" />
+    <Compile Include="Models\Project.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\css\print.css" />
+    <Content Include="Content\css\responsive.css" />
     <Content Include="Content\css\normalize.css" />
-    <Content Include="Content\css\helpers.css" />
-    <Content Include="Content\css\media-queries.css" />
+    <Content Include="Content\css\skeleton.css" />
     <Content Include="Content\css\teamworks.css" />
     <Content Include="Content\js\libs\jquery-1.7.1-vsdoc.js" />
     <Content Include="Content\js\libs\jquery-1.7.1.js" />
@@ -155,6 +155,7 @@
     <Content Include="Content\js\libs\modernizr-2.5.3.min.js" />
     <Content Include="Content\js\libs\_references.js" />
     <Content Include="Content\js\application.js" />
+    <Content Include="Content\js\libs\tabs.js" />
     <Content Include="Global.asax" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -173,7 +174,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\images\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

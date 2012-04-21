@@ -7,8 +7,6 @@
         data = data || {};
         self.name = ko.observable(data.name || "");
         self.description = ko.observable(data.description || "");
-
-        self.tasks = ko.observableArray([]);
     };
 
     var Model = function (projects) {
@@ -20,19 +18,22 @@
 
         self.project = new Project();
         self.new_project = function () {
-            //create new project
-            var p = new Project({
-                name: self.project.name(),
-                description: self.project.description()
+            $.ajax("/api/projects", {
+                data: ko.toJSON(self.project),
+                type: 'post', contentType: "application/json; charset=utf-8",
+                cache: 'false',
+                statusCode: {
+                    201: /*created*/ function (data) {
+                        // push a new project
+                        self.projects.push(new Project(data));
+                        // clean the project
+                        self.project.name("");
+                        self.project.description("");
+                    }    
+                }
             });
-            // push a new project
-            self.projects.push(p);
-            // clean the project
-            self.project.name("");
-            self.project.description("");
         };
     };
 
     ko.applyBindings(new Model(data || []));
-
 })()

@@ -25,28 +25,30 @@
     <script src="@Url.Content("~/content/js/libs/modernizr-2.5.3.min.js")"> </script>
 </head>
 <body>
-    <!-- Prompt IE 6 users to install Chrome Frame. Remove this if you support IE 6.
-        chromium.org/developers/how-tos/chrome-frame-getting-started -->
-    <!--[if lt IE 9]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
-    <header class="top">
-        <div class="logo">@Html.ActionLink("Teamworks", "View", "Home")</div>
-        <nav>
-            <ul>
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">Projects</a></li>
-                <li><a href="#">Timeline</a></li>
-                <li class="separator"></li>
-                <li><a href="#">Everyone</a></li>
-                <li><a href="#">Me</a></li>
-            </ul>
+    <div class="container">
+        <!-- Prompt IE 6 users to install Chrome Frame. Remove this if you support IE 6.
+            chromium.org/developers/how-tos/chrome-frame-getting-started -->
+        <!--[if lt IE 9]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
+        <header class="sixteen columns">
+            <h1 class="logo columns">@Html.ActionLink("Teamworks", "View", "Home")</h1>
+            <nav class="columns">
+                <ul class="columns">
+                    <li class="column active"><a href="#">Home</a></li>
+                    <li class="column"><a href="#">Projects</a></li>
+                    <li class="column"><a href="#">Timeline</a></li>
+                    <li class="column separator"></li>
+                    <li class="column"><a href="#">Everyone</a></li>
+                    <li class="column"><a href="#">Me</a></li>
+                </ul>
+            </nav>
             @this.Identity()
-        </nav>
-    </header>
-    <div class="container" role="main">
-        @RenderBody()
+        </header>
+        <div class="main sixteen columns" role="main">
+            @RenderBody()
+        </div>
+        <footer>
+        </footer>
     </div>
-    <footer>
-    </footer>
     <!-- JavaScript at the bottom for fast page loading -->
     <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"> </script>

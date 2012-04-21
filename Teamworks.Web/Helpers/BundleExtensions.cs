@@ -23,17 +23,17 @@ namespace Teamworks.Web.Helpers
         public static void EnableTeamworksBundle(this BundleCollection bundles)
         {
             // todo var css = new Bundle("~/css", new CssMinify());
-            var css = new Bundle("~/css", new CssMinify());
+            var css = new Bundle("~/css");
             css.AddFile("~/content/css/normalize.css");
+            css.AddFile("~/content/css/skeleton.css");
             css.AddFile("~/content/css/teamworks.css");
-            css.AddFile("~/content/css/media-queries.css");
-            css.AddFile("~/content/css/helpers.css");
-            css.AddFile("~/content/css/print.css");
+            css.AddFile("~/content/css/responsive.css");
             bundles.Add(css);
 
             // todo var js = new Bundle("~/js", new JsMinify());
             var js = new Bundle("~/js");
             js.AddFile("~/content/js/libs/knockout-2.0.0.js");
+            js.AddFile("~/content/js/libs/tabs.js");
             bundles.Add(js);
         }
     }

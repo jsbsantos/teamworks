@@ -1,19 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Web.Http;
-using Teamworks.Core.Projects;
 
 namespace Teamworks.Web.Controllers
 {
     public class ProjectsController : ApiController
     {
-        public IQueryable<Project> Get()
+        public IQueryable<Models.Project> Get()
         {
             return Projects.AsQueryable();
         }
 
-        public Project Get(int id)
+        public Models.Project Get(int id)
         {
             if (Projects.Count < id)
             {
@@ -22,14 +23,23 @@ namespace Teamworks.Web.Controllers
             throw new HttpResponseException(HttpStatusCode.NotFound);
         }
 
-        internal static readonly List<Project> Projects = new List<Project>()
+        public HttpResponseMessage<Models.Project> Post(Models.Project project)
+        {
+            Projects.Add(project);
+            var response = new HttpResponseMessage<Models.Project>(project, HttpStatusCode.Created);
+            var uri = Request.RequestUri.AbsoluteUri + "/" + Projects.Count;
+            response.Headers.Location = new Uri(uri);
+            return response;
+        }
+
+        internal static readonly List<Models.Project> Projects = new List<Models.Project>
                                                               {
-                                                                  new Project()
+                                                                  new Models.Project
                                                                       {
                                                                           Name = "Teamworks",
                                                                           Description = "Sample project"
                                                                       },
-                                                                  new Project()
+                                                                  new Models.Project
                                                                       {
                                                                           Name = "Codegarten",
                                                                           Description = "Failed project"

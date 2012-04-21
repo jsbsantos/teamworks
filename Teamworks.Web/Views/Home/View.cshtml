@@ -1,27 +1,32 @@
 ﻿@using Newtonsoft.Json
 @using Teamworks.Web.Helpers
+
 @model dynamic
 @{
     ViewBag.Title = "Teamworks";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h2>Projects</h2>
 
-<form data-bind="submit: new_project">
-    <input data-bind="value: project.name" placeholder="Name your project" />
-    <input data-bind="value: project.description" placeholder="Describe your project" />
-    <button type="submit" value="create">Create</button>
-</form>
-
-<section data-bind="foreach: projects, visible: projects().length > 0">
-    <h3 data-bind="text: name">
-    </h3>
-    <p data-bind="text: description">
-    </p>
-</section>
-<script type="text/javascript">
-    var data = @{new JsonSerializer
-                        {
-                            ContractResolver = new JsonNetFormatter.LowercaseContractResolver()
-                        }.Serialize(GetOutputWriter(), Model);}
-</script>
+<div class="projects">
+    <header>
+        <div>
+            <form data-bind="submit: new_project">
+                <input data-bind="value: project.name" placeholder="Name your project" />
+                <input data-bind="value: project.description" placeholder="Describe your project" />
+                <button type="submit" value="create">Create</button>
+            </form>
+        </div>
+    </header>
+    <div data-bind="foreach: projects, visible: projects().length > 0">
+        <section>
+            <h2 data-bind="text: name"></h2>
+            <span data-bind="text: description"></span>, involved in this project are [insert names here]
+        </section>
+    </div>
+    <script type="text/javascript">
+        var data = @{new JsonSerializer
+                           {
+                               ContractResolver = new JsonNetFormatter.LowercaseContractResolver()
+                           }.Serialize(GetOutputWriter(), Model);}
+    </script>
+</div>

@@ -2,6 +2,8 @@
    HTML5 Boilerplate CSS: h5bp.com/css
    ========================================================================== */
 
+* { box-sizing: border-box; }
+
 article, aside, details, figcaption, figure, footer, header, hgroup, nav, section { display: block; }
 audio, canvas, video { display: inline-block; *display: inline; *zoom: 1; }
 audio:not([controls]) { display: none; }
@@ -11,12 +13,12 @@ html { font-size: 100%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 10
 html, button, input, select, textarea { font-family: sans-serif; color: #222; }
 body { margin: 0; font-size: 1em; line-height: 1.4; }
 
-::-moz-selection { background: #fe57a1; color: #fff; text-shadow: none; }
-::selection { background: #fe57a1; color: #fff; text-shadow: none; }
+::-moz-selection { background: #f1fcad; color: #5b5b5b; text-shadow: none;  }
+::selection { background: #f1fcad; color: #5b5b5b; text-shadow: none;  }
 
-a { color: #00e; }
-a:visited { color: #551a8b; }
-a:hover { color: #06e; }
+a { color: #333; }
+a:visited { color: #333; }
+a:hover { color: #000; }
 a:focus { outline: thin dotted; }
 a:hover, a:active { outline: 0; }
 
