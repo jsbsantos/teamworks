@@ -139,6 +139,9 @@
     <Content Include="Content\css\bootstrap-responsive.css" />
     <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\teamworks.css" />
+    <Content Include="Content\img\glyphicons-halflings-white.png" />
+    <Content Include="Content\img\glyphicons-halflings.png" />
+    <Content Include="Content\js\application.bindings.js" />
     <Content Include="Content\js\libs\jquery-1.7.1-vsdoc.js" />
     <Content Include="Content\js\libs\jquery-1.7.1.js" />
     <Content Include="Content\js\libs\jquery-1.7.1.min.js" />
@@ -151,10 +154,11 @@
     <Content Include="Content\js\libs\jquery.validate.unobtrusive.min.js" />
     <Content Include="Content\js\libs\knockout-2.0.0.debug.js" />
     <Content Include="Content\js\libs\knockout-2.0.0.js" />
+    <Content Include="Content\js\libs\knockout.unobtrusive.js" />
+    <Content Include="Content\js\libs\knockout.unobtrusive.min.js" />
     <Content Include="Content\js\libs\modernizr-2.5.3.min.js" />
     <Content Include="Content\js\libs\_references.js" />
     <Content Include="Content\js\application.js" />
-    <Content Include="Content\js\libs\tabs.js" />
     <Content Include="Global.asax" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -174,7 +178,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -42,7 +42,6 @@
                 @this.Identity()
             </div>
         </nav>
-        
     </header>
     <div class="container" role="main">
         @RenderBody()
@@ -66,6 +65,13 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <!-- TODO: change to release mode -->
     <script src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/js")"> </script>
+    @{
+#if DEBUG
+    }
     <script src="@Url.Content("~/content/js/application.js")"></script>
+    <script src="@Url.Content("~/content/js/application.bindings.js")"></script>
+    @{
+#endif
+    }
 </body>
 </html>

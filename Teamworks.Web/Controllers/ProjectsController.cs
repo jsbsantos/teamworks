@@ -6,59 +6,81 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.ModelBinding;
 using System.Web.Http.ModelBinding.Binders;
+using Teamworks.Web.Models;
 
 namespace Teamworks.Web.Controllers
 {
     public class ProjectsController : ApiController
     {
-        public IQueryable<Models.Project> Get()
+        public IQueryable<Project> Get()
         {
-            return Projects.AsQueryable();
+            return Projects.Values.AsQueryable();
         }
 
-        public Models.Project Get(int id)
+        public Project Get(int id)
         {
-            if (Projects.Count < id)
+            var p = Projects[id];
+            if (p == null)
                 throw new HttpResponseException(HttpStatusCode.NotFound);
-            return Projects[id];
+
+            return p;
         }
 
-        public HttpResponseMessage<Models.Project> Post(Models.Project project)
+        public HttpResponseMessage<Project> Post(Project project)
         {
-            project.Url = "/api/projects/" + Projects.Count;
-            
-            Projects.Add(project);
-            var response = new HttpResponseMessage<Models.Project>(project, HttpStatusCode.Created);
+            int id = Id++;
+            project.Url = "/api/projects/" + id;
+
+            Projects.Add(id, project);
+            var response = new HttpResponseMessage<Project>(project, HttpStatusCode.Created);
             var uri = Request.RequestUri.Authority + project.Url;
             response.Headers.Location = new Uri(uri);
             return response;
         }
 
-        public HttpResponseMessage Put([ModelBinder(typeof(TypeConverterModelBinder))]int id, Models.Project project)
+        /// <see cref="http://forums.asp.net/post/4855634.aspx"/>
+        public HttpResponseMessage Put([ModelBinder(typeof (TypeConverterModelBinder))] int id, Models.Project project)
         {
-            if (Projects.Count < id)
+            var p = Projects[id];
+            if (p == null)
                 throw new HttpResponseException(HttpStatusCode.NotFound);
 
-            var p = Projects[id];
             p.Name = project.Name ?? p.Name;
             p.Description = project.Description ?? p.Description;
             return new HttpResponseMessage(HttpStatusCode.NoContent);
-        } 
+        }
 
-        internal static readonly List<Models.Project> Projects = new List<Models.Project>
-                                                              {
-                                                                  new Models.Project
-                                                                      {
-                                                                          Url = "/api/projects/0",
-                                                                          Name = "Teamworks",
-                                                                          Description = "Sample project"
-                                                                      },
-                                                                  new Models.Project
-                                                                      {
-                                                                          Url = "/api/projects/1",
-                                                                          Name = "Codegarten",
-                                                                          Description = "Failed project"
-                                                                      }
-                                                              };
+        public HttpResponseMessage Delete(int id)
+        {
+            var p = Projects[id];
+            if (p == null)
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+
+            Projects.Remove(id);
+            return new HttpResponseMessage(HttpStatusCode.NoContent);
+        }
+
+        internal static int Id = 3;
+        internal static readonly Dictionary<int, Project> Projects = new Dictionary<int, Project>()
+                                                                         {
+                                                                             {
+                                                                                 1, new Project
+                                                                                        {
+                                                                                            Url = "/api/projects/0",
+                                                                                            Name = "Teamworks",
+                                                                                            Description =
+                                                                                                "Sample project"
+                                                                                        }
+                                                                                 },
+                                                                             {
+                                                                                 2, new Project
+                                                                                        {
+                                                                                            Url = "/api/projects/1",
+                                                                                            Name = "Codegarten",
+                                                                                            Description =
+                                                                                                "Failed project"
+                                                                                        }
+                                                                                 }
+                                                                         };
     }
 }
