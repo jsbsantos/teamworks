@@ -11,11 +11,12 @@ namespace Teamworks.Core.Projects
 {
     public class Project : Entity<Project>
     {
+        private IList<Reference<Person>> _innerPeopleRefList;
+        private IList<Reference<Task>> _innerTaskReferenceList;
         public string Description { get; set; }
 
-        public Person Owner { get; set; }
-        public IList<Reference<Person>> PeopleReference { get; set; }
-        public IList<Reference<Task>> TasksReference  { get; set; }
+        public IList<Reference<Person>> PeopleReference { get { return (_innerPeopleRefList ?? (_innerPeopleRefList = new List<Reference<Person>>())); } set { _innerPeopleRefList = value; } }
+        public IList<Reference<Task>> TasksReference { get { return (_innerTaskReferenceList ?? (_innerTaskReferenceList = new List<Reference<Task>>())); } set { _innerTaskReferenceList = value; } }
         public bool Archived { get; set; }
 
         [JsonIgnore]
@@ -45,8 +46,12 @@ namespace Teamworks.Core.Projects
             if (project == null)
                 return null;
 
-            project.Tasks = Session.Load<Task>(project.TasksReference.Select(x => x.Id)).ToList();
-            project.People = Session.Load<Person>(project.PeopleReference.Select(x => x.Id)).ToList();
+            if (project.TasksReference.Count > 0)
+                project.Tasks = Session.Load<Task>(project.TasksReference.Select(x => x.Id)).ToList();
+
+            if (project.PeopleReference.Count > 0)
+                project.People = Session.Load<Person>(project.PeopleReference.Select(x => x.Id)).ToList();
+
             return project;
         }
     }

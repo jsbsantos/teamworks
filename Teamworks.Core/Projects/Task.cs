@@ -9,6 +9,8 @@ namespace Teamworks.Core.Projects
 {
     public class Task : Entity<Task>
     {
+        private IList<Reference<Person>> _innerPeopleReferenceList;
+        private IList<Reference<Task>> _innerPredecessorReferenceList;
 
         public enum TaskStatus
         {
@@ -17,8 +19,8 @@ namespace Teamworks.Core.Projects
 
         public string Description { get; set; }
         public TaskStatus Status { get; set; }
-        public IList<Reference<Person>> PeopleReference { get; set; }
-        public IList<Reference<Task>> PredecessorReference { get; set; }
+        public IList<Reference<Person>> PeopleReference { get { return (_innerPeopleReferenceList ?? (_innerPeopleReferenceList = new List<Reference<Person>>())); } set { _innerPeopleReferenceList = value; } }
+        public IList<Reference<Task>> PredecessorReference { get { return (_innerPredecessorReferenceList ?? (_innerPredecessorReferenceList = new List<Reference<Task>>())); } set { _innerPredecessorReferenceList = value; } }
         public long Estimated { get; set; }
         public long Consumed { get; set; }
         public DateTime Due { get; set; }
@@ -41,8 +43,11 @@ namespace Teamworks.Core.Projects
             if (task == null)
                 return null;
 
-            task.People = Session.Load<Person>(task.PeopleReference.Select(x => x.Id)).ToList();
-            task.Predecessor = Session.Load<Task>(task.PredecessorReference.Select(x => x.Id)).ToList();
+            if (task.PeopleReference.Count > 0)
+                task.People = Session.Load<Person>(task.PeopleReference.Select(x => x.Id)).ToList();
+
+            if (task.PredecessorReference.Count > 0)
+                task.Predecessor = Session.Load<Task>(task.PredecessorReference.Select(x => x.Id)).ToList();
             return task;
         }
 
