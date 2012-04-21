@@ -12,7 +12,7 @@ namespace Teamworks.Core.People
         {
             Email = email;
             Password = EncodePassword(password);
-            Name = name;
+            Username = Name = name;
         }
         private static string EncodePassword(string password)
         {

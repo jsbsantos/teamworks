@@ -93,7 +93,9 @@ namespace Teamworks.Core.Extensions
             var vld = validators.GetInvocationList();
             var res = true;
 
-            var asyncResults = (from Func<bool> v in vld select v.BeginInvoke(x => res &= v.EndInvoke(x), null)).ToList();
+            var asyncResults = (from Func<bool> v in vld 
+                                select v.BeginInvoke(x => res &= v.EndInvoke(x), null))
+                                .ToList();
 
             if (!WaitHandle.WaitAll(asyncResults.Select(v => v.AsyncWaitHandle).ToArray(), timeout))
                 throw new TimeoutException("Validation Timeout Exceeded");

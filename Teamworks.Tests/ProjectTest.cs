@@ -1,4 +1,7 @@
-﻿using Teamworks.Core.Projects;
+﻿using Raven.Client;
+using Raven.Client.Document;
+using Teamworks.Core.Extensions;
+using Teamworks.Core.Projects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using Teamworks.Core.People;
@@ -51,10 +54,20 @@ namespace Teamworks.Tests
         //}
         //
         //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
+        [TestInitialize()]
+        public void MyTestInitialize()
+        {
+
+            IDocumentStore documentStore = new DocumentStore
+            {
+                ConnectionStringName = "RavenDB"
+            }
+            .Initialize();
+
+            Local.Data["ravensession"] = documentStore.OpenSession();
+        }
+        public IDocumentSession Session { get { return Local.Data["ravensession"] as IDocumentSession; } }
+
         //
         //Use TestCleanup to run code after each test has run
         //[TestCleanup()]
@@ -64,15 +77,46 @@ namespace Teamworks.Tests
         //
         #endregion
 
-
         /// <summary>
-        ///A test for Project Constructor
+        ///A test for Authenticate
         ///</summary>
         [TestMethod()]
-        public void ProjectConstructorTest()
+        public void AddTest_successfull_if_id_is_created()
         {
-            Project target = new Project();
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            Project p = new Project("myproject","description"){Archived = false};
+            Project.Add(p);
+            Session.SaveChanges();
+            Assert.IsFalse(string.IsNullOrEmpty(p.Id));
+        }
+
+        /// <summary>
+        ///A test for Authenticate
+        ///</summary>
+        [TestMethod()]
+        public void GetTest_successfull_if_properties_are_the_same()
+        {
+            Project p = new Project("myproject", "description") { Archived = false };
+            Project.Add(p);
+            Session.SaveChanges();
+            Project loaded = Project.FindOne(p.Id);
+            Assert.AreEqual(p, loaded);
+        }
+
+        /// <summary>
+        ///A test for Authenticate
+        ///</summary>
+        [TestMethod()]
+        public void RemoveTest_successfull_if_get_Fails()
+        {
+            Project p = new Project("myproject", "description") { Archived = false };
+            Project.Add(p);
+            Session.SaveChanges();
+
+            Project.Remove(p);
+            Session.SaveChanges();
+
+            Project loaded = Project.FindOne(p.Id);
+            Assert.IsNull(loaded);
         }
 
         /// <summary>
@@ -81,42 +125,11 @@ namespace Teamworks.Tests
         [TestMethod()]
         public void LoadTest()
         {
-            string id = string.Empty; // TODO: Initialize to an appropriate value
-            Project expected = null; // TODO: Initialize to an appropriate value
-            Project actual;
-            actual = Project.Load(id);
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
-
-        /// <summary>
-        ///A test for Archived
-        ///</summary>
-        [TestMethod()]
-        public void ArchivedTest()
-        {
-            Project target = new Project(); // TODO: Initialize to an appropriate value
-            bool expected = false; // TODO: Initialize to an appropriate value
-            bool actual;
-            target.Archived = expected;
-            actual = target.Archived;
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
-
-        /// <summary>
-        ///A test for Description
-        ///</summary>
-        [TestMethod()]
-        public void DescriptionTest()
-        {
-            Project target = new Project(); // TODO: Initialize to an appropriate value
-            string expected = string.Empty; // TODO: Initialize to an appropriate value
-            string actual;
-            target.Description = expected;
-            actual = target.Description;
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Project p = new Project("myproject", "description") { Archived = false };
+            Project.Add(p);
+            Session.SaveChanges();
+            Project loaded = Project.Load(p.Id);
+            Assert.AreEqual(p, loaded);
         }
 
         /// <summary>
@@ -125,28 +138,15 @@ namespace Teamworks.Tests
         [TestMethod()]
         public void PeopleTest()
         {
-            Project target = new Project(); // TODO: Initialize to an appropriate value
-            IList<Person> expected = null; // TODO: Initialize to an appropriate value
-            IList<Person> actual;
-            target.People = expected;
-            actual = target.People;
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
+            Project p = Project.Add(new Project("myproject", "description") { Archived = false });
+            var person = Person.Add(new Person("email", "pwd", "name"));
+            Session.SaveChanges();
+            p.PeopleReference.Add(person);
+            Session.SaveChanges();
 
-        /// <summary>
-        ///A test for PeopleReference
-        ///</summary>
-        [TestMethod()]
-        public void PeopleReferenceTest()
-        {
-            Project target = new Project(); // TODO: Initialize to an appropriate value
-            IList<Reference<Person>> expected = null; // TODO: Initialize to an appropriate value
-            IList<Reference<Person>> actual;
-            target.PeopleReference = expected;
-            actual = target.PeopleReference;
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            var loaded = Project.Load(p.Id);
+
+            Assert.IsTrue(loaded.People.Contains(person));
         }
 
         /// <summary>
@@ -155,28 +155,16 @@ namespace Teamworks.Tests
         [TestMethod()]
         public void TasksTest()
         {
-            Project target = new Project(); // TODO: Initialize to an appropriate value
-            IList<Task> expected = null; // TODO: Initialize to an appropriate value
-            IList<Task> actual;
-            target.Tasks = expected;
-            actual = target.Tasks;
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
+            Project p = Project.Add(new Project("myproject", "description") { Archived = false });
+            Session.SaveChanges();
+            var task = Task.Add(new Task("task", "desctask", 10, DateTime.Now, p.Id));
+            p.TasksReference.Add(task);
+            Session.SaveChanges();
 
-        /// <summary>
-        ///A test for TasksReference
-        ///</summary>
-        [TestMethod()]
-        public void TasksReferenceTest()
-        {
-            Project target = new Project(); // TODO: Initialize to an appropriate value
-            IList<Reference<Task>> expected = null; // TODO: Initialize to an appropriate value
-            IList<Reference<Task>> actual;
-            target.TasksReference = expected;
-            actual = target.TasksReference;
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            var loaded = Project.Load(p.Id);
+
+            Assert.IsTrue(loaded.Tasks.Contains(task));
+            
         }
 
         /// <summary>
@@ -185,10 +173,16 @@ namespace Teamworks.Tests
         [TestMethod()]
         public void TotalConsumedHoursTest()
         {
-            Project target = new Project(); // TODO: Initialize to an appropriate value
-            long actual;
-            actual = target.TotalConsumedHours;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Project p = Project.Add(new Project("myproject", "description") { Archived = false });
+            Session.SaveChanges();
+            p.TasksReference.Add(Task.Add(new Task("task", "desctask", 10, DateTime.Now, p.Id){Consumed = 2}));
+            p.TasksReference.Add(Task.Add(new Task("task", "desctask", 10, DateTime.Now, p.Id) { Consumed = 3 }));
+            Session.SaveChanges();
+            var loaded = Project.Load(p.Id);
+            var x = loaded.TotalConsumedHours;
+            Session.Advanced.Eagerly.ExecuteAllPendingLazyOperations();
+            Assert.AreEqual(5,loaded.TotalConsumedHours);
+
         }
 
         /// <summary>
@@ -197,10 +191,15 @@ namespace Teamworks.Tests
         [TestMethod()]
         public void TotalEstimatedHoursTest()
         {
-            Project target = new Project(); // TODO: Initialize to an appropriate value
-            long actual;
-            actual = target.TotalEstimatedHours;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Project p = Project.Add(new Project("myproject", "description") { Archived = false });
+            Session.SaveChanges();
+            p.TasksReference.Add(Task.Add(new Task("task", "desctask", 10, DateTime.Now, p.Id) { Consumed = 2 }));
+            p.TasksReference.Add(Task.Add(new Task("task", "desctask", 10, DateTime.Now, p.Id) { Consumed = 3 }));
+            Session.SaveChanges();
+            var loaded = Project.Load(p.Id);
+            var x = loaded.TotalEstimatedHours;
+            Session.Advanced.Eagerly.ExecuteAllPendingLazyOperations();
+            Assert.AreEqual(20, x);
         }
     }
 }
