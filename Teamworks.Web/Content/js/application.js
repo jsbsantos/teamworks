@@ -1,18 +1,3 @@
-﻿;
-ko.bindingHandlers.submitFormOnEnter = {
-    init: function (element) {
-        $(element).keyup(function (event) {
-            var keyCode = (event.which ? event.which : event.keyCode);
-            if (keyCode === 13) {
-                $(this.form).trigger('submit');
-                return false;
-            }
-            return true;
-        });
-    }
-};
-
-var models = {};
 var Project = function (data) {
     var self = this;
 
@@ -31,7 +16,7 @@ var Project = function (data) {
 };
 
 
-models.Projects = (function () {
+(function () {
     var self = this;
     var validate = function () {
         var n = self.project.name().length;
