@@ -8,19 +8,28 @@
 }
 
 <div class="projects">
-    <header>
-        <div>
-            <form data-bind="submit: new_project">
-                <input data-bind="value: project.name" placeholder="Name your project" />
-                <input data-bind="value: project.description" placeholder="Describe your project" />
-                <button type="submit" value="create">Create</button>
+    <header class="row">
+        <div class="">
+            <form class="well form-inline" data-bind="submit: new_project, reset: clear">
+                <input class="input-large" id="project_name" data-bind="value: project.name" placeholder="Name your project" />
+                <input class="input-large" id="project_description" data-bind="value: project.description" placeholder="Describe your project" />
+                <button class="btn" type="submit" value="create">Create</button>
+                <button data-bind="enable: project.name() || project.description()" class="btn btn-danger btn-mini" type="reset" value="reset">Clear</button>
             </form>
         </div>
     </header>
     <div data-bind="foreach: projects, visible: projects().length > 0">
         <section>
-            <h2 data-bind="text: name"></h2>
-            <span data-bind="text: description"></span>, involved in this project are [insert names here]
+            <div data-bind="css: { 'hide': editing() }, event: { dblclick: toggle_edit }">
+                <h2><a data-bind="text: name, attr: {href: url}"></a></h2>    
+                <div><span data-bind="text: description"></span>, involved in this project are [insert names here]</div>
+            </div>
+            <div data-bind="css: { 'hide': !editing() }, event: { dblclick: $parent.save }">
+                <form data-bind=>
+                    <h2><input class="span12" data-bind="value: name" /></h2>   
+                    <div><input data-bind="value: description" />, involved in this project are [insert names here]</div>
+                </form>
+            </div>
         </section>
     </div>
     <script type="text/javascript">

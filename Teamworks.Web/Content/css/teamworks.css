@@ -2,18 +2,11 @@
    Customized
    ========================================================================== */
 
-.container a { text-decoration: none; }
-.container > header .logo { opacity: .5; }
-.container > header .logo:hover { opacity: 1; }
+body > .container { margin-top: 80px; }
+.projects .hide { display: none; }
 
-.container > header nav ul { overflow: hidden; margin-top: 50px; }
-.container > header nav ul li { opacity: .5; }
-.container > header nav ul li:hover { opacity: 1; }
-.container > header nav ul li.separator { border-left: 1px solid #cecece; height: 20px; }
-.container > header nav ul li.active { font-weight: 700; }
-.container > header nav ul li a { padding: 0 5px; }
+.projects section form { margin: 0; }
+.projects section form input { margin-bottom: 0; height: auto; box-shadow: none; border: none; border-radius: 0; padding: 0; }
+.projects section form h2 input { font: inherit; line-height: inherit; }
 
-.container > header .identity { position: absolute; right: 4px; top: 0; font-size: 12px; border: none; padding: 0; }
-.container > header .identity a { padding: 8px; }
-
-section h2 { color: #8fbe00 }
+.identity  { margin-top: 10px; margin-bottom: 10px; }

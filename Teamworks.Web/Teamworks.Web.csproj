@@ -136,9 +136,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\css\responsive.css" />
-    <Content Include="Content\css\normalize.css" />
-    <Content Include="Content\css\skeleton.css" />
+    <Content Include="Content\css\bootstrap-responsive.css" />
+    <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\teamworks.css" />
     <Content Include="Content\js\libs\jquery-1.7.1-vsdoc.js" />
     <Content Include="Content\js\libs\jquery-1.7.1.js" />
@@ -166,7 +165,9 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />

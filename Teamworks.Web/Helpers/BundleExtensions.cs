@@ -24,10 +24,9 @@ namespace Teamworks.Web.Helpers
         {
             // todo var css = new Bundle("~/css", new CssMinify());
             var css = new Bundle("~/css");
-            css.AddFile("~/content/css/normalize.css");
-            css.AddFile("~/content/css/skeleton.css");
+            css.AddFile("~/content/css/bootstrap.css");
+            css.AddFile("~/content/css/bootstrap-responsive.css");
             css.AddFile("~/content/css/teamworks.css");
-            css.AddFile("~/content/css/responsive.css");
             bundles.Add(css);
 
             // todo var js = new Bundle("~/js", new JsMinify());
