@@ -1,11 +1,8 @@
-using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using Newtonsoft.Json;
 using Teamworks.Core.Entities;
 using Teamworks.Core.People;
-using Raven.Client.Linq;
 
 namespace Teamworks.Core.Projects
 {
@@ -13,22 +10,17 @@ namespace Teamworks.Core.Projects
     {
         private IList<Reference<Person>> _innerPeopleRefList;
         private IList<Reference<Task>> _innerTaskReferenceList;
+        public Project()
+        {
+            PeopleReference = new List<Reference<Person>>();
+            TasksReference = new List<Reference<Task>>();
+        }
+
         public string Description { get; set; }
 
         public IList<Reference<Person>> PeopleReference { get { return (_innerPeopleRefList ?? (_innerPeopleRefList = new List<Reference<Person>>())); } set { _innerPeopleRefList = value; } }
         public IList<Reference<Task>> TasksReference { get { return (_innerTaskReferenceList ?? (_innerTaskReferenceList = new List<Reference<Task>>())); } set { _innerTaskReferenceList = value; } }
         public bool Archived { get; set; }
-
-        [JsonIgnore]
-        public long TotalEstimatedHours
-        {
-            get { return Session.Query<Task>().Where(x => x.Project == Id).ToList().Sum(x => x.Estimated); }
-        }
-        [JsonIgnore]
-        public long TotalConsumedHours
-        {
-            get { return Session.Query<Task>().Where(x => x.Project == Id).ToList().Sum(x => x.Consumed); }
-        }
 
         [JsonIgnore]
         public IList<Person> People { get; set; }

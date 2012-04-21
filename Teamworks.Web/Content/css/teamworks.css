@@ -1,0 +1,12 @@
+/* =============================================================================
+   Customized
+   ========================================================================== */
+
+body > .container { margin-top: 80px; }
+.projects .hide { display: none; }
+
+.projects section form { margin: 0; }
+.projects section form input { margin-bottom: 0; height: auto; box-shadow: none; border: none; border-radius: 0; padding: 0; }
+.projects section form h2 input { font: inherit; line-height: inherit; }
+
+.identity  { margin-top: 10px; margin-bottom: 10px; }
