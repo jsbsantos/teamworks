@@ -1,3 +1,5 @@
+# Base de dados
+
 As aplicações actualmente utilizam, na sua maioria, um sistema de gestão de base de dados (SGBD) baseado no modelo relacional.
 
 Neste modelo de dados são conhecidos dois conceitos, o conceito de entidade e o conceito de relação. Uma entidade é um elemento caracterizado pelos seus dados sendo esses dados armazenados num registo de uma tabela. A relação determina o forma como os registos de diferentes tabelas se relacionam entre si. A forma de ler e escrever dados nestes sistemas é através da linguagem SQL.
