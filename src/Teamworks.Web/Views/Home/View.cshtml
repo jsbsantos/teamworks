@@ -8,13 +8,13 @@
 <div class="projects">
     <header class="row span8">
         <form name="new_project" class="form-inline control-group" data-bind="submit: new_project, reset: clear, css: { 'error': !is_valid() }">
-        <input name="name" class="input-large" placeholder="Name your project" data-bind="value: project.name, valueUpdate: 'afterkeyup'" />
-        <input name="description" class="input-large" placeholder="Describe your project"
-            data-bind="value: project.description, valueUpdate: 'afterkeyup'" />
-        <button class="btn" type="submit" value="create" data-bind="enable: self.project.name().length && self.project.description().length">
-            Create</button>
-        <button class="btn btn-danger btn-mini" type="reset" value="reset" data-bind="enable: self.project.name().length || self.project.description().length">
-            Clear</button>
+            <input name="name" class="input-large" placeholder="Name your project" data-bind="value: project.name, valueUpdate: 'afterkeyup'" />
+            <input name="description" class="input-large" placeholder="Describe your project"
+                   data-bind="value: project.description, valueUpdate: 'afterkeyup'" />
+            <button class="btn" type="submit" value="create" data-bind="enable: self.project.name().length && self.project.description().length">
+                Create</button>
+            <button class="btn btn-danger btn-mini" type="reset" value="reset" data-bind="enable: self.project.name().length || self.project.description().length">
+                Clear</button>
         </form>
     </header>
     <div data-bind="foreach: projects, visible: projects().length > 0">
@@ -22,31 +22,31 @@
             <div>
                 <div class="remove">
                     <form class="pull-right" data-bind="submit: $parent.remove">
-                    <button class="btn btn-danger btn-mini" type="submit" value="delete">
-                        <i class="icon-remove icon-white"></i>Delete</button>
+                        <button class="btn btn-danger btn-mini" type="submit" value="delete">
+                            <i class="icon-remove icon-white"></i>Delete</button>
                     </form>
                 </div>
                 <form data-bind="submit: $parent.save">
-                <h2 data-bind="visible: !editing_name(), event: { dblclick: start_editing_name }">
-                    <a data-bind="text: name, attr: {href: url}"></a>
-                </h2>
-                <h2 data-bind="visible: editing_name()">
-                    <input class="span6" data-bind="value: name, valueUpdate: 'afterkeyup', event: { keyup: cancel_editing }" /></h2>
-                <div data-bind="visible: !editing_description(), event: { dblclick: start_editing_description }">
-                    <span data-bind="text: description"></span>, [insert names here]</div>
-                <div data-bind="visible: editing_description()">
-                    <input data-bind="value: description, valueUpdate: 'afterkeyup', event: { keyup: cancel_editing }" />, [insert names
-                    here]</div>
-                <button class="btn unvisible" type="submit" value="save" data-bind="visible: editing_name() || editing_description()">
-                    Save</button>
+                    <h2 data-bind="visible: !editing_name(), event: { dblclick: start_editing_name }">
+                        <a data-bind="text: name, attr: {href: url}"></a>
+                    </h2>
+                    <h2 data-bind="visible: editing_name()">
+                        <input class="span6" data-bind="value: name, valueUpdate: 'afterkeyup', event: { keyup: cancel_editing }" /></h2>
+                    <div data-bind="visible: !editing_description(), event: { dblclick: start_editing_description }">
+                        <span data-bind="text: description"></span>, [insert names here]</div>
+                    <div data-bind="visible: editing_description()">
+                        <input data-bind="value: description, valueUpdate: 'afterkeyup', event: { keyup: cancel_editing }" />, [insert names
+                        here]</div>
+                    <button class="btn unvisible" type="submit" value="save" data-bind="visible: editing_name() || editing_description()">
+                        Save</button>
                 </form>
             </div>
         </section>
     </div>
     <script type="text/javascript">
-        var data = @{new JsonSerializer
-                           {
-                               ContractResolver = new JsonNetFormatter.LowercaseContractResolver()
-                           }.Serialize(GetOutputWriter(), Model);}
+        var data = @{ new JsonSerializer
+                        {
+                            ContractResolver = new JsonNetFormatter.LowercaseContractResolver()
+                        }.Serialize(GetOutputWriter(), Model); }
     </script>
 </div>

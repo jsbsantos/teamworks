@@ -1,4 +1,4 @@
-var Project = function (data) {
+var Project = function(data) {
     var old;
     var self = this;
 
@@ -7,15 +7,15 @@ var Project = function (data) {
     self.description = ko.observable();
     self.editing_name = ko.observable();
     self.editing_description = ko.observable();
-    self.start_editing_name = function () {
+    self.start_editing_name = function() {
         old = $.parseJSON(ko.toJSON(self));
         self.editing_name(true);
     };
-    self.start_editing_description = function () {
+    self.start_editing_description = function() {
         old = $.parseJSON(ko.toJSON(self));
         self.editing_description(true);
     };
-    self.cancel_editing = function (project, event) {
+    self.cancel_editing = function(project, event) {
         var keyCode = (event.which ? event.which : event.keyCode);
         if (keyCode === 27) {
             map(old);
@@ -28,13 +28,13 @@ var Project = function (data) {
         self.name(other.name || self.name() || "");
         self.description(other.description || self.description() || "");
     };
-    map(data || {});
+    map(data || { });
 };
 
 
-(function () {
+(function() {
     var self = this;
-    var validate = function () {
+    var validate = function() {
         var n = self.project.name().length;
         var d = self.project.description().length;
         self.is_valid(n ? d : !d);
@@ -42,15 +42,15 @@ var Project = function (data) {
     self.project = new Project(),
     self.project.name.subscribe(validate);
     self.project.description.subscribe(validate);
-    self.projects = ko.observableArray($.map(data, function (e) {
+    self.projects = ko.observableArray($.map(data, function(e) {
         return new Project(e);
     }));
     self.is_valid = ko.observable(true);
-    self.clear = function () {
+    self.clear = function() {
         self.project.name("");
         self.project.description("");
     };
-    self.new_project = function () {
+    self.new_project = function() {
         if (!is_valid) return;
         var request = $.ajax("/api/projects", {
             data: ko.toJSON(self.project),
@@ -58,7 +58,7 @@ var Project = function (data) {
             contentType: "application/json; charset=utf-8",
             cache: 'false',
             statusCode: {
-                201: /*created*/function (data) {
+                201: /*created*/function(data) {
                     // push a new project
                     data.url = "http://" + request.getResponseHeader("Location");
                     self.projects.push(new Project(data));
@@ -68,7 +68,7 @@ var Project = function (data) {
             }
         });
     };
-    self.save = function () {
+    self.save = function() {
         var project = this;
         $.ajax(project.url(), {
             data: ko.toJSON(project),
@@ -76,7 +76,7 @@ var Project = function (data) {
             contentType: "application/json; charset=utf-8",
             cache: 'false',
             statusCode: {
-                204: /*no content*/function () {
+                204: /*no content*/function() {
                     alert('changes saved');
                     project.editing_name(false);
                     project.editing_description(false);
@@ -84,14 +84,14 @@ var Project = function (data) {
             }
         });
     };
-    self.remove = function () {
+    self.remove = function() {
         var project = this;
         $.ajax(project.url(), {
             type: 'delete',
             contentType: "application/json; charset=utf-8",
             cache: 'false',
             statusCode: {
-                204: /*no content*/function () {
+                204: /*no content*/function() {
                     alert('project deleted');
                     self.projects.destroy(project);
                 }

@@ -21,7 +21,7 @@ namespace Teamworks.Web
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            
+
             routes.MapHttpRouteLowercase(
                 name: "api/default",
                 routeTemplate: "api/{controller}/{id}",
@@ -33,7 +33,6 @@ namespace Teamworks.Web
                 url: "{controller}/{action}/{id}",
                 defaults: new {controller = "Home", action = "View", id = UrlParameter.Optional}
                 );
-
         }
 
         protected void Application_Start()
@@ -49,7 +48,5 @@ namespace Teamworks.Web
 
             BundleTable.Bundles.EnableTeamworksBundle();
         }
-
-
     }
 }

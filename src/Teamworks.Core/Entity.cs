@@ -36,13 +36,14 @@ namespace Teamworks.Core
                 return int.TryParse(Id.Substring(i + 1, Id.Length - i - 1), out id) ? id : 0;
             }
         }
-        
+
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public Reference<Person> Creator { get; set; }
     }
 
     #region Abstract
+
     public abstract class AuditableEntity
     {
         private DateTime? _createdAt;
@@ -75,32 +76,39 @@ namespace Teamworks.Core
         public string CreatedBy { set; get; }
         public string UpdatedBy { set; get; }
     }
+
     public abstract class BaseEntity<T>
     {
         protected static IDocumentSession Session
         {
-            get { return ((IDocumentSession)Local.Data["ravensession"]); }
+            get { return ((IDocumentSession) Local.Data["ravensession"]); }
         }
 
         #region CRD
+
         public static T FindOne(string id)
         {
             return Session.Load<T>(id);
         }
+
         public static T Add(T entity)
         {
             Session.Store(entity);
             return entity;
         }
+
         public static void Remove(T entity)
         {
             Session.Delete(entity);
         }
+
         public static IRavenQueryable<T> Query()
         {
             return Session.Query<T>();
         }
+
         #endregion
     }
+
     #endregion
 }

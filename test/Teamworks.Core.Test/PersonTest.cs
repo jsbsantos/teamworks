@@ -1,42 +1,31 @@
 ﻿using System.Globalization;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Raven.Client;
 using Raven.Client.Document;
-using Raven.Client.Indexes;
 using Teamworks.Core.Extensions;
 using Teamworks.Core.People;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 
-namespace Teamworks.Tests
+namespace Teamworks.Core.Test
 {
-    
-    
     /// <summary>
     ///This is a test class for PersonTest and is intended
     ///to contain all PersonTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class PersonTest
     {
-        private TestContext testContextInstance;
-
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
+        public TestContext TestContext { get; set; }
+
         #region Additional test attributes
-        public IDocumentSession Session { get { return Local.Data["ravensession"] as IDocumentSession; } }
+
+        public IDocumentSession Session
+        {
+            get { return Local.Data["ravensession"] as IDocumentSession; }
+        }
 
         // 
         //You can use the following additional attributes as you write your tests:
@@ -55,17 +44,18 @@ namespace Teamworks.Tests
         //}
         //
         //Use TestInitialize to run code before running each test
-        [TestInitialize()]
+        [TestInitialize]
         public void MyTestInitialize()
         {
             IDocumentStore documentStore = new DocumentStore
-            {
-                ConnectionStringName = "RavenDB"
-            }
-            .Initialize();
+                                               {
+                                                   ConnectionStringName = "RavenDB"
+                                               }
+                .Initialize();
 
             Local.Data["ravensession"] = documentStore.OpenSession();
         }
+
         //
         //Use TestCleanup to run code after each test has run
         //[TestCleanup()]
@@ -73,15 +63,16 @@ namespace Teamworks.Tests
         //{
         //}
         //
+
         #endregion
 
         /// <summary>
         ///A test for Authenticate
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void AddTest_successfull_if_id_is_created()
         {
-            Person person = new Person("someemail@email.xp", "password", "username");
+            var person = new Person("someemail@email.xp", "password", "username");
             Person.Add(person);
             Session.SaveChanges();
             Assert.IsFalse(string.IsNullOrEmpty(person.Id));
@@ -90,10 +81,10 @@ namespace Teamworks.Tests
         /// <summary>
         ///A test for Authenticate
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetTest_successfull_if_properties_are_the_same()
         {
-            Person person = new Person("someemail@email.xp", "password", "username");
+            var person = new Person("someemail@email.xp", "password", "username");
             Person.Add(person);
             Session.SaveChanges();
             Person loaded = Person.FindOne(person.Id);
@@ -103,10 +94,10 @@ namespace Teamworks.Tests
         /// <summary>
         ///A test for Authenticate
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void RemoveTest_successfull_if_get_returns_null()
         {
-            Person person = new Person("someemail@email.xp", "password", "username");
+            var person = new Person("someemail@email.xp", "password", "username");
             Person.Add(person);
             Session.SaveChanges();
             Person.Remove(person);
@@ -119,10 +110,10 @@ namespace Teamworks.Tests
         /// <summary>
         ///A test for Authenticate
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void AuthenticateTest()
         {
-            Person person = new Person("someemail@email.xp","password","username");
+            var person = new Person("someemail@email.xp", "password", "username");
             Person.Add(person);
             Session.SaveChanges();
             bool actual = Person.Authenticate(person.Id, "password");
@@ -132,7 +123,7 @@ namespace Teamworks.Tests
         /// <summary>
         ///A test for EncodePassword
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         [DeploymentItem("Teamworks.Core.dll")]
         public void EncodePasswordTest()
         {

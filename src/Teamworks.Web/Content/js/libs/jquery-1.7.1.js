@@ -33,7 +33,7 @@
             // A central reference to the root jQuery(document)
             rootjQuery,
             // A simple way to check for HTML strings or ID strings
-	// Prioritize #id over <tag> to avoid XSS via location.hash (#9521)
+            // Prioritize #id over <tag> to avoid XSS via location.hash (#9521)
             quickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/ ,
             // Check if a string has a non-whitespace character in it
             rnotwhite = /\S/ ,
@@ -1636,13 +1636,13 @@
                 internalKey = jQuery.expando,
                 getByName = typeof name === "string",
                 // We have to handle DOM nodes and JS objects differently because IE6-7
-			// can't GC object references properly across the DOM-JS boundary
+                // can't GC object references properly across the DOM-JS boundary
                 isNode = elem.nodeType,
                 // Only DOM nodes need the global jQuery cache; JS object data is
-			// attached directly to the object so GC can occur automatically
+                // attached directly to the object so GC can occur automatically
                 cache = isNode ? jQuery.cache : elem,
                 // Only defining an ID for JS objects if its cache already exists allows
-			// the code to shortcut on the same path as a DOM node with no cache
+                // the code to shortcut on the same path as a DOM node with no cache
                 id = isNode ? elem[internalKey] : elem[internalKey] && internalKey,
                 isEvents = name === "events";
 
@@ -7189,7 +7189,7 @@
                 // Callbacks context
                 callbackContext = s.context || s,
                 // Context for global events
-			// It's the callbackContext if one was provided in the options
+                // It's the callbackContext if one was provided in the options
 			// and if it's a DOM node or a jQuery collection
                 globalEventContext = callbackContext !== s &&
                     (callbackContext.nodeType || callbackContext instanceof jQuery) ?

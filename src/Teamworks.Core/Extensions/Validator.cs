@@ -14,10 +14,7 @@ namespace Teamworks.Core.Extensions
 
         public static Validator Instance
         {
-            get
-            {
-                return _instance ?? (_instance = new Validator());
-            }
+            get { return _instance ?? (_instance = new Validator()); }
         }
 
         private Validator()
@@ -48,10 +45,11 @@ namespace Teamworks.Core.Extensions
             var vld = validators.GetInvocationList();
             var res = true;
 
-            Parallel.ForEach(vld, x => res &= ((Func<bool>)x).Invoke());
+            Parallel.ForEach(vld, x => res &= ((Func<bool>) x).Invoke());
 
             return res;
         }
+
         private bool ValidateWithTPLWithTimeout(Type type)
         {
             var name = type.Name;
@@ -69,7 +67,7 @@ namespace Teamworks.Core.Extensions
             {
                 Parallel.ForEach(
                     vld,
-                    new ParallelOptions { CancellationToken = cts.Token },
+                    new ParallelOptions {CancellationToken = cts.Token},
                     x => res &= x.Invoke());
             }
             catch (OperationCanceledException oce)
@@ -79,6 +77,7 @@ namespace Teamworks.Core.Extensions
 
             return res;
         }
+
         private bool ValidateWithThreadPool(Type type)
         {
             var name = type.Name;
@@ -93,9 +92,9 @@ namespace Teamworks.Core.Extensions
             var vld = validators.GetInvocationList();
             var res = true;
 
-            var asyncResults = (from Func<bool> v in vld 
+            var asyncResults = (from Func<bool> v in vld
                                 select v.BeginInvoke(x => res &= v.EndInvoke(x), null))
-                                .ToList();
+                .ToList();
 
             if (!WaitHandle.WaitAll(asyncResults.Select(v => v.AsyncWaitHandle).ToArray(), timeout))
                 throw new TimeoutException("Validation Timeout Exceeded");
@@ -125,6 +124,5 @@ namespace Teamworks.Core.Extensions
             timeout = timeoutInMillis;
             return this;
         }
-
     }
 }

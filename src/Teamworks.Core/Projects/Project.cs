@@ -10,6 +10,7 @@ namespace Teamworks.Core.Projects
     {
         private IList<Reference<Person>> _innerPeopleRefList;
         private IList<Reference<Task>> _innerTaskReferenceList;
+
         public Project(string name, string description)
         {
             PeopleReference = new List<Reference<Person>>();
@@ -21,8 +22,18 @@ namespace Teamworks.Core.Projects
 
         public string Description { get; set; }
 
-        public IList<Reference<Person>> PeopleReference { get { return (_innerPeopleRefList ?? (_innerPeopleRefList = new List<Reference<Person>>())); } set { _innerPeopleRefList = value; } }
-        public IList<Reference<Task>> TasksReference { get { return (_innerTaskReferenceList ?? (_innerTaskReferenceList = new List<Reference<Task>>())); } set { _innerTaskReferenceList = value; } }
+        public IList<Reference<Person>> PeopleReference
+        {
+            get { return (_innerPeopleRefList ?? (_innerPeopleRefList = new List<Reference<Person>>())); }
+            set { _innerPeopleRefList = value; }
+        }
+
+        public IList<Reference<Task>> TasksReference
+        {
+            get { return (_innerTaskReferenceList ?? (_innerTaskReferenceList = new List<Reference<Task>>())); }
+            set { _innerTaskReferenceList = value; }
+        }
+
         public bool Archived { get; set; }
 
         [JsonIgnore]
@@ -31,14 +42,17 @@ namespace Teamworks.Core.Projects
             //get { return Session.Query<Task>().Where(x => x.Project == Id).ToList().Sum(x => x.Estimated); }
             get { return Tasks.Sum(x => x.Estimated); }
         }
+
         [JsonIgnore]
         public long TotalConsumedHours
         {
             //get { return Session.Query<Task>().Where(x => x.Project == Id).ToList().Sum(x => x.Consumed); }
             get { return Tasks.Sum(x => x.Consumed); }
         }
+
         [JsonIgnore]
         public IList<Person> People { get; set; }
+
         [JsonIgnore]
         public IList<Task> Tasks { get; set; }
 

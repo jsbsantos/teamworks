@@ -24,13 +24,23 @@ namespace Teamworks.Core.Projects
             Estimated = estimated;
             Due = due;
             Project = projectId;
-
         }
-        
+
         public string Description { get; set; }
         public TaskStatus Status { get; set; }
-        public IList<Reference<Person>> PeopleReference { get { return (_innerPeopleReferenceList ?? (_innerPeopleReferenceList = new List<Reference<Person>>())); } set { _innerPeopleReferenceList = value; } }
-        public IList<Reference<Task>> PredecessorReference { get { return (_innerPredecessorReferenceList ?? (_innerPredecessorReferenceList = new List<Reference<Task>>())); } set { _innerPredecessorReferenceList = value; } }
+
+        public IList<Reference<Person>> PeopleReference
+        {
+            get { return (_innerPeopleReferenceList ?? (_innerPeopleReferenceList = new List<Reference<Person>>())); }
+            set { _innerPeopleReferenceList = value; }
+        }
+
+        public IList<Reference<Task>> PredecessorReference
+        {
+            get { return (_innerPredecessorReferenceList ?? (_innerPredecessorReferenceList = new List<Reference<Task>>())); }
+            set { _innerPredecessorReferenceList = value; }
+        }
+
         public long Estimated { get; set; }
         public long Consumed { get; set; }
         public DateTime Due { get; set; }
@@ -60,6 +70,5 @@ namespace Teamworks.Core.Projects
                 task.Predecessor = Session.Load<Task>(task.PredecessorReference.Select(x => x.Id)).ToList();
             return task;
         }
-
     }
 }

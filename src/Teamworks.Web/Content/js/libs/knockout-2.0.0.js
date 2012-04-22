@@ -462,7 +462,8 @@
     r.T = function() {
         var a = [];
         return {
-            Xa: function(b) { a.push({ da: b, za: [] }) }, end: function() { a.pop() },
+            Xa: function(b) { a.push({ da: b, za: [] }) },
+            end: function() { a.pop() },
             Ha: function(b) {
                 r.Ea(b) || c("Only subscribable things can act as dependencies");
                 if (0 < a.length) {

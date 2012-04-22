@@ -25,12 +25,12 @@ namespace Teamworks.Web.Helpers
         public JsonNetFormatter()
             : this(null)
         {
-
         }
 
         public JsonNetFormatter(JsonSerializerSettings jsonSerializerSettings)
         {
-            JsonSerializerSettings = jsonSerializerSettings ?? new JsonSerializerSettings { ContractResolver = new LowercaseContractResolver() };
+            JsonSerializerSettings = jsonSerializerSettings ??
+                                     new JsonSerializerSettings {ContractResolver = new LowercaseContractResolver()};
 
             SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/json"));
             Encoding = new UTF8Encoding(false, true);
@@ -40,7 +40,7 @@ namespace Teamworks.Web.Helpers
 
         protected override bool CanReadType(Type type)
         {
-            return type != typeof(IKeyValueModel);
+            return type != typeof (IKeyValueModel);
         }
 
         protected override bool CanWriteType(Type type)
@@ -78,7 +78,8 @@ namespace Teamworks.Web.Helpers
                                              {
                                                  using (
                                                      var jsonTextWriter =
-                                                         new JsonTextWriter(new StreamWriter(stream, Encoding)) { CloseOutput = false })
+                                                         new JsonTextWriter(new StreamWriter(stream, Encoding))
+                                                             {CloseOutput = false})
                                                  {
                                                      serializer.Serialize(jsonTextWriter, value);
                                                      jsonTextWriter.Flush();

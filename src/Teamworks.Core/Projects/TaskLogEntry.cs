@@ -10,7 +10,13 @@ namespace Teamworks.Core.Projects
     {
         private Reference<Person> _innerOwnerReference;
         public string Description { get; set; }
-        public Reference<Person> OwnerReference { get { return (_innerOwnerReference ?? (_innerOwnerReference = new Reference<Person>())); } set { _innerOwnerReference = value; } }
+
+        public Reference<Person> OwnerReference
+        {
+            get { return (_innerOwnerReference ?? (_innerOwnerReference = new Reference<Person>())); }
+            set { _innerOwnerReference = value; }
+        }
+
         public long Duration { get; set; }
         public DateTime Date { get; set; }
 
@@ -31,6 +37,5 @@ namespace Teamworks.Core.Projects
 
             return log;
         }
-
     }
 }

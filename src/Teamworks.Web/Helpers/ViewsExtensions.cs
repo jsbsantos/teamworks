@@ -8,7 +8,10 @@ namespace Teamworks.Web.Helpers
     {
         public static HelperResult Identity(this WebViewPage _this)
         {
-            return new HelperResult(writer => _this.Html.RenderPartial(_this.User.Identity.IsAuthenticated ? "Authenticated" : "Anonymous"));
+            return
+                new HelperResult(
+                    writer =>
+                    _this.Html.RenderPartial(_this.User.Identity.IsAuthenticated ? "Authenticated" : "Anonymous"));
         }
 
         public static bool IsDebugBuild(this HtmlHelper helper)
@@ -20,5 +23,4 @@ namespace Teamworks.Web.Helpers
 #endif
         }
     }
-
 }

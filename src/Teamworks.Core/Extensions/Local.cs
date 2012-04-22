@@ -6,7 +6,7 @@ namespace Teamworks.Core.Extensions
 {
     public static class Local
     {
-        static readonly ILocalData _data = new LocalData();
+        private static readonly ILocalData _data = new LocalData();
 
         public static ILocalData Data
         {
@@ -15,8 +15,7 @@ namespace Teamworks.Core.Extensions
 
         private class LocalData : ILocalData
         {
-            [ThreadStatic]
-            private static Hashtable _localData;
+            [ThreadStatic] private static Hashtable _localData;
             private static readonly object LocalDataHashtableKey = new object();
 
             private static Hashtable LocalHashtable
