@@ -9,8 +9,8 @@
     <ProjectGuid>{0F354CBB-750F-4872-BE2E-08179212614E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Teamworks.Tests</RootNamespace>
-    <AssemblyName>Teamworks.Tests</AssemblyName>
+    <RootNamespace>Teamworks.Core.Test</RootNamespace>
+    <AssemblyName>Teamworks.Core.Test</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -81,13 +81,13 @@
     <Compile Include="TaskTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Teamworks.Core\Teamworks.Core.csproj">
+    <ProjectReference Include="..\..\src\Teamworks.Core\Teamworks.Core.csproj">
       <Project>{C85D88CF-7DA3-4628-99FA-D5D570FCE940}</Project>
       <Name>Teamworks.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Shadow Include="Test References\Teamworks.Core.accessor" />
+    <Shadow Include="Test References\Teamworks.Core.Test.accessor" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
