@@ -17,6 +17,16 @@ namespace Teamworks.Core.Projects
             InProgress
         }
 
+        public Task(string name, string description, long estimated, DateTime due, string projectId)
+        {
+            Name = name;
+            Description = description;
+            Estimated = estimated;
+            Due = due;
+            Project = projectId;
+
+        }
+        
         public string Description { get; set; }
         public TaskStatus Status { get; set; }
         public IList<Reference<Person>> PeopleReference { get { return (_innerPeopleReferenceList ?? (_innerPeopleReferenceList = new List<Reference<Person>>())); } set { _innerPeopleReferenceList = value; } }

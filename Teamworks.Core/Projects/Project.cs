@@ -10,10 +10,13 @@ namespace Teamworks.Core.Projects
     {
         private IList<Reference<Person>> _innerPeopleRefList;
         private IList<Reference<Task>> _innerTaskReferenceList;
-        public Project()
+        public Project(string name, string description)
         {
             PeopleReference = new List<Reference<Person>>();
             TasksReference = new List<Reference<Task>>();
+
+            Name = name;
+            Description = description;
         }
 
         public string Description { get; set; }
@@ -23,8 +26,19 @@ namespace Teamworks.Core.Projects
         public bool Archived { get; set; }
 
         [JsonIgnore]
+        public long TotalEstimatedHours
+        {
+            //get { return Session.Query<Task>().Where(x => x.Project == Id).ToList().Sum(x => x.Estimated); }
+            get { return Tasks.Sum(x => x.Estimated); }
+        }
+        [JsonIgnore]
+        public long TotalConsumedHours
+        {
+            //get { return Session.Query<Task>().Where(x => x.Project == Id).ToList().Sum(x => x.Consumed); }
+            get { return Tasks.Sum(x => x.Consumed); }
+        }
+        [JsonIgnore]
         public IList<Person> People { get; set; }
-
         [JsonIgnore]
         public IList<Task> Tasks { get; set; }
 

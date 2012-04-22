@@ -12,9 +12,10 @@ namespace Teamworks.Core.People
         {
             Email = email;
             Password = EncodePassword(password);
-            Name = name;
+            Username = Name = name;
         }
-        private static string EncodePassword(string password)
+
+        public static string EncodePassword(string password)
         {
             return password.GetHashCode().ToString(CultureInfo.InvariantCulture);
         }
