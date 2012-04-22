@@ -21,7 +21,7 @@ namespace Teamworks.Web
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-
+            
             routes.MapHttpRouteLowercase(
                 name: "api/default",
                 routeTemplate: "api/{controller}/{id}",

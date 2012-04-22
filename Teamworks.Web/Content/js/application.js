@@ -1,18 +1,34 @@
 var Project = function (data) {
+    var old;
     var self = this;
 
-    data = data || {};
-    self.url = ko.observable(data.url || "");
-    self.name = ko.observable(data.name || "");
-    self.description = ko.observable(data.description || "");
+    self.url = ko.observable();
+    self.name = ko.observable();
+    self.description = ko.observable();
     self.editing_name = ko.observable();
     self.editing_description = ko.observable();
     self.start_editing_name = function () {
+        old = $.parseJSON(ko.toJSON(self));
         self.editing_name(true);
     };
     self.start_editing_description = function () {
+        old = $.parseJSON(ko.toJSON(self));
         self.editing_description(true);
     };
+    self.cancel_editing = function (project, event) {
+        var keyCode = (event.which ? event.which : event.keyCode);
+        if (keyCode === 27) {
+            map(old);
+            self.editing_name(false);
+            self.editing_description(false);
+        }
+    };
+    var map = function(other) {
+        self.url(other.url || self.url() || "");
+        self.name(other.name || self.name() || "");
+        self.description(other.description || self.description() || "");
+    };
+    map(data || {});
 };
 
 

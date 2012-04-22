@@ -66,7 +66,7 @@ namespace Teamworks.Web.Controllers
                                                                              {
                                                                                  1, new Project
                                                                                         {
-                                                                                            Url = "/api/projects/0",
+                                                                                            Url = "/api/projects/1",
                                                                                             Name = "Teamworks",
                                                                                             Description =
                                                                                                 "Sample project"
@@ -75,7 +75,7 @@ namespace Teamworks.Web.Controllers
                                                                              {
                                                                                  2, new Project
                                                                                         {
-                                                                                            Url = "/api/projects/1",
+                                                                                            Url = "/api/projects/2",
                                                                                             Name = "Codegarten",
                                                                                             Description =
                                                                                                 "Failed project"

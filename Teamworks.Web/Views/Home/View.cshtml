@@ -6,8 +6,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="projects">
-    <header class="row">
-        <form name="new_project" class="well form-inline control-group" data-bind="submit: new_project, reset: clear, css: { 'error': !is_valid() }">
+    <header class="row span8">
+        <form name="new_project" class="form-inline control-group" data-bind="submit: new_project, reset: clear, css: { 'error': !is_valid() }">
         <input name="name" class="input-large" placeholder="Name your project" data-bind="value: project.name, valueUpdate: 'afterkeyup'" />
         <input name="description" class="input-large" placeholder="Describe your project"
             data-bind="value: project.description, valueUpdate: 'afterkeyup'" />
@@ -31,11 +31,11 @@
                     <a data-bind="text: name, attr: {href: url}"></a>
                 </h2>
                 <h2 data-bind="visible: editing_name()">
-                    <input class="span6" data-bind="value: name, valueUpdate: 'afterkeyup'" /></h2>
+                    <input class="span6" data-bind="value: name, valueUpdate: 'afterkeyup', event: { keyup: cancel_editing }" /></h2>
                 <div data-bind="visible: !editing_description(), event: { dblclick: start_editing_description }">
                     <span data-bind="text: description"></span>, [insert names here]</div>
                 <div data-bind="visible: editing_description()">
-                    <input data-bind="value: description, valueUpdate: 'afterkeyup'" />, [insert names
+                    <input data-bind="value: description, valueUpdate: 'afterkeyup', event: { keyup: cancel_editing }" />, [insert names
                     here]</div>
                 <button class="btn unvisible" type="submit" value="save" data-bind="visible: editing_name() || editing_description()">
                     Save</button>
