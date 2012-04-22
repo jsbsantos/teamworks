@@ -16,7 +16,6 @@ _[Ss]cripts
 *.bak
 *.ncb
 *.log 
-*.exe
 *.dll
 *.nupkg
 *.DS_Store
