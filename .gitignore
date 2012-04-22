@@ -16,13 +16,11 @@ _[Ss]cripts
 *.bak
 *.ncb
 *.log 
-*.dll
-*.nupkg
 *.DS_Store
 *.[Pp]ublish.xml
 *.[Rr]e[Ss]harper
 
 # nuget
-packages
+packages/*/
 
 
