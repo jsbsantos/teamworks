@@ -1,3 +1,5 @@
+# Modelo de domínio
+
 As várias entities, value objects, factories, repositories e relações são representadas no modelo de domínio. Este modelo conceptual representa o vocabulário e os conceitos principais utilizados para a resolução do problema. 
 
 Um aspecto importante do modelo de domínio é que os diagramas e linguagem nele utilizados devem ser perceptível a todos os intervenientes no projecto (e.g. arquitectos de software, programadores, cliente).
