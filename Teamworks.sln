@@ -20,7 +20,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{82695239-233
 		doc\alternatives.md = doc\alternatives.md
 		doc\database.md = doc\database.md
 		doc\domain.md = doc\domain.md
-		doc\modelo.md = doc\modelo.md
 		doc\progress.md = doc\progress.md
 		doc\proposal.md = doc\proposal.md
 	EndProjectSection
