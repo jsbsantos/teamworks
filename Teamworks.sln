@@ -32,6 +32,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Teamworks.Web", "src\Teamwo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Teamworks.Core.Test", "test\Teamworks.Core.Test\Teamworks.Core.Test.csproj", "{0F354CBB-750F-4872-BE2E-08179212614E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "packages", "packages", "{E45BD79A-FFEA-4FF6-82AB-62FBE636A82A}"
+	ProjectSection(SolutionItems) = preProject
+		packages\repositories.config = packages\repositories.config
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Teamworks.vsmdi
