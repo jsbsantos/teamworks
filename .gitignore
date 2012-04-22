@@ -1,10 +1,11 @@
 # directories
 [Bb]in
-[Oo]bj/
-[Dd]ebug*/
-[Rr]elease*/
+[Oo]bj
+[Dd]ebug*
+[Rr]elease*
 _[Ss]cripts
 *[Rr]e[Ss]harper*
+[Tt]est[Rr]esults
 
 
 # files
@@ -23,7 +24,6 @@ _[Ss]cripts
 *.[Rr]e[Ss]harper
 
 # nuget
-.nuget
 packages
 
 
