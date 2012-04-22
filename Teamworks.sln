@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{18A303
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testes", "Testes", "{8466F0F9-D14F-406B-A560-C844FEBBAB04}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{8466F0F9-D14F-406B-A560-C844FEBBAB04}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Teamworks.Tests", "Teamworks.Tests\Teamworks.Tests.csproj", "{0F354CBB-750F-4872-BE2E-08179212614E}"
 EndProject
@@ -21,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Teamworks.vsmdi = Teamworks.vsmdi
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{82695239-2334-4FB9-B44D-36D3DF7D5A13}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution

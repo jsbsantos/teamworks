@@ -1,9 +1,11 @@
 # directories
-_[Rr]e[Ss]harper.*
 [Bb]in
 [Oo]bj/
 [Dd]ebug*/
 [Rr]elease*/
+_[Ss]cripts
+*[Rr]e[Ss]harper*
+
 
 # files
 [Tt]humbs.db 
@@ -13,11 +15,15 @@ _[Rr]e[Ss]harper.*
 *.bak
 *.ncb
 *.log 
+*.exe
+*.dll
+*.nupkg
 *.DS_Store
 *.[Pp]ublish.xml
 *.[Rr]e[Ss]harper
 
 # nuget
-packages/
+.nuget
+packages
 
 
