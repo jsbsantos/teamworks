@@ -1,8 +1,6 @@
 using System;
 using Newtonsoft.Json;
 using Raven.Client;
-using Raven.Client.Document;
-using Raven.Client.Linq;
 using Teamworks.Core.Entities;
 using Teamworks.Core.Extensions;
 using Teamworks.Core.People;
@@ -102,7 +100,7 @@ namespace Teamworks.Core
             Session.Delete(entity);
         }
 
-        public static IRavenQueryable<T> Query()
+        public static Raven.Client.Linq.IRavenQueryable<T> Query()
         {
             return Session.Query<T>();
         }
