@@ -21,6 +21,7 @@ _[Ss]cripts
 *.[Rr]e[Ss]harper
 
 # nuget
+.nuget
 packages
 
 
