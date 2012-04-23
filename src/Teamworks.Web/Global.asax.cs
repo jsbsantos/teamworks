@@ -1,9 +1,8 @@
 ﻿using System.Web.Http;
 using System.Web.Mvc;
-using System.Web.Optimization;
 using System.Web.Routing;
 using LowercaseRoutesMVC4;
-using Newtonsoft.Json;
+using Microsoft.Web.Optimization;
 using Teamworks.Web.Helpers;
 
 namespace Teamworks.Web
