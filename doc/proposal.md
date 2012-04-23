@@ -1,6 +1,6 @@
 # Proposta de Projecto
 
-# TeamWorks
+# Teamworks
 > a solution  for project planning, managing and colaboration
 
 ## Palavras-chave
