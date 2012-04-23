@@ -16,32 +16,28 @@
     <!-- Mobile viewport optimized: h5bp.com/viewport -->
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
-    <link href="@Microsoft.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/css")" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="@Microsoft.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/css")" >
     <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
     <!-- All JavaScript at the bottom, except this Modernizr build.
         Modernizr enables HTML5 elements & feature detects for optimal performance.
         Create your own custom Modernizr build: www.modernizr.com/download/ -->
-    <script src="@Url.Content("~/content/js/libs/modernizr-2.5.3.min.js")"> </script>
+    <script src="@Url.Content("~/content/js/libs/modernizr-2.5.3-respond-1.1.0.min.js")"> </script>
 </head>
 <body>
     <!-- Prompt IE 6 users to install Chrome Frame. Remove this if you support IE 6.
         chromium.org/developers/how-tos/chrome-frame-getting-started -->
     <!--[if lt IE 9]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
     <header class="navbar navbar-fixed-top">
-        <nav class="navbar-inner">
-            <div class="container">
+        <div class="navbar-inner">
+            <nav class="container">
                 <ul class="nav">
-                    <li>@Html.ActionLink("Teamworks", "View", "Home", null, new { @class = "brand" })</li>
-                    <li><a href="#">Home</a></li>
-                    <li class="active"><a href="#">Projects</a></li>
-                    <li><a href="#">Timeline</a></li>
-                    <li class="divider-vertical"></li>
-                    <li><a href="#">Everyone</a></li>
-                    <li><a href="#">Me</a></li>
-                </ul>
-                @this.Identity()
-            </div>
-        </nav>
+                    <li>@Html.ActionLink("Teamworks", "View", "Home", null, new { @class = "brand" })</li><li>
+                        <a href="#">Home</a></li><li class="active"><a href="#">Projects</a></li><li><a href="#">
+                            Timeline</a></li><li class="divider-vertical"></li>
+                    <li><a href="#">Everyone</a></li><li><a href="#">Me</a></li></ul>
+                @Html.Identity()
+            </nav>
+        </div>
     </header>
     <div class="container" role="main">
         @RenderBody()
@@ -66,12 +62,12 @@
     <!-- TODO: change to release mode -->
     <script src="@Microsoft.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/js")"> </script>
     <!-- TODO: change to release mode -->
-@{
-    if (this.Html.IsDebugBuild())
-    {
+    @{
+        if (Html.IsDebugBuild())
+        {
         <script src="@Url.Content("~/content/js/application.js")"></script>
         <script src="@Url.Content("~/content/js/application.bindings.js")"></script>
+        }
     }
-}
 </body>
 </html>

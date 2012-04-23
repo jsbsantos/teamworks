@@ -1,34 +1,32 @@
-var Project = function(data) {
+var Project = function (data) {
     var old;
     var self = this;
 
     self.url = ko.observable();
     self.name = ko.observable();
     self.description = ko.observable();
-    self.editing_name = ko.observable();
-    self.editing_description = ko.observable();
-    self.start_editing_name = function() {
+    self.editing = ko.observable();
+    self.start_editing = function () {
         old = $.parseJSON(ko.toJSON(self));
-        self.editing_name(true);
+        self.editing(true);
     };
-    self.start_editing_description = function() {
-        old = $.parseJSON(ko.toJSON(self));
-        self.editing_description(true);
+    self.stop_editing = function () {
+        self.editing(false);
     };
-    self.cancel_editing = function(project, event) {
+    self.key_editing = function (project, event) {
         var keyCode = (event.which ? event.which : event.keyCode);
-        if (keyCode === 27) {
+        if (keyCode === 27 && self.editing()) {
             map(old);
-            self.editing_name(false);
-            self.editing_description(false);
+            self.editing(false);
+            return false;
         }
     };
-    var map = function(other) {
+    var map = function (other) {
         self.url(other.url || self.url() || "");
         self.name(other.name || self.name() || "");
         self.description(other.description || self.description() || "");
     };
-    map(data || { });
+    map(data || {});
 };
 
 
@@ -42,8 +40,8 @@ var Project = function(data) {
     self.project = new Project(),
     self.project.name.subscribe(validate);
     self.project.description.subscribe(validate);
-    self.projects = ko.observableArray($.map(data, function(e) {
-        return new Project(e);
+    self.projects = ko.observableArray($.map(data, function(d) {
+        return new Project(d);
     }));
     self.is_valid = ko.observable(true);
     self.clear = function() {
@@ -78,8 +76,7 @@ var Project = function(data) {
             statusCode: {
                 204: /*no content*/function() {
                     alert('changes saved');
-                    project.editing_name(false);
-                    project.editing_description(false);
+                    project.editing(false);
                 }
             }
         });

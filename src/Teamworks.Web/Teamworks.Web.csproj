@@ -59,9 +59,6 @@
     <Reference Include="Raven.Abstractions">
       <HintPath>..\..\packages\RavenDB.1.0.701\lib\net40\Raven.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Raven.Client.Debug, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\RavenDB.1.0.701\lib\net40\Raven.Client.Debug.dll</HintPath>
-    </Reference>
     <Reference Include="Raven.Client.Lightweight">
       <HintPath>..\..\packages\RavenDB.1.0.701\lib\net40\Raven.Client.Lightweight.dll</HintPath>
     </Reference>
@@ -154,12 +151,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\css\bootstrap-responsive.css" />
-    <Content Include="Content\css\bootstrap.css" />
-    <Content Include="Content\css\teamworks.css" />
+    <Content Include="Content\css\bootstrap\bootstrap-responsive.css" />
+    <Content Include="Content\css\bootstrap\bootstrap-responsive.min.css" />
+    <Content Include="Content\css\bootstrap\bootstrap.css" />
+    <Content Include="Content\css\bootstrap\bootstrap.min.css" />
     <Content Include="Content\img\glyphicons-halflings-white.png" />
     <Content Include="Content\img\glyphicons-halflings.png" />
     <Content Include="Content\js\application.bindings.js" />
+    <Content Include="Content\js\libs\bootstrap.js" />
+    <Content Include="Content\js\libs\bootstrap.min.js" />
     <Content Include="Content\js\libs\jquery-1.7.1-vsdoc.js" />
     <Content Include="Content\js\libs\jquery-1.7.1.js" />
     <Content Include="Content\js\libs\jquery-1.7.1.min.js" />
@@ -174,7 +174,7 @@
     <Content Include="Content\js\libs\knockout-2.0.0.js" />
     <Content Include="Content\js\libs\knockout.unobtrusive.js" />
     <Content Include="Content\js\libs\knockout.unobtrusive.min.js" />
-    <Content Include="Content\js\libs\modernizr-2.5.3.min.js" />
+    <Content Include="Content\js\libs\modernizr-2.5.3-respond-1.1.0.min.js" />
     <Content Include="Content\js\libs\_references.js" />
     <Content Include="Content\js\application.js" />
     <Content Include="Global.asax" />
@@ -214,6 +214,9 @@
       <Project>{C85D88CF-7DA3-4628-99FA-D5D570FCE940}</Project>
       <Name>Teamworks.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\css\teamworks.css" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

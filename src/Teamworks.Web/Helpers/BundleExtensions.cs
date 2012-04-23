@@ -1,37 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using Microsoft.Web.Optimization;
+﻿using Microsoft.Web.Optimization;
 
 namespace Teamworks.Web.Helpers
 {
     public static class BundleExtensions
     {
-        public class AsIsBundleOrderer : IBundleOrderer
-        {
-            public virtual IEnumerable<FileInfo> OrderFiles(BundleContext context, IEnumerable<FileInfo> files)
-            {
-                if (context == null)
-                    throw new ArgumentNullException("context");
-
-                if (files == null)
-                    throw new ArgumentNullException("files");
-                return files;
-            }
-        }
-
         public static void EnableTeamworksBundle(this BundleCollection bundles)
         {
-
             var css = new Bundle("~/css", typeof (CssMinify));
-            css.AddFile("~/content/css/bootstrap.css");
-            css.AddFile("~/content/css/bootstrap-responsive.css");
+            css.AddFile("~/content/css/bootstrap/bootstrap.css");
+            css.AddFile("~/content/css/bootstrap/bootstrap-responsive.css");
             css.AddFile("~/content/css/teamworks.css");
+
             bundles.Add(css);
 
-
             var js = new Bundle("~/js", typeof(JsMinify));
+            js.AddFile("~/content/js/libs/bootstrap.js");
             js.AddFile("~/content/js/libs/knockout-2.0.0.js");
             js.AddFile("~/content/js/libs/knockout.unobtrusive.js");
 #if !DEBUG

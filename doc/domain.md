@@ -1,10 +1,10 @@
 # Modelo de domínio
 
 As várias entities, value objects, factories, repositories e relações são representadas no modelo de domínio. Este modelo conceptual representa o vocabulário e os conceitos principais utilizados para a resolução do problema. 
+Um aspecto importante do modelo de domínio é que os diagramas e linguagem nele utilizados devem ser perceptível a todos os intervenientes no projecto (e.g. arquitectos de software, programadores, cliente). 
 
-Um aspecto importante do modelo de domínio é que os diagramas e linguagem nele utilizados devem ser perceptível a todos os intervenientes no projecto (e.g. arquitectos de software, programadores, cliente).
-
-As entidades de domínio são:
+No domínio do problema apresentado por este projecto existem duas entiades centrais, a pessoa e o projecto.
+Cada pessoa pode estar envolvida em vários projectos, assim como um projecto pode ser desenvolvido por várias pessoas.
 
  * O **Utilizador**, representado pelo username, o email e a password. O email é usado para comunicar com o utilizador e juntamente com a password e pode ser usado para aceder ao sistema como alternativa ao username.
 
