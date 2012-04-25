@@ -1,0 +1,6 @@
+body {
+    padding-top: 80px;
+}
+
+.projects section .btn-group { opacity: .3; margin-top: 4px; }
+.projects section:hover .btn-group { opacity: 1; transition:opacity .5s; -moz-transition: opacity .5s; -webkit-transition:opacity .5s; }

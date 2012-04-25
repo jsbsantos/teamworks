@@ -1,0 +1,41 @@
+﻿@using Newtonsoft.Json
+@using Teamworks.Web.Helpers
+@model dynamic
+@{
+    ViewBag.Title = "Teamworks";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<header>
+    <form class="form-inline control-group" name="new_project" data-bind="submit: new_project, reset: clear, css: { 'error': !is_valid() }">
+        <input name="name" placeholder="Name your project" data-bind="value: project.name, valueUpdate: 'afterkeyup'" />
+        <input name="description" placeholder="Describe your project" data-bind="value: project.description, valueUpdate: 'afterkeyup'" />
+        <button class="btn btn-small" type="submit" value="create" data-bind="enable: self.project.name().length && self.project.description().length">Create</button>
+        <button class="btn btn-mini btn-danger" type="reset" value="reset" data-bind="enable: self.project.name().length || self.project.description().length">Clear</button>
+    </form>
+</header>
+<div class="projects" data-bind="foreach: projects, visible: projects().length > 0">
+    <section class="row-fluid">
+        <form data-bind="submit: editing() ? $parent.save: start_editing">
+            <div data-bind="visible: !editing()">
+                <h2><a data-bind="text: name, attr: {href: url}"></a></h2>
+                <div><span data-bind="text: description"></span>, [insert names here]</div>
+            </div>
+            <div data-bind="visible: editing()">
+                <h2><input data-bind="value: name, valueUpdate: 'afterkeyup', event: { keyup: key_editing }" /></h2>
+                <div><input data-bind="value: description, valueUpdate: 'afterkeyup', event: { keyup: key_editing }" />, [insert names here]</div>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-mini" name="edit" type="submit" value="edit" data-bind="html: editing() ? '<i class=\'icon-edit\'></i>Save': '<i class=\'icon-edit\'></i>Edit'"><i class="icon-edit"></i>Edit</button>
+                <button class="btn btn-mini" name="cancel" type="button" value="cancel" data-bind="visible: editing(), click: stop_editing"><i class="icon-remove"></i>Cancel</button>
+                <button class="btn btn-mini btn-danger" name="delete" type="button" value="delete" data-bind="click: $parent.remove"><i class="icon-remove-sign icon-white"></i>Delete</button>
+            </div>
+        </form>
+    </section>
+</div>
+<script type="text/javascript">
+    var data = @{ new JsonSerializer
+        {
+            ContractResolver = new JsonNetFormatter.LowercaseContractResolver()
+        }.Serialize(GetOutputWriter(), Model); }
+</script>

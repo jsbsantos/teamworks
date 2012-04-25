@@ -1,18 +1,17 @@
-# Teamworks
-> a solution  for project planning, managing and colaboration
+# Welcome
 
-Um projecto é um esforço temporário realizado por uma equipa, com o objectivo de criar um produto ou serviço. 
-No decorrer de qualquer projecto existem preocupações que saem do seu domínio como o planeamento de tarefas, gestão de pessoas e tempo. Como exemplo dessa realidade tomemos a seguinte situação:
+### Bem vindo!
 
-> Surge um novo requisito. É necessário planear as tarefas a ele associadas, estimar a sua duração e atribuir a sua realização a um elemento da equipa. Durante a sua realização são tomadas decisões e registado o tempo usado. 
+Esta é a página de entrada do projecto `teamworks` realizado no âmbito da cadeira de Projecto e Seminário da Licenciatura em Engenharia Informática e de Computadores do Instituto Superior de Engenharia de Lisboa leccionada no ano de 2012 .
 
-Do caso enunciado surgem vários tipos de informação:
+## Proposta de Projecto
 
-* Análise do requisito e documentação associada;
-* O resultado do planeamento (pessoa(s) associada(s) à tarefa e duração estimada);
-* Discussões sobre as opções tomadas;
-* Registo detalhado do tempo despendido e tarefas realizadas.
+Na fase inicial do projecto foi necessário entregar um documento que representa o contexto e os objectivos do mesmo. Esse documento está representado na página seguinte [Proposta de Projecto](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/proposal.md).
 
-Todas estes “extras” associados a um projecto consomem tempo e recursos. Esta informação deve ser guardada de forma a ser acessível por toda a equipa para que esta esteja inteirada das alterações e para referência futura. Uma forma de tornar estas tarefas mais eficientes e ter a informação sempre actualizada e acessível, passa por ter uma plataforma central que ofereça formas de agilizar os processos anteriormente descritos.
+## Relatório de Progresso
 
-O objectivo deste projecto é auxiliar nestas actividades associadas à gestão de um projecto. 
+`work in progress`
+
+## Relatório
+
+`work in progress`
