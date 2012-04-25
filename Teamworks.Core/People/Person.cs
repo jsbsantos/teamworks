@@ -25,8 +25,9 @@ namespace Teamworks.Core.People
         }
         public string ResetPassword()
         {
-            Password = System.Web.Security.Membership.GeneratePassword(8, 0);
-            return Password;
+            var pwd = System.Web.Security.Membership.GeneratePassword(8, 0);
+            Password = EncodePassword(pwd);
+            return pwd;
         }
     }
 }

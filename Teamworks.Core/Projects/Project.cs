@@ -42,7 +42,7 @@ namespace Teamworks.Core.Projects
         [JsonIgnore]
         public IList<Task> Tasks { get; set; }
 
-        public static Project Load(string id)
+        public static Project Load(string id) 
         {
             var project = Session
                 .Include("TasksReference")
