@@ -23,5 +23,3 @@ _[Ss]cripts
 # nuget
 packages
 
-# connection strings file
-connections.config
