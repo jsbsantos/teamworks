@@ -12,6 +12,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{82695239-2334-4FB9-B44D-36D3DF7D5A13}"
 	ProjectSection(SolutionItems) = preProject
 		doc\alternatives.md = doc\alternatives.md
+		api.md = api.md
 		doc\database.md = doc\database.md
 		doc\domain.md = doc\domain.md
 		doc\progress.md = doc\progress.md
