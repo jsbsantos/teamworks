@@ -1,4 +1,4 @@
-var Project = function (data) {
+var Project = function(data) {
     var old;
     var self = this;
 
@@ -6,14 +6,14 @@ var Project = function (data) {
     self.name = ko.observable();
     self.description = ko.observable();
     self.editing = ko.observable();
-    self.start_editing = function () {
+    self.start_editing = function() {
         old = $.parseJSON(ko.toJSON(self));
         self.editing(true);
     };
-    self.stop_editing = function () {
+    self.stop_editing = function() {
         self.editing(false);
     };
-    self.key_editing = function (project, event) {
+    self.key_editing = function(project, event) {
         var keyCode = (event.which ? event.which : event.keyCode);
         if (keyCode === 27 && self.editing()) {
             map(old);
@@ -21,12 +21,12 @@ var Project = function (data) {
             return false;
         }
     };
-    var map = function (other) {
+    var map = function(other) {
         self.url(other.url || self.url() || "");
         self.name(other.name || self.name() || "");
         self.description(other.description || self.description() || "");
     };
-    map(data || {});
+    map(data || { });
 };
 
 

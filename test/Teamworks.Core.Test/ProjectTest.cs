@@ -6,15 +6,13 @@ using Teamworks.Core.Extensions;
 using Teamworks.Core.People;
 using Teamworks.Core.Projects;
 
-namespace Teamworks.Core.Test
-{
+namespace Teamworks.Core.Test {
     /// <summary>
     ///This is a test class for ProjectTest and is intended
     ///to contain all ProjectTest Unit Tests
     ///</summary>
     [TestClass]
-    public class ProjectTest
-    {
+    public class ProjectTest {
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
@@ -40,18 +38,16 @@ namespace Teamworks.Core.Test
         //
         //Use TestInitialize to run code before running each test
 
-        public IDocumentSession Session
-        {
+        public IDocumentSession Session {
             get { return Local.Data["ravensession"] as IDocumentSession; }
         }
 
         [TestInitialize]
-        public void MyTestInitialize()
-        {
+        public void MyTestInitialize() {
             IDocumentStore documentStore = new DocumentStore
-                                               {
-                                                   ConnectionStringName = "RavenDB"
-                                               }
+                                           {
+                                               ConnectionStringName = "RavenDB"
+                                           }
                 .Initialize();
 
             Local.Data["ravensession"] = documentStore.OpenSession();
@@ -71,8 +67,7 @@ namespace Teamworks.Core.Test
         ///A test for Authenticate
         ///</summary>
         [TestMethod]
-        public void AddTest_successfull_if_id_is_created()
-        {
+        public void AddTest_successfull_if_id_is_created() {
             var p = new Project("myproject", "description") {Archived = false};
             Project.Add(p);
             Session.SaveChanges();
@@ -83,8 +78,7 @@ namespace Teamworks.Core.Test
         ///A test for Authenticate
         ///</summary>
         [TestMethod]
-        public void GetTest_successfull_if_properties_are_the_same()
-        {
+        public void GetTest_successfull_if_properties_are_the_same() {
             var p = new Project("myproject", "description") {Archived = false};
             Project.Add(p);
             Session.SaveChanges();
@@ -96,8 +90,7 @@ namespace Teamworks.Core.Test
         ///A test for Authenticate
         ///</summary>
         [TestMethod]
-        public void RemoveTest_successfull_if_get_Fails()
-        {
+        public void RemoveTest_successfull_if_get_Fails() {
             var p = new Project("myproject", "description") {Archived = false};
             Project.Add(p);
             Session.SaveChanges();
@@ -113,8 +106,7 @@ namespace Teamworks.Core.Test
         ///A test for Load
         ///</summary>
         [TestMethod]
-        public void LoadTest()
-        {
+        public void LoadTest() {
             var p = new Project("myproject", "description") {Archived = false};
             Project.Add(p);
             Session.SaveChanges();
@@ -126,8 +118,7 @@ namespace Teamworks.Core.Test
         ///A test for People
         ///</summary>
         [TestMethod]
-        public void PeopleTest()
-        {
+        public void PeopleTest() {
             Project p = Project.Add(new Project("myproject", "description") {Archived = false});
             Person person = Person.Add(new Person("email", "pwd", "name"));
             Session.SaveChanges();
@@ -143,8 +134,7 @@ namespace Teamworks.Core.Test
         ///A test for Tasks
         ///</summary>
         [TestMethod]
-        public void TasksTest()
-        {
+        public void TasksTest() {
             Project p = Project.Add(new Project("myproject", "description") {Archived = false});
             Session.SaveChanges();
             Task task = Task.Add(new Task("task", "desctask", 10, DateTime.Now, p.Id));
@@ -160,8 +150,7 @@ namespace Teamworks.Core.Test
         ///A test for TotalConsumedHours
         ///</summary>
         [TestMethod]
-        public void TotalConsumedHoursTest()
-        {
+        public void TotalConsumedHoursTest() {
             Project p = Project.Add(new Project("myproject", "description") {Archived = false});
             Session.SaveChanges();
             p.TasksReference.Add(Task.Add(new Task("task", "desctask", 10, DateTime.Now, p.Id) {Consumed = 2}));
@@ -177,8 +166,7 @@ namespace Teamworks.Core.Test
         ///A test for TotalEstimatedHours
         ///</summary>
         [TestMethod]
-        public void TotalEstimatedHoursTest()
-        {
+        public void TotalEstimatedHoursTest() {
             Project p = Project.Add(new Project("myproject", "description") {Archived = false});
             Session.SaveChanges();
             p.TasksReference.Add(Task.Add(new Task("task", "desctask", 10, DateTime.Now, p.Id) {Consumed = 2}));

@@ -6,15 +6,13 @@ using Teamworks.Core.Extensions;
 using Teamworks.Core.People;
 using Teamworks.Core.Projects;
 
-namespace Teamworks.Core.Test
-{
+namespace Teamworks.Core.Test {
     /// <summary>
     ///This is a test class for TaskTest and is intended
     ///to contain all TaskTest Unit Tests
     ///</summary>
     [TestClass]
-    public class TaskTest
-    {
+    public class TaskTest {
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
@@ -44,18 +42,16 @@ namespace Teamworks.Core.Test
         //
         //Use TestInitialize to run code before running each test
 
-        public IDocumentSession Session
-        {
+        public IDocumentSession Session {
             get { return Local.Data["ravensession"] as IDocumentSession; }
         }
 
         [TestInitialize]
-        public void MyTestInitialize()
-        {
+        public void MyTestInitialize() {
             IDocumentStore documentStore = new DocumentStore
-                                               {
-                                                   ConnectionStringName = "RavenDB"
-                                               }
+                                           {
+                                               ConnectionStringName = "RavenDB"
+                                           }
                 .Initialize();
 
             Local.Data["ravensession"] = documentStore.OpenSession();
@@ -76,8 +72,7 @@ namespace Teamworks.Core.Test
         ///A test for Authenticate
         ///</summary>
         [TestMethod]
-        public void AddTest_successfull_if_id_is_created()
-        {
+        public void AddTest_successfull_if_id_is_created() {
             var task = new Task("task", "desctask", 10, DateTime.Now, project.Id);
             Task.Add(task);
             Session.SaveChanges();
@@ -88,8 +83,7 @@ namespace Teamworks.Core.Test
         ///A test for Authenticate
         ///</summary>
         [TestMethod]
-        public void GetTest_successfull_if_properties_are_the_same()
-        {
+        public void GetTest_successfull_if_properties_are_the_same() {
             var task = new Task("task", "desctask", 10, DateTime.Now, project.Id);
             Task.Add(task);
             Session.SaveChanges();
@@ -101,8 +95,7 @@ namespace Teamworks.Core.Test
         ///A test for Authenticate
         ///</summary>
         [TestMethod]
-        public void RemoveTest_successfull_if_get_Fails()
-        {
+        public void RemoveTest_successfull_if_get_Fails() {
             var task = new Task("task", "desctask", 10, DateTime.Now, project.Id);
             Task.Add(task);
             Session.SaveChanges();
@@ -116,8 +109,7 @@ namespace Teamworks.Core.Test
         ///A test for Load
         ///</summary>
         [TestMethod]
-        public void LoadTest()
-        {
+        public void LoadTest() {
             var task = new Task("task", "desctask", 10, DateTime.Now, project.Id);
             Task.Add(task);
             Session.SaveChanges();
@@ -129,8 +121,7 @@ namespace Teamworks.Core.Test
         ///A test for People
         ///</summary>
         [TestMethod]
-        public void PeopleTest()
-        {
+        public void PeopleTest() {
             var task = new Task("task", "desctask", 10, DateTime.Now, project.Id);
             Task.Add(task);
             Person person = Person.Add(new Person("email", "pwd", "name"));
@@ -147,8 +138,7 @@ namespace Teamworks.Core.Test
         ///A test for Predecessor
         ///</summary>
         [TestMethod]
-        public void PredecessorTest()
-        {
+        public void PredecessorTest() {
             var task = new Task("task", "desctask", 10, DateTime.Now, project.Id);
             Task.Add(task);
             Session.SaveChanges();

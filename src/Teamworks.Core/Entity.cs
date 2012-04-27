@@ -1,14 +1,13 @@
 using System;
 using Newtonsoft.Json;
 using Raven.Client;
+using Raven.Client.Linq;
 using Teamworks.Core.Entities;
 using Teamworks.Core.Extensions;
 using Teamworks.Core.People;
 
-namespace Teamworks.Core
-{
-    public abstract class Entity<T> : BaseEntity<T>
-    {
+namespace Teamworks.Core {
+    public abstract class Entity<T> : BaseEntity<T> {
         #region Implementation of IEntity
 
         public string Id { get; set; }
@@ -16,19 +15,17 @@ namespace Teamworks.Core
 
         #endregion
 
-        protected Entity()
-        {
+        protected Entity() {
             CreatedAt = UpdatedAt = DateTime.Now;
         }
 
         [JsonIgnore]
-        public int Identifier
-        {
-            get
-            {
+        public int Identifier {
+            get {
                 int i;
-                if (string.IsNullOrEmpty(Id) || (i = Id.IndexOf('/')) < 0)
+                if (string.IsNullOrEmpty(Id) || (i = Id.IndexOf('/')) < 0) {
                     return 0;
+                }
 
                 int id;
                 return int.TryParse(Id.Substring(i + 1, Id.Length - i - 1), out id) ? id : 0;
@@ -42,31 +39,29 @@ namespace Teamworks.Core
 
     #region Abstract
 
-    public abstract class AuditableEntity
-    {
+    public abstract class AuditableEntity {
         private DateTime? _createdAt;
         private DateTime? _updatedAt;
 
-        public DateTime CreatedAt
-        {
-            set
-            {
-                if (!_createdAt.HasValue)
+        public DateTime CreatedAt {
+            set {
+                if (!_createdAt.HasValue) {
                     _createdAt = value;
+                }
             }
-            get
-            {
-                if (!_createdAt.HasValue) _createdAt = DateTime.Now;
+            get {
+                if (!_createdAt.HasValue) {
+                    _createdAt = DateTime.Now;
+                }
                 return _createdAt.Value;
             }
         }
 
-        public DateTime UpdatedAt
-        {
-            set
-            {
-                if (!_updatedAt.HasValue)
+        public DateTime UpdatedAt {
+            set {
+                if (!_updatedAt.HasValue) {
                     _updatedAt = value;
+                }
             }
             get { return DateTime.Now; }
         }
@@ -75,33 +70,27 @@ namespace Teamworks.Core
         public string UpdatedBy { set; get; }
     }
 
-    public abstract class BaseEntity<T>
-    {
-        protected static IDocumentSession Session
-        {
+    public abstract class BaseEntity<T> {
+        protected static IDocumentSession Session {
             get { return ((IDocumentSession) Local.Data["ravensession"]); }
         }
 
         #region CRD
 
-        public static T FindOne(string id)
-        {
+        public static T FindOne(string id) {
             return Session.Load<T>(id);
         }
 
-        public static T Add(T entity)
-        {
+        public static T Add(T entity) {
             Session.Store(entity);
             return entity;
         }
 
-        public static void Remove(T entity)
-        {
+        public static void Remove(T entity) {
             Session.Delete(entity);
         }
 
-        public static Raven.Client.Linq.IRavenQueryable<T> Query()
-        {
+        public static IRavenQueryable<T> Query() {
             return Session.Query<T>();
         }
 
