@@ -1,14 +1,25 @@
-body { padding-top: 80px; }
+.brand
+{
+    font-family: 'Droid Sans' , sans-serif;
+}
 
-.projects section .btn-group {
+.main
+{
+    padding-top: 60px;
+    max-width: 1170px;
+    margin: auto;
+}
+
+.projects section .btn-group
+{
     margin-top: 4px;
     opacity: .3;
 }
 
-.projects section:hover .btn-group {
+.projects section:hover .btn-group
+{
     -webkit-transition: opacity .5s;
-       -moz-transition: opacity .5s;
-            transition: opacity .5s;
+    -moz-transition: opacity .5s;
+    transition: opacity .5s;
     opacity: 1;
-    
 }

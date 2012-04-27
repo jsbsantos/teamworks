@@ -9,12 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{18A303
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{8466F0F9-D14F-406B-A560-C844FEBBAB04}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "files", "files", "{020CD888-92D7-4932-B0AA-0C703DDE5A36}"
-	ProjectSection(SolutionItems) = preProject
-		README.md = README.md
-		Teamworks.vsmdi = Teamworks.vsmdi
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{82695239-2334-4FB9-B44D-36D3DF7D5A13}"
 	ProjectSection(SolutionItems) = preProject
 		doc\alternatives.md = doc\alternatives.md
@@ -31,6 +25,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Teamworks.Web", "src\Teamworks.Web\Teamworks.Web.csproj", "{A0746650-91CF-4306-83E4-5D7726B8EB4A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Teamworks.Core.Test", "test\Teamworks.Core.Test\Teamworks.Core.Test.csproj", "{0F354CBB-750F-4872-BE2E-08179212614E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3C2970CC-9743-427D-9A89-9EB728D845BF}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution

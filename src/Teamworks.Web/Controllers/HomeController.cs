@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using Teamworks.Web.Controllers;
+using Teamworks.Web.Controllers.Api;
 
 namespace TeamWorks.Web.Controllers {
     public class HomeController : Controller {

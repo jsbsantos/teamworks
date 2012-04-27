@@ -7,7 +7,7 @@
 <!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
 <!-- Consider adding a manifest.appcache: h5bp.com/d/Offline -->
 <!--[if gt IE 8]><!-->
-    <html class="no-js" lang="en">
+<html class="no-js" lang="en">
 <!--<![endif]-->
 <head>
     <meta charset="utf-8">
@@ -18,6 +18,9 @@
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
     <link rel="stylesheet" href="@BundleTable.Bundles.ResolveBundleUrl("~/css")" >
+    <!-- Custom font from google -->
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans:700' rel='stylesheet'
+        type='text/css'>
     <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
     <!-- All JavaScript at the bottom, except this Modernizr build.
         Modernizr enables HTML5 elements & feature detects for optimal performance.
@@ -30,17 +33,21 @@
     <!--[if lt IE 9]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
     <header class="navbar navbar-fixed-top">
         <div class="navbar-inner">
-            <nav class="container">
-                <ul class="nav">
-                    <li>@Html.ActionLink("Teamworks", "View", "Home", null, new {@class = "brand"})</li><li>
-                                                                                                            <a href="#">Home</a></li><li class="active"><a href="#">Projects</a></li><li><a href="#">
-                                                                                                                                                                                             Timeline</a></li><li class="divider-vertical"></li>
-                    <li><a href="#">Everyone</a></li><li><a href="#">Me</a></li></ul>
+            <nav class="container-fluid">
+                <ul class="nav"><!--
+                    --><li>@Html.ActionLink("teamworks", "View", "Home", null, new { @class = "brand" })</li><!--
+                    --><li><a href="#">Home</a></li><!--
+                    --><li class="active"><a href="#">Projects</a></li><!-- 
+                    --><li><a href="#">Timeline</a></li><!-- 
+                    --><li class="divider-vertical"></li><li><!--
+                    --><a href="#">Everyone</a></li><!--
+                    --><li><a href="#">Me</a></li>
+                </ul>
                 @Html.Identity()
             </nav>
         </div>
     </header>
-    <div class="container" role="main">
+    <div class="container-fluid main" role="main">
         @RenderBody()
     </div>
     <footer>
@@ -48,7 +55,7 @@
     <!-- JavaScript at the bottom for fast page loading -->
     <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"> </script>
-    <script> window.jQuery || document.write('<script src="@Url.Content("~/content/js/libs/jquery-1.7.1.min.js")"><\/script>') </script>
+    <script>        window.jQuery || document.write('<script src="@Url.Content("~/content/js/libs/jquery-1.7.1.min.js")"><\/script>') </script>
     <!-- Asynchronous Google Analytics snippet. Change UA-XXXXX-X to be your site's ID.
         mathiasbynens.be/notes/async-analytics-snippet -->
     <!--<script>
@@ -64,9 +71,10 @@
     <script src="@BundleTable.Bundles.ResolveBundleUrl("~/js")"> </script>
     <!-- TODO: change to release mode -->
     @{
-        if (Html.IsDebugBuild()) {
-            <script src="@Url.Content("~/content/js/application.js")"> </script>
-            <script src="@Url.Content("~/content/js/application.bindings.js")"> </script>
+        if (Html.IsDebugBuild())
+        {
+        <script src="@Url.Content("~/content/js/application.js")"> </script>
+        <script src="@Url.Content("~/content/js/application.bindings.js")"> </script>
         }
     }
 </body>
