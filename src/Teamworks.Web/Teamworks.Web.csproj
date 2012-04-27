@@ -172,7 +172,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="connections.xml" />
+    <None Include="connections.config" />
     <Content Include="Content\css\bootstrap\bootstrap-responsive.css" />
     <Content Include="Content\css\bootstrap\bootstrap-responsive.min.css" />
     <Content Include="Content\css\bootstrap\bootstrap.css" />
