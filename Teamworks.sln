@@ -11,13 +11,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{8466F0F9-D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{82695239-2334-4FB9-B44D-36D3DF7D5A13}"
 	ProjectSection(SolutionItems) = preProject
-		doc\alternatives.md = doc\alternatives.md
+		doc\alternativas.md = doc\alternativas.md
 		api.md = api.md
-		doc\database.md = doc\database.md
-		doc\domain.md = doc\domain.md
-		doc\model.md = doc\model.md
-		doc\progress.md = doc\progress.md
-		doc\proposal.md = doc\proposal.md
+		doc\base-de-dados.md = doc\base-de-dados.md
+		doc\modelo-de-dados.md = doc\modelo-de-dados.md
+		doc\modelo-de-dominio.md = doc\modelo-de-dominio.md
+		doc\proposta-de-projecto.md = doc\proposta-de-projecto.md
+		doc\relatorio-progresso.md = doc\relatorio-progresso.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{FFC7F3A0-ABC9-47F7-8A53-AD0138F892DB}"

@@ -6,8 +6,11 @@
 .main
 {
     padding-top: 60px;
+}
+
+.container-fluid {
     max-width: 1170px;
-    margin: auto;
+    margin: auto;    
 }
 
 .projects section .btn-group
