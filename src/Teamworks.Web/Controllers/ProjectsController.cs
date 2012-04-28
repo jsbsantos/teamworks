@@ -60,6 +60,7 @@ namespace Teamworks.Web.Controllers
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
 
+        #region Dummy Data
         internal static int Id = 3;
 
         internal static readonly Dictionary<int, Project> Projects = new Dictionary<int, Project>()
@@ -83,5 +84,6 @@ namespace Teamworks.Web.Controllers
                                                                                         }
                                                                                  }
                                                                          };
+        #endregion
     }
 }

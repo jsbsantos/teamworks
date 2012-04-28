@@ -1,4 +1,4 @@
-namespace Teamworks.Core.Entities
+namespace Teamworks.Core
 {
     public class Reference<T> : Entity<T> where T : Entity<T>
     {

@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using Newtonsoft.Json;
-using Teamworks.Core.Entities;
 using Teamworks.Core.People;
 
 namespace Teamworks.Core.Projects

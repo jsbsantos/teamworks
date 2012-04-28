@@ -1,7 +1,6 @@
 using System;
 using Newtonsoft.Json;
 using Raven.Client;
-using Teamworks.Core.Entities;
 using Teamworks.Core.Extensions;
 using Teamworks.Core.People;
 
