@@ -69,11 +69,11 @@ O planeamento é feito à semana e tem como data inicial o dia de entrega do pre
 13 | 18/06 | Cartaz e versão beta |
 14 | 25/06 | Planeamento |
 15 | 2/07 | Dashboard - live 0.4 |
-16 |9/07 |Monitorização|
-17 |16/07 |API - live 0.5|
-18 |23/07 |Testes|
-19 |03/09 |Relatório final (versão inicial)|
-20 |10/09 |Relatório final (revisto pelo orientador)|
+16 | 9/07 | Monitorização |
+17 | 16/07 | API - live 0.5 |
+18 | 23/07 | Testes |
+19 | 03/09 | Relatório final (versão inicial) |
+20 | 10/09 | Relatório final (revisto pelo orientador) |
 
 O planeamento termina no dia 18 de Setembro de 2012, data correspondente ao prazo de entrega do relatório de da versão final deste Projecto. 
 

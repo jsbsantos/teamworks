@@ -1,6 +1,28 @@
-body {
-    padding-top: 80px;
+.brand
+{
+    font-family: 'Droid Sans' , sans-serif;
 }
 
-.projects section .btn-group { opacity: .3; margin-top: 4px; }
-.projects section:hover .btn-group { opacity: 1; transition:opacity .5s; -moz-transition: opacity .5s; -webkit-transition:opacity .5s; }
+.main
+{
+    padding-top: 60px;
+}
+
+.container-fluid {
+    max-width: 1170px;
+    margin: auto;    
+}
+
+.projects section .btn-group
+{
+    margin-top: 4px;
+    opacity: .3;
+}
+
+.projects section:hover .btn-group
+{
+    -webkit-transition: opacity .5s;
+    -moz-transition: opacity .5s;
+    transition: opacity .5s;
+    opacity: 1;
+}

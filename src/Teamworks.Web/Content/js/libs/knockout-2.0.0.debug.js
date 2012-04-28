@@ -374,8 +374,8 @@
             getFormFields: function(form, fieldName) {
                 var fields = ko.utils.makeArray(form.getElementsByTagName("INPUT")).concat(ko.utils.makeArray(form.getElementsByTagName("TEXTAREA")));
                 var isMatchingField = (typeof fieldName == 'string')
-                    ? function(field) { return field.name === fieldName }
-                    : function(field) { return fieldName.test(field.name) }; // Treat fieldName as regex or object containing predicate
+                    ? function(field) { return field.name === fieldName; }
+                    : function(field) { return fieldName.test(field.name); }; // Treat fieldName as regex or object containing predicate
                 var matches = [];
                 for (var i = fields.length - 1; i >= 0; i--) {
                     if (isMatchingField(fields[i]))
@@ -441,7 +441,7 @@
                 options['submitter'] ? options['submitter'](form) : form.submit();
                 setTimeout(function() { form.parentNode.removeChild(form); }, 0);
             }
-        }
+        };
     })();
 
     ko.exportSymbol('ko.utils', ko.utils);
@@ -515,7 +515,7 @@
                     node[dataStoreKeyExpandoPropertyName] = null;
                 }
             }
-        }
+        };
     })();
 
     ko.exportSymbol('ko.utils.domData', ko.utils.domData);
@@ -588,7 +588,7 @@
                 if (node.parentNode)
                     node.parentNode.removeChild(node);
             }
-        }
+        };
     })();
     ko.cleanNode = ko.utils.domNodeDisposal.cleanNode; // Shorthand name for convenience
     ko.removeNode = ko.utils.domNodeDisposal.removeNode; // Shorthand name for convenience
@@ -778,7 +778,7 @@
 
         'notify': function(target, notifyWhen) {
             target["equalityComparer"] = notifyWhen == "always"
-                ? function() { return false } // Treat all values as not equal
+                ? function() { return false; } // Treat all values as not equal
                 : ko.observable["fn"]["equalityComparer"];
             return target;
         }
@@ -815,8 +815,7 @@
         ko.exportProperty(this, 'subscribe', this.subscribe);
         ko.exportProperty(this, 'extend', this.extend);
         ko.exportProperty(this, 'getSubscriptionsCount', this.getSubscriptionsCount);
-    }
-
+    };
     var defaultEvent = "change";
 
     ko.subscribable['fn'] = {
@@ -915,16 +914,15 @@
         }
 
         ko.subscribable.call(observable);
-        observable.valueHasMutated = function() { observable["notifySubscribers"](_latestValue); }
-        observable.valueWillMutate = function() { observable["notifySubscribers"](_latestValue, "beforeChange"); }
+        observable.valueHasMutated = function() { observable["notifySubscribers"](_latestValue); };
+        observable.valueWillMutate = function() { observable["notifySubscribers"](_latestValue, "beforeChange"); };
         ko.utils.extend(observable, ko.observable['fn']);
 
         ko.exportProperty(observable, "valueHasMutated", observable.valueHasMutated);
         ko.exportProperty(observable, "valueWillMutate", observable.valueWillMutate);
 
         return observable;
-    }
-
+    };
     ko.observable['fn'] = {
         __ko_proto__: ko.observable,
 
@@ -938,7 +936,7 @@
         if ((instance === null) || (instance === undefined) || (instance.__ko_proto__ === undefined)) return false;
         if (instance.__ko_proto__ === ko.observable) return true;
         return ko.isObservable(instance.__ko_proto__); // Walk the prototype chain
-    }
+    };
     ko.isWriteableObservable = function(instance) {
         // Observable
         if ((typeof instance == "function") && instance.__ko_proto__ === ko.observable)
@@ -948,9 +946,7 @@
             return true;
         // Anything else
         return false;
-    }
-
-
+    };
     ko.exportSymbol('ko.observable', ko.observable);
     ko.exportSymbol('ko.isObservable', ko.isObservable);
     ko.exportSymbol('ko.isWriteableObservable', ko.isWriteableObservable);
@@ -973,8 +969,7 @@
         ko.exportProperty(result, "replace", result.replace);
 
         return result;
-    }
-
+    };
     ko.observableArray['fn'] = {
         remove: function(valueOrPredicate) {
             var underlyingArray = this();
@@ -1030,7 +1025,7 @@
         destroyAll: function(arrayOfValues) {
             // If you passed zero args, we destroy everything
             if (arrayOfValues === undefined)
-                return this.destroy(function() { return true });
+                return this.destroy(function() { return true; });
 
             // If you passed an arg, we interpret it as an array of entries to destroy
             if (!arrayOfValues)
@@ -1053,9 +1048,7 @@
                 this.valueHasMutated();
             }
         }
-    }
-
-// Populate ko.observableArray.fn with read/write functions from native arrays
+    }; // Populate ko.observableArray.fn with read/write functions from native arrays
     ko.utils.arrayForEach(["pop", "push", "reverse", "shift", "sort", "splice", "unshift"], function(methodName) {
         ko.observableArray['fn'][methodName] = function() {
             var underlyingArray = this();
@@ -1104,13 +1097,13 @@
         var disposeWhenNodeIsRemoved = (typeof options["disposeWhenNodeIsRemoved"] == "object") ? options["disposeWhenNodeIsRemoved"] : null;
         var disposeWhenNodeIsRemovedCallback = null;
         if (disposeWhenNodeIsRemoved) {
-            disposeWhenNodeIsRemovedCallback = function() { dependentObservable.dispose() };
+            disposeWhenNodeIsRemovedCallback = function() { dependentObservable.dispose(); };
             ko.utils.domNodeDisposal.addDisposeCallback(disposeWhenNodeIsRemoved, disposeWhenNodeIsRemovedCallback);
             var existingDisposeWhenFunction = options["disposeWhen"];
             options["disposeWhen"] = function() {
                 return (!ko.utils.domNodeIsAttachedToDocument(disposeWhenNodeIsRemoved))
                     || ((typeof existingDisposeWhenFunction == "function") && existingDisposeWhenFunction());
-            }
+            };
         }
 
         var _subscriptionsToDependencies = [];
@@ -1179,7 +1172,7 @@
             }
         }
 
-        dependentObservable.getDependenciesCount = function() { return _subscriptionsToDependencies.length; }
+        dependentObservable.getDependenciesCount = function() { return _subscriptionsToDependencies.length; };
         dependentObservable.hasWriteFunction = typeof options["write"] === "function";
         dependentObservable.dispose = function() {
             if (disposeWhenNodeIsRemoved)
@@ -1799,7 +1792,7 @@
                 this['$parents'] = [];
                 this['$root'] = dataItem;
             }
-        }
+        };
         ko.bindingContext.prototype['createChildContext'] = function(dataItem) {
             return new ko.bindingContext(dataItem, this);
         };
@@ -1807,7 +1800,7 @@
         function validateThatBindingIsAllowedForVirtualElements(bindingName) {
             var validator = ko.virtualElements.allowedBindings[bindingName];
             if (!validator)
-                throw new Error("The binding '" + bindingName + "' cannot be used with virtual elements")
+                throw new Error("The binding '" + bindingName + "' cannot be used with virtual elements");
         }
 
         function applyBindingsToDescendantsInternal(viewModel, elementVerified) {
@@ -1855,7 +1848,7 @@
             var parsedBindings;
 
             function makeValueAccessor(bindingKey) {
-                return function() { return parsedBindings[bindingKey] }
+                return function() { return parsedBindings[bindingKey]; };
             }
 
             function parsedBindingsAccessor() {
@@ -1933,8 +1926,7 @@
                 ko.utils.domData.set(node, storedBindingContextDomDataKey, bindingContext);
             else
                 return ko.utils.domData.get(node, storedBindingContextDomDataKey);
-        }
-
+        };
         ko.applyBindingsToNode = function(node, bindings, viewModel) {
             if (node.nodeType === 1) // If it's an element, workaround IE <= 8 HTML parsing weirdness
                 ko.virtualElements.normaliseVirtualElementDomStructure(node);
@@ -1991,7 +1983,7 @@
                 };
                 return ko.bindingHandlers['event']['init'].call(this, element, newValueAccessor, allBindingsAccessor, viewModel);
             }
-        }
+        };
     });
 
 
@@ -2066,8 +2058,7 @@
             else if ((!value) && isCurrentlyVisible)
                 element.style.display = "none";
         }
-    }
-
+    };
     ko.bindingHandlers['enable'] = {
         'update': function(element, valueAccessor) {
             var value = ko.utils.unwrapObservable(valueAccessor());
@@ -2080,7 +2071,7 @@
 
     ko.bindingHandlers['disable'] = {
         'update': function(element, valueAccessor) {
-            ko.bindingHandlers['enable']['update'](element, function() { return !ko.utils.unwrapObservable(valueAccessor()) });
+            ko.bindingHandlers['enable']['update'](element, function() { return !ko.utils.unwrapObservable(valueAccessor()); });
         }
     };
 
@@ -2120,8 +2111,8 @@
                     handleEventAsynchronously = true;
                     eventName = eventName.substring("after".length);
                 }
-                var runEventHandler = handleEventAsynchronously ? function(handler) { setTimeout(handler, 0) }
-                    : function(handler) { handler() };
+                var runEventHandler = handleEventAsynchronously ? function(handler) { setTimeout(handler, 0); }
+                    : function(handler) { handler(); };
 
                 ko.utils.registerEventHandler(element, eventName, function() {
                     runEventHandler(function() {
@@ -2382,7 +2373,7 @@
 
             // IE 6 won't allow radio buttons to be selected unless they have a name
             if ((element.type == "radio") && !element.name)
-                ko.bindingHandlers['uniqueName']['init'](element, function() { return true });
+                ko.bindingHandlers['uniqueName']['init'](element, function() { return true; });
         },
         'update': function(element, valueAccessor) {
             var value = ko.utils.unwrapObservable(valueAccessor());
@@ -2436,10 +2427,10 @@
                     }
                 }
             };
-            ko.utils.registerEventHandler(element, "focus", function() { writeValue(true) });
-            ko.utils.registerEventHandler(element, "focusin", function() { writeValue(true) }); // For IE
-            ko.utils.registerEventHandler(element, "blur", function() { writeValue(false) });
-            ko.utils.registerEventHandler(element, "focusout", function() { writeValue(false) }); // For IE
+            ko.utils.registerEventHandler(element, "focus", function() { writeValue(true); });
+            ko.utils.registerEventHandler(element, "focusin", function() { writeValue(true); }); // For IE
+            ko.utils.registerEventHandler(element, "blur", function() { writeValue(false); });
+            ko.utils.registerEventHandler(element, "focusout", function() { writeValue(false); }); // For IE
         },
         'update': function(element, valueAccessor) {
             var value = ko.utils.unwrapObservable(valueAccessor());
@@ -2453,7 +2444,7 @@
         makeTemplateValueAccessor: function(valueAccessor) {
             return function() {
                 var value = valueAccessor();
-                return { 'if': value, 'data': value, 'templateEngine': ko.nativeTemplateEngine.instance }
+                return { 'if': value, 'data': value, 'templateEngine': ko.nativeTemplateEngine.instance };
             };
         },
         'init': function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
@@ -2469,7 +2460,7 @@
 // "if: someExpression" is equivalent to "template: { if: someExpression }"
     ko.bindingHandlers['if'] = {
         makeTemplateValueAccessor: function(valueAccessor) {
-            return function() { return { 'if': valueAccessor(), 'templateEngine': ko.nativeTemplateEngine.instance } };
+            return function() { return { 'if': valueAccessor(), 'templateEngine': ko.nativeTemplateEngine.instance }; };
         },
         'init': function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
             return ko.bindingHandlers['template']['init'](element, ko.bindingHandlers['if'].makeTemplateValueAccessor(valueAccessor));
@@ -2484,7 +2475,7 @@
 // "ifnot: someExpression" is equivalent to "template: { ifnot: someExpression }"
     ko.bindingHandlers['ifnot'] = {
         makeTemplateValueAccessor: function(valueAccessor) {
-            return function() { return { 'ifnot': valueAccessor(), 'templateEngine': ko.nativeTemplateEngine.instance } };
+            return function() { return { 'ifnot': valueAccessor(), 'templateEngine': ko.nativeTemplateEngine.instance }; };
         },
         'init': function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
             return ko.bindingHandlers['template']['init'](element, ko.bindingHandlers['ifnot'].makeTemplateValueAccessor(valueAccessor));
@@ -2668,7 +2659,7 @@
                         ko.applyBindingsToNode(domNode.nextSibling, bindings, bindingContext);
                 });
             }
-        }
+        };
     })();
 
     ko.exportSymbol('ko.templateRewriting', ko.templateRewriting);
@@ -2698,8 +2689,7 @@
 
         ko.templateSources.domElement = function(element) {
             this.domElement = element;
-        }
-
+        };
         ko.templateSources.domElement.prototype['text'] = function(/* valueToWrite */) {
             if (arguments.length == 0) {
                 return this.domElement.tagName.toLowerCase() == "script" ? this.domElement.text : this.domElement.innerHTML;
@@ -2725,7 +2715,7 @@
         var anonymousTemplatesDomDataKey = "__ko_anon_template__";
         ko.templateSources.anonymousTemplate = function(element) {
             this.domElement = element;
-        }
+        };
         ko.templateSources.anonymousTemplate.prototype = new ko.templateSources.domElement();
         ko.templateSources.anonymousTemplate.prototype['text'] = function(/* valueToWrite */) {
             if (arguments.length == 0) {
@@ -2746,7 +2736,7 @@
             if ((templateEngine != undefined) && !(templateEngine instanceof ko.templateEngine))
                 throw "templateEngine must inherit from ko.templateEngine";
             _templateEngine = templateEngine;
-        }
+        };
 
         function invokeForEachNodeOrCommentInParent(nodeArray, parent, action) {
             for (var i = 0; node = nodeArray[i]; i++) {
@@ -2776,7 +2766,7 @@
             invokeForEachNodeOrCommentInParent(nodeArrayClone, commonParentElement, function(node) {
                 ko.memoization.unmemoizeDomNodeAndDescendants(node, [bindingContext]);
             });
-        }
+        };
 
         function getFirstNodeFromPossibleArray(nodeOrNodeArray) {
             return nodeOrNodeArray.nodeType ? nodeOrNodeArray
@@ -3101,7 +3091,7 @@
                 // of which nodes would be deleted if valueToMap was itself later removed
                 mappedNodes.splice(0, mappedNodes.length);
                 ko.utils.arrayPushAll(mappedNodes, newMappedNodes);
-            }, null, { 'disposeWhenNodeIsRemoved': containerNode, 'disposeWhen': function() { return (mappedNodes.length == 0) || !ko.utils.domNodeIsAttachedToDocument(mappedNodes[0]) } });
+            }, null, { 'disposeWhenNodeIsRemoved': containerNode, 'disposeWhen': function() { return (mappedNodes.length == 0) || !ko.utils.domNodeIsAttachedToDocument(mappedNodes[0]); } });
             return { mappedNodes: mappedNodes, dependentObservable: dependentObservable };
         }
 
@@ -3177,7 +3167,7 @@
                 }
             }
 
-            ko.utils.arrayForEach(nodesToDelete, function(node) { ko.cleanNode(node.element) });
+            ko.utils.arrayForEach(nodesToDelete, function(node) { ko.cleanNode(node.element); });
 
             var invokedBeforeRemoveCallback = false;
             if (!isFirstExecution) {
@@ -3198,14 +3188,13 @@
 
             // Store a copy of the array items we just considered so we can difference it next time
             ko.utils.domData.set(domNode, lastMappingResultDomDataKey, newMappingResult);
-        }
+        };
     })();
 
     ko.exportSymbol('ko.utils.setDomNodeChildrenFromArrayMapping', ko.utils.setDomNodeChildrenFromArrayMapping);
     ko.nativeTemplateEngine = function() {
         this['allowTemplateRewriting'] = false;
-    }
-
+    };
     ko.nativeTemplateEngine.prototype = new ko.templateEngine();
     ko.nativeTemplateEngine.prototype['renderTemplateSource'] = function(templateSource, bindingContext, options) {
         var templateText = templateSource.text();

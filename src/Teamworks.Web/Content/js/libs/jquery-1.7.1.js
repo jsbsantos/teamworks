@@ -7190,7 +7190,7 @@
                 callbackContext = s.context || s,
                 // Context for global events
                 // It's the callbackContext if one was provided in the options
-			// and if it's a DOM node or a jQuery collection
+                // and if it's a DOM node or a jQuery collection
                 globalEventContext = callbackContext !== s &&
                     (callbackContext.nodeType || callbackContext instanceof jQuery) ?
                     jQuery(callbackContext) : jQuery.event,

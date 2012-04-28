@@ -1,11 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Teamworks.Core.Projects
-{
-    public class Discussion
-    {
-    }
+﻿namespace Teamworks.Core.Projects {
+    public class Discussion {}
 }

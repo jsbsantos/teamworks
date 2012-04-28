@@ -5,15 +5,13 @@ using Raven.Client.Document;
 using Teamworks.Core.Extensions;
 using Teamworks.Core.People;
 
-namespace Teamworks.Core.Test
-{
+namespace Teamworks.Core.Test {
     /// <summary>
     ///This is a test class for PersonTest and is intended
     ///to contain all PersonTest Unit Tests
     ///</summary>
     [TestClass]
-    public class PersonTest
-    {
+    public class PersonTest {
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
@@ -22,8 +20,7 @@ namespace Teamworks.Core.Test
 
         #region Additional test attributes
 
-        public IDocumentSession Session
-        {
+        public IDocumentSession Session {
             get { return Local.Data["ravensession"] as IDocumentSession; }
         }
 
@@ -45,12 +42,11 @@ namespace Teamworks.Core.Test
         //
         //Use TestInitialize to run code before running each test
         [TestInitialize]
-        public void MyTestInitialize()
-        {
+        public void MyTestInitialize() {
             IDocumentStore documentStore = new DocumentStore
-                                               {
-                                                   ConnectionStringName = "RavenDB"
-                                               }
+                                           {
+                                               ConnectionStringName = "RavenDB"
+                                           }
                 .Initialize();
 
             Local.Data["ravensession"] = documentStore.OpenSession();
@@ -70,8 +66,7 @@ namespace Teamworks.Core.Test
         ///A test for Authenticate
         ///</summary>
         [TestMethod]
-        public void AddTest_successfull_if_id_is_created()
-        {
+        public void AddTest_successfull_if_id_is_created() {
             var person = new Person("someemail@email.xp", "password", "username");
             Person.Add(person);
             Session.SaveChanges();
@@ -82,8 +77,7 @@ namespace Teamworks.Core.Test
         ///A test for Authenticate
         ///</summary>
         [TestMethod]
-        public void GetTest_successfull_if_properties_are_the_same()
-        {
+        public void GetTest_successfull_if_properties_are_the_same() {
             var person = new Person("someemail@email.xp", "password", "username");
             Person.Add(person);
             Session.SaveChanges();
@@ -95,8 +89,7 @@ namespace Teamworks.Core.Test
         ///A test for Authenticate
         ///</summary>
         [TestMethod]
-        public void RemoveTest_successfull_if_get_returns_null()
-        {
+        public void RemoveTest_successfull_if_get_returns_null() {
             var person = new Person("someemail@email.xp", "password", "username");
             Person.Add(person);
             Session.SaveChanges();
@@ -111,8 +104,7 @@ namespace Teamworks.Core.Test
         ///A test for Authenticate
         ///</summary>
         [TestMethod]
-        public void AuthenticateTest()
-        {
+        public void AuthenticateTest() {
             var person = new Person("someemail@email.xp", "password", "username");
             Person.Add(person);
             Session.SaveChanges();
@@ -125,8 +117,7 @@ namespace Teamworks.Core.Test
         ///</summary>
         [TestMethod]
         [DeploymentItem("Teamworks.Core.dll")]
-        public void EncodePasswordTest()
-        {
+        public void EncodePasswordTest() {
             string password = "password";
             string expected = password.GetHashCode().ToString(CultureInfo.InvariantCulture);
             string actual = Person.EncodePassword(password);

@@ -2,37 +2,31 @@ using System;
 using System.Collections;
 using System.Web;
 
-namespace Teamworks.Core.Extensions
-{
-    public static class Local
-    {
+namespace Teamworks.Core.Extensions {
+    public static class Local {
         private static readonly ILocalData _data = new LocalData();
 
-        public static ILocalData Data
-        {
+        public static ILocalData Data {
             get { return _data; }
         }
 
-        private class LocalData : ILocalData
-        {
+        #region Nested type: LocalData
+
+        private class LocalData : ILocalData {
             [ThreadStatic] private static Hashtable _localData;
             private static readonly object LocalDataHashtableKey = new object();
 
-            private static Hashtable LocalHashtable
-            {
-                get
-                {
-                    if (!RunningInWeb)
-                    {
-                        if (_localData == null)
+            private static Hashtable LocalHashtable {
+                get {
+                    if (!RunningInWeb) {
+                        if (_localData == null) {
                             _localData = new Hashtable();
+                        }
                         return _localData;
                     }
-                    else
-                    {
+                    else {
                         var web_hashtable = HttpContext.Current.Items[LocalDataHashtableKey] as Hashtable;
-                        if (web_hashtable == null)
-                        {
+                        if (web_hashtable == null) {
                             web_hashtable = new Hashtable();
                             HttpContext.Current.Items[LocalDataHashtableKey] = web_hashtable;
                         }
@@ -41,26 +35,28 @@ namespace Teamworks.Core.Extensions
                 }
             }
 
-            public object this[object key]
-            {
+            private static bool RunningInWeb {
+                get { return HttpContext.Current != null; }
+            }
+
+            #region ILocalData Members
+
+            public object this[object key] {
                 get { return LocalHashtable[key]; }
                 set { LocalHashtable[key] = value; }
             }
 
-            public int Count
-            {
+            public int Count {
                 get { return LocalHashtable.Count; }
             }
 
-            public void Clear()
-            {
+            public void Clear() {
                 LocalHashtable.Clear();
             }
 
-            private static bool RunningInWeb
-            {
-                get { return HttpContext.Current != null; }
-            }
+            #endregion
         }
+
+        #endregion
     }
 }
