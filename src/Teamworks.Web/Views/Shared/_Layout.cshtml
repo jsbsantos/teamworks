@@ -18,10 +18,11 @@
     <!-- Mobile viewport optimized: h5bp.com/viewport -->
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
-    <link rel="stylesheet" href="@BundleTable.Bundles.ResolveBundleUrl("~/css")" >
     <!-- Custom font from google -->
     <link href='http://fonts.googleapis.com/css?family=Droid+Sans:700' rel='stylesheet'
         type='text/css'>
+    
+    <link rel="stylesheet" href="@Url.Content("~/content/css/teamworks.css")">
     <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
     <!-- All JavaScript at the bottom, except this Modernizr build.
         Modernizr enables HTML5 elements & feature detects for optimal performance.
@@ -32,27 +33,27 @@
     <!-- Prompt IE 6 users to install Chrome Frame. Remove this if you support IE 6.
         chromium.org/developers/how-tos/chrome-frame-getting-started -->
     <!--[if lt IE 9]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
-    <header class="navbar navbar-fixed-top">
-        <div class="navbar-inner">
-            <nav class="container-fluid">
-                <ul class="nav"><!--
-                    --><li>@Html.ActionLink("teamworks", "View", "Home", null, new { @class = "brand" })</li><!--
-                    --><li><a href="#">Home</a></li><!--
+    <header>
+        <div>
+            <nav>
+                <h1>@Html.ActionLink("teamworks", "View", "Home", null, new { @class = "brand" })</h1>
+                <ul>
+                    <li><a href="#">Home</a></li><!--
                     --><li class="active"><a href="#">Projects</a></li><!-- 
-                    --><li><a href="#">Timeline</a></li><!-- 
-                    --><li class="divider-vertical"></li><li><!--
-                    --><a href="#">Everyone</a></li><!--
+                    --><li><a href="#">Timeline</a></li>
+                </ul>
+                <ul>
+                    <li><a href="#">Everyone</a></li><!--
                     --><li><a href="#">Me</a></li>
                 </ul>
                 @Html.Identity()
             </nav>
         </div>
     </header>
-    <div class="container-fluid main" role="main">
+    <div class="main" role="main">
         @RenderBody()
     </div>
-    <footer>
-    </footer>
+    <footer></footer>
     <!-- JavaScript at the bottom for fast page loading -->
     <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"> </script>

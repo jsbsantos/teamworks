@@ -4,8 +4,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using System.Web.Http.Common;
-using System.Web.Http.Controllers;
 using System.Web.Http.ModelBinding;
 using System.Web.Http.ModelBinding.Binders;
 using AttributeRouting;
@@ -23,7 +21,7 @@ namespace Teamworks.Web.Controllers.Api {
                                                                          {
                                                                              1, new Project
                                                                                 {
-                                                                                    Url = "/api/projects/1",
+                                                                                    Id = 1,
                                                                                     Name = "Teamworks",
                                                                                     Description =
                                                                                         "Sample project"
@@ -32,7 +30,7 @@ namespace Teamworks.Web.Controllers.Api {
                                                                          {
                                                                              2, new Project
                                                                                 {
-                                                                                    Url = "/api/projects/2",
+                                                                                    Id = 2,
                                                                                     Name = "Codegarten",
                                                                                     Description =
                                                                                         "Failed project"
@@ -55,18 +53,18 @@ namespace Teamworks.Web.Controllers.Api {
 
         public HttpResponseMessage<Project> Post(Project project) {
             int id = Id++;
-            project.Url = "/api/projects/" + id;
+            project.Id = id;
 
             Projects.Add(id, project);
             var response = new HttpResponseMessage<Project>(project, HttpStatusCode.Created);
-            string uri = Request.RequestUri.Authority + project.Url;
+            string uri = Url.Route(null, new { id });
             response.Headers.Location = new Uri(uri);
             return response;
         }
 
         /// <see cref="http://forums.asp.net/post/4855634.aspx"/>
         public HttpResponseMessage Put([ModelBinder(typeof (TypeConverterModelBinder))] int id, Project project) {
-            Project p = Projects[id];
+            var p = Projects[id];
             if (p == null) {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
