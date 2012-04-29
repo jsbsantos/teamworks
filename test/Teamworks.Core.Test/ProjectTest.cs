@@ -82,7 +82,7 @@ namespace Teamworks.Core.Test {
             var p = new Project("myproject", "description") {Archived = false};
             Project.Add(p);
             Session.SaveChanges();
-            Project loaded = Project.FindOne(p.Id);
+            Project loaded = Project.Get(p.Id);
             Assert.AreEqual(p, loaded);
         }
 
@@ -98,7 +98,7 @@ namespace Teamworks.Core.Test {
             Project.Remove(p);
             Session.SaveChanges();
 
-            Project loaded = Project.FindOne(p.Id);
+            Project loaded = Project.Get(p.Id);
             Assert.IsNull(loaded);
         }
 

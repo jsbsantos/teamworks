@@ -16,8 +16,6 @@ namespace Teamworks.Web.Controllers.Api
     [RoutePrefix("api/projects")]
     public class ProjectsController : ApiController
     {
-
-
         #region Dummy Data
         internal static int Id = 3;
 
@@ -48,7 +46,6 @@ namespace Teamworks.Web.Controllers.Api
         {
             return Projects.Values.AsQueryable();
         }
-
         public Project Get(int id)
         {
             Project p = Projects[id];
@@ -59,7 +56,6 @@ namespace Teamworks.Web.Controllers.Api
 
             return p;
         }
-
         public HttpResponseMessage<Project> Post(Project project)
         {
             int id = Id++;
@@ -71,7 +67,6 @@ namespace Teamworks.Web.Controllers.Api
             response.Headers.Location = new Uri(uri);
             return response;
         }
-
         /// <see cref="http://forums.asp.net/post/4855634.aspx"/>
         public HttpResponseMessage Put([ModelBinder(typeof(TypeConverterModelBinder))] int id, Project project)
         {
@@ -85,7 +80,6 @@ namespace Teamworks.Web.Controllers.Api
             p.Description = project.Description ?? p.Description;
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
-
         public HttpResponseMessage Delete(int id)
         {
             var p = Projects[id];

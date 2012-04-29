@@ -71,12 +71,12 @@ namespace Teamworks.Core {
 
     public abstract class BaseEntity<T> {
         protected static IDocumentSession Session {
-            get { return ((IDocumentSession) Local.Data["ravensession"]); }
+            get { return ((IDocumentSession) Local.Data[Global.RavenSessionkey]); }
         }
 
         #region CRD
 
-        public static T FindOne(string id) {
+        public static T Get(string id) {
             return Session.Load<T>(id);
         }
 
