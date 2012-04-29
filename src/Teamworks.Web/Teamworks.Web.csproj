@@ -160,6 +160,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\Api\RavenDocumentHolderAndSessionHandler.cs" />
+    <Compile Include="Controllers\Api\RavenSessionAttribute.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Api\ProjectsController.cs" />
     <Compile Include="Helpers\BundleExtensions.cs" />
@@ -167,7 +169,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\JsonNetFormatter.cs" />
-    <Compile Include="Helpers\ViewsExtensions.cs" />
+    <Compile Include="Views\ViewsExtensions.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

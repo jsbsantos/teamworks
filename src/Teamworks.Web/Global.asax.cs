@@ -1,4 +1,7 @@
-﻿using System.Reflection;
+﻿using System.Net.Http;
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -6,6 +9,7 @@ using System.Web.Routing;
 using AttributeRouting.Web.Http.WebHost;
 using LowercaseRoutesMVC4;
 using Microsoft.Web.Optimization;
+using Raven.Client;
 using Teamworks.Web.Helpers;
 
 namespace Teamworks.Web {
@@ -44,4 +48,5 @@ namespace Teamworks.Web {
             BundleTable.Bundles.EnableTeamworksBundle();
         }
     }
+    
 }
