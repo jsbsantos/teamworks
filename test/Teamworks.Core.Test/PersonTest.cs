@@ -81,7 +81,7 @@ namespace Teamworks.Core.Test {
             var person = new Person("someemail@email.xp", "password", "username");
             Person.Add(person);
             Session.SaveChanges();
-            Person loaded = Person.FindOne(person.Id);
+            Person loaded = Person.Get(person.Id);
             Assert.AreEqual(person, loaded);
         }
 
@@ -96,7 +96,7 @@ namespace Teamworks.Core.Test {
             Person.Remove(person);
             Session.SaveChanges();
 
-            Person loaded = Person.FindOne(person.Id);
+            Person loaded = Person.Get(person.Id);
             Assert.IsNull(loaded);
         }
 

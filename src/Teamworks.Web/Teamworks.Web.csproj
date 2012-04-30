@@ -51,6 +51,9 @@
     <Reference Include="AttributeRouting.Web.Http.WebHost">
       <HintPath>..\..\packages\AttributeRouting.WebApi.2.2.0.0\lib\net40\AttributeRouting.Web.Http.WebHost.dll</HintPath>
     </Reference>
+    <Reference Include="AutoMapper">
+      <HintPath>..\..\packages\AutoMapper.2.1.267\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="Glimpse.Core">
       <HintPath>..\..\packages\Glimpse.0.87\lib\net40\Glimpse.Core.dll</HintPath>
     </Reference>
@@ -160,27 +163,47 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\Api\RavenDocumentHolderAndSessionHandler.cs" />
-    <Compile Include="Controllers\Api\RavenSessionAttribute.cs" />
+    <Compile Include="Controllers\ProjectsController.cs" />
+    <Compile Include="Models\Global.cs" />
+    <Compile Include="Controllers\Account.cs" />
+    <Compile Include="Controllers\Api\RavenApiController.cs" />
+    <Compile Include="Helpers\RavenMessageHandler.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Api\ProjectsController.cs" />
-    <Compile Include="Controllers\ProjectsController.cs" />
+    <Compile Include="Controllers\RavenController.cs" />
     <Compile Include="Helpers\BundleExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\JsonNetFormatter.cs" />
-    <Compile Include="Views\ViewsExtensions.cs" />
     <Compile Include="Models\Project.cs" />
+    <Compile Include="Views\ViewsExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\css\teamworks.css" />
+    <Content Include="Content\css\bootstrap\bootstrap-responsive.css" />
+    <Content Include="Content\css\bootstrap\bootstrap-responsive.min.css" />
+    <Content Include="Content\css\bootstrap\bootstrap.css" />
+    <Content Include="Content\css\bootstrap\bootstrap.min.css" />
     <Content Include="Content\img\glyphicons-halflings-white.png" />
     <Content Include="Content\img\glyphicons-halflings.png" />
     <Content Include="Content\js\application.bindings.js" />
     <Content Include="Content\js\libs\bootstrap.js" />
     <Content Include="Content\js\libs\bootstrap.min.js" />
+    <Content Include="Content\js\libs\bootstrap\alert.js" />
+    <Content Include="Content\js\libs\bootstrap\bootstrap.js" />
+    <Content Include="Content\js\libs\bootstrap\bootstrap.min.js" />
+    <Content Include="Content\js\libs\bootstrap\button.js" />
+    <Content Include="Content\js\libs\bootstrap\carousel.js" />
+    <Content Include="Content\js\libs\bootstrap\collapse.js" />
+    <Content Include="Content\js\libs\bootstrap\dropdown.js" />
+    <Content Include="Content\js\libs\bootstrap\modal.js" />
+    <Content Include="Content\js\libs\bootstrap\popover.js" />
+    <Content Include="Content\js\libs\bootstrap\scrollspy.js" />
+    <Content Include="Content\js\libs\bootstrap\tab.js" />
+    <Content Include="Content\js\libs\bootstrap\tooltip.js" />
+    <Content Include="Content\js\libs\bootstrap\transition.js" />
+    <Content Include="Content\js\libs\bootstrap\typeahead.js" />
     <Content Include="Content\js\libs\jquery-1.7.1-vsdoc.js" />
     <Content Include="Content\js\libs\jquery-1.7.1.js" />
     <Content Include="Content\js\libs\jquery-1.7.1.min.js" />
@@ -219,6 +242,9 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Views\Account\View.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -235,6 +261,10 @@
       <Project>{C85D88CF-7DA3-4628-99FA-D5D570FCE940}</Project>
       <Name>Teamworks.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Content\css\teamworks.css" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Projects\View.cshtml" />

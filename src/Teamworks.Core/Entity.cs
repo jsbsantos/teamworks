@@ -2,7 +2,6 @@ using System;
 using Newtonsoft.Json;
 using Raven.Client;
 using Raven.Client.Linq;
-using Teamworks.Core.Entities;
 using Teamworks.Core.Extensions;
 using Teamworks.Core.People;
 
@@ -72,12 +71,12 @@ namespace Teamworks.Core {
 
     public abstract class BaseEntity<T> {
         protected static IDocumentSession Session {
-            get { return ((IDocumentSession) Local.Data["ravensession"]); }
+            get { return ((IDocumentSession) Local.Data[Global.RavenSessionkey]); }
         }
 
         #region CRD
 
-        public static T FindOne(string id) {
+        public static T Get(string id) {
             return Session.Load<T>(id);
         }
 

@@ -87,7 +87,7 @@ namespace Teamworks.Core.Test {
             var task = new Task("task", "desctask", 10, DateTime.Now, project.Id);
             Task.Add(task);
             Session.SaveChanges();
-            Task loaded = Task.FindOne(task.Id);
+            Task loaded = Task.Get(task.Id);
             Assert.AreEqual(task, loaded);
         }
 
@@ -101,7 +101,7 @@ namespace Teamworks.Core.Test {
             Session.SaveChanges();
             Task.Remove(task);
             Session.SaveChanges();
-            Task loaded = Task.FindOne(task.Id);
+            Task loaded = Task.Get(task.Id);
             Assert.IsNull(loaded);
         }
 

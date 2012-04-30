@@ -1,5 +1,6 @@
 ﻿using System.Dynamic;
 using System.Web.Mvc;
+using Teamworks.Core.Authentication;
 
 namespace Teamworks.Web.Controllers
 {
@@ -13,11 +14,11 @@ namespace Teamworks.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(string username, string password)
+        public ActionResult Login()
         {
             dynamic o = new ExpandoObject();
-            o.Username = username;
-            o.Password = password;
+            o.Username = HttpContext.Request.Form["username"];
+            o.Password = HttpContext.Request.Form["password"];
 
             var state = AuthenticationManager.Validate("BasicWeb",
                 AuthenticationManager.GetCredentials("BasicWeb", o));

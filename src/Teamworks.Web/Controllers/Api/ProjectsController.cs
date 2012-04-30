@@ -8,79 +8,58 @@ using System.Web.Http.ModelBinding;
 using System.Web.Http.ModelBinding.Binders;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
-using Teamworks.Web.Models;
+using AutoMapper;
+using Teamworks.Core.Projects;
 
-namespace Teamworks.Web.Controllers.Api {
+namespace Teamworks.Web.Controllers.Api
+{
     [DefaultHttpRouteConvention]
     [RoutePrefix("api/projects")]
-    public class ProjectsController : ApiController {
-        internal static int Id = 3;
-
-        internal static readonly Dictionary<int, Project> Projects = new Dictionary<int, Project>
-                                                                     {
-                                                                         {
-                                                                             1, new Project
-                                                                                {
-                                                                                    Id = 1,
-                                                                                    Name = "Teamworks",
-                                                                                    Description =
-                                                                                        "Sample project"
-                                                                                }
-                                                                             },
-                                                                         {
-                                                                             2, new Project
-                                                                                {
-                                                                                    Id = 2,
-                                                                                    Name = "Codegarten",
-                                                                                    Description =
-                                                                                        "Failed project"
-                                                                                }
-                                                                             }
-                                                                     };
-
-        public IQueryable<Project> Get() {
-            return Projects.Values.AsQueryable();
+    public class ProjectsController : RavenApiController
+    {
+        public IEnumerable<Models.Project> Get() {
+            return Mapper.Map<IQueryable<Project>, IEnumerable<Models.Project>>(DbSession.Query<Project>());
         }
 
-        public Project Get(int id) {
-            Project p = Projects[id];
-            if (p == null) {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+        public Models.Project Get(int id)
+        {
+            var project = DbSession.Load<Project>(id);
+            if (project == null) {
+                throw new HttpResponseException(HttpStatusCode.NotFound);    
             }
-
-            return p;
+            return Mapper.Map<Project, Models.Project>(project);
         }
 
-        public HttpResponseMessage<Project> Post(Project project) {
-            int id = Id++;
-            project.Id = id;
+        public HttpResponseMessage<Models.Project> Post(Models.Project project) {
+            var proj = Mapper.Map<Models.Project, Project>(project);
+            
+            DbSession.Store(proj);
 
-            Projects.Add(id, project);
-            var response = new HttpResponseMessage<Project>(project, HttpStatusCode.Created);
-            string uri = Url.Route(null, new { id });
+            project = Mapper.Map<Project, Models.Project>(proj);
+            string uri = Request.RequestUri.Authority + Url.Route(null, new { id = project.Id });
+            var response = new HttpResponseMessage<Models.Project>(project, HttpStatusCode.Created);
             response.Headers.Location = new Uri(uri);
             return response;
         }
 
         /// <see cref="http://forums.asp.net/post/4855634.aspx"/>
-        public HttpResponseMessage Put([ModelBinder(typeof (TypeConverterModelBinder))] int id, Project project) {
-            var p = Projects[id];
-            if (p == null) {
+        public HttpResponseMessage Put([ModelBinder(typeof(TypeConverterModelBinder))] int id, Models.Project project)
+        {
+            var proj = DbSession.Load<Project>(id);
+            if (proj == null) {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
-
-            p.Name = project.Name ?? p.Name;
-            p.Description = project.Description ?? p.Description;
+            
+            /* todo mapping */              
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
 
         public HttpResponseMessage Delete(int id) {
-            var p = Projects[id];
-            if (p == null) {
+            var project = DbSession.Load<Project>(id);
+            if (project == null) {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
-
-            Projects.Remove(id);
+            DbSession.Delete(project);
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
     }
