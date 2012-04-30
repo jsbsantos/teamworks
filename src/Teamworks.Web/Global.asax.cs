@@ -24,7 +24,7 @@ namespace Teamworks.Web
     {
         public MvcApplication()
         {
-            this.PreRequestHandlerExecute += (sender, args) =>
+           /* this.PreRequestHandlerExecute += (sender, args) =>
             {
                 if (Local.Data[Global.RavenSessionkey] == null)
                 {
@@ -39,9 +39,9 @@ namespace Teamworks.Web
 
                 if (session != null && Server.GetLastError() != null)
                     session.SaveChanges();
-            };
+            };*/
         }
-        public static IDocumentStore DocumentStore { get; private set; }
+        //public static IDocumentStore DocumentStore { get; private set; }
         
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
@@ -90,7 +90,7 @@ namespace Teamworks.Web
         //todo remove
         private void init()
         {
-            DocumentStore = new DocumentStore() { ConnectionStringName = "RavenDB" }.Initialize();
+           /* DocumentStore = new DocumentStore() { ConnectionStringName = "RavenDB" }.Initialize();
             using (var session = DocumentStore.OpenSession())
             {
                 Local.Data[Global.RavenSessionkey] = session;
@@ -99,7 +99,7 @@ namespace Teamworks.Web
                 if (person == null)
                     Person.Add(new Person("email", Person.EncodePassword("password"), "username"));
                 session.SaveChanges();
-            }
+            }*/
         }
 
 

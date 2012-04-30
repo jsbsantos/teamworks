@@ -70,6 +70,7 @@
     <Compile Include="Authentication\BasicWebAuthenticationHandler.cs" />
     <Compile Include="Authentication\IAuthenticationHandler.cs" />
     <Compile Include="Extensions\Global.cs" />
+    <Compile Include="Extensions\RavenSessionManager.cs" />
     <Compile Include="Session.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Authentication\AuthenticationHandler.cs" />

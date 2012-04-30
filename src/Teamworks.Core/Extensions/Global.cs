@@ -5,6 +5,10 @@ namespace Teamworks.Core.Extensions
 {
     public static class Global
     {
+        public static string RavenDocumentStoreKey
+        {
+            get { return "RavenDocumentStoreKey"; }
+        }
         public static string RavenSessionkey
         {
             get { return "RavenSessionkey"; }
