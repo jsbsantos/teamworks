@@ -1,8 +1,44 @@
-﻿@model Teamworks.Web.Models.Project
-
+﻿@model dynamic
 @{
-    ViewBag.Title = @Model.Name;
+    ViewBag.Title = "Projects";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<header class="row">
+    <h1>Your current projects<a data-toggle="modal" href="#project-modal"><i class="icon-plus-sign"></i></a></h1>
+    <div class="modal hide" id="project-modal">
+        <div class="modal-header">
+            <h1>Create a project</h1>    
+        </div>
+        <div class="modal-body">
+            <form class="form-inline" data-bind="submit: create">
+                <input class="input-medium" name="name" placeholder="Name your project" data-bind="value: project.name, valueUpdate: 'afterkeyup'" />
+                <input class="input-large" name="description" placeholder="Describe your project" data-bind="value: project.description, valueUpdate: 'afterkeyup'" />
+                <button class="btn" type="submit">Start working</button>
+            </form>
+        </div>
+    </div>
+</header>
 
-<h2>@Model.Name - @Model.Id</h2>
+<div class="row thumbnails" data-bind="template: { name: 'project-template', foreach: projects }"></div>
+
+<script type="text/html" id="task-template">
+<section class="span3">
+    <div>
+        <h2><a data-bind="text: name, attr: { href: url }"></a></h2>
+        <p data-bind="text: description"></p>
+    </div>
+</section>
+</script>
+
+<script type="text/html" id="project-template">
+<section class="span3">
+    <div>
+        <h2><a data-bind="text: name, attr: { href: url }"></a></h2>
+        <p data-bind="text: description"></p>
+        <div data-bind="template: { name: 'task-template', foreach: tasks }"></div>
+        <form class="btn-group" data-bind="submit: $parent.remove">
+            <button class="btn" type="submit" name="remove">Remove</button>
+        </form>
+    </div>
+</section>
+</script>

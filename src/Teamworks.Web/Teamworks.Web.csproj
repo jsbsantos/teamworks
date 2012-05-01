@@ -190,7 +190,7 @@
     <Content Include="Content\css\bootstrap\bootstrap.min.css" />
     <Content Include="Content\img\glyphicons-halflings-white.png" />
     <Content Include="Content\img\glyphicons-halflings.png" />
-    <Content Include="Content\js\application.bindings.js" />
+    <Content Include="Content\js\application.viewmodels.js" />
     <Content Include="Content\js\libs\bootstrap.js" />
     <Content Include="Content\js\libs\bootstrap.min.js" />
     <Content Include="Content\js\libs\bootstrap\alert.js" />

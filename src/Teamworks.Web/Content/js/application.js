@@ -1,3 +1,5 @@
+/// <reference path="~/Views/Home/post/Content/js/application.viewmodels.js" />
+
 (function () {
     'use strict';
     var ENTER_KEY = 13;
@@ -9,63 +11,11 @@
         };
     }
 
-    var task = function (data) {
-        var self = this;
-        self.id = ko.observable();
-        self.name = ko.observable();
-        self.project = ko.observable();
-        self.description = ko.observable();
-        self.url = ko.computed(function () {
-            return "/projects/" + self.project() + "/tasks/" + self.id();
-        });
-        var map = function (other) {
-            self.id(other.id || self.id() || "0");
-            self.name(other.name() || self.name() || "");
-            self.description(other.description || self.description() || "");
-        };
-        map(data || {});
-    };
-
-    var project = function (data) {
-        /* self region */
-        var self = this;
-        self.id = ko.observable();
-        self.name = ko.observable();
-        self.description = ko.observable();
-        self.editing = ko.observable();
-        self.url = ko.computed(function () {
-            return "/projects/view/" + self.id();
-        });
-        self.tasks = ko.observableArray();
-        var map = function (other) {
-            self.id(other.id || self.id() || "0");
-            self.name(other.name || self.name() || "");
-            self.description(other.description || self.description() || "");
-            self.tasks($.map(other.tasks || self.tasks() || [], function (data) {
-                return new task(data);
-            }));
-        };
-        map(data || {});
-
-        /* interactions */
-        var old;
-        self.edit = function () {
-            if (!self.editing()) {
-                self.editing(true);
-                old = ko.toJSON(self);
-            }
-        };
-        self.cancel = function () {
-            map(old);
-        };
-    };
-
     var projects_viewmodel = function () {
         var self = this;
 
         /* new project */
-        self.project = new project();
-
+        self.project = new Project();
         /* projects interactions */
         self.create = function () {
             var request = $.ajax("/api/projects", {
@@ -77,7 +27,8 @@
                     201: /*created*/function (data) {
                         // push a new project
                         data.url = request.getResponseHeader("Location");
-                        self.projects.push(new project(data));
+                        self.projects.push(new Project(data));
+                        $('#project-modal').hide();
                     }
                 }
             });
@@ -118,7 +69,7 @@
         self.projects = ko.observableArray([]);
         $.getJSON("/api/projects", function (data) {
             self.projects($.map(data, function (item) {
-                return new project(item);
+                return new Project(item);
             }));
         });
     };

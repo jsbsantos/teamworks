@@ -1,5 +1,4 @@
 @using Microsoft.Web.Optimization
-@using Teamworks.Web.Helpers
 @using Teamworks.Web.Views
 <!doctype html>
 <!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
@@ -36,9 +35,9 @@
             <nav class="container-fluid">
                 <ul class="nav">
                     <li>@Html.ActionLink("teamworks", "View", "Home", null, new {@class = "brand"})</li>
-                    <li><a href="#">Home</a></li>
-                    <li class="active"><a href="#">Projects</a></li>
-                    <li><a href="#">Timeline</a></li>
+                    <li class="@Html.ActiveController("Home")"><a href="@Url.Action("View", "Home")"><i class="icon-home icon-white"></i>Home</a></li>
+                    <li class="@Html.ActiveController("Projects")"><a href="@Url.Action("View", "Projects")">Projects</a></li>
+                    <li class="@Html.ActiveController("Timeline")"><a href="@Url.Action("View", "Timeline")">Timeline</a></li>
                 </ul>
                 <ul class="nav">
                     <li><a href="#">Everyone</a></li>
@@ -72,8 +71,8 @@
     <!-- TODO: change to release mode -->
     @{
         if (Html.IsDebugging()) {
+            <script src="@Url.Content("~/content/js/application.viewmodels.js")"> </script>
             <script src="@Url.Content("~/content/js/application.js")"> </script>
-            <script src="@Url.Content("~/content/js/application.bindings.js")"> </script>
         }
     }
 </body>

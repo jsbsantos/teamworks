@@ -1,6 +1,5 @@
 body {
-    padding-top: 60px;
-    padding-bottom: 40px;
+    padding-top: 60px; padding-bottom: 40px;
 }
 
 /* ===== Primary Styles ========================================================
@@ -8,6 +7,13 @@ body {
    ========================================================================== */
 
 .container-fluid {
-    max-width: 1170px;
-    margin: auto
+    max-width: 1170px; margin: auto
+}
+
+.navbar .nav > li > a {
+    padding: 10px 20px;
+}
+
+li [class^="icon-"], [class*=" icon-"] {
+    text-align: center; width: 1.25em; display: inline-block;
 }

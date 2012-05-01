@@ -1,4 +1,5 @@
-﻿using System.Security.Principal;
+﻿using System;
+using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
@@ -6,6 +7,13 @@ using System.Web.WebPages;
 
 namespace Teamworks.Web.Views {
     public static class ViewsExtensions {
+        public static HelperResult ActiveController(this HtmlHelper _this, string controller) {
+            var name = HttpContext.Current.Request.RequestContext.RouteData.GetRequiredString("controller");
+            return new HelperResult(
+                writer => writer.Write(controller.Equals(name, StringComparison.OrdinalIgnoreCase) ? "active" : "")
+                );
+        }
+
         public static HelperResult Identity(this HtmlHelper _this) {
             IPrincipal user = HttpContext.Current.User;
             return
