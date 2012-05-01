@@ -64,5 +64,4 @@ namespace Teamworks.Web
             BundleTable.Bundles.EnableTeamworksBundle();
         }
     }
-
 }

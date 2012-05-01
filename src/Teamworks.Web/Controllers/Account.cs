@@ -4,7 +4,7 @@ using Teamworks.Core.Authentication;
 
 namespace Teamworks.Web.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : RavenController
     {
         [HttpGet]
         [ActionName("View")]
