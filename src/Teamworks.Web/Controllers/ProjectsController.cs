@@ -4,14 +4,11 @@ using System.Net.Http.Headers;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 
-namespace Teamworks.Web.Controllers
-{
-    public class ProjectsController : Controller
-    {
+namespace Teamworks.Web.Controllers {
+    public class ProjectsController : Controller {
         [System.Web.Mvc.HttpGet]
         [System.Web.Mvc.ActionName("View")]
-        public ActionResult Index(int? id)
-        {
+        public ActionResult Index(int? id) {
             var url = new Uri(string.Format("{0}://{1}:{2}", Request.Url.Scheme, Request.Url.Host, Request.Url.Port));
 
             var client = new HttpClient
@@ -29,6 +26,5 @@ namespace Teamworks.Web.Controllers
             }
             return null;
         }
-
     }
 }

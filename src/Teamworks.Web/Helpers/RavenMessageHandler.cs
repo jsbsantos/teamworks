@@ -5,20 +5,15 @@ using Teamworks.Core.Extensions;
 using Global = Teamworks.Web.Models.Global;
 
 namespace Teamworks.Web.Helpers {
-    public class RavenMessageHandler : DelegatingHandler
-    {
+    public class RavenMessageHandler : DelegatingHandler {
         protected override Task<HttpResponseMessage> SendAsync(
-            HttpRequestMessage request, CancellationToken cancellationToken)
-        {
+            HttpRequestMessage request, CancellationToken cancellationToken) {
             var session = Global.DocumentStore.OpenSession();
             Local.Data[Global.RavenKey] = session;
             return base.SendAsync(request, cancellationToken)
-                .ContinueWith(t =>
-                              {
-                                  using (session)
-                                  {
-                                      if (t.IsCompleted && session != null)
-                                      {
+                .ContinueWith(t => {
+                                  using (session) {
+                                      if (session != null && t.IsCompleted && !t.IsFaulted) {
                                           session.SaveChanges();
                                       }
                                   }

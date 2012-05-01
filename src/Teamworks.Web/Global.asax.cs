@@ -1,14 +1,15 @@
-
 using System.Reflection;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
+using AttributeRouting;
 using AttributeRouting.Web.Http.WebHost;
 using AutoMapper;
 using LowercaseRoutesMVC4;
 using Microsoft.Web.Optimization;
 using Teamworks.Core.Projects;
+using Teamworks.Web.Controllers.Api;
 using Teamworks.Web.Helpers;
 
 namespace Teamworks.Web
@@ -30,6 +31,8 @@ namespace Teamworks.Web
             routes.MapHttpAttributeRoutes(config =>
             {
                 config.ScanAssembly(Assembly.GetExecutingAssembly());
+                config.AddRoutesFromController<TasksController>();
+                config.AddRoutesFromController<ProjectsController>();
                 config.UseLowercaseRoutes = true;
             });
             routes.MapRouteLowercase(
@@ -41,9 +44,11 @@ namespace Teamworks.Web
 
         public static void RegisterMappers()
         {
-            Mapper.CreateMap<Models.Project, Project>()
-                .ForMember(src => src.Id, opt => opt.MapFrom(src => int.Parse(src.Id) > 0 ? src.Id : null));
+            Mapper.CreateMap<Models.Project, Project>();
             Mapper.CreateMap<Project, Models.Project>()
+                .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier));
+            Mapper.CreateMap<Models.Task, Task>();
+            Mapper.CreateMap<Task, Models.Task>()
                 .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier));
         }
 

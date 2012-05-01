@@ -11,21 +11,18 @@ using AttributeRouting.Web.Http;
 using AutoMapper;
 using Teamworks.Core.Projects;
 
-namespace Teamworks.Web.Controllers.Api
-{
+namespace Teamworks.Web.Controllers.Api {
     [DefaultHttpRouteConvention]
     [RoutePrefix("api/projects")]
-    public class ProjectsController : RavenApiController
-    {
+    public class ProjectsController : RavenApiController {
         public IEnumerable<Models.Project> Get() {
             return Mapper.Map<IQueryable<Project>, IEnumerable<Models.Project>>(DbSession.Query<Project>());
         }
 
-        public Models.Project Get(int id)
-        {
+        public Models.Project Get(int id) {
             var project = DbSession.Load<Project>(id);
             if (project == null) {
-                throw new HttpResponseException(HttpStatusCode.NotFound);    
+                throw new HttpResponseException(HttpStatusCode.NotFound);
             }
             return Mapper.Map<Project, Models.Project>(project);
         }
@@ -33,24 +30,24 @@ namespace Teamworks.Web.Controllers.Api
         public HttpResponseMessage<Models.Project> Post(Models.Project project) {
             var proj = Mapper.Map<Models.Project, Project>(project);
             
+            proj.Id = null;
             DbSession.Store(proj);
 
             project = Mapper.Map<Project, Models.Project>(proj);
-            string uri = Request.RequestUri.Authority + Url.Route(null, new { id = project.Id });
+            var uri = Request.RequestUri.Authority + Url.Route(null, new {id = project.Id});
             var response = new HttpResponseMessage<Models.Project>(project, HttpStatusCode.Created);
             response.Headers.Location = new Uri(uri);
             return response;
         }
 
         /// <see cref="http://forums.asp.net/post/4855634.aspx"/>
-        public HttpResponseMessage Put([ModelBinder(typeof(TypeConverterModelBinder))] int id, Models.Project project)
-        {
+        public HttpResponseMessage Put([ModelBinder(typeof (TypeConverterModelBinder))] int id, Models.Project project) {
             var proj = DbSession.Load<Project>(id);
             if (proj == null) {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
-            
-            /* todo mapping */              
+
+            /* todo mapping */
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
 

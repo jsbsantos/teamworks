@@ -1,5 +1,5 @@
 (function () {
-    'use strict'
+    'use strict';
     var ENTER_KEY = 13;
     var ESCAPE_KEY = 27;
 
@@ -8,6 +8,23 @@
             return this.replace(/^\s+|\s+$/g, '');
         };
     }
+
+    var task = function (data) {
+        var self = this;
+        self.id = ko.observable();
+        self.name = ko.observable();
+        self.project = ko.observable();
+        self.description = ko.observable();
+        self.url = ko.computed(function () {
+            return "/projects/" + self.project() + "/tasks/" + self.id();
+        });
+        var map = function (other) {
+            self.id(other.id || self.id() || "0");
+            self.name(other.name() || self.name() || "");
+            self.description(other.description || self.description() || "");
+        };
+        map(data || {});
+    };
 
     var project = function (data) {
         /* self region */
@@ -19,10 +36,14 @@
         self.url = ko.computed(function () {
             return "/projects/view/" + self.id();
         });
+        self.tasks = ko.observableArray();
         var map = function (other) {
             self.id(other.id || self.id() || "0");
             self.name(other.name || self.name() || "");
             self.description(other.description || self.description() || "");
+            self.tasks($.map(other.tasks || self.tasks() || [], function (data) {
+                return new task(data);
+            }));
         };
         map(data || {});
 
