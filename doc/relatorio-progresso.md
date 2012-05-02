@@ -4,9 +4,13 @@
 
 2. Descrição Geral
 
+  2.1. Use case
+
+  2.2. Arquitetura
+
 3. Modelo de dados
 
-  3.1. Modelo
+  3.1. UML/EA
 
 4. Modelo de dominio
 
@@ -28,11 +32,13 @@
 
 6. Ferramentas usadas
 
+  6.0. Nuget
+  
   6.1. RavenDB - J
 
   6.2. Knockout - fampinheiro
 
-  6.3. NuGet Packages 
+  6.3. Outras 
 
     6.3.1. AttributeRouting - fampinheiro
 
