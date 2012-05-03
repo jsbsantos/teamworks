@@ -5,10 +5,7 @@ namespace Teamworks.Core.Extensions
 {
     public static class Global
     {
-        public static string RavenDocumentStoreKey
-        {
-            get { return "RavenDocumentStoreKey"; }
-        }
+        //todo replace teamworks.web contains same property
         public static string RavenSessionkey
         {
             get { return "RavenSessionkey"; }
