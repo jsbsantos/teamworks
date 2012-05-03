@@ -1,31 +1,31 @@
-1.	Introdução
+1.	Introduï¿½ï¿½o
 
- O presente documento constitui o relatório de progresso, para a unidade curricular de Projecto e Seminário do ano lectivo 2011/2012, referente ao projecto intitulado “teamworks”. Este projecto é realizado pelos alunos Filipe Pinheiro e João Santos e orientado pelo docente João Pedro Patriarca.
+ O presente documento constitui o relatï¿½rio de progresso, para a unidade curricular de Projecto e Seminï¿½rio do ano lectivo 2011/2012, referente ao projecto intitulado ï¿½teamworksï¿½. Este projecto ï¿½ realizado pelos alunos Filipe Pinheiro e Joï¿½o Santos e orientado pelo docente Joï¿½o Pedro Patriarca.
  
- Este projecto tem como objectivo a disponibilização de uma infra-estrutura de apoio à realização de projectos, oferecendo funcionalidades de planeamento, monitorização e registo de horas e fomentando colaboração entre membros, através de discussões e partilha de informação relacionada com o projecto.
+ Este projecto tem como objectivo a disponibilizaï¿½ï¿½o de uma infra-estrutura de apoio ï¿½ realizaï¿½ï¿½o de projectos, oferecendo funcionalidades de planeamento, monitorizaï¿½ï¿½o e registo de horas e fomentando colaboraï¿½ï¿½o entre membros, atravï¿½s de discussï¿½es e partilha de informaï¿½ï¿½o relacionada com o projecto.
  
- Estas funcionalidades passam pela criação de planos de trabalho, afectação de recursos a tarefas, registo do tempo despendido na realização de tarefas, monitorização do estado actual do projecto, áreas de discussão de ideias e partilha de informação (ficheiros) associados ao projecto, <span style=background-color="yellow">etc</span>.
+ Estas funcionalidades passam pela criaï¿½ï¿½o de planos de trabalho, afectaï¿½ï¿½o de recursos a tarefas, registo do tempo despendido na realizaï¿½ï¿½o de tarefas, monitorizaï¿½ï¿½o do estado actual do projecto, ï¿½reas de discussï¿½o de ideias e partilha de informaï¿½ï¿½o (ficheiros) associados ao projecto, <span style=background-color="yellow">etc</span>.
 
-2.	Descrição Geral
+2.	Descriï¿½ï¿½o Geral
 
- A infra-estrutura a desenvolver tem como objectivo, como foi referido anteriormente, o auxílio à realização e gestão de projectos oferecendo de diversas funcionalidades que permitem aos membros dedicar mais tempo ao desenvolvimento efectivo das actividades do projecto e menos tempo a tarefas administrativas.
+ A infra-estrutura a desenvolver tem como objectivo, como foi referido anteriormente, o auxï¿½lio ï¿½ realizaï¿½ï¿½o e gestï¿½o de projectos oferecendo de diversas funcionalidades que permitem aos membros dedicar mais tempo ao desenvolvimento efectivo das actividades do projecto e menos tempo a tarefas administrativas.
 
- Para a disponibilização desta infra-estrutura será desenvolvida uma aplicação Web e um serviço Web RESTful que permitam efectuar todas as acções descritas anteriormente. Deve ser possível que os utilizadores criem Projectos, Tarefas, Registo de Tempo de Trabalho, Discussões, <span style=background-color="yellow">Eventos e Relatórios</span>.
+ Para a disponibilizaï¿½ï¿½o desta infra-estrutura serï¿½ desenvolvida uma aplicaï¿½ï¿½o Web e um serviï¿½o Web RESTful que permitam efectuar todas as acï¿½ï¿½es descritas anteriormente. Deve ser possï¿½vel que os utilizadores criem Projectos, Tarefas, Registo de Tempo de Trabalho, Discussï¿½es, <span style=background-color="yellow">Eventos e Relatï¿½rios</span>.
 
  2.1. Use case
 
- Para ilustrar estas acções foram definidos os seguintes casos de utilização (use case):<span style=background-color="yellow">image1 - admin</span>
+ Para ilustrar estas acï¿½ï¿½es foram definidos os seguintes casos de utilizaï¿½ï¿½o (use case):<span style=background-color="yellow">image1 - admin</span>
 
- A imagem anterior mostra os casos de utilização para um utilizador com permissões de Administrador num Projecto.<span style=background-color="yellow">image2 - user</span>
+ A imagem anterior mostra os casos de utilizaï¿½ï¿½o para um utilizador com permissï¿½es de Administrador num Projecto.<span style=background-color="yellow">image2 - user</span>
 
- A imagem anterior mostra os casos de utilização para um utilizador sem permissões de Administrador num Projecto.
+ A imagem anterior mostra os casos de utilizaï¿½ï¿½o para um utilizador sem permissï¿½es de Administrador num Projecto.
 
  2.2. Arquitetura
 
- Para o desenvolvimento da aplicação Web é usada a Framework ASP.NET MVC 4.0 e para o serviço Web RESTful será usada a Framework ASP.NET Web API.
+ Para o desenvolvimento da aplicaï¿½ï¿½o Web ï¿½ usada a Framework ASP.NET MVC 4.0 e para o serviï¿½o Web RESTful serï¿½ usada a Framework ASP.NET Web API.
  <span style=background-color="yellow">
  &lt;mais coisas&gt;
- &lt;image3 – arq&gt;
+ &lt;image3 ï¿½ arq&gt;
  </span>
 
 3.	Modelo de dominio
@@ -38,9 +38,9 @@
 
  4.1. Site - fampinheiro
 
-		4.1.1. Twitter Bootstrap - fampinheiro
+    4.1.1. Twitter Bootstrap - fampinheiro
 	
-		4.1.2. HTML5 + CSS3 - fampinheiro
+    4.1.2. HTML5 + CSS3 - fampinheiro
  
  4.2. API (RESTful) - J
 
@@ -48,24 +48,24 @@
 
 5.	Ferramentas usadas
  
- No desenvolvimento deste trabalho são usadas aplicações e componentes implementadas por terceiros. De forma a facilitar a obtenção dessas componentes e a sua integração no ambiente de desenvolvimento foi usada a extensão NuGet, para a aplicação Microsoft Visual Studio 2010. Esta extensão permite fazer a procura e <i>download</i> de componentes, da sua <i>galeria online</i>, e faz a gestão de todas as referências usadas no projecto do Visual Studio para essas componentes.
+ No desenvolvimento deste trabalho sï¿½o usadas aplicaï¿½ï¿½es e componentes implementadas por terceiros. De forma a facilitar a obtenï¿½ï¿½o dessas componentes e a sua integraï¿½ï¿½o no ambiente de desenvolvimento foi usada a extensï¿½o NuGet, para a aplicaï¿½ï¿½o Microsoft Visual Studio 2010. Esta extensï¿½o permite fazer a procura e <i>download</i> de componentes, da sua <i>galeria online</i>, e faz a gestï¿½o de todas as referï¿½ncias usadas no projecto do Visual Studio para essas componentes.
 
  5.1. RavenDB
  
-	Uma das aplicações usadas é o RavenDB. O RavenDB é um sistema de base de dados de documentos implementado sobre a Framework .NET. É uma solução transacional, que armazena os dados no formato JSON e que para leitura e escrita de dados suporta a utilização da componente Linq da Framework .NET ou de uma API RESTful disponibilizada através do protocolo HTTP.
+	Uma das aplicaï¿½ï¿½es usadas ï¿½ o RavenDB. O RavenDB ï¿½ um sistema de base de dados de documentos implementado sobre a Framework .NET. ï¿½ uma soluï¿½ï¿½o transacional, que armazena os dados no formato JSON e que para leitura e escrita de dados suporta a utilizaï¿½ï¿½o da componente Linq da Framework .NET ou de uma API RESTful disponibilizada atravï¿½s do protocolo HTTP.
 	
-	Internamente, o RavenDB usa índices Lucene que são criados automaticamente com a utilização do sistema ou criados explicitamente pelo programador através de expressões Map-Reduce, de forma a otimizar os acessos aos documentos.
+	Internamente, o RavenDB usa ï¿½ndices Lucene que sï¿½o criados automaticamente com a utilizaï¿½ï¿½o do sistema ou criados explicitamente pelo programador atravï¿½s de expressï¿½es Map-Reduce, de forma a otimizar os acessos aos documentos.
 		
-		5.1.1. NoSql
+    5.1.1. NoSql
 
  5.2. Knockout - fampinheiro
 
  5.3. Outras
 
-		5.3.1. AttributeRouting - fampinheiro
+    5.3.1. AttributeRouting - fampinheiro
 
-		5.3.2. AutoMapper - J
+    5.3.2. AutoMapper - J
 
-6.	Trabalho Futuro / Alteração Planeamento
+6.	Trabalho Futuro / Alteraï¿½ï¿½o Planeamento
 
 
