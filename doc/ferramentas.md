@@ -1,17 +1,17 @@
 # Ferramentas usadas
 
-Para a realização do projecto são usadas algumas aplicações externas, entre elas:
+Para a realizaï¿½ï¿½o do projecto sï¿½o usadas algumas aplicaï¿½ï¿½es externas, entre elas:
  * As frameworks .NET ASP.NET MVC e Web API;
- * As bibliotecas AutoMapper e AttributeRouting, ambas implementações .NET;
+ * As bibliotecas AutoMapper e AttributeRouting, ambas implementaï¿½ï¿½es .NET;
  * As frameworks javascript jQuery e Knockout;
  * A base de dados de documentos RavenDB;
 
-Para instalar e gerir algumas destas aplicações é usada a extensão do Visual Studio NuGet. A extensão NuGet copia os ficheiros necessário e faz as alterações necessárias à solução do Visual Studio de forma a ser possível a utilização de determinada aplicação.
+Para instalar e gerir algumas destas aplicaï¿½ï¿½es ï¿½ usada a extensï¿½o do Visual Studio NuGet. A extensï¿½o NuGet copia os ficheiros necessï¿½rio e faz as alteraï¿½ï¿½es necessï¿½rias ï¿½ soluï¿½ï¿½o do Visual Studio de forma a ser possï¿½vel a utilizaï¿½ï¿½o de determinada aplicaï¿½ï¿½o.
 
 ## ASP.NET MVC e Web API
 
-A framework javascript **jQuery** disponibiliza uma forma de manipular o DOM e simplificar a interação com o browser. A framework **Knockout** leva essa interação mais longe e através do padrão model-view-view model(MVVM) permite que as interações com o utilizador sejam mais simples e fluidas.
-Para a implementação do padrão a view é definida no HTML com a utilização de [atributos data](http://developers.whatwg.org/elements.html#embedding-custom-non-visible-data-with-the-data-*-attributes) de HTML5 e o model e o viewmodel são objectos javascript. 
+A framework javascript **jQuery** disponibiliza uma forma de manipular o DOM e simplificar a interaï¿½ï¿½o com o browser. A framework **Knockout** leva essa interaï¿½ï¿½o mais longe e atravï¿½s do padrï¿½o model-view-view model(MVVM) permite que as interaï¿½ï¿½es com o utilizador sejam mais simples e fluidas.
+Para a implementaÃ§Ã£o do padrÃ£o a view Ã© definida no HTML com a definiÃ§Ã£o de metadados usando o atributo [data](http://developers.whatwg.org/elements.html#embedding-custom-non-visible-data-with-the-data-*-attributes) de HTML5 e o model e o viewmodel sï¿½o objectos javascript. 
 
 ## RavenDB
 
