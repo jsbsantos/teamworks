@@ -17,9 +17,7 @@ namespace Teamworks.Core.Projects {
         private IList<Reference<Person>> _innerPeopleReferenceList;
         private IList<Reference<Task>> _innerPredecessorReferenceList;
 
-        public Task() {
-            
-        }
+        public Task() {}
 
         public Task(string name, string description, long estimated, DateTime due, string projectId) {
             Name = name;

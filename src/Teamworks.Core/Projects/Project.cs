@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using Teamworks.Core.People;
 
 namespace Teamworks.Core.Projects {
-
     public class Project : Entity<Project> {
         private IList<Reference<Person>> _innerPeopleRefList;
         private IList<Reference<Task>> _innerTaskReferenceList;
@@ -49,8 +48,7 @@ namespace Teamworks.Core.Projects {
         [JsonIgnore]
         public IList<Task> Tasks { get; set; }
 
-        public static Project Load(string id) 
-        {
+        public static Project Load(string id) {
             var project = Session
                 .Include("TasksReference")
                 .Include("PeopleReference")

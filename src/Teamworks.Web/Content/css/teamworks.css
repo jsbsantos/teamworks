@@ -1,19 +1,10 @@
-body {
-    padding-top: 60px; padding-bottom: 40px;
-}
-
 /* ===== Primary Styles ========================================================
    Author:
    ========================================================================== */
 
-.container-fluid {
-    max-width: 1170px; margin: auto
-}
+body { padding-top: 60px; padding-bottom: 80px; }
 
-.navbar .nav > li > a {
-    padding: 10px 20px;
-}
+.navbar .brand { font-weight: 700; }
+.navbar .nav > li > a { padding: 10px 20px; }
 
-li [class^="icon-"], [class*=" icon-"] {
-    text-align: center; width: 1.25em; display: inline-block;
-}
+header { margin-bottom: 30px; }

@@ -10,8 +10,8 @@ namespace Teamworks.Core.Extensions
         {
             get { return "RavenSessionkey"; }
         }
-        public static Tuple<string, string> DecodeBasicAuthenticationHeader(string basicAuthToken)
-        {
+
+        public static Tuple<string, string> DecodeBasicAuthenticationHeader(string basicAuthToken) {
             Encoding encoding = Encoding.GetEncoding("iso-8859-1");
             string userPass = encoding.GetString(Convert.FromBase64String(basicAuthToken));
             int separator = userPass.IndexOf(':');
