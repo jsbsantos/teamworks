@@ -32,7 +32,7 @@
     <!--[if lt IE 9]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
     <header class="navbar navbar-fixed-top">
         <div class="navbar-inner">
-            <nav class="container-fluid">
+            <nav class="container">
                 <ul class="nav">
                     <li>@Html.ActionLink("teamworks", "View", "Home", null, new {@class = "brand"})</li>
                     <li class="@Html.ActiveController("Home")"><a href="@Url.Action("View", "Home")"><i class="icon-home icon-white"></i>Home</a></li>
@@ -47,14 +47,14 @@
             </nav>
         </div>
     </header>
-    <div class="main container-fluid" role="main">
+    <div class="main container" role="main">
         @RenderBody()
     </div>
     <footer></footer>
     <!-- JavaScript at the bottom for fast page loading -->
     <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"> </script>
-    <script> window.jQuery || document.write('<script src="@Url.Content("~/content/js/libs/jquery-1.7.1.min.js")"><\/script>') </script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"> </script>
+    <script> window.jQuery || document.write('<script src="@Url.Content("~/content/js/libs/jquery-1.7.2.min.js")"><\/script>') </script>
     <!-- Asynchronous Google Analytics snippet. Change UA-XXXXX-X to be your site's ID.
         mathiasbynens.be/notes/async-analytics-snippet -->
     <!--<script>
@@ -66,9 +66,8 @@
     } (document, 'script'));
     </script>-->
     <!-- Placed at the end of the document so the pages load faster -->
-    <!-- TODO: change to release mode -->
     <script src="@BundleTable.Bundles.ResolveBundleUrl("~/js")"> </script>
-    <!-- TODO: change to release mode -->
+    <script src="@Url.Content("~/content/js/libs/bootstrap/bootstrap.js")"> </script>
     @{
         if (Html.IsDebugging()) {
             <script src="@Url.Content("~/content/js/application.viewmodels.js")"> </script>

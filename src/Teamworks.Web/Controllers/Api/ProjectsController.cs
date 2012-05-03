@@ -10,6 +10,7 @@ using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
 using Teamworks.Core.Projects;
+using Teamworks.Web.Helpers;
 
 namespace Teamworks.Web.Controllers.Api {
     [DefaultHttpRouteConvention]
@@ -29,7 +30,7 @@ namespace Teamworks.Web.Controllers.Api {
 
         public HttpResponseMessage<Models.Project> Post(Models.Project project) {
             var proj = Mapper.Map<Models.Project, Project>(project);
-            
+
             proj.Id = null;
             DbSession.Store(proj);
 

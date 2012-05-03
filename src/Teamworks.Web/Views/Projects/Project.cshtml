@@ -1,0 +1,26 @@
+﻿@model Teamworks.Web.Models.Project
+@{
+    ViewBag.Title = Model.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<header class="row">
+    <h1>@Model.Name
+        <small>@Model.Description</small> </h1>
+</header>
+<div class="row">
+    @{
+        if (Model.Tasks.Count == 0) {
+            <p>Create your first task</p>
+        }
+        else {
+            <ul>
+                @foreach (var task in Model.Tasks) {
+                    <li>
+                        @task.Name <small>@task.Description</small>
+                    </li>
+                } 
+            </ul>
+        }
+
+    }
+</div>

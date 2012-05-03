@@ -10,9 +10,9 @@ using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
 using Teamworks.Core.Projects;
+using Teamworks.Web.Helpers;
 
 namespace Teamworks.Web.Controllers.Api {
-    
     /*
      
      todo try to inject properties
@@ -34,10 +34,9 @@ namespace Teamworks.Web.Controllers.Api {
             return Mapper.Map<IList<Task>, IEnumerable<Models.Task>>(project.Tasks);
         }
 
-        [GET("{id}")]
-        public Models.Task Get(int projectid, int id) {
+        public Models.Task Get(int id, int projectid) {
             var project = DbSession.Load<Project>(projectid);
-            
+
             if (project == null || project.TasksReference.All(t => id != t.Identifier)) {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
@@ -48,35 +47,33 @@ namespace Teamworks.Web.Controllers.Api {
             return Mapper.Map<Task, Models.Task>(task);
         }
 
-        public HttpResponseMessage<Models.Task> Post([ModelBinder(typeof(TypeConverterModelBinder))]int projectid, Models.Task task)
-        {
+        public HttpResponseMessage<Models.Task> Post([ModelBinder(typeof (TypeConverterModelBinder))] int projectid,
+                                                     Models.Task task) {
             var project = DbSession.Load<Project>(projectid);
             if (project == null) {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
-            
+
             var t = Mapper.Map<Models.Task, Task>(task);
 
             t.Id = null;
             DbSession.Store(t);
             project.TasksReference.Add(t);
-            
+
             task = Mapper.Map<Task, Models.Task>(t);
-            var uri = Request.RequestUri.Authority + Url.Route(null, new {projectid = projectid, id = task.Id});
+            var uri = Request.RequestUri.Authority + Url.Route(null, new {projectid, id = task.Id});
             var response = new HttpResponseMessage<Models.Task>(task, HttpStatusCode.Created);
             response.Headers.Location = new Uri(uri);
             return response;
         }
 
         /// <see cref="http://forums.asp.net/post/4855634.aspx"/>
-        [PUT("{id}")]
-        public HttpResponseMessage Put([ModelBinder(typeof (TypeConverterModelBinder))] int projectid,
-                                       [ModelBinder(typeof (TypeConverterModelBinder))] int id, Models.Task task) {
+        public HttpResponseMessage Put([ModelBinder(typeof (TypeConverterModelBinder))] int id,
+                                       [ModelBinder(typeof (TypeConverterModelBinder))] int projectid, Models.Task task) {
             return null;
         }
 
-        [DELETE("{id}")]
-        public HttpResponseMessage Delete(int projectid, int id) {
+        public HttpResponseMessage Delete(int id, int projectid) {
             return null;
         }
     }
