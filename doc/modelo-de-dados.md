@@ -1,6 +1,6 @@
 ﻿# Modelo de dados
 
-Tento por base o [modelo de domínio](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/domain.md) apresentado e o tipo de [base de dados](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/base-de-dados.md) a utilizar foi necessário fazer a modelação das entidades de domínio adequado-as ao uso em base de dados de documentos. Esta necessidade surge pela forma como são definidas relações entre entidades em bases de dados de documentos.
+Tento por base o [modelo de domínio](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/modelo-de-dominio.md) apresentado e o tipo de [base de dados](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/base-de-dados.md) a utilizar foi necessário fazer a modelação das entidades de domínio adequado-as ao uso em base de dados de documentos. Esta necessidade surge pela forma como são definidas relações entre entidades em bases de dados de documentos.
 
 As relações entre entidades podem ser definidas de diversas formas:
 
