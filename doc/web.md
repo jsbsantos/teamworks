@@ -18,4 +18,4 @@ A implementação de uma Api ReST permite tornar acessiveis os recursos da infra
  * Organizar a informação de uma forma a que consiga melhor interpreta-la.
  * Disponibilizar a informação num dispositivo móvel.
 
-Devido a estas características optou-se por, em paralelo com a aplicação web desenvolver uma API ReST. 
+Devido a estas características optou-se por, em paralelo com a aplicação web, desenvolver uma API ReST. 
