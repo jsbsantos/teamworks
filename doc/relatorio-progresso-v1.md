@@ -127,6 +127,11 @@ Tendo em conta o apresentado foi escolhido usar neste projecto uma base de dados
 
 Tento por base o [modelo de domínio](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/modelo-de-dominio.md) apresentado e o tipo de [base de dados](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/base-de-dados.md) a utilizar foi necessário fazer a modelação das entidades de domínio adequando-as ao uso em base de dados de documentos. Esta necessidade surge pela forma como são definidas relações entre entidades em bases de dados de documentos.
 
+As entidades de dominio e a relação entre elas é representada pelo seguinte UML:
+![](http://www.lucidchart.com/publicSegments/view/4fa45ee7-ce70-4c23-aeed-443b0a56d3cd/image.png =150x150)
+
+
+
 As relações entre entidades podem ser definidas de diversas formas:
 
 ### Desnormalização
@@ -155,10 +160,6 @@ A aplicação Web tem como finalidade disponibilizar ao utilizador uma interface
 
 Na implementação da componente visual da aplicação Web é usado HTML5 e CSS3 e o aspecto visual é conseguido utilizando os componentes disponibilizados no kit Twitter Bootstrap. As frameworks javascript jQuery e Knockout permitem tornar a interacção com o utilizador mais fluída e interactiva.
 
-###4.1.1. Twitter Bootstrap - fampinheiro
-    
-###4.1.2. HTML5 + CSS3 - fampinheiro
- 
 ##4.2. Web API RESTful
 
 ###4.2.1. ReST
@@ -179,14 +180,12 @@ Devido a estas características optou-se por, em paralelo com a aplicação Web 
 
 #5.    Ferramentas usadas
 
-No desenvolvimento deste trabalho são usadas aplicações e componentes implementadas por terceiros. De forma a facilitar a obtenção dessas componentes e a sua integração no ambiente de desenvolvimento foi usada a extensão NuGet, para a aplicação Microsoft Visual Studio 2010. Esta extensão permite fazer a procura e <i>download</i> de componentes, da sua <i>galeria online</i>, e faz a gestão de todas as referências usadas no projecto do Visual Studio para essas componentes.
+No desenvolvimento deste trabalho são usadas aplicações e componentes implementadas por terceiros. De forma a facilitar a obtenção dessas componentes e a sua integração no ambiente de desenvolvimento foi usada a extensão NuGet, para a aplicação Microsoft Visual Studio 2010. Esta extensão permite fazer a procura e _download_ de componentes, da sua _galeria online_, e faz a gestão de todas as referências usadas no projecto do Visual Studio para essas componentes.
 
 ##5.1. RavenDB
  
-Uma das aplicações usadas é o RavenDB. O RavenDB é um sistema de base de dados de documentos implementado sobre a Framework .NET. É uma solução transaccional, que armazena os dados no formato JSON e que para leitura e escrita de dados suporta a utilização da componente Linq da Framework .NET ou de uma API RESTful disponibilizada através do protocolo HTTP.
+Como foi dito anteriormente, uma das aplicações usadas é o RavenDB. O RavenDB é um sistema de base de dados de documentos implementado sobre a Framework .NET. 
 
-Internamente, o RavenDB usa índices Lucene que são criados automaticamente com a utilização do sistema ou criados explicitamente pelo programador através de expressões Map-Reduce, de forma a optimizar os acessos aos documentos.
-        
 ##5.2. Knockout - fampinheiro
 
 ##5.3. Outras
@@ -194,10 +193,10 @@ Internamente, o RavenDB usa índices Lucene que são criados automaticamente com
 ###5.3.1. AttributeRouting - fampinheiro
 
 ###5.3.2. AutoMapper
-        ...
-        Os objectos obtidos através de pedidos à base de dados são <mapeados> em objectos de domínio. Para facilitar o <mapeamento> entre objectos foi usada a biblioteca AutoMapper. 
 
-        Ao configurar a biblioteca sobre a forma como um objecto pode ser <mapeado> noutro esta será capaz de fazer esse processo automaticamente, com a chamada ao método Map. Por exemplo:
-    `Project project = Mapper.Map<ProjectDto, Project>(projectDto)`
+AutoMapper é uma biblioteca que, com base em configurações predefinidas, possibilita a conversão entre objectos de tipos diferentes.
+Tem a funcionalidade de corresponder propriedades do objecto fonte e do objecto destino com base no nome usando o paradigma _convention over configuration_.
+
+Esta biblioteca é usada para mapear os objectos obtidos através de chamadas à base de dados e converte-los em objectos de dominio.
 
 #6.    Trabalho Futuro / Alteração Planeamento
