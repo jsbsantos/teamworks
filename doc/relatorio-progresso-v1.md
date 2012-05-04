@@ -38,9 +38,9 @@
 
  4.1. Site - fampinheiro
 
-		4.1.1. Twitter Bootstrap - fampinheiro
+    4.1.1. Twitter Bootstrap - fampinheiro
 	
-		4.1.2. HTML5 + CSS3 - fampinheiro
+    4.1.2. HTML5 + CSS3 - fampinheiro
  
  4.2. API (RESTful) - J
 
@@ -62,10 +62,17 @@
 
  5.3. Outras
 
-		5.3.1. AttributeRouting - fampinheiro
+    5.3.1. AttributeRouting - fampinheiro
+    
+    5.3.2. AutoMapper
+    
+        ...
+        
+    Os objectos obtidos através de pedidos à base de dados são <mapeados> em objectos de dominio. Para facilitar o <mapeamento> entre objectos foi usada a biblioteca AutoMapper. 
 
-		5.3.2. AutoMapper - J
+    Ao configurar a biblioteca sobre a forma como um objecto pode ser <mapeado> noutro esta será capaz de fazer esse processo automáticamente, com a chamada ao método Map. Por exemplo:
+    
+    `Project project = Mapper.Map<ProjectDto, Project>(projectDto)`
 
 6.	Trabalho Futuro / Alteração Planeamento
-
 
