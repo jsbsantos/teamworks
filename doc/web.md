@@ -1,14 +1,21 @@
-# Web
+﻿# Web
 
-Um dos principais objectivos do projecto � que a sua disponibliza��o seja o mais abrangente poss�vel e para isso � disponibilizado uma aplica��o web e uma API RESTful.
+Um dos principais objectivos do projecto é que a sua disponiblização seja o mais abrangente possível e para isso é disponibilizado uma aplicação web e uma API RESTful.
 
-A **aplica��o web** tem como finalidade disponibilizar ao utilizador uma interface para aceder aos dados da infraestrutura atrav�s de qualquer user agent. Para a implementa��o deste componente � usada a framework ASP.NET MVC lecionada no decorrer do curso. Esta framework, como o pr�prio nome sugere, implementa o padr�o model-view-controller(MVC). 
+A **aplicação web** tem como finalidade disponibilizar ao utilizador uma interface para aceder aos dados da infraestrutura através de qualquer user agent. Para a implementação deste componente é usada a framework ASP.NET MVC lecionada no decorrer do curso. Esta framework, como o próprio nome sugere, implementa o padrão model-view-controller(MVC). 
 
-Na implementa��o da componente visual da aplica��o web � usado HTML5 e CSS3 e o aspecto visual � conseguido utilizando os componentes disponibilizados no kit Twitter Bootstrap. As frameworks javascript jQuery e Knockout permitem tornar a intera��o com o utilizador mais flu�da e interativa.
+Na implementação da componente visual da aplicação web é usado HTML5 e CSS3 e o aspecto visual é conseguido utilizando os componentes disponibilizados no kit Twitter Bootstrap. As frameworks javascript jQuery e Knockout permitem tornar a interação com o utilizador mais fluída e interativa.
 
-## REST API
+## ReST Api
 
-Para integra��o com o exterior
+ReST (Representational State Transfer) é uma forma de obter informação de uma aplicação web. Acenta sobre o protocolo HTTP e os métodos HTTP (get, post, put, delete, etc) são usados para identificar a ação a realizar sobre o url. Cada url expõe um recurso disponibilizado pela aplicação web. 
 
-O que � rest
-Clean URL
+Na implementação da API há a preocupação de que o url de acesso ao recurso seja o mais perceptivel por parte do utilizador (e.g. http://host/api/projects/1, http://host/api/projects/1/tasks/3). 
+
+A implementação de uma Api ReST permite tornar acessiveis os recursos da infra estrutura de forma a que esta informação possa ser acedida por qualquer utilizador. O utilizador pode assim:
+ * Consumir a informação 
+ * Integrar dois sistemas diferentes, a infra estrutura implementada neste projecto com uma outra (e.g. uma aplicação web que possibilite a facturação de serviços pode ser usada para gerar facturas conforme as horas registadas)
+ * Organizar a informação de uma forma a que consiga melhor interpreta-la.
+ * Disponibilizar a informação num dispositivo móvel.
+
+Devido a estas características optou-se por, em paralelo com a aplicação web desenvolver uma API ReST. 

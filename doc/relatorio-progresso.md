@@ -1,4 +1,4 @@
-# Relatório de Progresso
+﻿# Relatório de Progresso
 
 1. Introdução
 

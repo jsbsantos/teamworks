@@ -1,4 +1,4 @@
-# Base de dados
+﻿# Base de dados
 
 As aplicações actualmente utilizam, na sua maioria, um sistema de gestão de base de dados (SGBD) baseado no modelo relacional.
 

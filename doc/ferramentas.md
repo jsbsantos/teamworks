@@ -1,22 +1,40 @@
-# Ferramentas usadas
+Ôªø# Ferramentas usadas
 
-Para a realizaÁ„o do projecto s„o usadas algumas aplicaÁıes externas, entre elas:
+Para a realiza√ß√£o do projecto s√£o usadas algumas aplica√ß√µes externas, entre elas:
  * As frameworks .NET ASP.NET MVC e Web API;
- * As bibliotecas AutoMapper e AttributeRouting, ambas implementaÁıes .NET;
+ * As bibliotecas AutoMapper e AttributeRouting, ambas implementa√ß√µes .NET;
  * As frameworks javascript jQuery e Knockout;
  * A base de dados de documentos RavenDB;
 
-Para instalar e gerir algumas destas aplicaÁıes È usada a extens„o do Visual Studio NuGet. A extens„o NuGet copia os ficheiros necess·rio e faz as alteraÁıes necess·rias ‡ soluÁ„o do Visual Studio de forma a ser possÌvel a utilizaÁ„o de determinada aplicaÁ„o.
+Para instalar e gerir algumas destas aplica√ß√µes √© usada a extens√£o do Visual Studio NuGet. A extens√£o NuGet copia os ficheiros necess√°rio e faz as altera√ß√µes necess√°rias √† solu√ß√£o do Visual Studio de forma a ser poss√≠vel a utiliza√ß√£o de determinada aplica√ß√£o.
 
-## ASP.NET MVC e Web API
+```
+asp.net mvc
+	dto
+	valida√ß√£o e troca de informa√ß√£o
+	automapper
 
-A framework javascript **jQuery** disponibiliza uma forma de manipular o DOM e simplificar a interaÁ„o com o browser. A framework **Knockout** leva essa interaÁ„o mais longe e atravÈs do padr„o model-view-view model(MVVM) permite que as interaÁıes com o utilizador sejam mais simples e fluidas.
-Para a implementaÁ„o do padr„o a view È definida no HTML com a utilizaÁ„o de [atributos data](http://developers.whatwg.org/elements.html#embedding-custom-non-visible-data-with-the-data-*-attributes) de HTML5 e o model e o viewmodel s„o objectos javascript. 
+web api
+routing 
+	traversal 
+	attribute routing
+```
 
-## RavenDB
+A framework javascript **jQuery** disponibiliza uma forma de manipular o DOM e simplificar a intera√ß√£o com o browser. A framework **Knockout** leva essa intera√ß√£o mais longe e atrav√©s do padr√£o model-view-view model(MVVM) permite que as intera√ß√µes com o utilizador sejam mais simples e fluidas.
 
-## AttributeRouting
+`explicar MVVM`
 
-## AutoMapper
+Para a implementa√ß√£o do padr√£o a view √© definida no HTML com a utiliza√ß√£o de [atributos data](http://developers.whatwg.org/elements.html#embedding-custom-non-visible-data-with-the-data-*-attributes) de HTML5 e o model e o viewmodel s√£o objectos javascript. 
+
+```RavenDB
+quem disponibiliza 
+como 
+porque
+```
+
+```AppHarbor```
+compara√ß√£o com azure
+
+
 
 

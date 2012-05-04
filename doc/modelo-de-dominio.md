@@ -1,16 +1,16 @@
-# Modelo de domínio
+﻿# Modelo de domínio
 
+O modelo de domínio é o conjunto de vários termos, diagramas e conceitos que representam a informação e o comportamento de uma aplicação face a um problema. Para representar o modelo de domínio podem ser usados diagramas UML, texto detelhado, esquemas entidade-associação, use cases, etc.
+entre si. Um aspecto importante do modelo de domínio é a sua compreensão por todos os intervenientes no projecto (e.g. arquitectos de software, programadores, cliente). Aos elementos de um modelo de domínio dá-se o nome de objectos de domínio.
 
-O modelo de dominio apresenta o problema identificando os conceitos chave e o vocabulário. Utilizando diagramas UML, exemplos de deutilização ou outro tipo de diagramas que representem as entidades do domínio, os seus atruibutos e as relações entre si. 
-Um aspecto importante do modelo de domínio é a sua compreensão por todos os intervenientes no projecto (e.g. arquitectos de software, programadores, cliente).
+Entidades, value objects, agregados, fábricar e repositórios são alguns conceitos transversais a qualquer modelo de domínio
+Uma entidade representa um objecto do modelo que tem um identificador unico em todo o seu tempo de vida na aplicação e pode ser acedido usando esse identificador. 
 
-Num modelo de dominio podem ser identificadas entidades, value objects, agregate, factories, repositories, etc. 
+Um value object assim como uma entidade é representado pelas suas características e atributos mas não tem identidade no sistema, ou seja value object com os mesmas caracteristicas e atributos são considerados o mesmo.
 
-Entidade?
-Value object?
-Agreggate?
-factories?
-repositories?
+No modelo de domínio quando um grupo de objectos são tratados como uma unidade no que diz respeito á informação que estes representão são considerados agregados. Um agregado define uma barreira e tem como raiz uma entidade e é através dessa entidade que os outros elementos do agregado são acedidos. 
+
+As fábricas e os repositórios são usados para gerir o tempo de vida das entidades. As fábricas são usadas na criação e por vezes para abstrair o tipo concreto do objecto criado. Os repositórios são mecanismos que encapsulam a obtenção, armazenamento e a procura dos dados do sistema.
 
 ## Teamworks
 

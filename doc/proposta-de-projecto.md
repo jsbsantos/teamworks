@@ -1,4 +1,4 @@
-# Proposta de Projecto
+﻿# Proposta de Projecto
 
 # Teamworks
 > a solution  for project planning, managing and colaboration

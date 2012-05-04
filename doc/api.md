@@ -1,15 +1,15 @@
-# API
+ï»¿# API
 
 * como fazer o pedido (url)
-* como fazer autenticação
-* media types disponíveis (apenas json)
+* como fazer autenticaÃ§Ã£o
+* media types disponÃ­veis (apenas json)
 * explicar um pouco de HTTP caching, ETAG e os headers associados
-* Respostas de erro possíveis
-* endpoints disponíveis 
+* Respostas de erro possÃ­veis
+* endpoints disponÃ­veis 
 
 ## Projectos
 
-(descrição)
+(descriÃ§Ã£o)
 
 ### Obter todos os projectos
 
@@ -35,7 +35,7 @@
  exemplo de um pedido
  ````
 
-(possíveis respostas)
+(possÃ­veis respostas)
 
 ### Actualizar um projecto
 
@@ -45,7 +45,7 @@
  exemplo de um pedido
  ````
 
-(possíveis respostas)
+(possÃ­veis respostas)
 
 ### Remover um projecto 
 
@@ -55,4 +55,4 @@
  exemplo de um pedido
  ````
 
-(possíveis respostas)
+(possÃ­veis respostas)

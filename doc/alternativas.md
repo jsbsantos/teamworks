@@ -1,4 +1,4 @@
-# Outras Soluções
+﻿# Outras Soluções
 
 Actualmente existem aplicações que oferecem algumas funcionalidades pretendidas neste projecto.
 
