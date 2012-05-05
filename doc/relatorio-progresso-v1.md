@@ -9,13 +9,13 @@ As funcionalidades passam pela criação de planos de trabalho, afectação de r
 #2. Descrição Geral
 
 Esta infra-estrutura é disponibilizada através de uma aplicação Web e um serviço Web RESTful que permitam efectuar todas as acções descritas anteriormente. É possível aos utilizadores criar projectos, tarefas, registo de tempo de trabalho, como ilustrado nas figuras 1 e 2.
-
+____
 ![figura 1.1 - Caso de utilização de um administrador - Projecto](http://www.lucidchart.com/publicSegments/view/4fa552b3-78b8-4d25-bc24-37620a58bb74/image.png =150x150)
-
+____
 ![figura 1.2 - Caso de utilização de um administrador - Tarefa](http://www.lucidchart.com/publicSegments/view/4fa55112-8018-47df-9e4d-1f9b0a8c1042/image.png =150x150)
-
+____
 ![figura 2 - Caso de utilização de um utlizador](http://figura2.x)
-
+____
 #3. Modelo
 
 ##3.1. Modelo de Dados
