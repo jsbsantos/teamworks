@@ -8,7 +8,7 @@ using System.Web.WebPages;
 namespace Teamworks.Web.Views {
     public static class ViewsExtensions {
         public static HelperResult ActiveController(this HtmlHelper _this, string controller) {
-            var name = HttpContext.Current.Request.RequestContext.RouteData.GetRequiredString("controller");
+            string name = HttpContext.Current.Request.RequestContext.RouteData.GetRequiredString("controller");
             return new HelperResult(
                 writer => writer.Write(controller.Equals(name, StringComparison.OrdinalIgnoreCase) ? "active" : "")
                 );

@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Security.Principal;
-using System.Text;
 
 namespace Teamworks.Core.Authentication {
     public static class AuthenticationManager {
         private static string _defaultScheme;
+
+        private static readonly Dictionary<string, IAuthenticationHandler> _handlers;
+
+        static AuthenticationManager() {
+            _handlers = new Dictionary<string, IAuthenticationHandler>();
+        }
 
         public static string DefaultAuthenticationScheme {
             get { return _defaultScheme; }
@@ -18,12 +22,6 @@ namespace Teamworks.Core.Authentication {
                     throw new ArgumentException("Scheme");
                 }
             }
-        }
-
-        private static Dictionary<string, IAuthenticationHandler> _handlers;
-
-        static AuthenticationManager() {
-            _handlers = new Dictionary<string, IAuthenticationHandler>();
         }
 
         public static bool Validate(string scheme, NetworkCredential credential) {

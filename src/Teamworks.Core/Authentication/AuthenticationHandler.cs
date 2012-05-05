@@ -32,7 +32,7 @@ namespace Teamworks.Core.Authentication {
 
             return base.SendAsync(request, cancellationToken).ContinueWith(
                 (task) => {
-                    var response = task.Result;
+                    HttpResponseMessage response = task.Result;
 
                     if (response.StatusCode == HttpStatusCode.Unauthorized) {
                         SetAuthenticateHeader(response);
@@ -53,11 +53,11 @@ namespace Teamworks.Core.Authentication {
         }
 
         private void TryAuthenticateClient(HttpRequestMessage request) {
-            var header = request.Headers.Authorization;
+            AuthenticationHeaderValue header = request.Headers.Authorization;
             if (header != null) {
-                var credentials = AuthenticationManager.GetCredentials(header.Scheme, header.Parameter);
+                NetworkCredential credentials = AuthenticationManager.GetCredentials(header.Scheme, header.Parameter);
                 if (AuthenticationManager.Validate(header.Scheme, credentials)) {
-                    var user =
+                    Person user =
                         Person.Query().Where(
                             x => x.Username.Equals(credentials.UserName, StringComparison.InvariantCultureIgnoreCase)).
                             FirstOrDefault();

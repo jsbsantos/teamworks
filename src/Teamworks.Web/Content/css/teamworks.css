@@ -2,7 +2,11 @@
    Author:
    ========================================================================== */
 
-body { padding-top: 60px; padding-bottom: 80px; }
+body {
+    padding-bottom: 80px;
+    padding-top: 60px;
+}
 
 .navbar .brand { font-weight: 700; }
+
 .navbar .nav > li > a { padding: 10px 20px; }

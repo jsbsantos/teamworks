@@ -6,7 +6,7 @@ namespace Teamworks.Core.Extensions {
         private static IDocumentStore store;
 
         public static IDocumentStore DocumentStore {
-            get { return store ?? (store = new DocumentStore() {ConnectionStringName = "RavenDB"}.Initialize()); }
+            get { return store ?? (store = new DocumentStore {ConnectionStringName = "RavenDB"}.Initialize()); }
         }
 
         public static IDocumentSession NewSession() {

@@ -1,6 +1,4 @@
-using System;
 using System.Net;
-using System.Security.Principal;
 
 namespace Teamworks.Core.Authentication {
     public interface IAuthenticationHandler {

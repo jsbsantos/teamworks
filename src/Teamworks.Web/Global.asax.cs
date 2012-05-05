@@ -7,9 +7,9 @@ using AttributeRouting.Web.Http.WebHost;
 using AutoMapper;
 using LowercaseRoutesMVC;
 using Microsoft.Web.Optimization;
-using Teamworks.Core.Projects;
 using Teamworks.Web.Controllers.Api;
 using Teamworks.Web.Helpers;
+using Teamworks.Web.Models;
 
 namespace Teamworks.Web {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
@@ -37,11 +37,11 @@ namespace Teamworks.Web {
         }
 
         public static void RegisterMappers() {
-            Mapper.CreateMap<Models.Project, Project>();
-            Mapper.CreateMap<Project, Models.Project>()
+            Mapper.CreateMap<Project, Core.Projects.Project>();
+            Mapper.CreateMap<Core.Projects.Project, Project>()
                 .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier));
-            Mapper.CreateMap<Models.Task, Task>();
-            Mapper.CreateMap<Task, Models.Task>()
+            Mapper.CreateMap<Task, Core.Projects.Task>();
+            Mapper.CreateMap<Core.Projects.Task, Task>()
                 .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier));
         }
 

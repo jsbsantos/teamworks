@@ -16,9 +16,9 @@ namespace Teamworks.Web.Controllers {
             o.Username = HttpContext.Request.Form["username"];
             o.Password = HttpContext.Request.Form["password"];
 
-            var state = AuthenticationManager.Validate("BasicWeb",
-                                                       AuthenticationManager.GetCredentials("BasicWeb", o));
-            return new ContentResult() {Content = (state ? "" : "not") + "authenticated", ContentType = "text/html"};
+            dynamic state = AuthenticationManager.Validate("BasicWeb",
+                                                           AuthenticationManager.GetCredentials("BasicWeb", o));
+            return new ContentResult {Content = (state ? "" : "not") + "authenticated", ContentType = "text/html"};
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Teamworks.Core.People {
 
         public static bool Authenticate(string id, string password) {
             //todo create index to search users by username, email, id
-            var user =
+            Person user =
                 Session.Query<Person>().Where(
                     x =>
                     x.Username.Equals(id, StringComparison.InvariantCultureIgnoreCase) ||
@@ -35,7 +35,7 @@ namespace Teamworks.Core.People {
         }
 
         public string ResetPassword() {
-            var pwd = System.Web.Security.Membership.GeneratePassword(8, 0);
+            string pwd = Membership.GeneratePassword(8, 0);
             Password = EncodePassword(pwd);
             return pwd;
         }

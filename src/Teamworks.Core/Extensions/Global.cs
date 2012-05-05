@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Text;
 
-namespace Teamworks.Core.Extensions
-{
-    public static class Global
-    {
+namespace Teamworks.Core.Extensions {
+    public static class Global {
         //todo replace teamworks.web contains same property
-        public static string RavenSessionkey
-        {
+        public static string RavenSessionkey {
             get { return "RavenSessionkey"; }
         }
 
