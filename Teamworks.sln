@@ -35,8 +35,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Teamworks.MdToTex", "src\Teamworks.MdToTex\Teamworks.MdToTex.csproj", "{3BDA43E6-4ED3-4870-84CF-9CAA43244672}"
-EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Teamworks.vsmdi
@@ -80,16 +78,6 @@ Global
 		{0F354CBB-750F-4872-BE2E-08179212614E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{0F354CBB-750F-4872-BE2E-08179212614E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{0F354CBB-750F-4872-BE2E-08179212614E}.Release|x86.ActiveCfg = Release|Any CPU
-		{3BDA43E6-4ED3-4870-84CF-9CAA43244672}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{3BDA43E6-4ED3-4870-84CF-9CAA43244672}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{3BDA43E6-4ED3-4870-84CF-9CAA43244672}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{3BDA43E6-4ED3-4870-84CF-9CAA43244672}.Debug|x86.ActiveCfg = Debug|x86
-		{3BDA43E6-4ED3-4870-84CF-9CAA43244672}.Debug|x86.Build.0 = Debug|x86
-		{3BDA43E6-4ED3-4870-84CF-9CAA43244672}.Release|Any CPU.ActiveCfg = Release|x86
-		{3BDA43E6-4ED3-4870-84CF-9CAA43244672}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{3BDA43E6-4ED3-4870-84CF-9CAA43244672}.Release|Mixed Platforms.Build.0 = Release|x86
-		{3BDA43E6-4ED3-4870-84CF-9CAA43244672}.Release|x86.ActiveCfg = Release|x86
-		{3BDA43E6-4ED3-4870-84CF-9CAA43244672}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -98,6 +86,5 @@ Global
 		{0F354CBB-750F-4872-BE2E-08179212614E} = {8466F0F9-D14F-406B-A560-C844FEBBAB04}
 		{C85D88CF-7DA3-4628-99FA-D5D570FCE940} = {FFC7F3A0-ABC9-47F7-8A53-AD0138F892DB}
 		{A0746650-91CF-4306-83E4-5D7726B8EB4A} = {FFC7F3A0-ABC9-47F7-8A53-AD0138F892DB}
-		{3BDA43E6-4ED3-4870-84CF-9CAA43244672} = {FFC7F3A0-ABC9-47F7-8A53-AD0138F892DB}
 	EndGlobalSection
 EndGlobal
