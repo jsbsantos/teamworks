@@ -1,6 +1,6 @@
-﻿# Web
+# Web
 
-Um dos principais objectivos do projecto é que a sua disponiblização seja o mais abrangente possível e para isso é disponibilizado uma aplicação web e uma API RESTful.
+Um dos principais objectivos do projecto é que a sua disponiblização seja o mais abrangente possível e para isso é disponibilizado uma aplicação web e uma Api ReSTful.
 
 A **aplicação web** tem como finalidade disponibilizar ao utilizador uma interface para aceder aos dados da infraestrutura através de qualquer user agent. Para a implementação deste componente é usada a framework ASP.NET MVC lecionada no decorrer do curso. Esta framework, como o próprio nome sugere, implementa o padrão model-view-controller(MVC). 
 

@@ -1,12 +1,13 @@
 ﻿# Ferramentas usadas
 
-Para a realização do projecto sÃ£o usadas algumas aplicações externas, entre elas:
+Para a realização do projecto são usadas algumas aplicações externas, entre elas:
+
  * As frameworks .NET ASP.NET MVC e Web API;
  * As bibliotecas AutoMapper e AttributeRouting, ambas implementações .NET;
  * As frameworks javascript jQuery e Knockout;
  * A base de dados de documentos RavenDB;
 
-Para instalar e gerir algumas destas aplicações é usada a extensão do Visual Studio NuGet. A extensÃ£o NuGet copia os ficheiros necessário e faz as alterações necessárias à solução do projecto de forma a ser possível a utilização de determinada aplicação.
+Para instalar e gerir algumas destas aplicações é usada a extensão do Visual Studio NuGet. A extensão NuGet copia os ficheiros necessário e faz as alterações necessárias à solução do projecto de forma a ser possível a utilização de determinada aplicação.
 
 ```
 asp.net mvc
