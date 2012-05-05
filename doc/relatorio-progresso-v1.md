@@ -16,9 +16,8 @@ ____
 ____
 ![figura 2 - Caso de utilização de um utlizador](http://figura2.x)
 ____
-#3. Modelo
 
-##3.1. Modelo de Dados
+##2.1. Modelo de Dados
 
 Para solucionar o problema apresentado por este projecto foram identificadas duas entidades centrais, a **Pessoa** e o **Projecto**.
 Cada Pessoa pode estar envolvida em vários Projectos, assim como um Projecto pode ser desenvolvido por várias Pessoas. Para representar esta realidade existe a noção de:
@@ -31,7 +30,7 @@ No contexto de um Projecto é possível definir **Tarefas**, que são também co
 A descrição destas entidades de das suas relações é descrita no seguinte diagrama UML:
 ![UML teamworks](http://www.lucidchart.com/publicSegments/view/4fa54e58-d8bc-4005-a258-131c0a8c1042/image.png =150x150)
 
-#3.2. Modelo de Domínio
+#2.2. Modelo de Domínio
 
 O modelo de domínio é o conjunto de vários termos, diagramas e conceitos que representam a informação e o comportamento de uma aplicação face a um problema. Para representar o modelo de domínio podem ser usados diagramas UML, texto detalhado, esquemas entidade-associação, use cases, etc.
 entre si. Um aspecto importante do modelo de domínio é a sua compreensão por todos os intervenientes no projecto (e.g. arquitectos de software, programadores, cliente). Aos elementos de um modelo de domínio dá-se o nome de objectos de domínio.
@@ -47,7 +46,7 @@ As fábricas e os repositórios são usados para gerir o tempo de vida das entid
 
 Na definição do Modelo de Domínio da solução, foram definidos como agregados as entidades Projecto e Pessoa. O objecto de domínio Tarefa também é considerado como entidade porque possui um identificador único no sistema. O objecto de domínio Registo de Horas é definido como _value object_.
 
-## 3.3. Base de dados
+##2.3. Base de dados
 
 As aplicações actualmente utilizam, na sua maioria, um sistema de gestão de base de dados (SGBD) baseado no modelo relacional.
 
@@ -92,7 +91,10 @@ O valor guardado é um _blob_. Esta característica torna desnecessária a defin
 #### Base de dados de documentos
 
 Uma base de dados de documentos é na sua essência um _key-value store_. A diferença é que, numa base de dados de documentos, o _blob_ de informação é persistido de uma forma semiestruturada, em documentos, utilizando um formato que possa ser interpretado pela base de dados como JSON, BSON, XML, etc, permitindo realizar queries sobre essa informação.
+___
 
+ALTERAR bullets -> texto corrido
+___
  * **Concorrência** - Existem várias abordagens para resolver este problema como a concorrência optimista, pessimista ou _merge_. 
   * Concorrência Optimista: Antes de gravar informação é verificado se o documento foi alterado por outra transacção, sendo a transacção abortada nesse caso;
   * Concorrência Pessimista: Usa locks para impedir várias transacções de modificarem o mesmo documento. Esta abordagem é um problema para a escalabilidade destes sistemas;
@@ -136,17 +138,17 @@ Das abordagens apresentadas escolheu usar-se a Desnormalização, conseguindo de
 
 Na actual fase de desenvolvimento apenas é usado o método de Desnormalização. Este método é usado para relacionar Projectos com Pessoas e Tarefas, Tarefas com Pessoas e Registo de Horas com Pessoas.
 
-#4. Web
+#3. Web
 
 Um dos principais objectivos do projecto é que a sua disponibilização seja o mais abrangente possível e para isso é disponibilizado uma aplicação Web e uma API RESTful.
 
-##4.1. Aplicação Web
+##3.1. Aplicação Web
 
 A aplicação Web tem como finalidade disponibilizar ao utilizador uma interface para aceder aos dados da infra-estrutura através de qualquer user agent. Para a implementação deste componente é usada a framework ASP.NET MVC leccionada no decorrer do curso. Esta framework, como o próprio nome sugere, implementa o padrão model-view-controller(MVC).
 
 Na implementação da componente visual da aplicação Web é usado HTML5 e CSS3 e o aspecto visual é conseguido utilizando os componentes disponibilizados no kit Twitter Bootstrap. As frameworks javascript jQuery e Knockout permitem tornar a interacção com o utilizador mais fluída e interactiva.
 
-##4.2. Web API RESTful
+##3.2. Web API RESTful
 
 ### ReST
 
@@ -164,7 +166,7 @@ A implementação de uma Api ReST permite tornar acessíveis os recursos da infr
 
 Devido a estas características optou-se por, em paralelo com a aplicação Web desenvolver uma API ReST. 
 
-#5.    Ferramentas usadas
+#4.    Ferramentas usadas
 
 No desenvolvimento deste trabalho são usadas aplicações e componentes implementadas por terceiros. De forma a facilitar a obtenção dessas componentes e a sua integração no ambiente de desenvolvimento foi usada a extensão **NuGet**, para a aplicação Microsoft Visual Studio 2010. Esta extensão permite fazer a procura e _download_ de componentes, da sua _galeria online_, e faz a gestão de todas as referências usadas no projecto do Visual Studio para essas componentes.
 
