@@ -172,23 +172,31 @@ Devido a estas características optou-se por, em paralelo com a aplicação Web 
 
 #5.    Ferramentas usadas
 
-No desenvolvimento deste trabalho são usadas aplicações e componentes implementadas por terceiros. De forma a facilitar a obtenção dessas componentes e a sua integração no ambiente de desenvolvimento foi usada a extensão NuGet, para a aplicação Microsoft Visual Studio 2010. Esta extensão permite fazer a procura e _download_ de componentes, da sua _galeria online_, e faz a gestão de todas as referências usadas no projecto do Visual Studio para essas componentes.
+No desenvolvimento deste trabalho são usadas aplicações e componentes implementadas por terceiros. De forma a facilitar a obtenção dessas componentes e a sua integração no ambiente de desenvolvimento foi usada a extensão **NuGet**, para a aplicação Microsoft Visual Studio 2010. Esta extensão permite fazer a procura e _download_ de componentes, da sua _galeria online_, e faz a gestão de todas as referências usadas no projecto do Visual Studio para essas componentes.
 
-##5.1. RavenDB
+* RavenDB
  
 Como foi dito anteriormente, uma das aplicações usadas é o RavenDB. O RavenDB é um sistema de base de dados de documentos implementado sobre a Framework .NET. 
 
-##5.2. Knockout - fampinheiro
+O RavenDB é desenvolvido e distribuido pela [hibernating rhinos](http://hibernatingrhinos.com/). No ambito deste projecto é usado o _SaaS_ (Software as a Service) RavenHQ, disponibilizado pelo AppHarbor em parceria com os criadores do RavenHQ.
 
-##5.3. Outras
+* AttributeRouting
 
-###5.3.1. AttributeRouting - fampinheiro
+Para definir o routing usado na API ReST foi usada a biblioteca AttributeRouting. Esta biblioteca permite configurar o uri de acesso ao recurso através da utilização de atributos. 
 
-###5.3.2. AutoMapper
+* AutoMapper
 
 AutoMapper é uma biblioteca que, com base em configurações predefinidas, possibilita a conversão entre objectos de tipos diferentes.
 Tem a funcionalidade de corresponder propriedades do objecto fonte e do objecto destino com base no nome usando o paradigma _convention over configuration_.
 
-Esta biblioteca é usada para mapear os objectos obtidos através de chamadas à base de dados e converte-los em objectos de dominio.
+* Knockout.js
+
+A framework javascript jQuery disponibiliza uma forma de manipular o DOM e simplificar com o browser. A framework Knockout leva essa interação mais longe e através do padrão model-view-view model (MVVM) permitindo que as interações com o utilizador sejam mais simples e fluidas.
+
+Neste padrão existem três interveniente, a view, o modelo e o view model. É através da view que o utilizador indica a ação a realizar, acção essa que é passada ao view-model. O view model envia e obtem dados do modelo e quando é alterado notifica os elementos da view que estão a observar os seus atributos.
+
+![MVVM](http://www.lucidchart.com/publicSegments/view/4fa547bc-de04-48d0-b663-37860a58bb74/image.png =150x150)
+
+Na framework knockout a view é definida no HTML, utilizando o atributo data-*, o model é representado por um objecto javascript assim como o viewmodel.
 
 #6.    Trabalho Futuro / Alteração Planeamento
