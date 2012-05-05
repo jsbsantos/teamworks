@@ -26,20 +26,9 @@ Neste padrão existem três interveniente, a view, o modelo e o view model. É a
 
 <span style="background-color: yellow">IMAGEM</span>
 
+Na framework knockout a view é definida no HTML, utilizando o atributo [data-*](http://developers.whatwg.org/elements.html#embedding-custom-non-visible-data-with-the-data-*-attributes), o model é representado por um objecto javascript assim como o viewmodel. 
 
 
-
-
-
-Para a implementação do padrão a view é definida no HTML com a definição de metadados usando o atributo [data](http://developers.whatwg.org/elements.html#embedding-custom-non-visible-data-with-the-data-*-attributes) de HTML5 e o model e o viewmodel são objectos javascript. 
-
-Ao definir no HTML atributos o utilizador liga o elemto DOM a um atributo do view model. Assim, qualquer interação com a view notifica o view model e alterações ao view model são observados pela view.
-
-A custom data attribute is an attribute in no namespace whose name starts with the string "data-", has at least one character after the hyphen, is XML-compatible, and contains no characters in the range 
-
-
-
-`explicar MVVM`
 
 ```RavenDB
 quem disponibiliza 
