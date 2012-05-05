@@ -192,5 +192,3 @@ Neste padrão existem três interveniente, a view, o modelo e o view model. É a
 ![MVVM](http://www.lucidchart.com/publicSegments/view/4fa547bc-de04-48d0-b663-37860a58bb74/image.png =150x150)
 
 Na framework knockout a view é definida no HTML, utilizando o atributo data-*, o model é representado por um objecto javascript assim como o viewmodel.
-
-#6.    Trabalho Futuro / Alteração Planeamento
