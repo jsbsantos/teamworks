@@ -1,6 +1,6 @@
 ﻿var Task = function(data) {
     var self = this;
-    self.id = ko.observable();
+    self.id = ko.observable("0");
     self.name = ko.observable();
     self.project = ko.observable();
     self.description = ko.observable();
@@ -8,9 +8,9 @@
         return "/projects/" + self.project() + "/tasks/" + self.id();
     });
     var map = function(other) {
-        self.id(other.id || self.id() || "0");
-        self.name(other.name() || self.name() || "");
-        self.description(other.description || self.description() || "");
+        self.id(other.id || self.id());
+        self.name(other.name() || self.name());
+        self.description(other.description || self.description());
     };
     map(data || { });
 };
@@ -18,7 +18,7 @@
 var Project = function(data) {
     /* self region */
     var self = this;
-    self.id = ko.observable();
+    self.id = ko.observable("0");
     self.name = ko.observable();
     self.description = ko.observable();
     self.editing = ko.observable();
@@ -27,9 +27,9 @@ var Project = function(data) {
     });
     self.tasks = ko.observableArray();
     var map = function(other) {
-        self.id(other.id || self.id() || "0");
-        self.name(other.name || self.name() || "");
-        self.description(other.description || self.description() || "");
+        self.id(other.id || self.id());
+        self.name(other.name || self.name());
+        self.description(other.description || self.description());
         self.tasks($.map(other.tasks || self.tasks() || [], function(data) {
             return new Task(data);
         }));
