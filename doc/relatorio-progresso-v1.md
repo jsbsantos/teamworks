@@ -1,22 +1,18 @@
 #1. Introdução
 
-O presente documento constitui o relatório de progresso, para a unidade curricular de Projecto e Seminário do ano lectivo 2011/2012, referente ao projecto intitulado “teamworks”. Este projecto é realizado pelos alunos Filipe Pinheiro e João Santos e orientado pelo docente João Pedro Patriarca.
+O presente documento constitui o relatório de progressodo projecto intitulado “teamworks”, desenvolvido no ambito da unidade curricular de Projecto e Seminário do ano lectivo 2011/2012. É realizado pelos alunos Filipe Pinheiro e João Santos e orientado pelo docente João Pedro Patriarca.
 
-Este projecto tem como objectivo a disponibilização de uma infra-estrutura de apoio à realização de projectos, oferecendo funcionalidades de planeamento, monitorização e registo de horas e fomentando colaboração entre membros, através de discussões e partilha de informação relacionada com o projecto.
+Este projecto tem como objectivo a disponibilização de uma infra-estrutura de apoio à realização e gestão de projectos oferecendo funcionalidades de planeamento, registo de horas e monitorização. Para fomentar a colaboração entre membros são também oferecidas funcionalidades que permitem discussão e partilha de informação. A infra-estrutura é composta por uma aplicação Web e um serviço Web que baseado na arquitectura ReST.
 
-Estas funcionalidades passam pela criação de planos de trabalho, afectação de recursos a tarefas, registo do tempo despendido na realização de tarefas, monitorização do estado actual do projecto, áreas de discussão de ideias e partilha de informação (ficheiros) associados ao projecto, etc.
+As funcionalidades passam pela criação de planos de trabalho, afectação de recursos a tarefas, registo do tempo despendido, monitorização do estado actual do projecto, áreas de discussão, partilha de informação, etc.
 
 #2. Descrição Geral
 
-A infra-estrutura a desenvolver tem como objectivo, como foi referido anteriormente, o auxílio à realização e gestão de projectos oferecendo de diversas funcionalidades que permitem aos membros dedicar mais tempo ao desenvolvimento efectivo das actividades do projecto e menos tempo a tarefas administrativas.
+Esta infra-estrutura é disponibilizada através de uma aplicação Web e um serviço Web RESTful que permitam efectuar todas as acções descritas anteriormente. É possível aos utilizadores criar projectos, tarefas, registo de tempo de trabalho, como ilustrado nas figuras 1 e 2.
 
-Para a disponibilização desta infra-estrutura será desenvolvida uma aplicação Web e um serviço Web RESTful que permitam efectuar todas as acções descritas anteriormente. Deve ser possível que os utilizadores criem Projectos, Tarefas, Registo de Tempo de Trabalho, Discussões, <span style=background-color="yellow">Eventos e Relatórios</span>.
+![figura 1 - Caso de utilização de um administrador](http://figura1.x)
 
-Para ilustrar estas acções foram definidos os seguintes casos de utilização (use case):<span style=background-color="yellow">image1 - admin</span>
-
-A imagem anterior mostra os casos de utilização para um utilizador com permissões de Administrador num Projecto.<span style=background-color="yellow">image2 - user</span>
-
-A imagem anterior mostra os casos de utilização para um utilizador sem permissões de Administrador num Projecto.
+![figura 2 - Caso de utilização de um utlizador](http://figura2.x)
 
 #3. Modelo
 
@@ -31,7 +27,7 @@ Cada Pessoa pode estar envolvida em vários Projectos, assim como um Projecto po
 No contexto de um Projecto é possível definir **Tarefas**, que são também consideradas entidades de domínio. Uma Tarefa tem um nome e uma descrição. As Tarefas podem ter várias Pessoas associadas que podem registar o tempo usaram na sua realização. A Tarefa tem também uma previsão do tempo estimado para a sua realização e a data em que deve ser concluída.
 
 A descrição destas entidades de das suas relações é descrita no seguinte diagrama UML:
-![UML teamworks](http://www.lucidchart.com/publicSegments/view/4fa45ee7-ce70-4c23-aeed-443b0a56d3cd/image.png =150x150)
+![UML teamworks](http://www.lucidchart.com/publicSegments/view/4fa54e58-d8bc-4005-a258-131c0a8c1042/image.png =150x150)
 
 #3.2. Modelo de Domínio
 
@@ -91,8 +87,6 @@ O valor guardado é um _blob_. Esta característica torna desnecessária a defin
 
  * **Escalabilidade** - Existem duas formas para o fazer sendo que a mais simples seria separar as chaves. Separar chaves implica decidir a regra de separação, que pode separar as chaves com base no seu primeiro caracter e cada caracter é alojado numa máquina diferente, esta forma torna-se uma não opção quando a máquina onde está a chave não está disponível. Para resolver esse problema é usada replicação.
 
- * **Replicação** - 
-
 #### Base de dados de documentos
 
 Uma base de dados de documentos é na sua essência um _key-value store_. A diferença é que, numa base de dados de documentos, o _blob_ de informação é persistido de uma forma semiestruturada, em documentos, utilizando um formato que possa ser interpretado pela base de dados como JSON, BSON, XML, etc, permitindo realizar queries sobre essa informação.
@@ -111,8 +105,6 @@ Uma base de dados de documentos é na sua essência um _key-value store_. A dife
     A forma de actualização destes índices difere em cada implementação deste tipo de base de dados, podendo ser actualizados quando os documentos associados a estes índices são alterados ou no momento anterior à execução da _query_. No primeiro caso isso significa que podem ser obtidos resultados desactualizados, uma vez que as _queries_ aos índices têm resultados imediatos e a actualização pode não estar concluída. Na segunda abordagem, se existirem muitas alterações para fazer a _query_ pode demorar algum tempo a responder.
 
  * **Escalabilidade** - Este tipo de base de dados suporta Sharding, ou seja partição horizontal, o que permite separar documentos por vários servidores.
-
- * **Replicação** - 
 
 #### Outros
 
