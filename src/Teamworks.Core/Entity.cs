@@ -71,7 +71,7 @@ namespace Teamworks.Core {
 
     public abstract class BaseEntity<T> {
         protected static IDocumentSession Session {
-            get { return ((IDocumentSession) Local.Data[Global.RavenSessionkey]); }
+            get { return ((IDocumentSession) Local.Data[Global.RavenKey]); }
         }
 
         #region CRD

@@ -8,7 +8,7 @@ namespace Teamworks.Web.Helpers.Filters {
         public override void OnActionExecuting(ActionExecutingContext filterContext) {
             var controller = filterContext.Controller as RavenController;
             if (controller != null && controller.DbSession == null) {
-                Local.Data[Global.RavenKey] = RavenSessionManager.NewSession();
+                Local.Data[Core.Extensions.Global.RavenKey] = RavenSessionManager.NewSession();
             }
         }
     }

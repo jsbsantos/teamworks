@@ -4,10 +4,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <header>
-    <form  method="POST" action="~/Account/Login"  class="form-inline control-group" name="login" data-bind="reset: clear, css: { 'error': !is_valid() }">
-        <input name="username" placeholder="Name your project"/>
-        <input name="password" placeholder="Describe your project" />
-        <button class="btn btn-small" type="submit" value="create"
-                data-bind="enable: self.login.username().length && self.login.password().length">Create</button>
+    <form  method="POST" action="~/Account/Index"  class="form-inline control-group" name="login">
+        <input name="username" placeholder="Username"/>
+        <input name="password" placeholder="Password" />
+        <button class="btn btn-small" type="submit" value="login">Login</button>
     </form>
 </header>

@@ -7,6 +7,8 @@ using AttributeRouting.Web.Http.WebHost;
 using AutoMapper;
 using LowercaseRoutesMVC;
 using Microsoft.Web.Optimization;
+using Teamworks.Core.Authentication;
+using Teamworks.Web.App_Start;
 using Teamworks.Web.Controllers.Api;
 using Teamworks.Web.Helpers;
 using Teamworks.Web.Models;
@@ -57,6 +59,9 @@ namespace Teamworks.Web {
             configuration.Formatters.Add(new JsonNetFormatter());
             configuration.MessageHandlers.Add(new RavenMessageHandler());
 
+            AuthenticationManager.Add("Basic", new BasicAuthenticationHandler());
+            AuthenticationManager.Add("BasicWeb", new BasicWebAuthenticationHandler());
+            AuthenticationManager.DefaultAuthenticationScheme="BasicWeb";
 
             BundleTable.Bundles.EnableTeamworksBundle();
         }

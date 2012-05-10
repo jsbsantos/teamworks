@@ -36,6 +36,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AspNetHaack">
+      <HintPath>..\..\packages\AspNetHaack.0.0.1\lib\net40\AspNetHaack.dll</HintPath>
+    </Reference>
     <Reference Include="AsyncCtpLibrary">
       <HintPath>..\..\packages\RavenDB.1.0.701\lib\net40\AsyncCtpLibrary.dll</HintPath>
     </Reference>
@@ -158,15 +161,17 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="WebActivator">
-      <HintPath>..\..\packages\WebActivator.1.0.0.0\lib\WebActivator.dll</HintPath>
+    <Reference Include="WebActivator, Version=1.4.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\WebActivator.1.4.4\lib\net40\WebActivator.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\FormsAuthenticationConfig.cs" />
     <Compile Include="Controllers\Api\TasksController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Models\Global.cs" />
-    <Compile Include="Controllers\Account.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Api\RavenApiController.cs" />
     <Compile Include="Helpers\RavenMessageHandler.cs" />
     <Compile Include="Controllers\HomeController.cs" />

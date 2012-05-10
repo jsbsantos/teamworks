@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Text;
+using Raven.Client;
+using Raven.Client.Document;
 
 namespace Teamworks.Core.Extensions {
     public static class Global {
-        //todo replace teamworks.web contains same property
-        public static string RavenSessionkey {
-            get { return "RavenSessionkey"; }
+        private static IDocumentStore _store;
+
+        public static string RavenKey
+        {
+            get { return "RAVEN_CURRENT_SESSION_KEY"; }
         }
 
         public static Tuple<string, string> DecodeBasicAuthenticationHeader(string basicAuthToken) {

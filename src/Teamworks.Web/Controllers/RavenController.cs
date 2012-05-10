@@ -7,12 +7,12 @@ using Global = Teamworks.Web.Models.Global;
 namespace Teamworks.Web.Controllers {
     public class RavenController : Controller {
         public IDocumentSession DbSession {
-            get { return Local.Data[Global.RavenKey] as IDocumentSession; }
+            get { return Local.Data[Core.Extensions.Global.RavenKey] as IDocumentSession; }
         }
 
         protected override void Initialize(RequestContext context) {
             IDocumentSession session = Global.DocumentStore.OpenSession();
-            Local.Data[Global.RavenKey] = session;
+            Local.Data[Core.Extensions.Global.RavenKey] = session;
             base.Initialize(context);
         }
 

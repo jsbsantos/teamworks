@@ -10,7 +10,7 @@ namespace Teamworks.Web.Helpers {
         protected override Task<HttpResponseMessage> SendAsync(
             HttpRequestMessage request, CancellationToken cancellationToken) {
             IDocumentSession session = Global.DocumentStore.OpenSession();
-            Local.Data[Global.RavenKey] = session;
+            Local.Data[Core.Extensions.Global.RavenKey] = session;
             return base.SendAsync(request, cancellationToken)
                 .ContinueWith(t => {
                                   using (session) {
