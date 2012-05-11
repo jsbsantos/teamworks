@@ -6,16 +6,16 @@ namespace Teamworks.Core.Authentication {
     public static class AuthenticationManager {
         private static string _defaultScheme;
 
-        private static readonly Dictionary<string, IAuthenticationHandler> _handlers;
+        private static readonly Dictionary<string, IAuthenticationHandler> Handlers;
 
         static AuthenticationManager() {
-            _handlers = new Dictionary<string, IAuthenticationHandler>();
+            Handlers = new Dictionary<string, IAuthenticationHandler>();
         }
 
         public static string DefaultAuthenticationScheme {
             get { return _defaultScheme; }
             set {
-                if (_handlers.ContainsKey(value)) {
+                if (Handlers.ContainsKey(value)) {
                     _defaultScheme = value;
                 }
                 else {
@@ -25,29 +25,29 @@ namespace Teamworks.Core.Authentication {
         }
 
         public static bool Validate(string scheme, NetworkCredential credential) {
-            if (!_handlers.ContainsKey(scheme)) {
+            if (!Handlers.ContainsKey(scheme)) {
                 throw new ArgumentException("scheme");
             }
-            return _handlers[scheme].Validate(credential);
+            return Handlers[scheme].IsValid(credential);
         }
 
         public static void Add(string scheme, IAuthenticationHandler handler) {
-            _handlers.Add(scheme, handler);
+            Handlers.Add(scheme, handler);
         }
 
         public static void Remove(string scheme) {
-            _handlers.Remove(scheme);
+            Handlers.Remove(scheme);
         }
 
         public static IEnumerable<string> GetRegisteredSchemes() {
-            return _handlers.Keys;
+            return Handlers.Keys;
         }
 
         public static NetworkCredential GetCredentials(string scheme, dynamic token) {
-            if (!_handlers.ContainsKey(scheme)) {
+            if (!Handlers.ContainsKey(scheme)) {
                 throw new ArgumentException("scheme");
             }
-            return _handlers[scheme].GetCredentials(token);
+            return Handlers[scheme].GetCredentials(token);
         }
     }
 }

@@ -169,14 +169,13 @@
   <ItemGroup>
     <Compile Include="App_Start\FormsAuthenticationConfig.cs" />
     <Compile Include="Controllers\Api\TasksController.cs" />
+    <Compile Include="Controllers\Base\RavenApiController.cs" />
+    <Compile Include="Controllers\Base\RavenController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
-    <Compile Include="Models\Global.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\Api\RavenApiController.cs" />
-    <Compile Include="Helpers\RavenMessageHandler.cs" />
+    <Compile Include="Helpers\Handlers\RavenHandler.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Api\ProjectsController.cs" />
-    <Compile Include="Controllers\RavenController.cs" />
     <Compile Include="Helpers\BundleExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -273,6 +272,7 @@
     <None Include="Content\font\fontawesome-webfont.ttf" />
     <None Include="Content\font\fontawesome-webfont.woff" />
     <Content Include="Views\Projects\Project.cshtml" />
+    <Content Include="Views\Account\Signup.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\teamworks.css" />

@@ -2,15 +2,14 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Raven.Client;
+using Teamworks.Core;
 using Teamworks.Core.Extensions;
-using Global = Teamworks.Web.Models.Global;
 
 namespace Teamworks.Web.Helpers {
-    public class RavenMessageHandler : DelegatingHandler {
+    public class RavenHandler : DelegatingHandler {
         protected override Task<HttpResponseMessage> SendAsync(
             HttpRequestMessage request, CancellationToken cancellationToken) {
-            IDocumentSession session = Global.DocumentStore.OpenSession();
-            Local.Data[Core.Extensions.Global.RavenKey] = session;
+            IDocumentSession session = Core.Global.Raven.CurrentSession;
             return base.SendAsync(request, cancellationToken)
                 .ContinueWith(t => {
                                   using (session) {

@@ -75,8 +75,9 @@
     <Compile Include="Authentication\BasicAuthenticationHandler.cs" />
     <Compile Include="Authentication\BasicWebAuthenticationHandler.cs" />
     <Compile Include="Authentication\IAuthenticationHandler.cs" />
-    <Compile Include="Extensions\Global.cs" />
-    <Compile Include="Extensions\RavenSessionManager.cs" />
+    <Compile Include="Authentication\WebAuthentication.cs" />
+    <Compile Include="Global.cs" />
+    <Compile Include="Raven.cs" />
     <Compile Include="Session.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Authentication\AuthenticationHandler.cs" />
@@ -88,12 +89,9 @@
     <Compile Include="People\Permission.cs" />
     <Compile Include="People\Person.cs" />
     <Compile Include="People\Role.cs" />
-    <Compile Include="Projects\Discussion.cs" />
     <Compile Include="Projects\Project.cs" />
     <Compile Include="Projects\Task.cs" />
-    <Compile Include="Projects\TaskLogEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reference.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />

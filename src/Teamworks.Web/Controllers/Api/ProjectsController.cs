@@ -9,6 +9,8 @@ using System.Web.Http.ModelBinding.Binders;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
+using Raven.Client.Linq;
+using Teamworks.Web.Controllers.Base;
 using Teamworks.Web.Models;
 
 namespace Teamworks.Web.Controllers.Api {
@@ -16,9 +18,8 @@ namespace Teamworks.Web.Controllers.Api {
     [RoutePrefix("api/projects")]
     public class ProjectsController : RavenApiController {
         public IEnumerable<Project> Get() {
-            return
-                Mapper.Map<IQueryable<Core.Projects.Project>, IEnumerable<Project>>(
-                    DbSession.Query<Core.Projects.Project>());
+            var projects = DbSession.Query<Core.Projects.Project>().Include(p => p.TaskIds);
+            return Mapper.Map<IQueryable<Core.Projects.Project>, IEnumerable<Project>>(projects);
         }
 
         public Project Get(int id) {
@@ -30,20 +31,21 @@ namespace Teamworks.Web.Controllers.Api {
         }
 
         public HttpResponseMessage<Project> Post(Project project) {
-            Core.Projects.Project proj = Mapper.Map<Project, Core.Projects.Project>(project);
-
-            proj.Id = null;
-            DbSession.Store(proj);
-
-            project = Mapper.Map<Core.Projects.Project, Project>(proj);
-            string uri = Request.RequestUri.Authority + Url.Route(null, new {id = project.Id});
+            project.Id = null;
+            
+            var p = Mapper.Map<Project, Core.Projects.Project>(project);
+            DbSession.Store(p);
+            
+            project = Mapper.Map<Core.Projects.Project, Project>(p);
             var response = new HttpResponseMessage<Project>(project, HttpStatusCode.Created);
+            var uri = Request.RequestUri.Authority + Url.Route(null, new { id = p.Id });
             response.Headers.Location = new Uri(uri);
             return response;
         }
 
         /// <see cref="http://forums.asp.net/post/4855634.aspx"/>
-        public HttpResponseMessage Put([ModelBinder(typeof (TypeConverterModelBinder))] int id, Project project) {
+        public HttpResponseMessage Put([ModelBinder(typeof (TypeConverterModelBinder))] int id,
+                                       Core.Projects.Project project) {
             var proj = DbSession.Load<Core.Projects.Project>(id);
             if (proj == null) {
                 throw new HttpResponseException(HttpStatusCode.NotFound);

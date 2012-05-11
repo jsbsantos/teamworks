@@ -1,18 +1,16 @@
 ﻿using System.Web.Mvc;
 using System.Web.Routing;
 using Raven.Client;
-using Teamworks.Core.Extensions;
-using Global = Teamworks.Web.Models.Global;
+using Teamworks.Core;
 
-namespace Teamworks.Web.Controllers {
+namespace Teamworks.Web.Controllers.Base {
     public class RavenController : Controller {
         public IDocumentSession DbSession {
-            get { return Local.Data[Core.Extensions.Global.RavenKey] as IDocumentSession; }
+            get { return Global.Raven.CurrentSession; }
         }
 
         protected override void Initialize(RequestContext context) {
-            IDocumentSession session = Global.DocumentStore.OpenSession();
-            Local.Data[Core.Extensions.Global.RavenKey] = session;
+            Global.Raven.TryOpen();
             base.Initialize(context);
         }
 

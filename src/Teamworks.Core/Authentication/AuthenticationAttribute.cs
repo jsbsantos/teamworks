@@ -1,9 +1,12 @@
 ﻿using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
+using Teamworks.Core.Extensions;
 
 namespace Teamworks.Core.Authentication {
-    //Web Controller Authentication Attribute
+    /// <summary>
+    /// Web controllers Authentication Attribute
+    /// </summary>
     public class AuthenticationAttribute : AuthorizeAttribute {
         public override void OnAuthorization(AuthorizationContext filterContext) {
             HttpContextBase context = filterContext.HttpContext;
@@ -12,8 +15,9 @@ namespace Teamworks.Core.Authentication {
                 return;
             }
 
-            HttpCookie sessionId = context.Request.Cookies["teamworks_sessionid"];
-            Session session = Session.Get(sessionId.Value);
+            var sessionId = context.Request.Cookies["teamworks_sessionid"];
+            var session = Global.Raven.CurrentSession.Load<Session>(sessionId.Value);
+            
             if (session == null) {
                 context.Response.Redirect("Home/Login", true);
                 return;

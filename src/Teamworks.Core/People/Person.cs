@@ -1,43 +1,36 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Web.Security;
+﻿using System.Security.Cryptography;
+using System.Text;
 
 namespace Teamworks.Core.People {
     public class Person : Entity<Person> {
-        public Person(string email, string password, string name) {
+        public Person(string email, string username, string password) {
+            Salt = GenSalt();
             Email = email;
-            Password = password;
-            Username = Name = name;
+            Username = Name = username;
+            Password = EncodePassword(password, Salt);
         }
 
+        private string Salt { get; set; }
         public string Email { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
 
-        public static string EncodePassword(string password) {
-            return password.GetHashCode().ToString(CultureInfo.InvariantCulture);
+        public bool IsThePassword(string password) {
+            string other = EncodePassword(password, Salt);
+            return System.String.CompareOrdinal(Password, other) == 0;
         }
 
-        public static bool Authenticate(string id, string password) {
-            //todo create index to search users by username, email, id
-            Person user =
-                Session.Query<Person>().Where(
-                    x =>
-                    x.Username.Equals(id, StringComparison.InvariantCultureIgnoreCase) ||
-                    x.Id.Equals(id, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
-
-            if (user == null) {
-                return false;
-            }
-
-            return user.Password.Equals(EncodePassword(password));
+        private static string EncodePassword(string password, string salt) {
+            HashAlgorithm algorithm = new SHA256Managed();
+            byte[] plain = Encoding.Unicode.GetBytes(password + salt);
+            return Encoding.UTF8.GetString(algorithm.ComputeHash(plain));
         }
 
-        public string ResetPassword() {
-            string pwd = Membership.GeneratePassword(8, 0);
-            Password = EncodePassword(pwd);
-            return pwd;
+        private static string GenSalt() {
+            var random = new RNGCryptoServiceProvider();
+            var salt = new byte[32]; //256 bits
+            random.GetBytes(salt);
+            return Encoding.UTF8.GetString(salt);
         }
     }
 }

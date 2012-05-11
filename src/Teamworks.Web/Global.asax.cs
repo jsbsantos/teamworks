@@ -7,8 +7,8 @@ using AttributeRouting.Web.Http.WebHost;
 using AutoMapper;
 using LowercaseRoutesMVC;
 using Microsoft.Web.Optimization;
+using Teamworks.Core;
 using Teamworks.Core.Authentication;
-using Teamworks.Web.App_Start;
 using Teamworks.Web.Controllers.Api;
 using Teamworks.Web.Helpers;
 using Teamworks.Web.Models;
@@ -40,7 +40,12 @@ namespace Teamworks.Web {
 
         public static void RegisterMappers() {
             Mapper.CreateMap<Project, Core.Projects.Project>();
-            Mapper.CreateMap<Core.Projects.Project, Project>()
+            Mapper.CreateMap<Core.Projects.Project, Project>().ForMember(src => src.Tasks,
+                                                                         opt =>
+                                                                         opt.MapFrom(
+                                                                             src =>
+                                                                             Global.Raven.CurrentSession.Load<Task>(
+                                                                                 src.TaskIds)))
                 .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier));
             Mapper.CreateMap<Task, Core.Projects.Task>();
             Mapper.CreateMap<Core.Projects.Task, Task>()
@@ -57,11 +62,11 @@ namespace Teamworks.Web {
             HttpConfiguration configuration = GlobalConfiguration.Configuration;
             configuration.Formatters.Remove(configuration.Formatters.JsonFormatter);
             configuration.Formatters.Add(new JsonNetFormatter());
-            configuration.MessageHandlers.Add(new RavenMessageHandler());
+            configuration.MessageHandlers.Add(new RavenHandler());
 
             AuthenticationManager.Add("Basic", new BasicAuthenticationHandler());
             AuthenticationManager.Add("BasicWeb", new BasicWebAuthenticationHandler());
-            AuthenticationManager.DefaultAuthenticationScheme="BasicWeb";
+            AuthenticationManager.DefaultAuthenticationScheme = "BasicWeb";
 
             BundleTable.Bundles.EnableTeamworksBundle();
         }

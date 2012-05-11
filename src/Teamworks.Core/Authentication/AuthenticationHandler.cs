@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http.Hosting;
 using Raven.Client.Linq;
+using Teamworks.Core.Extensions;
 using Teamworks.Core.People;
 
 namespace Teamworks.Core.Authentication {
@@ -57,12 +58,13 @@ namespace Teamworks.Core.Authentication {
             if (header != null) {
                 NetworkCredential credentials = AuthenticationManager.GetCredentials(header.Scheme, header.Parameter);
                 if (AuthenticationManager.Validate(header.Scheme, credentials)) {
-                    Person user =
-                        Person.Query().Where(
-                            x => x.Username.Equals(credentials.UserName, StringComparison.InvariantCultureIgnoreCase)).
-                            FirstOrDefault();
-                    var principal = new GenericPrincipal(new GenericIdentity(user.Username), null);
-                    SetPrincipal(principal, request);
+                    var user =
+                        Global.Raven.CurrentSession.Query<Person>().FirstOrDefault(
+                            x => x.Username.Equals(credentials.UserName, StringComparison.InvariantCultureIgnoreCase));
+                    if (user != null) {
+                        var principal = new GenericPrincipal(new GenericIdentity(user.Username), null);
+                        SetPrincipal(principal, request);
+                    }
                 }
             }
 

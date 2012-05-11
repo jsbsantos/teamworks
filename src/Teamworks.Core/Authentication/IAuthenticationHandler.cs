@@ -2,7 +2,7 @@ using System.Net;
 
 namespace Teamworks.Core.Authentication {
     public interface IAuthenticationHandler {
-        bool Validate(NetworkCredential credential);
+        bool IsValid(NetworkCredential credential);
         NetworkCredential GetCredentials(dynamic token);
     }
 }

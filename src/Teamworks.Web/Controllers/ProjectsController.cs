@@ -2,10 +2,12 @@
 using System.Web.Mvc;
 using AutoMapper;
 using Teamworks.Core.Projects;
+using Teamworks.Web.Controllers.Base;
 
 namespace Teamworks.Web.Controllers {
     public class ProjectsController : RavenController {
         [HttpGet]
+        [Authorize]
         [ActionName("View")]
         public ActionResult Index(int? id) {
             if (id != null) {

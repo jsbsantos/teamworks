@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Text;
-using Raven.Client;
-using Raven.Client.Document;
 
-namespace Teamworks.Core.Extensions {
+namespace Teamworks.Core {
     public static class Global {
-        private static IDocumentStore _store;
-
-        public static string RavenKey
-        {
-            get { return "RAVEN_CURRENT_SESSION_KEY"; }
+        public static Raven Raven {
+            get { return Raven.Instance; }
         }
 
         public static Tuple<string, string> DecodeBasicAuthenticationHeader(string basicAuthToken) {

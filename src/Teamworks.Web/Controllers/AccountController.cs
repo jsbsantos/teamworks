@@ -1,52 +1,65 @@
-﻿using System.Dynamic;
-using System.Net.Http;
-using System.Security.Principal;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Dynamic;
 using System.Web.Mvc;
 using System.Web.Security;
 using Teamworks.Core.Authentication;
+using Teamworks.Core.People;
+using Teamworks.Web.Controllers.Base;
 
 namespace Teamworks.Web.Controllers
 {
     public class AccountController : RavenController
     {
-        /*[HttpGet]
-        public ActionResult Index()
+        [HttpGet]
+        [ActionName("View")]
+        public ActionResult Index(string returnUrl)
         {
-            return View("View");
+            return View();
         }
 
-        public ActionResult Login()
+        [HttpPost]
+        public ActionResult Signin(string username, string password)
         {
-            dynamic o = new ExpandoObject();
-            o.Username = HttpContext.Request.Form["username"];
-            o.Password = HttpContext.Request.Form["password"];
+            dynamic dyn = new ExpandoObject();
+            dyn.Username = username;
+            dyn.Password = password;
 
             dynamic state = AuthenticationManager.Validate("BasicWeb",
-                                                           AuthenticationManager.GetCredentials("BasicWeb", o));
-            return new ContentResult { Content = (state ? "" : "not") + "authenticated", ContentType = "text/html" };
-        }
-        */
+                                                           AuthenticationManager.GetCredentials("BasicWeb", dyn));
 
-        public ActionResult Index()
-        {
-            if (HttpContext.Request.HttpMethod == HttpMethod.Get.ToString())
-                return View("View");
-
-            dynamic o = new ExpandoObject();
-            o.Username = HttpContext.Request.Form["username"];
-            o.Password = HttpContext.Request.Form["password"];
-
-            dynamic state = AuthenticationManager.Validate("BasicWeb",
-                                                           AuthenticationManager.GetCredentials("BasicWeb", o));
-            
-            FormsAuthentication.SetAuthCookie(o.Username+"8",false);
-            //HttpContext.User = new GenericPrincipal(new GenericIdentity(o.Username), null);
-
-            FormsAuthentication.RedirectFromLoginPage(o.Username, false);
-
-
-            return new ContentResult { Content = (state ? "" : "not") + "authenticated", ContentType = "text/html" };
+            FormsAuthentication.SetAuthCookie(dyn.Username, false);
+            return Redirect(FormsAuthentication.GetRedirectUrl(dyn.Username, false));
         }
 
+        [HttpGet]
+        public ActionResult Logout() {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("View", "Home");
+        }
+
+        [HttpGet]
+        public ActionResult Signup() {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Signup(Register register) {
+            if (!ModelState.IsValid)
+                return View();
+
+            var person = new Person(register.Email, register.Username, register.Password);
+            DbSession.Store(person);
+            return RedirectToAction("View", "Home");
+        }
+
+    }
+
+    public class Register {
+        [Required]
+        public string Email { get; set; }
+        [Required]
+        public string Password { get; set; }
+        [Required]
+        public string Username { get; set; }
     }
 }

@@ -54,7 +54,7 @@
     // http://docs.jquery.com/Plugins/Validation/validate
         validate: function(options) {
             /// <summary>
-            /// Validates the selected form. This method sets up event handlers for submit, focus,
+            /// IsValids the selected form. This method sets up event handlers for submit, focus,
             /// keyup, blur and click to trigger validation of the entire form or individual
             /// elements. Each one can be disabled, see the onxxx options (onsubmit, onfocusout,
             /// onkeyup, onclick). focusInvalid focuses elements when submitting a invalid form.
@@ -406,7 +406,7 @@
             // http://docs.jquery.com/Plugins/Validation/Validator/form
             form: function() {
                 /// <summary>
-                /// Validates the form, returns true if it is valid, false otherwise.
+                /// IsValids the form, returns true if it is valid, false otherwise.
                 /// This behaves as a normal submit event, but returns the result.
                 /// </summary>
                 /// <returns type="Boolean" />
@@ -431,7 +431,7 @@
             // http://docs.jquery.com/Plugins/Validation/Validator/element
             element: function(element) {
                 /// <summary>
-                /// Validates a single element, returns true if it is valid, false otherwise.
+                /// IsValids a single element, returns true if it is valid, false otherwise.
                 /// This behaves as validation on blur or keyup, but returns the result.
                 /// </summary>
                 /// <param name="element" type="Selector">
