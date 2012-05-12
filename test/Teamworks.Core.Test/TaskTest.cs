@@ -73,8 +73,8 @@ namespace Teamworks.Core.Test {
         ///</summary>
         [TestMethod]
         public void AddTest_successfull_if_id_is_created() {
-            var task = new Task("task", "desctask", 10, DateTime.Now, project.Id);
-            Task.Add(task);
+            var task = new Task{Name = "task", Description = "desctask", DateTime.Now, ProjectId = project.Id};
+            Session.Store(task);
             Session.SaveChanges();
             Assert.IsFalse(string.IsNullOrEmpty(task.Id));
         }

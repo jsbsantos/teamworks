@@ -17,6 +17,7 @@ namespace Teamworks.Web.Helpers.Extensions {
 #if !DEBUG
             js.AddFile("~/content/js/application.viewmodels.js");
             js.AddFile("~/content/js/application.js");
+            js.AddFile("~/content/js/application.tasks.viewmodel.js");
 #endif
             bundles.Add(js);
         }

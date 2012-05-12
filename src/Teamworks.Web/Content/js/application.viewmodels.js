@@ -2,10 +2,11 @@
     var self = this;
     self.id = ko.observable("0");
     self.name = ko.observable();
-    self.project = ko.observable();
+    self.projectid = ko.observable();
     self.description = ko.observable();
-    self.url = ko.computed(function() {
-        return "/projects/" + self.project() + "/tasks/" + self.id();
+    self.editing = ko.observable();
+    self.url = ko.computed(function () {
+        return "/projects/" + self.projectid() + "/tasks/" + self.id();
     });
     var map = function(other) {
         self.id(other.id || self.id());

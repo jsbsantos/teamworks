@@ -1,4 +1,4 @@
-/// <reference path="~/Views/Home/post/Content/js/application.viewmodels.js" />
+/// <reference path="~/Content/js/application.viewmodels.js" />
 
 (function() {
     'use strict';
@@ -17,6 +17,7 @@
         /* new project */
         self.project = new Project();
         /* projects interactions */
+        
         self.create = function() {
             var request = $.ajax("/api/projects", {
                 data: ko.toJSON(self.project),
