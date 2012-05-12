@@ -6,3 +6,4 @@ Este projecto tem como objectivo a disponibilização de uma infra-estrutura de 
 
 As funcionalidades passam pela criação de planos de trabalho, afectação de recursos a tarefas, registo do tempo despendido, monitorização do estado actual do projecto, áreas de discussão, partilha de informação, etc.
 
+````falta aqui umas coisas````
