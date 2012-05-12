@@ -19,10 +19,7 @@ namespace Teamworks.Core.Extensions {
             private static Hashtable LocalHashtable {
                 get {
                     if (!RunningInWeb) {
-                        if (_localData == null) {
-                            _localData = new Hashtable();
-                        }
-                        return _localData;
+                        return _localData ?? (_localData = new Hashtable());
                     }
                     else {
                         var web_hashtable = HttpContext.Current.Items[LocalDataHashtableKey] as Hashtable;
