@@ -1,4 +1,4 @@
-/// <reference path="~/Views/Home/post/Content/js/application.viewmodels.js" />
+/// <reference path="~/Content/js/application.viewmodels.js" />
 
 (function() {
     'use strict';

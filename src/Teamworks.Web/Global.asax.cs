@@ -36,6 +36,7 @@ namespace Teamworks.Web {
                 url: "{controller}/{action}/{id}",
                 defaults: new {controller = "Home", action = "View", id = UrlParameter.Optional}
                 );
+
         }
 
         public static void RegisterMappers() {
