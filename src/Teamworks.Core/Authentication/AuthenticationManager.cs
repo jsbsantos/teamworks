@@ -49,5 +49,14 @@ namespace Teamworks.Core.Authentication {
             }
             return Handlers[scheme].GetCredentials(token);
         }
+
+        public static IAuthenticationHandler Get(string scheme) {
+            IAuthenticationHandler value;
+            if (Handlers.TryGetValue(scheme, out value)) {
+                return value;
+            }
+            return null;
+
+        }
     }
 }

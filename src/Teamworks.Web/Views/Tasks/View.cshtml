@@ -1,5 +1,6 @@
 ﻿@model dynamic
 @{
+    ViewBag.Id = "tasks";
     ViewBag.Title = "Tasks";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -27,7 +28,6 @@
 </article>
 
 <script type="text/html" id="task-template">
-    
     <section class="span3">
         <div>
             <h2><a data-bind="text: name, attr: { href: url }"></a></h2>

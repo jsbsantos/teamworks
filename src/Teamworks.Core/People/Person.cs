@@ -11,12 +11,13 @@ namespace Teamworks.Core.People
         public static Person Forge(string email, string username, string password)
         {
             var salt = GenSalt();
-            return new Person()
+            return new Person
                    {
-                       Id = username,
+                       Id = "people/" + username,
                        Salt = salt,
                        Email = email,
                        Name = string.Empty,
+                       Username = username,
                        Roles = new List<string>(),
                        Permissions = new List<IPermission>(),
                        Password = EncodePassword(password, salt)
@@ -25,17 +26,7 @@ namespace Teamworks.Core.People
 
         public string Salt { get; private set; }
         public string Email { get; set; }
-
-        [JsonIgnore]
-        public string Username
-        {
-            get
-            {
-                var split = Id.Split('/');
-                return split[split.Length - 1];
-            }
-        }
-
+        public string Username { get; set; }
         public string Password { get; set; }
         public IList<string> Roles { get; set; }
         public IList<IPermission> Permissions { get; set; }

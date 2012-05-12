@@ -3,7 +3,7 @@ using Raven.Client;
 using Teamworks.Core;
 
 namespace Teamworks.Web.Controllers.Base {
-    [Authorize]
+    // [Authorize]
     public class RavenApiController : ApiController {
         public IDocumentSession DbSession {
             get { return Global.Raven.CurrentSession; }

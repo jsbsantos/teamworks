@@ -12,10 +12,14 @@ namespace Teamworks.Web.Controllers
     [AllowAnonymous]
     public class AccountController : RavenController
     {
+        private const string ReturnUrl = "RETURN_URL";
+        private const string CookieKey = ".TW_SESSION";
+
+
         [HttpGet]
         [ActionName("View")]
-        public ActionResult Index(string returnUrl)
-        {
+        public ActionResult Index(string returnUrl) {
+            TempData[ReturnUrl] = returnUrl;
             return View();
         }
 
@@ -26,12 +30,12 @@ namespace Teamworks.Web.Controllers
             dyn.Username = username;
             dyn.Password = password;
 
-            if (AuthenticationManager.Validate("BasicWeb", AuthenticationManager.GetCredentials("BasicWeb", dyn)))
-            {
-                FormsAuthentication.SetAuthCookie(dyn.Username, false);
-                return Redirect(FormsAuthentication.GetRedirectUrl(dyn.Username, false));    
+            var handler = AuthenticationManager.Get("BasicWeb");
+            if (handler != null && handler.IsValid(AuthenticationManager.GetCredentials("BasicWeb", dyn))) {
+                FormsAuthentication.SetAuthCookie(CookieKey, false, CookieKey);
+                return Redirect(TempData[ReturnUrl] as string ?? "/");    
             }
-
+            
             var errors = TempData["ERRORS_LIST"] as List<string> ?? new List<string>();
             errors.Add("The username or password you entered is incorrect.");
             TempData["ERRORS_LIST"] = errors;

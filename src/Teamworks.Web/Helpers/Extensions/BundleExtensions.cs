@@ -12,12 +12,11 @@ namespace Teamworks.Web.Helpers.Extensions {
             bundles.Add(css);
 
             var js = new Bundle("~/js", typeof (JsMinify));
+#if !DEBUG
             js.AddFile("~/content/js/libs/knockout-2.0.0.js");
             js.AddFile("~/content/js/libs/knockout.unobtrusive.js");
-#if !DEBUG
             js.AddFile("~/content/js/application.viewmodels.js");
             js.AddFile("~/content/js/application.js");
-            js.AddFile("~/content/js/application.tasks.viewmodel.js");
 #endif
             bundles.Add(js);
         }

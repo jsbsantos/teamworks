@@ -9,7 +9,7 @@ using Teamworks.Core.People;
 
 namespace Teamworks.Web.Controllers.Base
 {
-    [Authorize]
+    // [Authorize]
     public class RavenController : Controller
     {
         public IDocumentSession DbSession
