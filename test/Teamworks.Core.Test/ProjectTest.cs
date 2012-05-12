@@ -63,7 +63,7 @@ namespace Teamworks.Core.Test {
         //
 
         #endregion
-
+        /*
         /// <summary>
         ///A test for Authenticate
         ///</summary>
@@ -178,5 +178,6 @@ namespace Teamworks.Core.Test {
             Session.Advanced.Eagerly.ExecuteAllPendingLazyOperations();
             Assert.AreEqual(20, x);
         }
+        */
     }
 }

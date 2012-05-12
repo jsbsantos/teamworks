@@ -18,7 +18,7 @@ namespace Teamworks.Core.Test {
         ///information about and functionality for the current test run.
         ///</summary>
         public TestContext TestContext { get; set; }
-
+        /*
         #region Additional test attributes
 
         // 
@@ -150,5 +150,6 @@ namespace Teamworks.Core.Test {
 
             Assert.IsTrue(loaded.Predecessor.Contains(task));
         }
+         */
     }
 }

@@ -1,12 +1,7 @@
-using System;
 using Newtonsoft.Json;
-using Raven.Client;
-using Raven.Client.Linq;
-using Teamworks.Core.Extensions;
-using Teamworks.Core.People;
 
 namespace Teamworks.Core {
-    public abstract class Entity<T> {
+    public abstract class Entity {
         
         public string Id { get; set; }
         public string Name { get; set; }

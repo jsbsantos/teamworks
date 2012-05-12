@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Reflection;
 using System.Web;
 using System.Web.Http;
@@ -13,47 +14,54 @@ using Teamworks.Web.Controllers.Api;
 using Teamworks.Web.Helpers;
 using Teamworks.Web.Models;
 
-namespace Teamworks.Web {
+namespace Teamworks.Web
+{
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
 
-    public class MvcApplication : HttpApplication {
-        public static void RegisterGlobalFilters(GlobalFilterCollection filters) {
+    public class MvcApplication : HttpApplication
+    {
+        public static void RegisterGlobalFilters(GlobalFilterCollection filters)
+        {
             filters.Add(new HandleErrorAttribute());
         }
 
-        public static void RegisterRoutes(RouteCollection routes) {
+        public static void RegisterRoutes(RouteCollection routes)
+        {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapHttpAttributeRoutes(config => {
-                                              config.ScanAssembly(Assembly.GetExecutingAssembly());
-                                              config.AddRoutesFromController<TasksController>();
-                                              config.AddRoutesFromController<ProjectsController>();
-                                              config.UseLowercaseRoutes = true;
-                                          });
+            routes.MapHttpAttributeRoutes(config =>
+            {
+                config.ScanAssembly(Assembly.GetExecutingAssembly());
+                config.AddRoutesFromController<TasksController>();
+                config.AddRoutesFromController<ProjectsController>();
+                config.UseLowercaseRoutes = true;
+            });
             routes.MapRouteLowercase(
                 name: "default",
                 url: "{controller}/{action}/{id}",
-                defaults: new {controller = "Home", action = "View", id = UrlParameter.Optional}
+                defaults: new { controller = "Home", action = "View", id = UrlParameter.Optional }
                 );
 
         }
 
-        public static void RegisterMappers() {
+        public static void RegisterMappers()
+        {
             Mapper.CreateMap<Project, Core.Projects.Project>();
             Mapper.CreateMap<Core.Projects.Project, Project>().ForMember(src => src.Tasks,
                                                                          opt =>
                                                                          opt.MapFrom(
-                                                                             src =>
-                                                                             Global.Raven.CurrentSession.Load<Task>(
-                                                                                 src.TaskIds)))
+                                                                             src => Mapper.Map<IList<Core.Projects.Task>, IList<Task>>(Global.Raven.CurrentSession.Load<Core.Projects.Task>(
+                                                                                 src.TaskIds))
+                                                                             ))
                 .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier));
             Mapper.CreateMap<Task, Core.Projects.Task>();
             Mapper.CreateMap<Core.Projects.Task, Task>()
                 .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier));
         }
 
-        protected void Application_Start() {
+        protected void Application_Start()
+        {
             AreaRegistration.RegisterAllAreas();
 
             RegisterGlobalFilters(GlobalFilters.Filters);

@@ -8,9 +8,22 @@ using System.Web.WebPages;
 namespace Teamworks.Web.Views {
     public static class ViewsExtensions {
         public static HelperResult ActiveController(this HtmlHelper _this, string controller) {
-            string name = HttpContext.Current.Request.RequestContext.RouteData.GetRequiredString("controller");
+            var c = HttpContext.Current.Request.RequestContext.RouteData.GetRequiredString("controller");
             return new HelperResult(
-                writer => writer.Write(controller.Equals(name, StringComparison.OrdinalIgnoreCase) ? "active" : "")
+                writer => writer.Write(controller.Equals(c, StringComparison.OrdinalIgnoreCase) ? "active" : "")
+                );
+        }
+
+        public static HelperResult ActiveControllerAndAction(this HtmlHelper _this, string controller, string action)
+        {
+            var c = HttpContext.Current.Request.RequestContext.RouteData.GetRequiredString("controller");
+            var a = HttpContext.Current.Request.RequestContext.RouteData.GetRequiredString("action");
+
+            var condition = controller.Equals(c, StringComparison.OrdinalIgnoreCase) 
+                && action.Equals(a, StringComparison.OrdinalIgnoreCase) ;
+            
+            return new HelperResult(
+                writer => writer.Write(condition ? "active" : "")
                 );
         }
 

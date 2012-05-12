@@ -18,7 +18,6 @@
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
     <!-- Custom font from google -->
-    <link href='http://fonts.googleapis.com/css?family=Droid+Sans:700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="@BundleTable.Bundles.ResolveBundleUrl("~/css")" >
     <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
     <!-- All JavaScript at the bottom, except this Modernizr build.
@@ -36,12 +35,12 @@
                 <ul class="nav">
                     <li>@Html.ActionLink("teamworks", "View", "Home", null, new {@class = "brand"})</li>
                     <li class="@Html.ActiveController("Home")"><a href="@Url.Action("View", "Home")"><i class="icon-home icon-white"></i>Home</a></li>
-                    <li class="@Html.ActiveController("Projects")"><a href="@Url.Action("View", "Projects")">Projects</a></li>
+                    <li class="divider-vertical"></li>
+                    <li class="@Html.ActiveController("Projects")"><a href="@Url.Action("View", "Projects", new { id = UrlParameter.Optional })">Projects</a></li>
                     <li class="@Html.ActiveController("Timeline")"><a href="@Url.Action("View", "Timeline")">Timeline</a></li>
-                </ul>
-                <ul class="nav">
-                    <li><a href="#">Everyone</a></li>
-                    <li><a href="#">Me</a></li>
+                    <li class="divider-vertical"></li>
+                    <li class="@Html.ActiveControllerAndAction("Everyone", "Timeline")"><a href="#">Everyone</a></li>
+                    <li class="@Html.ActiveControllerAndAction("Me", "Timeline")"><a href="#">Me</a></li>
                 </ul>
                 @Html.Identity()
             </nav>

@@ -23,22 +23,20 @@ namespace Teamworks.Web.Controllers.Api {
         }
 
         public Project Get(int id) {
-            var project = DbSession.Load<Core.Projects.Project>(id);
+            var project = DbSession.Include<Core.Projects.Project>(p => p.TaskIds).Load<Core.Projects.Project>(id);
             if (project == null) {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
             return Mapper.Map<Core.Projects.Project, Project>(project);
         }
 
-        public HttpResponseMessage<Project> Post(Project project) {
-            project.Id = null;
-            
-            var p = Mapper.Map<Project, Core.Projects.Project>(project);
-            DbSession.Store(p);
-            
-            project = Mapper.Map<Core.Projects.Project, Project>(p);
-            var response = new HttpResponseMessage<Project>(project, HttpStatusCode.Created);
-            var uri = Request.RequestUri.Authority + Url.Route(null, new { id = p.Id });
+        public HttpResponseMessage<Project> Post(Project form) {
+            var project = Core.Projects.Project.Forge(form.Name, form.Description);
+            DbSession.Store(project);
+
+            var response = new HttpResponseMessage<Project>(Mapper.Map<Core.Projects.Project, Project>(project),
+                                                            HttpStatusCode.Created);
+            var uri = Request.RequestUri.Authority + Url.Route(null, new {id = project.Id});
             response.Headers.Location = new Uri(uri);
             return response;
         }

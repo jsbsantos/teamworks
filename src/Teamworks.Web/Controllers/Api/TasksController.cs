@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -15,6 +16,13 @@ namespace Teamworks.Web.Controllers.Api {
     [RoutePrefix("api/projects/{projectid}/tasks")]
     public class TasksController : RavenApiController {
         public IEnumerable<Models.Task> Get(int projectid) {
+            var project = DbSession.Load<Core.Projects.Project>(projectid);
+            foreach (var i in Enumerable.Range(1, 5)) {
+                var task = Core.Projects.Task.Forge(string.Format("task {0}", i), string.Format("description of target {0}", i));
+                DbSession.Store(task);
+                task.ProjectId = project.Id;
+                project.TaskIds.Add(task.Id);
+            }
             return null;
         }
 
@@ -28,6 +36,8 @@ namespace Teamworks.Web.Controllers.Api {
 
         public HttpResponseMessage<Models.Task> Post([ModelBinder(typeof (TypeConverterModelBinder))] int projectid,
                                               Models.Task task) {
+
+
 
             return null;
         }

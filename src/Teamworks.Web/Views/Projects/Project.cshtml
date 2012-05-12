@@ -1,27 +1,58 @@
 ﻿@using Teamworks.Web.Models
-@model Teamworks.Web.Models.Project
+@model Project
 @{
     ViewBag.Title = Model.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<header class="row">
-    <h1>@Model.Name
-        <small>@Model.Description</small> </h1>
+<header class="jumbotron subhead">
+    <h1>@Model.Name <small>@Model.Description</small></h1>
+    <div class="subnav subnav-fixed">
+        <ul class="nav nav-pills">
+            <li><a href="#tasks">n tasks</a></li>
+            <li><a href="#todos">n todos</a></li>
+            <li><a href="#messages">n messages</a></li>
+        </ul>
+    </div>
 </header>
-<div class="row">
-    @{
-        if (Model.Tasks.Count == 0) {
-            <p>Create your first task</p>
-        }
-        else {
-            <ul>
-                @foreach (Task task in Model.Tasks) {
-                    <li>
-                        @task.Name <small>@task.Description</small>
-                    </li>
-                } 
-            </ul>
-        }
+<section id="tasks">
+    <div class="page-header">
+        <h1>Tasks</h1>
+    </div>
+    <div class="row">
+        <div class="span6">
+        @{
+            if (Model.Tasks.Count == 0)
+            {
+                <p>Create your first task</p>
+            }
+            else
+            {
+                <ul>
+                    @foreach (var task in Model.Tasks)
+                    {
+                        <li>
+                            @task.Name <small>@task.Description</small> </li>
+                    }
+                </ul>
+            }
 
-    }
-</div>
+        }
+        </div>
+    </div>
+</section>
+<section id="todos">
+    <div class="page-header">
+        <h1>Todos</h1>
+    </div>
+    <div class="row">
+        
+    </div>
+</section>
+<section id="messages">
+    <div class="page-header">
+        <h1>Messages</h1>
+    </div>
+    <div class="row">
+        
+    </div>
+</section>
