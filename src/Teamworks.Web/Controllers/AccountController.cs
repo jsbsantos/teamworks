@@ -9,6 +9,7 @@ using Teamworks.Web.Controllers.Base;
 
 namespace Teamworks.Web.Controllers
 {
+    [AllowAnonymous]
     public class AccountController : RavenController
     {
         [HttpGet]
@@ -33,7 +34,7 @@ namespace Teamworks.Web.Controllers
 
             var errors = TempData["ERRORS_LIST"] as List<string> ?? new List<string>();
             errors.Add("The username or password you entered is incorrect.");
-            TempData["ERRORS_LUST"] = errors;
+            TempData["ERRORS_LIST"] = errors;
             return RedirectToAction("View");
         }
 

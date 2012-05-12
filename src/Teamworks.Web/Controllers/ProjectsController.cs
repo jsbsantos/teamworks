@@ -5,19 +5,18 @@ using Teamworks.Core.Projects;
 using Teamworks.Web.Controllers.Base;
 
 namespace Teamworks.Web.Controllers {
-    [Authorize]
     public class ProjectsController : RavenController {
         [HttpGet]
         [ActionName("View")]
         public ActionResult Index(int? id) {
             if (id != null) {
-                var proj = DbSession.Load<Project>(id);
-                if (proj == null) {
+                var project = DbSession.Load<Project>(id);
+                if (project == null) {
                     throw new HttpException(404, "Not Found");
                 }
 
-                Models.Project project = Mapper.Map<Project, Models.Project>(proj);
-                return View("Project", project);
+                var ret = Mapper.Map<Project, Models.Project>(project);
+                return View("Project", ret);
             }
             return View();
         }

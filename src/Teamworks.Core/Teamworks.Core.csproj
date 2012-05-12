@@ -45,6 +45,9 @@
     <Reference Include="Raven.Abstractions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <HintPath>..\..\packages\RavenDB.1.0.701\lib\net40\Raven.Abstractions.dll</HintPath>
     </Reference>
+    <Reference Include="Raven.Client.Authorization">
+      <HintPath>..\..\libs\Raven.Client.Authorization.dll</HintPath>
+    </Reference>
     <Reference Include="Raven.Client.Lightweight, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <HintPath>..\..\packages\RavenDB.1.0.701\lib\net40\Raven.Client.Lightweight.dll</HintPath>
     </Reference>
@@ -75,20 +78,18 @@
     <Compile Include="Authentication\BasicAuthenticationHandler.cs" />
     <Compile Include="Authentication\BasicWebAuthenticationHandler.cs" />
     <Compile Include="Authentication\IAuthenticationHandler.cs" />
+    <Compile Include="Authentication\PersonIdentity.cs" />
     <Compile Include="Authentication\WebAuthentication.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="Raven.cs" />
     <Compile Include="Session.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Authentication\AuthenticationHandler.cs" />
-    <Compile Include="Authentication\AuthenticationAttribute.cs" />
     <Compile Include="Authentication\AuthenticationManager.cs" />
     <Compile Include="Extensions\Validator.cs" />
     <Compile Include="Extensions\ILocalData.cs" />
     <Compile Include="Extensions\Local.cs" />
-    <Compile Include="People\Permission.cs" />
     <Compile Include="People\Person.cs" />
-    <Compile Include="People\Role.cs" />
     <Compile Include="Projects\Project.cs" />
     <Compile Include="Projects\Task.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

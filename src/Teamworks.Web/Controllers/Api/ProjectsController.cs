@@ -9,8 +9,11 @@ using System.Web.Http.ModelBinding.Binders;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
+using Raven.Bundles.Authorization.Model;
+using Raven.Client.Authorization;
 using Raven.Client.Linq;
 using Teamworks.Web.Controllers.Base;
+using Teamworks.Web.Helpers.Extensions;
 using Teamworks.Web.Models;
 
 namespace Teamworks.Web.Controllers.Api {
@@ -18,6 +21,7 @@ namespace Teamworks.Web.Controllers.Api {
     [RoutePrefix("api/projects")]
     public class ProjectsController : RavenApiController {
         public IEnumerable<Project> Get() {
+            DbSession.SecureFor(Request.GetUserPrincipalId(), "Projects/View");
             var projects = DbSession.Query<Core.Projects.Project>().Include(p => p.TaskIds);
             return Mapper.Map<IQueryable<Core.Projects.Project>, IEnumerable<Project>>(projects);
         }
@@ -33,6 +37,18 @@ namespace Teamworks.Web.Controllers.Api {
         public HttpResponseMessage<Project> Post(Project form) {
             var project = Core.Projects.Project.Forge(form.Name, form.Description);
             DbSession.Store(project);
+            DbSession.SetAuthorizationFor(project, new DocumentAuthorization
+                                                   {
+                                                       Permissions =
+                                                           {
+                                                               new DocumentPermission()
+                                                               {
+                                                                   Allow = true,
+                                                                   Operation = "Projects/View"
+                                                               }
+                                                           },
+                                                           Tags =  { project.Id }
+                                                   });
 
             var response = new HttpResponseMessage<Project>(Mapper.Map<Core.Projects.Project, Project>(project),
                                                             HttpStatusCode.Created);

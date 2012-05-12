@@ -1,6 +1,6 @@
 ﻿using Microsoft.Web.Optimization;
 
-namespace Teamworks.Web.Helpers {
+namespace Teamworks.Web.Helpers.Extensions {
     public static class BundleExtensions {
         public static void EnableTeamworksBundle(this BundleCollection bundles) {
             var css = new Bundle("~/css", typeof (CssMinify));

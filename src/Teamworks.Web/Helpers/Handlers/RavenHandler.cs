@@ -1,11 +1,10 @@
 using System.Net.Http;
+using System.Runtime.Remoting.Messaging;
 using System.Threading;
 using System.Threading.Tasks;
 using Raven.Client;
-using Teamworks.Core;
-using Teamworks.Core.Extensions;
 
-namespace Teamworks.Web.Helpers {
+namespace Teamworks.Web.Helpers.Handlers {
     public class RavenHandler : DelegatingHandler {
         protected override Task<HttpResponseMessage> SendAsync(
             HttpRequestMessage request, CancellationToken cancellationToken) {

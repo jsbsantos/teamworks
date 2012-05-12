@@ -1,19 +1,22 @@
 using System;
 using Newtonsoft.Json;
 using Raven.Json.Linq;
-using Teamworks.Core.Extensions;
 using Teamworks.Core.People;
 
-namespace Teamworks.Core {
-    public class Session : Entity {
+namespace Teamworks.Core
+{
+    public class Session : Entity
+    {
         private static int _timeout;
 
-        static Session() {
+        static Session()
+        {
             _timeout = 20;
         }
 
 
-        public Session() {
+        public Session()
+        {
             //to be used with Raven Expiration Bundle
             //makes the used session active for the next <timeout> minutes
             Global.Raven.CurrentSession.Advanced.GetMetadataFor(this)["Raven-Expiration-Date"] =
@@ -21,10 +24,13 @@ namespace Teamworks.Core {
         }
 
         [JsonIgnore]
-        public static int Timeout {
+        public static int Timeout
+        {
             get { return _timeout; }
-            set {
-                if (_timeout < 1) {
+            set
+            {
+                if (_timeout < 1)
+                {
                     throw new ArgumentException("Timeout");
                 }
                 _timeout = value;
@@ -32,5 +38,5 @@ namespace Teamworks.Core {
         }
 
         public Person Person { get; set; }
-        }
+    }
 }

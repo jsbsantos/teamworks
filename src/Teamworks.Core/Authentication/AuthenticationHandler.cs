@@ -60,9 +60,9 @@ namespace Teamworks.Core.Authentication {
                 if (AuthenticationManager.Validate(header.Scheme, credentials)) {
                     var user =
                         Global.Raven.CurrentSession.Query<Person>().FirstOrDefault(
-                            x => x.Username.Equals(credentials.UserName, StringComparison.InvariantCultureIgnoreCase));
+                            x => x.Id.Equals(credentials.UserName, StringComparison.InvariantCultureIgnoreCase));
                     if (user != null) {
-                        var principal = new GenericPrincipal(new GenericIdentity(user.Username), null);
+                        var principal = new GenericPrincipal(new PersonIdentity(user), null);
                         SetPrincipal(principal, request);
                     }
                 }

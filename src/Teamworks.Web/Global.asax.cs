@@ -12,6 +12,8 @@ using Teamworks.Core;
 using Teamworks.Core.Authentication;
 using Teamworks.Web.Controllers.Api;
 using Teamworks.Web.Helpers;
+using Teamworks.Web.Helpers.Extensions;
+using Teamworks.Web.Helpers.Handlers;
 using Teamworks.Web.Models;
 
 namespace Teamworks.Web
@@ -29,14 +31,7 @@ namespace Teamworks.Web
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-
-            routes.MapHttpAttributeRoutes(config =>
-            {
-                config.ScanAssembly(Assembly.GetExecutingAssembly());
-                config.AddRoutesFromController<TasksController>();
-                config.AddRoutesFromController<ProjectsController>();
-                config.UseLowercaseRoutes = true;
-            });
+            
             routes.MapRouteLowercase(
                 name: "default",
                 url: "{controller}/{action}/{id}",
@@ -59,19 +54,27 @@ namespace Teamworks.Web
                 .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier));
         }
 
+        public static void RegisterWebApiHandlers()
+        {
+            HttpConfiguration configuration = GlobalConfiguration.Configuration;
+            configuration.MessageHandlers.Add(new RavenHandler());
+            configuration.MessageHandlers.Add(new AuthHandler());
+        }
+
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
+            RegisterWebApiHandlers();
             RegisterMappers();
 
             HttpConfiguration configuration = GlobalConfiguration.Configuration;
             configuration.Formatters.Remove(configuration.Formatters.JsonFormatter);
             configuration.Formatters.Add(new JsonNetFormatter());
-            configuration.MessageHandlers.Add(new RavenHandler());
-
+            
+            
             AuthenticationManager.Add("Basic", new BasicAuthenticationHandler());
             AuthenticationManager.Add("BasicWeb", new BasicWebAuthenticationHandler());
             AuthenticationManager.DefaultAuthenticationScheme = "BasicWeb";
