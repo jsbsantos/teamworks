@@ -33,11 +33,11 @@ namespace Teamworks.Web.Controllers
                 return View("Task", new {proj, task});
             }
 
-            var project = DbSession.Load<Project>("projects/"+projectid ?? "-1");
+            var project = DbSession.Load<Project>("projects/" + (string.IsNullOrEmpty(projectid) ? "-1" : projectid));
             if (project == null)
                 throw new HttpException(404, "Not Found");
 
-            return View(Mapper.Map<Project, Models.Project>(project));
+            return View(/*Mapper.Map<Project, Models.Project>(project)*/);
         }
 
     }

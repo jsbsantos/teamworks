@@ -4,7 +4,8 @@
     self.name = ko.observable();
     self.projectid = ko.observable();
     self.description = ko.observable();
-    self.url = ko.computed(function() {
+    self.editing = ko.observable();
+    self.url = ko.computed(function () {
         return "/projects/" + self.projectid() + "/tasks/" + self.id();
     });
     var map = function(other) {
