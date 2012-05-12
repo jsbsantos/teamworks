@@ -5,7 +5,7 @@ using Teamworks.Core.Extensions;
 using Teamworks.Core.People;
 
 namespace Teamworks.Core {
-    public class Session : Entity<Session> {
+    public class Session : Entity {
         private static int _timeout;
 
         static Session() {
@@ -32,6 +32,5 @@ namespace Teamworks.Core {
         }
 
         public Person Person { get; set; }
-        public string Id { get; set; }
-    }
+        }
 }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Dynamic;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -24,11 +25,16 @@ namespace Teamworks.Web.Controllers
             dyn.Username = username;
             dyn.Password = password;
 
-            dynamic state = AuthenticationManager.Validate("BasicWeb",
-                                                           AuthenticationManager.GetCredentials("BasicWeb", dyn));
+            if (AuthenticationManager.Validate("BasicWeb", AuthenticationManager.GetCredentials("BasicWeb", dyn)))
+            {
+                FormsAuthentication.SetAuthCookie(dyn.Username, false);
+                return Redirect(FormsAuthentication.GetRedirectUrl(dyn.Username, false));    
+            }
 
-            FormsAuthentication.SetAuthCookie(dyn.Username, false);
-            return Redirect(FormsAuthentication.GetRedirectUrl(dyn.Username, false));
+            var errors = TempData["ERRORS_LIST"] as List<string> ?? new List<string>();
+            errors.Add("The username or password you entered is incorrect.");
+            TempData["ERRORS_LUST"] = errors;
+            return RedirectToAction("View");
         }
 
         [HttpGet]
@@ -47,7 +53,7 @@ namespace Teamworks.Web.Controllers
             if (!ModelState.IsValid)
                 return View();
 
-            var person = new Person(register.Email, register.Username, register.Password);
+            var person = Person.Forge(register.Email, register.Username, register.Password);
             DbSession.Store(person);
             return RedirectToAction("View", "Home");
         }

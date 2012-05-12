@@ -9,7 +9,7 @@
     });
     var map = function(other) {
         self.id(other.id || self.id());
-        self.name(other.name() || self.name());
+        self.name(other.name || self.name());
         self.description(other.description || self.description());
     };
     map(data || { });
