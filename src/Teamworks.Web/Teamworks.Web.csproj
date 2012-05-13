@@ -139,7 +139,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\TimelineController.cs" />
     <Compile Include="Helpers\Extensions\BundleExtensions.cs" />
-    <Compile Include="Helpers\Extensions\TempDataDictionaryExtensions.cs" />
     <Compile Include="Helpers\Extensions\HttpRequestMessageExtensions.cs" />
     <Compile Include="Helpers\Handlers\AuthHandler.cs" />
     <Compile Include="Controllers\TasksController.cs" />
