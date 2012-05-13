@@ -31,12 +31,7 @@ namespace Teamworks.Web
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-
-            routes.MapHttpAttributeRoutes(c =>
-            {
-                c.ScanAssembly(Assembly.GetExecutingAssembly()); c.UseLowercaseRoutes = true;
-            });
-
+            
             routes.MapRouteLowercase(
                 name: "default",
                 url: "{controller}/{action}/{id}",

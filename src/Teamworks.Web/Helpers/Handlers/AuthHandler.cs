@@ -24,9 +24,19 @@ namespace Teamworks.Web.Helpers.Handlers {
                 return session == null ? Unauthorized() : base.SendAsync(request, cancellationToken);
                 */
                 var identity = new PersonIdentity(person);
-                request.Properties[HttpPropertyKeys.UserPrincipalKey] =  new GenericPrincipal(identity, person.Roles.ToArray());
+                request.Properties[HttpPropertyKeys.UserPrincipalKey] = new GenericPrincipal(identity,
+                                                                                             person.Roles.ToArray());
             }
-            return base.SendAsync(request, cancellationToken);
+            return base.SendAsync(request, cancellationToken).ContinueWith(t => {
+                                                                               if (t.Result.StatusCode ==
+                                                                                   HttpStatusCode.Unauthorized) {
+                                                                                   t.Result.Headers.WwwAuthenticate.Add(
+                                                                                       new AuthenticationHeaderValue(
+                                                                                           "Basic",
+                                                                                           "realm=\"Api Teamworks\""));
+                                                                               }
+                                                                               return t.Result;
+                                                                           });
         }
     }
 }
