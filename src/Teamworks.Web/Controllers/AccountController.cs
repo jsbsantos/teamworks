@@ -6,40 +6,37 @@ using System.Web.Security;
 using Teamworks.Core.Authentication;
 using Teamworks.Core.People;
 using Teamworks.Web.Controllers.Base;
+using Teamworks.Web.Helpers.Extensions;
 
-namespace Teamworks.Web.Controllers
-{
+namespace Teamworks.Web.Controllers {
     [AllowAnonymous]
-    public class AccountController : RavenController
-    {
-        private const string ReturnUrl = "RETURN_URL";
-        private const string CookieKey = ".TW_SESSION";
-
-
+    public class AccountController : RavenController {
         [HttpGet]
-        [ActionName("View")]
-        public ActionResult Index(string returnUrl) {
-            TempData[ReturnUrl] = returnUrl;
+        public ActionResult Login() {
             return View();
         }
 
         [HttpPost]
-        public ActionResult Signin(string username, string password)
-        {
+        public ActionResult Login(Login model, string returnUrl) {
+            if (!ModelState.IsValid) {
+                return View(model);
+            }
+
             dynamic dyn = new ExpandoObject();
-            dyn.Username = username;
-            dyn.Password = password;
+            dyn.Username = model.Username;
+            dyn.Password = model.Password;
 
             var handler = AuthenticationManager.Get("BasicWeb");
             if (handler != null && handler.IsValid(AuthenticationManager.GetCredentials("BasicWeb", dyn))) {
-                FormsAuthentication.SetAuthCookie(CookieKey, false, CookieKey);
-                return Redirect(TempData[ReturnUrl] as string ?? "/");    
+                FormsAuthentication.SetAuthCookie(dyn.Username, model.Persist);
+                if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
+                    && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\")) {
+                    return Redirect(returnUrl);
+                }
+                return RedirectToAction("View", "Home");
             }
-            
-            var errors = TempData["ERRORS_LIST"] as List<string> ?? new List<string>();
-            errors.Add("The username or password you entered is incorrect.");
-            TempData["ERRORS_LIST"] = errors;
-            return RedirectToAction("View");
+            ModelState.AddModelError("", "The username or password you entered is incorrect.");
+            return View(model);
         }
 
         [HttpGet]
@@ -55,21 +52,37 @@ namespace Teamworks.Web.Controllers
 
         [HttpPost]
         public ActionResult Signup(Register register) {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid) {
                 return View();
+            }
 
             var person = Person.Forge(register.Email, register.Username, register.Password);
             DbSession.Store(person);
             return RedirectToAction("View", "Home");
         }
+    }
 
+    public class Login {
+        [Required]
+        [Display(Name = "Username")]
+        public string Username { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
+        public string Password { get; set; }
+
+        [Display(Name = "Remember me?")]
+        public bool Persist { get; set; }
     }
 
     public class Register {
         [Required]
         public string Email { get; set; }
+
         [Required]
         public string Password { get; set; }
+
         [Required]
         public string Username { get; set; }
     }

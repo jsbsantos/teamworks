@@ -51,9 +51,9 @@
         if (ViewBag.Id != null) {
             id = "id=\"" + ViewBag.Id + "\"";
         }
-    <div @Html.Raw(id) class="main container" role="main">
-        @RenderBody()
-    </div>    
+        <div @Html.Raw(id) class="main container" role="main">
+            @RenderBody()
+        </div>    
     }
     <footer></footer>
     <!-- JavaScript at the bottom for fast page loading -->
