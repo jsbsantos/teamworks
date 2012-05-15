@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+ using System.Collections.Generic;
 
 namespace Teamworks.Core.Projects {
     public class Project : Entity {

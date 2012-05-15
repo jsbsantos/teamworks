@@ -16,25 +16,32 @@ using Teamworks.Web.Controllers.Base;
 using Teamworks.Web.Helpers.Extensions;
 using Teamworks.Web.Models;
 
-namespace Teamworks.Web.Controllers.Api {
+namespace Teamworks.Web.Controllers.Api
+{
     [DefaultHttpRouteConvention]
     [RoutePrefix("api/projects")]
-    public class ProjectsController : RavenApiController {
-        public IEnumerable<Project> Get() {
+    public class ProjectsController : RavenApiController
+    {
+
+        public IEnumerable<Project> Get()
+        {
             DbSession.SecureFor(Request.GetUserPrincipalId(), "Projects/View");
             var projects = DbSession.Query<Core.Projects.Project>().Include(p => p.TaskIds);
             return Mapper.Map<IQueryable<Core.Projects.Project>, IEnumerable<Project>>(projects);
         }
 
-        public Project Get(int id) {
+        public Project Get(int id)
+        {
             var project = DbSession.Include<Core.Projects.Project>(p => p.TaskIds).Load<Core.Projects.Project>(id);
-            if (project == null) {
+            if (project == null)
+            {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
             return Mapper.Map<Core.Projects.Project, Project>(project);
         }
 
-        public HttpResponseMessage<Project> Post(Project form) {
+        public HttpResponseMessage<Project> Post(Project form)
+        {
             var project = Core.Projects.Project.Forge(form.Name, form.Description);
             DbSession.Store(project);
             DbSession.SetAuthorizationFor(project, new DocumentAuthorization
@@ -47,21 +54,23 @@ namespace Teamworks.Web.Controllers.Api {
                                                                    Operation = "Projects/View"
                                                                }
                                                            },
-                                                           Tags =  { project.Id }
+                                                       Tags = { project.Id }
                                                    });
 
             var response = new HttpResponseMessage<Project>(Mapper.Map<Core.Projects.Project, Project>(project),
                                                             HttpStatusCode.Created);
-            var uri = Request.RequestUri.Authority + Url.Route(null, new {id = project.Id});
+            var uri = Request.RequestUri.Authority + Url.Route(null, new { id = project.Id });
             response.Headers.Location = new Uri(uri);
             return response;
         }
 
         /// <see cref="http://forums.asp.net/post/4855634.aspx"/>
-        public HttpResponseMessage Put([ModelBinder(typeof (TypeConverterModelBinder))] int id,
-                                       Core.Projects.Project project) {
+        public HttpResponseMessage Put([ModelBinder(typeof(TypeConverterModelBinder))] int id,
+                                       Core.Projects.Project project)
+        {
             var proj = DbSession.Load<Core.Projects.Project>(id);
-            if (proj == null) {
+            if (proj == null)
+            {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
@@ -69,9 +78,11 @@ namespace Teamworks.Web.Controllers.Api {
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
 
-        public HttpResponseMessage Delete(int id) {
+        public HttpResponseMessage Delete(int id)
+        {
             var project = DbSession.Load<Core.Projects.Project>(id);
-            if (project == null) {
+            if (project == null)
+            {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
             DbSession.Delete(project);

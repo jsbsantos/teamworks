@@ -63,7 +63,7 @@
     <Compile Include="Authentication\WebAuthentication.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="Raven.cs" />
-    <Compile Include="Session.cs" />
+    <Compile Include="People\Token.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Authentication\AuthenticationManager.cs" />
     <Compile Include="Extensions\Validator.cs" />
