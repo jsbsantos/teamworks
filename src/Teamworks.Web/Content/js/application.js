@@ -10,8 +10,8 @@
             return this.replace(/^\s+|\s+$/g, '');
         };
     }
-    
-    $('#tasks').length && ko.applyBindings(new TasksViewmodel());
+
+    $('#tasks').length && ko.applyBindings(new TasksViewmodel({ projectid: $("#projectid").text() }));
     $('#projects').length && ko.applyBindings(new ProjectsViewmodel());
 })();
 

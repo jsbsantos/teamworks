@@ -12,6 +12,7 @@
         self.id(other.id || self.id());
         self.name(other.name || self.name());
         self.description(other.description || self.description());
+        self.projectid(other.projectid || self.projectid());
     };
     map(data || { });
 };
@@ -114,14 +115,14 @@ var ProjectsViewmodel = function () {
     });
 };
 
-var TasksViewmodel = function () {
+var TasksViewmodel = function (projectid) {
     var self = this;
 
-    /* new Task */
-    self.task = new Task();
-    self.requestUrl = "/api/project/" + self.task.projectid() + "/tasks/";
+    /* new TaskModel */
+    self.task = new Task(projectid);
+    self.requestUrl = "/api/projects/" + self.task.projectid() + "/tasks/";
 
-    /* Task interactions */
+    /* TaskModel interactions */
 
     self.create = function () {
         var request = $.ajax(self.requestUrl, {

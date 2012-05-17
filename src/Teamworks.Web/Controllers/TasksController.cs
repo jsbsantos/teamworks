@@ -21,16 +21,16 @@ namespace Teamworks.Web.Controllers
             if (id != null)
             {
                 var _task = DbSession
-                    .Include("Task.ProjectId")
+                    .Include("TaskModel.ProjectId")
                     .Load<Task>(id);
                     
                 if (_task == null || (_task != null && _task.ProjectId != projectid))
                     throw new HttpException(404, "Not Found");
 
-                Models.Project proj = Mapper.Map<Project, Models.Project>(DbSession.Load<Project>(_task.ProjectId));
-                Models.Task task = Mapper.Map<Task, Models.Task>(_task);
+                Models.ProjectModel proj = Mapper.Map<Project, Models.ProjectModel>(DbSession.Load<Project>(_task.ProjectId));
+                Models.TaskModel taskModel = Mapper.Map<Task, Models.TaskModel>(_task);
 
-                return View("Task", new {proj, task});
+                return View("Task", new {proj, task = taskModel});
             }
 
             var project = DbSession.Load<Project>("projects/" + (string.IsNullOrEmpty(projectid) ? "-1" : projectid));

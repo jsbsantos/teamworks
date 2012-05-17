@@ -40,21 +40,6 @@ namespace Teamworks.Web
 
         }
 
-        public static void RegisterMappers()
-        {
-            Mapper.CreateMap<Project, Core.Projects.Project>();
-            Mapper.CreateMap<Core.Projects.Project, Project>().ForMember(src => src.Tasks,
-                                                                         opt =>
-                                                                         opt.MapFrom(
-                                                                             src => Mapper.Map<IList<Core.Projects.Task>, IList<Task>>(Global.Raven.CurrentSession.Load<Core.Projects.Task>(
-                                                                                 src.TaskIds))
-                                                                             ))
-                .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier));
-            Mapper.CreateMap<Task, Core.Projects.Task>();
-            Mapper.CreateMap<Core.Projects.Task, Task>()
-                .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier));
-        }
-
         public static void RegisterWebApiHandlers()
         {
             HttpConfiguration configuration = GlobalConfiguration.Configuration;
@@ -69,7 +54,7 @@ namespace Teamworks.Web
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
             RegisterWebApiHandlers();
-            RegisterMappers();
+            AutoMapperSetup.RegisterMappers();
 
             HttpConfiguration configuration = GlobalConfiguration.Configuration;
             configuration.Formatters.Remove(configuration.Formatters.JsonFormatter);

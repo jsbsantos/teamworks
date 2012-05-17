@@ -1,11 +1,12 @@
 ﻿@using Teamworks.Web.Models
-@model Project
+@model ProjectModel
 @{
     ViewBag.Title = Model.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <header class="jumbotron subhead">
     <h1>@Model.Name <small>@Model.Description</small></h1>
+    <div id="projectid" class="hidden">@Model.Id</div>
     <div class="subnav subnav-fixed">
         <ul class="nav nav-pills">
             <li><a href="#tasks">n tasks</a></li>
@@ -13,20 +14,34 @@
             <li><a href="#messages">n messages</a></li>
         </ul>
     </div>
+    <div class="modal hide" id="task-modal">
+        <div class="modal-header">
+            <h1>Create a Task</h1>    
+        </div>
+        <div class="modal-body">
+            <form class="form-inline" data-bind="submit: create">
+                <input class="input-medium" name="name" placeholder="Name your task" data-bind="value: task.name, valueUpdate: 'afterkeyup'" />
+                <input class="input-large" name="description" placeholder="Describe your task" data-bind="value: task.description, valueUpdate: 'afterkeyup'" />
+                <button class="btn" type="submit">Create</button>
+            </form>
+        </div>
+    </div>
+
 </header>
 <section id="tasks">
     <div class="page-header">
-        <h1>Tasks</h1>
+        <h1>TaskModels</h1>
     </div>
     <div class="row">
         <div class="span6">
         @{
             if (Model.Tasks.Count == 0)
             {
-                <p>Create your first task</p>
+                <p>Create your first task <a data-toggle="modal" href="#task-modal"><i class="icon-plus-sign"></i></a></p> 
             }
             else
             {
+                <p>Add task <a data-toggle="modal" href="#task-modal"><i class="icon-plus-sign"></i></a></p> 
                 <ul>
                     @foreach (var task in Model.Tasks)
                     {

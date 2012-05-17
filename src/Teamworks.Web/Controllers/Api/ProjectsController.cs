@@ -23,24 +23,24 @@ namespace Teamworks.Web.Controllers.Api
     public class ProjectsController : RavenApiController
     {
 
-        public IEnumerable<Project> Get()
+        public IEnumerable<ProjectModel> Get()
         {
             DbSession.SecureFor(Request.GetUserPrincipalId(), "Projects/View");
             var projects = DbSession.Query<Core.Projects.Project>().Include(p => p.TaskIds);
-            return Mapper.Map<IQueryable<Core.Projects.Project>, IEnumerable<Project>>(projects);
+            return Mapper.Map<IQueryable<Core.Projects.Project>, IEnumerable<ProjectModel>>(projects);
         }
 
-        public Project Get(int id)
+        public ProjectModel Get(int id)
         {
             var project = DbSession.Include<Core.Projects.Project>(p => p.TaskIds).Load<Core.Projects.Project>(id);
             if (project == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
-            return Mapper.Map<Core.Projects.Project, Project>(project);
+            return Mapper.Map<Core.Projects.Project, ProjectModel>(project);
         }
 
-        public HttpResponseMessage<Project> Post(Project form)
+        public HttpResponseMessage<ProjectModel> Post(ProjectModel form)
         {
             var project = Core.Projects.Project.Forge(form.Name, form.Description);
             DbSession.Store(project);
@@ -57,7 +57,7 @@ namespace Teamworks.Web.Controllers.Api
                                                        Tags = { project.Id }
                                                    });
 
-            var response = new HttpResponseMessage<Project>(Mapper.Map<Core.Projects.Project, Project>(project),
+            var response = new HttpResponseMessage<ProjectModel>(Mapper.Map<Core.Projects.Project, ProjectModel>(project),
                                                             HttpStatusCode.Created);
             var uri = Request.RequestUri.Authority + Url.Route(null, new { id = project.Id });
             response.Headers.Location = new Uri(uri);

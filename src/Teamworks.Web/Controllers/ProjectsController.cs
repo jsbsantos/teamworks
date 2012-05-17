@@ -15,7 +15,7 @@ namespace Teamworks.Web.Controllers {
                     throw new HttpException(404, "Not Found");
                 }
 
-                var ret = Mapper.Map<Project, Models.Project>(project);
+                var ret = Mapper.Map<Project, Models.ProjectModel>(project);
                 return View("Project", ret);
             }
             return View();
