@@ -1,10 +1,13 @@
 ﻿using System;
-using System.Linq;
 using System.Web;
 
-namespace Teamworks.Web.Helpers {
-    public class RestApiSupressAuthenticationRedirectModule : IHttpModule {
+namespace Teamworks.Web.Helpers
+{
+    public class RestApiSupressAuthenticationRedirectModule : IHttpModule
+    {
         private const string SupressRedirectLoginKey = "WEBAPI:Authentication";
+
+        #region IHttpModule Members
 
         /// <summary>
         /// You will need to configure this module in the web.config file of your
@@ -13,18 +16,25 @@ namespace Teamworks.Web.Helpers {
         /// </summary>
 
         #region IHttpModule Members
-        public void Dispose() {}
+        public void Dispose()
+        {
+        }
 
-        public void Init(HttpApplication context) {
+        public void Init(HttpApplication context)
+        {
             context.PostReleaseRequestState += OnPostReleaseRequestState;
             context.EndRequest += OnEndRequest;
         }
 
-        private void OnEndRequest(object sender, EventArgs eventArgs) {
-            var context = (HttpApplication)sender;
-            var response = context.Response;
+        #endregion
 
-            if (!context.Context.Items.Contains(SupressRedirectLoginKey)) {
+        private void OnEndRequest(object sender, EventArgs eventArgs)
+        {
+            var context = (HttpApplication) sender;
+            HttpResponse response = context.Response;
+
+            if (!context.Context.Items.Contains(SupressRedirectLoginKey))
+            {
                 return;
             }
 
@@ -34,15 +44,18 @@ namespace Teamworks.Web.Helpers {
             response.RedirectLocation = null;
         }
 
-        private void OnPostReleaseRequestState(object sender, EventArgs args) {
+        private void OnPostReleaseRequestState(object sender, EventArgs args)
+        {
             var context = (HttpApplication) sender;
-            var request = context.Request;
-            if (!request.Url.LocalPath.StartsWith("/api")) {
+            HttpRequest request = context.Request;
+            if (!request.Url.LocalPath.StartsWith("/api"))
+            {
                 return;
             }
 
-            var response = context.Response;
-            if (response.StatusCode == 401) {
+            HttpResponse response = context.Response;
+            if (response.StatusCode == 401)
+            {
                 context.Context.Items[SupressRedirectLoginKey] = true;
             }
         }

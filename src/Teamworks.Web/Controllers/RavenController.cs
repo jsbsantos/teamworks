@@ -7,7 +7,7 @@ using Teamworks.Core;
 using Teamworks.Core.Authentication;
 using Teamworks.Core.People;
 
-namespace Teamworks.Web.Controllers.Base
+namespace Teamworks.Web.Controllers
 {
     [Authorize]
     public class RavenController : Controller
@@ -21,7 +21,7 @@ namespace Teamworks.Web.Controllers.Base
         {
             Global.Raven.TryOpen();
 
-            var identity = context.HttpContext.User.Identity;
+            IIdentity identity = context.HttpContext.User.Identity;
             if (string.IsNullOrEmpty(identity.Name))
             {
                 base.Initialize(context);

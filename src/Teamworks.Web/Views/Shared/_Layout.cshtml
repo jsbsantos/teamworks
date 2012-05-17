@@ -33,10 +33,10 @@
         <div class="navbar-inner">
             <nav class="container">
                 <ul class="nav">
-                    <li>@Html.ActionLink("teamworks", "View", "Home", null, new { @class = "brand" })</li>
+                    <li>@Html.ActionLink("teamworks", "View", "Home", null, new {@class = "brand"})</li>
                     <li class="@Html.ActiveController("Home")"><a href="@Url.Action("View", "Home")"><i class="icon-home icon-white"></i>Home</a></li>
                     <li class="divider-vertical"></li>
-                    <li class="@Html.ActiveController("Projects")"><a href="@Url.Action("View", "Projects", new { id = UrlParameter.Optional })">Projects</a></li>
+                    <li class="@Html.ActiveController("Projects")"><a href="@Url.Action("View", "Projects", new {id = UrlParameter.Optional})">Projects</a></li>
                     <li class="@Html.ActiveController("Timeline")"><a href="@Url.Action("View", "Timeline")">Timeline</a></li>
                     <li class="divider-vertical"></li>
                     <li class="@Html.ActiveControllerAndAction("Everyone", "Timeline")"><a href="#">Everyone</a></li>
@@ -47,13 +47,14 @@
         </div>
     </header>
     @{
-        var id = string.Empty;
-        if (ViewBag.Id != null) {
+        string id = string.Empty;
+        if (ViewBag.Id != null)
+        {
             id = "id=\"" + ViewBag.Id + "\"";
         }
         <div @Html.Raw(id) class="main container" role="main">
             @RenderBody()
-        </div>    
+        </div>
     }
     <footer></footer>
     <!-- JavaScript at the bottom for fast page loading -->

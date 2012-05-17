@@ -1,22 +1,26 @@
 using System;
 using Newtonsoft.Json;
-using Raven.Abstractions.Extensions;
-using Raven.Json.Linq;
 
 namespace Teamworks.Core.People
 {
     public class Token : Entity
     {
         private static int _timeout;
-        public string Id { get; private set; }
-        [JsonIgnore]
-        public string Value { get { return Id.Replace("token/", ""); } }
+
         static Token()
         {
             _timeout = 20;
         }
 
-       [JsonIgnore]
+        public string Id { get; private set; }
+
+        [JsonIgnore]
+        public string Value
+        {
+            get { return Id.Replace("token/", ""); }
+        }
+
+        [JsonIgnore]
         public static int Timeout
         {
             get { return _timeout; }
@@ -39,11 +43,11 @@ namespace Teamworks.Core.People
             Global.Raven.CurrentSession.Advanced.GetMetadataFor(token)["Raven-Expiration-Date"] =
                 new RavenJValue(DateTime.UtcNow.AddMinutes(Timeout));         
          */
+
         public static Token Forge(string person)
         {
-
             var token = new Token();
-            token.Id = "token/"+Guid.NewGuid().ToString("N");
+            token.Id = "token/" + Guid.NewGuid().ToString("N");
             //todo remove prepended text "people/"
             token.Person = "people/" + person;
             return token;

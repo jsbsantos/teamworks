@@ -2,10 +2,13 @@
 using Raven.Client;
 using Teamworks.Core;
 
-namespace Teamworks.Web.Controllers.Base {
+namespace Teamworks.Web.Controllers
+{
     [Authorize]
-    public class RavenApiController : ApiController {
-        public IDocumentSession DbSession {
+    public class RavenApiController : ApiController
+    {
+        public IDocumentSession DbSession
+        {
             get { return Global.Raven.CurrentSession; }
         }
     }

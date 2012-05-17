@@ -2,10 +2,6 @@
 {
     public class TokenModel
     {
-        public TokenModel()
-        {
-            
-        }
-        public string Token { get; set; } 
+        public string Token { get; set; }
     }
 }

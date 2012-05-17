@@ -1,16 +1,20 @@
 using Newtonsoft.Json;
 
-namespace Teamworks.Core {
-    public abstract class Entity {
-        
+namespace Teamworks.Core
+{
+    public abstract class Entity
+    {
         public string Id { get; set; }
         public string Name { get; set; }
 
         [JsonIgnore]
-        public int Identifier {
-            get {
+        public int Identifier
+        {
+            get
+            {
                 int i;
-                if (string.IsNullOrEmpty(Id) || (i = Id.IndexOf('/')) < 0) {
+                if (string.IsNullOrEmpty(Id) || (i = Id.IndexOf('/')) < 0)
+                {
                     return 0;
                 }
 

@@ -1,5 +1,5 @@
 ﻿@using Teamworks.Web.Models
-@model ProjectModel
+@model Teamworks.Web.Models.ProjectModel
 @{
     ViewBag.Title = Model.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -34,24 +34,24 @@
     </div>
     <div class="row">
         <div class="span6">
-        @{
-            if (Model.Tasks.Count == 0)
-            {
-                <p>Create your first task <a data-toggle="modal" href="#task-modal"><i class="icon-plus-sign"></i></a></p> 
-            }
-            else
-            {
-                <p>Add task <a data-toggle="modal" href="#task-modal"><i class="icon-plus-sign"></i></a></p> 
-                <ul>
-                    @foreach (var task in Model.Tasks)
-                    {
-                        <li>
-                            @task.Name <small>@task.Description</small> </li>
-                    }
-                </ul>
-            }
+            @{
+                if (Model.Tasks.Count == 0)
+                {
+                    <p>Create your first task <a data-toggle="modal" href="#task-modal"><i class="icon-plus-sign"></i></a></p>
+                }
+                else
+                {
+                    <p>Add task <a data-toggle="modal" href="#task-modal"><i class="icon-plus-sign"></i></a></p>
+                    <ul>
+                        @foreach (TaskModel task in Model.Tasks)
+                        {
+                            <li>
+                                @task.Name <small>@task.Description</small> </li>
+                        }
+                    </ul>
+                }
 
-        }
+            }
         </div>
     </div>
 </section>

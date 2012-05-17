@@ -1,15 +1,15 @@
 using System;
-using System.Linq;
 using System.Net;
-using Teamworks.Core.Extensions;
-using Teamworks.Core.People;
 
-namespace Teamworks.Core.Authentication {
+namespace Teamworks.Core.Authentication
+{
     public class BasicAuthenticationHandler : WebAuthentication
     {
-        public  override NetworkCredential GetCredentials(dynamic token) {
+        public override NetworkCredential GetCredentials(dynamic token)
+        {
             var tk = token as string;
-            if (String.IsNullOrWhiteSpace(tk)) {
+            if (String.IsNullOrWhiteSpace(tk))
+            {
                 throw new ArgumentNullException("token");
             }
             Tuple<string, string> cred = Global.DecodeBasicAuthenticationHeader(tk);

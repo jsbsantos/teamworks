@@ -1,24 +1,26 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Dynamic;
 using System.Web.Mvc;
 using System.Web.Security;
 using Teamworks.Core.Authentication;
 using Teamworks.Core.People;
-using Teamworks.Web.Controllers.Base;
-using Teamworks.Web.Helpers.Extensions;
 
-namespace Teamworks.Web.Controllers {
+namespace Teamworks.Web.Controllers
+{
     [AllowAnonymous]
-    public class AccountController : RavenController {
+    public class AccountController : RavenController
+    {
         [HttpGet]
-        public ActionResult Login() {
+        public ActionResult Login()
+        {
             return View();
         }
 
         [HttpPost]
-        public ActionResult Login(Login model, string returnUrl) {
-            if (!ModelState.IsValid) {
+        public ActionResult Login(Login model, string returnUrl)
+        {
+            if (!ModelState.IsValid)
+            {
                 return View(model);
             }
 
@@ -26,11 +28,13 @@ namespace Teamworks.Web.Controllers {
             dyn.Username = model.Username;
             dyn.Password = model.Password;
 
-            var handler = AuthenticationManager.Get("BasicWeb");
-            if (handler != null && handler.IsValid(AuthenticationManager.GetCredentials("BasicWeb", dyn))) {
+            IAuthenticationHandler handler = AuthenticationManager.Get("BasicWeb");
+            if (handler != null && handler.IsValid(AuthenticationManager.GetCredentials("BasicWeb", dyn)))
+            {
                 FormsAuthentication.SetAuthCookie(dyn.Username, model.Persist);
                 if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
-                    && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\")) {
+                    && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+                {
                     return Redirect(returnUrl);
                 }
                 return RedirectToAction("View", "Home");
@@ -40,29 +44,34 @@ namespace Teamworks.Web.Controllers {
         }
 
         [HttpGet]
-        public ActionResult Logout() {
+        public ActionResult Logout()
+        {
             FormsAuthentication.SignOut();
             return RedirectToAction("View", "Home");
         }
 
         [HttpGet]
-        public ActionResult Signup() {
+        public ActionResult Signup()
+        {
             return View();
         }
 
         [HttpPost]
-        public ActionResult Signup(Register register) {
-            if (!ModelState.IsValid) {
+        public ActionResult Signup(Register register)
+        {
+            if (!ModelState.IsValid)
+            {
                 return View();
             }
 
-            var person = Person.Forge(register.Email, register.Username, register.Password);
+            Person person = Person.Forge(register.Email, register.Username, register.Password);
             DbSession.Store(person);
             return RedirectToAction("View", "Home");
         }
     }
 
-    public class Login {
+    public class Login
+    {
         [Required]
         [Display(Name = "Username")]
         public string Username { get; set; }
@@ -76,7 +85,8 @@ namespace Teamworks.Web.Controllers {
         public bool Persist { get; set; }
     }
 
-    public class Register {
+    public class Register
+    {
         [Required]
         public string Email { get; set; }
 

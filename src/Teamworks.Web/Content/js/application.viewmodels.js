@@ -5,7 +5,7 @@
     self.projectid = ko.observable();
     self.description = ko.observable();
     self.editing = ko.observable();
-    self.url = ko.computed(function () {
+    self.url = ko.computed(function() {
         return "/projects/" + self.projectid() + "/tasks/" + self.id();
     });
     var map = function(other) {
@@ -51,21 +51,21 @@ var Project = function(data) {
     };
 };
 
-var ProjectsViewmodel = function () {
+var ProjectsViewmodel = function() {
     var self = this;
 
     /* new project */
     self.project = new Project();
     /* projects interactions */
 
-    self.create = function () {
+    self.create = function() {
         var request = $.ajax("/api/projects", {
             data: ko.toJSON(self.project),
             type: 'post',
             contentType: "application/json; charset=utf-8",
             cache: 'false',
             statusCode: {
-                201: /*created*/function (data) {
+                201: /*created*/function(data) {
                     // push a new project
                     data.url = request.getResponseHeader("Location");
                     self.projects.push(new Project(data));
@@ -74,7 +74,7 @@ var ProjectsViewmodel = function () {
             }
         });
     };
-    self.update = function () {
+    self.update = function() {
         var project = this;
         if (confirm('You are about to update ' + project.name() + '.')) {
             $.ajax(project.url(), {
@@ -83,14 +83,14 @@ var ProjectsViewmodel = function () {
                 contentType: "application/json; charset=utf-8",
                 cache: 'false',
                 statusCode: {
-                    204: /*no content*/function () {
+                    204: /*no content*/function() {
                         project.editing(false);
                     }
                 }
             });
         }
     };
-    self.remove = function () {
+    self.remove = function() {
         var project = this;
         if (confirm('You are about to delete ' + project.name() + '.')) {
             $.ajax("/api/projects/" + project.id(), {
@@ -98,7 +98,7 @@ var ProjectsViewmodel = function () {
                 contentType: "application/json; charset=utf-8",
                 cache: 'false',
                 statusCode: {
-                    204: /*no content*/function () {
+                    204: /*no content*/function() {
                         self.projects.destroy(project);
                     }
                 }
@@ -108,14 +108,14 @@ var ProjectsViewmodel = function () {
 
     /* projects */
     self.projects = ko.observableArray([]);
-    $.getJSON("/api/projects", function (data) {
-        self.projects($.map(data, function (item) {
+    $.getJSON("/api/projects", function(data) {
+        self.projects($.map(data, function(item) {
             return new Project(item);
         }));
     });
 };
 
-var TasksViewmodel = function (projectid) {
+var TasksViewmodel = function(projectid) {
     var self = this;
 
     /* new TaskModel */
@@ -124,14 +124,14 @@ var TasksViewmodel = function (projectid) {
 
     /* TaskModel interactions */
 
-    self.create = function () {
+    self.create = function() {
         var request = $.ajax(self.requestUrl, {
             data: ko.toJSON(self.task),
             type: 'post',
             contentType: "application/json; charset=utf-8",
             cache: 'false',
             statusCode: {
-                201: /*created*/function (data) {
+                201: /*created*/function(data) {
                     // push a new task
                     data.url = request.getResponseHeader("Location");
                     self.tasks.push(new Task(data));
@@ -140,7 +140,7 @@ var TasksViewmodel = function (projectid) {
             }
         });
     };
-    self.update = function () {
+    self.update = function() {
         var task = this;
         if (confirm('You are about to update ' + task.name() + '.')) {
             $.ajax(task.url(), {
@@ -149,14 +149,14 @@ var TasksViewmodel = function (projectid) {
                 contentType: "application/json; charset=utf-8",
                 cache: 'false',
                 statusCode: {
-                    204: /*no content*/function () {
+                    204: /*no content*/function() {
                         task.editing(false);
                     }
                 }
             });
         }
     };
-    self.remove = function () {
+    self.remove = function() {
         var task = this;
         if (confirm('You are about to delete ' + task.name() + '.')) {
             $.ajax(self.requestUrl + task.id(), {
@@ -164,7 +164,7 @@ var TasksViewmodel = function (projectid) {
                 contentType: "application/json; charset=utf-8",
                 cache: 'false',
                 statusCode: {
-                    204: /*no content*/function () {
+                    204: /*no content*/function() {
                         self.tasks.destroy(task);
                     }
                 }
@@ -174,8 +174,8 @@ var TasksViewmodel = function (projectid) {
 
     /* tasks */
     self.tasks = ko.observableArray([]);
-    $.getJSON(self.requestUrl, function (data) {
-        self.tasks($.map(data, function (item) {
+    $.getJSON(self.requestUrl, function(data) {
+        self.tasks($.map(data, function(item) {
             return new Task(item);
         }));
     });

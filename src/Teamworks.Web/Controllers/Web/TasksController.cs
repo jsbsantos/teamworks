@@ -1,18 +1,16 @@
-﻿using System.Linq;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
 using Teamworks.Core.Projects;
-using Teamworks.Web.Controllers.Base;
+using Teamworks.Web.Models;
 
-namespace Teamworks.Web.Controllers
+namespace Teamworks.Web.Controllers.Web
 {
     [RoutePrefix("projects/{projectid}")]
     public class TasksController : RavenController
     {
-
         [HttpGet]
         [ActionName("View")]
         [GET("tasks/{id}")]
@@ -20,15 +18,15 @@ namespace Teamworks.Web.Controllers
         {
             if (id != null)
             {
-                var _task = DbSession
+                var task = DbSession
                     .Include("TaskModel.ProjectId")
                     .Load<Task>(id);
-                    
-                if (_task == null || (_task != null && _task.ProjectId != projectid))
+
+                if (task == null || (task != null && task.ProjectId != projectid))
                     throw new HttpException(404, "Not Found");
 
-                Models.ProjectModel proj = Mapper.Map<Project, Models.ProjectModel>(DbSession.Load<Project>(_task.ProjectId));
-                Models.TaskModel taskModel = Mapper.Map<Task, Models.TaskModel>(_task);
+                ProjectModel proj = Mapper.Map<Project, ProjectModel>(DbSession.Load<Project>(task.ProjectId));
+                TaskModel taskModel = Mapper.Map<Task, TaskModel>(task);
 
                 return View("Task", new {proj, task = taskModel});
             }
@@ -37,8 +35,7 @@ namespace Teamworks.Web.Controllers
             if (project == null)
                 throw new HttpException(404, "Not Found");
 
-            return View(/*Mapper.Map<Project, Models.Project>(project)*/);
+            return View( /*Mapper.Map<Project, Models.Project>(project)*/);
         }
-
     }
 }

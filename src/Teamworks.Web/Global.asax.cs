@@ -1,20 +1,13 @@
-using System.Collections.Generic;
-using System.Reflection;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
-using AttributeRouting.Web.Http.WebHost;
-using AutoMapper;
 using LowercaseRoutesMVC;
 using Microsoft.Web.Optimization;
-using Teamworks.Core;
 using Teamworks.Core.Authentication;
-using Teamworks.Web.Controllers.Api;
 using Teamworks.Web.Helpers;
 using Teamworks.Web.Helpers.Extensions;
 using Teamworks.Web.Helpers.Handlers;
-using Teamworks.Web.Models;
 
 namespace Teamworks.Web
 {
@@ -31,13 +24,12 @@ namespace Teamworks.Web
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            
+
             routes.MapRouteLowercase(
                 name: "default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "View", id = UrlParameter.Optional }
+                defaults: new {controller = "Home", action = "View", id = UrlParameter.Optional}
                 );
-
         }
 
         public static void RegisterWebApiHandlers()
@@ -59,8 +51,8 @@ namespace Teamworks.Web
             HttpConfiguration configuration = GlobalConfiguration.Configuration;
             configuration.Formatters.Remove(configuration.Formatters.JsonFormatter);
             configuration.Formatters.Add(new JsonNetFormatter());
-            
-            
+
+
             AuthenticationManager.Add("Basic", new BasicAuthenticationHandler());
             AuthenticationManager.Add("BasicWeb", new BasicWebAuthenticationHandler());
             AuthenticationManager.DefaultAuthenticationScheme = "BasicWeb";

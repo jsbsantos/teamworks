@@ -20,12 +20,12 @@ namespace Teamworks.Web.Helpers.Handlers
         protected override Task<HttpResponseMessage> SendAsync(
             HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            var token = request.QueryString(AuthToken);
+            string token = request.QueryString(AuthToken);
             if (token != null)
             {
                 var session = Global.Raven.CurrentSession
                     .Include<Token>(x => x.Person)
-                    .Load<Token>("token/"+token);
+                    .Load<Token>("token/" + token);
 
                 if (session != null)
                 {
@@ -40,17 +40,19 @@ namespace Teamworks.Web.Helpers.Handlers
                 }
             }
             return base.SendAsync(request, cancellationToken).ContinueWith(t =>
-            {
-                if (t.Result.StatusCode ==
-                    HttpStatusCode.Unauthorized)
-                {
-                    t.Result.Headers.WwwAuthenticate.Add(
-                        new AuthenticationHeaderValue(
-                            "Basic",
-                            "realm=\"Api Teamworks\""));
-                }
-                return t.Result;
-            });
+                                                                               {
+                                                                                   if (t.Result.StatusCode ==
+                                                                                       HttpStatusCode.Unauthorized)
+                                                                                   {
+                                                                                       t.Result.Headers.WwwAuthenticate.
+                                                                                           Add(
+                                                                                               new AuthenticationHeaderValue
+                                                                                                   (
+                                                                                                   "Basic",
+                                                                                                   "realm=\"Api Teamworks\""));
+                                                                                   }
+                                                                                   return t.Result;
+                                                                               });
         }
     }
 }

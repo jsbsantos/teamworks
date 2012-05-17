@@ -9,17 +9,19 @@ using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
 using Teamworks.Core.Projects;
-using Teamworks.Web.Controllers.Base;
 using Teamworks.Web.Models;
 
-namespace Teamworks.Web.Controllers.Api {
+namespace Teamworks.Web.Controllers.Api
+{
     [DefaultHttpRouteConvention]
     [RoutePrefix("api/projects/{projectid}/tasks")]
-    public class TasksController : RavenApiController {
-        public IEnumerable<Models.TaskModel> Get(int projectid) {
+    public class TasksController : RavenApiController
+    {
+        public IEnumerable<TaskModel> Get(int projectid)
+        {
             var project = DbSession
                 .Include<Project>(p => p.TaskIds)
-                .Load<Core.Projects.Project>(projectid);
+                .Load<Project>(projectid);
             //foreach (var i in Enumerable.Range(1, 5)) {
             //    var task = Core.Projects.Task.Forge(string.Format("TaskModel {0}", i), string.Format("description of target {0}", i));
             //    DbSession.Store(task);
@@ -29,20 +31,21 @@ namespace Teamworks.Web.Controllers.Api {
             return new List<TaskModel>(DbSession.Load<Task>(project.TaskIds).Select(Mapper.Map<Task, TaskModel>));
         }
 
-        public TaskModel Get(int id, int projectid) {
-            var task = DbSession.Load<Core.Projects.Task>(id);
-            if (task == null) {
+        public TaskModel Get(int id, int projectid)
+        {
+            var task = DbSession.Load<Task>(id);
+            if (task == null)
+            {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
-            return Mapper.Map<Core.Projects.Task, TaskModel>(task);
+            return Mapper.Map<Task, TaskModel>(task);
         }
 
-        public HttpResponseMessage<Models.TaskModel> Post([ModelBinder(typeof (TypeConverterModelBinder))] int projectid,
-                                              Models.TaskModel taskModel)
+        public HttpResponseMessage<TaskModel> Post([ModelBinder(typeof (TypeConverterModelBinder))] int projectid,
+                                                   TaskModel taskModel)
         {
-
             var project = DbSession.Load<Project>(projectid);
-            var task = Mapper.Map<TaskModel, Task>(taskModel);
+            Task task = Mapper.Map<TaskModel, Task>(taskModel);
             task.Id = null;
             DbSession.Store(task);
             DbSession.SaveChanges();
@@ -50,16 +53,19 @@ namespace Teamworks.Web.Controllers.Api {
             DbSession.SaveChanges();
 
             return new HttpResponseMessage<TaskModel>(Mapper.Map<Task, TaskModel>(task),
-                                                            HttpStatusCode.Created);
+                                                      HttpStatusCode.Created);
         }
 
         /// <see cref="http://forums.asp.net/post/4855634.aspx"/>
         public HttpResponseMessage Put([ModelBinder(typeof (TypeConverterModelBinder))] int id,
-                                       [ModelBinder(typeof (TypeConverterModelBinder))] int projectid, Models.TaskModel taskModel) {
+                                       [ModelBinder(typeof (TypeConverterModelBinder))] int projectid,
+                                       TaskModel taskModel)
+        {
             return null;
         }
 
-        public HttpResponseMessage Delete(int id, int projectid) {
+        public HttpResponseMessage Delete(int id, int projectid)
+        {
             return null;
         }
     }

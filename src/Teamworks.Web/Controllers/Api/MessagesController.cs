@@ -1,9 +1,11 @@
-﻿using Teamworks.Web.Controllers.Base;
+﻿using AttributeRouting;
+using AttributeRouting.Web.Http;
 
-namespace Teamworks.Web.Controllers.Api {
+namespace Teamworks.Web.Controllers.Api
+{
     [DefaultHttpRouteConvention]
     [RoutePrefix("api/projects")]
-    public class MessagesController : RavenApiController {
-        
+    public class MessagesController : RavenApiController
+    {
     }
 }

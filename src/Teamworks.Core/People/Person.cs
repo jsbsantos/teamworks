@@ -1,35 +1,34 @@
 ﻿using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
-using Newtonsoft.Json;
 using Raven.Bundles.Authorization.Model;
 
 namespace Teamworks.Core.People
 {
     public class Person : Entity
     {
-        public static Person Forge(string email, string username, string password)
-        {
-            var salt = GenSalt();
-            return new Person
-                   {
-                       Id = "people/" + username,
-                       Salt = salt,
-                       Email = email,
-                       Name = string.Empty,
-                       Username = username,
-                       Roles = new List<string>(),
-                       Permissions = new List<IPermission>(),
-                       Password = EncodePassword(password, salt)
-                   };
-        }
-
         public string Salt { get; private set; }
         public string Email { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
         public IList<string> Roles { get; set; }
         public IList<IPermission> Permissions { get; set; }
+
+        public static Person Forge(string email, string username, string password)
+        {
+            string salt = GenSalt();
+            return new Person
+                       {
+                           Id = "people/" + username,
+                           Salt = salt,
+                           Email = email,
+                           Name = string.Empty,
+                           Username = username,
+                           Roles = new List<string>(),
+                           Permissions = new List<IPermission>(),
+                           Password = EncodePassword(password, salt)
+                       };
+        }
 
         public bool IsThePassword(string password)
         {
