@@ -1,3 +1,4 @@
+/// <reference path="~/Content/js/libs/knockout-2.0.0.js" />
 /// <reference path="~/Content/js/application.viewmodels.js" />
 
 (function() {
@@ -11,6 +12,6 @@
         };
     }
 
-    $('#tasks').length && ko.applyBindings(new TasksViewmodel({ projectid: $("#projectid").text() }));
+    $('#tasks').length && ko.applyBindings(new TasksViewmodel(tasks));
     $('#projects').length && ko.applyBindings(new ProjectsViewmodel());
 })();

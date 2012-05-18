@@ -5,7 +5,7 @@ using System.Web.Security;
 using Teamworks.Core.Authentication;
 using Teamworks.Core.People;
 
-namespace Teamworks.Web.Controllers
+namespace Teamworks.Web.Controllers.Web
 {
     [AllowAnonymous]
     public class AccountController : RavenController

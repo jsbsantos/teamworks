@@ -21,7 +21,7 @@ namespace Teamworks.Web.Helpers
                 .ForMember(src => src.Tasks,
                            opt => opt.MapFrom(src =>
                                               Mapper.Map<IList<Task>, IList<TaskModel>>(
-                                                  Global.Raven.CurrentSession.Load<Task>(src.TaskIds))))
+                                                  Global.Raven.CurrentSession.Load<Task>(src.Tasks))))
                 .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier));
 
             Mapper.CreateMap<TaskModel, Task>();

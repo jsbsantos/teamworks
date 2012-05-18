@@ -4,17 +4,18 @@ namespace Teamworks.Core.Projects
 {
     public class Task : Entity
     {
-        public string ProjectId { get; set; }
+        public string Project { get; set; }
         public string Description { get; set; }
-        public IList<string> PreTaskIds { get; set; }
+        public IList<string> Pretasks { get; set; }
 
-        public static Task Forge(string name, string description)
+        public static Task Forge(string project, string name, string description)
         {
             return new Task
                        {
                            Name = name,
+                           Project = project,
                            Description = description,
-                           PreTaskIds = new List<string>()
+                           Pretasks = new List<string>()
                        };
         }
     }

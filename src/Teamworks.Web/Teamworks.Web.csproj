@@ -150,6 +150,7 @@
     <Compile Include="Controllers\Api\MessagesController.cs" />
     <Compile Include="Controllers\Api\PeopleController.cs" />
     <Compile Include="Helpers\AutoMapperSetup.cs" />
+    <Compile Include="Helpers\Extensions\ListDocumentPermission.cs" />
     <Compile Include="Helpers\RestApiSupressAuthenticationRedirectModule.cs" />
     <Compile Include="Controllers\Api\TasksController.cs" />
     <Compile Include="Controllers\RavenApiController.cs" />
@@ -288,7 +289,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>51259</DevelopmentServerPort>
+          <DevelopmentServerPort>50747</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:51000/</IISUrl>
           <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>

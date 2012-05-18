@@ -23,11 +23,11 @@ namespace Teamworks.Web.Controllers.Api
             dyn.Password = password;
 
             IAuthenticationHandler handler = AuthenticationManager.Get("Basic");
-            NetworkCredential cred = AuthenticationManager.GetCredentials("BasicWeb", dyn);
+            var credentials = AuthenticationManager.GetCredentials("BasicWeb", dyn);
             //todo Add NLog message
-            if (handler != null && handler.IsValid(cred))
+            if (handler != null && handler.IsValid(credentials))
             {
-                Token token = Token.Forge(cred.UserName);
+                var token = Token.Forge(credentials.UserName);
                 DbSession.Store(token);
                 //todo return http code 200 vs 201
                 return new HttpResponseMessage<TokenModel>(new TokenModel {Token = token.Value}, HttpStatusCode.OK);

@@ -24,7 +24,7 @@ namespace Teamworks.Web.Helpers.Handlers
             if (token != null)
             {
                 var session = Global.Raven.CurrentSession
-                    .Include<Token>(x => x.Person)
+                    .Include<Token>(p => p.Person)
                     .Load<Token>("token/" + token);
 
                 if (session != null)

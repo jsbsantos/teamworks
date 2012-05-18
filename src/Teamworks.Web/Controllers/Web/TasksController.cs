@@ -22,10 +22,10 @@ namespace Teamworks.Web.Controllers.Web
                     .Include("TaskModel.ProjectId")
                     .Load<Task>(id);
 
-                if (task == null || (task != null && task.ProjectId != projectid))
+                if (task == null || (task != null && task.Project != projectid))
                     throw new HttpException(404, "Not Found");
 
-                ProjectModel proj = Mapper.Map<Project, ProjectModel>(DbSession.Load<Project>(task.ProjectId));
+                ProjectModel proj = Mapper.Map<Project, ProjectModel>(DbSession.Load<Project>(task.Project));
                 TaskModel taskModel = Mapper.Map<Task, TaskModel>(task);
 
                 return View("Task", new {proj, task = taskModel});
