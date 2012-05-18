@@ -2,9 +2,10 @@
 
 namespace Teamworks.Web.Controllers.Web
 {
-    public class HomeController : Controller
+    public class HomeController : RavenController
     {
         [HttpGet]
+        [AllowAnonymous]
         [ActionName("View")]
         public ActionResult Index()
         {

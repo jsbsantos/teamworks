@@ -1,13 +1,12 @@
 using System;
 using Raven.Client;
 using Raven.Client.Document;
-using Teamworks.Core.Extensions;
 
-namespace Teamworks.Core
+namespace Teamworks.Core.Services
 {
     public class Raven
     {
-        internal const string Key = "RAVEN_CURRENT_SESSION_KEY";
+        private const string Key = "RAVEN_CURRENT_SESSION_KEY";
 
         private static readonly Lazy<Raven> _instance =
             new Lazy<Raven>(() => new Raven());

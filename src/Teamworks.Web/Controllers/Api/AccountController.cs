@@ -4,16 +4,15 @@ using System.Net.Http;
 using System.Web.Http;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
-using Teamworks.Core.Authentication;
+using Teamworks.Core;
 using Teamworks.Core.People;
 using Teamworks.Web.Models;
-using AuthenticationManager = Teamworks.Core.Authentication.AuthenticationManager;
 
 namespace Teamworks.Web.Controllers.Api
 {
-    [DefaultHttpRouteConvention]
-    [RoutePrefix("api/login")]
     [AllowAnonymous]
+    [RoutePrefix("api/login")]
+    [DefaultHttpRouteConvention]
     public class AccountController : RavenApiController
     {
         public HttpResponseMessage Post(string username, string password)
@@ -22,12 +21,10 @@ namespace Teamworks.Web.Controllers.Api
             dyn.Username = username;
             dyn.Password = password;
 
-            IAuthenticationHandler handler = AuthenticationManager.Get("Basic");
-            var credentials = AuthenticationManager.GetCredentials("BasicWeb", dyn);
-            //todo Add NLog message
-            if (handler != null && handler.IsValid(credentials))
+            Person person;
+            if (Global.Authentication["Basic"].IsValid(dyn, out person))
             {
-                var token = Token.Forge(credentials.UserName);
+                var token = Token.Forge(person.Id);
                 DbSession.Store(token);
                 //todo return http code 200 vs 201
                 return new HttpResponseMessage<TokenModel>(new TokenModel {Token = token.Value}, HttpStatusCode.OK);

@@ -150,6 +150,7 @@
     <Compile Include="Controllers\Api\MessagesController.cs" />
     <Compile Include="Controllers\Api\PeopleController.cs" />
     <Compile Include="Helpers\AutoMapperSetup.cs" />
+    <Compile Include="Helpers\Extensions\HttpContextExtensions.cs" />
     <Compile Include="Helpers\Extensions\ListDocumentPermission.cs" />
     <Compile Include="Helpers\RestApiSupressAuthenticationRedirectModule.cs" />
     <Compile Include="Controllers\Api\TasksController.cs" />

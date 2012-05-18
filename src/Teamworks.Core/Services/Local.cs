@@ -1,8 +1,9 @@
 using System;
 using System.Collections;
 using System.Web;
+using Teamworks.Core.Extensions;
 
-namespace Teamworks.Core.Extensions
+namespace Teamworks.Core.Services
 {
     public static class Local
     {

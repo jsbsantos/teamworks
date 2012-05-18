@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using LowercaseRoutesMVC;
 using Microsoft.Web.Optimization;
+using Teamworks.Core;
 using Teamworks.Core.Authentication;
 using Teamworks.Web.Helpers;
 using Teamworks.Web.Helpers.Extensions;
@@ -53,10 +54,7 @@ namespace Teamworks.Web
             configuration.Formatters.Add(new JsonNetFormatter());
 
 
-            AuthenticationManager.Add("Basic", new BasicAuthenticationHandler());
-            AuthenticationManager.Add("BasicWeb", new BasicWebAuthenticationHandler());
-            AuthenticationManager.DefaultAuthenticationScheme = "BasicWeb";
-
+            Global.Authentication.Add("Basic", new BasicAuthenticator());
             BundleTable.Bundles.EnableTeamworksBundle();
         }
     }
