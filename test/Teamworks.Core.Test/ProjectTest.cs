@@ -6,6 +6,7 @@ using Raven.Client.Document;
 using Teamworks.Core.Extensions;
 using Teamworks.Core.People;
 using Teamworks.Core.Projects;
+using Teamworks.Core.Services;
 
 namespace Teamworks.Core.Test {
     /// <summary>

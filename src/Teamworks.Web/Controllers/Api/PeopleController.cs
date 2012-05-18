@@ -1,7 +1,17 @@
 ﻿using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
+using System.Web;
+using System.Web.Http;
+using System.Web.Http.ModelBinding;
+using System.Web.Http.ModelBinding.Binders;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
+using Raven.Bundles.Authorization.Model;
+using Raven.Client.Authorization;
 using Teamworks.Core.People;
+using Teamworks.Core.Projects;
+using Teamworks.Web.Helpers.Extensions;
 
 namespace Teamworks.Web.Controllers.Api
 {
@@ -9,15 +19,29 @@ namespace Teamworks.Web.Controllers.Api
     public class PeopleController : RavenApiController
     {
         [GET("people")]
-        public IEnumerable<Person> Get(string projectid)
+        public List<DocumentPermission> Get(int projectid)
         {
-            return new List<Person> {Person.Forge("a@b.c", "user", "password")};
+            var project = Get<Project>(projectid);
+            return DbSession.GetAuthorizationFor(project).Permissions;
         }
 
-        [GET("tasks/{taskid}/people")]
-        public IEnumerable<Person> Get(string projectid, string taskid)
+        [POST("people")]
+        public HttpResponseMessage<PersonModel> Post([ModelBinder(typeof (TypeConverterModelBinder))] int projectid, string name)
         {
-            return new List<Person> {Person.Forge("a@b.c", "user", "password")};
+            var project = Get<Project>(projectid);
+            
+            // todo check if user exists
+            var person = Get<Person>("People/" + name);
+            
+            var auth = DbSession.GetAuthorizationFor(project);
+            auth.Permissions.Add(person);
+            DbSession.SetAuthorizationFor(project, auth);
+            
+            return null;
         }
+    }
+
+    public class PersonModel
+    {
     }
 }

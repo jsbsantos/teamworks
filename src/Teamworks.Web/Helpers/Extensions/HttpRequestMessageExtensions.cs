@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using Teamworks.Core.Authentication;
+using Teamworks.Core.People;
 
 namespace Teamworks.Web.Helpers.Extensions
 {
@@ -11,10 +12,16 @@ namespace Teamworks.Web.Helpers.Extensions
     {
         private const string QueryStringKey = "QUERY_STRING_KEY";
 
+        public static Person GetCurrentPerson(this HttpRequestMessage request)
+        {
+            var person = request.GetUserPrincipal().Identity as PersonIdentity;
+            return person == null ? null : person.Person;
+        }
+
         public static string GetUserPrincipalId(this HttpRequestMessage request)
         {
-            var identity = request.GetUserPrincipal().Identity as PersonIdentity;
-            return identity == null ? string.Empty : identity.Person.Id;
+            var person = GetCurrentPerson(request);
+            return person == null ? "" : person.Id;
         }
 
         public static string QueryString(this HttpRequestMessage request, string name)
@@ -41,5 +48,5 @@ namespace Teamworks.Web.Helpers.Extensions
             HttpContext.Current.Items[QueryStringKey] = dict;
             return dict.TryGetValue(name, out value) ? value : null;
         }
-    }
+   }
 }

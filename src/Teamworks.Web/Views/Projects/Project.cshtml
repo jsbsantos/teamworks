@@ -32,7 +32,7 @@
         <h1>Tasks</h1>
     </div>
     <div class="row">
-        <div class="span6">
+        <div class="span6" data-bind="foreach: tasks">
             @{
                 if (Model.Tasks.Count == 0)
                 {
@@ -68,6 +68,14 @@
         
     </div>
 </section>
+
+<aside class="users">
+    <form action="~/api/projects/@Model.Id/people" method="POST">
+        <input name="name" placeholder="Insert the person to add"/>
+        <input type="submit" value="Add"/>
+    </form>
+</aside>
+
 <script type="text/javascript" language="javascript">
     var projectid = @Model.Id;
 </script>

@@ -6,6 +6,7 @@ using Raven.Client;
 using Teamworks.Core;
 using Teamworks.Core.Authentication;
 using Teamworks.Core.People;
+using Teamworks.Web.Helpers.Extensions;
 
 namespace Teamworks.Web.Controllers
 {
@@ -20,15 +21,14 @@ namespace Teamworks.Web.Controllers
         protected override void Initialize(RequestContext context)
         {
             Global.Raven.TryOpen();
-
-            IIdentity identity = context.HttpContext.User.Identity;
-            if (string.IsNullOrEmpty(identity.Name))
+            string id = context.HttpContext.User.Identity.Name;
+            if (string.IsNullOrEmpty(id))
             {
                 base.Initialize(context);
                 return;
             }
 
-            var person = DbSession.Load<Person>(identity.Name);
+            var person = DbSession.Load<Person>(id);
             if (person != null)
             {
                 context.HttpContext.User = new GenericPrincipal(new PersonIdentity(person), person.Roles.ToArray());
@@ -43,6 +43,8 @@ namespace Teamworks.Web.Controllers
             {
                 DbSession.SaveChanges();
             }
+            var person = context.HttpContext.GetCurrentPerson();
+            context.HttpContext.User = new GenericPrincipal(new GenericIdentity(person.Id), new string[0]);
             base.OnResultExecuted(context);
         }
     }

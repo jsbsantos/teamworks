@@ -25,13 +25,13 @@ namespace Teamworks.Web.Controllers.Api
         public IEnumerable<ProjectModel> Get()
         {
             DbSession.SecureFor(Request.GetUserPrincipalId(), "Projects/View");
-            IRavenQueryable<Project> projects = DbSession.Query<Project>().Include(p => p.TaskIds);
+            IRavenQueryable<Project> projects = DbSession.Query<Project>().Include(p => p.Tasks);
             return Mapper.Map<IQueryable<Project>, IEnumerable<ProjectModel>>(projects);
         }
 
         public ProjectModel Get(int id)
         {
-            var project = DbSession.Include<Project>(p => p.TaskIds).Load<Project>(id);
+            var project = DbSession.Include<Project>(p => p.Tasks).Load<Project>(id);
             if (project == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
@@ -43,18 +43,15 @@ namespace Teamworks.Web.Controllers.Api
         {
             Project project = Project.Forge(form.Name, form.Description);
             DbSession.Store(project);
-            DbSession.SetAuthorizationFor(project, new DocumentAuthorization
-                                                       {
-                                                           Permissions =
-                                                               {
-                                                                   new DocumentPermission
-                                                                       {
-                                                                           Allow = true,
-                                                                           Operation = "Projects/View"
-                                                                       }
-                                                               },
-                                                           Tags = {project.Id}
-                                                       });
+
+            var authz = new DocumentAuthorization
+                            {
+                                Permissions = new List<DocumentPermission>(),
+                                Tags = new List<string>()
+                            };
+
+            authz.Permissions.Add(Request.GetCurrentPerson());
+            DbSession.SetAuthorizationFor(project, authz);
 
             var response = new HttpResponseMessage<ProjectModel>(Mapper.Map<Project, ProjectModel>(project),
                                                                  HttpStatusCode.Created);

@@ -56,28 +56,24 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Authentication\BasicAuthenticationHandler.cs" />
-    <Compile Include="Authentication\BasicWebAuthenticationHandler.cs" />
-    <Compile Include="Authentication\IAuthenticationHandler.cs" />
     <Compile Include="Authentication\PersonIdentity.cs" />
-    <Compile Include="Authentication\WebAuthentication.cs" />
+    <Compile Include="Authentication\BasicAuthenticator.cs" />
+    <Compile Include="Authentication\FactoryOfAuthenticators.cs" />
     <Compile Include="Global.cs" />
-    <Compile Include="Raven.cs" />
+    <Compile Include="Authentication\IAuthenticator.cs" />
+    <Compile Include="Services\Raven.cs" />
     <Compile Include="People\Token.cs" />
     <Compile Include="Entity.cs" />
-    <Compile Include="Authentication\AuthenticationManager.cs" />
     <Compile Include="Extensions\Validator.cs" />
-    <Compile Include="Extensions\ILocalData.cs" />
-    <Compile Include="Extensions\Local.cs" />
+    <Compile Include="Services\ILocalData.cs" />
+    <Compile Include="Services\Local.cs" />
     <Compile Include="People\Person.cs" />
     <Compile Include="Projects\Project.cs" />
     <Compile Include="Projects\Task.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Projects\Topic.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

@@ -1,4 +1,4 @@
-﻿namespace Teamworks.Core.Extensions
+﻿namespace Teamworks.Core.Services
 {
     public interface ILocalData
     {

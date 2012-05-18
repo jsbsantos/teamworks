@@ -2,10 +2,10 @@
 using System.Dynamic;
 using System.Web.Mvc;
 using System.Web.Security;
-using Teamworks.Core.Authentication;
+using Teamworks.Core;
 using Teamworks.Core.People;
 
-namespace Teamworks.Web.Controllers
+namespace Teamworks.Web.Controllers.Web
 {
     [AllowAnonymous]
     public class AccountController : RavenController
@@ -28,10 +28,11 @@ namespace Teamworks.Web.Controllers
             dyn.Username = model.Username;
             dyn.Password = model.Password;
 
-            IAuthenticationHandler handler = AuthenticationManager.Get("BasicWeb");
-            if (handler != null && handler.IsValid(AuthenticationManager.GetCredentials("BasicWeb", dyn)))
+            Person person;
+            var auth = Global.Authentication["Basic"];
+            if (auth.IsValid(dyn, out person))
             {
-                FormsAuthentication.SetAuthCookie(dyn.Username, model.Persist);
+                FormsAuthentication.SetAuthCookie(person.Id, model.Persist);
                 if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
                     && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
                 {
@@ -39,6 +40,7 @@ namespace Teamworks.Web.Controllers
                 }
                 return RedirectToAction("View", "Home");
             }
+
             ModelState.AddModelError("", "The username or password you entered is incorrect.");
             return View(model);
         }

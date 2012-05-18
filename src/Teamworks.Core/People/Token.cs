@@ -12,8 +12,6 @@ namespace Teamworks.Core.People
             _timeout = 20;
         }
 
-        public string Id { get; private set; }
-
         [JsonIgnore]
         public string Value
         {
