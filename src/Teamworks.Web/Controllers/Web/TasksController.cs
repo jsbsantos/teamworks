@@ -1,20 +1,16 @@
 ﻿using System.Web;
 using System.Web.Mvc;
-using AttributeRouting;
-using AttributeRouting.Web.Http;
 using AutoMapper;
 using Teamworks.Core.Projects;
 using Teamworks.Web.Models;
 
 namespace Teamworks.Web.Controllers.Web
 {
-    [RoutePrefix("projects/{projectid}")]
     public class TasksController : RavenController
     {
         [HttpGet]
         [ActionName("View")]
-        [GET("tasks/{id}")]
-        public ActionResult Index(string id, string projectid)
+        public ActionResult Index(int? id, int projectid)
         {
             if (id != null)
             {
@@ -22,7 +18,7 @@ namespace Teamworks.Web.Controllers.Web
                     .Include("TaskModel.ProjectId")
                     .Load<Task>(id);
 
-                if (task == null || (task != null && task.ProjectId != projectid))
+                if (task == null || (task != null && !task.ProjectId.Contains(projectid.ToString())))
                     throw new HttpException(404, "Not Found");
 
                 ProjectModel proj = Mapper.Map<Project, ProjectModel>(DbSession.Load<Project>(task.ProjectId));
@@ -31,7 +27,7 @@ namespace Teamworks.Web.Controllers.Web
                 return View("Task", new {proj, task = taskModel});
             }
 
-            var project = DbSession.Load<Project>("projects/" + (string.IsNullOrEmpty(projectid) ? "-1" : projectid));
+            var project = DbSession.Load<Project>("projects/" + projectid);
             if (project == null)
                 throw new HttpException(404, "Not Found");
 

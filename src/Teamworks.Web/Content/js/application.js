@@ -11,6 +11,6 @@
         };
     }
 
-    $('#tasks').length && ko.applyBindings(new TasksViewmodel({ projectid: $("#projectid").text() }));
+    $('#tasks').length && ko.applyBindings(new TasksViewmodel(projectid));
     $('#projects').length && ko.applyBindings(new ProjectsViewmodel());
 })();

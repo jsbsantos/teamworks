@@ -22,12 +22,12 @@ namespace Teamworks.Web.Controllers.Api
             var project = DbSession
                 .Include<Project>(p => p.TaskIds)
                 .Load<Project>(projectid);
-            //foreach (var i in Enumerable.Range(1, 5)) {
-            //    var task = Core.Projects.Task.Forge(string.Format("TaskModel {0}", i), string.Format("description of target {0}", i));
-            //    DbSession.Store(task);
-            //    task.ProjectId = project.Id;
-            //    project.TaskIds.Add(task.Id);
-            //}
+
+            if (project == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
             return new List<TaskModel>(DbSession.Load<Task>(project.TaskIds).Select(Mapper.Map<Task, TaskModel>));
         }
 
@@ -47,6 +47,7 @@ namespace Teamworks.Web.Controllers.Api
             var project = DbSession.Load<Project>(projectid);
             Task task = Mapper.Map<TaskModel, Task>(taskModel);
             task.Id = null;
+            task.ProjectId = project.Id;
             DbSession.Store(task);
             DbSession.SaveChanges();
             project.TaskIds.Add(task.Id);

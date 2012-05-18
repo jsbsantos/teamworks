@@ -1,12 +1,11 @@
 ﻿@using Teamworks.Web.Models
-@model Teamworks.Web.Models.ProjectModel
+@model ProjectModel
 @{
     ViewBag.Title = Model.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <header class="jumbotron subhead">
     <h1>@Model.Name <small>@Model.Description</small></h1>
-    <div id="projectid" class="hidden">@Model.Id</div>
     <div class="subnav subnav-fixed">
         <ul class="nav nav-pills">
             <li><a href="#tasks">n tasks</a></li>
@@ -30,7 +29,7 @@
 </header>
 <section id="tasks">
     <div class="page-header">
-        <h1>TaskModels</h1>
+        <h1>Tasks</h1>
     </div>
     <div class="row">
         <div class="span6">
@@ -42,12 +41,10 @@
                 else
                 {
                     <p>Add task <a data-toggle="modal" href="#task-modal"><i class="icon-plus-sign"></i></a></p>
-                    <ul>
-                        @foreach (TaskModel task in Model.Tasks)
-                        {
+                    <ul data-bind="foreach: tasks">
+                       
                             <li>
-                                @task.Name <small>@task.Description</small> </li>
-                        }
+                                <a href="" data-bind="attr: { href: url }"><span data-bind="text: name"></span> - <span data-bind="text: description"></span></a> </li>
                     </ul>
                 }
 
@@ -71,3 +68,6 @@
         
     </div>
 </section>
+<script type="text/javascript" language="javascript">
+    var projectid = @Model.Id;
+</script>

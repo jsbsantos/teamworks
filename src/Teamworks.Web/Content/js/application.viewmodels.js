@@ -6,8 +6,8 @@
     self.description = ko.observable();
     self.editing = ko.observable();
     self.url = ko.computed(function() {
-        return "/projects/" + self.projectid() + "/tasks/" + self.id();
-    });
+        return "/" + self.projectid() + "/tasks/" + self.id();
+    }, this);
     var map = function(other) {
         self.id(other.id || self.id());
         self.name(other.name || self.name());
@@ -32,8 +32,8 @@ var Project = function(data) {
         self.id(other.id || self.id());
         self.name(other.name || self.name());
         self.description(other.description || self.description());
-        self.tasks($.map(other.tasks || self.tasks() || [], function(data) {
-            return new Task(data);
+        self.tasks($.map(other.tasks || self.tasks() || [], function(t) {
+            return new Task(t);
         }));
     };
     map(data || { });
@@ -120,8 +120,7 @@ var TasksViewmodel = function(projectid) {
 
     /* new TaskModel */
     self.task = new Task(projectid);
-    self.requestUrl = "/api/projects/" + self.task.projectid() + "/tasks/";
-
+    self.requestUrl = "/api/projects/" + projectid + "/tasks/";
     /* TaskModel interactions */
 
     self.create = function() {
