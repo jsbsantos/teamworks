@@ -13,7 +13,7 @@ using Teamworks.Web.Helpers.Extensions;
 
 namespace Teamworks.Web.Helpers.Handlers
 {
-    public class AuthHandler : DelegatingHandler
+    public class AuthenticationHandler : DelegatingHandler
     {
         private const string AuthToken = "auth_token";
 
@@ -24,8 +24,8 @@ namespace Teamworks.Web.Helpers.Handlers
             if (token != null)
             {
                 var session = Global.Raven.CurrentSession
-                    .Include<Token>(p => p.Person)
-                    .Load<Token>("token/" + token);
+                    .Include<Token>(t => t.Person)
+                    .Load<Token>("tokens/" + token);
 
                 if (session != null)
                 {

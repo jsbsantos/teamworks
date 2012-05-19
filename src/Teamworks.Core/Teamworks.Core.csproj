@@ -59,7 +59,8 @@
     <Compile Include="Authentication\PersonIdentity.cs" />
     <Compile Include="Authentication\BasicAuthenticator.cs" />
     <Compile Include="Authentication\FactoryOfAuthenticators.cs" />
-    <Compile Include="Global.cs" />
+    <Compile Include="Authentication\TokenAuthenticator.cs" />
+    <Compile Include="Services\Global.cs" />
     <Compile Include="Authentication\IAuthenticator.cs" />
     <Compile Include="Services\Raven.cs" />
     <Compile Include="People\Token.cs" />

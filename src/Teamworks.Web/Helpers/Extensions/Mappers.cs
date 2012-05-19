@@ -4,14 +4,14 @@ using Teamworks.Core;
 using Teamworks.Core.Projects;
 using Teamworks.Web.Models;
 
-namespace Teamworks.Web.Helpers
+namespace Teamworks.Web.Helpers.Extensions
 {
-    public class AutoMapperSetup
+    public static class Mappers
     {
         /*
-         AutoMapper uses "Convention over configuration" which means properties with the same name 
-         will be auto-mapped to each other.         
-         */
+        AutoMapper uses "Convention over configuration" which means properties with the same name 
+        will be auto-mapped to each other.         
+        */
 
         public static void RegisterMappers()
         {
@@ -25,7 +25,6 @@ namespace Teamworks.Web.Helpers
                 .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier));
 
             Mapper.CreateMap<TaskModel, Task>();
-
             Mapper.CreateMap<Task, TaskModel>()
                 .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier));
         }

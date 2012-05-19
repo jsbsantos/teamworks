@@ -41,29 +41,20 @@ namespace Teamworks.Web
                 );
         }
 
-        public static void RegisterWebApiHandlers()
-        {
-            HttpConfiguration configuration = GlobalConfiguration.Configuration;
-            configuration.MessageHandlers.Add(new RavenHandler());
-            configuration.MessageHandlers.Add(new AuthHandler());
-        }
-
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
-            RegisterWebApiHandlers();
-            AutoMapperSetup.RegisterMappers();
+        
+            GlobalConfiguration.Configuration.RegisterFormatters();
+            GlobalConfiguration.Configuration.RegisterWebApiHandlers();
 
-            HttpConfiguration configuration = GlobalConfiguration.Configuration;
-            configuration.Formatters.Remove(configuration.Formatters.JsonFormatter);
-            configuration.Formatters.Add(new JsonNetFormatter());
-
+            BundleTable.Bundles.EnableTeamworksBundle();
 
             Global.Authentication.Add("Basic", new BasicAuthenticator());
-            BundleTable.Bundles.EnableTeamworksBundle();
+            Mappers.RegisterMappers();
         }
     }
 }

@@ -4,7 +4,7 @@ namespace Teamworks.Core.Authentication
 {
     public interface IAuthenticator
     {
-        bool IsValid(object dyn);
-        bool IsValid(object dyn, out Person person);
+        bool IsValid(object obj);
+        bool IsValid(object obj, out Person person);
     }
 }

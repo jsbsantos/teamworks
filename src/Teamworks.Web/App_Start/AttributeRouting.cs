@@ -4,7 +4,6 @@ using AttributeRouting.Web.Http.WebHost;
 using WebActivator;
 
 [assembly: PreApplicationStartMethod(typeof (Teamworks.Web.App_Start.AttributeRouting), "Start")]
-
 namespace Teamworks.Web.App_Start
 {
     public static class AttributeRouting

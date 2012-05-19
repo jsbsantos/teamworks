@@ -2,7 +2,7 @@ using Teamworks.Core.People;
 
 namespace Teamworks.Core.Authentication
 {
-    public sealed class BasicAuthenticator : IAuthenticator
+    public sealed class TokenAuthenticator : IAuthenticator
     {
         public bool IsValid(object dyn)
         {
@@ -18,18 +18,23 @@ namespace Teamworks.Core.Authentication
             {
                 return false;
             }
-
-            var username = dyn.Username;
-            var password = dyn.Password;
-
-            Person p = Global.Raven.CurrentSession.Load<Person>("people/" + username);
-            if (p == null)
+            
+            var t = dyn.Token;
+            if (t == null)
             {
                 return false;
             }
 
-            person = p;
-            return p.IsThePassword(password);
+            var session = Global.Raven.CurrentSession;
+            Token token = session.Include<Token>(e => e.Person).Load("tokens/" + t);
+            if (token == null)
+            {
+                return false;
+            }
+
+            person = session.Load<Person>(token.Person);
+            return true;
+
         }
     }
 }

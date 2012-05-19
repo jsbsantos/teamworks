@@ -41,7 +41,10 @@ namespace Teamworks.Web.Controllers
         {
             if ((context.Exception == null || context.ExceptionHandled) && DbSession != null)
             {
-                DbSession.SaveChanges();
+                using (var session = DbSession)
+                {
+                    DbSession.SaveChanges();    
+                }
             }
             var person = context.HttpContext.GetCurrentPerson();
             context.HttpContext.User = new GenericPrincipal(new GenericIdentity(person.Id), new string[0]);

@@ -32,10 +32,7 @@ namespace Teamworks.Web.Controllers.Api
             
             // todo check if user exists
             var person = Get<Person>("People/" + name);
-            
-            var auth = DbSession.GetAuthorizationFor(project);
-            auth.Permissions.Add(person);
-            DbSession.SetAuthorizationFor(project, auth);
+            DbSession.SetAuthorizationForUser(project, person);
             
             return null;
         }

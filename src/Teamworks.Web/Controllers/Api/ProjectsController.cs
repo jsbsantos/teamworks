@@ -9,7 +9,6 @@ using System.Web.Http.ModelBinding.Binders;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
-using Raven.Bundles.Authorization.Model;
 using Raven.Client.Authorization;
 using Raven.Client.Linq;
 using Teamworks.Core.Projects;
@@ -43,16 +42,8 @@ namespace Teamworks.Web.Controllers.Api
         {
             Project project = Project.Forge(form.Name, form.Description);
             DbSession.Store(project);
-
-            var authz = new DocumentAuthorization
-                            {
-                                Permissions = new List<DocumentPermission>(),
-                                Tags = new List<string>()
-                            };
-
-            authz.Permissions.Add(Request.GetCurrentPerson());
-            DbSession.SetAuthorizationFor(project, authz);
-
+            DbSession.SetAuthorizationForUser(project, Request.GetCurrentPerson());
+            
             var response = new HttpResponseMessage<ProjectModel>(Mapper.Map<Project, ProjectModel>(project),
                                                                  HttpStatusCode.Created);
             string uri = Request.RequestUri.Authority + Url.Route(null, new {id = project.Id});
@@ -64,23 +55,14 @@ namespace Teamworks.Web.Controllers.Api
         public HttpResponseMessage Put([ModelBinder(typeof (TypeConverterModelBinder))] int id,
                                        Project project)
         {
-            var proj = DbSession.Load<Project>(id);
-            if (proj == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
-
+            var p = Get<Project>(id);
             /* todo mapping */
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
 
         public HttpResponseMessage Delete(int id)
         {
-            var project = DbSession.Load<Project>(id);
-            if (project == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
+            var project = Get<Project>(id);
             DbSession.Delete(project);
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
