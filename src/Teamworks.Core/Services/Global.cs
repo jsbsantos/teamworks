@@ -2,7 +2,7 @@
 using System.Text;
 using Teamworks.Core.Authentication;
 
-namespace Teamworks.Core
+namespace Teamworks.Core.Services
 {
     public static class Global
     {

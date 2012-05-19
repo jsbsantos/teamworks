@@ -6,6 +6,7 @@ using AttributeRouting;
 using AttributeRouting.Web.Http;
 using Teamworks.Core;
 using Teamworks.Core.People;
+using Teamworks.Core.Services;
 using Teamworks.Web.Models;
 
 namespace Teamworks.Web.Controllers.Api

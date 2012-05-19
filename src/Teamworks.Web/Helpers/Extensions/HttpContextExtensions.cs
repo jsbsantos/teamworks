@@ -6,8 +6,6 @@ namespace Teamworks.Web.Helpers.Extensions
 {
     public static class HttpContextExtensions
     {
-        private const string QueryStringKey = "QUERY_STRING_KEY";
-
         public static Person GetCurrentPerson(this HttpContextBase context)
         {
             var person = context.User.Identity as PersonIdentity;

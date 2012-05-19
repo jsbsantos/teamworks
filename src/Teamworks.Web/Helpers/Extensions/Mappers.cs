@@ -2,6 +2,7 @@
 using AutoMapper;
 using Teamworks.Core;
 using Teamworks.Core.Projects;
+using Teamworks.Core.Services;
 using Teamworks.Web.Models;
 
 namespace Teamworks.Web.Helpers.Extensions

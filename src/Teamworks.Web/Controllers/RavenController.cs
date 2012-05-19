@@ -6,6 +6,7 @@ using Raven.Client;
 using Teamworks.Core;
 using Teamworks.Core.Authentication;
 using Teamworks.Core.People;
+using Teamworks.Core.Services;
 using Teamworks.Web.Helpers.Extensions;
 
 namespace Teamworks.Web.Controllers
@@ -21,6 +22,7 @@ namespace Teamworks.Web.Controllers
         protected override void Initialize(RequestContext context)
         {
             Global.Raven.TryOpen();
+
             string id = context.HttpContext.User.Identity.Name;
             if (string.IsNullOrEmpty(id))
             {

@@ -1,7 +1,8 @@
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Teamworks.Core;
+using Raven.Client;
+using Teamworks.Core.Services;
 
 namespace Teamworks.Web.Helpers.Handlers
 {
@@ -10,13 +11,13 @@ namespace Teamworks.Web.Helpers.Handlers
         protected override Task<HttpResponseMessage> SendAsync(
             HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            var session = Global.Raven.CurrentSession;
+            IDocumentSession session = Global.Raven.CurrentSession;
             return base.SendAsync(request, cancellationToken)
                 .ContinueWith(t =>
                                   {
                                       using (session)
                                       {
-                                          if (session != null && t.IsCompleted && !t.IsFaulted)
+                                          if (session != null && t.Result.IsSuccessStatusCode)
                                           {
                                               session.SaveChanges();
                                           }

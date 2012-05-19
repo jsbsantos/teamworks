@@ -1,4 +1,5 @@
 using Teamworks.Core.People;
+using Teamworks.Core.Services;
 
 namespace Teamworks.Core.Authentication
 {

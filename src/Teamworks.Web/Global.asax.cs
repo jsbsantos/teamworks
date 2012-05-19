@@ -6,6 +6,7 @@ using LowercaseRoutesMVC;
 using Microsoft.Web.Optimization;
 using Teamworks.Core;
 using Teamworks.Core.Authentication;
+using Teamworks.Core.Services;
 using Teamworks.Web.Helpers;
 using Teamworks.Web.Helpers.Extensions;
 using Teamworks.Web.Helpers.Handlers;

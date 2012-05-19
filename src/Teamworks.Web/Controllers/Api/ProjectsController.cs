@@ -38,11 +38,11 @@ namespace Teamworks.Web.Controllers.Api
             return Mapper.Map<Project, ProjectModel>(project);
         }
 
-        public HttpResponseMessage<ProjectModel> Post(ProjectModel form)
+        public HttpResponseMessage<ProjectModel> Post(ProjectModel model)
         {
-            Project project = Project.Forge(form.Name, form.Description);
+            Project project = Project.Forge(model.Name, model.Description);
             DbSession.Store(project);
-            DbSession.SetAuthorizationForUser(project, Request.GetCurrentPerson());
+            DbSession.SetAuthorizationForPerson(project, Request.GetCurrentPerson());
             
             var response = new HttpResponseMessage<ProjectModel>(Mapper.Map<Project, ProjectModel>(project),
                                                                  HttpStatusCode.Created);
