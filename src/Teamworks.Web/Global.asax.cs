@@ -25,25 +25,27 @@ namespace Teamworks.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.MapRouteLowercase(
+                name: "project_task",
+                url: "projects/{projectid}/tasks/{id}/{action}",
+                defaults: new { controller = "Tasks", action = "View", id = UrlParameter.Optional }
+                );
+
+            routes.MapRouteLowercase(
+               name: "projects",
+               url: "projects/{id}/{action}",
+               defaults: new { controller = "Projects", action = "View", id = UrlParameter.Optional }
+               );
 
             routes.MapRouteLowercase(
                 name: "default",
                 url: "{controller}/{action}/{id}",
-                defaults: new {controller = "Home", action = "View", id = UrlParameter.Optional}
+                defaults: new { controller = "Home", action = "View", id = UrlParameter.Optional }
                 );
+            
+           
 
-
-            routes.MapRouteLowercase(
-                name: "project_task",
-                url: "projects/{projectid}/tasks/{id}/{action}",
-                defaults:
-                    new
-                        {
-                            controller = "Tasks",
-                            action = "View",
-                            id = UrlParameter.Optional
-                        }
-                );
+            
         }
 
         protected void Application_Start()

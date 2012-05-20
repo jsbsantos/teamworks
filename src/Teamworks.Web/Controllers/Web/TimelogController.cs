@@ -9,7 +9,7 @@ namespace Teamworks.Web.Controllers.Web
 
         public ActionResult Index()
         {
-            return View();
+            return new EmptyResult();
         }
     }
 }

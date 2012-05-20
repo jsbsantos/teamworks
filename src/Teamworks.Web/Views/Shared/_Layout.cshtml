@@ -36,7 +36,7 @@
                     <li>@Html.ActionLink("teamworks", "View", "Home", null, new {@class = "brand"})</li>
                     <li class="@Html.ActiveController("Home")"><a href="@Url.Action("View", "Home")"><i class="icon-home icon-white"></i>Home</a></li>
                     <li class="divider-vertical"></li>
-                    <li class="@Html.ActiveController("projects")"><a href="@Url.Action("View", "Projects", new {id = UrlParameter.Optional})">projects</a></li>
+                    <li class="@Html.ActiveController("projects")"><a href="@Url.Action("View", "Projects", new {id = UrlParameter.Optional})">Projects</a></li>
                     <li class="@Html.ActiveController("Timeline")"><a href="@Url.Action("View", "Timeline")">Timeline</a></li>
                     <li class="divider-vertical"></li>
                     <li class="@Html.ActiveControllerAndAction("Everyone", "Timeline")"><a href="#">Everyone</a></li>
@@ -72,9 +72,9 @@
         {
             <script src="@Url.Content("~/content/js/libs/knockout-2.0.0.js")"> </script>
             <script src="@Url.Content("~/content/js/libs/knockout.unobtrusive.js")"> </script>
-            <script src="@Url.Content("~/content/js/application.viewmodels.task.list.js")"> </script>
-            <script src="@Url.Content("~/content/js/application.viewmodels.project.js")"> </script>
-            <script src="@Url.Content("~/content/js/application.viewmodels.project.list.js")"> </script>
+            <script src="@Url.Content("~/content/js/application.viewmodels.js")"> </script>
+            <script src="@Url.Content("~/content/js/application.viewmodels.tasks.js")"> </script>
+            <script src="@Url.Content("~/content/js/application.viewmodels.projects.js")"> </script>
             <script src="@Url.Content("~/content/js/application.js")"> </script>
         }
     }

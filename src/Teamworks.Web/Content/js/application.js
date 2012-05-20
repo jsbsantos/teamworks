@@ -1,5 +1,6 @@
 /// <reference path="~/Content/js/libs/knockout-2.0.0.js" />
-/// <reference path="~/Content/js/application.viewmodels.project.list.js" />
+/// <reference path="~/Content/js/application.viewmodels.tasks.js" />
+/// <reference path="~/Content/js/application.viewmodels.projects.js" />
 
 (function () {
     'use strict';
