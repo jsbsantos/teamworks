@@ -197,10 +197,9 @@
     <Content Include="Content\img\glyphicons-halflings-white.png" />
     <Content Include="Content\img\glyphicons-halflings.png" />
     <Content Include="Content\js\application.viewmodels.js" />
-    <Content Include="Content\js\application.viewmodels.project.list.js" />
-    <Content Include="Content\js\application.viewmodels.task.list.js" />
-    <Content Include="Content\js\application.viewmodels.project.js" />
     <Content Include="Content\js\application.viewmodels.task.js" />
+    <Content Include="Content\js\application.viewmodels.tasks.js" />
+    <Content Include="Content\js\application.viewmodels.projects.js" />
     <Content Include="Content\js\libs\bootstrap\alert.js" />
     <Content Include="Content\js\libs\bootstrap\bootstrap.js" />
     <Content Include="Content\js\libs\bootstrap\bootstrap.min.js" />

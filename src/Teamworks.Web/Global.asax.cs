@@ -24,7 +24,7 @@ namespace Teamworks.Web
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            
+
             routes.MapRouteLowercase(
                 name: "project_task_timelog",
                 url: "projects/{projectid}/tasks/{taskid}/timelog/{id}/{action}",
@@ -54,7 +54,6 @@ namespace Teamworks.Web
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "View", id = UrlParameter.Optional }
                 );
-
         }
 
         protected void Application_Start()

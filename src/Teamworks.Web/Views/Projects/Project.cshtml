@@ -30,11 +30,11 @@
     <section id="project_tasks">
         <div class="page-header">
             <h1>
-                tasks <a data-toggle="modal" href="#task-modal"><i class="icon-plus-sign">
+                Tasks <a data-toggle="modal" href="#task-modal"><i class="icon-plus-sign">
                     </i></a></h1>
         </div>
         <div class="row">
-            <p data-bind="visible: tasks.tasks().length == 0">
+            <p class="span6" data-bind="visible: tasks.tasks().length == 0">
                     Create your first task 
                 </p>
             <div class="span6" data-bind="template: { name: 'tasks-template', foreach: tasks.tasks }">
