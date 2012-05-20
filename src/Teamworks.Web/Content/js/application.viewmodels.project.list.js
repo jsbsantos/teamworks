@@ -1,4 +1,4 @@
-﻿var Project = function(data) {
+﻿var project = function(data) {
     /* self region */
     var self = this;
     self.id = ko.observable("0");
@@ -17,9 +17,9 @@
 
 };
 
-var ProjectsViewmodel = function(projects) {
+var project_list_viewmodel = function(projects) {
     var self = this;
-    self.project = new Project();
+    self.project = new project();
     self.create = function() {
         var request = $.ajax("/api/projects", {
             data: ko.toJSON(self.project),
@@ -30,7 +30,7 @@ var ProjectsViewmodel = function(projects) {
                 201: /*created*/function(data) {
                     // push a new project
                     data.url = request.getResponseHeader("Location");
-                    self.projects.push(new Project(data));
+                    self.projects.push(new project(data));
                     $('#project-modal').modal('hide');
                     self.project.clear();
                 }
@@ -70,5 +70,5 @@ var ProjectsViewmodel = function(projects) {
     };
 
     /* projects */
-    self.projects = ko.observableArray($.map(projects, function (item) { return new Project(item); }));
+    self.projects = ko.observableArray($.map(projects, function (item) { return new project(item); }));
 };

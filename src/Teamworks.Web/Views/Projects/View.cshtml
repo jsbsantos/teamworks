@@ -1,15 +1,15 @@
 ﻿@using Teamworks.Web.Helpers.Extensions
-@model IEnumerable<Teamworks.Web.Models.ProjectModel>
+@model IEnumerable<Teamworks.Web.Models.DryProjectModel>
 @{
-    ViewBag.Title = "Projects";
+    ViewBag.Title = "projects";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div id="projects">
+<div id="project_list">
     <header id="create_project" class="span12 row">
         <h1>Your current projects <a data-toggle="modal" href="#project-modal"><i class="icon-plus-sign"></i></a></h1>
         <div class="modal hide" id="project-modal">
             <div class="modal-header">
-                <h1>Create a Project</h1>    
+                <h1>Create a project</h1>    
             </div>
             <div class="modal-body">
                 <form class="form-inline" data-bind="submit: create">

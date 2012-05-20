@@ -26,7 +26,7 @@ namespace Teamworks.Web.Controllers.Web
                 return View("Project", ret);
             }
             var projects = DbSession.Query<Project>().ToList();
-            return View(Mapper.Map<List<Project>, IEnumerable<ProjectModel>>(projects));
+            return View(Mapper.Map<List<Project>, IEnumerable<DryProjectModel>>(projects));
         }
     }
 }

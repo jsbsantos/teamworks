@@ -1,5 +1,5 @@
 /// <reference path="~/Content/js/libs/knockout-2.0.0.js" />
-/// <reference path="~/Content/js/application.viewmodels.projects.js" />
+/// <reference path="~/Content/js/application.viewmodels.project.list.js" />
 
 (function () {
     'use strict';
@@ -12,5 +12,6 @@
         };
     }
 
-    $('#projects').length && ko.applyBindings(new ProjectsViewmodel(data), document.getElementById('projects'));
+    $('#project_list').length && ko.applyBindings(new project_list_viewmodel(data), document.getElementById('project_list'));
+    $('#project').length && ko.applyBindings(new project_viewmodel(data), document.getElementById('projects'));
 })();

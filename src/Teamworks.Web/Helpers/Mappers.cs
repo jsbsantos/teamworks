@@ -4,7 +4,7 @@ using Teamworks.Core.Projects;
 using Teamworks.Core.Services;
 using Teamworks.Web.Models;
 
-namespace Teamworks.Web.Helpers.Extensions
+namespace Teamworks.Web.Helpers
 {
     public static class Mappers
     {
@@ -23,13 +23,16 @@ namespace Teamworks.Web.Helpers.Extensions
                                                   Global.Raven.CurrentSession.Load<Task>(src.Tasks))))
                 .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier));
 
+            Mapper.CreateMap<Project, DryProjectModel>()
+                .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier));
+
             Mapper.CreateMap<TaskModel, Task>();
             Mapper.CreateMap<Task, TaskModel>()
                 .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier))
                 .ForMember(src => src.Timelog, opt => opt.MapFrom(src => src.Timelog));
 
-            Mapper.CreateMap<TimelogModel, Timelog>();
-            Mapper.CreateMap<Timelog, TimelogModel>();
+            Mapper.CreateMap<TimeEntryModel, Timelog>();
+            Mapper.CreateMap<Timelog, TimeEntryModel>();
 
 
         }

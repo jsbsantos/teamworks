@@ -17,7 +17,7 @@ namespace Teamworks.Web.Controllers.Api
     [RoutePrefix("api/projects/{projectid}/tasks/{taskid}/timelog")]
     public class TimelogController : RavenApiController
     {
-        public IEnumerable<TimelogModel> Get(int projectid, int taskid)
+        public IEnumerable<TimeEntryModel> Get(int projectid, int taskid)
         {
             var project = DbSession
                 .Include<Project>(p => p.Tasks)
@@ -34,12 +34,12 @@ namespace Teamworks.Web.Controllers.Api
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            return task.Timelog.Select(Mapper.Map<Timelog, TimelogModel>);
+            return task.Timelog.Select(Mapper.Map<Timelog, TimeEntryModel>);
         }
 
-        public HttpResponseMessage<TimelogModel> Post([ModelBinder(typeof(TypeConverterModelBinder))] int projectid,
+        public HttpResponseMessage<TimeEntryModel> Post([ModelBinder(typeof(TypeConverterModelBinder))] int projectid,
             [ModelBinder(typeof(TypeConverterModelBinder))] int taskid,
-                                                   TimelogModel timelogModel)
+                                                   TimeEntryModel timeEntryModel)
         {
             return null;
         }

@@ -1,7 +1,10 @@
-﻿using System.Web;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Web.Mvc;
 using AutoMapper;
 using Teamworks.Core.Projects;
+using Teamworks.Web.Helpers.Extensions;
 using Teamworks.Web.Models;
 
 namespace Teamworks.Web.Controllers.Web
@@ -11,28 +14,32 @@ namespace Teamworks.Web.Controllers.Web
         //route: projects/{projectid}/tasks/{id}
         [HttpGet]
         [ActionName("View")]
-        public ActionResult Index(int? id, int projectid)
+        public ActionResult Index(string id, int projectid)
         {
-            if (id != null)
+            int taskid;
+            
+            var project = DbSession
+                .Include<Project>(p => p.Tasks)
+                .Load<Project>(projectid);
+
+            if (project == null)
             {
-                var task = DbSession
-                    .Include("TaskModel.ProjectId")
-                    .Load<Task>(id);
-
-                if (task == null || (task != null && !task.Project.Contains(projectid.ToString())))
-                    throw new HttpException(404, "Not Found");
-
-                var proj = Mapper.Map<Project, ProjectModel>(DbSession.Load<Project>(task.Project));
-                var taskModel = Mapper.Map<Task, TaskModel>(task);
-
-                return View("Task", new {proj, task = taskModel});
+                return new HttpNotFoundResult();
             }
 
-            var project = DbSession.Load<Project>("projects/" + projectid);
-            if (project == null)
-                throw new HttpException(404, "Not Found");
+            bool parse = int.TryParse(id, out taskid);
+            if (id != null && parse)
+            {
+                if (project.Tasks.Count(t => t.Identifier() == taskid) == 0)
+                {
+                    return new HttpNotFoundResult();
+                }
+                var task = DbSession.Load<Task>(taskid);
+                TaskModel model = Mapper.Map<Task, TaskModel>(task);
+                return View("Task", new {task = model});
+            }
 
-            return View( /*Mapper.Map<Project, Models.Project>(project)*/);
+            return View(Mapper.Map<List<Task>, List<TaskModel>>(DbSession.Load<Task>(project.Tasks).ToList()));
         }
     }
 }

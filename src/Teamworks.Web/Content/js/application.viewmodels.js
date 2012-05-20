@@ -21,7 +21,7 @@
 };
 
 
-var Task = function (data) {
+var task = function (data) {
     var self = this;
     self.id = ko.observable("0");
     self.name = ko.observable();
@@ -47,7 +47,7 @@ var Task = function (data) {
     map(data || {});
 };
 
-var Project = function(data) {
+var project = function(data) {
     /* self region */
     var self = this;
     self.id = ko.observable("0");
@@ -63,7 +63,7 @@ var Project = function(data) {
         self.name(other.name || self.name());
         self.description(other.description || self.description());
         self.tasks($.map(other.tasks || self.tasks() || [], function(t) {
-            return new Task(t);
+            return new task(t);
         }));
     };
     map(data || { });
@@ -81,11 +81,11 @@ var Project = function(data) {
     };
 };
 
-var ProjectsViewmodel = function() {
+var project_list_viewmodel = function() {
     var self = this;
 
     /* new project */
-    self.project = new Project();
+    self.project = new project();
     /* projects interactions */
 
     self.create = function() {
@@ -98,7 +98,7 @@ var ProjectsViewmodel = function() {
                 201: /*created*/function(data) {
                     // push a new project
                     data.url = request.getResponseHeader("Location");
-                    self.projects.push(new Project(data));
+                    self.projects.push(new project(data));
                     $('#project-modal').modal('hide');
                 }
             }
@@ -140,18 +140,18 @@ var ProjectsViewmodel = function() {
     self.projects = ko.observableArray([]);
     $.getJSON("/api/projects", function(data) {
         self.projects($.map(data, function(item) {
-            return new Project(item);
+            return new project(item);
         }));
     });
 };
 
-var TasksViewmodel = function(projectid) {
+var task_list_viewmodel = function(projectid) {
     var self = this;
 
-    /* new TaskModel */
-    self.task = new Task(projectid);
+    /* new taskModel */
+    self.task = new task(projectid);
     self.requestUrl = "/api/projects/" + projectid + "/tasks/";
-    /* TaskModel interactions */
+    /* taskModel interactions */
 
     self.create = function() {
         var request = $.ajax(self.requestUrl, {
@@ -163,7 +163,7 @@ var TasksViewmodel = function(projectid) {
                 201: /*created*/function(data) {
                     // push a new task
                     data.url = request.getResponseHeader("Location");
-                    self.tasks.push(new Task(data));
+                    self.tasks.push(new task(data));
                     $('#task-modal').modal('hide');
                 }
             }
@@ -205,7 +205,7 @@ var TasksViewmodel = function(projectid) {
     self.tasks = ko.observableArray([]);
     $.getJSON(self.requestUrl, function(data) {
         self.tasks($.map(data, function(item) {
-            return new Task(item);
+            return new task(item);
         }));
     });
     

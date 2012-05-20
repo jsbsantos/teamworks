@@ -6,7 +6,7 @@ using LowercaseRoutesMVC;
 using Microsoft.Web.Optimization;
 using Teamworks.Core.Authentication;
 using Teamworks.Core.Services;
-
+using Teamworks.Web.Helpers;
 using Teamworks.Web.Helpers.Extensions;
 
 namespace Teamworks.Web
@@ -35,14 +35,13 @@ namespace Teamworks.Web
 
             routes.MapRouteLowercase(
                 name: "project_task",
-                url: "projects/{projectid}/tasks/{id}",
+                url: "projects/{projectid}/tasks/{id}/{action}",
                 defaults:
                     new
                         {
                             controller = "Tasks",
                             action = "View",
-                            id = UrlParameter.Optional,
-                            projectid = UrlParameter.Optional
+                            id = UrlParameter.Optional
                         }
                 );
         }

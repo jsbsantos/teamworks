@@ -154,6 +154,7 @@
     <Compile Include="Controllers\Api\MessagesController.cs" />
     <Compile Include="Controllers\Api\PeopleController.cs" />
     <Compile Include="Controllers\Web\TimelogController.cs" />
+    <Compile Include="Helpers\Extensions\EntityExtensions.cs" />
     <Compile Include="Helpers\Extensions\HttpConfigurationExtensions.cs" />
     <Compile Include="Helpers\Mappers.cs" />
     <Compile Include="Helpers\Extensions\HttpContextExtensions.cs" />
@@ -176,7 +177,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\JsonNetFormatter.cs" />
-    <Compile Include="Models\TimelogModel.cs" />
+    <Compile Include="Models\DryTaskModel.cs" />
+    <Compile Include="Models\DryProjectModel.cs" />
+    <Compile Include="Models\TimeEntryModel.cs" />
     <Compile Include="Models\ProjectModel.cs" />
     <Compile Include="Models\TaskModel.cs" />
     <Compile Include="Models\TokenModel.cs" />
@@ -193,7 +196,10 @@
     <Content Include="Content\img\glyphicons-halflings-white.png" />
     <Content Include="Content\img\glyphicons-halflings.png" />
     <Content Include="Content\js\application.viewmodels.js" />
-    <Content Include="Content\js\application.viewmodels.projects.js" />
+    <Content Include="Content\js\application.viewmodels.project.list.js" />
+    <Content Include="Content\js\application.viewmodels.task.list.js" />
+    <Content Include="Content\js\application.viewmodels.project.js" />
+    <Content Include="Content\js\application.viewmodels.task.js" />
     <Content Include="Content\js\libs\bootstrap\alert.js" />
     <Content Include="Content\js\libs\bootstrap\bootstrap.js" />
     <Content Include="Content\js\libs\bootstrap\bootstrap.min.js" />

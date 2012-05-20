@@ -1,80 +1,59 @@
-﻿@model Teamworks.Web.Models.ProjectModel
+﻿@using Teamworks.Web.Helpers.Extensions
+@model Teamworks.Web.Models.ProjectModel
 @{
     ViewBag.Title = Model.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<header class="jumbotron subhead">
-    <h1>@Model.Name <small>@Model.Description</small></h1>
-    <div class="subnav subnav-fixed">
-        <ul class="nav nav-pills">
-            <li><a href="#tasks">n tasks</a></li>
-            <li><a href="#todos">n todos</a></li>
-            <li><a href="#messages">n messages</a></li>
-        </ul>
-    </div>
-    <div class="modal hide" id="task-modal">
-        <div class="modal-header">
-            <h1>Create a Task</h1>    
+<div id="project">
+    <header class="jumbotron subhead">
+        <h1>@Model.Name <small>@Model.Description</small></h1>
+        <div class="subnav subnav-fixed">
+            <ul class="nav nav-pills">
+                <li><a href="#project_tasks"><span data-bind="text: tasks.tasks().length"></span>&nbsp;tasks</a></li>
+            </ul>
         </div>
-        <div class="modal-body">
-            <form class="form-inline" data-bind="submit: create">
-                <input class="input-medium" name="name" placeholder="Name your task" data-bind="value: task.name, valueUpdate: 'afterkeyup'" />
-                <input class="input-large" name="description" placeholder="Describe your task" data-bind="value: task.description, valueUpdate: 'afterkeyup'" />
-                <button class="btn" type="submit">Create</button>
-            </form>
+        <div class="modal hide" id="task-modal">
+            <div class="modal-header">
+                <h1>
+                    Create a task</h1>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline" data-bind="submit: tasks.create">
+                <input class="input-medium" name="name" placeholder="Name your task" data-bind="value: tasks.task.name, valueUpdate: 'afterkeyup'" />
+                <input class="input-large" name="description" placeholder="Describe your task" data-bind="value: tasks.task.description, valueUpdate: 'afterkeyup'" />
+                <button class="btn" type="submit">
+                    Create</button>
+                </form>
+            </div>
         </div>
-    </div>
-
-</header>
-<section id="tasks">
-    <div class="page-header">
-        <h1>Tasks</h1>
-    </div>
-    <div class="row">
-        <div class="span6" data-bind="foreach: tasks">
-            @{
-                if (Model.Tasks.Count == 0)
-                {
-                    <p>Create your first task <a data-toggle="modal" href="#task-modal"><i class="icon-plus-sign"></i></a></p>
-                }
-                else
-                {
-                    <p>Add task <a data-toggle="modal" href="#task-modal"><i class="icon-plus-sign"></i></a></p>
-                    <ul data-bind="foreach: tasks">
-                       
-                        <li>
-                            <a href="" data-bind="attr: { href: url }"><span data-bind="text: name"></span> - <span data-bind="text: description"></span></a> </li>
-                    </ul>
-                }
-
-            }
+    </header>
+    <section id="project_tasks">
+        <div class="page-header">
+            <h1>
+                tasks <a data-toggle="modal" href="#task-modal"><i class="icon-plus-sign">
+                    </i></a></h1>
         </div>
-    </div>
-</section>
-<section id="todos">
-    <div class="page-header">
-        <h1>Todos</h1>
-    </div>
-    <div class="row">
-        
-    </div>
-</section>
-<section id="messages">
-    <div class="page-header">
-        <h1>Messages</h1>
-    </div>
-    <div class="row">
-        
-    </div>
-</section>
-
-<aside class="users">
-    <form action="~/api/projects/@Model.Id/people" method="POST">
-        <input name="name" placeholder="Insert the person to add"/>
-        <input type="submit" value="Add"/>
-    </form>
-</aside>
-
-<script type="text/javascript" language="javascript">
-    var projectid = @Model.Id;
-</script>
+        <div class="row">
+            <p data-bind="visible: tasks.tasks().length == 0">
+                    Create your first task 
+                </p>
+            <div class="span6" data-bind="template: { name: 'tasks-template', foreach: tasks.tasks }">
+                
+            </div>
+        </div>
+    </section>
+    <script type="text/javascript" language="javascript">
+    var data = @Html.Raw(Model.ToJson())
+    </script>
+    <script type="text/html" id="tasks-template">
+        <section class="span3">
+            <div>
+                <h2><a data-bind="text: name, attr: { href: url }"></a></h2>
+                <p data-bind="text: description"></p>
+                <form class="btn-group" data-bind="submit: $parent.tasks.remove">
+                    <button class="btn" type="submit" name="remove">Remove</button>
+                </form>
+            </div>
+        </section>
+    </script>
+</div>
