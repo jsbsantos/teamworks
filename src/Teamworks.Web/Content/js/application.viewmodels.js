@@ -274,5 +274,4 @@ var TimelogViewmodel = function(task) {
             return new Task(item);
         }));
     });
-
 };

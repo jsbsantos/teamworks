@@ -48,7 +48,10 @@ namespace Teamworks.Web.Controllers
                 }
             }
             Person person = context.HttpContext.GetCurrentPerson();
-            context.HttpContext.User = new GenericPrincipal(new GenericIdentity(person.Id), new string[0]);
+            if (person != null)
+            {
+                context.HttpContext.User = new GenericPrincipal(new GenericIdentity(person.Id), new string[0]);
+            }
             base.OnResultExecuted(context);
         }
     }

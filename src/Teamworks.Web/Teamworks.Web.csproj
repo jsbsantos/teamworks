@@ -155,8 +155,9 @@
     <Compile Include="Controllers\Api\PeopleController.cs" />
     <Compile Include="Controllers\Web\TimelogController.cs" />
     <Compile Include="Helpers\Extensions\HttpConfigurationExtensions.cs" />
-    <Compile Include="Helpers\Extensions\Mappers.cs" />
+    <Compile Include="Helpers\Mappers.cs" />
     <Compile Include="Helpers\Extensions\HttpContextExtensions.cs" />
+    <Compile Include="Helpers\Extensions\ObjectExtensions.cs" />
     <Compile Include="Helpers\RestApiSupressAuthenticationRedirectModule.cs" />
     <Compile Include="Controllers\Api\TasksController.cs" />
     <Compile Include="Controllers\RavenApiController.cs" />
@@ -192,6 +193,7 @@
     <Content Include="Content\img\glyphicons-halflings-white.png" />
     <Content Include="Content\img\glyphicons-halflings.png" />
     <Content Include="Content\js\application.viewmodels.js" />
+    <Content Include="Content\js\application.viewmodels.projects.js" />
     <Content Include="Content\js\libs\bootstrap\alert.js" />
     <Content Include="Content\js\libs\bootstrap\bootstrap.js" />
     <Content Include="Content\js\libs\bootstrap\bootstrap.min.js" />

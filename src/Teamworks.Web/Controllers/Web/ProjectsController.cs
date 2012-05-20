@@ -1,4 +1,6 @@
-﻿using System.Web;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
 using Teamworks.Core.Projects;
@@ -23,7 +25,8 @@ namespace Teamworks.Web.Controllers.Web
                 ProjectModel ret = Mapper.Map<Project, ProjectModel>(project);
                 return View("Project", ret);
             }
-            return View();
+            var projects = DbSession.Query<Project>().ToList();
+            return View(Mapper.Map<List<Project>, IEnumerable<ProjectModel>>(projects));
         }
     }
 }
