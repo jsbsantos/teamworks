@@ -41,17 +41,7 @@ namespace Teamworks.Web.Controllers.Api
             [ModelBinder(typeof(TypeConverterModelBinder))] int taskid,
                                                    TimelogModel timelogModel)
         {
-            var project = DbSession.Load<Project>(projectid);
-            Task task = Mapper.Map<TaskModel, Task>(taskModel);
-            task.Id = null;
-            task.Project = project.Id;
-            DbSession.Store(task);
-            DbSession.SaveChanges();
-            project.Tasks.Add(task.Id);
-            DbSession.SaveChanges();
-
-            return new HttpResponseMessage<TaskModel>(Mapper.Map<Task, TaskModel>(task),
-                                                      HttpStatusCode.Created);
+            return null;
         }
 
         /// <see cref="http://forums.asp.net/post/4855634.aspx" />

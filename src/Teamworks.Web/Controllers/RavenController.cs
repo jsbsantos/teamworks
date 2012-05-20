@@ -21,6 +21,7 @@ namespace Teamworks.Web.Controllers
         protected override void Initialize(RequestContext context)
         {
             Global.Raven.TryOpen();
+
             string id = context.HttpContext.User.Identity.Name;
             if (string.IsNullOrEmpty(id))
             {

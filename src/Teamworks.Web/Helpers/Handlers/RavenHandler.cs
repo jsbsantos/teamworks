@@ -17,7 +17,7 @@ namespace Teamworks.Web.Helpers.Handlers
                                   {
                                       using (session)
                                       {
-                                          if (session != null && t.IsCompleted && !t.IsFaulted)
+                                          if (session != null && t.Result.IsSuccessStatusCode)
                                           {
                                               session.SaveChanges();
                                           }

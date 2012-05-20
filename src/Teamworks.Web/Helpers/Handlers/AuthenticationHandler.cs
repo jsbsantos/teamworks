@@ -5,6 +5,7 @@ using System.Net.Http.Headers;
 using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http.Hosting;
 using Teamworks.Core.Authentication;
 using Teamworks.Core.People;
@@ -20,6 +21,7 @@ namespace Teamworks.Web.Helpers.Handlers
         protected override Task<HttpResponseMessage> SendAsync(
             HttpRequestMessage request, CancellationToken cancellationToken)
         {
+            Person person = null;
             string token = request.QueryString(AuthToken);
             if (token != null)
             {
@@ -29,30 +31,37 @@ namespace Teamworks.Web.Helpers.Handlers
 
                 if (session != null)
                 {
-                    var person = Global.Raven.CurrentSession.Load<Person>(session.Person);
-                    if (person != null)
-                    {
-                        //todo add NLog message
-                        var identity = new PersonIdentity(person);
-                        request.Properties[HttpPropertyKeys.UserPrincipalKey] =
-                            new GenericPrincipal(identity, person.Roles.ToArray());
-                    }
+                    person = Global.Raven.CurrentSession.Load<Person>(session.Person);
                 }
             }
-            return base.SendAsync(request, cancellationToken).ContinueWith(t =>
-                                                                               {
-                                                                                   if (t.Result.StatusCode ==
-                                                                                       HttpStatusCode.Unauthorized)
-                                                                                   {
-                                                                                       t.Result.Headers.WwwAuthenticate.
-                                                                                           Add(
-                                                                                               new AuthenticationHeaderValue
-                                                                                                   (
-                                                                                                   "Basic",
-                                                                                                   "realm=\"Api Teamworks\""));
-                                                                                   }
-                                                                                   return t.Result;
-                                                                               });
+
+            if (person == null)
+            {
+                var id = HttpContext.Current.User.Identity.Name;
+                if (!string.IsNullOrEmpty(id))
+                {
+                    person = Global.Raven.CurrentSession.Load<Person>(id);
+                }
+            }
+
+            if (person != null)
+            {
+                //todo add NLog message
+                var identity = new PersonIdentity(person);
+                request.Properties[HttpPropertyKeys.UserPrincipalKey] =
+                    new GenericPrincipal(identity, person.Roles.ToArray());
+            }
+            
+            return base.SendAsync(request, cancellationToken).ContinueWith<HttpResponseMessage>(
+                t =>
+                    {
+                        if (t.Result.StatusCode == HttpStatusCode.Unauthorized)
+                        {
+                            t.Result.Headers.WwwAuthenticate.Add(new AuthenticationHeaderValue("Basic",
+                                                                                               "realm=\"Api Teamworks\""));
+                        }
+                        return t.Result;
+                    });
         }
     }
 }
