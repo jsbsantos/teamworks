@@ -8,6 +8,7 @@ namespace Teamworks.Web.Controllers.Web
 {
     public class TasksController : RavenController
     {
+        //route: projects/{projectid}/tasks/{id}
         [HttpGet]
         [ActionName("View")]
         public ActionResult Index(int? id, int projectid)
@@ -21,8 +22,8 @@ namespace Teamworks.Web.Controllers.Web
                 if (task == null || (task != null && !task.Project.Contains(projectid.ToString())))
                     throw new HttpException(404, "Not Found");
 
-                ProjectModel proj = Mapper.Map<Project, ProjectModel>(DbSession.Load<Project>(task.Project));
-                TaskModel taskModel = Mapper.Map<Task, TaskModel>(task);
+                var proj = Mapper.Map<Project, ProjectModel>(DbSession.Load<Project>(task.Project));
+                var taskModel = Mapper.Map<Task, TaskModel>(task);
 
                 return View("Task", new {proj, task = taskModel});
             }

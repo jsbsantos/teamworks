@@ -1,9 +1,12 @@
 using Teamworks.Core.People;
+using Teamworks.Core.Services;
 
 namespace Teamworks.Core.Authentication
 {
     public sealed class BasicAuthenticator : IAuthenticator
     {
+        #region IAuthenticator Members
+
         public bool IsValid(object dyn)
         {
             Person person;
@@ -19,10 +22,10 @@ namespace Teamworks.Core.Authentication
                 return false;
             }
 
-            var username = dyn.Username;
-            var password = dyn.Password;
+            dynamic username = dyn.Username;
+            dynamic password = dyn.Password;
 
-            Person p = Global.Raven.CurrentSession.Load<Person>("people/" + username);
+            dynamic p = Global.Raven.CurrentSession.Load<Person>("people/" + username);
             if (p == null)
             {
                 return false;
@@ -31,5 +34,7 @@ namespace Teamworks.Core.Authentication
             person = p;
             return p.IsThePassword(password);
         }
+
+        #endregion
     }
 }

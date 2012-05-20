@@ -10,9 +10,9 @@ namespace Teamworks.Web.Helpers.Extensions
     {
         public static void SetAuthorizationForUser(this IDocumentSession session, object entity, Person person)
         {
-            var doc = session.GetAuthorizationFor(entity);
-            var list = doc.Permissions ?? (doc.Permissions = new List<DocumentPermission>());
-            list.Add(new DocumentPermission()
+            DocumentAuthorization doc = session.GetAuthorizationFor(entity);
+            List<DocumentPermission> list = doc.Permissions ?? (doc.Permissions = new List<DocumentPermission>());
+            list.Add(new DocumentPermission
                          {
                              Allow = true,
                              Operation = "Operation",

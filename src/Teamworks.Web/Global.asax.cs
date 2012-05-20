@@ -4,11 +4,9 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using LowercaseRoutesMVC;
 using Microsoft.Web.Optimization;
-using Teamworks.Core;
 using Teamworks.Core.Authentication;
-using Teamworks.Web.Helpers;
+using Teamworks.Core.Services;
 using Teamworks.Web.Helpers.Extensions;
-using Teamworks.Web.Helpers.Handlers;
 
 namespace Teamworks.Web
 {
@@ -30,14 +28,21 @@ namespace Teamworks.Web
             routes.MapRouteLowercase(
                 name: "default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "View", id = UrlParameter.Optional }
+                defaults: new {controller = "Home", action = "View", id = UrlParameter.Optional}
                 );
 
 
             routes.MapRouteLowercase(
                 name: "project_task",
                 url: "projects/{projectid}/tasks/{id}",
-                defaults: new { controller = "Tasks", action = "View", id = UrlParameter.Optional, projectid = UrlParameter.Optional }
+                defaults:
+                    new
+                        {
+                            controller = "Tasks",
+                            action = "View",
+                            id = UrlParameter.Optional,
+                            projectid = UrlParameter.Optional
+                        }
                 );
         }
 
@@ -47,7 +52,7 @@ namespace Teamworks.Web
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
-        
+
             GlobalConfiguration.Configuration.RegisterFormatters();
             GlobalConfiguration.Configuration.RegisterWebApiHandlers();
 

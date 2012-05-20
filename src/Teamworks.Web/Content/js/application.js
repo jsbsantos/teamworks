@@ -12,6 +12,8 @@
         };
     }
 
+    $('#timelog').length && ko.applyBindings(new TimelogViewmodel(taskid));
+
     $('#tasks').length && ko.applyBindings(new TasksViewmodel(projectid));
 
     $('#projects').length && ko.applyBindings(new ProjectsViewmodel());

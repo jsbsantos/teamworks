@@ -2,8 +2,9 @@
 using System.Dynamic;
 using System.Web.Mvc;
 using System.Web.Security;
-using Teamworks.Core;
+using Teamworks.Core.Authentication;
 using Teamworks.Core.People;
+using Teamworks.Core.Services;
 
 namespace Teamworks.Web.Controllers.Web
 {
@@ -29,7 +30,7 @@ namespace Teamworks.Web.Controllers.Web
             dyn.Password = model.Password;
 
             Person person;
-            var auth = Global.Authentication["Basic"];
+            IAuthenticator auth = Global.Authentication["Basic"];
             if (auth.IsValid(dyn, out person))
             {
                 FormsAuthentication.SetAuthCookie(person.Id, model.Persist);

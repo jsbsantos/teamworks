@@ -16,6 +16,5 @@ namespace Teamworks.Web.Helpers.Extensions
             configuration.MessageHandlers.Add(new RavenHandler());
             configuration.MessageHandlers.Add(new AuthenticationHandler());
         }
-
     }
 }

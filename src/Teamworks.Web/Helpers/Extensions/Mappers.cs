@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using AutoMapper;
-using Teamworks.Core;
 using Teamworks.Core.Projects;
+using Teamworks.Core.Services;
 using Teamworks.Web.Models;
 
 namespace Teamworks.Web.Helpers.Extensions
@@ -16,7 +16,6 @@ namespace Teamworks.Web.Helpers.Extensions
         public static void RegisterMappers()
         {
             Mapper.CreateMap<ProjectModel, Project>();
-
             Mapper.CreateMap<Project, ProjectModel>()
                 .ForMember(src => src.Tasks,
                            opt => opt.MapFrom(src =>
@@ -26,7 +25,13 @@ namespace Teamworks.Web.Helpers.Extensions
 
             Mapper.CreateMap<TaskModel, Task>();
             Mapper.CreateMap<Task, TaskModel>()
-                .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier));
+                .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier))
+                .ForMember(src => src.Timelog, opt => opt.MapFrom(src => src.Timelog));
+
+            Mapper.CreateMap<TimelogModel, Timelog>();
+            Mapper.CreateMap<Timelog, TimelogModel>();
+
+
         }
     }
 }

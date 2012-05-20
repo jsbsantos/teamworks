@@ -78,7 +78,10 @@ hr.soften {
     margin-bottom: 18px;
 }
 
-.jumbotron h1 small { font-size: 38px; padding-left: 12px; }
+.jumbotron h1 small {
+    font-size: 38px;
+    padding-left: 12px;
+}
 
 .jumbotron .btn-large {
     -moz-border-radius: 6px;

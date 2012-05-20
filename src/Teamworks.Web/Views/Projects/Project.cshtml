@@ -1,5 +1,4 @@
-﻿@using Teamworks.Web.Models
-@model ProjectModel
+﻿@model Teamworks.Web.Models.ProjectModel
 @{
     ViewBag.Title = Model.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -43,8 +42,8 @@
                     <p>Add task <a data-toggle="modal" href="#task-modal"><i class="icon-plus-sign"></i></a></p>
                     <ul data-bind="foreach: tasks">
                        
-                            <li>
-                                <a href="" data-bind="attr: { href: url }"><span data-bind="text: name"></span> - <span data-bind="text: description"></span></a> </li>
+                        <li>
+                            <a href="" data-bind="attr: { href: url }"><span data-bind="text: name"></span> - <span data-bind="text: description"></span></a> </li>
                     </ul>
                 }
 

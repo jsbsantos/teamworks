@@ -20,7 +20,7 @@ namespace Teamworks.Web.Helpers.Extensions
 
         public static string GetUserPrincipalId(this HttpRequestMessage request)
         {
-            var person = GetCurrentPerson(request);
+            Person person = GetCurrentPerson(request);
             return person == null ? "" : person.Id;
         }
 
@@ -48,5 +48,5 @@ namespace Teamworks.Web.Helpers.Extensions
             HttpContext.Current.Items[QueryStringKey] = dict;
             return dict.TryGetValue(name, out value) ? value : null;
         }
-   }
+    }
 }

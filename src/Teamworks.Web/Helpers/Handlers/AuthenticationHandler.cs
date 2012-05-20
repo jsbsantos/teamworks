@@ -6,9 +6,9 @@ using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http.Hosting;
-using Teamworks.Core;
 using Teamworks.Core.Authentication;
 using Teamworks.Core.People;
+using Teamworks.Core.Services;
 using Teamworks.Web.Helpers.Extensions;
 
 namespace Teamworks.Web.Helpers.Handlers

@@ -16,7 +16,7 @@ namespace Teamworks.Web.Helpers.Extensions
 
         public static string GetUserPrincipalId(this HttpContextBase context)
         {
-            var person = GetCurrentPerson(context);
+            Person person = GetCurrentPerson(context);
             return person == null ? "" : person.Id;
         }
     }

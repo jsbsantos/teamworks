@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Net;
 using System.Net.Http;
-using System.Web;
-using System.Web.Http;
 using System.Web.Http.ModelBinding;
 using System.Web.Http.ModelBinding.Binders;
 using AttributeRouting;
@@ -26,14 +23,15 @@ namespace Teamworks.Web.Controllers.Api
         }
 
         [POST("people")]
-        public HttpResponseMessage<PersonModel> Post([ModelBinder(typeof (TypeConverterModelBinder))] int projectid, string name)
+        public HttpResponseMessage<PersonModel> Post([ModelBinder(typeof (TypeConverterModelBinder))] int projectid,
+                                                     string name)
         {
             var project = Get<Project>(projectid);
-            
+
             // todo check if user exists
             var person = Get<Person>("People/" + name);
             DbSession.SetAuthorizationForUser(project, person);
-            
+
             return null;
         }
     }

@@ -10,9 +10,7 @@ namespace Teamworks.Web.Helpers
         #region IHttpModule Members
 
         /// <summary>
-        /// You will need to configure this module in the web.config file of your
-        /// web and register it with IIS before being able to use it. For more information
-        /// see the following link: http://go.microsoft.com/?linkid=8101007
+        ///   You will need to configure this module in the web.config file of your web and register it with IIS before being able to use it. For more information see the following link: http://go.microsoft.com/?linkid=8101007
         /// </summary>
 
         #region IHttpModule Members

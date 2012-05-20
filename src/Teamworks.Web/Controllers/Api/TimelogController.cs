@@ -14,10 +14,10 @@ using Teamworks.Web.Models;
 namespace Teamworks.Web.Controllers.Api
 {
     [DefaultHttpRouteConvention]
-    [RoutePrefix("api/projects/{projectid}/tasks")]
-    public class TasksController : RavenApiController
+    [RoutePrefix("api/projects/{projectid}/tasks/{taskid}/timelog")]
+    public class TimelogController : RavenApiController
     {
-        public IEnumerable<TaskModel> Get(int projectid)
+        public IEnumerable<TimelogModel> Get(int projectid, int taskid)
         {
             var project = DbSession
                 .Include<Project>(p => p.Tasks)
@@ -28,27 +28,18 @@ namespace Teamworks.Web.Controllers.Api
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            //foreach (var i in Enumerable.Range(1, 5)) {
-            //    var task = Core.Projects.Task.Forge(string.Format("TaskModel {0}", i), string.Format("description of target {0}", i));
-            //    DbSession.Store(task);
-            //    task.ProjectId = project.Id;
-            //    project.TaskIds.Add(task.Id);
-            //}
-            return new List<TaskModel>(DbSession.Load<Task>(project.Tasks).Select(Mapper.Map<Task, TaskModel>));
-        }
-
-        public TaskModel Get(int id, int projectid)
-        {
-            var task = DbSession.Load<Task>(id);
+            var task = DbSession.Load<Task>(taskid);
             if (task == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
-            return Mapper.Map<Task, TaskModel>(task);
+
+            return task.Timelog.Select(Mapper.Map<Timelog, TimelogModel>);
         }
 
-        public HttpResponseMessage<TaskModel> Post([ModelBinder(typeof (TypeConverterModelBinder))] int projectid,
-                                                   TaskModel taskModel)
+        public HttpResponseMessage<TimelogModel> Post([ModelBinder(typeof(TypeConverterModelBinder))] int projectid,
+            [ModelBinder(typeof(TypeConverterModelBinder))] int taskid,
+                                                   TimelogModel timelogModel)
         {
             var project = DbSession.Load<Project>(projectid);
             Task task = Mapper.Map<TaskModel, Task>(taskModel);
@@ -64,8 +55,8 @@ namespace Teamworks.Web.Controllers.Api
         }
 
         /// <see cref="http://forums.asp.net/post/4855634.aspx" />
-        public HttpResponseMessage Put([ModelBinder(typeof (TypeConverterModelBinder))] int id,
-                                       [ModelBinder(typeof (TypeConverterModelBinder))] int projectid,
+        public HttpResponseMessage Put([ModelBinder(typeof(TypeConverterModelBinder))] int id,
+                                       [ModelBinder(typeof(TypeConverterModelBinder))] int projectid,
                                        TaskModel taskModel)
         {
             return null;

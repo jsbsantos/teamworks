@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Teamworks.Core
+namespace Teamworks.Core.Projects
 {
     public class Topic : Entity
     {

@@ -3,9 +3,9 @@ using System.Security.Principal;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Raven.Client;
-using Teamworks.Core;
 using Teamworks.Core.Authentication;
 using Teamworks.Core.People;
+using Teamworks.Core.Services;
 using Teamworks.Web.Helpers.Extensions;
 
 namespace Teamworks.Web.Controllers
@@ -41,12 +41,12 @@ namespace Teamworks.Web.Controllers
         {
             if ((context.Exception == null || context.ExceptionHandled) && DbSession != null)
             {
-                using (var session = DbSession)
+                using (IDocumentSession session = DbSession)
                 {
-                    DbSession.SaveChanges();    
+                    DbSession.SaveChanges();
                 }
             }
-            var person = context.HttpContext.GetCurrentPerson();
+            Person person = context.HttpContext.GetCurrentPerson();
             context.HttpContext.User = new GenericPrincipal(new GenericIdentity(person.Id), new string[0]);
             base.OnResultExecuted(context);
         }

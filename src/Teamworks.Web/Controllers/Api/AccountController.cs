@@ -4,8 +4,8 @@ using System.Net.Http;
 using System.Web.Http;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
-using Teamworks.Core;
 using Teamworks.Core.People;
+using Teamworks.Core.Services;
 using Teamworks.Web.Models;
 
 namespace Teamworks.Web.Controllers.Api
@@ -24,14 +24,13 @@ namespace Teamworks.Web.Controllers.Api
             Person person;
             if (Global.Authentication["Basic"].IsValid(dyn, out person))
             {
-                var token = Token.Forge(person.Id);
+                Token token = Token.Forge(person.Id);
                 DbSession.Store(token);
                 //todo return http code 200 vs 201
                 return new HttpResponseMessage<TokenModel>(new TokenModel {Token = token.Value}, HttpStatusCode.OK);
             }
 
             return new HttpResponseMessage(HttpStatusCode.Unauthorized);
-            ;
         }
     }
 }

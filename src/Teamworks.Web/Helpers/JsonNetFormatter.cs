@@ -10,7 +10,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace Teamworks.Web.Helpers
 {
-    /// <see cref="http://blogs.msdn.com/b/henrikn/archive/2012/02/18/using-json-net-with-asp-net-web-api.aspx"/> 
+    /// <see cref="http://blogs.msdn.com/b/henrikn/archive/2012/02/18/using-json-net-with-asp-net-web-api.aspx" />
     public class JsonNetFormatter : MediaTypeFormatter
     {
         public JsonNetFormatter()
@@ -80,7 +80,7 @@ namespace Teamworks.Web.Helpers
 
         #region Nested type: LowercaseContractResolver
 
-        /// <see cref="http://nyqui.st/json-net-newtonsoft-json-lowercase-keys"/>
+        /// <see cref="http://nyqui.st/json-net-newtonsoft-json-lowercase-keys" />
         public class LowercaseContractResolver : DefaultContractResolver
         {
             protected override string ResolvePropertyName(string propertyName)

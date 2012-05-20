@@ -1,9 +1,13 @@
+using Raven.Client;
 using Teamworks.Core.People;
+using Teamworks.Core.Services;
 
 namespace Teamworks.Core.Authentication
 {
     public sealed class TokenAuthenticator : IAuthenticator
     {
+        #region IAuthenticator Members
+
         public bool IsValid(object dyn)
         {
             Person person;
@@ -18,14 +22,14 @@ namespace Teamworks.Core.Authentication
             {
                 return false;
             }
-            
-            var t = dyn.Token;
+
+            dynamic t = dyn.Token;
             if (t == null)
             {
                 return false;
             }
 
-            var session = Global.Raven.CurrentSession;
+            IDocumentSession session = Global.Raven.CurrentSession;
             Token token = session.Include<Token>(e => e.Person).Load("tokens/" + t);
             if (token == null)
             {
@@ -34,7 +38,8 @@ namespace Teamworks.Core.Authentication
 
             person = session.Load<Person>(token.Person);
             return true;
-
         }
+
+        #endregion
     }
 }

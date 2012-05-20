@@ -153,8 +153,10 @@
     <Compile Include="App_Start\AttributeRouting.cs" />
     <Compile Include="App_Start\RestApiAuthenticationConfig.cs" />
     <Compile Include="Controllers\Api\AccountController.cs" />
+    <Compile Include="Controllers\Api\TimelogController.cs" />
     <Compile Include="Controllers\Api\MessagesController.cs" />
     <Compile Include="Controllers\Api\PeopleController.cs" />
+    <Compile Include="Controllers\Web\TimelogController.cs" />
     <Compile Include="Helpers\Extensions\HttpConfigurationExtensions.cs" />
     <Compile Include="Helpers\Extensions\Mappers.cs" />
     <Compile Include="Helpers\Extensions\HttpContextExtensions.cs" />
@@ -177,6 +179,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\JsonNetFormatter.cs" />
+    <Compile Include="Models\TimelogModel.cs" />
     <Compile Include="Models\ProjectModel.cs" />
     <Compile Include="Models\TaskModel.cs" />
     <Compile Include="Models\TokenModel.cs" />

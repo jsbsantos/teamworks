@@ -2,18 +2,18 @@
 using System.Text;
 using Teamworks.Core.Authentication;
 
-namespace Teamworks.Core
+namespace Teamworks.Core.Services
 {
     public static class Global
     {
-        public static FactoryOfAuthenticators Authentication
+        public static AuthenticatorFactory Authentication
         {
-            get { return FactoryOfAuthenticators.Instance; }
+            get { return AuthenticatorFactory.Instance; }
         }
 
-        public static Services.Raven Raven
+        public static Raven Raven
         {
-            get { return Services.Raven.Instance; }
+            get { return Raven.Instance; }
         }
 
         public static Tuple<string, string> DecodeBasicAuthenticationHeader(string basicAuthToken)

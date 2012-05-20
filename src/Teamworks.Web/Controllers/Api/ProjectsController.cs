@@ -43,7 +43,7 @@ namespace Teamworks.Web.Controllers.Api
             Project project = Project.Forge(form.Name, form.Description);
             DbSession.Store(project);
             DbSession.SetAuthorizationForUser(project, Request.GetCurrentPerson());
-            
+
             var response = new HttpResponseMessage<ProjectModel>(Mapper.Map<Project, ProjectModel>(project),
                                                                  HttpStatusCode.Created);
             string uri = Request.RequestUri.Authority + Url.Route(null, new {id = project.Id});
@@ -51,7 +51,7 @@ namespace Teamworks.Web.Controllers.Api
             return response;
         }
 
-        /// <see cref="http://forums.asp.net/post/4855634.aspx"/>
+        /// <see cref="http://forums.asp.net/post/4855634.aspx" />
         public HttpResponseMessage Put([ModelBinder(typeof (TypeConverterModelBinder))] int id,
                                        Project project)
         {

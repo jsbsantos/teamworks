@@ -7,6 +7,7 @@ namespace Teamworks.Core.Projects
         public string Project { get; set; }
         public string Description { get; set; }
         public IList<string> Pretasks { get; set; }
+        public IList<Timelog> Timelog { get; set; }
 
         public static Task Forge(string project, string name, string description)
         {
