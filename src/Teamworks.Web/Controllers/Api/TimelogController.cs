@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -34,14 +35,36 @@ namespace Teamworks.Web.Controllers.Api
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            return task.Timelog.Select(Mapper.Map<Timelog, TimeEntryModel>);
+            return task.Timelog.Select(Mapper.Map<TimeEntry, TimeEntryModel>);
         }
 
-        public HttpResponseMessage<TimeEntryModel> Post([ModelBinder(typeof(TypeConverterModelBinder))] int projectid,
+        public HttpResponseMessage<TimeEntryModel> Post(
+            [ModelBinder(typeof(TypeConverterModelBinder))] int projectid,
             [ModelBinder(typeof(TypeConverterModelBinder))] int taskid,
-                                                   TimeEntryModel timeEntryModel)
+                                                   TimeEntryModel model)
         {
-            return null;
+            var project = DbSession
+                .Include<Project>(p => p.Tasks)
+                .Load<Project>(projectid);
+            if (project == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
+            var task = DbSession.Load<Task>(taskid);
+            if (task == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
+            //todo check for collisions?
+
+            var timeentry = TimeEntry.Forge(model.Description,model.Date, model.Duration, model.Person);
+            task.Timelog.Add(timeentry);
+            DbSession.SaveChanges();
+
+            return new HttpResponseMessage<TimeEntryModel>(Mapper.Map<TimeEntry, TimeEntryModel>(timeentry),
+                                          HttpStatusCode.Created);
         }
 
         /// <see cref="http://forums.asp.net/post/4855634.aspx" />
@@ -49,12 +72,62 @@ namespace Teamworks.Web.Controllers.Api
                                        [ModelBinder(typeof(TypeConverterModelBinder))] int projectid,
                                        TaskModel taskModel)
         {
-            return null;
+            /*
+             
+                         var project = DbSession
+                .Include<Project>(p => p.Tasks)
+                .Load<Project>(projectid);
+            if (project == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
+            var task = DbSession.Load<Task>(taskid);
+            if (task == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
+            var timeentry = task.Timelog.Where(t => t.Id.Equals(model.Id)).FirstOrDefault();
+            if (timeentry == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
+            timeentry.Date = model.Date;
+            timeentry.Description = model.Description;
+            timeentry.Duration = model.Duration;
+             
+             */
+            throw new NotImplementedException();
         }
 
-        public HttpResponseMessage Delete(int id, int projectid)
+        public HttpResponseMessage Delete(int id, int projectid, TaskModel taskModel)
         {
-            return null;
+            var project = DbSession
+                 .Include<Project>(p => p.Tasks)
+                 .Load<Project>(projectid);
+            if (project == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
+            var task = DbSession.Load<Task>(id);
+            if (task == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
+            var timeentry = task.Timelog.FirstOrDefault(t => t.Id == taskModel.Id);
+            if (timeentry == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
+            task.Timelog.Remove(timeentry);
+            DbSession.SaveChanges();
+
+            return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
     }
 }

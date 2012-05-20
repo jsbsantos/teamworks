@@ -57,7 +57,7 @@
     <Compile Include="Authentication\BasicAuthenticator.cs" />
     <Compile Include="Authentication\AuthenticatorFactory.cs" />
     <Compile Include="Authentication\TokenAuthenticator.cs" />
-    <Compile Include="Projects\Timelog.cs" />
+    <Compile Include="Projects\TimeEntry.cs" />
     <Compile Include="Services\Global.cs" />
     <Compile Include="Authentication\IAuthenticator.cs" />
     <Compile Include="Services\Raven.cs" />

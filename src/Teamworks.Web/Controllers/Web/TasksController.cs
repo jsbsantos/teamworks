@@ -36,7 +36,7 @@ namespace Teamworks.Web.Controllers.Web
                 }
                 var task = DbSession.Load<Task>(taskid);
                 TaskModel model = Mapper.Map<Task, TaskModel>(task);
-                return View("Task", new {task = model});
+                return View("Task", model);
             }
 
             return View(Mapper.Map<List<Task>, List<TaskModel>>(DbSession.Load<Task>(project.Tasks).ToList()));

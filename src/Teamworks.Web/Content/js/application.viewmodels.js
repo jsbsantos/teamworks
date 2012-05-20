@@ -214,10 +214,10 @@ var task_list_viewmodel = function(projectid) {
 var TimelogViewmodel = function(task) {
     var self = this;
 
-    /* new TimelogViewmodel */
+    /* new TimeEntryViewmodel */
     self.task = task;
     self.requestUrl = "/api/projects/" + task.projectid() + "/tasks/" + task.id() + "/timelog";
-    /* TimelogViewmodel interactions */
+    /* TimeEntryViewmodel interactions */
 
     self.create = function() {
         var request = $.ajax(self.requestUrl, {

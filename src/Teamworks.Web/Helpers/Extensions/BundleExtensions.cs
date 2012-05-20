@@ -11,7 +11,8 @@ namespace Teamworks.Web.Helpers.Extensions
             css.AddFile("~/content/css/bootstrap/bootstrap-responsive.css");
             css.AddFile("~/content/css/font-awesome.css");
             css.AddFile("~/content/css/teamworks.css");
-
+            css.AddFile("~/content/css/jquery.tools.calc.css");
+            
             bundles.Add(css);
 
             var js = new Bundle("~/js", typeof (JsMinify));

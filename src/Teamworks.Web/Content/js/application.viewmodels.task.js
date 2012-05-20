@@ -1,10 +1,10 @@
 ﻿var timelog = function (data, taskid, projectid) {
     var self = this;
-    self.id = ko.observable(data.id);
-    self.description = ko.observable(data.description);
-    self.date = ko.observable(data.date);
-    self.duration = ko.observable(data.duration);
-    self.person = ko.observable(data.person);
+    self.id = ko.observable((data && data.id) || "0");
+    self.description = ko.observable(data && data.description);
+    self.date = ko.observable(data && data.date);
+    self.duration = ko.observable(data && data.duration);
+    self.person = ko.observable(data && data.person);
     self.url = ko.computed(function () {
         return "/" + projectid + "/tasks/" + taskid + "/timelog/" + self.id() + "/view";
     }, this);
@@ -13,7 +13,7 @@
 var task_viewmodel = function (task) {
     var self = this;
 
-    self.timelog = new timelog();
+    self.timelog = new timelog({}, task.id, task.project);
     self.requestUrl = "/api/projects/" + task.project + "/tasks/" + task.id + "/timelog/";
 
     self.create = function () {
