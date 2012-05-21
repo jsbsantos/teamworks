@@ -9,6 +9,12 @@ namespace Teamworks.Core.Projects
         public IList<string> Pretasks { get; set; }
         public IList<TimeEntry> Timelog { get; set; }
 
+        public int LastTimeEntryId { get; set; }
+        public int GenerateNewTimeEntryId()
+        {
+            return ++LastTimeEntryId;
+        }
+
         public static Task Forge(string project, string name, string description)
         {
             return new Task
@@ -16,7 +22,9 @@ namespace Teamworks.Core.Projects
                            Name = name,
                            Project = project,
                            Description = description,
-                           Pretasks = new List<string>()
+                           Pretasks = new List<string>(),
+                           Timelog = new List<TimeEntry>(),
+                           LastTimeEntryId = 0
                        };
         }
     }

@@ -48,6 +48,13 @@ var Timelog = function (data, taskid, projectid) {
     self.url = ko.computed(function () {
         return "/" + projectid + "/tasks/" + taskid + "/timelog/" + self.id() + "/view";
     }, this);
+    
+    self.clear = function () {
+        self.id("");
+        self.description("");
+        self.date("");
+        self.duration("");
+    };
 };
 
 
@@ -107,4 +114,4 @@ var TimelogViewmodel = function(task) {
             });
         }
     };
-
+};

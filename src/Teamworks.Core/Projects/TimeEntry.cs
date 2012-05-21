@@ -4,7 +4,7 @@ namespace Teamworks.Core.Projects
 {
     public class TimeEntry
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string Description { get; set; }
         public DateTime Date { get; set; }
         public float Duration { get; set; }
@@ -19,7 +19,7 @@ namespace Teamworks.Core.Projects
                            Date = date,
                            Duration = duration,
                            Person = person,
-                           Id = null
+                           Id = 0
                        };
         }
     }

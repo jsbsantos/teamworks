@@ -7,10 +7,10 @@
 <div id="task">
     <header class="span12 row">
         <h1>
-            Task work time log <a data-toggle="modal" href="#time-modal"><i class="icon-plus-sign">
+            Task work time log <a data-toggle="modal" href="#timelog-modal"><i class="icon-plus-sign">
             </i></a>
         </h1>
-        <div class="modal hide" id="time-modal">
+        <div class="modal hide" id="timelog-modal">
             <div class="modal-header">
                 <h1>
                     Register your time</h1>
@@ -34,17 +34,16 @@
         </ul>
     </article>
     <script type="text/html" id="timelog-template">
-        <section class="span3">
             <li>
+        <section class="span3">
                 <div data-bind="text: description"></div>
                 <div data-bind="text: date"></div>
                 <div><span  data-bind="text: duration"></span> hours</div>
-                <div data-bind="template: { name: 'timelog-template', foreach: timelog_list }"></div>
-                <form class="btn-group" data-bind="submit: $parent.timelog_list.remove">
+                <form class="btn-group" data-bind="submit: $parent.remove">
                     <button class="btn" type="submit" name="remove">Remove</button>
                 </form>
-            </li>
         </section>
+            </li>
     </script>
     <script type="text/javascript">
         var data = @Html.Raw(Model.ToJson());

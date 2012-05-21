@@ -60,6 +60,7 @@ namespace Teamworks.Web.Controllers.Api
             //todo check for collisions?
 
             var timeentry = TimeEntry.Forge(model.Description,model.Date, model.Duration, model.Person);
+            timeentry.Id = task.GenerateNewTimeEntryId();
             task.Timelog.Add(timeentry);
             DbSession.SaveChanges();
 
@@ -102,7 +103,7 @@ namespace Teamworks.Web.Controllers.Api
             throw new NotImplementedException();
         }
 
-        public HttpResponseMessage Delete(int id, int projectid, TaskModel taskModel)
+        public HttpResponseMessage Delete(int id, int taskid, int projectid)
         {
             var project = DbSession
                  .Include<Project>(p => p.Tasks)
@@ -112,13 +113,13 @@ namespace Teamworks.Web.Controllers.Api
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            var task = DbSession.Load<Task>(id);
+            var task = DbSession.Load<Task>(taskid);
             if (task == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            var timeentry = task.Timelog.FirstOrDefault(t => t.Id == taskModel.Id);
+            var timeentry = task.Timelog.FirstOrDefault(t => t.Id == id);
             if (timeentry == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);

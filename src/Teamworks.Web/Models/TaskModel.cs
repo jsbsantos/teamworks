@@ -12,10 +12,11 @@ namespace Teamworks.Web.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public string Project { get; set; }
-        
+
         //public DateTime Deadline { get; set; }
         //public long EstimatedTime { get; set; }
 
         public ICollection<TimeEntryModel> Timelog { get; set; }
+
     }
 }
