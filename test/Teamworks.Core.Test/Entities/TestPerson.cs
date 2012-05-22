@@ -6,7 +6,7 @@ namespace Teamworks.Core.Test.Entities {
     public class TestPerson {
         
         [Fact]
-        public void ForgeUser()
+        public void ForgePerson()
         {
             const string email = "mail@mail.com";
             const string username = "username";
