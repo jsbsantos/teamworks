@@ -1,32 +1,31 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Xunit;
 using Teamworks.Core.People;
 
-namespace Teamworks.Core.Test {
+namespace Teamworks.Core.Test.Entities {
 
-    [TestClass]
-    public class PersonTest {
+    public class TestPerson {
         
-        [TestMethod]
-        public void Forge_User_Test()
+        [Fact]
+        public void ForgeUser()
         {
             const string email = "mail@mail.com";
             const string username = "username";
             const string password = "password";
 
             var person = Person.Forge(email, username, password);
-            Assert.AreEqual(email, person.Email);
-            Assert.AreEqual(username, person.Username);
+            Assert.Equal(email, person.Email);
+            Assert.Equal(username, person.Username);
         }
 
-        [TestMethod]
-        public void Is_The_Password_Test()
+        [Fact]
+        public void IsThePasswordCorrect()
         {
             const string email = "mail@mail.com";
             const string username = "username";
             const string password = "password";
 
             var person = Person.Forge(email, username, password);
-            Assert.IsTrue(person.IsThePassword(password));
+            Assert.True(person.IsThePassword(password));
         }
     }
 }
