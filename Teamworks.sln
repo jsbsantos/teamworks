@@ -15,13 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Teamworks.Core", "src\Teamw
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Teamworks.Web", "src\Teamworks.Web\Teamworks.Web.csproj", "{A0746650-91CF-4306-83E4-5D7726B8EB4A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{17B16981-E8C4-419B-BDB1-7F3B362FE18B}"
-	ProjectSection(SolutionItems) = preProject
-		Local.testsettings = Local.testsettings
-		Teamworks.vsmdi = Teamworks.vsmdi
-		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Teamworks.Core.Test", "test\Teamworks.Core.Test\Teamworks.Core.Test.csproj", "{63FB48DC-85A6-4EEA-8644-C884E21DC869}"
 EndProject
 Global
