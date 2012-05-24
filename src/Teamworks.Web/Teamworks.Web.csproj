@@ -264,9 +264,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\font\fontawesome-webfont.eot" />
-    <None Include="Content\font\fontawesome-webfont.svgz" />
-    <None Include="Content\font\fontawesome-webfont.ttf" />
-    <None Include="Content\font\fontawesome-webfont.woff" />
+    <Content Include="Content\font\fontawesome-webfont.svgz" />
+    <Content Include="Content\font\fontawesome-webfont.ttf" />
+    <Content Include="Content\font\fontawesome-webfont.woff" />
     <Content Include="Views\Projects\Project.cshtml" />
     <Content Include="Views\Account\Signup.cshtml" />
     <Content Include="Views\Tasks\View.cshtml" />
