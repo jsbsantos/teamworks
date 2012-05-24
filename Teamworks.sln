@@ -15,7 +15,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Teamworks.Core", "src\Teamw
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Teamworks.Web", "src\Teamworks.Web\Teamworks.Web.csproj", "{A0746650-91CF-4306-83E4-5D7726B8EB4A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Teamworks.Core.Test", "test\Teamworks.Core.Test\Teamworks.Core.Test.csproj", "{0F354CBB-750F-4872-BE2E-08179212614E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{17B16981-E8C4-419B-BDB1-7F3B362FE18B}"
+	ProjectSection(SolutionItems) = preProject
+		Local.testsettings = Local.testsettings
+		Teamworks.vsmdi = Teamworks.vsmdi
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Teamworks.Core.Test", "test\Teamworks.Core.Test\Teamworks.Core.Test.csproj", "{63FB48DC-85A6-4EEA-8644-C884E21DC869}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
@@ -50,22 +57,21 @@ Global
 		{A0746650-91CF-4306-83E4-5D7726B8EB4A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{A0746650-91CF-4306-83E4-5D7726B8EB4A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{A0746650-91CF-4306-83E4-5D7726B8EB4A}.Release|x86.ActiveCfg = Release|Any CPU
-		{0F354CBB-750F-4872-BE2E-08179212614E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0F354CBB-750F-4872-BE2E-08179212614E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0F354CBB-750F-4872-BE2E-08179212614E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{0F354CBB-750F-4872-BE2E-08179212614E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{0F354CBB-750F-4872-BE2E-08179212614E}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{0F354CBB-750F-4872-BE2E-08179212614E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0F354CBB-750F-4872-BE2E-08179212614E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0F354CBB-750F-4872-BE2E-08179212614E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{0F354CBB-750F-4872-BE2E-08179212614E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{0F354CBB-750F-4872-BE2E-08179212614E}.Release|x86.ActiveCfg = Release|Any CPU
+		{63FB48DC-85A6-4EEA-8644-C884E21DC869}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63FB48DC-85A6-4EEA-8644-C884E21DC869}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63FB48DC-85A6-4EEA-8644-C884E21DC869}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{63FB48DC-85A6-4EEA-8644-C884E21DC869}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{63FB48DC-85A6-4EEA-8644-C884E21DC869}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{63FB48DC-85A6-4EEA-8644-C884E21DC869}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63FB48DC-85A6-4EEA-8644-C884E21DC869}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63FB48DC-85A6-4EEA-8644-C884E21DC869}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{63FB48DC-85A6-4EEA-8644-C884E21DC869}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{63FB48DC-85A6-4EEA-8644-C884E21DC869}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{0F354CBB-750F-4872-BE2E-08179212614E} = {8466F0F9-D14F-406B-A560-C844FEBBAB04}
 		{C85D88CF-7DA3-4628-99FA-D5D570FCE940} = {FFC7F3A0-ABC9-47F7-8A53-AD0138F892DB}
 		{A0746650-91CF-4306-83E4-5D7726B8EB4A} = {FFC7F3A0-ABC9-47F7-8A53-AD0138F892DB}
 	EndGlobalSection
