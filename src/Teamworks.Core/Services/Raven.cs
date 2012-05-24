@@ -17,7 +17,7 @@ namespace Teamworks.Core.Services
         {
             Store = new DocumentStore
                         {
-                            ConnectionStringName = "Raven"
+                            ConnectionStringName = "RAVENHQ_CONNECTION_STRING"
                         }.Initialize();
         }
 
