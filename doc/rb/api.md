@@ -40,9 +40,11 @@ Obter projectos
 
 Para aceder a todos os projectos disponíveis o URL a aceder é o seguinte:
 
-> get /projects 
+````
+get /projects 
+````
 
-<span style="background-color: red; color: white">To be continued...</span>
+span style="background-color: red; color: white">To be continued...</span>
 
 [1]: ReST - Representational state transfer
 
