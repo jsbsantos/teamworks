@@ -72,6 +72,7 @@
         {
             <script src="@Url.Content("~/content/js/libs/knockout-2.0.0.js")"> </script>
             <script src="@Url.Content("~/content/js/libs/knockout.unobtrusive.js")"> </script>
+            <script src="http://cdn.jquerytools.org/1.2.7/form/jquery.tools.min.js"></script>
 
             <script src="@Url.Content("~/content/js/application.viewmodels.js")"> </script>
             <script src="@Url.Content("~/content/js/application.viewmodels.tasks.js")"> </script>
@@ -80,12 +81,20 @@
             <script src="@Url.Content("~/content/js/application.js")"> </script>
         }
     }
-    <script src="http://cdn.jquerytools.org/1.2.7/form/jquery.tools.min.js"></script>
     
     <script type="text/javascript">
-        $(function () {
-            //$(":date").dateinput();
-        });
+       /* $(function () {
+            $(":date")
+                .dateinput(
+                    {
+                    change: function (e, date) {
+                        $("#hdate")
+                            .val(this.getValue("yyyy/mm/dd"))
+                            .trigger("change");
+                    }
+                }
+                );
+        });*/
     </script>
 </body>
 </html>

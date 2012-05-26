@@ -179,10 +179,12 @@
     <Compile Include="Helpers\JsonNetFormatter.cs" />
     <Compile Include="Models\DryTaskModel.cs" />
     <Compile Include="Models\DryProjectModel.cs" />
+    <Compile Include="Models\DryTopicModel.cs" />
     <Compile Include="Models\TimeEntryModel.cs" />
     <Compile Include="Models\ProjectModel.cs" />
     <Compile Include="Models\TaskModel.cs" />
     <Compile Include="Models\TokenModel.cs" />
+    <Compile Include="Models\TopicModel.cs" />
     <Compile Include="Views\ViewsExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -199,6 +201,8 @@
     <Content Include="Content\js\application.viewmodels.js" />
     <Content Include="Content\js\application.viewmodels.tasks.js" />
     <Content Include="Content\js\application.viewmodels.projects.js" />
+    <Content Include="Content\js\application.viewmodels.timelog.js" />
+    <Content Include="Content\js\application.viewmodels.discussions.js" />
     <Content Include="Content\js\libs\bootstrap\alert.js" />
     <Content Include="Content\js\libs\bootstrap\bootstrap.js" />
     <Content Include="Content\js\libs\bootstrap\bootstrap.min.js" />

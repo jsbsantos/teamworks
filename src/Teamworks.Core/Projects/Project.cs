@@ -17,5 +17,7 @@ namespace Teamworks.Core.Projects
                            Tasks = new List<string>()
                        };
         }
+
+        public IList<string> Discussions { get; set; }
     }
 }

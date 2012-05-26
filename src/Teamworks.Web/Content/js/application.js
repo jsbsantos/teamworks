@@ -16,4 +16,5 @@
     $('#project_list').length && ko.applyBindings(new project_list_viewmodel(data), document.getElementById('project_list'));
     $('#project').length && ko.applyBindings(new project_viewmodel(data), document.getElementById('projects'));
     $('#task').length && ko.applyBindings(new task_viewmodel(data), document.getElementById('task'));
+
 })();

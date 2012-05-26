@@ -9,5 +9,6 @@ namespace Teamworks.Web.Models
         public string Description { get; set; }
 
         public ICollection<TaskModel> Tasks { get; set; }
+        public ICollection<TopicModel> Discussions { get; set; }
     }
 }

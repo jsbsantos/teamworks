@@ -30,11 +30,11 @@ namespace Teamworks.Web
                 url: "projects/{projectid}/tasks/{taskid}/timelog/{id}/{action}",
                 defaults:
                     new
-                    {
-                        controller = "TimeEntry",
-                        action = "View",
-                        id = UrlParameter.Optional
-                    }
+                        {
+                            controller = "TimeEntry",
+                            action = "View",
+                            id = UrlParameter.Optional
+                        }
                 );
 
             routes.MapRouteLowercase(
@@ -42,17 +42,23 @@ namespace Teamworks.Web
                 url: "projects/{projectid}/tasks/{id}/{action}",
                 defaults:
                     new
-                    {
-                        controller = "Tasks",
-                        action = "View",
-                        id = UrlParameter.Optional
-                    }
+                        {
+                            controller = "Tasks",
+                            action = "View",
+                            id = UrlParameter.Optional
+                        }
+                );
+
+            routes.MapRouteLowercase(
+                name: "",
+                url: "{controller}/{id}/{action}",
+                defaults: new {controller = "Home", action = "View"}
                 );
 
             routes.MapRouteLowercase(
                 name: "default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "View", id = UrlParameter.Optional }
+                defaults: new {controller = "Home", action = "View", id = UrlParameter.Optional}
                 );
         }
 

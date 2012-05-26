@@ -24,7 +24,14 @@ namespace Teamworks.Web.Helpers
                            opt.MapFrom(
                                src =>
                                Mapper.Map<IList<Task>, IList<TaskModel>>(
-                                   Global.Raven.CurrentSession.Load<Task>(src.Tasks))));
+                                   Global.Raven.CurrentSession.Load<Task>(src.Tasks))))
+                .ForMember(src => src.Discussions,
+                           opt =>
+                           opt.MapFrom(
+                               src =>
+                               Mapper.Map<IList<Topic>, IList<TopicModel>>(
+                                   Global.Raven.CurrentSession.Load<Topic>(src.Discussions))));
+
             Mapper.CreateMap<Project, DryProjectModel>()
                 .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier));
 
@@ -39,6 +46,11 @@ namespace Teamworks.Web.Helpers
             Mapper.CreateMap<TimeEntryModel, TimeEntry>();
             Mapper.CreateMap<TimeEntry, TimeEntryModel>();
 
+            Mapper.CreateMap<DryTopicModel, Topic>();
+            Mapper.CreateMap<Topic, DryTopicModel>();
+
+            Mapper.CreateMap<TopicModel, Topic>();
+            Mapper.CreateMap<Topic, TopicModel>();
         }
     }
 }

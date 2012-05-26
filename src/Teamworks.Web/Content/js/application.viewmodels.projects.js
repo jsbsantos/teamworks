@@ -5,6 +5,7 @@
 var project_viewmodel = function (project) {
     var self = this;
     self.tasks = new task_list_viewmodel(project.id, project.tasks);
+    self.discussions = new discussions_list_viewmodel(project.id, project.discussions);
 };
 
 var project_list_viewmodel = function (projects) {
