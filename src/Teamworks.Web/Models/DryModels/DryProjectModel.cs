@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Teamworks.Web.Models
+﻿namespace Teamworks.Web.Models.DryModels
 {
     public class DryProjectModel
     {

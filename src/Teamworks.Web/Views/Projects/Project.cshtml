@@ -10,6 +10,7 @@
         <div class="subnav subnav-fixed">
             <ul class="nav nav-pills">
                 <li><a href="#project_tasks"><span data-bind="text: tasks.tasks().length"></span>&nbsp;tasks</a></li>
+                <li><a href="#project_discussions"><span data-bind="text: discussions.discussions().length"></span>&nbsp;discussions</a></li>
             </ul>
         </div>
         <div class="modal hide" id="task-modal">
@@ -19,8 +20,23 @@
             </div>
             <div class="modal-body">
                 <form class="form-inline" data-bind="submit: tasks.create">
-                <input class="input-medium" name="name" placeholder="Name your task" data-bind="value: tasks.task.name, valueUpdate: 'afterkeyup'" />
-                <input class="input-large" name="description" placeholder="Describe your task" data-bind="value: tasks.task.description, valueUpdate: 'afterkeyup'" />
+                    <input class="input-medium" name="name" placeholder="Name your task" data-bind="value: tasks.task.name, valueUpdate: 'afterkeyup'" />
+                    <input class="input-large" name="description" placeholder="Describe your task" data-bind="value: tasks.task.description, valueUpdate: 'afterkeyup'" />
+                    <button class="btn" type="submit">
+                        Create</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="modal hide" id="discussion-modal">
+            <div class="modal-header">
+                <h1>
+                    Create a Discussion</h1>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline" data-bind="submit: discussions.create">
+                <input class="input-medium" name="name" placeholder="Title" data-bind="value: discussions.discussion.name, valueUpdate: 'afterkeyup'" />
+                <input class="input-large" name="text" placeholder="Message" data-bind="value: discussions.discussion.text, valueUpdate: 'afterkeyup'" />
                 <button class="btn" type="submit">
                     Create</button>
                 </form>
@@ -31,20 +47,34 @@
         <div class="page-header">
             <h1>
                 Tasks <a data-toggle="modal" href="#task-modal"><i class="icon-plus-sign">
-                    </i></a></h1>
+                                                                </i></a></h1>
         </div>
         <div class="row">
             <p class="span6" data-bind="visible: tasks.tasks().length == 0">
-                    Create your first task 
-                </p>
+                Create your first task 
+            </p>
             <div class="span6" data-bind="template: { name: 'tasks-template', foreach: tasks.tasks }">
                 
             </div>
         </div>
     </section>
-    <script type="text/javascript" language="javascript">
-    var data = @Html.Raw(Model.ToJson())
-    </script>
+
+    <section id="project_discussions">
+        <div class="page-header">
+            <h1>
+                Discussions <a data-toggle="modal" href="#discussion-modal"><i class="icon-plus-sign">
+                                                                </i></a></h1>
+        </div>
+        <div class="row">
+            <p class="span6" data-bind="visible: discussions.discussions().length == 0">
+                Create your first discussion 
+            </p>
+            <div class="span6" data-bind="template: { name: 'discussions-template', foreach: discussions.discussions }">
+                
+            </div>
+        </div>
+    </section>
+
     <script type="text/html" id="tasks-template">
         <section class="span3">
             <div>
@@ -55,5 +85,21 @@
                 </form>
             </div>
         </section>
+    </script>
+
+    <script type="text/html" id="discussions-template">
+        <section class="span3">
+            <div>
+                <h2><a data-bind="text: name, attr: { href: url }"></a></h2>
+                <p data-bind="text: name"></p>
+                <form class="btn-group" data-bind="submit: $parent.discussions.remove">
+                    <button class="btn" type="submit" name="remove">Remove</button>
+                </form>
+            </div>
+        </section>
+    </script>
+
+    <script type="text/javascript" language="javascript">
+        var data = @Html.Raw(Model.ToJson())
     </script>
 </div>

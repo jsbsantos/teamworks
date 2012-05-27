@@ -9,7 +9,7 @@ namespace Teamworks.Core.Projects
         public IList<string> Pretasks { get; set; }
         public IList<TimeEntry> Timelog { get; set; }
 
-        public int LastTimeEntryId { get; set; }
+        public int LastTimeEntryId { get; private set; }
         public int GenerateNewTimeEntryId()
         {
             return ++LastTimeEntryId;

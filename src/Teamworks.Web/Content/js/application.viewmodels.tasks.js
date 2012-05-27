@@ -2,7 +2,7 @@
     var self = this;
 
     self.timelog = new Timelog();
-    self.endpoint = "/api/projects/" + task.project + "/tasks/" + task.id + "/timelog/";
+    self.endpoint = "/api/projects/" + task.project() + "/tasks/" + task.id() + "/timelog/";
     self.timelog_list = ko.observableArray(
         $.map(task.timelog, function (item) {
             return new Timelog(item);
@@ -56,7 +56,8 @@
 
 var task_list_viewmodel = function (projectid, tasks) {
     var self = this;
-    self.task = new Task(projectid);
+    self.task = new Task();
+    
     self.endpoint = "/api/projects/" + projectid + "/tasks/";
     self.tasks = ko.observableArray(
         $.map(tasks, function (item) {

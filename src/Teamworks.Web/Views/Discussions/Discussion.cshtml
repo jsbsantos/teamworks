@@ -1,0 +1,48 @@
+﻿@using Teamworks.Web.Helpers.Extensions
+@model Teamworks.Web.Models.TopicModel
+@{
+    ViewBag.Title = "Discussion";
+    Layout = "../Shared/_Layout.cshtml";
+}
+<div id="discussion">
+    <header class="span12 row">
+        <h1>
+            Discussion > @Model.Name<a href="#message-form"><i class="icon-plus-sign">
+            </i></a>
+        </h1>
+    </header>
+    <article class="row span12">
+        <ul>
+            <div class="thumbnails" data-bind="template: { name: 'message-template', foreach: message_list }">
+            </div>
+        </ul>
+    </article>
+
+    <div id="message-form">
+        <div class="well">
+            <form class="form-inline " data-bind="submit: create">
+            <h3>
+                Your Message</h3>
+            <input class="input-medium" name="description" placeholder="What you did" data-bind="value: message.text, valueUpdate: 'afterkeyup'" />
+            <button class="btn" type="submit">
+                Add</button>
+            </form>
+        </div>
+    </div>
+    <script type="text/html" id="message-template">
+        <li>
+            <section class="span8">
+                <div class="well">
+                <div><h4><a data-bind="text: person().name, attr: { href: '/'+person().id }"></a> @@ <span data-bind="text: formatted_date" /></h4></div>
+                <div data-bind="text: text"></div>
+                </div>
+                <form class="btn-group" data-bind="submit: $parent.remove">
+                    <button class="btn" type="submit" name="remove">Remove</button>
+                </form>
+        </section>
+            </li>
+    </script>
+    <script type="text/javascript">
+        var data = @Html.Raw(Model.ToJson());
+    </script>
+</div>

@@ -1,11 +1,12 @@
 ﻿/// <reference path="~/Content/js/libs/knockout-2.0.0.js" />
 /// <reference path="~/Content/js/application.viewmodels.js" />
 /// <reference path="~/Content/js/application.viewmodels.tasks.js" />
+/// <reference path="~/Content/js/application.viewmodels.discussions.js" />
 
 var project_viewmodel = function (project) {
     var self = this;
     self.tasks = new task_list_viewmodel(project.id, project.tasks);
-    self.discussions = new discussions_list_viewmodel(project.id, project.discussions);
+    self.discussions = new discussion_list_viewmodel(project.id, project.discussions);
 };
 
 var project_list_viewmodel = function (projects) {

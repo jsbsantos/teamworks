@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using Teamworks.Core.Projects;
+using Teamworks.Web.Models.DryModels;
 
 namespace Teamworks.Web.Models
 {
     public class TopicModel : DryTopicModel
     {
-        public IList<Message> Messages { get; set; }
+        public IList<MessageModel> Messages { get; set; }
     }
 }

@@ -95,6 +95,7 @@ namespace Teamworks.Web.Controllers.Api
             var task = DbSession.Load<Task>(id);
             DbSession.Delete(task);
             project.Tasks.Remove(task.Id);
+            DbSession.SaveChanges();
 
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }

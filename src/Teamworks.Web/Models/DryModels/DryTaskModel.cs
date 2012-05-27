@@ -1,8 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Teamworks.Web.Models
+namespace Teamworks.Web.Models.DryModels
 {
     public class DryTaskModel
     {

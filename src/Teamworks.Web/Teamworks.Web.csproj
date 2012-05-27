@@ -150,9 +150,11 @@
     <Compile Include="App_Start\AttributeRouting.cs" />
     <Compile Include="App_Start\RestApiAuthenticationConfig.cs" />
     <Compile Include="Controllers\Api\AccountController.cs" />
+    <Compile Include="Controllers\Api\DiscussionsController.cs" />
+    <Compile Include="Controllers\Api\MessageController.cs" />
     <Compile Include="Controllers\Api\TimelogController.cs" />
-    <Compile Include="Controllers\Api\MessagesController.cs" />
     <Compile Include="Controllers\Api\PeopleController.cs" />
+    <Compile Include="Controllers\Web\DiscussionsController.cs" />
     <Compile Include="Controllers\Web\TimelogController.cs" />
     <Compile Include="Helpers\Extensions\EntityExtensions.cs" />
     <Compile Include="Helpers\Extensions\HttpConfigurationExtensions.cs" />
@@ -177,9 +179,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\JsonNetFormatter.cs" />
-    <Compile Include="Models\DryTaskModel.cs" />
-    <Compile Include="Models\DryProjectModel.cs" />
-    <Compile Include="Models\DryTopicModel.cs" />
+    <Compile Include="Models\DryModels\DryPersonModel.cs" />
+    <Compile Include="Models\DryModels\DryTaskModel.cs" />
+    <Compile Include="Models\DryModels\DryProjectModel.cs" />
+    <Compile Include="Models\DryModels\DryTopicModel.cs" />
+    <Compile Include="Models\MessageModel.cs" />
     <Compile Include="Models\TimeEntryModel.cs" />
     <Compile Include="Models\ProjectModel.cs" />
     <Compile Include="Models\TaskModel.cs" />
@@ -203,6 +207,7 @@
     <Content Include="Content\js\application.viewmodels.projects.js" />
     <Content Include="Content\js\application.viewmodels.timelog.js" />
     <Content Include="Content\js\application.viewmodels.discussions.js" />
+    <Content Include="Content\js\application.viewmodels.message.js" />
     <Content Include="Content\js\libs\bootstrap\alert.js" />
     <Content Include="Content\js\libs\bootstrap\bootstrap.js" />
     <Content Include="Content\js\libs\bootstrap\bootstrap.min.js" />
@@ -277,6 +282,8 @@
     <Content Include="Views\Tasks\Task.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Timelog\View.cshtml" />
+    <Content Include="Views\Discussions\View.cshtml" />
+    <Content Include="Views\Discussions\Discussion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\teamworks.css" />

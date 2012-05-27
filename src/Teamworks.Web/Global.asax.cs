@@ -38,6 +38,18 @@ namespace Teamworks.Web
                 );
 
             routes.MapRouteLowercase(
+                name: "project_discussion",
+                url: "projects/{projectid}/discussions/{id}/{action}",
+                defaults:
+                    new
+                        {
+                            controller = "Discussions",
+                            action = "View",
+                            id = UrlParameter.Optional
+                        }
+                );
+
+            routes.MapRouteLowercase(
                 name: "project_task",
                 url: "projects/{projectid}/tasks/{id}/{action}",
                 defaults:
@@ -50,16 +62,19 @@ namespace Teamworks.Web
                 );
 
             routes.MapRouteLowercase(
-                name: "",
-                url: "{controller}/{id}/{action}",
-                defaults: new {controller = "Home", action = "View"}
-                );
+               name: "",
+               url: "{controller}/{id}/{action}",
+               defaults: new { controller = "Home", action = "View" }
+               );
 
             routes.MapRouteLowercase(
                 name: "default",
                 url: "{controller}/{action}/{id}",
                 defaults: new {controller = "Home", action = "View", id = UrlParameter.Optional}
                 );
+
+
+           
         }
 
         protected void Application_Start()

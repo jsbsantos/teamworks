@@ -40,6 +40,7 @@ var Task = function (data) {
 
 var Timelog = function (data, taskid, projectid) {
     var self = this;
+    data = data || {};
     
     self.id = ko.observable((data && data.id) || "0");
     self.description = ko.observable(data && data.description);
@@ -59,17 +60,19 @@ var Timelog = function (data, taskid, projectid) {
     };
 };
 
-var Discussion = function (data, projectid) {
+var Discussion = function (data) {
     var self = this;
+    data = data || {};
     
     self.id = ko.observable((data && data.id) || "0");
     self.name = ko.observable(data && data.name);
     self.date = ko.observable(data && data.date);
     self.text = ko.observable(data && data.text);
     self.person = ko.observable(data && data.person);
+    self.project = ko.observable(data.project);
     
     self.url = ko.computed(function () {
-        return "/" + projectid + "/discussion/" + self.id() + "/view";
+        return "/" + self.project() + "/discussions/" + self.id() + "/view";
     }, this);
 
     self.clear = function () {
@@ -80,4 +83,30 @@ var Discussion = function (data, projectid) {
         self.person("");
     };
 };
+
+var Message = function (data, discussionid, projectid) {
+    var self = this;
+    data = data || {};
+
+    self.id = ko.observable((data && data.id) || "0");
+    self.text = ko.observable(data && data.text);
+    self.date = ko.observable(data && data.date || new Date().toString());
+    self.person = ko.observable(data && data.person);
+    
+    self.formatted_date = ko.computed(function () {
+        return new Date(parseInt(self.date().substr(6)));
+    }, this);
+        
+    self.url = ko.computed(function () {
+        return "/projects/" + projectid + "/discussion/" + discussionid + "/message/" + self.id() + "/view";
+    }, this);
+
+    self.clear = function () {
+        self.id("");
+        self.text("");
+        self.date("");
+        self.person("");
+    };
+};
+
 

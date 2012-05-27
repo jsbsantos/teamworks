@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using AutoMapper;
 using Teamworks.Core.Projects;
 using Teamworks.Web.Models;
+using Teamworks.Web.Models.DryModels;
 
 namespace Teamworks.Web.Controllers.Web
 {
