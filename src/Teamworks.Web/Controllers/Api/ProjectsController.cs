@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Controllers;
 using System.Web.Http.ModelBinding;
 using System.Web.Http.ModelBinding.Binders;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
-using Raven.Client.Authorization;
 using Raven.Client.Linq;
+using Teamworks.Core.People;
 using Teamworks.Core.Projects;
 using Teamworks.Web.Helpers.Extensions;
 using Teamworks.Web.Models;
@@ -21,11 +24,21 @@ namespace Teamworks.Web.Controllers.Api
     [RoutePrefix("api/projects")]
     public class ProjectsController : RavenApiController
     {
+        public override Task<HttpResponseMessage> ExecuteAsync(HttpControllerContext context, CancellationToken token)
+        {
+            // todo secure for
+            var id = context.Request.GetUserPrincipalId();
+            if (!string.IsNullOrEmpty(id))
+            {
+                var person = DbSession.Load<Person>();
+            }
+            return base.ExecuteAsync(context, token);
+        }
+
         public IEnumerable<ProjectModel> Get()
         {
-            DbSession.SecureFor(Request.GetUserPrincipalId(), "Projects/View");
-            IRavenQueryable<Project> projects = DbSession.Query<Project>().Include(p => p.Tasks);
-            return Mapper.Map<IQueryable<Project>, IEnumerable<ProjectModel>>(projects);
+            var projects = DbSession.Query<Project>().Include(p => p.Tasks).ToList();
+            return Mapper.Map<IEnumerable<Project>, IEnumerable<ProjectModel>>(projects);
         }
 
         public ProjectModel Get(int id)

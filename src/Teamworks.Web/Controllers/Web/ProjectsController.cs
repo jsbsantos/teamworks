@@ -17,7 +17,7 @@ namespace Teamworks.Web.Controllers.Web
         {
             if (id != null)
             {
-                var project = DbSession.Load<Project>(id);
+                var project = DbSession.Include<Project>(p => p.Tasks).Load<Project>(id);
                 if (project == null)
                 {
                     throw new HttpException(404, "Not Found");

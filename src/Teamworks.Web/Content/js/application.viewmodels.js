@@ -13,7 +13,7 @@
     };
 
     self.url = ko.computed(function () {
-        return "/projects/" + self.id();
+        return "/projects/" + self.id()  + "/view";
     });
 };
 

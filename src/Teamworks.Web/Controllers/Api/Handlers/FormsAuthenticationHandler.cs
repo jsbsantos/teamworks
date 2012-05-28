@@ -19,13 +19,12 @@ namespace Teamworks.Web.Controllers.Api.Handlers
             HttpRequestMessage request, CancellationToken cancellationToken)
         {
             var id = HttpContext.Current.User.Identity.Name;
-            var type = HttpContext.Current.User.Identity.AuthenticationType;
-
-            if (string.IsNullOrEmpty(id) || !type.Equals("Forms", StringComparison.OrdinalIgnoreCase))
+            if (!HttpContext.Current.User.Identity.AuthenticationType.Equals("Forms", StringComparison.OrdinalIgnoreCase)
+                || string.IsNullOrEmpty(id))
             {
                 return base.SendAsync(request, cancellationToken);
             }
-            
+
             var person = Global.Raven.CurrentSession.Load<Person>(id);
             if (person != null)
             {
