@@ -24,7 +24,7 @@ namespace Teamworks.Mailgun
                                      {"text", "Testing some Maigun awesomness!"} ,
                                      {"h:Message-Id", "c-000000000@teamworks.mailgun.org"} 
                                  };
-
+                
             var content = new FormUrlEncodedContent(parameters);
             Console.WriteLine(client.PostAsync(client.BaseAddress + "/messages", content).Result.Content.ReadAsStringAsync().Result);
         }

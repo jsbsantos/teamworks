@@ -5,7 +5,7 @@ namespace Teamworks.Web.Helpers
 {
     public class RestApiSupressAuthenticationRedirectModule : IHttpModule
     {
-        private const string SupressRedirectLoginKey = "WEBAPI:Authentication";
+        private const string SupressRedirectLoginKey = "WEBAPI_AUTHENTICATION";
 
         #region IHttpModule Members
 

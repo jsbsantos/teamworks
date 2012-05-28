@@ -26,9 +26,9 @@ namespace Teamworks.Core.Services
             get { return _instance.Value; }
         }
 
-        public IDocumentSession Open
+        public IDocumentSession Open()
         {
-            get { return Store.OpenSession(); }
+            return Store.OpenSession(); 
         }
 
         public IDocumentSession CurrentSession
@@ -41,7 +41,7 @@ namespace Teamworks.Core.Services
                     return session;
                 }
 
-                Local.Data[Key] = session = Open;
+                Local.Data[Key] = session = Open();
                 return session;
             }
         }
