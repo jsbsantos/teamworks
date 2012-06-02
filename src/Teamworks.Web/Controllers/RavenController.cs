@@ -20,21 +20,19 @@ namespace Teamworks.Web.Controllers
 
         protected override void Initialize(RequestContext context)
         {
-            Global.Raven.TryOpen();
-
-            string id = context.HttpContext.User.Identity.Name;
-            if (string.IsNullOrEmpty(id))
+            var user = context.HttpContext.User;
+            if (user.Identity.IsAuthenticated)
             {
-                base.Initialize(context);
-                return;
-            }
-
-            var person = DbSession.Load<Person>(id);
-            if (person != null)
-            {
-                context.HttpContext.User = new GenericPrincipal(new PersonIdentity(person), person.Roles.ToArray());
-            }
-
+                var id = user.Identity.Name;
+                if (!string.IsNullOrEmpty(id))
+                {
+                    var person = DbSession.Load<Person>(id);
+                    if (person != null)
+                    {
+                        context.HttpContext.User = new GenericPrincipal(new PersonIdentity(person), person.Roles.ToArray());
+                    }
+                }
+            } 
             base.Initialize(context);
         }
 
