@@ -1,19 +1,28 @@
 Registo
 =
 
-Para aceder às funcionalidades da aplicação o utilizador tem de se registar na aplicação e indicar o nome de utilizador, a password e um email válido.
+O registo na aplicação é mandatório para a sua utilização e o utilizador apenas tem de indicar o email, usado para que a aplicação possa comunicar com o utilizador; o nome de utilizador, utilizado pela aplicação para se dirigir ao utilizador; e a password que em conjunto com o nome de utilizador é usada para a autenticar o utilizador.
 
-![Figura - Formulário de registo.](http://imagem/)
-
-Na base de dados é guardado o resultado de uma função de *hash* que tem como parâmetro de entrada a *password*.
- 
-```Explicar o que faz o salto.```
+Na base de dados é guardado o *hash* da *password*. O *hash* é gerado usando um algoritmo de dispersão (SHA-256) que tem como entrada a concatenação da password com um salto aleatório.
 
 Autenticação
 =
 
-Para se autenticar na aplicação o utilizador indica o nome de utilizador e a password escolhidos no registo. 
+A única forma de autenticação na solução é usando o nome de utilizador e a *password*. O nome de utilizador é usado para obter a entidade Person (people/nome-de-utilizador) e o *hash* da *password* comparado com o presente na Person obtida. O *hash* é obtido usando a mesma função de dispersão e o mesmo salto utilizado no registo do utilizador.
 
-```Processo de verificação de password.```
+### Aplicação web
 
-Para manter o utilizador autenticado são usadas as classes FormsAuthenticationModule e FormsAuthentication disponíveis na *framework .NET*[[1]](http://link/). 
+A autenticação na aplicação web é feita através de um formulário onde o utilizador insere o nome de utilizador e a *password*. 
+
+Para manter o utilizador autenticado são usadas funcionalidades do modo de autenticação *forms* da *framework* ASP.NET com o modo **. As classes que expõe as funcionalidades são a classe *FormsAuthentication*, usada para gerir o cookie de autenticação (*.tw_auth*), e o módulo HTTP *FormsAuthenticationModule*, que coloca o valor da cookie na informação de cada pedido (*HttpContext.User.Identity.Name*). 
+
+Utilizando a classe FormsAuthentication o cookie *.tw_auth* é colocado na resposta com o identificador da Person autenticada. 
+
+Para disponibilizar a Person autenticada nas *action* chamadas foi definido atributo *FormsAuthenticationAttribute* que substitui o *IIdentity* do pedido por um *PersonIdentity* que internamente guarda uma instância de Person. Para que esta alteração não afete o comportamento da autenticação por *forms* no final do pedido o *IIdentity* é novamente alterado para ter como *Name* o identificador da *Person* autenticada.
+
+### Api
+
+A autenticação da Api é 
+
+---
+

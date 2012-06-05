@@ -158,6 +158,7 @@
     <Compile Include="Controllers\Api\PeopleController.cs" />
     <Compile Include="Controllers\Web\DiscussionsController.cs" />
     <Compile Include="Controllers\Web\TimelogController.cs" />
+    <Compile Include="Controllers\Web\Filters\FormsAuthenticationAttribute.cs" />
     <Compile Include="Helpers\Extensions\EntityExtensions.cs" />
     <Compile Include="Helpers\Extensions\HttpConfigurationExtensions.cs" />
     <Compile Include="Helpers\Mappers.cs" />

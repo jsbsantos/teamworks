@@ -19,7 +19,10 @@ namespace Teamworks.Core.Authentication
             get { return Person.Username; }
         }
 
-        public string AuthenticationType { get; set; }
+        public string AuthenticationType 
+        { 
+            get { return "tw"; } 
+        }
 
         public bool IsAuthenticated
         {

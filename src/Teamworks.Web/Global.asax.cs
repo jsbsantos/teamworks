@@ -6,6 +6,7 @@ using LowercaseRoutesMVC;
 using Microsoft.Web.Optimization;
 using Teamworks.Core.Authentication;
 using Teamworks.Core.Services;
+using Teamworks.Web.Controllers.Web.Filters;
 using Teamworks.Web.Helpers;
 using Teamworks.Web.Helpers.Extensions;
 
@@ -19,6 +20,7 @@ namespace Teamworks.Web
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
+            filters.Add(new FormsAuthenticationAttribute());
         }
 
         public static void RegisterRoutes(RouteCollection routes)

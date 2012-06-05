@@ -9,7 +9,6 @@ using System.Web.Http.Hosting;
 using Teamworks.Core.Authentication;
 using Teamworks.Core.People;
 using Teamworks.Core.Services;
-using Teamworks.Web.Helpers.Extensions;
 
 namespace Teamworks.Web.Controllers.Api.Handlers
 {
