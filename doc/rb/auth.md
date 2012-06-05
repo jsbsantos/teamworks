@@ -1,7 +1,7 @@
 Registo
 =
 
-Para utilizar a aplicação é necessário que o utilizador se registe indicando o email, usado para que a aplicação possa comunicar com este; o nome de utilizador, utilizado pela aplicação o identificar; e a password que em conjunto com o nome de utilizador é usada para a autenticar o utilizador.
+Para utilizar a aplicação é necessário que o utilizador se registe. No registo o utilizador indica o email, usado pela aplicação como forma de comunicar; o nome de utilizador, para o identificar; e a password que em conjunto com o nome de utilizador é usada para autenticar o utilizador.
 
 Na base de dados é guardado o *hash* da *password*. O *hash* é gerado usando um algoritmo de dispersão (SHA-256) que tem como entrada a concatenação da password com um salto aleatório.
 
