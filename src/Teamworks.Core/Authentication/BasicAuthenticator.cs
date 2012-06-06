@@ -17,15 +17,21 @@ namespace Teamworks.Core.Authentication
         {
             person = null;
             var dyn = obj as dynamic;
-            if (dyn == null)
-            {
-                return false;
-            }
+            return dyn != null && IsValid(dyn.Username, dyn.Password, out person);
+        }
 
-            dynamic username = dyn.Username;
-            dynamic password = dyn.Password;
+        #endregion
 
-            dynamic p = Global.Raven.CurrentSession.Load<Person>("people/" + username);
+        public bool IsValid(string username, string password)
+        {
+            Person person;
+            return IsValid(username, password, out person);
+        }
+
+        public bool IsValid(string username, string password, out Person person)
+        {
+            person = null;
+            var p = Global.Raven.CurrentSession.Load<Person>("people/" + username);
             if (p == null)
             {
                 return false;
@@ -34,7 +40,5 @@ namespace Teamworks.Core.Authentication
             person = p;
             return p.IsThePassword(password);
         }
-
-        #endregion
     }
 }

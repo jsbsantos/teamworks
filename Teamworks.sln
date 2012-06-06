@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Teamworks.Core.Test", "test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Teamworks.Mailgun", "src\Teamworks.Mailgun\Teamworks.Mailgun.csproj", "{46E5AED9-D93B-42B2-A3E1-68A69C2270C7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Teamworks.Mailgun.Test", "test\Teamworks.Mailgun.Test\Teamworks.Mailgun.Test.csproj", "{847BBB67-516D-4E87-B526-AB727069E7E1}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Teamworks.vsmdi
@@ -72,12 +74,23 @@ Global
 		{46E5AED9-D93B-42B2-A3E1-68A69C2270C7}.Release|Mixed Platforms.Build.0 = Release|x86
 		{46E5AED9-D93B-42B2-A3E1-68A69C2270C7}.Release|x86.ActiveCfg = Release|x86
 		{46E5AED9-D93B-42B2-A3E1-68A69C2270C7}.Release|x86.Build.0 = Release|x86
+		{847BBB67-516D-4E87-B526-AB727069E7E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{847BBB67-516D-4E87-B526-AB727069E7E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{847BBB67-516D-4E87-B526-AB727069E7E1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{847BBB67-516D-4E87-B526-AB727069E7E1}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{847BBB67-516D-4E87-B526-AB727069E7E1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{847BBB67-516D-4E87-B526-AB727069E7E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{847BBB67-516D-4E87-B526-AB727069E7E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{847BBB67-516D-4E87-B526-AB727069E7E1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{847BBB67-516D-4E87-B526-AB727069E7E1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{847BBB67-516D-4E87-B526-AB727069E7E1}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{63FB48DC-85A6-4EEA-8644-C884E21DC869} = {8466F0F9-D14F-406B-A560-C844FEBBAB04}
+		{847BBB67-516D-4E87-B526-AB727069E7E1} = {8466F0F9-D14F-406B-A560-C844FEBBAB04}
 		{C85D88CF-7DA3-4628-99FA-D5D570FCE940} = {FFC7F3A0-ABC9-47F7-8A53-AD0138F892DB}
 		{A0746650-91CF-4306-83E4-5D7726B8EB4A} = {FFC7F3A0-ABC9-47F7-8A53-AD0138F892DB}
 		{46E5AED9-D93B-42B2-A3E1-68A69C2270C7} = {FFC7F3A0-ABC9-47F7-8A53-AD0138F892DB}

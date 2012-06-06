@@ -1,5 +1,5 @@
 ﻿using System.Web.Http;
-using Teamworks.Web.Helpers.Handlers;
+using Teamworks.Web.Controllers.Api.Handlers;
 
 namespace Teamworks.Web.Helpers.Extensions
 {
@@ -13,8 +13,10 @@ namespace Teamworks.Web.Helpers.Extensions
 
         public static void RegisterWebApiHandlers(this HttpConfiguration configuration)
         {
+            configuration.MessageHandlers.Add(new UnauthorizedHandler());
+            configuration.MessageHandlers.Add(new BasicAuthenticationHandler());
+            configuration.MessageHandlers.Add(new FormsAuthenticationHandler());
             configuration.MessageHandlers.Add(new RavenHandler());
-            configuration.MessageHandlers.Add(new AuthenticationHandler());
         }
     }
 }

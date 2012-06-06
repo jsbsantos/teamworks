@@ -18,26 +18,6 @@ namespace Teamworks.Web.Controllers
             get { return Global.Raven.CurrentSession; }
         }
 
-        protected override void Initialize(RequestContext context)
-        {
-            Global.Raven.TryOpen();
-
-            string id = context.HttpContext.User.Identity.Name;
-            if (string.IsNullOrEmpty(id))
-            {
-                base.Initialize(context);
-                return;
-            }
-
-            var person = DbSession.Load<Person>(id);
-            if (person != null)
-            {
-                context.HttpContext.User = new GenericPrincipal(new PersonIdentity(person), person.Roles.ToArray());
-            }
-
-            base.Initialize(context);
-        }
-
         protected override void OnResultExecuted(ResultExecutedContext context)
         {
             if ((context.Exception == null || context.ExceptionHandled) && DbSession != null)
@@ -46,11 +26,6 @@ namespace Teamworks.Web.Controllers
                 {
                     DbSession.SaveChanges();
                 }
-            }
-            Person person = context.HttpContext.GetCurrentPerson();
-            if (person != null)
-            {
-                context.HttpContext.User = new GenericPrincipal(new GenericIdentity(person.Id), new string[0]);
             }
             base.OnResultExecuted(context);
         }

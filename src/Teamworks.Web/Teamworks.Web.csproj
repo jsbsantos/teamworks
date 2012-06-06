@@ -149,13 +149,16 @@
   <ItemGroup>
     <Compile Include="App_Start\AttributeRouting.cs" />
     <Compile Include="App_Start\RestApiAuthenticationConfig.cs" />
-    <Compile Include="Controllers\Api\AccountController.cs" />
+    <Content Include="Content\js\gac.js" />
     <Compile Include="Controllers\Api\DiscussionsController.cs" />
+    <Compile Include="Controllers\Api\Handlers\FormsAuthenticationHandler.cs" />
+    <Compile Include="Controllers\Api\Handlers\UnauthorizedHandler.cs" />
     <Compile Include="Controllers\Api\MessageController.cs" />
     <Compile Include="Controllers\Api\TimelogController.cs" />
     <Compile Include="Controllers\Api\PeopleController.cs" />
     <Compile Include="Controllers\Web\DiscussionsController.cs" />
     <Compile Include="Controllers\Web\TimelogController.cs" />
+    <Compile Include="Controllers\Web\Filters\FormsAuthenticationAttribute.cs" />
     <Compile Include="Helpers\Extensions\EntityExtensions.cs" />
     <Compile Include="Helpers\Extensions\HttpConfigurationExtensions.cs" />
     <Compile Include="Helpers\Mappers.cs" />
@@ -170,9 +173,9 @@
     <Compile Include="Controllers\Web\TimelineController.cs" />
     <Compile Include="Helpers\Extensions\BundleExtensions.cs" />
     <Compile Include="Helpers\Extensions\HttpRequestMessageExtensions.cs" />
-    <Compile Include="Helpers\Handlers\AuthenticationHandler.cs" />
+    <Compile Include="Controllers\Api\Handlers\BasicAuthenticationHandler.cs" />
     <Compile Include="Controllers\Web\TasksController.cs" />
-    <Compile Include="Helpers\Handlers\RavenHandler.cs" />
+    <Compile Include="Controllers\Api\Handlers\RavenHandler.cs" />
     <Compile Include="Controllers\Web\HomeController.cs" />
     <Compile Include="Controllers\Api\ProjectsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -180,8 +183,8 @@
     </Compile>
     <Compile Include="Helpers\JsonNetFormatter.cs" />
     <Compile Include="Models\DryModels\DryPersonModel.cs" />
-    <Compile Include="Models\DryModels\DryTaskModel.cs" />
     <Compile Include="Models\DryModels\DryProjectModel.cs" />
+    <Compile Include="Models\DryModels\DryTaskModel.cs" />
     <Compile Include="Models\DryModels\DryTopicModel.cs" />
     <Compile Include="Models\MessageModel.cs" />
     <Compile Include="Models\TimeEntryModel.cs" />
@@ -202,12 +205,12 @@
     <Content Include="Content\font\fontawesome-webfont.svg" />
     <Content Include="Content\img\glyphicons-halflings-white.png" />
     <Content Include="Content\img\glyphicons-halflings.png" />
+    <Content Include="Content\js\application.viewmodels.discussions.js" />
     <Content Include="Content\js\application.viewmodels.js" />
+    <Content Include="Content\js\application.viewmodels.message.js" />
     <Content Include="Content\js\application.viewmodels.tasks.js" />
     <Content Include="Content\js\application.viewmodels.projects.js" />
     <Content Include="Content\js\application.viewmodels.timelog.js" />
-    <Content Include="Content\js\application.viewmodels.discussions.js" />
-    <Content Include="Content\js\application.viewmodels.message.js" />
     <Content Include="Content\js\libs\bootstrap\alert.js" />
     <Content Include="Content\js\libs\bootstrap\bootstrap.js" />
     <Content Include="Content\js\libs\bootstrap\bootstrap.min.js" />
@@ -282,8 +285,8 @@
     <Content Include="Views\Tasks\Task.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Timelog\View.cshtml" />
-    <Content Include="Views\Discussions\View.cshtml" />
     <Content Include="Views\Discussions\Discussion.cshtml" />
+    <Content Include="Views\Discussions\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\teamworks.css" />

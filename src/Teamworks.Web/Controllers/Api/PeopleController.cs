@@ -29,7 +29,7 @@ namespace Teamworks.Web.Controllers.Api
             var project = Get<Project>(projectid);
 
             // todo check if user exists
-            var person = Get<Person>("People/" + name);
+            var person = Get<Person>("people/" + name);
 
             return null;
         }

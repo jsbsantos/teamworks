@@ -1,9 +1,10 @@
-#1. Introdução
+Relatório beta do projecto Teamworks, desenvolvido no âmbito da unidade curricular de Projecto e Seminário do ano lectivo 2011/2012. É realizado pelos alunos Filipe Pinheiro e João Santos e orientado pelo docente João Pedro Patriarca.
 
-O presente documento constitui o relatório beta do projecto intitulado “teamworks”, desenvolvido no ambito da unidade curricular de Projecto e Seminário do ano lectivo 2011/2012. É realizado pelos alunos Filipe Pinheiro e João Santos e orientado pelo docente João Pedro Patriarca.
+1. Introdução
+=
 
-Este projecto tem como objectivo a disponibilização de uma infra-estrutura de apoio à realização e gestão de projectos oferecendo funcionalidades de planeamento, registo de horas e monitorização. Para fomentar a colaboração entre membros são também oferecidas funcionalidades que permitem discussão e partilha de informação. A infra-estrutura é composta por uma aplicação web e um serviço web que baseado na arquitectura ReST.
+No contexto pessoal ou profissional um projecto é algo em que, num momento ou outro, todos nos envolvemos. Organizar um evento, escrever um livro, desenvolver um programa de software são alguns exemplos desses projectos, considerando que um projecto é uma actividade realizada num período de tempo com o objectivo de produzir um serviço ou produto mais exemplos podem facilmete ser encontrados. 
 
-As funcionalidades passam pela criação de planos de trabalho, afectação de recursos a tarefas, registo do tempo despendido, monitorização do estado actual do projecto, áreas de discussão, partilha de informação, etc.
+Para o sucesso de qualquer projecto é necessário uma boa gestão o que implica planeamento, organização e controlo de recursos. O objectivo do projecto descrito neste documento é fornecer uma aplicação web com funcionalidades que permitam simplificar os processos enunciados. 
 
-````falta aqui umas coisas````
+Entre as funcionalidades disponibilizadas estão a criação, planeamento e afectação de recursos a tarefas, o registo de tempo dispendido, a partilha de documentação, a troca de opiniões e a possibilidade de monitorizar o estado do projecto.
