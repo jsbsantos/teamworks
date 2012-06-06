@@ -1,0 +1,80 @@
+\documentclass[]{article}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+%\usepackage[toc,page]{appendix}
+\ifxetex
+\usepackage{fontspec,xltxtra,xunicode}
+\defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+\newcommand{\euro}{€}
+\else
+\ifluatex
+ \usepackage{fontspec}
+ \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+ \newcommand{\euro}{€}
+\else
+ \usepackage[utf8]{inputenc}
+\fi
+\fi
+\usepackage{graphicx}
+% We will generate all images so they have a width \maxwidth. This means
+% that they will get their normal width if they fit onto the page, but
+% are scaled down if they would overflow the margins.
+\makeatletter
+\makeatother
+\ifxetex
+\usepackage[setpagesize=false, % page size defined by xetex
+           unicode=false, % unicode breaks when used with xetex
+           xetex,
+           bookmarks=true,
+           pdfauthor={},
+           pdftitle={},
+           colorlinks=true,
+           linkcolor=blue]{hyperref}
+\else
+\usepackage[unicode=true,
+           bookmarks=true,
+           pdfauthor={},
+           pdftitle={},
+           colorlinks=true,
+           linkcolor=blue]{hyperref}
+\fi
+\hypersetup{breaklinks=true, pdfborder={0 0 0}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\setcounter{secnumdepth}{0}
+\renewcommand{\figurename}{Figura}
+\renewcommand{\contentsname}{Indíce}
+\renewcommand{\tablename}{Tabela}
+\usepackage{placeins}
+\begin{document}
+\begin{titlepage}
+\begin{center}
+% Upper part of the page
+% \includegraphics[width=0.15\textwidth]{./logo}\\[1cm] 
+\textsc{\large Instituto Superior de Engenharia de Lisboa}\\[0.4cm]
+\textsc{\large Área Departamental de Engenharia de Electrónica e Telecomunicações e de Computadores }\\[4cm]
+% Title
+{ \Huge \bfseries Teamworks}\\[1cm]
+{ \Large \emph{a solution for project planning, managing and colaboration} }\\[1cm]
+\textsc{\large Projecto e Seminário}\\[3cm]
+\begin{minipage}{1\textwidth}
+\begin{flushleft} \large
+\textbf{\emph{Alunos}}\\
+João Santos 30071 (a30071@alunos.isel.pt) \\
+Filipe Pinheiro 30239 (a30239@alunos.isel.pt)
+\end{flushleft}
+\end{minipage}\\[0.5cm]
+\begin{minipage}{1\textwidth}
+\begin{flushright} \large
+\textbf{\emph{Orientador}}\\
+João Pedro Patriarca (jpatri@cc.isel.ipl.pt)
+\end{flushright}
+\end{minipage}
+\vfill
+% Bottom of the page
+{\large Maio 2012}
+\end{center}
+\end{titlepage}
+\tableofcontents
+\newpage

@@ -1,0 +1,388 @@
+\documentclass[]{article}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+%\usepackage[toc,page]{appendix}
+\ifxetex
+\usepackage{fontspec,xltxtra,xunicode}
+\defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+\newcommand{\euro}{€}
+\else
+\ifluatex
+ \usepackage{fontspec}
+ \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+ \newcommand{\euro}{€}
+\else
+ \usepackage[utf8]{inputenc}
+\fi
+\fi
+\usepackage{graphicx}
+% We will generate all images so they have a width \maxwidth. This means
+% that they will get their normal width if they fit onto the page, but
+% are scaled down if they would overflow the margins.
+\makeatletter
+\makeatother
+\ifxetex
+\usepackage[setpagesize=false, % page size defined by xetex
+           unicode=false, % unicode breaks when used with xetex
+           xetex,
+           bookmarks=true,
+           pdfauthor={},
+           pdftitle={},
+           colorlinks=true,
+           linkcolor=blue]{hyperref}
+\else
+\usepackage[unicode=true,
+           bookmarks=true,
+           pdfauthor={},
+           pdftitle={},
+           colorlinks=true,
+           linkcolor=blue]{hyperref}
+\fi
+\hypersetup{breaklinks=true, pdfborder={0 0 0}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\setcounter{secnumdepth}{0}
+\renewcommand{\figurename}{Figura}
+\renewcommand{\contentsname}{Indíce}
+\renewcommand{\tablename}{Tabela}
+\usepackage{placeins}
+\begin{document}
+\begin{titlepage}
+\begin{center}
+% Upper part of the page
+% \includegraphics[width=0.15\textwidth]{./logo}\\[1cm] 
+\textsc{\large Instituto Superior de Engenharia de Lisboa}\\[0.4cm]
+\textsc{\large Área Departamental de Engenharia de Electrónica e Telecomunicações e de Computadores }\\[4cm]
+% Title
+{ \Huge \bfseries Teamworks}\\[1cm]
+{ \Large \emph{a solution for project planning, managing and colaboration} }\\[1cm]
+\textsc{\large Projecto e Seminário}\\[3cm]
+\begin{minipage}{1\textwidth}
+\begin{flushleft} \large
+\textbf{\emph{Alunos}}\\
+João Santos 30071 (a30071@alunos.isel.pt) \\
+Filipe Pinheiro 30239 (a30239@alunos.isel.pt)
+\end{flushleft}
+\end{minipage}\\[0.5cm]
+\begin{minipage}{1\textwidth}
+\begin{flushright} \large
+\textbf{\emph{Orientador}}\\
+João Pedro Patriarca (jpatri@cc.isel.ipl.pt)
+\end{flushright}
+\end{minipage}
+\vfill
+% Bottom of the page
+{\large Maio 2012}
+\end{center}
+\end{titlepage}
+\tableofcontents
+\newpage
+\section{1. Introdução}
+O presente documento constitui o relatório de progresso do projecto intitulado "Teamworks", desenvolvido no âmbito da unidade curricular de Projecto e Seminário no ano lectivo 2011/2012. O projecto é realizado pelos alunos Filipe Pinheiro e João Santos e orientado pelo docente João Pedro Patriarca.\\
+
+Este projecto é composto por uma infra-estrutura que fornece ferramentas de gestão e monitorização de um projecto durante o seu ciclo de vida. Um projecto é um esforço temporário realizado por uma equipa, com o objectivo de criar um produto ou serviço, durante o qual é necessário debater soluções, definir tarefas, planeá-las, atribuir-lhes responsáveis e registar o tempo despendido na sua realização.\\
+
+Todas estas actividades associadas a um projecto consomem tempo e recursos que podem ser mitigados usando ferramentas como as que são oferecidas pela solução implementada.\\
+
+É objectivo deste projecto que a infra-estrutura desenvolvida ofereça as seguintes funcionalidades:
+\begin{itemize}
+\item
+\textbf{Repositório}, usado para guardar toda a informação e documentação associada ao projecto. Desta forma os dados não estão dispersos e são de fácil acesso aos intervenientes.
+\item
+\textbf{Debates}, local para troca de ideias, definição de requisitos e discussão sobre o projecto.
+\item
+\textbf{Planeamento}, funcionalidade que permite definir tarefas, o tempo para a sua conclusão e responsável;
+\item
+\textbf{Registo de horas}, interface para facilitar o registo do tempo despendido na realização de tarefas.
+\item
+\textbf{Monitorização}, possibilidade de monitorizar toda a informação produzida pelas funcionalidades anteriores. 
+
+\end{itemize}
+\section{2.  Descrição Geral}
+A infra-estrutura expõe as funcionalidades anteriormente enunciadas através de uma aplicação web e um serviço web.\\
+
+Os seguintes diagramas \emph{use case} representam as acções que os utilizadores podem realizar na infra-estrutura. A figura \ref{usecaseprojecto} e \ref{usecasetarefa} representam os casos de utilização de um membro com permissões de escrita ao nível de um projecto.
+
+\begin{figure}[!h]
+\includegraphics[width=0.8\textwidth]{usecaseprojecto.png}
+\caption{Projecto - Caso de utilização de um membro com permissão de escrita}
+\label{usecaseprojecto}
+\includegraphics[width=0.8\textwidth]{usecasetarefa.png}
+\caption{Tarefa - Caso de utilização de um membro com permissão de escrita}
+\label{usecasetarefa}
+\end{figure}
+A figura \ref{usecaseuser} ilustra um caso de utilização de um membro de um projecto,
+\textbf{sem} permissões de administração.\\
+
+\begin{figure}[h]
+\includegraphics[width=1\textwidth]{usecaseuser.png}
+\caption{Projecto - Caso de utilização de um membro apenas com permissão de leitura}
+\label{usecaseuser}
+\end{figure}
+
+Para solucionar o problema apresentado por este projecto foram identificadas duas entidades centrais, a \textbf{pessoa} e o \textbf{projecto}. Cada pessoa pode estar envolvida em vários projectos, assim como um projecto pode ser desenvolvido por várias pessoas. Estas entidades são descritas como:
+\begin{itemize}
+\item
+\textbf{Pessoa}, representada pelo nome de utilizador, o \emph{email} e a \emph{password}. O \emph{email} é usado para comunicar com a pessoa e os outros dois atributos servem para autenticar o utilizado perante o sistema.
+\item
+O \textbf{projecto} é a raiz da infra-estrutura e agrega as pessoas que a ele estão associadas.
+\end{itemize}
+No contexto de um projecto é possível definir \textbf{tarefas} que, assim como a pessoa e o projecto, são consideradas entidades de domínio. Uma tarefa tem um nome e uma descrição e pode ter várias pessoas associadas. As pessoas associadas a uma tarefa podem registar o tempo que usaram na sua realização. A tarefa tem também uma previsão do tempo estimado para a sua realização (e.g. número de horas) e a data prevista de conclusão.\\
+
+A descrição destas entidades e das suas relações é descrita no seguinte diagrama de classes:
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.75]{uml.png}
+\caption{Diagrama de classes da solução}
+\label{uml}
+\end{figure}
+\FloatBarrier
+
+Para a elaboração e descrição do modelo de domínio são usados conceitos de Domain-Driven Design\cite{ddd}, que podem ser consultados no Anexo I, presente no final do documento.\\
+
+Na definição do modelo de domínio da solução foram definidos como agregados as entidades Projecto e Pessoa. O objecto de domínio Tarefa também é considerado como entidade porque possui um identificador único no sistema. O objecto de domínio Registo de Horas é definido como \emph{value object}.\\
+
+\subsection{2.1. Base de dados}
+As aplicações utilizam, na sua maioria, um sistema de gestão de base de dados (SGBD) baseado no modelo relacional. Neste modelo de dados existem dois conceitos principais: o conceito de entidade e o conceito de relação. Uma entidade é um elemento caracterizado pelos seus dados sendo estes armazenados no registo de uma tabela. A relação determina a forma como os registos de diferentes tabelas se relacionam entre si. A forma de ler e escrever dados nestes sistemas é através da linguagem SQL.\\
+
+Para a realização deste projecto foi usada uma base de dados que não segue este modelo. A base de dados utilizada segue o movimento NoSQL, descrito no Anexo II, e é categorizada como uma base de dados de documentos.\\
+
+A base de dados usada é o \emph{RavenDB}\cite{ravendb}, uma base de dados de documentos implementada sobre a \emph{framework .NET}\cite{net} que suporta a utilização de \emph{Linq}\cite{linq}, uma componente da \emph{framework .NET}\cite{net}. É uma solução transaccional, que armazena os dados no formato \emph{JSON}\cite{json} e tem como interface um serviço web disponibilizado através do protocolo HTTP.\\
+
+A utilização deste tipo de base de dados implica que a modelação das entidades de domínio e das relações entre elas seja definida de forma diferente, pois não existe a noção de operações de \emph{JOIN}. Assim, os documentos que representam entidades, têm que conter toda a informação que as caracteriza.\\
+
+Devido a isso todos os agregados do domínio são representadas por um documento. No entanto existem relações entre os diferentes agregados que podem ser definidas usando as seguintes soluções:
+\begin{itemize}
+\item{Desnormalização}\\
+A desnormalização de uma entidade consiste em guardar parte da informação que a caracteriza, em vez de guardar apenas o seu identificador. 
+
+Numa situação em que uma entidade referencia outras e necessita de parte dos seus dados o carregamento de várias entidades pode representar um grande volume de dados. Para solucionar este problema a entidade referenciada é desnormalizada e são carregados apenas o dados relevantes juntamente com a entidade referenciadora.
+
+Contudo, alterações aos de uma entidade implicam que os dados desnormalizados dessa entidade também sejam alterados.
+\item{\emph{Include}}\\
+
+Para evitar o custo da actualização de dados desnormalizados existe o método \emph{Include} que permite carregar várias entidades, através do seu identificador, no momento da execução de uma \emph{query}.
+\item{\emph{Live Projections}}\\
+
+Como complemento para a solução anterior o \emph{RavenDB}\cite{ravendb} oferece forma de juntar e transformar documentos, obtendo como resultado objectos personalizados. Esta funcionalidade permite carregar documentos relacionados, escolhendo as propriedades de cada um que se pretende.
+\end{itemize}
+Na actual fase de desenvolvimento apenas é usado o método de desnormalização. Este método é usado para relacionar Projectos com Pessoas e Tarefas, Tarefas com Pessoas e Registo de Horas com Pessoas.
+
+\section{3. Web}
+Um dos objectivos do projecto que este seja acessível através de diversas plataformas (e.g. browser, aplicações de dispositivos móveis) e permitir a integração com outros serviços ou aplicações. Para isso é disponibilizado uma aplicação web e uma Api ReSTful. 
+
+\subsection{3.1. Aplicação web}
+A aplicação web tem como finalidade disponibilizar ao utilizador uma interface para aceder aos dados da infra-estrutura através de qualquer \emph{browser}. Para a implementação deste componente é usada a \emph{framework ASP.NET MVC}\cite{aspnetmvc} leccionada no decorrer do curso. Esta framework, como o próprio nome sugere, implementa o padrão \emph{model-view-controller}(MVC).
+
+Na implementação da componente visual da aplicação web é usado HTML5 e CSS3 e o aspecto visual é conseguido utilizando os componentes disponibilizados no \emph{kit Twitter Bootstrap}\cite{bootstrap}. As \emph{frameworks javascript jQuery}\cite{jquery} e \emph{Knockout}\cite{knockout} permitem enriquecer a forma como é feita a interação com a aplicação.
+
+\subsection{3.2. Web API ReSTful}
+\emph{\textbf{ReST} (Representational State Transfer)}\cite{rest} é uma forma de obter informação de uma aplicação web. Assenta sobre o protocolo HTTP e os métodos HTTP são usados para identificar a acção a realizar sobre o url. Cada url expõe um recurso disponibilizado pela aplicação.\\
+
+Na implementação da Api foi utilizada a arquitectura anteriormente enunciada, juntamente com a \emph{framework ASP.NET WebApi}\cite{aspnetwebapi}, para tornar acessíveis os recursos a qualquer utilizador. Há a preocupação de que o url de acesso ao recurso seja o mais perceptível por parte do utilizador (e.g. http://host/api/projects/1, http://host/api/projects/1/tasks/3).\\
+
+O utilizador pode assim:
+\begin{itemize}
+\item Consumir a informação
+\item Integrar dois sistemas diferentes, a infra-estrutura implementada neste projecto com uma outra \footnote{Uma aplicação web que possibilite a facturação de serviços pode ser usada para gerar facturas conforme as horas registadas}
+\item Organizar a informação de uma forma a que consiga melhor interpretá-la.
+\item Disponibilizar a informação num dispositivo móvel.
+\end{itemize}
+\section{4. Ferramentas usadas}
+No desenvolvimento deste trabalho são usadas aplicações e componentes implementadas por terceiros. De forma a facilitar a obtenção dessas componentes e a sua integração no ambiente de desenvolvimento foi usada a extensão \emph{\textbf{NuGet}}, para a aplicação Microsoft Visual Studio 2010. Esta extensão permite fazer a procura, \emph{download} de componentes, da sua \emph{galeria online}, e gerir as referências usadas no projecto do Visual Studio para essas componentes.
+\begin{itemize}
+\item
+\emph{RavenDB}\cite{ravendb}
+\end{itemize}
+Como foi dito anteriormente, uma das aplicações usadas é o \emph{RavenDB}\cite{ravendb}, desenvolvido e distribuído pela \emph{hibernating rhinos}\cite{hibrhinos}. No âmbito deste projecto é usado o \emph{software as a service} (SaaS) \emph{RavenHQ}\cite{ravenhq}, disponibilizado pelo \emph{AppHarbor}\cite{appharbor} em parceria com os seus criadores.
+\begin{itemize}
+\item
+\emph{AttributeRouting}\cite{attributerouting}
+\end{itemize}
+Para definir o routing usado na Api ReSTful foi usada a biblioteca
+\emph{AttributeRouting}\cite{attributerouting}. Esta biblioteca permite configurar o uri de acesso ao recurso através da utilização de atributos.
+\begin{itemize}
+\item
+\emph{AutoMapper}\cite{automapper}
+\end{itemize}
+\emph{AutoMapper}\cite{automapper} é uma biblioteca que, com base em configurações predefinidas, possibilita a conversão entre objectos de tipos diferentes. Esta biblioteca faz corresponder as propriedades do objecto fonte às do objecto destino com base no nome,  usando o paradigma \emph{convention over configuration}.
+\begin{itemize}
+\item
+\emph{Knockout}\cite{knockout}
+\end{itemize}
+A \emph{framework javascript jQuery}\cite{jquery} disponibiliza uma forma de manipular o DOM e simplificar a interface com o browser. A \emph{framework Knockout}\cite{knockout} leva essa interacção mais longe e através do padrão model-view-viewmodel (MVVM) permite simplificar a implementação de interfaces e ligar o HTML com objectos javascript.\\
+
+Neste padrão existem três intervenientes, a view, o modelo e o view model. É através da view que o utilizador indica a acção a realizar, que é passada ao viewmodel. O viewmodel envia e obtém dados do modelo e quando é alterado notifica os elementos da view que estão a observar os seus atributos.\\
+
+Na \emph{framework Knockout}\cite{knockout} a view é definida no HTML, utilizando o atributo data, o model é representado por um objecto javascript assim como o viewmodel.
+\newpage
+\section{5. Trabalho realizado}
+Até ao momento foram implementadas na aplicação web e na Api web a gestão de projectos, tarefas e utilizadores. O modelo de dados encontra-se em evolução conforme o esperado.
+Era espectável que nesta fase o projecto estivesse mais adiantado contudo, na fase inicial do projecto, foi despendido mais tempo que o previsto.\\
+
+Tendo este aspecto em consideração foram feitos ajustes ao planeamento, descritos na tabela \ref{tabplan}.
+\begin{table}[!ht]
+\centering
+\begin{tabular}{| l | l | l |}
+\hline
+\textbf{Semana} & \textbf{Início} & \textbf{Observações}  \\
+\hline
+1	& 19/03 &	Entrega das propostas até 19 de Março \\
+\hline
+2	& 26/03 &	Modelo de dados e escolha de tecnologias \\
+\hline
+3	& 09/04 &	Tarefas e projectos \\
+\hline
+4	& 16/04 &	Utilizadores e registo de horas - live 0.1 \\
+\hline
+5	& 23/04 &	Discussões 1.0 (apenas texto) \\
+\hline
+6	& 30/04 &	Aplicação web (UI) \\
+\hline
+7	& 07/05 &	Relatório de progresso e apresentação individual \\
+\hline
+8	& 14/05 &	Autenticação e Politicas de acesso - live 0.2 \\
+\hline
+9	& 21/05 &	Discussões 1.0 \\
+\hline
+10	& 28/05 &	Planeamento \\
+\hline
+11	& 04/06 &	Discussões 2.0 (upload de ficheiros) \\
+\hline
+12	& 11/06 &	Versão beta - \emph{live 0.3} \\
+\hline
+13	& 18/06 &	Cartaz e versão beta \\
+\hline
+14	& 25/06 &	Gestão emails \\
+\hline
+15	& 02/07	& 	Discussões 3.0 (integração com email) e \emph{Dashboard} - \emph{live} 0.4 \\
+\hline
+16	& 09/07	&	Monitorização \\
+\hline
+17	& 16/07 &	API - live 0.5 \\
+\hline
+18	& 23/07 &	Testes \\
+\hline
+19	& 03/09 &	Relatório final (versão inicial) \\
+\hline
+20	& 10/09 &	Relatório final (revisto pelo orientador) \\
+\hline
+\end{tabular}
+\caption{Novo planeamento do projecto}
+\label{tabplan}
+\end{table}
+O planeamento é feito à semana e tem como data inicial o dia de entrega do presente documento, não estando contemplado o trabalho já realizado.
+\vfill
+\newpage
+\begin{thebibliography}{9}
+\bibitem{ddd} Eric Evans, \emph{Domain-Driven Design: Tackling Complexity in the Heart of Software},  Addison-Wesley, 2011, pp 89-159
+\bibitem{rest} Ryan Tomayko, ReST - Representational State Transfer,
+\url{http://tomayko.com/writings/rest-to-my-wife}
+\bibitem{ravendb} hibernating rhinos, RavenDB,
+\url{http://ravendb.net/}
+\bibitem{net} Microsoft, .NET framework,
+\url{http://www.microsoft.com/net}
+\bibitem{linq} Microsoft, Linq,
+\url{http://msdn.microsoft.com/en-us/library/bb308959.aspx}
+\bibitem{aspnetmvc} Microsoft, ASP.NET MVC,
+\url{http://www.asp.net/mvc}
+\bibitem{aspnetwebapi} Microsoft, ASP.NET WebApi,
+\url{http://www.asp.net/web-api}
+\bibitem{json} RFC-4627, JSON,
+\url{http://www.ietf.org/rfc/rfc4627.txt}
+\bibitem{knockout} Steven Sanderson, Knockout,
+\url{http://knockoutjs.com/}
+\bibitem{bootstrap} Twitter, Twitter Bootstrap,
+\url{http://twitter.github.com/bootstrap/}
+\bibitem{jquery} jQuery, jQuery,
+\url{http://jquery.com/}
+\bibitem{automapper} Jimmy Bogard, AutoMapper,
+\url{http://automapper.org/}
+\bibitem{attributerouting} Tim McCall, AttributeMapping,
+\url{https://github.com/mccalltd/AttributeRouting}
+\bibitem{appharbor} AppHarbor Inc., AppHarbor,
+\url{https://appharbor.com}
+\bibitem{ravenhq} RavenHQ, RavenHQ,
+\url{https://ravenhq.com/}
+\bibitem{hibrhinos} hibernating rhinos
+\url{http://hibernatingrhinos.com/}
+\end{thebibliography}
+Todas as páginas web foram acedidas até à data de entrega deste documento, 07/05/2012.
+\newpage
+%\appendix
+
+\section{I. Domain Driven Design}
+\label{anexoa}
+O modelo de domínio é o conjunto de vários termos, diagramas e conceitos que representam a informação e o comportamento de uma aplicação face a um problema. Para representar o modelo de domínio podem ser usados diagramas UML, texto detalhado, esquemas entidade-associação, use cases, etc. Um aspecto importante do modelo de domínio é a sua compreensão por todos os intervenientes no projecto (e.g. arquitectos de software, programadores, cliente). Aos elementos de um modelo de domínio dá-se o nome de objectos de domínio.\\
+
+Entidades, \emph{value objects}, agregados, fábricas e repositórios são alguns conceitos transversais a qualquer modelo de domínio. Uma entidade representa um objecto do modelo que tem um identificador único em todo o seu tempo de vida na aplicação e pode ser acedido através desse identificador.\\
+
+Um \emph{value object}, assim como uma entidade, é representado pelas suas características e atributos mas não tem identidade no sistema, ou seja \emph{value objects} com os mesmas características e atributos são considerados o mesmo.\\
+
+No modelo de domínio quando um grupo de objectos é tratado como uma unidade, no que diz respeito á informação que estes representam, são considerados agregados. Um agregado define um limite e tem como raiz uma entidade. É através dessa entidade que os outros elementos do agregado são acedidos.\\
+As fábricas e os repositórios são usados para gerir o tempo de vida das entidades. As fábricas são usadas na criação e por vezes para abstrair o tipo concreto do objecto criado. Os repositórios são mecanismos que encapsulam a obtenção, alteração e a procura dos dados do sistema.\\
+
+\newpage
+\section{II. NoSQL}
+\label{anexob}
+As bases de dados NoSQL diferem do modelo relacional porque são tipicamente desenhadas para escalar horizontalmente e podem ter as seguintes características:
+\begin{itemize}
+\item
+Não têm \emph{schema} fixo;
+\item
+Não suportam operações de \emph{join};
+\item
+Suportam o conceito de BASE;
+\item
+Suportam o conceito de CAP;
+\end{itemize}
+Em NoSQL as bases de dados podem ser categorizadas como \emph{key-value stores}, base de dados de documentos, base de dados de grafos ou implementações \emph{BigTable}.
+\paragraph{Key-value stores}
+A função principal de um \emph{key-value store} é guardar um valor associado a uma chave. Para essa função é disponibilizada uma variação da seguinte API:
+\begin{verbatim}
+void Put(string key, byte[] data);
+byte[] Get(string key);
+void Remove(string key);
+\end{verbatim}
+O valor guardado é um \emph{blob}. Esta característica torna desnecessária a definição de um \emph{schema} dando assim total flexibilidade no armazenamento de dados. Devido ao acesso ser feito através de uma chave este tipo de persistência pode facilmente ser optimizada e ter a sua performance melhorada.
+\begin{itemize}
+\item
+\textbf{Concorrência} - Num key-value store a concorrência apenas se manifesta quando são feitas operações sobre a mesma chave.
+\item
+\textbf{Queries} - Uma \emph{query} é apenas possível fazer com base na chave e como retorno obtêm-se o valor associado. Esta é uma limitação deste tipo de solução mas que se torna uma vantagem em ambientes em que o único tipo de acesso necessário é com base numa chave, como é o case de um sistema de cache.
+\item
+\textbf{Transacções} - A garantia de que as escritas são feitas no contexto de uma transacção só é garantida se for escrita apenas uma chave. É possível oferecer essas garantias para múltiplas chaves mas, tendo em conta a natureza de um key-value store de permitir que diferentes chaves estejam armazenadas em diferentes máquinas, torna o processo de difícil implementação.
+\item
+\textbf{\emph{Schema}} - O \emph{schema} neste tipo de base de dados é simples, a chave é uma \emph{string} e o valor é um blob. O tipo e a forma como os dados são estruturados é da responsabilidade do utilizador.
+\item
+\textbf{Escalabilidade} - Existem duas formas para o fazer sendo que a mais simples seria separar as chaves. Separar chaves implica decidir a regra de separação, que pode separar as chaves com base no seu primeiro carácter e cada carácter é alojado numa máquina diferente. Esta forma deixa de ser opção quando a máquina onde está a chave não está disponível. Para resolver esse problema é usada replicação.
+\end{itemize}
+\paragraph{Base de dados de documentos}
+Uma base de dados de documentos é na sua essência um \emph{key-value store}. A diferença é que, numa base de dados de documentos, o \emph{blob} de informação é persistido de uma forma semiestruturada, em documentos, utilizando um formato que possa ser interpretado pela base de dados como \emph{JSON\cite{json}, BSON ou XML}, permitindo realizar \emph{queries} sobre essa informação.\\
+\begin{itemize}
+\item
+\textbf{Concorrência} - Existem várias abordagens para resolver este problema como a concorrência optimista, pessimista ou \emph{merge}. \begin{itemize}
+\item
+Concorrência Optimista: Antes de gravar informação é verificado se o documento foi alterado por outra transacção, sendo a transacção abortada nesse caso;
+\item
+Concorrência Pessimista: Usa locks para impedir várias transacções de modificarem o mesmo documento. Esta abordagem é um problema para a escalabilidade destes sistemas;
+\item
+Concorrência
+\emph{merge}: Semelhante à concorrência optimista mas em vez de abortar a transacção permite ao utilizador resolver o conflito entre as versões do documento.
+\end{itemize}
+\item
+\textbf{Transacções}- Em alguns casos é dada a garantia de que as operações cumprem com a regra ACID (atomicity, consistency, isolation, durability). Algumas implementações optam por não seguir a regra ACID, desprezando algumas propriedades em detrimento de um aumento de rendimento, usando as regras CAP (Consistency, Availability, Partition Tolerance) ou BASE (Basically Available, Soft State, Eventually Consistent).
+\item
+\textbf{\emph{Schema}} - Este tipo de base de dados não necessita que lhe seja definido um \emph{schema à priori} e não têm tabelas, colunas, tuplos ou relações. Uma base de dados orientada a documentos é composta por vários documentos auto descritivos, ou seja, a informação relativa a um documento está guardada dentro deste. Isso permite que sejam armazenados objectos complexos (e.g. grafos, dicionários, listas) com facilidade. Esta característica implica que, apesar de poderem existir referências entre documentos a base de dados não garante a integridade dessa relação.
+\item
+\textbf{\emph{Queries}} - As \emph{queries} são feitas com base em índices inferidos automaticamente ou definidos explicitamente pelo programador. Quando o índice é definido o SGBD executa-o e prepara os resultados minimizando o esforço computacional necessário para responder a uma \emph{query}.
+A forma de actualização destes índices difere em cada implementação deste tipo de base de dados, podendo ser actualizados quando os documentos associados a estes índices são alterados ou no momento anterior à execução da \emph{query}. No primeiro caso isso significa que podem ser obtidos resultados desactualizados, uma vez que as \emph{queries} aos índices têm resultados imediatos e a actualização pode não estar concluída. Na segunda abordagem, se existirem muitas alterações para fazer a \emph{query} pode demorar algum tempo a responder.
+\item
+\textbf{Escalabilidade} - Este tipo de base de dados suporta Sharding, ou seja partição horizontal, o que permite separar documentos por vários servidores.
+\end{itemize}
+\textbf{Outros}\\
+
+Existem outros tipos de base de dados NoSQL como o BigTable e as bases de dados de grafos que não foram considerados.
+
+\end{document}
