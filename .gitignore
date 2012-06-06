@@ -15,7 +15,9 @@ _[Ss]cripts
 *.suo
 *.bak
 *.ncb
-*.log 
+*.aux
+*.log
+*.out
 *.DS_Store
 *.[Pp]ublish.xml
 *.[Rr]e[Ss]harper
@@ -23,7 +25,11 @@ _[Ss]cripts
 # nuget
 packages
 
-#glimpse
+# glimpse
 [Aa]pp_[Rr]eadme
 
-
+# tex
+*.bbl
+*.blg
+*.gz
+*.toc
