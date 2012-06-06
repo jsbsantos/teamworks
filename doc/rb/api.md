@@ -1,4 +1,4 @@
-Teamworks Api 
+Web Api 
 =
 
 A Api do projecto foi desenvolvida sobre o protocolo HTTP e o modelo de arquitectura ReST[[1]](http://link/). Houve a preocupação de tornar a Api o mais intuitivo possível e todos os recursos do sistema têm um URL de acesso.

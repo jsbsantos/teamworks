@@ -8,3 +8,20 @@ No contexto pessoal ou profissional um projecto é algo em que, num momento ou o
 Para o sucesso de qualquer projecto é necessário uma boa gestão o que implica planeamento, organização e controlo de recursos. O objectivo do projecto descrito neste documento é fornecer uma aplicação web com funcionalidades que permitam simplificar os processos enunciados. 
 
 Entre as funcionalidades disponibilizadas estão a criação, planeamento e afectação de recursos a tarefas, o registo de tempo dispendido, a partilha de documentação, a troca de opiniões e a possibilidade de monitorizar o estado do projecto.
+
+Organização do documento
+-
+
+.....
+
+Soluções Existentes
+=
+
+.....
+
+
+Teamworks
+=
+
+.....
+
