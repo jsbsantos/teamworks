@@ -4,7 +4,6 @@ using System.Web.Mvc;
 using Teamworks.Core.Authentication;
 using Teamworks.Core.People;
 using Teamworks.Core.Services;
-using Teamworks.Web.Helpers.Extensions;
 
 namespace Teamworks.Web.Controllers.Web.Filters
 {
@@ -27,16 +26,5 @@ namespace Teamworks.Web.Controllers.Web.Filters
             }
             base.OnActionExecuting(context);
         }
-
-        /*
-        public override void OnResultExecuted(ResultExecutedContext context)
-        {
-            Person person = context.HttpContext.GetCurrentPerson();
-            if (person != null)
-            {
-                context.HttpContext.User = new GenericPrincipal(new GenericIdentity(person.Id), new string[0]);
-            }
-            base.OnResultExecuted(context);
-        }*/
     }
 }

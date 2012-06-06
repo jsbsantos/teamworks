@@ -1,12 +1,6 @@
-﻿using System.Linq;
-using System.Security.Principal;
+﻿using Raven.Client;
 using System.Web.Mvc;
-using System.Web.Routing;
-using Raven.Client;
-using Teamworks.Core.Authentication;
-using Teamworks.Core.People;
 using Teamworks.Core.Services;
-using Teamworks.Web.Helpers.Extensions;
 
 namespace Teamworks.Web.Controllers
 {
