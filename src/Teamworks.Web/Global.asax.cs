@@ -63,18 +63,14 @@ namespace Teamworks.Web
 
             routes.MapRouteLowercase(
                name: "",
-               url: "{controller}/{id}/{action}",
-               defaults: new { controller = "Home", action = "View" }
+               url: "{controller}/{id}/{action}"    
                );
 
             routes.MapRouteLowercase(
                 name: "default",
                 url: "{controller}/{action}/{id}",
-                defaults: new {controller = "Home", action = "View", id = UrlParameter.Optional}
+                defaults: new { controller = "Home", action = "View", id = UrlParameter.Optional }
                 );
-
-
-           
         }
 
         protected void Application_Start()
