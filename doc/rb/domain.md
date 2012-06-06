@@ -5,24 +5,15 @@ A infra-estrutura expõe as funcionalidades anteriormente enunciadas através de
 
 Os seguintes diagramas **use case** representam as acções que os utilizadores podem realizar na infra-estrutura. A figura **usecaseprojecto** e **usecasetarefa** representam os casos de utilização de um membro com permissões de escrita ao nível de um projecto.
 
-<!---
-\begin{figure}[!h]
-\includegraphics[width=0.8\textwidth]{images\usecaseprojecto.png}
-\caption{Projecto - Caso de utilização de um membro com permissão de escrita}
-\label{usecaseprojecto}
--->
+<!---figure-->
 
-![Projecto - Caso de utilização de um membro com permissão de escrita](https://www.dropbox.com/s/74grwphgl5m8me7/usecaseprojecto.png)<!--- usecaseprojecto -->
+![Projecto - Caso de utilização de um membro com permissão de escrita](https://www.dropbox.com/s/74grwphgl5m8me7/usecaseprojecto.png)<!--- usecaseprojecto {image} -->
 
-<!---
-\includegraphics[width=0.8\textwidth]{images\usecasetarefa.png}
-\caption{Tarefa - Caso de utilização de um membro com permissão de escrita}
-\label{usecasetarefa}
-\end{figure}
--->
-![usecasetarefa]( https://www.dropbox.com/s/1se8rhskj43zt73/usecasetarefa.png)
+![usecasetarefa]( https://www.dropbox.com/s/1se8rhskj43zt73/usecasetarefa.png)<!--- usecasetarefa -->
 
-A figura \ref{usecaseuser} ilustra um caso de utilização de um membro de um projecto,
+<!---!figure-->
+
+A figura [usecaseprojecto](https://www.dropbox.com/s/74grwphgl5m8me7/usecaseprojecto.png "usecaseprojecto")<!---dump--> ilustra um caso de utilização de um membro de um projecto,
 \textbf{sem} permissões de administração.
 
 \begin{figure}[h]

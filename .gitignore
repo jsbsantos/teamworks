@@ -33,3 +33,5 @@ packages
 *.blg
 *.gz
 *.toc
+tex
+pretex
