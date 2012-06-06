@@ -22,6 +22,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Teamworks.Mailgun", "src\Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Teamworks.Mailgun.Test", "test\Teamworks.Mailgun.Test\Teamworks.Mailgun.Test.csproj", "{847BBB67-516D-4E87-B526-AB727069E7E1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Teamworks.Doc", "doc\Teamworks.Doc\Teamworks.Doc.csproj", "{EF081F34-339E-434C-A8D9-59E8345380EC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{A6ED9F7B-FE71-4728-A36B-A62B44B15A90}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Teamworks.vsmdi
@@ -85,6 +89,16 @@ Global
 		{847BBB67-516D-4E87-B526-AB727069E7E1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{847BBB67-516D-4E87-B526-AB727069E7E1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{847BBB67-516D-4E87-B526-AB727069E7E1}.Release|x86.ActiveCfg = Release|Any CPU
+		{EF081F34-339E-434C-A8D9-59E8345380EC}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{EF081F34-339E-434C-A8D9-59E8345380EC}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{EF081F34-339E-434C-A8D9-59E8345380EC}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{EF081F34-339E-434C-A8D9-59E8345380EC}.Debug|x86.ActiveCfg = Debug|x86
+		{EF081F34-339E-434C-A8D9-59E8345380EC}.Debug|x86.Build.0 = Debug|x86
+		{EF081F34-339E-434C-A8D9-59E8345380EC}.Release|Any CPU.ActiveCfg = Release|x86
+		{EF081F34-339E-434C-A8D9-59E8345380EC}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{EF081F34-339E-434C-A8D9-59E8345380EC}.Release|Mixed Platforms.Build.0 = Release|x86
+		{EF081F34-339E-434C-A8D9-59E8345380EC}.Release|x86.ActiveCfg = Release|x86
+		{EF081F34-339E-434C-A8D9-59E8345380EC}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -95,5 +109,6 @@ Global
 		{C85D88CF-7DA3-4628-99FA-D5D570FCE940} = {FFC7F3A0-ABC9-47F7-8A53-AD0138F892DB}
 		{A0746650-91CF-4306-83E4-5D7726B8EB4A} = {FFC7F3A0-ABC9-47F7-8A53-AD0138F892DB}
 		{46E5AED9-D93B-42B2-A3E1-68A69C2270C7} = {FFC7F3A0-ABC9-47F7-8A53-AD0138F892DB}
+		{EF081F34-339E-434C-A8D9-59E8345380EC} = {A6ED9F7B-FE71-4728-A36B-A62B44B15A90}
 	EndGlobalSection
 EndGlobal
