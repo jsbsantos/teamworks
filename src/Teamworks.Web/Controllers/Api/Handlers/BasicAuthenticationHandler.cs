@@ -19,10 +19,10 @@ namespace Teamworks.Web.Controllers.Api.Handlers
     {
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            var h = request.Headers.Authorization;
-            if (h != null && h.Scheme.Equals("Basic", StringComparison.OrdinalIgnoreCase))
+            var header = request.Headers.Authorization;
+            if (header != null && header.Scheme.Equals("Basic", StringComparison.OrdinalIgnoreCase))
             {
-                var basic = Convert.FromBase64String(h.Parameter);
+                var basic = Convert.FromBase64String(header.Parameter);
                 var credentials = Encoding.UTF8.GetString(basic).Split(':');
                 if (credentials.Length == 2)
                 {

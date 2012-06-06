@@ -17,19 +17,17 @@ namespace Teamworks.Web.Controllers.Api.Handlers
         protected override Task<HttpResponseMessage> SendAsync(
             HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            var id = HttpContext.Current.User.Identity.Name;
-            if (!HttpContext.Current.User.Identity.AuthenticationType.Equals("Forms", StringComparison.OrdinalIgnoreCase)
-                || string.IsNullOrEmpty(id))
+            var identity = HttpContext.Current.User.Identity;
+            if (!string.IsNullOrEmpty(identity.Name) &&
+                identity.AuthenticationType.Equals("Forms", StringComparison.OrdinalIgnoreCase))
             {
-                return base.SendAsync(request, cancellationToken);
-            }
-
-            var person = Global.Raven.CurrentSession.Load<Person>(id);
-            if (person != null)
-            {
-                var identity = new PersonIdentity(person);
-                request.Properties[HttpPropertyKeys.UserPrincipalKey] =
-                    new GenericPrincipal(identity, person.Roles.ToArray());
+                var person = Global.Raven.CurrentSession.Load<Person>(identity.Name);
+                if (person != null)
+                {
+                    identity = new PersonIdentity(person);
+                    request.Properties[HttpPropertyKeys.UserPrincipalKey] =
+                        new GenericPrincipal(identity, person.Roles.ToArray());
+                }
             }
 
             return base.SendAsync(request, cancellationToken);

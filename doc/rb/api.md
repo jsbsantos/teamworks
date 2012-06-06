@@ -1,30 +1,19 @@
 Web Api 
 =
 
-A Api do projecto foi desenvolvida sobre o protocolo HTTP e o modelo de arquitectura ReST[[1]](http://link/). Houve a preocupação de tornar a Api o mais intuitivo possível e todos os recursos do sistema têm um URL de acesso.
 
-Todos os acessos à Api, referidos neste documento, têm como base o seguinte URL:
 
-````
-https://teamworks.apphb.com/api/v1
-````
+
+A Api da infra estrutura é desenvolvida usando modelo de arquitectura ReST[[1]](http://link/) sobre o protocolo HTTP. No modelo ReST todos os objectos da aplicação são considerados recursos e têm um URL único. Todos os acessos à Api, referidos neste documento, têm como base o URL `https://teamworks.apphb.com/api`.
 
 Autenticação
 -
 
-### *Basic authentication*
-
-### *Token authentication*
-
-A autenticação na Api é feita utilizando *Basic authentication*. É necessário um *token* de acesso que é atribuido no momento de criação de uma conta na aplicação web Teamworks. 
-<span style="background-color: yellow">Indicar onde é possível ver o token.</span>
-
-Para o utilizador ser reconhecido pela Api no pedido tem de enviar como nome de utilizador a palavra 'api' e como password o *token* obtido anteriormente.
-
+A autenticação na Api é feita utilizando HTTP *Basic authentication*. 
 É possível testar a autenticação acedendo no browser ao URL:
 
 ````
-https://api:token@teamworks.apphb.com/api/v1/person
+https://nome-de-utilizador:password@teamworks.apphb.com/api/person
 ````
 
 Formato da data

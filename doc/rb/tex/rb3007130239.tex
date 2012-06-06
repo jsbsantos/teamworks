@@ -5,12 +5,12 @@
 \ifxetex
 \usepackage{fontspec,xltxtra,xunicode}
 \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
-\newcommand{\euro}{Ä}
+\newcommand{\euro}{‚Ç¨}
 \else
 \ifluatex
  \usepackage{fontspec}
  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
- \newcommand{\euro}{Ä}
+ \newcommand{\euro}{‚Ç¨}
 \else
  \usepackage[utf8]{inputenc}
 \fi
@@ -44,7 +44,7 @@
 \setlength{\emergencystretch}{3em}  % prevent overfull lines
 \setcounter{secnumdepth}{0}
 \renewcommand{\figurename}{Figura}
-\renewcommand{\contentsname}{IndÌce}
+\renewcommand{\contentsname}{Ind√≠ce}
 \renewcommand{\tablename}{Tabela}
 \usepackage{placeins}
 \begin{document}
@@ -53,28 +53,36 @@
 % Upper part of the page
 % \includegraphics[width=0.15\textwidth]{./logo}\\[1cm] 
 \textsc{\large Instituto Superior de Engenharia de Lisboa}\\[0.4cm]
-\textsc{\large ¡rea Departamental de Engenharia de ElectrÛnica e TelecomunicaÁıes e de Computadores }\\[4cm]
+\textsc{\large √Årea Departamental de Engenharia de Electr√≥nica e Telecomunica√ß√µes e de Computadores }\\[3cm]
 % Title
 { \Huge \bfseries Teamworks}\\[1cm]
 { \Large \emph{a solution for project planning, managing and colaboration} }\\[1cm]
-\textsc{\large Projecto e Semin·rio}\\[3cm]
+\textsc{\large Projecto e Semin√°rio}\\[2cm]
 \begin{minipage}{1\textwidth}
 \begin{flushleft} \large
 \textbf{\emph{Alunos}}\\
-Jo„o Santos 30071 (a30071@alunos.isel.pt) \\
+Jo√£o Santos 30071 (a30071@alunos.isel.pt) \\
 Filipe Pinheiro 30239 (a30239@alunos.isel.pt)
 \end{flushleft}
 \end{minipage}\\[0.5cm]
 \begin{minipage}{1\textwidth}
 \begin{flushright} \large
 \textbf{\emph{Orientador}}\\
-Jo„o Pedro Patriarca (jpatri@cc.isel.ipl.pt)
+Jo√£o Pedro Patriarca (jpatri@cc.isel.ipl.pt)
 \end{flushright}
 \end{minipage}
 \vfill
 % Bottom of the page
-{\large Maio 2012}
+\begin{minipage}{1\textwidth}
+\flushleft{Relat√≥rio beta do projecto Teamworks, desenvolvido no √¢mbito da unidade curricular de Projecto e Semin√°rio do ano lectivo 2011/2012. Realizado pelos alunos Filipe Pinheiro e Jo√£o Santos e orientado pelo docente Jo√£o Pedro Patriarca.}\\[1cm]
+\end{minipage}
+\vfill
+{\large Junho 2012}
 \end{center}
 \end{titlepage}
 \tableofcontents
-\newpage
+
+% include chapters
+\end{document}
+
+
