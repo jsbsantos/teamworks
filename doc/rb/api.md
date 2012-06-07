@@ -1,9 +1,6 @@
 Web Api 
 =
 
-
-
-
 A Api da infra estrutura é desenvolvida usando modelo de arquitectura ReST[[1]](http://link/) sobre o protocolo HTTP. No modelo ReST todos os objectos da aplicação são considerados recursos e têm um URL único. Todos os acessos à Api, referidos neste documento, têm como base o URL `https://teamworks.apphb.com/api`.
 
 Autenticação
@@ -28,14 +25,65 @@ Todas as respostas da Api têm o código mais adequado segundo as normas HTTP pa
 
 <span style="background-color: yellow">Tabela com códigos que podem ser retornados pela Api. </span>
 
+| **Código de Resposta** | **Descrição** | **Motivo** | 
+|-----|-----|-----|
+| 404 | Not Found | Recurso não existe
+| 400 | Bad Request | Pedido não está no formato correcto |
+| 201 | OK (Created) | Recurso criada com sucesso. |
+| 203 | No Content | Resposta enviada sem corpo |
+
+
 Obter projectos
 =
 
 Para aceder a todos os projectos disponíveis o URL a aceder é o seguinte:
+| **URI** | **Método** | **Descrição** |
+|-----|-----|-----|
+| api/projects | GET |  |
+| api/projects | POST |  |
+| api/projects | PUT |  |
+| api/projects | DELETE |  |
+| api/projects/{id} | GET |  |
+| api/projects/{id} | POST |  |
+| api/projects/{id} | PUT |  |
+| api/projects/{id} | DELETE |  |
+| api/projects/{projectid}/discussions | GET |  |
+| api/projects/{projectid}/discussions | POST |  |
+| api/projects/{projectid}/discussions | PUT |  |
+| api/projects/{projectid}/discussions | DELETE |  |
+| api/projects/{projectid}/discussions/{id} | GET |  |
+| api/projects/{projectid}/discussions/{id} | POST |  |
+| api/projects/{projectid}/discussions/{id} | PUT |  |
+| api/projects/{projectid}/discussions/{id} | DELETE |  |
+| api/projects/{projectid}/tasks | GET |  |
+| api/projects/{projectid}/tasks | POST |  |
+| api/projects/{projectid}/tasks | PUT |  |
+| api/projects/{projectid}/tasks | DELETE |  |
+| api/projects/{projectid}/tasks/{id} | GET |  |
+| api/projects/{projectid}/tasks/{id} | POST |  |
+| api/projects/{projectid}/tasks/{id} | PUT |  |
+| api/projects/{projectid}/tasks/{id} | DELETE |  |
+| api/projects/{projectid}/tasks/{taskid}/timelog | GET |  |
+| api/projects/{projectid}/tasks/{taskid}/timelog | POST |  |
+| api/projects/{projectid}/tasks/{taskid}/timelog | PUT |  |
+| api/projects/{projectid}/tasks/{taskid}/timelog | DELETE |  |
+| api/projects/{projectid}/tasks/{taskid}/timelog/{id} | GET |  |
+| api/projects/{projectid}/tasks/{taskid}/timelog/{id} | POST |  |
+| api/projects/{projectid}/tasks/{taskid}/timelog/{id} | PUT |  |
+| api/projects/{projectid}/tasks/{taskid}/timelog/{id} | DELETE |  |
+| api/projects/{projectid}/people | GET |  |
+| api/projects/{projectid}/people | POST |  |
+| api/projects/{projectid}/people | PUT |  |
+| api/projects/{projectid}/people | DELETE |  |
+| api/projects/{projectid}/discussions/{discussionid}/messages | GET |  |
+| api/projects/{projectid}/discussions/{discussionid}/messages | POST |  |
+| api/projects/{projectid}/discussions/{discussionid}/messages | PUT |  |
+| api/projects/{projectid}/discussions/{discussionid}/messages | DELETE |  |
+| api/projects/{projectid}/discussions/{discussionid}/messages/{id} | GET |  |
+| api/projects/{projectid}/discussions/{discussionid}/messages/{id} | POST |  |
+| api/projects/{projectid}/discussions/{discussionid}/messages/{id} | PUT |  |
+| api/projects/{projectid}/discussions/{discussionid}/messages/{id} | DELETE |  |
 
-````
-get /projects 
-````
 
 <span style="background-color: red; color: white">To be continued...</span>
 
