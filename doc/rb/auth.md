@@ -14,7 +14,7 @@ A única forma de autenticação na solução é usando o nome de utilizador e a
 
 A autenticação na aplicação web é feita através de um formulário onde o utilizador insere o nome de utilizador e a *password*. 
 
-Para manter o utilizador autenticado são usadas funcionalidades do modo de autenticação *forms* da *framework* ASP.NET com o modo **. As classes que expõe as funcionalidades são a classe *FormsAuthentication*, usada para gerir o cookie de autenticação (*.tw_auth*), e o módulo HTTP *FormsAuthenticationModule*, que coloca o valor da cookie na informação de cada pedido (*HttpContext.User.Identity.Name*). 
+Para manter o utilizador autenticado são usadas funcionalidades do modo de autenticação *forms* da *framework* [ASP.NET](http://asp.net)<!--- --> com o modo **. As classes que expõe as funcionalidades são a classe *FormsAuthentication*, usada para gerir o cookie de autenticação (*.tw_auth*), e o módulo HTTP *FormsAuthenticationModule*, que coloca o valor da cookie na informação de cada pedido (*HttpContext.User.Identity.Name*). 
 
 Utilizando a classe FormsAuthentication o cookie *.tw_auth* é colocado na resposta com o identificador da Person autenticada. 
 

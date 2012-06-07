@@ -2,7 +2,7 @@ using System.Web;
 using Teamworks.Core.Authentication;
 using Teamworks.Core.People;
 
-namespace Teamworks.Web.Helpers.Extensions
+namespace Teamworks.Web.Helpers.Mvc
 {
     public static class HttpContextExtensions
     {

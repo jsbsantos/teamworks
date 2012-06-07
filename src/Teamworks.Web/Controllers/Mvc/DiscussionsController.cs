@@ -5,21 +5,22 @@ using System.Web.Mvc;
 using AutoMapper;
 using Teamworks.Core.Projects;
 using Teamworks.Web.Helpers.Extensions;
+using Teamworks.Web.Helpers.Teamworks;
 using Teamworks.Web.Models;
+using Teamworks.Web.Models.DryModels;
 
 namespace Teamworks.Web.Controllers.Web
 {
-    public class TasksController : RavenController
+    public class DiscussionsController : RavenController
     {
-        //route: projects/{projectid}/tasks/{id}
         [HttpGet]
         [ActionName("View")]
         public ActionResult Index(string id, int projectid)
         {
-            int taskid;
+            int discussionid;
             
             var project = DbSession
-                .Include<Project>(p => p.Tasks)
+                .Include<Project>(p => p.Discussions)
                 .Load<Project>(projectid);
 
             if (project == null)
@@ -27,19 +28,19 @@ namespace Teamworks.Web.Controllers.Web
                 return new HttpNotFoundResult();
             }
 
-            bool parse = int.TryParse(id, out taskid);
+            bool parse = int.TryParse(id, out discussionid);
             if (id != null && parse)
             {
-                if (project.Tasks.Count(t => t.Identifier() == taskid) == 0)
+                if (project.Discussions.Count(t => t.Identifier() == discussionid) == 0)
                 {
                     return new HttpNotFoundResult();
                 }
-                var task = DbSession.Load<Task>(taskid);
-                TaskModel model = Mapper.Map<Task, TaskModel>(task);
-                return View("Task", model);
+                var topic = DbSession.Load<Topic>(discussionid);
+                var model = Mapper.Map<Topic, TopicModel>(topic);
+                return View("Discussion", model);
             }
 
-            return View(Mapper.Map<List<Task>, List<TaskModel>>(DbSession.Load<Task>(project.Tasks).ToList()));
+            return View(Mapper.Map<List<Topic>, List<DryTopicModel>>(DbSession.Load<Topic>(project.Discussions).ToList()));
         }
     }
 }

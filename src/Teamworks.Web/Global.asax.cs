@@ -8,6 +8,7 @@ using Teamworks.Core.Authentication;
 using Teamworks.Core.Services;
 using Teamworks.Web.Controllers.Web.Filters;
 using Teamworks.Web.Helpers;
+using Teamworks.Web.Helpers.Api;
 using Teamworks.Web.Helpers.Extensions;
 
 namespace Teamworks.Web

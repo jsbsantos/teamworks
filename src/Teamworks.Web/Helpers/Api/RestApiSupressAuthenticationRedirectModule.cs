@@ -1,19 +1,14 @@
 ﻿using System;
 using System.Web;
 
-namespace Teamworks.Web.Helpers
+namespace Teamworks.Web.Helpers.Api
 {
     public class RestApiSupressAuthenticationRedirectModule : IHttpModule
     {
         private const string SupressRedirectLoginKey = "WEBAPI_AUTHENTICATION";
 
         #region IHttpModule Members
-
-        /// <summary>
-        ///   You will need to configure this module in the web.config file of your web and register it with IIS before being able to use it. For more information see the following link: http://go.microsoft.com/?linkid=8101007
-        /// </summary>
-
-        #region IHttpModule Members
+        
         public void Dispose()
         {
         }
@@ -57,7 +52,6 @@ namespace Teamworks.Web.Helpers
                 context.Context.Items[SupressRedirectLoginKey] = true;
             }
         }
-
-        #endregion
+        
     }
 }

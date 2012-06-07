@@ -11,6 +11,7 @@ using AttributeRouting.Web.Http;
 using AutoMapper;
 using Teamworks.Core.Projects;
 using Teamworks.Web.Helpers.Extensions;
+using Teamworks.Web.Helpers.Teamworks;
 using Teamworks.Web.Models;
 
 namespace Teamworks.Web.Controllers.Api

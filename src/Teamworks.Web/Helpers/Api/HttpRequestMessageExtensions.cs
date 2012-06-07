@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Security.Principal;
 using System.Web;
-using System.Web.Http;
+using System.Web.Http.Hosting;
 using Teamworks.Core.Authentication;
 using Teamworks.Core.People;
 
-namespace Teamworks.Web.Helpers.Extensions
+namespace Teamworks.Web.Helpers.Api
 {
     public static class HttpRequestMessageExtensions
     {
@@ -14,7 +15,13 @@ namespace Teamworks.Web.Helpers.Extensions
 
         public static Person GetCurrentPerson(this HttpRequestMessage request)
         {
-            var person = request.GetUserPrincipal().Identity as PersonIdentity;
+            var principal = request.Properties[HttpPropertyKeys.UserPrincipalKey] as IPrincipal;
+            if (principal == null)
+            {
+                return null;
+            }
+
+            var person = principal.Identity as PersonIdentity; 
             return person == null ? null : person.Person;
         }
 

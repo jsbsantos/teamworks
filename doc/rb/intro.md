@@ -1,7 +1,7 @@
 1. Introdução
 =
 
-No contexto pessoal ou profissional é frequente que qualquer pessoa esteja envolvida num projecto. Considerando que um projecto é uma actividade realizada num período de tempo com o objectivo de produzir um serviço ou produto, tomemos como exemplo: organizar um evento; escrever um livro; desenvolver um programa de software.
+No contexto pessoal ou profissional é frequente que uma pessoa esteja envolvida num projecto. Considerando que um projecto é uma actividade realizada num período de tempo com o objectivo de produzir um serviço ou produto, tomemos como exemplo: organizar um evento; escrever um livro; desenvolver um programa de software.
 
 A motivação para a realização do projecto descrito no presente documento deve-se às dificuldades encontradas no contexto profissional devido à falta de ferramentas que agilizem o planeamento e gestão de projectos e pessoas. 
 

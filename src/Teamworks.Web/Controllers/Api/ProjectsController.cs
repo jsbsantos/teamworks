@@ -15,7 +15,8 @@ using AutoMapper;
 using Raven.Client.Linq;
 using Teamworks.Core.People;
 using Teamworks.Core.Projects;
-using Teamworks.Web.Helpers.Extensions;
+using Teamworks.Web.Controllers.Api.Handlers;
+using Teamworks.Web.Helpers.Api;
 using Teamworks.Web.Models;
 
 namespace Teamworks.Web.Controllers.Api
@@ -35,6 +36,7 @@ namespace Teamworks.Web.Controllers.Api
             return base.ExecuteAsync(context, token);
         }
 
+        [SecureFor("/projects/view")]
         public IEnumerable<ProjectModel> Get()
         {
             var projects = DbSession.Query<Project>().Include(p => p.Tasks).ToList();

@@ -2,6 +2,7 @@
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Teamworks.Web.App_Start;
 using Teamworks.Web.Helpers;
+using Teamworks.Web.Helpers.Api;
 
 [assembly: PreApplicationStartMethod(typeof (RestApiAuthenticationConfig), "Start")]
 

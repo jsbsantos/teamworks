@@ -1,7 +1,7 @@
 ﻿using System.Web.Http;
 using Teamworks.Web.Controllers.Api.Handlers;
 
-namespace Teamworks.Web.Helpers.Extensions
+namespace Teamworks.Web.Helpers.Api
 {
     public static class HttpConfigurationExtensions
     {
