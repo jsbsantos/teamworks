@@ -7,9 +7,9 @@ Os seguintes diagramas **use case** representam as acções que os utilizadores 
 
 <!---figure-->
 
-![Projecto - Caso de utilização de um membro com permissão de escrita](https://www.dropbox.com/s/74grwphgl5m8me7/usecaseprojecto.png)<!--- usecaseprojecto {image} -->
+![Projecto - Caso de utilização de um membro com permissão de escrita](https://dl.dropbox.com/s/74grwphgl5m8me7/usecaseprojecto.png)<!--- usecaseprojecto {image} -->
 
-![usecasetarefa]( https://www.dropbox.com/s/1se8rhskj43zt73/usecasetarefa.png)<!--- usecasetarefa -->
+![usecasetarefa](https://dl.dropbox.com/s/1se8rhskj43zt73/usecasetarefa.png)<!--- usecasetarefa -->
 
 <!---!figure-->
 
