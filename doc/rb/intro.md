@@ -1,6 +1,6 @@
 1. Introdução
-=
-
+= 
+ 
 No contexto pessoal ou profissional é frequente que qualquer pessoa esteja envolvida em projectos. Considerando que um projecto é uma actividade realizada num período de tempo com o objectivo de produzir um serviço ou produto, tomemos os seguintes como exemplo: organizar um evento; escrever um livro; desenvolver um programa de software.
 
 A motivação para a realização do projecto descrito no presente documento deve-se às dificuldades encontradas, no contexto profissional, com à falta de ferramentas que agilizem o planeamento e gestão de projectos e pessoas. É objectivo deste projecto a realização de uma inftra-estrutura de apoio ao planeamento e gestão de projectos. Pretende-se oferecer funcionalidades de criação, planeamento e afectação de recursos a tarefas, o registo de tempo dispendido, a partilha de documentação, a troca de opiniões e a possibilidade de monitorizar o estado do projecto.

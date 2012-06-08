@@ -34,7 +34,7 @@ namespace Teamworks.Doc
 
                     {@"!\[(.*)\]\((?<imageuri>.*)\)<!---(?<imagename>.*)-->",
                         #region Download Image Tag    
-                        m =>
+                        m => 
                         {
                                 DownloadImage(m.Groups["imageuri"].Value.Trim(), m.Groups["imagename"].Value.Trim());
                                 return SimpleReplace(

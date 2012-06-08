@@ -23,9 +23,9 @@ A desnormalização de uma entidade consiste em guardar parte da informação qu
 Numa situação em que uma entidade referencia outras e necessita de parte dos seus dados o carregamento de várias entidades pode representar um grande volume de dados. Para solucionar este problema a entidade referenciada é desnormalizada e são carregados apenas o dados relevantes juntamente com a entidade referenciadora.
 
 Contudo, alterações aos de uma entidade implicam que os dados desnormalizados dessa entidade também sejam alterados.
-
+ 
 * *Identificador*
-
+ 
 Cada entidade guarda apenas o identificador único da entidade que está relacionada (e.g. os projectos guardam o identificador das tarefas que lhe estão associadas). Desta forma evita-se o custo da actualização de dados desnormalizados.
 
 Este tipo de representação de relação é suportado pelo método *Include* que permite carregar várias entidades, através do seu identificador, no momento da execução de uma *query*. Ou seja, são carregadas para a *cache* do Raven as entidades pedidas (e.g. Carregar um projecto e as suas tarefas), com apenas um pedido ao servidor (Base de Dados).

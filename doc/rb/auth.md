@@ -1,4 +1,4 @@
-Registo
+Registo 
 =
 
 Para utilizar a aplicação é necessário que o utilizador se registe. No registo o utilizador indica o email, usado pela aplicação como forma de comunicar; o nome de utilizador, para o identificar; e a password que em conjunto com o nome de utilizador é usada para autenticar o utilizador.

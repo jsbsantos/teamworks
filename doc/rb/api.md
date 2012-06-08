@@ -3,7 +3,7 @@ Web Api
 
 A Api da infra estrutura é desenvolvida usando modelo de arquitectura ReST[[1]](http://link/) sobre o protocolo HTTP. No modelo ReST todos os objectos da aplicação são considerados recursos e têm um URL único. Todos os acessos à Api, referidos neste documento, têm como base o URL `https://teamworks.apphb.com/api`.
 
-Autenticação
+Autenticação 
 -
 
 A autenticação na Api é feita utilizando HTTP *Basic authentication*. 
