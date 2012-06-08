@@ -25,17 +25,6 @@ namespace Teamworks.Web.Controllers.Api
     [RoutePrefix("api/projects")]
     public class ProjectsController : RavenApiController
     {
-        public override Task<HttpResponseMessage> ExecuteAsync(HttpControllerContext context, CancellationToken token)
-        {
-            // todo secure for
-            var id = context.Request.GetUserPrincipalId();
-            if (!string.IsNullOrEmpty(id))
-            {
-                var person = DbSession.Load<Person>();
-            }
-            return base.ExecuteAsync(context, token);
-        }
-
         [SecureFor("/projects/view")]
         public IEnumerable<ProjectModel> Get()
         {
