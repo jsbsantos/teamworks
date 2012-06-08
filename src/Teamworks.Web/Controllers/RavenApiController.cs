@@ -6,7 +6,6 @@ using Teamworks.Core.Services;
 
 namespace Teamworks.Web.Controllers
 {
-    [Authorize]
     public class RavenApiController : ApiController
     {
         protected IDocumentSession DbSession
