@@ -25,18 +25,23 @@ Todas as respostas da Api têm o código mais adequado segundo as normas HTTP pa
 
 <span style="background-color: yellow">Tabela com códigos que podem ser retornados pela Api. </span>
 
+<!---table{| l | l | l |}-->
+
 | **Código de Resposta** | **Descrição** | **Motivo** | 
 |-----|-----|-----|
-| 404 | Not Found | Recurso não existe
+| 404 | Not Found | Recurso não existe |
 | 400 | Bad Request | Pedido não está no formato correcto |
 | 201 | OK (Created) | Recurso criada com sucesso. |
 | 203 | No Content | Resposta enviada sem corpo |
-
+<!---!table{Código de Resposta da Api,tabcodresp}-->
 
 Obter projectos
 =
 
 Para aceder a todos os projectos disponíveis o URL a aceder é o seguinte:
+
+<!---table{| l | l | l |}-->
+
 | **URI** | **Método** | **Descrição** |
 |-----|-----|-----|
 | api/projects | GET |  |
@@ -84,10 +89,15 @@ Para aceder a todos os projectos disponíveis o URL a aceder é o seguinte:
 | api/projects/{projectid}/discussions/{discussionid}/messages/{id} | PUT |  |
 | api/projects/{projectid}/discussions/{discussionid}/messages/{id} | DELETE |  |
 
+<!---!table{Endereços da Api e respectivos códigos de retorno,tabcodret}-->
 
 <span style="background-color: red; color: white">To be continued...</span>
 
 [1] ReST - Representational state transfer
 
+Unit of Work
+-
+
+Para cada pedido feito à Api disponibilizada é, normalmente, necessário fazer o acesso à Base de Dados. 
 
 

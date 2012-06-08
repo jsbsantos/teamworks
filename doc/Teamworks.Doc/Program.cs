@@ -15,18 +15,6 @@ namespace Teamworks.Doc
         private static string outFolder;
         private static int willDownload;
         private static List<WaitHandle> handles = new List<WaitHandle>();
-
-        private static string SimpleReplace(string template, Match match)
-        {
-            var group = match.Groups;
-            for (int i = 1; i < group.Count; i++)
-            {
-                template = template.Replace("{" + (i - 1) + "}",
-                                            group[i].Value.Trim());
-            }
-            return template;
-        }
-
         private static Dictionary<string, Func<Match, string>> matchDictionary =
             new Dictionary<string, Func<Match, string>>()
                 {
@@ -38,22 +26,19 @@ namespace Teamworks.Doc
                     {"^<!---([a-zA-Z]*)-->", m => SimpleReplace(@"\begin{{0}}[!h]", m)},//begin
                     {"^<!---!([a-zA-Z]*)-->", m => SimpleReplace(@"\end{{0}}", m)},//end
 
+                    {@"^(.*)(?:\s[=])\s$", m => SimpleReplace(@"\section{{0}}", m)},//title
+                    {@"^(.*)(?:\s[-])\s$", m => SimpleReplace(@"\subsection{{0}}", m)},//subtitle
+                    
                     {@"(\*\*)(?=\S)(.+?[*]*)(?<=\S)\1", m => SimpleReplace(@"\textbf{{1}}", m)},//bold
                     {@"(\*{1})(?=\S)(.+?[*]*)(?<=\S)\1", m => SimpleReplace(@"\emph{{1}}", m)},//italic
 
-                    {@"^(.*)(?:\s[=])\s$", m => SimpleReplace(@"\section{{0}}", m)},//title
-                    {@"^(.*)(?:\s[-])\s$", m => SimpleReplace(@"\subsection{{0}}", m)},//subtitle
-
-                    {@"(?!.*<)^(\*+?\s)", m => SimpleReplace("\\item\n", m)},//simple item
-                    {@"(?!.*,)^\*{1}\s*(.*)<!---item-->", m => SimpleReplace("\\item{{0}}\n", m)},//item2
-                    {@"(?<=[\.|:|;])[\r\n]{2}", m => SimpleReplace("\\\\ \n", m)},//paragraph
                     {@"!\[(.*)\]\((?<imageuri>.*)\)<!---(?<imagename>.*)-->",
                         #region Download Image Tag    
                         m =>
                         {
                                 DownloadImage(m.Groups["imageuri"].Value.Trim(), m.Groups["imagename"].Value.Trim());
                                 return SimpleReplace(
-                                    @"\includegraphics[width=0.8\textwidth]{images\{2}.png}
+                                    @"\includegraphics[width=0.8\textwidth]{tex/images/{2}.png}
 \caption{{0}}
 \label{{2}}",
                                     m);
@@ -69,10 +54,36 @@ namespace Teamworks.Doc
                             return SimpleReplace(@"\ref{{0}}", m);
                         }
                     #endregion
-                        }//reference to dump
+                        },//reference to dump
+                        {@"(?!.*>)\|(.*)\|", m=> BuildTableRow(m) },
+                        {@"^<!---table(?:{((.*?)(?:,(.+?))*)})+-->", m =>
+                            SimpleReplace(@"\begin{table}[!ht]
+\centering
+\begin{tabular}{{1}}",m)},
+                        {@"^<!---!table(?:{((.*?)(?:,(.+?))*)})+-->", m =>
+                            SimpleReplace(@"\hline
+\end{tabular}
+\caption{{1}}
+\label{{2}}
+\end{table}",m)}
                     #endregion
                 };
 
+        private static string BuildTableRow(Match match)
+        {
+            return @"\hline" + Environment.NewLine + match.Groups[1].Value.Trim().Replace("|","&") + "\\\\";
+        }
+
+        private static string SimpleReplace(string template, Match match)
+        {
+            var group = match.Groups;
+            for (int i = 1; i < group.Count; i++)
+            {
+                template = template.Replace("{" + (i - 1) + "}",
+                                            group[i].Value.Trim());
+            }
+            return template;
+        }
 
         private static void DownloadImage(string uri, string name)
         {
@@ -99,7 +110,7 @@ namespace Teamworks.Doc
                         // if the remote file was found, download it
                         using (Stream inputStream = response.GetResponseStream())
                         {
-                            var dir = Path.Combine(outFolder, "images");
+                            var dir = Path.Combine(inFolder, "tex/images");
                             var file = Path.Combine(dir,
                                                     name +
                                                     uri.Substring(uri.LastIndexOf(".")));
