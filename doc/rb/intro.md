@@ -1,8 +1,16 @@
 Introdução
 =
 
+<<<<<<< HEAD
 Um projecto é uma actividade em grupo ou individual com o proposito de atingir um objectivo. Ao longo da vida uma pessoa está envolvida em projectos no contexto profissional e/ou pessoal e o aproveitamento do tempo é uma preocupação constante. 
 
+=======
+No contexto pessoal ou profissional é frequente que qualquer pessoa esteja envolvida em projectos. Considerando que um projecto é uma actividade realizada num período de tempo com o objectivo de produzir um serviço ou produto, tomemos os seguintes como exemplo: organizar um evento; escrever um livro; desenvolver um programa de software.
+
+A motivação para a realização do projecto descrito no presente documento deve-se às dificuldades encontradas, no contexto profissional, com à falta de ferramentas que agilizem o planeamento e gestão de projectos e pessoas. É objectivo deste projecto a realização de uma inftra-estrutura de apoio ao planeamento e gestão de projectos. Pretende-se oferecer funcionalidades de criação, planeamento e afectação de recursos a tarefas, o registo de tempo dispendido, a partilha de documentação, a troca de opiniões e a possibilidade de monitorizar o estado do projecto.
+
+
+>>>>>>> f0c1e7dc8e7bcedc223e06a3f6e3480d14b14de9
 <span style="background-color: yellow">O que é gestão de projectos?</span>
 
 Este projecto tem como objectivo a realização de uma infraestrutura de apoio à gestão de projectos. A infraestrutura disponibiliza funcionalidades para planear, atribuir recursos e registar o tempo dispendido nas tarefas e partilhar opiniões e informação de todos os projectos criados.
@@ -10,13 +18,17 @@ Este projecto tem como objectivo a realização de uma infraestrutura de apoio �
 A motivação para a realização do projecto descrito no presente documento surgiu porque as soluções de *software* existentes ou não oferecem todas as funcionalidades necessárias ou são demasiado complexas.
 
 Objectivos
-=
+-
 
 Este projecto é composto por uma infra-estrutura que fornece funcionalidades de gestão e monitorização de um projecto durante o seu ciclo de vida, como o debate de soluções, definição de tarefas, planeamento, atribuição de responsáveis e registo de tempo despendido na sua realização. As funcionalidades que se pretende desenvolver são:
 
 <!---itemize-->
 
+<<<<<<< HEAD
 * **Repositório**, usado para guardar toda a informação e documentação associada ao projecto. Desta forma os dados não estão dispersos e são de fácil acesso aos intervenientes.
+=======
+* **Planeamento**, funcionalidade que permite definir tarefas, o tempo para a sua conclusão e responsável;
+>>>>>>> f0c1e7dc8e7bcedc223e06a3f6e3480d14b14de9
 
 * **Registo de horas**, interface para facilitar o registo do tempo despendido na realização de cada tarefa.
 

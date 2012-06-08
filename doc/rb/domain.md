@@ -7,9 +7,15 @@ De forma a ilustrar as diversas interacções possiveis que os utilizadores pode
 
 ![Projecto - Caso de utilização de um membro com permissão de escrita](https://dl.dropbox.com/s/74grwphgl5m8me7/usecaseprojecto.png)<!--- usecaseprojecto -->
 
+<!---!figure-->
+<!---T:FloatBarrier-->
+
+<!---figure-->
+
 ![Tarefa - Caso de utilização de um membro com permissão de escrita](https://dl.dropbox.com/s/1se8rhskj43zt73/usecasetarefa.png)<!--- usecasetarefa -->
 
 <!---!figure-->
+<!---T:FloatBarrier-->
 
 A figura **[usecaseuser]()** ilustra um caso de utilização de um membro de um projecto,
 **sem** permissões de administração.
@@ -19,9 +25,9 @@ A figura **[usecaseuser]()** ilustra um caso de utilização de um membro de um 
 ![Projecto - Caso de utilização de um membro apenas com permissão de leitura](https://dl.dropbox.com/s/2qoxj6k8swb07ds/usecaseuser.png)<!--- usecaseuser -->
 
 <!---!figure-->
+<!---T:FloatBarrier-->
 
-
-Entidades
+Entidades 
 -
 
 Tendo como base as acções ilustradas nos diagramas *use case* foram identificadas duas entidades centrais, a **pessoa** (Person) e o **projecto** (Project). Cada pessoa pode estar envolvida em vários projectos, assim como um projecto pode ser desenvolvido por várias pessoas. Estas entidades são descritas como:
