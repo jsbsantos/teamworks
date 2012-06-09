@@ -4,5 +4,5 @@ pandoc -f markdown -t latex -o tex/%%~nF.tex pretex/%%F
 ECHO pandoc -f markdown -t latex -o tex/%%~nF.tex pretex/%%F
 )
 
-pdflatex -interaction=batchmode -synctex=1 tex/rb3007130239.tex output-directory tex/pdf/
-pdflatex -interaction=batchmode -synctex=1 tex/rb3007130239.tex output-directory tex/pdf/
+pdflatex -output-directory D:/MyDocuments/GitHub/LI61N-G07/doc/rb/tex/pdf/ -interaction=batchmode -synctex=1 tex/rb3007130239.tex 
+pdflatex -output-directory D:/MyDocuments/GitHub/LI61N-G07/doc/rb/tex/pdf/ -interaction=batchmode -synctex=1 tex/rb3007130239.tex 

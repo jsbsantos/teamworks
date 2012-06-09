@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -68,24 +69,25 @@ namespace Teamworks.Web.Controllers.Api
                                                      [ModelBinder(typeof(TypeConverterModelBinder))] int projectid,
                                                      MessageModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
-            }
+            throw new NotImplementedException();
+            /* if (!ModelState.IsValid)
+             {
+                 throw new HttpResponseException(HttpStatusCode.BadRequest);
+             }
 
-            var topic = LoadDiscussion(projectid, discussionid);
+             var topic = LoadDiscussion(projectid, discussionid);
 
-            var message = topic.Messages.FirstOrDefault(t => t.Id.Equals(model.Id));
-            if (message == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
+             var message = topic.Messages.FirstOrDefault(t => t.Id.Equals(model.Id));
+             if (message == null)
+             {
+                 throw new HttpResponseException(HttpStatusCode.NotFound);
+             }
 
-            message.Text = model.Text;
-            DbSession.SaveChanges();
+             message.Text = model.Text;
+             DbSession.SaveChanges();
 
-            return new HttpResponseMessage<MessageModel>(Mapper.Map<Message, MessageModel>(message),
-                                                         HttpStatusCode.Created);
+             return new HttpResponseMessage<MessageModel>(Mapper.Map<Message, MessageModel>(message),
+                                                          HttpStatusCode.Created);*/
         }
 
         public HttpResponseMessage Delete(int id, int projectid, int discussionid)

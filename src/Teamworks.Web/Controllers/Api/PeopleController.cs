@@ -23,7 +23,7 @@ namespace Teamworks.Web.Controllers.Api
         }
 
         [POST("people")]
-        public HttpResponseMessage<PersonModel> Post([ModelBinder(typeof (TypeConverterModelBinder))] int projectid,
+        public HttpResponseMessage<Person> Post([ModelBinder(typeof (TypeConverterModelBinder))] int projectid,
                                                      string name)
         {
             var project = Get<Project>(projectid);
@@ -34,8 +34,4 @@ namespace Teamworks.Web.Controllers.Api
             return null;
         }
     }
-
-    public class PersonModel
-    {
-    }
-}
+ }

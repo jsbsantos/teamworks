@@ -16,11 +16,9 @@ Este projecto é composto por uma infra-estrutura que fornece funcionalidades de
 
 * **Repositório**, usado para guardar toda a informação e documentação associada ao projecto. Desta forma os dados não estão dispersos e são de fácil acesso aos intervenientes.
 
-* **Registo de horas**, interface para facilitar o registo do tempo despendido na realização de cada tarefa.
+* **Registo de tempo**, interface para facilitar o registo do tempo despendido na realização de cada tarefa.
 
 * **Debates**, local para troca de ideias, definição de requisitos e discussão sobre o projecto.
-
-* **Repositório**, usado para guardar toda a informação e documentação associada ao projecto. Desta forma os dados não estão dispersos e são de fácil acesso aos intervenientes.
 
 * **Monitorização**, possibilidade de monitorizar toda a informação produzida pelas funcionalidades anteriores. 
 
@@ -31,9 +29,9 @@ Soluções Existentes
 
 Actualmente existem várias soluções que pretendem agilizar a gestão de projectos e podem ser encontradas sobre a forma de uma aplicação desktop ou aplicação web. 
 
-As aplicações desktop são usadas num ambiente local ficando o resultado da interação com a aplicação fica alojado no computador pessoal de quem a usa. Um exemplo deste tipo de aplicações é a aplicação *Microsoft Project* usada para o planeamento de tarefas, estimar a sua duração e atribuir recursos. 
+As aplicações desktop são usadas num ambiente local ficando o resultado da interação com a aplicação alojado no computador pessoal de quem a usa. Um exemplo deste tipo de aplicações é a aplicação *Microsoft Project* usada para o planeamento de tarefas, estimar a sua duração e atribuir-lhe recursos. 
 
-Ao contrário das aplicações desktop todas as interações com uma aplicação web ficam alojadas na *cloud* tornando a informação guardada mais acessível a todos os membros do projecto. Há uma grande variedade de aplicações web disponíveis, entre as quais, se destacam as aplicações *basecamp*, *freckle* e *LiquidPlanner*.
+Ao contrário das aplicações desktop todas as interações com uma aplicação web ficam alojadas na *cloud* tornando a informação acessível a todos os membros do projecto. Há uma grande variedade de aplicações web disponíveis, entre as quais, se destacam as aplicações *basecamp*, *freckle* e *LiquidPlanner*.
 
 <span style="background-color: yellow">Tabela comparativa</span>
 
