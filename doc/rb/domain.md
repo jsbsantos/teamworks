@@ -32,7 +32,7 @@ Entidades
 
 Tendo como base as acções ilustradas nos diagramas *use case* foram identificadas duas entidades centrais, a **pessoa** (Person) e o **projecto** (Project). Cada pessoa pode estar envolvida em vários projectos, assim como um projecto pode ser desenvolvido por várias pessoas. Estas entidades são descritas como:
 
-* **Pessoa**, representada pelo nome de utilizador, o __email__ e a __password__. O __email__ é usado para comunicar com a pessoa e os outros dois atributos servem para autenticar o utilizado perante o sistema.
+* **Pessoa**, representada pelo nome de utilizador, o *email* e a *password*. O *email* é usado para comunicar com a pessoa e os outros dois atributos servem para autenticar o utilizado perante o sistema.
 
 * **Projecto**, a raiz da infra-estrutura que agrega as pessoas que a ele estão associadas.
 

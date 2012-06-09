@@ -1,7 +1,7 @@
 Web Api 
 =
 
-A Api da infra estrutura é desenvolvida usando modelo de arquitectura ReST[[1]](http://link/) sobre o protocolo HTTP. No modelo ReST todos os objectos da aplicação são considerados recursos e têm um URL único. Todos os acessos à Api, referidos neste documento, têm como base o URL `https://teamworks.apphb.com/api`.
+A Api da infra-estrutura é desenvolvida usando modelo de arquitectura ReST[[1]](http://link/) sobre o protocolo HTTP. No modelo ReST todos os objectos da aplicação são considerados recursos e têm um URL único. Todos os acessos à Api, referidos neste documento, têm como base o URL `https://teamworks.apphb.com/api`.
 
 Autenticação 
 -
@@ -90,6 +90,7 @@ Para aceder a todos os projectos disponíveis o URL a aceder é o seguinte:
 | api/projects/{projectid}/discussions/{discussionid}/messages/{id} | DELETE |  |
 
 <!---!table{Endereços da Api e respectivos códigos de retorno,tabcodret}-->
+<!---T:FloatBarrier-->
 
 <span style="background-color: red; color: white">To be continued...</span>
 

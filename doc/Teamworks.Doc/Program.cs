@@ -21,7 +21,8 @@ namespace Teamworks.Doc
                     #region Config
                     {"<!---T:(.*)-->", m => SimpleReplace(@"\{0}", m)},//tex tag
 
-                    {@"\((.+?)\)[.*]<!---cite-->", m => SimpleReplace(@"\cite{{0}}", m)},//cite tag
+                    {@"\((.+?)\)<!---cite-->", m => 
+                        SimpleReplace(@"\cite{{0}}", m)},//cite tag
 
                     {"^<!---([a-zA-Z]*)-->", m => SimpleReplace(@"\begin{{0}}[!h]", m)},//begin
                     {"^<!---!([a-zA-Z]*)-->", m => SimpleReplace(@"\end{{0}}", m)},//end
@@ -65,7 +66,8 @@ namespace Teamworks.Doc
 \end{tabular}
 \caption{{1}}
 \label{{2}}
-\end{table}",m)}
+\end{table}",m)},
+            {"(_)", m => "\\_"}
                     #endregion
                 };
 
