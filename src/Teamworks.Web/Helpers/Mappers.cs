@@ -19,7 +19,7 @@ namespace Teamworks.Web.Helpers
 
         public static void RegisterMappers()
         {
-            #region Project Mappings
+            #region Entity Mappings
             Mapper.CreateMap<ProjectModel, Project>();
             Mapper.CreateMap<Project, ProjectModel>()
                 .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier))
@@ -75,8 +75,9 @@ namespace Teamworks.Web.Helpers
 
             #region Person Mappings
             Mapper.CreateMap<DryPersonModel, Person>();
-            Mapper.CreateMap<Person, DryPersonModel>();
-                //.ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier));
+            Mapper.CreateMap<Person, DryPersonModel>();  
+            Mapper.CreateMap<PersonModel, Person>();
+            Mapper.CreateMap<Person, PersonModel>();
             #endregion
         }
     }

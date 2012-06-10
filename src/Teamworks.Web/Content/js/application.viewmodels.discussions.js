@@ -2,7 +2,7 @@
     var self = this;
 
     self.message = new Message();
-    self.endpoint = "/api/" + discussion.project + "/discussions/" + discussion.id + "/messages/";
+    self.endpoint = "/api/" + discussion.entity + "/discussions/" + discussion.id + "/messages/";
     self.message_list = ko.observableArray(
         $.map(discussion.messages, function (item) {
             return new Message(item);
@@ -56,7 +56,7 @@
     };
 };
 
-var discussion_list_viewmodel = function (projectid, discussions) {
+var discussion_list_viewmodel = function (entity, discussions) {
     var self = this;
     self.discussion = new Discussion();
     

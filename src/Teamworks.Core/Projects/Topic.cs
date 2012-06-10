@@ -9,7 +9,7 @@ namespace Teamworks.Core.Projects
         public DateTime Date { get; set; }
         public string Person { get; set; }
         public IList<Message> Messages { get; set; }
-        public string Project { get; set; }
+        public string Entity { get; set; }
 
         public int LastDiscussionId { get; private set; }
 
@@ -18,7 +18,7 @@ namespace Teamworks.Core.Projects
             return ++LastDiscussionId;
         }
 
-        public static Topic Forge(string name, string text, string project, string person)
+        public static Topic Forge(string name, string text, string entity, string person)
         {
             return new Topic()
                        {
@@ -28,13 +28,8 @@ namespace Teamworks.Core.Projects
                            Messages = new List<Message>(),
                            Person = person,
                            LastDiscussionId = 0,
-                           Project = project
+                           Entity = entity
                        };
         }
     }
-
-    //public class TopicMessage : Message
-    //{
-    //    public IList<Message> Replies { get; set; }
-    //}
 }

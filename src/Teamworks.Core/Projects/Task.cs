@@ -8,6 +8,8 @@ namespace Teamworks.Core.Projects
         public string Description { get; set; }
         public IList<string> Pretasks { get; set; }
         public IList<TimeEntry> Timelog { get; set; }
+        public IList<string> Discussions { get; set; }
+        public IList<string> People{ get; set; }
 
         public int LastTimeEntryId { get; private set; }
         public int GenerateNewTimeEntryId()
@@ -23,6 +25,8 @@ namespace Teamworks.Core.Projects
                            Project = project,
                            Description = description,
                            Pretasks = new List<string>(),
+                           Discussions = new List<string>(),
+                           People = new List<string>(),
                            Timelog = new List<TimeEntry>(),
                            LastTimeEntryId = 0
                        };

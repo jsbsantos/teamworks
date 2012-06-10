@@ -57,6 +57,11 @@ namespace Teamworks.Web.Controllers.Api
         public HttpResponseMessage Put([ModelBinder(typeof (TypeConverterModelBinder))] int id,
                                        Project project)
         {
+            if (!ModelState.IsValid)
+            {
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
+            
             var p = Get<Project>(id);
             /* todo mapping */
             return new HttpResponseMessage(HttpStatusCode.NoContent);

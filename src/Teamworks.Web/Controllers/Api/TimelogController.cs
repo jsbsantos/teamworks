@@ -43,6 +43,11 @@ namespace Teamworks.Web.Controllers.Api
             [ModelBinder(typeof (TypeConverterModelBinder))] int taskid,
             TimeEntryModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
+            
             var project = DbSession
                 .Include<Project>(p => p.Tasks)
                 .Load<Project>(projectid);
@@ -74,6 +79,11 @@ namespace Teamworks.Web.Controllers.Api
                                        [ModelBinder(typeof (TypeConverterModelBinder))] int projectid,
                                        TimeEntryModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
+            
             var project = DbSession
                 .Include<Project>(p => p.Tasks)
                 .Load<Project>(projectid);

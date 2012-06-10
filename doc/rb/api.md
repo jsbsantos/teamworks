@@ -14,7 +14,7 @@ https://nome-de-utilizador:password@teamworks.apphb.com/api/person
 ````
 
 Formato da data
-=
+-
 
 O formato da data utilizado pela Api é o descrito no *RFC 2822 (RFC2822)<!---cite--> "Standard for the Format of ARPA Internet Text Messages"*, na secção ".3.3. Date and Time Specification". 
 
@@ -22,7 +22,7 @@ O formato da data utilizado pela Api é o descrito no *RFC 2822 (RFC2822)<!---ci
 <span style="background-color: yellow">RFC 2822</span>
 
 Códigos de resposta
-=
+-
 
 Todas as respostas da Api têm o código mais adequado, segundo as normas HTTP (RFC2616)<!---cite-->, para descrever o resultado do pedido.
 
@@ -39,7 +39,7 @@ Todas as respostas da Api têm o código mais adequado, segundo as normas HTTP (
 <!---!table{Código de Resposta da Api,tabcodresp}-->
 
 Endereços Disponiveis na Api
-=
+-
 
 Para aceder a todos os projectos disponíveis o URL a aceder é o seguinte:
 

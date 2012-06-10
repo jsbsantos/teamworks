@@ -155,6 +155,7 @@ namespace Teamworks.Doc
             outFolder = args.Length > 1 && !string.IsNullOrEmpty(args[1])
                             ? args[1]
                             : inFolder + @"\pretex\";
+
             willDownload = args.Length > 2 && !string.IsNullOrEmpty(args[2])
                             ? int.Parse(args[2])
                             : 0;
