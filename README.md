@@ -6,11 +6,15 @@ Esta é a página de entrada do projecto `teamworks` realizado no âmbito da cad
 
 ## Proposta de Projecto
 
-Na fase inicial do projecto foi necessário entregar um documento que representa o contexto e os objectivos do mesmo. Esse documento está representado na página seguinte [Proposta de Projecto](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/proposta-de-projecto.md).
+Na fase inicial do projecto foi nentregue um documento com a descriçao do projecto e os seus objectivos [Proposta de Projecto](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/pp/index.md).
 
 ## Relatório de Progresso
 
 `work in progress`
+
+## Relatório (Beta)
+
+A versão beta do relatório pode ser consultada nesta [página](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/index.md).
 
 ## Relatório
 
