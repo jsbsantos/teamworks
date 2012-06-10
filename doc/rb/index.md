@@ -2,15 +2,34 @@ Relatório beta do projecto ***Teamworks***, desenvolvido no âmbito da unidade 
 Realizado pelos alunos Filipe Pinheiro e João Santos e orientado pelo docente João Pedro Patriarca.
 
 Índice
+-
 
- * [Introdução](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/introducao.md)
- 
- * Domínio
+### [Introdução](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/introducao.md)
 
- * [Acesso a Dados](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/acesso-a-dados.md)
+ * Objectivos
+ * Soluções Existentes
+ * Organização do documento
+ 
+### Domínio
 
- * [Web Api](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/web-api.md)
+### [Acesso a Dados](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/acesso-a-dados.md)
+
+ * Modelo de Dados 
+ * Raven
+   * Repositótio
+   * Unit of Work
+
+### [Web Api](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/web-api.md)
+
+ * Autenticação
+ * Códigos de Resposta
+ * Recursos
  
- * [Aplicação Web](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/aplicacao-web.md)
- 
- * [Conclusão](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/conclusao.md)
+### [Aplicação Web](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/aplicacao-web.md)
+
+ * Autenticação 
+ * Funcionalidades
+  
+### [Conclusão](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/conclusao.md)
+
+ * Trabalho Futuro
