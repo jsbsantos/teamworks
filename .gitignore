@@ -35,6 +35,8 @@ packages
 *.gz
 *.toc
 
-doc/*/*.pdf
-doc/*/*.bat
+doc/[rR]*/*/
+doc/[rR]*/*.bat
+doc/[rR]*/*.pdf
+
 

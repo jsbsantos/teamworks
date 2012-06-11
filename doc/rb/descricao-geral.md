@@ -7,3 +7,6 @@ Arquitectura
 -
 
 ![Arquitetura da infra-estrutura implementada\label{architecture}](https://dl.dropbox.com/s/mr7yybyzbm6umu3/architecture.png)
+
+
+descrever projectos, tarefas, registo de horas, todos, discussoes, eventos
