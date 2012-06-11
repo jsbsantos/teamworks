@@ -20,15 +20,15 @@ namespace Teamworks.Doc
         public static void RegisterMarkdownHandler(this MarkdownToTex md, string folder)
         {
             md.Handlers.Add(new ClearPage());
-            md.Handlers.Add(new ImageReplace(folder));
+            md.Handlers.Add(new ImgReplace(folder));
             md.Handlers.Add(new SimpleReplace(@"\_", "(_)"));
-            md.Handlers.Add(new SimpleReplace(@"\ref{{0}}", @"\[(.*)\]\(#\)"));
+            md.Handlers.Add(new SimpleReplace(@"\ref{{0}}", @"\[([^\]]*)\]*\(#\)"));
             md.Handlers.Add(new SimpleReplace(@"{0}\cite{{1}}", @"\[([^\]]*)\]*\(#([^)]*)\)"));
             md.Handlers.Add(new SimpleReplace(@"\{0}", "<!---t:(.*)-->"));
-            // tex blocks
+            /* tex blocks
             md.Handlers.Add(new SimpleReplace(@"\begin{{0}}[!h]", "^<!---([a-zA-Z]*)-->"));
             md.Handlers.Add(new SimpleReplace(@"\end{{0}}", "^<!---!([a-zA-Z]*)-->"));
-
+            */
             md.Handlers.Add(new GlobalReplace("|", "   ", @"\|.*\|"));
         }
     }

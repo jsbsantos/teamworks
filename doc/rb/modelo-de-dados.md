@@ -10,33 +10,34 @@ A utilização deste tipo de base de dados implica que a modelação das entidad
 RavenDB
 -
 
-A base de dados usada é o [RavenDB](#ravendb), uma base de dados de documentos implementada sobre a *framework* [.NET](#net) que suporta a utilização de [Linq](#linq), uma componente da *framework* [.NET](#net). É uma solução transaccional, que armazena os dados no formato [JSON](#json) e tem como interface um serviço web disponibilizado através do protocolo HTTP
+A base de dados usada é o [RavenDB](#ravendb), uma base de dados de documentos implementada sobre a *framework* [.NET](#net) que suporta a utilização de [Linq](#linq), uma componente da *framework* [.NET](#net). 
+É uma solução transaccional, que armazena os dados no formato [JSON](#json) e tem como interface um serviço web disponibilizado através do protocolo HTTP.
 
-Devido à inexistência de operações *JOIN*, e ao que foi dito anteriormente, todos os agregados e entidades do domínio são representadas por um documento. As representação das relações entre entidades podem ser definidas de várias formas, tendo sido consideradas as seguintes:
+Devido à inexistência de operações *JOIN*, e ao que foi dito anteriormente, todos os agregados e entidades do domínio são representadas por um documento. 
+As representação das relações entre entidades podem ser definidas de várias formas, tendo sido consideradas a utilização do identificador para incluir as entidades no pedido, a desnormalização e as *live projections*.
 
-* Desnormalização
-
-A desnormalização de uma entidade consiste em guardar parte da informação que a caracteriza, em vez de guardar apenas o seu identificador. 
-
-Numa situação em que uma entidade referencia outras e necessita de parte dos seus dados o carregamento de várias entidades pode representar um grande volume de dados. Para solucionar este problema a entidade referenciada é desnormalizada e são carregados apenas o dados relevantes juntamente com a entidade referenciadora.
-
-Contudo, alterações aos de uma entidade implicam que os dados desnormalizados dessa entidade também sejam alterados.
-
-A figura [desnormalizacao](#) mostra um exemplo de desnormalização de informação: a entidade Projecto guarda parte da informação dos utilizadores que lhe estão associados.
-
-<!---figure-->
-
-![Exemplo de desnormalização de informação\label{desnormalizacao}](https://dl.dropbox.com/s/kno2epnr1hoysex/desnormalizacao.png)<!--- desnormalizacao -->
-
-<!---!figure-->
-
-* *Identificador*
+### Inclusão no pedido
  
-Cada entidade guarda apenas o identificador único da entidade com que está relacionada (e.g. os projectos guardam o identificador das tarefas que lhe estão associadas). Desta forma evita-se o custo da actualização de dados desnormalizados.
+Cada entidade guarda o identificador da entidade com que está relacionada (e.g. os projectos guardam o identificador das tarefas) e quando é obtido um projecto são também obtidas todas as tarefas que lhe estão associadas. 
 
-Este tipo de representação de relação é suportado, no RavenDB, pelo método *Include* que permite carregar entidades, através do seu identificador, na execução de uma *query*. Ou seja, são carregadas para a *cache* do Raven as entidades pedidas (e.g. Carregar um projecto e as suas tarefas), com apenas um pedido ao servidor (Base de Dados).
+No RavenDB esta opção é suportada pelo método *Include* que recebe os identificadores das entidades a carregar em paralelo com as entidades principais. As entidades incluídas são adicionadas à sessão  
 
-**Live Projections**
+. Ou seja, são carregadas para a *cache* do Raven as entidades pedidas (e.g. Carregar um projecto e as suas tarefas), com apenas um pedido ao servidor (Base de Dados).
+
+
+### Desnormalização
+
+A desnormalização de uma entidade consiste em extrair as informações relevantes e replicá-los na entidade que nessecita deles.
+
+Esta situação tem a vantagem de reduzir o número de pedidos à base de dados porque a entidade guarda internamente a informação relevante.
+Esta abordagem tem a desvantagem de que qualquer alteração a uma entidade referenciada implica a alteração de todas as entidades que utilizam dados desnormalizados.
+
+A figura [desnormalizacao](#) mostra um exemplo de desnormalização. A entidade Projecto guarda para além do identificar dos utilizadores que lhe estão associados o seu Nome. Numa situação em que seja necessário apenas o Nome dos utilizadores associados não é necessário obter os dados da base de dados.
+
+![Exemplo de desnormalização de informação\label{desnormalizacao}](https://dl.dropbox.com/s/kno2epnr1hoysex/desnormalizacao.png)
+
+
+### Live Projections
 
 Como complemento para a esta solução o *RavenDB* oferece forma de juntar e transformar documentos, obtendo como resultado objectos personalizados. Esta funcionalidade permite carregar documentos relacionados, escolhendo as propriedades de cada um que se pretende.
 

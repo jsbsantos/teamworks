@@ -11,7 +11,7 @@ namespace Teamworks.Doc.Markdown
             Pattern = pattern;
         }
 
-        public string Template { get; private set; }
+        public string Template { get; protected set; }
         public string Pattern { get; private set; }
 
         public string Handle(string input)

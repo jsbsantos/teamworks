@@ -6,20 +6,16 @@ using System.Text.RegularExpressions;
 
 namespace Teamworks.Doc.Markdown
 {
-    public class ImageReplace : SimpleReplaceExtensible
+    public class ImgReplace : SimpleReplaceExtensible
     {
         private readonly string _folder;
-        private const string _template = @"
-\centering
-\includegraphics{../images/{2}.png}
-\caption{{0}}
-\label{{2}}";
-        private const string _pattern = @"!\[(.*)\]\((?<imageuri>.*)\)<!---(?<imagename>.*)-->";
+        private const string _pattern = @"!\[(.*\\label{(?<imagename>.[^}]*)})\]\((?<imageuri>.*/(.*))\)";
 
         
-        public ImageReplace(string folder) : base(_template, _pattern)
+        public ImgReplace(string folder) : base("", _pattern)
         {
             _folder = folder;
+            Template = @"![{0}](" + folder.Replace('\\', '/') + @"/{1})";
         }
 
         protected override void Extra(Match match)
