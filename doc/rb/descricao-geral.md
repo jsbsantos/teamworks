@@ -1,7 +1,7 @@
 Descrição Geral
 =
 
-A implementação da Web Api utiliza a framework ASP.NET Web Api. 
+A implementação da Api utiliza a framework ASP.NET Web Api. 
 
 Arquitectura
 -
