@@ -47,10 +47,10 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="Markdown\GlobalReplace.cs" />
     <Compile Include="Markdown\ClearPage.cs" />
-    <Compile Include="Markdown\ImageTexDownload.cs" />
+    <Compile Include="Markdown\ImageReplace.cs" />
     <Compile Include="Markdown\IMarkdownHandler.cs" />
-    <Compile Include="Markdown\MarkdownReplace.cs" />
-    <Compile Include="Markdown\MarkdownReplaceExtensible.cs" />
+    <Compile Include="Markdown\SimpleReplace.cs" />
+    <Compile Include="Markdown\SimpleReplaceExtensible.cs" />
     <Compile Include="Markdown\MarkdownToTex.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

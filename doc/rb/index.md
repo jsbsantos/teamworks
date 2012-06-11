@@ -8,7 +8,9 @@ Realizado pelos alunos Filipe Pinheiro e João Santos e orientado pelo docente J
 
 ### [Descrição Geral](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/descricao-geral.md)
 
-### [Acesso a Dados](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/acesso-a-dados.md)
+### [Domínio](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/dominio.md)
+
+### [Acesso a Dados](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/modelo-de-dados.md)
 
 ### [Web Api](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/web-api.md)
 

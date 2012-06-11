@@ -3,9 +3,9 @@ using System.Text.RegularExpressions;
 
 namespace Teamworks.Doc.Markdown
 {
-    public abstract class MarkdownReplaceExtensible : IMarkdownHandler
+    public abstract class SimpleReplaceExtensible : IMarkdownHandler
     {
-        protected MarkdownReplaceExtensible(string template, string pattern)
+        protected SimpleReplaceExtensible(string template, string pattern)
         {
             Template = template;
             Pattern = pattern;

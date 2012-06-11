@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace Teamworks.Doc.Markdown
 {
-    public class ImageTexDownload : MarkdownReplaceExtensible
+    public class ImageReplace : SimpleReplaceExtensible
     {
         private readonly string _folder;
         private const string _template = @"
@@ -17,7 +17,7 @@ namespace Teamworks.Doc.Markdown
         private const string _pattern = @"!\[(.*)\]\((?<imageuri>.*)\)<!---(?<imagename>.*)-->";
 
         
-        public ImageTexDownload(string folder) : base(_template, _pattern)
+        public ImageReplace(string folder) : base(_template, _pattern)
         {
             _folder = folder;
         }

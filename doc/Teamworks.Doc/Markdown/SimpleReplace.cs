@@ -2,9 +2,9 @@ using System.Text.RegularExpressions;
 
 namespace Teamworks.Doc.Markdown
 {
-    public class MarkdownReplace : MarkdownReplaceExtensible
+    public class SimpleReplace : SimpleReplaceExtensible
     {
-        public MarkdownReplace(string template, string pattern) : base(template, pattern)
+        public SimpleReplace(string template, string pattern) : base(template, pattern)
         {
         }
 

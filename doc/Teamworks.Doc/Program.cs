@@ -170,8 +170,16 @@ namespace Teamworks.Doc
             string name = "rb3007130239.tex";
             var toTex = new MarkdownToTex(name, folder, texFolder, false);
             toTex.RegisterMarkdownHandler(Path.Combine(folder, "images"));
+
+            using (var stream = new StreamWriter(File.Open(batch, FileMode.Append, FileAccess.Write)))
+            {
+                var output = Console.Out;
+                Console.SetOut(stream);
+                toTex.CreateTexFileFromMarkdown(texFolder);
+                Console.SetOut(output);
+            }
             
-            toTex.CreateTexFileFromMarkdown(texFolder);
+            
             using (var stream = new StreamWriter(File.Open(batch, FileMode.Append, FileAccess.Write)))
             {
                 var text = string.Format(format, pdfFolder, Path.Combine(texFolder, name));
@@ -193,6 +201,7 @@ namespace Teamworks.Doc
                     stream.WriteLine("rd /q/s {0}", directory);
                 }
                 stream.WriteLine("del {0}", batch);
+                stream.WriteLine("del clean.bat");
                 stream.Flush();
             }
 
