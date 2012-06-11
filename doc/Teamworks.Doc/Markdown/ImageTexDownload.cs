@@ -10,6 +10,7 @@ namespace Teamworks.Doc.Markdown
     {
         private readonly string _folder;
         private const string _template = @"
+\centering
 \includegraphics{../images/{2}.png}
 \caption{{0}}
 \label{{2}}";

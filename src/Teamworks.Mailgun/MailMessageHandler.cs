@@ -42,7 +42,7 @@ namespace Teamworks.Mailgun
             {
                 if (_credentials == null)
                 {
-                    var basic = Encoding.ASCII.GetBytes("api:key-20kdn4zyszbkxvk63baq02sxppv2a4n5");
+                    var basic = Encoding.UTF8.GetBytes("api:key-20kdn4zyszbkxvk63baq02sxppv2a4n5");
                     _credentials = Convert.ToBase64String(basic);
                 }
                 return _credentials;

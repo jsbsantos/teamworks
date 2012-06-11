@@ -50,10 +50,9 @@ namespace Teamworks.Doc.Markdown
 
             Directory.CreateDirectory(_temporary);
 
-            using (var stream = File.Create(_batch))
+            using (var stream = File.Open(_batch, FileMode.Append, FileAccess.Write))
             {
                 var listenter = Trace.Listeners.Add(new TextWriterTraceListener(stream));
-                Trace.WriteLine("echo off");
                 foreach (var file in Directory.GetFiles(_input, "*.md", _recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly))
                 {
                     if (file.EndsWith("index.md", StringComparison.OrdinalIgnoreCase)) continue;
@@ -66,7 +65,6 @@ namespace Teamworks.Doc.Markdown
                 Trace.WriteLine(@"copy NUL blank.md");
                 Finish();
                 Trace.WriteLine("del blank.md");
-                Trace.WriteLine("echo on");
                 Trace.Flush();
                 Trace.Listeners.RemoveAt(listenter);
             }

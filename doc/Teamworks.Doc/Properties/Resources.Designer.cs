@@ -60,6 +60,13 @@ namespace Teamworks.Doc.Properties {
             }
         }
         
+        internal static byte[] Cover {
+            get {
+                object obj = ResourceManager.GetObject("Cover", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
         internal static byte[] Front {
             get {
                 object obj = ResourceManager.GetObject("Front", resourceCulture);

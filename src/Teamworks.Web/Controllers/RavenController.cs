@@ -18,7 +18,7 @@ namespace Teamworks.Web.Controllers
             {
                 using (IDocumentSession session = DbSession)
                 {
-                    DbSession.SaveChanges();
+                    session.SaveChanges();
                 }
             }
             base.OnResultExecuted(context);
