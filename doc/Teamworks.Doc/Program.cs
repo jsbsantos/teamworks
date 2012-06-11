@@ -29,11 +29,6 @@ namespace Teamworks.Doc
                         },
                     //cite tag
 
-                    {@"(\*\*)(?=\S)(.+?[*]*)(?<=\S)\1", m => SimpleReplace(@"\textbf{{1}}", m)},
-                    //bold
-                    {@"(\*{1})(?=\S)(.+?[*]*)(?<=\S)\1", m => SimpleReplace(@"\emph{{1}}", m)},
-                    //italic
-
                     {@"(?<!!)\[(.+?)\]{1}\(.*?\)(?!<!---)", m => SimpleReplace(@"\ref{{0}}", m)},
                     //ref
                     {
@@ -67,7 +62,6 @@ namespace Teamworks.Doc
 \end{table}",
                                                                          m)
                         },
-                    {"(_)", m => "\\_"}
                     #endregion
                 };
 

@@ -1,35 +1,32 @@
 Domínio
 =
 
-De forma a ilustrar as diversas interacções possiveis que os utilizadores podem ter com a infra-estrutura desenvolvida neste projecto, são apresentados os seguintes diagramas *use case* (caso de utilização). A figura [usecaseprojecto]() e [usecasetarefa]() representam os casos de utilização de um membro com permissões de escrita ao nível de um projecto.
+De forma a ilustrar as diversas interacções possiveis que os utilizadores podem ter com a infra-estrutura desenvolvida neste projecto, são apresentados os seguintes diagramas *use case* (caso de utilização). A figura [usecaseprojecto](#) e [usecasetarefa](#) representam os casos de utilização de um membro com permissões de escrita ao nível de um projecto.
 
 <!---figure-->
 
-![Projecto - Caso de utilização de um membro com permissão de escrita](https://dl.dropbox.com/s/74grwphgl5m8me7/usecaseprojecto.png)<!--- usecaseprojecto -->
+![Projecto - Caso de utilização de um membro com permissão de escrita\label{usecaseproject}](https://dl.dropbox.com/s/74grwphgl5m8me7/usecaseprojecto.png)
 
 <!---!figure-->
-<!---T:FloatBarrier-->
 
 <!---figure-->
 
-![Tarefa - Caso de utilização de um membro com permissão de escrita](https://dl.dropbox.com/s/1se8rhskj43zt73/usecasetarefa.png)<!--- usecasetarefa -->
+![Tarefa - Caso de utilização de um membro com permissão de escrita\label{usecasetarefa}](https://dl.dropbox.com/s/1se8rhskj43zt73/usecasetarefa.png)
 
 <!---!figure-->
-<!---T:FloatBarrier-->
 
-A figura [usecaseuser]() ilustra um caso de utilização de um membro de um projecto, **sem** permissões de administração.
+A figura [usecaseuser](#) ilustra um caso de utilização de um membro de um projecto, **sem** permissões de administração.
 
 <!---figure-->
 
-![Projecto - Caso de utilização de um membro apenas com permissão de leitura](https://dl.dropbox.com/s/2qoxj6k8swb07ds/usecaseuser.png)<!--- usecaseuser -->
+![Projecto - Caso de utilização de um membro apenas com permissão de leitura\lable{usecaseuser}](https://dl.dropbox.com/s/2qoxj6k8swb07ds/usecaseuser.png)
 
 <!---!figure-->
-<!---T:FloatBarrier-->
 
 Modelo
 -
 
-Para a elaboração e descrição do modelo de domínio usaram-se conceitos de Domain-Driven Design (ddd)<!---cite-->, que podem ser consultados no Anexo I, presente no final do documento.
+Para a elaboração e descrição do modelo de domínio usaram-se conceitos de Domain-Driven Design [ddd](), que podem ser consultados no Anexo I, presente no final do documento.
 
 Tendo como base as acções ilustradas nos diagramas *use case* foram identificadas duas entidades centrais, a **pessoa** (Person) e o **projecto** (Project). Cada pessoa pode estar envolvida em vários projectos, assim como um projecto pode ser desenvolvido por várias pessoas. Estas entidades são descritas como:
 
@@ -46,10 +43,9 @@ A descrição destas entidades e das suas relações é descrita no seguinte dia
 
 <!---figure-->
 
-![Diagrama de classes da solução](https://dl.dropbox.com/s/z646fu75gf71mwq/uml.png)<!--- uml -->
+![Diagrama de classes da solução\label{uml}](https://dl.dropbox.com/s/z646fu75gf71mwq/uml.png)
 
 <!---!figure-->
-<!---T:FloatBarrier-->
 
 No modelo de domínio da implementado foram definidos como agregados as entidades **Projecto** e **Pessoa**. Os objectos de domínio **Tarefa** e **Debates** também são considerados como entidades porque possui um identificador único no sistema. O objecto de domínio **Registo de Tempo** é definido como *value object*.
 

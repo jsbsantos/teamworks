@@ -9,7 +9,7 @@ Arquitectura
 
 <!---figure-->
 
-![Arquitetura da infra-estrutura implementada](https://dl.dropbox.com/s/mr7yybyzbm6umu3/architecture.png)<!--- architecture -->
+![Arquitetura da infra-estrutura implementada\label{architecture}](https://dl.dropbox.com/s/mr7yybyzbm6umu3/architecture.png)
 
 <!---!figure-->
 

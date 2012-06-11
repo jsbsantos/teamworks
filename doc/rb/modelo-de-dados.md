@@ -10,7 +10,7 @@ A utilização deste tipo de base de dados implica que a modelação das entidad
 RavenDB
 -
 
-A base de dados usada é o *RavenDB* (ravendb)<!---cite-->, uma base de dados de documentos implementada sobre a *framework .NET* (.net)<!---cite--> que suporta a utilização de *Linq* (linq)<!---cite-->, uma componente da *framework .NET* (net)<!---cite-->. É uma solução transaccional, que armazena os dados no formato *JSON* (json)<!---cite--> e tem como interface um serviço web disponibilizado através do protocolo HTTP.
+A base de dados usada é o [RavenDB](#ravendb), uma base de dados de documentos implementada sobre a *framework* [.NET](#net) que suporta a utilização de [Linq](#linq), uma componente da *framework* [.NET](#net). É uma solução transaccional, que armazena os dados no formato [JSON](#json) e tem como interface um serviço web disponibilizado através do protocolo HTTP
 
 Devido à inexistência de operações *JOIN*, e ao que foi dito anteriormente, todos os agregados e entidades do domínio são representadas por um documento. As representação das relações entre entidades podem ser definidas de várias formas, tendo sido consideradas as seguintes:
 
@@ -22,15 +22,13 @@ Numa situação em que uma entidade referencia outras e necessita de parte dos s
 
 Contudo, alterações aos de uma entidade implicam que os dados desnormalizados dessa entidade também sejam alterados.
 
-A figura **[desnormalizacao]()** mostra um exemplo de desnormalização de informação: a entidade Projecto guarda parte da informação dos utilizadores que lhe estão associados.
+A figura [desnormalizacao](#) mostra um exemplo de desnormalização de informação: a entidade Projecto guarda parte da informação dos utilizadores que lhe estão associados.
 
 <!---figure-->
-<!---T:centering-->
 
-![Exemplo de desnormalização de informação](https://dl.dropbox.com/s/kno2epnr1hoysex/desnormalizacao.png)<!--- desnormalizacao -->
+![Exemplo de desnormalização de informação\label{desnormalizacao}](https://dl.dropbox.com/s/kno2epnr1hoysex/desnormalizacao.png)<!--- desnormalizacao -->
 
 <!---!figure-->
-<!---T:FloatBarrier-->
 
 * *Identificador*
  
@@ -51,11 +49,10 @@ Unit of Work
 De forma a manter registo de alterações a documentos o RavenDB utiliza o padrão *Unit of Work* (Unit of Work)<!---cite-->, implementado sob a forma de uma sessão, através da qual se interage com os documentos. Isto significa que todas as alterações serão persistidas numa unica transacção dando ao utilizador a garantia de que os dados ficarão sempre num estado válido após serem gravados. A sessão é utilizada da seguinte forma:
 
 ````
-using (var session = documentStore.OpenSession())
-{
+using (var session = documentStore.OpenSession()) {
     var entity = session.Load<Company>(companyId);
     entity.Name = "Another Company";
-    session.SaveChanges(); // will send the change to the database
+    session.SaveChanges();
 }
 ````
 
