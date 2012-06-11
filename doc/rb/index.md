@@ -17,3 +17,10 @@ Realizado pelos alunos Filipe Pinheiro e João Santos e orientado pelo docente J
 ### [Conclusão](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/conclusao.md)
 
 ### [Glossário](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/glossario.md)
+
+Anexos
+-
+
+#### [Domain Driven Desing](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/domain-driven-design.md)
+
+#### [Utilização Web Api](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/utilizacao-web-api.md)
