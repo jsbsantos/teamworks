@@ -21,6 +21,7 @@ namespace Teamworks.Doc
         {
             md.Handlers.Add(new ClearPage());
             md.Handlers.Add(new ImgReplace(folder));
+            md.Handlers.Add(new AppendToEnd("####.*", "////"));
             md.Handlers.Add(new SimpleReplace(@"\_", "(_)"));
             md.Handlers.Add(new SimpleReplace(@"\ref{{0}}", @"\[([^\]]*)\]*\(#\)"));
             md.Handlers.Add(new SimpleReplace(@"{0}\cite{{1}}", @"\[([^\]]*)\]*\(#([^)]*)\)"));

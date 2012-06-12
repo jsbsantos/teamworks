@@ -29,15 +29,7 @@ A solução *LiquidPlanner* oferece as funcionalidades das anteriores e ainda o 
 Solução Teamworks
 -
 
-Este projecto tem como objectivo desenvolver uma infra-estrutura que forneça funcionalidades de gestão e monitorização de projectos durante o seu ciclo de vida, como o debate de soluções, definição de tarefas, planeamento, atribuição de responsáveis e registo de tempo despendido na sua realização. As funcionalidades a desenvolver são:
-
-* **Registo de tempo**, interface para  registo do tempo despendido na realização de cada tarefa.
-
-* **Debates**, local para troca de ideias, definição de requisitos e discussão sobre o projecto.
-
-* **Repositório**, usado para guardar toda a informação e documentação associada ao projecto. Desta forma os dados não estão dispersos e são de fácil acesso aos elementos do projecto.
-
-* **Monitorização**, possibilidade de monitorizar toda a informação produzida pelas funcionalidades anteriores. 
+Este projecto tem como objectivo desenvolver uma infra-estrutura que forneça funcionalidades de gestão e monitorização de projectos durante o seu ciclo de vida, como o debate de soluções, definição de tarefas, planeamento, atribuição de responsáveis e registo de tempo despendido na sua realização. 
 
 A solução desenvolvida deve ser acessível através de diversas plataformas (e.g. browser, aplicações de dispositivos móveis) e permitir a integração. 
 Tendo em conta este requisito não é sensato criar soluções distintas para cada situação, a abordagem seguida passa por criar uma web api onde diferentes cliente podem comunicar com a infra-estrutura.

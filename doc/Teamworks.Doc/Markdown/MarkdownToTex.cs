@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -98,7 +97,7 @@ namespace Teamworks.Doc.Markdown
 
             var line =
                 string.Format(
-                    @"@pandoc --variable lang=portuguese --variable linkcolor=black --variable tables=true --variable graphics=true --from=markdown --to=latex --output={0} --listings --include-in-header={1}\header.tex --standalone --template={1}\template.latex  --number-sections --include-before-body={1}\front.tex --toc {2} .\blank.md",
+                    @"@pandoc --variable=lang:portuguese --variable=linkcolor:black --variable=tables:true --variable=graphics:true --from=markdown --to=latex --output={0} --listings --include-in-header={1}\header.tex --standalone --template={1}\template.latex  --number-sections --include-before-body={1}\front.tex --toc {2} .\blank.md",
                     Path.Combine(_output, _name), _output, include);
             Console.WriteLine(line);
         }

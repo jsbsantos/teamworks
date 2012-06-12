@@ -72,11 +72,10 @@ O *hash* é gerado usando um algoritmo de dispersão (SHA-256) que tem como entr
 
 ### Autenticação
 
-A autenticação na aplicação é feita usando o nome de utilizador e a *password*. O nome de utilizador é usado para obter a instância de Person que representa o utilizador a autenticar (people/nome-de-utilizador). A autenticação é valida se o resultado da função de dispersão usada no registo for igual ao obtido usando essa mesma função sobre a password fornecida pelo utilizador no momento da autenticação.
+A autenticação na aplicação é feita usando o nome de utilizador e a *password*. O nome de utilizador é usado para obter a instância de Person que representa o utilizador a autenticar (people/nome-de-utilizador). A autenticação é valida se o resultado da função de dispersão usada no registo for igual ao obtido usando os dados inseridos pelo utilizador.
 
-A função de dispersão tem como parâmetro de entrada a concatenação da *password* inserida com o *salt* presente na instância de Person obtida, tendo sido gerado no momento em que o utilizador se registou.
+A função de dispersão na autenticação tem como parâmetro de entrada a concatenação da *password* inserida com o *salt* presente na instância de Person obtida, *salt* gerado no momento em que o utilizador se registou.
 
 ### Autorização
 
-Em termos de permissões na infra-estrutura os utilizadores não têm qualquer restrição desde que devidamente autenticados, a limitação de acesso é imposta por cada entidade.
-Um utilizador só pode aceder a uma entidade se previamente tiver sido adicionado pelo criador da entidade pois este fica automaticamente associado à entidade que criou.
+Os utilizadores da infra-estrutura podem fazer todas as acções desde que tenham autorização para a fazer. As restrição são impostas dependendo da(s) entidade(s) com que o utilizador que interagir. Um utilizador só pode aceder a uma entidade se previamente tiver sido adicionado pelo criador da entidade pois este fica automaticamente associado à entidade que criou.
