@@ -9,13 +9,13 @@ namespace Teamworks.Doc.Markdown
     public class ImgReplace : SimpleReplaceExtensible
     {
         private readonly string _folder;
-        private const string _pattern = @"!\[(.*\\label{(?<imagename>.[^}]*)})\]\((?<imageuri>.*/(.*))\)";
+        private const string _pattern = @"!\[(.*\\label{(?<imagename>.[^}]*)})\]\((?<imageuri>.*/[^.]*(.*))\)";
 
         
         public ImgReplace(string folder) : base("", _pattern)
         {
             _folder = folder;
-            Template = @"![{0}](" + folder.Replace('\\', '/') + @"/{1})";
+            Template = @"![{0}](" + folder.Replace('\\', '/') + @"/{2}{1})";
         }
 
         protected override void Extra(Match match)

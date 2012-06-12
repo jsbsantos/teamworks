@@ -28,8 +28,8 @@ namespace Teamworks.Doc.Markdown
         {
             _name = name;
             _input = input;
-            _temporary = Path.Combine(_input, "pretex");
-            _output = output ?? Path.Combine(_input, "tex");
+            _temporary = Path.Combine(_input, "output", "pretex");
+            _output = output ?? Path.Combine(_input, "output", "tex");
             _batch = Path.Combine(_input, "build.bat");
             _recursive = recursive;
             Handlers = new List<IMarkdownHandler>();
@@ -60,9 +60,9 @@ namespace Teamworks.Doc.Markdown
 
             BaseFiles(_output);
             TexFiles();
-            Console.WriteLine(@"copy NUL blank.md");
+            Console.WriteLine(@"@copy NUL blank.md");
             Finish();
-            Console.WriteLine(@"del blank.md");
+            Console.WriteLine(@"@del blank.md");
             
         }
 
@@ -75,7 +75,7 @@ namespace Teamworks.Doc.Markdown
                 var info = new FileInfo(file);
                 var input = info.FullName;
                 var output = Path.Combine(_output, info.Name.Replace(".pretex", ".tex"));
-                var line = string.Format("pandoc --from=markdown --to=latex --output={0} {1}", output, input);
+                var line = string.Format("@pandoc --from=markdown --to=latex --output={0} {1}", output, input);
                 Console.WriteLine(line);
             }
         }
@@ -98,7 +98,7 @@ namespace Teamworks.Doc.Markdown
 
             var line =
                 string.Format(
-                    @"pandoc --variable lang=portuguese --variable linkcolor=black --variable tables=true --variable graphics=true --from=markdown --to=latex --output={0} --listings --include-in-header={1}\header.tex --standalone --template={1}\template.latex  --number-sections --include-before-body={1}\front.tex --toc {2} .\blank.md",
+                    @"@pandoc --variable lang=portuguese --variable linkcolor=black --variable tables=true --variable graphics=true --from=markdown --to=latex --output={0} --listings --include-in-header={1}\header.tex --standalone --template={1}\template.latex  --number-sections --include-before-body={1}\front.tex --toc {2} .\blank.md",
                     Path.Combine(_output, _name), _output, include);
             Console.WriteLine(line);
         }

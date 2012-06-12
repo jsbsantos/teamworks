@@ -1,7 +1,9 @@
 Introdução
 =
 
-Actualmente é frequente qualquer pessoa estar envolvida em projectos, no contexto profissional e/ou pessoal, em que o aproveitamento do tempo despendido em cada um é uma preocupação constante. Esta preocupação pode ser minorada com uma gestão eficaz desses projectos. A gestão de um projecto não se resume à organização de tempo. Gestão de projecto é planeamento, organização, controlo de recursos e monitorização.
+Actualmente é frequente qualquer pessoa estar envolvida em projectos, no contexto profissional e/ou pessoal, em que o aproveitamento do tempo despendido em cada um é uma preocupação constante. Esta preocupação pode ser minorada com uma gestão eficaz desses projectos. 
+A gestão de um projecto não se resume à organização de tempo.
+Gestão de projecto é planeamento, organização, controlo de recursos e monitorização.
  
 Desta forma podemos definir um projecto como uma actividade em grupo ou individual com o propósito e objectivo definido.
 
