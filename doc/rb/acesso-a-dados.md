@@ -13,16 +13,14 @@ RavenDB
 A base de dados usada é o [RavenDB](#ravendb), uma base de dados de documentos implementada sobre a *framework* [.NET](#net) que suporta a utilização de [Linq](#linq), uma componente da *framework* [.NET](#net). 
 É uma solução transaccional, que armazena os dados no formato [JSON](#json) e tem como interface um serviço web disponibilizado através do protocolo HTTP.
 
-Devido à inexistência de operações *JOIN*, e ao que foi dito anteriormente, todos os agregados e entidades do domínio são representadas por um documento. 
+Devido à inexistência de operações *JOIN*^[Operação *SQL* que combina uma ou mais tabelas de uma base de dados relacional], e ao que foi dito anteriormente, todos os agregados e entidades do domínio são representadas por documentos. 
 As representação das relações entre entidades podem ser definidas de várias formas, tendo sido consideradas a utilização do identificador para incluir as entidades no pedido, a desnormalização e as *live projections*.
 
 ### Inclusão no pedido
  
 Cada entidade guarda o identificador da entidade com que está relacionada (e.g. os projectos guardam o identificador das tarefas) e quando é obtido um projecto são também obtidas todas as tarefas que lhe estão associadas. 
 
-No RavenDB esta opção é suportada pelo método *Include* que recebe os identificadores das entidades a carregar em paralelo com as entidades principais. As entidades incluídas são adicionadas à sessão  
-
-. Ou seja, são carregadas para a *cache* do Raven as entidades pedidas (e.g. Carregar um projecto e as suas tarefas), com apenas um pedido ao servidor (Base de Dados).
+No RavenDB esta opção é suportada pelo método *Include* que recebe os identificadores das entidades a carregar em paralelo com as entidades principais. As entidades incluídas são adicionadas à sessão pelo cliente RavenDB. 
 
 ### Live Projections
 
@@ -37,7 +35,7 @@ Esta abordagem tem a desvantagem de que qualquer alteração a uma entidade refe
 
 A figura [desnormalizacao](#) mostra um exemplo de desnormalização. A entidade Projecto guarda para além do identificar dos utilizadores que lhe estão associados o seu Nome. Numa situação em que seja necessário apenas o Nome dos utilizadores associados não é necessário obter os dados da base de dados.
 
-![Exemplo de desnormalização de informação\label{desnormalizacao}](https://dl.dropbox.com/s/kno2epnr1hoysex/desnormalizacao.png)
+![Exemplo de desnormalização de informação\label{desnormalizacao}](http://www.lucidchart.com/publicSegments/view/4fd722d2-6770-4fe6-951d-51600a5705ae/image.png)
 
 
 Na implementação deste projecto optou-se por estabelecer relações entre entidades através do seu identificador único, tirando partido da funcionalidade de *Include* oferecida pelo Raven.
@@ -45,10 +43,13 @@ Na implementação deste projecto optou-se por estabelecer relações entre enti
 Unit of Work
 -
 
-De forma a manter registo de alterações a documentos o RavenDB utiliza o padrão *Unit of Work* (Unit of Work)<!---cite-->, implementado sob a forma de uma sessão, através da qual se interage com os documentos. Isto significa que todas as alterações serão persistidas numa única transacção dando ao utilizador a garantia de que os dados ficarão sempre num estado válido após serem gravados. A sessão é utilizada da seguinte forma:
+De forma a manter registo de alterações a documentos o RavenDB utiliza o padrão *Unit of Work* (Unit of Work)[#unitofwork], implementado sob a forma de uma sessão, através da qual se interage com os documentos. Isto significa que todas as alterações serão persistidas numa única transacção dando ao utilizador a garantia de que os dados ficarão sempre num estado válido após serem gravados. A sessão é utilizada da seguinte forma:
 
 ````
-var documentStore = new DocumentStore { ConnectionStringName = "RavenDB" }.Initialize();
+var documentStore = new DocumentStore {
+                        ConnectionStringName = "RavenDB"
+                    }.Initialize(); 
+ 
 using (var session = documentStore.OpenSession()) {
     var entity = session.Load<Project>(id);
     entity.Name = "Teamworks";
