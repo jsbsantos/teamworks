@@ -26,11 +26,6 @@ namespace Teamworks.Core.Services
             get { return _instance.Value; }
         }
 
-        public IDocumentSession Open()
-        {
-            return Store.OpenSession(); 
-        }
-
         public IDocumentSession CurrentSession
         {
             get
@@ -41,18 +36,9 @@ namespace Teamworks.Core.Services
                     return session;
                 }
 
-                Local.Data[Key] = session = Open();
+                Local.Data[Key] = session = Store.OpenSession();
                 return session;
             }
-        }
-
-        public void TryOpen()
-        {
-            if (Instance.CurrentSession != null)
-            {
-                return;
-            }
-            Local.Data[Key] = Instance.Store.OpenSession();
         }
     }
 }
