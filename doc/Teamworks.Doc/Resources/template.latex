@@ -45,24 +45,6 @@ $endif$
 $endif$
 $if(listings)$
 \usepackage{listings}
-\usepackage{inconsolata}
-\usepackage{color}
-\definecolor{bluekeywords}{rgb}{0.13,0.13,1}
-\definecolor{greencomments}{rgb}{0,0.5,0}
-\definecolor{redstrings}{rgb}{0.9,0,0}
-\lstset{%
-	language=[Sharp]C, %
-	numbers=left, %
-	basicstyle=\ttfamily, %
-	showstringspaces=true, %
-	breakatwhitespace=true, %
-	breaklines=true,
-	commentstyle=\color{greencomments},
-	keywordstyle=\color{bluekeywords},
-	stringstyle=\color{redstrings},
-	captionpos=b,
-	frame=single,
-}
 $endif$
 $if(lhs)$
 \lstnewenvironment{code}{\lstset{language=Haskell,basicstyle=\small\ttfamily}}{}
@@ -143,6 +125,39 @@ $endif$
   \thispagestyle{empty}\newpage\fi\fi\fi}
 \makeatother
 
+$if(listings)$
+\usepackage{inconsolata}
+\usepackage{color}
+\definecolor{bluekeywords}{rgb}{0.13,0.13,1}
+\definecolor{greencomments}{rgb}{0,0.5,0}
+\definecolor{redstrings}{rgb}{0.9,0,0}
+\lstset{%
+	language=[Sharp]C, %
+	numbers=left,
+	numberstyle=\small, %
+	basicstyle=\ttfamily, %
+	showstringspaces=true, %
+	breakatwhitespace=true, %
+	breaklines=true,
+	commentstyle=\color{greencomments},
+	keywordstyle=\color{bluekeywords},
+	stringstyle=\color{redstrings},
+	captionpos=b,
+	frame=single,
+	aboveskip=2em,
+	belowskip=1em
+}
+$endif$
+
+\addto\captionsportuguese{% Replace "english" with the language you use
+  \renewcommand{\contentsname}%
+    {Índice}%
+}
+\renewcommand*\lstlistingname{Lista}
+
+\usepackage{pdfpages}
+\parindent 0.6cm
+
 $for(header-includes)$
 $header-includes$
 $endfor$
@@ -162,9 +177,19 @@ $if(title)$
 \maketitle
 $endif$
 
+\includepdf{cover.pdf}
+\newpage
+
+\cleardoublepage
+
+\pagestyle{empty}
+\pagenumbering{roman}
+
 $for(include-before)$
 $include-before$
 $endfor$
+
+\pagestyle{plain}
 
 $if(graphics)$
 % We will generate all images so they have a width \maxwidth. This means

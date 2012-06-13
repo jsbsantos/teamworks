@@ -67,20 +67,6 @@ namespace Teamworks.Doc.Properties {
             }
         }
         
-        internal static byte[] Front {
-            get {
-                object obj = ResourceManager.GetObject("Front", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        internal static byte[] Header {
-            get {
-                object obj = ResourceManager.GetObject("Header", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
         /// <summary>
         ///   Looks up a localized string similar to pandoc --from=markdown --to=latex --output={0}{1} --include-in-header={0}header.tex --standalone --template={0}template.latex  --number-sections --include-before-body={0}front.tex  --toc  {1} .\blank.md.
         /// </summary>

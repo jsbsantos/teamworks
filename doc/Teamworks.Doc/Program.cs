@@ -18,22 +18,23 @@ namespace Teamworks.Doc
                              ? args[0]
                              : AppDomain.CurrentDomain.BaseDirectory;
 
-            var texFolder = Path.Combine(folder, "output", "tex");
-            CreateFolder(texFolder);
+            var output = Path.Combine(folder, "output");
+            CreateFolder(output);
             
             File.WriteAllBytes(Path.Combine(folder, "cover.tex"), Resources.Cover);
             
             const string name = "rb3007130239.tex";
             var toTex = new MarkdownToTex();
             toTex.RegisterMarkdownHandler(Path.Combine(folder, "output", "images"));
-            toTex.CreateTexFileFromMarkdown(name, folder, texFolder);
+            toTex.CreateTexFileFromMarkdown(name, folder, output);
 
             var dest = Path.Combine(folder, name);
             if (File.Exists(dest))
             {
                 File.Delete(dest);
             }
-            File.Move(Path.Combine(texFolder, name), dest);
+
+            File.Move(Path.Combine(output, name), dest);
 
             var clean = Path.Combine(folder, "clean.bat");
             File.WriteAllText(clean, @"ECHO OFF" + Environment.NewLine, Encoding.ASCII);
@@ -57,24 +58,17 @@ namespace Teamworks.Doc
                 stream.Flush();
             }
 
-            Console.WriteLine(@"Press <enter> to exit...");
+            Console.WriteLine(@"Press <enter> to end process.");
             Console.ReadLine();
         }
 
 
-        private static void CreateFolder(string pdfFolder)
+        private static void CreateFolder(string folder)
         {
-            if (Directory.Exists(pdfFolder))
+            if (!Directory.Exists(folder))
             {
-                Directory.Delete(pdfFolder, true);
+                Directory.CreateDirectory(folder);
             }
-
-            while (Directory.Exists(pdfFolder))
-            {
-                Thread.SpinWait(1);
-            }
-
-            Directory.CreateDirectory(pdfFolder);
         }
     }
 }

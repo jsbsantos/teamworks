@@ -21,9 +21,7 @@ namespace Teamworks.Doc.Markdown
         public void CreateTexFileFromMarkdown(string name, string input, string output)
         {
             var pre = Path.Combine(output, name + ".pre");
-
-            File.WriteAllBytes(Path.Combine(output, "front.tex"), Resources.Front);
-            File.WriteAllBytes(Path.Combine(output, "header.tex"), Resources.Header);
+            
             File.WriteAllBytes(Path.Combine(output, "template.latex"), Resources.Template);
 
             var c = 0;
@@ -78,10 +76,13 @@ namespace Teamworks.Doc.Markdown
                 }
             }
 
+            var front = Path.Combine(input, "front.tex");
+            var exists = File.Exists(front);
             var args = String.Format(
-                    @"--variable=lang:portuguese --variable=linkcolor:black --variable=tables:true --variable=graphics:true --from=markdown --to=latex --output={0} --listings --include-in-header={1}\header.tex --standalone --template={1}\template.latex  --number-sections --include-before-body={1}\front.tex --toc {2}",
-                    Path.Combine(output, name), output, pre);
+            @"--variable=lang:portuguese --variable=linkcolor:black --variable=tables:true --variable=graphics:true --from=markdown --to=latex --output={0} --listings --standalone --template={1}  --number-sections {2} --toc {3}",
+            Path.Combine(output, name), Path.Combine(output, "template.latex"), exists ? "--include-before=" + front: "", pre);
 
+            Trace.WriteLine("pandoc " + args);
             var process = new Process
             {
                 StartInfo =

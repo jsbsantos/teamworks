@@ -64,7 +64,6 @@
   <ItemGroup>
     <None Include="Resources\cover.tex" />
     <None Include="Resources\front.tex" />
-    <None Include="Resources\header.tex" />
     <None Include="Resources\template.latex" />
   </ItemGroup>
   <ItemGroup>
