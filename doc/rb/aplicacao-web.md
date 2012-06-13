@@ -2,12 +2,12 @@ Aplicação Web
 =
 
 A aplicação web disponibiliza uma interface para interacção com a infra-estrutura.
-Para a  implementar é usada a *framework* [ASP.NET MVC](#aspnetmvc).
+Para a implementar é usada a *framework* [ASP.NET MVC](#aspnetmvc).
 Esta framework implementa o padrão MVC^[Model–view–controller].
 
 A componente visual da aplicação web é conseguida usando HTML5, CSS3 e o *kit* [Twitter Bootstrap](#bootstrap), do qual são usados componentes pré-definidos. 
 
-Para que exista dinamismo e resposta imediata na interacção do utilizador com as páginas web, através da comunicação com a web api e actualização assíncrona da página, é usada a *framework javascript* [knockout](#knockout).
+Para que exista dinamismo e resposta imediata na interacção do utilizador com as páginas web, através da comunicação com a web api e actualização assíncrona da página, é usada a *framework javascript* [knockout](#knockout). **MUDAR**
 
 Knockout
 -

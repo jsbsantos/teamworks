@@ -3,7 +3,7 @@ Domínio
 
 Para representar os requisitos e funcionalidades pretendidas para resolver o problema identificado é descrito nesta secção o modelo de domínio usado na infra-estrutura.
 
-Para a definição do domínio do projecto foi utilizada uma abordagem [Domain-Driven Design](#ddd) descrita no [anexo1](#). A elaboração do modelo foram usados os diagramas de casos de utilização apresentados na descrição geral.
+Para a definição do domínio do projecto foi utilizada uma abordagem [Domain-Driven Design](#ddd) descrita no [anexo1](#). Na elaboração do modelo foram usados os diagramas de casos de utilização apresentados na secção *Descrição Geral*.
 
 Modelo
 -
@@ -11,13 +11,13 @@ Modelo
 As entidades raiz identificadas são **pessoa** e **projecto**. Cada pessoa pode estar envolvida em vários projectos, e um projecto pode ter várias pessoas envolvidas. 
 
 A entidade **pessoa** é representada por nome de utilizador, *email* e *password*.
-O *email* é usado para comunicar com a pessoa e os outros dois atributos servem para autenticar o utilizado perante o sistema. O projecto agrega as pessoas associadas ao projecto. No contexto de um projecto é possível definir tarefas que, como a pessoa e o projecto, são consideradas entidades de domínio.
+O *email* é usado para comunicar com a pessoa e os outros dois atributos servem para autenticar o utilizado perante o sistema. A entidade **projecto** agrega as pessoas associadas a um projecto. No contexto de um projecto é possível definir **tarefas** que, como a **pessoa** e o **projecto**, são consideradas entidades de domínio.
 
-Uma tarefa tem nome e descrição e várias pessoas associadas. Para além disto, tem o tempo estimado para a sua realização (e.g. número de horas) e a data prevista de conclusão. As pessoas associadas a uma tarefa podem adicionar **registos de tempo** dispendido na sua realização.
+Uma **tarefa** tem nome e descrição e várias pessoas associadas. Para além destes atributos, tem ainda o tempo estimado para a sua realização (e.g. número de horas) e a data prevista de conclusão. As pessoas associadas a uma tarefa podem adicionar **registos de tempo** dispendido na sua realização.
 
 Sobre os projecto e tarefas é ainda possível criar **debates**, vísiveis apenas ás pessoas associadas ás entidades, onde é possível criar **mensagens**.
 
-No modelo de domínio foram definidos como agregados os objectos de domínio **projecto** e **pessoa**; **tarefa** e **debate** são considerados entidades do agregado projecto porque possuem um identificador único no sistema; o **registo de tempo** e **mensagens* são definidos como *value object*. 
+No modelo de domínio foram definidos como agregados os objectos de domínio **projecto** e **pessoa**; **tarefa** e **debate** são considerados entidades do agregado **projecto** porque possuem um identificador único no sistema; o **registo de tempo** e **mensagens* são definidos como *value object*. 
 
 A descrição destas entidades e das suas relações é descrita no seguinte diagrama de classes da figura [diagramadeclassesdominio](#).
 

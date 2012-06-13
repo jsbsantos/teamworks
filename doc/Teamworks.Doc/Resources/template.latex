@@ -1,4 +1,4 @@
-﻿\documentclass[a4paper$if(twoside)$,$twoside$$endif$$if(fontsize)$,$fontsize$$endif$$if(lang)$,$lang$$endif$]{$documentclass$}
+\documentclass[a4paper$if(twoside)$,$twoside$$endif$$if(fontsize)$,$fontsize$$endif$$if(lang)$,$lang$$endif$]{$documentclass$}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage{amssymb,amsmath}

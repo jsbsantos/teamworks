@@ -10,8 +10,11 @@ namespace Teamworks.Doc
 {
     public static class Program
     {
+
         private static void Main(string[] args)
         {
+            Encoding encoding = new UTF8Encoding(false);
+
             Trace.Listeners.Add(new ConsoleTraceListener(false));
             var folder = args.Length > 0
                          && !string.IsNullOrEmpty(args[0])
@@ -37,10 +40,10 @@ namespace Teamworks.Doc
             File.Move(Path.Combine(output, name), dest);
 
             var clean = Path.Combine(folder, "clean.bat");
-            File.WriteAllText(clean, @"ECHO OFF" + Environment.NewLine, Encoding.ASCII);
-
+            File.WriteAllText(clean, @"ECHO OFF" + Environment.NewLine, encoding);
+            
             using (var stream = new StreamWriter(
-                File.Open(clean, FileMode.Append, FileAccess.Write), Encoding.ASCII))
+                File.Open(clean, FileMode.Append, FileAccess.Write), encoding))
             {
                 stream.WriteLine("ECHO OFF");
                 foreach (var directory in Directory.GetDirectories(folder))
@@ -58,6 +61,18 @@ namespace Teamworks.Doc
                 stream.Flush();
             }
 
+            RunProcess("pdflatex", @"-output-directory ./output/ -interaction=batchmode -synctex=1 cover.tex");
+            RunProcess("pdflatex", @"-output-directory ./output/ -interaction=batchmode -synctex=1 rb3007130239.tex");
+            RunProcess("pdflatex", @"-output-directory ./output/ -interaction=batchmode -synctex=1 rb3007130239.tex");
+
+            var srcFile = Path.Combine(output, "rb3007130239.pdf");
+            var dstcFile = Path.Combine(folder, "rb3007130239.pdf");
+
+            if (File.Exists(srcFile))
+                File.Move(srcFile, dstcFile);
+
+            Directory.Delete(output,true);
+
             Console.WriteLine(@"Press <enter> to end process.");
             Console.ReadLine();
         }
@@ -70,5 +85,26 @@ namespace Teamworks.Doc
                 Directory.CreateDirectory(folder);
             }
         }
+
+        private static void RunProcess(string processName, string args)
+        {
+            Trace.WriteLine(processName + " " + args);
+            var process = new Process
+            {
+                StartInfo =
+                {
+                    FileName = processName,
+                    Arguments = args,
+                    UseShellExecute = false,
+                    RedirectStandardError = true,
+                    RedirectStandardOutput = true
+                }
+            };
+            process.Start();
+
+            process.ErrorDataReceived += (s, e) => Console.WriteLine(e.Data);
+            process.OutputDataReceived += (s, e) => Console.WriteLine(e.Data);
+            process.WaitForExit();
+        } 
     }
 }
