@@ -17,12 +17,11 @@ Uma **tarefa** tem nome e descrição e várias pessoas associadas. Para além d
 
 Sobre os projecto e tarefas é ainda possível criar **debates**, vísiveis apenas ás pessoas associadas ás entidades, onde é possível criar **mensagens**.
 
-No modelo de domínio foram definidos como agregados os objectos de domínio **projecto** e **pessoa**; **tarefa** e **debate** são considerados entidades do agregado **projecto** porque possuem um identificador único no sistema; o **registo de tempo** e **mensagens* são definidos como *value object*. 
+No modelo de domínio foram definidos como agregados os objectos de domínio **projecto** e **pessoa**; **tarefa** e **debate** são considerados entidades do agregado projecto porque possuem um identificador único no sistema; o **registo de tempo** e **mensagens** são definidos como *value object*. 
 
 A descrição destas entidades e das suas relações é descrita no seguinte diagrama de classes da figura [diagramadeclassesdominio](#).
 
 ![Diagrama de relação entre os objectos de domínio\label{diagramadeclassesdominio}](http://www.lucidchart.com/publicSegments/view/4fd89208-da90-4b53-8506-66290a443549/image.png)
-
 Segurança
 -
 

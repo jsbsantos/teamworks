@@ -79,7 +79,7 @@ namespace Teamworks.Doc.Markdown
             var front = Path.Combine(input, "front.tex");
             var exists = File.Exists(front);
             var args = String.Format(
-            @"--variable=lang:portuguese --variable=linkcolor:black --variable=tables:true --variable=graphics:true --from=markdown --to=latex --output={0} --listings --standalone --template={1}  --number-sections {2} --toc {3}",
+            @"--variable=lang:portuguese --variable=fontssize:11pt --variable=linkcolor:black --variable=tables:true --variable=graphics:true --from=markdown --to=latex --output={0} --listings --standalone --template={1}  --number-sections {2} --toc {3}",
             Path.Combine(output, name), Path.Combine(output, "template.latex"), exists ? "--include-before=" + front: "", pre);
 
             Trace.WriteLine("pandoc " + args);
