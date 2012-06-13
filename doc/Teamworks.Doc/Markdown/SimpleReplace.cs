@@ -10,7 +10,6 @@ namespace Teamworks.Doc.Markdown
 
         protected override void Extra(Match match)
         {
-            
         }
     }
 }

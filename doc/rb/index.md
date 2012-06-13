@@ -25,6 +25,10 @@ Realizado pelos alunos Filipe Pinheiro e João Santos e orientado pelo docente J
 Anexos
 -
 
+#### [NoSQL](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/nosql.md)
+
+#### [RavenDB](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/ravendb.md)
+
 #### [Domain Driven Desing](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/domain-driven-design.md)
 
 #### [Utilização Web Api](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/utilizacao-web-api.md)
