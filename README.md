@@ -16,6 +16,10 @@ Na fase inicial do projecto foi nentregue um documento com a descriçao do proje
 
 A versão beta do relatório pode ser consultada nesta [página](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/index.md).
 
+## Cartaz
+
+O cartaz do projecto está disponível para [download](http://www.lucidchart.com/publicSegments/view/4fda5de0-75f0-4d65-90e8-72220a443549). 
+
 ## Relatório
 
 `work in progress`
