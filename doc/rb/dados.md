@@ -14,7 +14,7 @@ Para interacção com este tipo de sistemas é habitual o uso da linguagem *SQL*
 Para a realização deste projecto foi usada uma base de dados de documentos em vez de uma relacional. A base de dados usada é o RavenDB [#ravendb](), uma base de dados transacional, *open-source* e implementada sobre a *framework* .NET [#net]().
 Esta base de dados é composta por um servidor e um cliente e os dados são guardados sem *schema* em documentos JSON [#json]().
 
-Na figura [interacaoraven]() pode observar-se a interação da infra-estrutura com o cliente RavenDB.
+Na figura \ref{interacaoraven} pode observar-se a interação da infra-estrutura com o cliente RavenDB.
 
 ![Interacção da infra-estrutura Teamworks com a base de dados.\label{interacaoraven}](http://www.lucidchart.com/publicSegments/view/4fd76e6a-3ef0-4875-99c1-4ac60a78da40/image.png)
 
@@ -22,7 +22,8 @@ O acesso ao servidor é feito através de uma api ReSTful e este tem a responsab
 
 O cliente é usado para comunicar com o servidor através de código .NET. Os dados enviados e recebidos do cliente são *POCO*s (*Plain Old CLR Object*) o que torna simples a sua utilização.
 
-````[Utilização do cliente RavenDB.](exemplocliente)
+\lstset{caption={Utilização do cliente RavenDB},label={exemplocliente}}
+````
 var person = new Person {
                Email = "johndoe@world.com"
                Username = "johndoe",
@@ -44,7 +45,7 @@ using(var session = store.OpenSession()) {
 }
 ```` 
 
-A lista [exemplocliente]() demonstra a utilização do cliente, pode observar-se a utilização de *POCO*s e do padrão *Unit of Work* pois todas as alterações são persistidas na base de dados numa única transacção quando é chanado o método `SaveChanges`. A variável `store` define a configuração do cliente, a comunicação com o servidor e todos os mecanismos da base de dados.
+A lista \ref{exemplocliente} demonstra a utilização do cliente, pode observar-se a utilização de *POCO*s e do padrão *Unit of Work* pois todas as alterações são persistidas na base de dados numa única transacção quando é chanado o método `SaveChanges`. A variável `store` define a configuração do cliente, a comunicação com o servidor e todos os mecanismos da base de dados.
 
 Modelo
 -
