@@ -35,6 +35,7 @@ namespace Teamworks.Doc
             RunProcess("pdflatex", string.Format("-output-directory {0} -interaction=batchmode -synctex=1 {1}", output, cover));
             RunProcess("pdflatex", string.Format("-output-directory {0} -interaction=batchmode -synctex=1 {1}", output, name));
             RunProcess("pdflatex", string.Format("-output-directory {0} -interaction=batchmode -synctex=1 {1}", output, name));
+            RunProcess("pandoc", string.Format("-s {0} -o {1} ", output + "/" + name + ".pre", name + ".docx"));
 
             name = name.Replace(".tex", ".pdf");
             var srcFile = Path.Combine(output, name);
