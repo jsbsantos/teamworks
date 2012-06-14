@@ -1,6 +1,8 @@
 Introdução
 =
 
+\label{sec:introducao}
+
 Actualmente é frequente qualquer pessoa estar envolvida em projectos, num contexto profissional e/ou pessoal, em que o aproveitamento do tempo despendido em cada um é uma preocupação constante. Esta preocupação pode ser atunuada com uma gestão eficaz desses projectos. 
 A gestão de um projecto não se resume à organização de tempo.
 Gestão de projecto é planeamento, organização, controlo de recursos e monitorização.
@@ -18,11 +20,11 @@ As aplicações desktop são usadas num ambiente local ficando o resultado da in
 
 Ao contrário das aplicações desktop todas as interacções com uma aplicação web ficam alojadas na *cloud* tornando a informação acessível a todos os membros do projecto. Há uma grande variedade de aplicações web disponíveis, entre as quais, se destacam as aplicações *basecamp*, *freckle* e *LiquidPlanner*.
 
-A aplicação web *basecamp* foca as sua funcionalidades na partilha e armazenamento de informação dos projectos criados. Tem ainda gestão de actividades, *todos* e eventos.
+A aplicação web *basecamp*^[*Basecamp* - http://basecamp.com] foca as sua funcionalidades na partilha e armazenamento de informação dos projectos criados. Tem ainda gestão de actividades, *todos* e eventos.
 
-A aplicação web *freckle* tem como funcionalidades principais o registo de horas e monitorização de tempo despendido por tarefa.
+A aplicação web *freckle*^[*Freckle* - http://letsfreckle.com/] tem como funcionalidades principais o registo de horas e monitorização de tempo despendido por tarefa.
 
-A aplicação web *LiquidPlanner* oferece as funcionalidades das anteriores e ainda o planeamento de tarefas mas com uma interface mais complexa que as soluções anteriores, o que aumenta o tempo despendido na gestão do projecto. 
+A aplicação web *LiquidPlanner*^[*LiquidPlanner* - http://www.liquidplanner.com/] oferece as funcionalidades das anteriores e ainda o planeamento de tarefas mas com uma interface mais complexa que as soluções anteriores, o que aumenta o tempo despendido na gestão do projecto. 
 
 Solução Teamworks
 -
@@ -32,7 +34,3 @@ Este projecto tem como objectivo desenvolver uma infra-estrutura que forneça fu
 A solução desenvolvida deve ser acessível através de diversas plataformas (e.g. browser, aplicações de dispositivos móveis) e permitir a integração com aplicações externas. Tendo em conta este requisito não é sensato criar soluções distintas para cada situação, por isso a abordagem seguida passa por criar uma web api que diferentes clientes podem usar para comunicar com a infra-estrutura e uma aplicação web que usa essa mesma api.
 
 Pretende-se ainda que a interface com o utilizador, disponibilizada através de uma aplicação web, seja simples de forma a minimizar o tempo necessário para gestão dos seus projectos.
-
-Organização do documento
--
-

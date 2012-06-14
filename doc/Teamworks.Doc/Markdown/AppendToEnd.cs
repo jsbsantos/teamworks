@@ -1,7 +1,6 @@
 using System.Text.RegularExpressions;
-using Teamworks.Doc.Markdown;
 
-namespace Teamworks.Doc
+namespace Teamworks.Doc.Markdown
 {
     public class AppendToEnd : IMarkdownHandler
     {

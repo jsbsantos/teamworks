@@ -33,8 +33,8 @@ namespace Teamworks.Web.Helpers
                            opt =>
                            opt.MapFrom(
                                src =>
-                               Mapper.Map<IList<Topic>, IList<TopicModel>>(
-                                   Global.Raven.CurrentSession.Load<Topic>(src.Discussions))));
+                               Mapper.Map<IList<Thread>, IList<TopicModel>>(
+                                   Global.Raven.CurrentSession.Load<Thread>(src.Threads))));
 
             Mapper.CreateMap<Project, DryProjectModel>()
                 .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier));
@@ -55,14 +55,14 @@ namespace Teamworks.Web.Helpers
             Mapper.CreateMap<TimeEntry, TimeEntryModel>();
             #endregion
 
-            #region Topic Mappings
-            Mapper.CreateMap<DryTopicModel, Topic>();
-            Mapper.CreateMap<Topic, DryTopicModel>()
+            #region Thread Mappings
+            Mapper.CreateMap<DryTopicModel, Thread>();
+            Mapper.CreateMap<Thread, DryTopicModel>()
                 .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier))
                 .ForMember(src => src.Person, opt => opt.MapFrom(src => Mapper.Map<Person, DryPersonModel>(Global.Raven.CurrentSession.Load<Person>(src.Person))));
 
-            Mapper.CreateMap<TopicModel, Topic>();
-            Mapper.CreateMap<Topic, TopicModel>()
+            Mapper.CreateMap<TopicModel, Thread>();
+            Mapper.CreateMap<Thread, TopicModel>()
                 .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier))
                 .ForMember(src => src.Person, opt => opt.MapFrom(src => Mapper.Map<Person,DryPersonModel>(Global.Raven.CurrentSession.Load<Person>(src.Person))));
             #endregion

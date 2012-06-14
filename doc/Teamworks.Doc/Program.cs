@@ -23,53 +23,32 @@ namespace Teamworks.Doc
 
             var output = Path.Combine(folder, "output");
             CreateFolder(output);
+
+            var cover = Path.Combine(output, "cover.tex");
+            File.WriteAllBytes(cover, Resources.Cover);
             
-            File.WriteAllBytes(Path.Combine(folder, "cover.tex"), Resources.Cover);
-            
-            const string name = "rb3007130239.tex";
+            var name = "rb3007130239.tex";
             var toTex = new MarkdownToTex();
             toTex.RegisterMarkdownHandler(Path.Combine(folder, "output", "images"));
             toTex.CreateTexFileFromMarkdown(name, folder, output);
 
-            var dest = Path.Combine(folder, name);
-            if (File.Exists(dest))
-            {
-                File.Delete(dest);
-            }
+            RunProcess("pdflatex", string.Format("-output-directory {0} -interaction=batchmode -synctex=1 {1}", output, cover));
+            RunProcess("pdflatex", string.Format("-output-directory {0} -interaction=batchmode -synctex=1 {1}", output, name));
+            RunProcess("pdflatex", string.Format("-output-directory {0} -interaction=batchmode -synctex=1 {1}", output, name));
 
-            File.Move(Path.Combine(output, name), dest);
-
-            var clean = Path.Combine(folder, "clean.bat");
-            File.WriteAllText(clean, @"ECHO OFF" + Environment.NewLine, encoding);
-            
-            using (var stream = new StreamWriter(
-                File.Open(clean, FileMode.Append, FileAccess.Write), encoding))
-            {
-                stream.WriteLine("ECHO OFF");
-                foreach (var directory in Directory.GetDirectories(folder))
-                {
-                    stream.WriteLine("RD /q/s {0}", directory);
-                }
-                stream.WriteLine("DEL *.out");
-                stream.WriteLine("DEL *.aux");
-                stream.WriteLine("DEL *.log");
-                stream.WriteLine("DEL *.toc");
-                stream.WriteLine("DEL *.synctex.gz");
-                stream.WriteLine("DEL *.tex");
-
-                stream.WriteLine("DEL clean.bat");
-                stream.Flush();
-            }
-
-            RunProcess("pdflatex", @"-output-directory ./output/ -interaction=batchmode -synctex=1 cover.tex");
-            RunProcess("pdflatex", @"-output-directory ./output/ -interaction=batchmode -synctex=1 rb3007130239.tex");
-            RunProcess("pdflatex", @"-output-directory ./output/ -interaction=batchmode -synctex=1 rb3007130239.tex");
-
-            var srcFile = Path.Combine(output, "rb3007130239.pdf");
-            var dstcFile = Path.Combine(folder, "rb3007130239.pdf");
+            name = name.Replace(".tex", ".pdf");
+            var srcFile = Path.Combine(output, name);
+            var dstFile = Path.Combine(folder, name);
 
             if (File.Exists(srcFile))
-                File.Move(srcFile, dstcFile);
+            {
+                if (File.Exists(dstFile))
+                {
+                    File.Delete(dstFile);
+                }
+                File.Move(srcFile, dstFile);
+            }
+                
 
             Directory.Delete(output,true);
 

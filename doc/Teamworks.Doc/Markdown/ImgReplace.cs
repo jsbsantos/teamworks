@@ -46,7 +46,7 @@ namespace Teamworks.Doc.Markdown
             {
                 var i = url.LastIndexOf('.');
                 var ext = i > 0 ? url.Substring(i, url.Length - i): ".png";
-
+                
                 var file = Path.Combine(_folder, name + ext);
                 using (var output = File.OpenWrite(file))
                 {

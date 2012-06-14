@@ -23,13 +23,9 @@ namespace Teamworks.Doc
             md.Handlers.Add(new ImgReplace(folder));
             md.Handlers.Add(new AppendToEnd("####.*", "////"));
             md.Handlers.Add(new SimpleReplace(@"\_", "(_)"));
-            md.Handlers.Add(new SimpleReplace(@"\ref{{0}}", @"\[([^\]]*)\]*\(#\)"));
-            md.Handlers.Add(new SimpleReplace(@"{0}\cite{{1}}", @"\[([^\]]*)\]*\(#([^)]*)\)"));
-            md.Handlers.Add(new SimpleReplace(@"\{0}", "<!---t:(.*)-->"));
-            /* tex blocks
-            md.Handlers.Add(new SimpleReplace(@"\begin{{0}}[!h]", "^<!---([a-zA-Z]*)-->"));
-            md.Handlers.Add(new SimpleReplace(@"\end{{0}}", "^<!---!([a-zA-Z]*)-->"));
-            */
+            md.Handlers.Add(new SimpleReplace(@"\lstset{caption={{1}},label={{2}}}" + "\n\n{0}", @"(````)\[([^\]]*)\]\(([^\)]*)\)"));
+            md.Handlers.Add(new SimpleReplace(@"\cite{{0}}", @"\[#([^\]]*)\]*\(\)"));
+            md.Handlers.Add(new SimpleReplace(@"\ref{{0}}", @"\[([^\]]*)\]*\(\)"));
             md.Handlers.Add(new GlobalReplace("|", "   ", @"\|.*\|"));
         }
     }

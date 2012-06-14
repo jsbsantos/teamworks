@@ -22,18 +22,18 @@ namespace Teamworks.Web.Controllers.Api
     public class MessageController : RavenApiController
     {
         #region Project
-        private Topic LoadProjectDiscussion(int projectid, int discussionid)
+        private Thread LoadProjectDiscussion(int projectid, int discussionid)
         {
             var project = DbSession
-                .Include<Project>(p => p.Discussions)
+                .Include<Project>(p => p.Threads)
                 .Load<Project>(projectid);
             if (project == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            var topic = DbSession.Load<Topic>(discussionid);
-            if (topic == null || !project.Discussions.Contains(topic.Id))
+            var topic = DbSession.Load<Thread>(discussionid);
+            if (topic == null || !project.Threads.Contains(topic.Id))
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
@@ -97,7 +97,7 @@ namespace Teamworks.Web.Controllers.Api
         #endregion 
     
         #region Task
-        private Topic LoadTaskDiscussion(int projectid, int taskid, int discussionid)
+        private Thread LoadTaskDiscussion(int projectid, int taskid, int discussionid)
         {
             var project = DbSession
                            .Include<Project>(p => p.Tasks)
@@ -109,7 +109,7 @@ namespace Teamworks.Web.Controllers.Api
             }
 
             var task = DbSession
-                .Include<Task>(t => t.Discussions)
+                .Include<Task>(t => t.Threads)
                 .Load<Task>(taskid);
 
             if (task == null || !task.Project.Equals(project.Id))
@@ -117,7 +117,7 @@ namespace Teamworks.Web.Controllers.Api
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            var topic = DbSession.Load<Topic>(discussionid);
+            var topic = DbSession.Load<Thread>(discussionid);
             if (topic == null || !topic.Entity.Equals(task.Id))
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);

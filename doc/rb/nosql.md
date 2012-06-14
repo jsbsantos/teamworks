@@ -16,23 +16,23 @@ Key-value stores
 [referência](http://ayende.com/blog/4449/that-no-sql-thing-key-value-stores)
 [referência](http://s3.amazonaws.com/AllThingsDistributed/sosp/amazon-dynamo-sosp2007.pdf)
 
-A função principal de um key-value store é guardar um valor associado a uma chave. Para essa função é disponibilizada uma variação da seguinte API:
+A função principal de um key-value store é guardar um valor associado a uma chave. Para essa função é disponibilizada uma variação da api descrita na lista [valuestore](#):
 
-```csharp
+````[Api simplificada de um key-value store.](valuestore)
 void Put(string key, byte[] data);
 byte[] Get(string key);
 void Remove(string key);
-```
+````
 
 O valor guardado é um blob. Esta característica torna desnecessária a definição de um _schema_ dando assim total flexibilidade no armazenamento de dados. Devido ao acesso ser feito através de uma chave este tipo de persistência pode facilmente ser optimizada e ter a sua performance melhorada.
 
  * **Concorrência** - Num key-value store a concorrência apenas se manifesta quando são feitas operações sobre a mesma chave.
 
- * **Queries** - Uma _query_ é apenas possível fazer com base na chave e como retorno obtêm-se o valor associado. Esta é uma limitação deste tipo de solução mas que se torna uma vantagem em ambientes em que o único tipo de acesso necessário é com base numa chave, como é o case de um sistema de cache.
+ * **Queries** - Uma *query* é apenas possível fazer com base na chave e como retorno obtêm-se o valor associado. Esta é uma limitação deste tipo de solução mas que se torna uma vantagem em ambientes em que o único tipo de acesso necessário é com base numa chave, como é o case de um sistema de cache.
 
  * **Transações** - A garantia de que as escritas são feitas no contexto de uma transação só é garantida se for escrita apenas uma chave. É possível oferecer essas garantias para múltiplas chaves mas tendo em conta a natureza de um key-value store de permitir que diferentes chaves estejam armazenadas em diferenter máquinas torna o processo de dificil implementação.
 
- * **_Schema_** - O _schema_ neste tipo de base de dados é simples, a chave é uma string e o valor é um blob. O tipo e a forma como os dados são estruturados é da responsabilidade do utilizador.
+ * ***Schema*** - O *schema* neste tipo de base de dados é simples, a chave é uma string e o valor é um blob. O tipo e a forma como os dados são estruturados é da responsabilidade do utilizador.
 
  * **Escalabilidade** - Existem duas formas para o fazer sendo que a mais simples seria separar as chaves. Separar chaves implica decidir a regra de separação, que pode separar as chaves com base no seu primeiro caracter e cada caracter é alojado numa máquina diferente, esta forma torna-se uma não opção quando a máquina onde está a chave não está disponível. Para resolver esse problema é usada replicação.
 
@@ -59,6 +59,6 @@ Uma base de dados de documentos é na sua essência um key-value store. A difere
 
  * **_Queries_** - As _queries_ são feitas com base em índices inferidos automaticamente ou definidos explicitamente pelo programador. Quando o índice é definido o SGBD executa-o e prepara os resultados minimizando o esforço computacional necessário para responder a uma _query_. 
 
-    A forma de actualização destes índices difere em cada implementação deste tipo de base de dados, podendo ser actualizados quando os documentos associados a estes índices são alterados ou no momento anterior à execução da _query_. No primeiro caso isso significa que podem ser obtidos resultados desactualizados, uma vez que as _queries_ aos índices têm resultados imediatos e a actualização pode não estar concluída. Na segunda abordagem, se existirem muitas alterações para fazer a _query_ pode demorar algum tempo a responder.
+A forma de actualização destes índices difere em cada implementação deste tipo de base de dados, podendo ser actualizados quando os documentos associados a estes índices são alterados ou no momento anterior à execução da _query_. No primeiro caso isso significa que podem ser obtidos resultados desactualizados, uma vez que as _queries_ aos índices têm resultados imediatos e a actualização pode não estar concluída. Na segunda abordagem, se existirem muitas alterações para fazer a _query_ pode demorar algum tempo a responder.
 
  * **Escalabilidade** - Este tipo tipo de base de dados suporta Sharding, ou seja partição horizontal, o que permite separar documentos por vários servidores.

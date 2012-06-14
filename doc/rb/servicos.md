@@ -1,22 +1,37 @@
 Serviços
 =
 
-Repositório
+\label{sec:servicos}
+
+Os serviços disponibilizados pela infra-estrutura encontram-se no *namespace* `Teamworks.Core` e incluem serviço de acesso a dados e autenticação.
+
+Acesso a Dados
 -
 
-<span style="background-color:yellow">Descrição do padrão Repository</span>
+\label{acesso-a-dados}
 
-Tendo em conta as caracteristicas do cliente RavenDB enunciadas optou-se por não criar uma camada de abstracção de acesso a dados. Para esta decisão contribuiu o facto de toda a infra-estrutura estar fortemente ligada ao RavenDB e a alteração deste SGBD para outro implicar alteração ao modelo de domínio.
 
-RavenDB
--
+Para aceder aos dados da infra-estrutura é utilizado o cliente RavenDB como dito anteriomente. 
+A inicialização, configuração e criação de sessões de comunicação com o servidor RavenDB é da responsabilidade desta camada. 
+O cliente RavenDB desempenha o papel de repositório de dados devido ás características enunciadas (ver secção [sec:dados]()). E com a sessão do cliente é possível obter dados da base de dados através do identificador do documento, da utilização de um indice ou fazendo uma *query*.
 
-Um dos serviços disponibilizados é o cliente RavenDB para acesso aos dados da infra-estrutura, a inicialização do cliente é feita na camada de serviços assim como toda a gestão das sessões associadas ao cliente.
-Para isso é disponibilizada a propriedade `Global.Raven.CurrentSession`
+O código da infra-estrutura obtem sessões do cliente através da propriedade `Global.Raven.CurrentSession` que abstrai a forma como é obtida e guardada a sessão currente. 
 
-`IDocumentSession CurrentSession { get; }
+Segurança
+- 
 
-````
+A infra-estrutura disponibiliza serviços para autenticação de utilizadores e impõe as politicas de acesso em conjunto com o *Authorization Bundle*.
 
-A sessão tem o tempo de vida de um pedido HTTP, é criada durante o processamento do pedido e no final do pedido as alterações feitas à Sessão são persistidas na base de dados.
-A persistência é feita depois da *action* correspondente ser executada pela classe *RavenHandler* registada no *pipeline* HTTP durante o arranque da api. Esta classe verifica se o pedido foi realizado com sucesso e persiste as alterações usando o código seguinte.
+### Autenticação
+
+\label{sec:impl-autenticacao}
+
+<span style="background-color=yellow" >Em falta.</span>
+
+### Autorização
+
+A autorização é feita quando um documento é obtido, alterado ou removido. Se um utilizador tentar fazer algumas destas acções e não tiver permissões para o fazer é lançada uma excepção.
+
+A configuração do cliente para que este valide se é possível interagir com o documento é feita utilizando métodos de extensão ao cliente presentes no ficheiro `Raven.Client.Authorization.dll`.
+
+ 

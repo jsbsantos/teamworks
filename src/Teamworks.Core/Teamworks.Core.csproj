@@ -71,7 +71,7 @@
     <Compile Include="Projects\Project.cs" />
     <Compile Include="Projects\Task.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Projects\Topic.cs" />
+    <Compile Include="Projects\Thread.cs" />
     <Compile Include="Services\TeamworksConfiguration.cs" />
   </ItemGroup>
   <ItemGroup />

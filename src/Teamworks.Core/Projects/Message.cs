@@ -5,7 +5,7 @@ namespace Teamworks.Core.Projects
     public class Message
     {
         public int Id { get; set; }
-        public string Text { get; set; }
+        public string Content { get; set; }
         public DateTime Date { get; set; }
         public string Person { get; set; }
 
@@ -13,7 +13,7 @@ namespace Teamworks.Core.Projects
         {
             return new Message()
                        {
-                           Text = text,
+                           Content = text,
                            Date = DateTime.Now,
                            Person = person
                        };

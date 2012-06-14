@@ -30,11 +30,11 @@
         constructor: Button,
         setState: function(state) {
             var d = 'disabled', $el = this.$element, data = $el.data(), val = $el.is('input') ? 'val' : 'html';
-            state = state + 'Text';
-            data.resetText || $el.data('resetText', $el[val]());
+            state = state + 'Content';
+            data.resetText || $el.data('resetContent', $el[val]());
             $el[val](data[state] || this.options[state]); // push to event loop to allow forms to submit
             setTimeout(function() {
-                state == 'loadingText' ?
+                state == 'loadingContent' ?
                     $el.addClass(d).attr(d, d) :
                     $el.removeClass(d).removeAttr(d);
             }, 0);

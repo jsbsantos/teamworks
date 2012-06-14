@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Teamworks.Core.Projects
 {
-    public class Topic : Entity
+    public class Thread : Entity
     {
         public string Text { get; set; }
         public DateTime Date { get; set; }
@@ -18,9 +18,9 @@ namespace Teamworks.Core.Projects
             return ++LastDiscussionId;
         }
 
-        public static Topic Forge(string name, string text, string entity, string person)
+        public static Thread Forge(string name, string text, string entity, string person)
         {
-            return new Topic()
+            return new Thread()
                        {
                            Text = text,
                            Name = name,

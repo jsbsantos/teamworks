@@ -18,12 +18,12 @@ namespace Teamworks.Web.Controllers.Api
     [RoutePrefix("api/projects/{projectid}")]
     public class DiscussionsController : RavenApiController
     {
-        #region Entity Discussions
+        #region Entity Threads
 
         private Project LoadProject(int projectid)
         {
             var project = DbSession
-                .Include<Project>(p => p.Discussions)
+                .Include<Project>(p => p.Threads)
                 .Load<Project>(projectid);
 
             if (project == null)
@@ -39,19 +39,19 @@ namespace Teamworks.Web.Controllers.Api
         {
             return
                 new List<DryTopicModel>(
-                    DbSession.Load<Topic>(LoadProject(projectid).Discussions).Select(Mapper.Map<Topic, DryTopicModel>));
+                    DbSession.Load<Thread>(LoadProject(projectid).Threads).Select(Mapper.Map<Thread, DryTopicModel>));
         }
 
         [GET("discussions/{id}")]
         public TopicModel GetProjectDiscussion(int id, int projectid)
         {
             var project = LoadProject(projectid);
-            var topic = DbSession.Load<Topic>(id);
+            var topic = DbSession.Load<Thread>(id);
             if (topic == null || !topic.Entity.Equals(project.Id))
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
-            return Mapper.Map<Topic, TopicModel>(topic);
+            return Mapper.Map<Thread, TopicModel>(topic);
         }
 
         [POST("discussions")]
@@ -66,12 +66,12 @@ namespace Teamworks.Web.Controllers.Api
 
             var project = LoadProject(projectid);
 
-            Topic topic = Topic.Forge(model.Name, model.Text, project.Id, Request.GetUserPrincipalId());
-            DbSession.Store(topic);
-            project.Discussions.Add(topic.Id);
+            Thread thread = Thread.Forge(model.Name, model.Text, project.Id, Request.GetUserPrincipalId());
+            DbSession.Store(thread);
+            project.Threads.Add(thread.Id);
             DbSession.SaveChanges();
 
-            return new HttpResponseMessage<TopicModel>(Mapper.Map<Topic, TopicModel>(topic),
+            return new HttpResponseMessage<TopicModel>(Mapper.Map<Thread, TopicModel>(thread),
                                                        HttpStatusCode.Created);
         }
 
@@ -87,7 +87,7 @@ namespace Teamworks.Web.Controllers.Api
             }
 
             var project = LoadProject(projectid);
-            var topic = DbSession.Load<Topic>(id);
+            var topic = DbSession.Load<Thread>(id);
             if (topic == null || !topic.Entity.Equals(project.Id))
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
@@ -96,7 +96,7 @@ namespace Teamworks.Web.Controllers.Api
             topic.Text = model.Text;
             DbSession.SaveChanges();
 
-            return new HttpResponseMessage<TopicModel>(Mapper.Map<Topic, TopicModel>(topic),
+            return new HttpResponseMessage<TopicModel>(Mapper.Map<Thread, TopicModel>(topic),
                                                        HttpStatusCode.Created);
         }
 
@@ -104,13 +104,13 @@ namespace Teamworks.Web.Controllers.Api
         public HttpResponseMessage DeleteProjectDiscussion(int id, int projectid)
         {
             var project = LoadProject(projectid);
-            var topic = DbSession.Load<Topic>(id);
+            var topic = DbSession.Load<Thread>(id);
             if (topic == null || !topic.Entity.Equals(project.Id))
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            project.Discussions.Remove(topic.Id);
+            project.Threads.Remove(topic.Id);
             DbSession.Delete(topic);
             DbSession.SaveChanges();
 
@@ -133,7 +133,7 @@ namespace Teamworks.Web.Controllers.Api
             }
 
             var task = DbSession
-                .Include<Task>(t => t.Discussions)
+                .Include<Task>(t => t.Threads)
                 .Load<Task>(taskid);
 
             if (task == null || !task.Project.Equals(project.Id))
@@ -148,20 +148,20 @@ namespace Teamworks.Web.Controllers.Api
         {
             return
                 new List<DryTopicModel>(
-                    DbSession.Load<Topic>(LoadTask(projectid, taskid).Discussions).Select(
-                        Mapper.Map<Topic, DryTopicModel>));
+                    DbSession.Load<Thread>(LoadTask(projectid, taskid).Threads).Select(
+                        Mapper.Map<Thread, DryTopicModel>));
         }
 
         [GET("tasks/{taskid}/discussions/{id}")]
         public TopicModel GetTaskDiscussion(int id, int projectid, int taskid)
         {
             var task = LoadTask(projectid, taskid);
-            var topic = DbSession.Load<Topic>(id);
+            var topic = DbSession.Load<Thread>(id);
             if (topic == null || !topic.Entity.Equals(task.Id))
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
-            return Mapper.Map<Topic, TopicModel>(topic);
+            return Mapper.Map<Thread, TopicModel>(topic);
         }
 
         [POST("tasks/{taskid}/discussions/")]
@@ -177,12 +177,12 @@ namespace Teamworks.Web.Controllers.Api
 
             var task = LoadTask(projectid, taskid);
 
-            Topic topic = Topic.Forge(model.Name, model.Text, task.Id, Request.GetUserPrincipalId());
-            DbSession.Store(topic);
-            task.Discussions.Add(topic.Id);
+            Thread thread = Thread.Forge(model.Name, model.Text, task.Id, Request.GetUserPrincipalId());
+            DbSession.Store(thread);
+            task.Threads.Add(thread.Id);
             DbSession.SaveChanges();
 
-            return new HttpResponseMessage<TopicModel>(Mapper.Map<Topic, TopicModel>(topic),
+            return new HttpResponseMessage<TopicModel>(Mapper.Map<Thread, TopicModel>(thread),
                                                        HttpStatusCode.Created);
         }
 
@@ -199,7 +199,7 @@ namespace Teamworks.Web.Controllers.Api
             }
 
             var task = LoadTask(projectid, taskid);
-            var topic = DbSession.Load<Topic>(id);
+            var topic = DbSession.Load<Thread>(id);
             if (topic == null || !topic.Entity.Equals(task.Id))
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
@@ -208,7 +208,7 @@ namespace Teamworks.Web.Controllers.Api
             topic.Text = model.Text;
             DbSession.SaveChanges();
 
-            return new HttpResponseMessage<TopicModel>(Mapper.Map<Topic, TopicModel>(topic),
+            return new HttpResponseMessage<TopicModel>(Mapper.Map<Thread, TopicModel>(topic),
                                                        HttpStatusCode.Created);
         }
 
@@ -216,13 +216,13 @@ namespace Teamworks.Web.Controllers.Api
         public HttpResponseMessage DeleteTaskDiscussion(int id, int projectid, int taskid)
         {
             var task = LoadTask(projectid, taskid);
-            var topic = DbSession.Load<Topic>(id);
+            var topic = DbSession.Load<Thread>(id);
             if (topic == null || !topic.Entity.Equals(task.Id))
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            task.Discussions.Remove(topic.Id);
+            task.Threads.Remove(topic.Id);
             DbSession.Delete(topic);
             DbSession.SaveChanges();
 

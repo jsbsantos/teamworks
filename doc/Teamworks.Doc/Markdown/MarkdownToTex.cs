@@ -54,7 +54,7 @@ namespace Teamworks.Doc.Markdown
                     {
                         if (!appendix)
                         {
-                            File.AppendAllText(pre, @"\appendix\def\thesection{\Roman{section}}" + Environment.NewLine);
+                            File.AppendAllText(pre, @"\appendix\def\thesection{\Alph{section}}" + Environment.NewLine);
                             appendix = true;    
                         }
                         

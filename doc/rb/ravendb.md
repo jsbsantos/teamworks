@@ -1,22 +1,22 @@
 RavenDB
 =
 
-O [RavenDB](#ravendb) é uma base de dados de documentos implementada sobre a *framework* [.NET](#net) que suporta a componente [Linq](#linq) para *querying*. 
-A base de dados é dividida em dois blocos o servidor e o cliente. Na figura [blocosravendb](#) observa-se a interação da infra-estrutura com o RavenDB, utilizando o cliente. 
+O RavenDB [#ravendb]() é uma base de dados de documentos implementada sobre a *framework* .NET [#net]() que suporta a componente Linq [#linq]() para *querying*. 
+A base de dados é dividida em dois blocos o servidor e o cliente. Na figura [blocosravendb]() observa-se a interação da infra-estrutura com o RavenDB, utilizando o cliente. 
 
 ![Interacção da infra-estrutura Teamworks com a base de dados RavenDB\label{blocosravendb}](http://www.lucidchart.com/publicSegments/view/4fd76e6a-3ef0-4875-99c1-4ac60a78da40/image.png)
 
-O servidor é transaccional, armazena os dados no formato [JSON](#json) e tem como interface um serviço web disponibilizado através do protocolo HTTP. 
+O servidor é transaccional, armazena os dados no formato JSON [#json]() e tem como interface um serviço web disponibilizado através do protocolo HTTP. 
 
 O cliente tem como objectivo expor todas as funcionalidades do servidor através de uma api. 
 
 Cliente RavenDB
 -
 
-Para interacção com o cliente são usadas classes POCO o que torna desnecessária a utilização de um ORM ou qualquer sistema de correspondência entre objectos de domínio e os objectos persistidos. O cliente para além de gerir a comunicação com o servidor o cliente é responsável por fazer cache dos pedidos feitos e pela implementação do padrão *[Unit of Work](#unitofwork)*.
+Para interacção com o cliente são usadas classes POCO o que torna desnecessária a utilização de um ORM ou qualquer sistema de correspondência entre objectos de domínio e os objectos persistidos. O cliente para além de gerir a comunicação com o servidor o cliente é responsável por fazer cache dos pedidos feitos e pela implementação do padrão *Unit of Work*[#unitofwork]().
 
 A infra-estrutura utiliza principalmente duas classes da api cliente, *IDocumentStore* e *IDocumentSession*.
-A classe *IDocumentSession* representa uma sessão e permite obter dados, persistir dados e apagar dados da base de dados. O padrão *[Unit of Work](#unitofwork)* é implementado nas instâmcias desta classe e é dada a garantia que todas as alterações serão persistidas numa única transacção.
+A classe *IDocumentSession* representa uma sessão e permite obter dados, persistir dados e apagar dados da base de dados. O padrão *Unit of Work* é implementado nas instâmcias desta classe e é dada a garantia que todas as alterações serão persistidas numa única transacção.
 A classe *IDocumentStore* é uma fabrica para a criação de sessões.
 
 Indices

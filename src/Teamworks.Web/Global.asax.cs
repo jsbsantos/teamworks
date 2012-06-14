@@ -46,7 +46,7 @@ namespace Teamworks.Web
                 defaults:
                     new
                         {
-                            controller = "Discussions",
+                            controller = "Threads",
                             action = "View",
                             id = UrlParameter.Optional
                         }

@@ -40,5 +40,19 @@ namespace Teamworks.Core.Services
                 return session;
             }
         }
+
+        public void Reset()
+        {
+            Reset(false);
+        }
+
+        public void Reset(bool save)
+        {
+            if (save)
+            {
+                CurrentSession.SaveChanges();
+            }
+            Local.Data[Key] = null;
+        }
     }
 }
