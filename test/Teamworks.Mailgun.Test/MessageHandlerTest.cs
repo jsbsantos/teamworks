@@ -7,7 +7,8 @@ namespace Teamworks.Mailgun.Test
         [Fact]
         public void EnsureAfterEmailSentAStringIsReturned()
         {
-            Assert.IsType<string>(new MailMessageHandler().Send());
+            var mail = new MailMessageHandler();
+            mail.Send();
         }
     }
 }
