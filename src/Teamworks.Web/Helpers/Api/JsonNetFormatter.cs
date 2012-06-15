@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace Teamworks.Web.Helpers
+namespace Teamworks.Web.Helpers.Api
 {
     /// <see cref="http://blogs.msdn.com/b/henrikn/archive/2012/02/18/using-json-net-with-asp-net-web-api.aspx" />
     public class JsonNetFormatter : MediaTypeFormatter
