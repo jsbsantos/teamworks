@@ -16,7 +16,7 @@ Key-value stores
 [referência](http://ayende.com/blog/4449/that-no-sql-thing-key-value-stores)
 [referência](http://s3.amazonaws.com/AllThingsDistributed/sosp/amazon-dynamo-sosp2007.pdf)
 
-A função principal de um key-value store é guardar um valor associado a uma chave. Para essa função é disponibilizada uma variação da api descrita na lista [valuestore](#):
+A função principal de um key-value store é guardar um valor associado a uma chave. Para essa função é disponibilizada uma variação da Api descrita na lista [valuestore](#):
 
 \lstset{caption={Api simplificada de um key-value store.},label={valuestore}}
 
@@ -66,13 +66,13 @@ Uma base de dados de documentos é na sua essência um key-value store. A difere
 RavenDB
 -
 O RavenDB [#ravendb]() é uma base de dados de documentos implementada na *framework* .NET [#net]() que suporta a componente Linq [#linq]() para *querying*. 
-A base de dados é dividida em dois blocos o servidor e o cliente. O servidor é transaccional, armazena os dados no formato JSON [#json]() e tem como interface um serviço web disponibilizado através do protocolo HTTP. O cliente tem como objectivo expor todas as funcionalidades do servidor através de uma api. 
+A base de dados é dividida em dois blocos o servidor e o cliente. O servidor é transaccional, armazena os dados no formato JSON [#json]() e tem como interface um serviço web disponibilizado através do protocolo HTTP. O cliente tem como função expor todas as funcionalidades do servidor através de uma Api. 
 
 ### Cliente RavenDB
 
 Para interacção com o cliente são usadas classes *POCO* (*Plain Old CLR Object*) o que torna desnecessária a utilização de um ORM ou qualquer sistema de correspondência entre objectos de domínio e os objectos persistidos. O cliente para além de gerir a comunicação com o servidor o cliente é responsável por fazer cache dos pedidos ao servidor e pela implementação do padrão *Unit of Work*[#unitofwork]().
 
-A infra-estrutura utiliza principalmente duas classes da api cliente, `IDocumentStore` e `IDocumentSession`.
+A infra-estrutura utiliza principalmente duas classes do cliente, `IDocumentStore` e `IDocumentSession`.
 A classe `IDocumentSession` representa uma sessão e permite obter dados, persistir dados e apagar dados da base de dados. O padrão *Unit of Work* é implementado nas instâmcias desta classe e é dada a garantia que todas as alterações serão persistidas numa única transacção.
 A classe `IDocumentStore` é uma fabrica para a criação de sessões.
 

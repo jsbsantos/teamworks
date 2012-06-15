@@ -20,7 +20,7 @@ namespace Teamworks.Doc
         public static void RegisterMarkdownHandler(this MarkdownToTex md, string folder)
         {
             md.Handlers.Add(new ClearPage());
-            md.Handlers.Add(new ImgReplace(folder));
+            md.Handlers.Add(new Download(folder));
             md.Handlers.Add(new AppendToEnd("####.*", "////"));
             md.Handlers.Add(new SimpleReplace(@"\_", @"\w(_)\w"));
             md.Handlers.Add(new SimpleReplace(@"\cite{{0}}", @"\[#([^\]]*)\]*\(\)"));

@@ -9,7 +9,7 @@ Na figura \ref{interacaoraven} pode observar-se a interacção da infra-estrutur
 
 ![Interacção da infra-estrutura Teamworks com a base de dados.\label{interacaoraven}](http://www.lucidchart.com/publicSegments/view/4fd76e6a-3ef0-4875-99c1-4ac60a78da40/image.png)
 
-O acesso ao servidor RavenDB é feito através de uma api ReSTful. O servidor tem a responsabilidade de alojar os dados e de responder a *queries*, internamente traduzidas em índices, para obtenção de dados. 
+O acesso ao servidor RavenDB é feito através de uma Api ReSTful. O servidor tem a responsabilidade de alojar os dados e de responder a *queries*, internamente traduzidas em índices, para obtenção de dados. 
 
 O cliente é usado para comunicar com o servidor através de código .NET. Os dados enviados e recebidos do cliente são *POCO*s (*Plain Old CLR Object*) o que simplifica a sua utilização.
 
