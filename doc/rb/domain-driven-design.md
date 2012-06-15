@@ -1,7 +1,7 @@
 Domain Driven Design
 =
 
-\label{app:ddd}
+\label{app:domaindrivendesign}
 
 Esta abordagem ao desenvolvimento de software defende que o foco principal deve ser o modelo e lógica do domínio do problema. 
 

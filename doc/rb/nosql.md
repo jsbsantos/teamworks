@@ -65,6 +65,7 @@ Uma base de dados de documentos é na sua essência um key-value store. A difere
 
 RavenDB
 -
+
 O RavenDB [#ravendb]() é uma base de dados de documentos implementada na *framework* .NET [#net]() que suporta a componente Linq [#linq]() para *querying*. 
 A base de dados é dividida em dois blocos o servidor e o cliente. O servidor é transaccional, armazena os dados no formato JSON [#json]() e tem como interface um serviço web disponibilizado através do protocolo HTTP. O cliente tem como função expor todas as funcionalidades do servidor através de uma Api. 
 
@@ -104,6 +105,8 @@ O *RavenDB* oferece ainda forma de juntar e transformar documentos no servidor o
 Na implementação deste projecto optou-se por estabelecer relações entre documentos através do seu identificador, tirando partido da funcionalidade *Include* oferecida pelo cliente RavenDB.
 
 ### Bundles
+
+\label{app:ravendb-bundle}
 
 No caso de as funcionalidades disponibilizadas pelo servidor RavenDB não serem suficientes existem Bundles que extendem as funcionalidades oferecidas. 
 Os Bundles oferecidos com a build do RavenDB são:

@@ -22,7 +22,7 @@ namespace Teamworks.Doc
             md.Handlers.Add(new ClearPage());
             md.Handlers.Add(new Download(folder));
             md.Handlers.Add(new AppendToEnd("####.*", "////"));
-            md.Handlers.Add(new SimpleReplace(@"\_", @"\w(_)\w"));
+            md.Handlers.Add(new SimpleReplace(@"{0}\_{1}", @"(\w)_(\w)"));
             md.Handlers.Add(new SimpleReplace(@"\cite{{0}}", @"\[#([^\]]*)\]*\(\)"));
             md.Handlers.Add(new SimpleReplace(@"\ref{{0}}", @"\[([^\]]*)\]*\(\)"));
             md.Handlers.Add(new SimpleReplace(@"{0}", @"(````).*"));

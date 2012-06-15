@@ -4,17 +4,19 @@ Aplicação Web
 \label{sec:app-web}
 
 A aplicação web disponibiliza uma interface para interacção com a infra-estrutura.
-Para a implementar é usada a *framework* [ASP.NET MVC](#aspnetmvc),que implementa o padrão MVC (Model–view–controller).
+Para a implementar é usada a *framework* ASP.NET MVC \ref{aspnetmvc},que implementa o padrão MVC (Model–view–controller).
 
 A aplicação web disponibiliza *controllers* que têm como resposta uma página web com código *javascript* que tornam o browser um cliente da Api. 
-As páginas web retornadas utilizam as *frameworks javascript* jQuery[#jquery]() e knockout[#knockout]() para interacção com o utilizador.
+As páginas web retornadas utilizam as *frameworks javascript* jQuery \ref{jquery} e knockout \ref{knockout} para interacção com o utilizador.
 
-A componente visual é conseguida usando HTML5, CSS3 e o *kit* Twitter Bootstrap[#bootstrap]().
+A componente visual é conseguida usando HTML5, CSS3 e o *kit* Twitter Bootstrap \ref{bootstrap}.
 
-A autenticação na aplicação web é feita através de um formulário onde o utilizador insere o nome de utilizador e a *password*. A validação dos dados inseridos é feita de forma semelhante à utilizada na Api com a diferença que na aplicação web é usada uma cookie (*.tw_auth*) para manter o utilizador autenticado nos pedidos subsequentes. 
-Para isso são usadas funcionalidades do modo de autenticação *forms* da *framework* ASP.NET[#aspnet](). 
+A autenticação na aplicação web é feita através de um formulário onde o utilizador insere o nome de utilizador e a *password*. A validação dos dados inseridos é feita de forma semelhante à utilizada na Api com a diferença que na aplicação web é usada uma cookie para manter o utilizador autenticado nos pedidos subsequentes. 
+Para isso são usadas funcionalidades do modo de autenticação *forms* da *framework* ASP.NET. 
 
-As classes que expõem as funcionalidades necessárias são a classe `FormsAuthentication`, usada para gerir o cookie de autenticação^[A cookie usada tem o nome *.tw_auth*], e o módulo `FormsAuthenticationModule` para manter o utilizador autenticado. 
+As classes que expõem as funcionalidades necessárias são a classe `FormsAuthentication`, usada para gerir o cookie de autenticação[^cookie], e o módulo `FormsAuthenticationModule` para manter o utilizador autenticado. 
+
+[^cookie]: A cookie usada tem o nome *.tw_auth*
 
 Depois de validar os dados do utilizador com sucesso a cookie é colocada na resposta usando a classe `FormsAuthentication`.
 A cookie tem como valor o identificador da instância de *Person* que foi obtida da base de dados no processo de autenticação. 
