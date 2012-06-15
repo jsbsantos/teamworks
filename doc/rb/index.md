@@ -28,8 +28,3 @@ Anexos
 #### [Domain Driven Desing](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/domain-driven-design.md)
 
 #### [NoSQL](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/nosql.md)
-
-#### [RavenDB](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/ravendb.md)
-
-
-

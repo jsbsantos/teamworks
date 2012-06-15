@@ -76,11 +76,20 @@ namespace Teamworks.Doc.Markdown
                 }
             }
 
+            var bib = string.Empty;
+            foreach (var f in Directory.GetFiles(input, "*.bib", SearchOption.TopDirectoryOnly))
+            {
+                var file = Path.Combine(input, f);
+                bib += " --bibliography=" + file;
+            }
+
+
+
             var front = Path.Combine(input, "front.tex");
             var exists = File.Exists(front);
             var args = String.Format(
-            @"--variable=lang:portuguese --variable=fontssize:11pt --variable=linkcolor:black --variable=tables:true --variable=graphics:true --from=markdown --to=latex --output={0} --listings --standalone --template={1}  --number-sections {2} --toc {3}",
-            Path.Combine(output, name), Path.Combine(output, "template.latex"), exists ? "--include-before=" + front: "", pre);
+            @"--variable=lang:portuguese --variable=fontssize:11pt --variable=linkcolor:black --variable=tables:true --variable=graphics:true --from=markdown --to=latex --output={0} --listings --standalone --template={1}  --number-sections {2} --toc {3} {4}",
+            Path.Combine(output, name), Path.Combine(output, "template.latex"), bib, exists ? "--include-before=" + front: "", pre);
 
             Trace.WriteLine("pandoc " + args);
             var process = new Process
