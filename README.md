@@ -18,7 +18,7 @@ A versão beta do relatório pode ser consultada nesta [página](https://github.
 
 ## Cartaz
 
-O cartaz do projecto está disponível para [download](http://www.lucidchart.com/publicSegments/view/4fda5de0-75f0-4d65-90e8-72220a443549). 
+O cartaz do projecto está disponível para [download](http://www.lucidchart.com/publicSegments/view/4fda5de0-75f0-4d65-90e8-72220a443549) ou em [imagem](http://www.lucidchart.com/publicSegments/view/4fda6630-e7b8-4f4e-bd33-610a0adcb320/image.png)  
 
 ## Relatório
 
