@@ -1,4 +1,4 @@
-Serviços
+﻿Serviços
 =
 
 \label{sec:servicos}
@@ -30,6 +30,6 @@ A infra-estrutura disponibiliza serviços para autenticação de utilizadores e 
 
 ### Autorização
 
-A autorização é feita quando é feito um acesso a um documento. Se o utilizador tentar aceder a um documento e não tiver permissões para o fazer é lançada uma excepção.
+A autorização é feita quando se tenta aceder a um documento. Se um utilizador tentar aceder a um documento e não tiver permissões para o fazer é lançada uma excepção.
 
 A configuração do cliente, para que este valide se é possível interagir com o documento, é feita utilizando métodos de extensão presentes no ficheiro `Raven.Client.Authorization.dll`.

@@ -1,9 +1,10 @@
-Descrição Geral
+﻿Descrição Geral
 =
 
 \label{sec:descricao-geral}
 
-Como indicado anteriormente, a solução *Teamworks*, tem como objectivo ajudar na gestão de projectos. Para isso a cada projecto estão associadas as seguintes funcionalidades:
+
+Como indicado anteriormente, a solução *Teamworks*, tem como objectivo disponibilizar funcionalidades para a gestão de projectos. Para isso a cada projecto estão associadas as seguintes funcionalidades:
 
 + Possibilidade de criar tarefas e gerir o tempo da sua execução. Possibilidade ainda de atribuir reponsáveis pela sua realização e disponibilizar uma lista a cada utilizador para que possa facilmente dar prioridade às tarefas e organizar o seu tempo. 
 
@@ -25,7 +26,7 @@ A autenticação na plataforma é obrigatória para a sua utilização sendo que
 
 Depois de autenticado o utilizador tem a opção de criar um projecto ou alterar um projecto já existente. A um projecto já existente é possível adicionar e remover utilizadores, adicionar tarefas ou apagar o projecto. Ao criar um projecto o utilizador fica associado a ele e pode fazer todas as acções enunciadas. 
 
-Ao criar uma tarefa são disponibilizadas novas acções ao utilizador. O utilizador pode, sobre a tarefa criada, criar novas entradas de registo do tempo dispendido na sua realização, adicionar e remover utilizadores e apagá-la. 
+Ao criar uma tarefa são disponibilizadas novas acções ao utilizador. O utilizador pode, sobre a tarefa criada, criar novas entradas de registo do tempo despendido na sua realização, adicionar e remover utilizadores e apagá-la. 
 
 De forma a promover a troca e partilha de informação é possível aos utilizadores criar e aceder aos debates relacionados com os projectos e/ou tarefas em que estão envolvidos.
 
@@ -39,7 +40,7 @@ Arquitectura
 -
 
 Na arquitectura da solução destacam-se quatro componentes, a aplicação web, a Api, a camada de serviços e a de dados, todos eles implementados utilizando a *framework* .NET \cite{net}.
- A aplicação web utiliza processamento do lado do cliente para complementar a implementação do servidor.
+A aplicação web utiliza processamento do lado do cliente para complementar a implementação do servidor.
 
 A aplicação web e a Api são implementadas utilizando a *framework* ASP.NET \cite{aspnet} e expõem as funcionalidades da plataforma através do protocolo HTTP. 
 A camada de serviços é responsável por toda a lógica aplicacional e a camada de dados tem como responsabilidade persistir os dados e disponibilizá-los quando pedidos. Para a persistência dos dados é usada a base de dados de documentos RavenDB \cite{ravendb}.
