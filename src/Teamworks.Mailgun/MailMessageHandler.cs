@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Json;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using Newtonsoft.Json.Linq;
 
 namespace Teamworks.Mailgun
 {
@@ -23,10 +23,10 @@ namespace Teamworks.Mailgun
 
             var content = new FormUrlEncodedContent(parameters);
             var json =
-                client.PostAsync(client.BaseAddress + "/messages", content).Result.Content.ReadAsAsync<JsonObject>().
+                client.PostAsync(client.BaseAddress + "/messages", content).Result.Content.ReadAsAsync<string>().
                     Result;
 
-            return json.ValueOrDefault("id").ReadAs<string>();
+            return JObject.Parse(json)["id"].Value<string>(); ;
         }
 
         private HttpClient CreateClient() {
