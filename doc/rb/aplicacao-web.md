@@ -4,7 +4,7 @@ Aplicação Web
 \label{sec:app-web}
 
 A aplicação web disponibiliza uma interface para interacção com a infra-estrutura.
-Para a implementar é usada a *framework* [ASP.NET MVC](#aspnetmvc),que implementa o padrão MVC^[MVC - **M**odel–**v**iew–**c**ontroller].
+Para a implementar é usada a *framework* [ASP.NET MVC](#aspnetmvc),que implementa o padrão MVC (Model–view–controller).
 
 A aplicação web disponibiliza *controllers* que têm como resposta uma página web com código *javascript* para acesso à web api, tornando o browser um cliente da api. 
 As páginas web retornadas utilizam as *frameworks javascript* jQuery[#jquery]() e knockout[#knockout]() para interacção com o utilizador e comunicação com a api.

@@ -13,7 +13,8 @@ O acesso ao servidor RavenDB é feito através de uma api ReSTful. O servidor te
 
 O cliente é usado para comunicar com o servidor através de código .NET. Os dados enviados e recebidos do cliente são *POCO*s (*Plain Old CLR Object*) o que simplifica a sua utilização.
 
-\lstset{caption={Utilização do cliente RavenDB},label={exemplocliente}}
+\lstset{caption={Utilização do cliente RavenDB.},label={exemplocliente}}
+
 ````csharp
 var person = new Person {
                Email = "johndoe@world.com"

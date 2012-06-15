@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Teamworks.MessageHandlerTest.Test")]
+[assembly: AssemblyTitle("Teamworks.Core.Mailgun")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Teamworks.MessageHandlerTest.Test")]
+[assembly: AssemblyProduct("Teamworks.Core.Mailgun")]
 [assembly: AssemblyCopyright("Copyright ©  2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("0c09ea1a-e074-4834-aa09-1d433f7d594e")]
+[assembly: Guid("ae5bd653-da71-4377-a83c-4af07dae022b")]
 
 // Version information for an assembly consists of the following four values:
 //

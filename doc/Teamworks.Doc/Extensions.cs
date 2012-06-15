@@ -22,10 +22,10 @@ namespace Teamworks.Doc
             md.Handlers.Add(new ClearPage());
             md.Handlers.Add(new ImgReplace(folder));
             md.Handlers.Add(new AppendToEnd("####.*", "////"));
-            md.Handlers.Add(new SimpleReplace(@"\_", "(_)"));
-            md.Handlers.Add(new SimpleReplace(@"\lstset{caption={{1}},label={{2}}}" + "\n\n{0}", @"(````)\[([^\]]*)\]\(([^\)]*)\)"));
+            md.Handlers.Add(new SimpleReplace(@"\_", @"\w(_)\w"));
             md.Handlers.Add(new SimpleReplace(@"\cite{{0}}", @"\[#([^\]]*)\]*\(\)"));
             md.Handlers.Add(new SimpleReplace(@"\ref{{0}}", @"\[([^\]]*)\]*\(\)"));
+            md.Handlers.Add(new SimpleReplace(@"{0}", @"(````).*"));
             md.Handlers.Add(new GlobalReplace("|", "   ", @"\|.*\|"));
         }
     }

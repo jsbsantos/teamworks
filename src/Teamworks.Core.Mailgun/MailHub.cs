@@ -5,9 +5,9 @@ using System.Net.Http.Headers;
 using System.Text;
 using Newtonsoft.Json.Linq;
 
-namespace Teamworks.Mailgun
+namespace Teamworks.Core.Mailgun
 {
-    public class MailMessageHandler
+    public class MailHub
     {
         public string Send()
         {
@@ -29,10 +29,11 @@ namespace Teamworks.Mailgun
             return JObject.Parse(json)["id"].Value<string>(); ;
         }
 
-        private HttpClient CreateClient() {
-                var client = new HttpClient {BaseAddress = new Uri("https://api.mailgun.net/v2/teamworks.mailgun.org")};
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Credentials);
-                return client;
+        private HttpClient CreateClient()
+        {
+            var client = new HttpClient { BaseAddress = new Uri("https://api.mailgun.net/v2/teamworks.mailgun.org") };
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Credentials);
+            return client;
         }
 
         private string _credentials;
