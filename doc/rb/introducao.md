@@ -29,7 +29,7 @@ A aplicação web *LiquidPlanner*[^liquidplanner] oferece as funcionalidades das
 Solução Teamworks
 -
 
-Este projecto tem como objectivo desenvolver uma infra-estrutura que forneça funcionalidades de gestão e monitorização de projectos durante o seu ciclo de vida, como o debate de soluções, definição de tarefas, planeamento, atribuição de responsáveis e registo de tempo despendido na sua realização. 
+Este projecto tem como objectivo desenvolver uma infra-estrutura que forneça funcionalidades de gestão e monitorização de projectos durante o seu ciclo de vida, como a definição de tarefas, planeamento, atribuição de responsáveis e registo de tempo despendido na sua realização e debate de soluções.
 
 A solução desenvolvida deve ser acessível através de diversas plataformas (e.g. browser, aplicações de dispositivos móveis) e permitir a integração com aplicações externas. Tendo em conta este requisito não é sensato criar soluções distintas para cada situação, por isso a abordagem seguida passa por criar uma web api, que diferentes clientes podem usar para comunicar com a infra-estrutura, e uma aplicação web que usa essa mesma api.
 
@@ -37,6 +37,6 @@ Pretende-se ainda que a interface com o utilizador, disponibilizada através de 
 
 [^basecamp]: *Basecamp* - http://basecamp.com/
 
-[^freckle]: *Frecle* - http://letsfreckle.com/
+[^freckle]: *Freckle* - http://letsfreckle.com/
 
 [^liquidplanner]: *LiquidPlanner* - http://www.liquidplanner.com/
