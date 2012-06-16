@@ -18,7 +18,7 @@ namespace Teamworks.Web.Controllers.Api
     [RoutePrefix("api/projects/{projectid}")]
     public class DiscussionsController : RavenApiController
     {
-        #region Entity Threads
+        #region Entity ThreadsController
 
         private Project LoadProject(int projectid)
         {
@@ -69,7 +69,6 @@ namespace Teamworks.Web.Controllers.Api
             Thread thread = Thread.Forge(model.Name, model.Text, project.Id, Request.GetUserPrincipalId());
             DbSession.Store(thread);
             project.Threads.Add(thread.Id);
-            DbSession.SaveChanges();
 
             return new HttpResponseMessage<ThreadModel>(Mapper.Map<Thread, ThreadModel>(thread),
                                                        HttpStatusCode.Created);
@@ -94,7 +93,6 @@ namespace Teamworks.Web.Controllers.Api
             }
 
             topic.Text = model.Text;
-            DbSession.SaveChanges();
 
             return new HttpResponseMessage<ThreadModel>(Mapper.Map<Thread, ThreadModel>(topic),
                                                        HttpStatusCode.Created);
@@ -112,7 +110,6 @@ namespace Teamworks.Web.Controllers.Api
 
             project.Threads.Remove(topic.Id);
             DbSession.Delete(topic);
-            DbSession.SaveChanges();
 
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
@@ -180,7 +177,6 @@ namespace Teamworks.Web.Controllers.Api
             Thread thread = Thread.Forge(model.Name, model.Text, task.Id, Request.GetUserPrincipalId());
             DbSession.Store(thread);
             task.Threads.Add(thread.Id);
-            DbSession.SaveChanges();
 
             return new HttpResponseMessage<ThreadModel>(Mapper.Map<Thread, ThreadModel>(thread),
                                                        HttpStatusCode.Created);
@@ -206,7 +202,6 @@ namespace Teamworks.Web.Controllers.Api
             }
 
             topic.Text = model.Text;
-            DbSession.SaveChanges();
 
             return new HttpResponseMessage<ThreadModel>(Mapper.Map<Thread, ThreadModel>(topic),
                                                        HttpStatusCode.Created);
@@ -224,7 +219,6 @@ namespace Teamworks.Web.Controllers.Api
 
             task.Threads.Remove(topic.Id);
             DbSession.Delete(topic);
-            DbSession.SaveChanges();
 
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }

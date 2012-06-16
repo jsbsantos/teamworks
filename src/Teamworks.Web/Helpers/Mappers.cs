@@ -20,6 +20,7 @@ namespace Teamworks.Web.Helpers
         public static void RegisterMappers()
         {
             #region Entity Mappings
+
             Mapper.CreateMap<ProjectModel, Project>();
             Mapper.CreateMap<Project, ProjectModel>()
                 .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier))
@@ -38,9 +39,11 @@ namespace Teamworks.Web.Helpers
 
             Mapper.CreateMap<Project, DryProjectModel>()
                 .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier));
+
             #endregion
 
             #region Task Mappings
+
             Mapper.CreateMap<TaskModel, Task>();
             Mapper.CreateMap<Task, TaskModel>()
                 .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier))
@@ -48,36 +51,60 @@ namespace Teamworks.Web.Helpers
                 .ForMember(src => src.Timelog, opt => opt.MapFrom(src => src.Timelog));
             Mapper.CreateMap<Task, DryTaskModel>()
                 .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier));
+
             #endregion
 
             #region TimeEntry Mappings
+
             Mapper.CreateMap<TimeEntryModel, TimeEntry>();
             Mapper.CreateMap<TimeEntry, TimeEntryModel>();
+
             #endregion
 
             #region Thread Mappings
+
             Mapper.CreateMap<DryThreadModel, Thread>();
             Mapper.CreateMap<Thread, DryThreadModel>()
                 .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier))
-                .ForMember(src => src.Person, opt => opt.MapFrom(src => Mapper.Map<Person, DryPersonModel>(Global.Raven.CurrentSession.Load<Person>(src.Person))));
+                .ForMember(src => src.Person,
+                           opt =>
+                           opt.MapFrom(
+                               src =>
+                               Mapper.Map<Person, DryPersonModel>(Global.Raven.CurrentSession.Load<Person>(src.Person))));
 
             Mapper.CreateMap<ThreadModel, Thread>();
             Mapper.CreateMap<Thread, ThreadModel>()
                 .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier))
-                .ForMember(src => src.Person, opt => opt.MapFrom(src => Mapper.Map<Person,DryPersonModel>(Global.Raven.CurrentSession.Load<Person>(src.Person))));
+                .ForMember(src => src.Person,
+                           opt =>
+                           opt.MapFrom(
+                               src =>
+                               Mapper.Map<Person, DryPersonModel>(Global.Raven.CurrentSession.Load<Person>(src.Person))));
+
             #endregion
 
             #region Message Mappings
-            Mapper.CreateMap<MessageModel, Message>();
+
+            Mapper.CreateMap<MessageModel, Message>()
+                .ForMember(src => src.Content, opt => opt.MapFrom(src => src.Text));
+
             Mapper.CreateMap<Message, MessageModel>()
-                .ForMember(src => src.Person, opt => opt.MapFrom(src => Mapper.Map<Person, DryPersonModel>(Global.Raven.CurrentSession.Load<Person>(src.Person))));
+                .ForMember(src => src.Text, opt => opt.MapFrom(src => src.Content))
+                .ForMember(src => src.Person,
+                           opt =>
+                           opt.MapFrom(
+                               src =>
+                               Mapper.Map<Person, DryPersonModel>(Global.Raven.CurrentSession.Load<Person>(src.Person))));
+
             #endregion
 
             #region Person Mappings
+
             Mapper.CreateMap<DryPersonModel, Person>();
-            Mapper.CreateMap<Person, DryPersonModel>();  
+            Mapper.CreateMap<Person, DryPersonModel>();
             Mapper.CreateMap<PersonModel, Person>();
             Mapper.CreateMap<Person, PersonModel>();
+
             #endregion
         }
     }

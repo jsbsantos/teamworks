@@ -63,7 +63,6 @@ namespace Teamworks.Web.Controllers.Api
             Task task = Task.Forge(project.Id, taskModel.Name, taskModel.Description);
             DbSession.Store(task);
             project.Tasks.Add(task.Id);
-            DbSession.SaveChanges();
 
             return new HttpResponseMessage<TaskModel>(Mapper.Map<Task, TaskModel>(task),
                                                       HttpStatusCode.Created);
@@ -96,7 +95,6 @@ namespace Teamworks.Web.Controllers.Api
             var task = DbSession.Load<Task>(id);
             DbSession.Delete(task);
             project.Tasks.Remove(task.Id);
-            DbSession.SaveChanges();
 
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }

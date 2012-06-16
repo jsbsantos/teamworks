@@ -41,15 +41,24 @@ var Task = function (data) {
 var Timelog = function (data, taskid, projectid) {
     var self = this;
     data = data || {};
-    
+
     self.id = ko.observable((data && data.id) || "0");
     self.description = ko.observable(data && data.description);
     self.date = ko.observable(data && data.date);
     self.duration = ko.observable(data && data.duration);
     self.person = ko.observable(data && data.person);
-    
+
     self.url = ko.computed(function () {
         return "/" + projectid + "/tasks/" + taskid + "/timelog/" + self.id() + "/view";
+    }, this);
+
+
+    self.dateFormatted = ko.computed(function () {
+        if (self.date()) {
+            var date = new Date(parseInt(self.date().substr(6)));
+            return date.getDay() + "/" + date.getMonth() + "/" + date.getFullYear();
+        }
+        return self.date();
     }, this);
 
     self.clear = function () {
@@ -69,10 +78,10 @@ var Discussion = function (data) {
     self.date = ko.observable(data && data.date);
     self.text = ko.observable(data && data.text);
     self.person = ko.observable(data && data.person);
-    self.project = ko.observable(data.project);
+    self.entity = ko.observable(data.entity);
     
     self.url = ko.computed(function () {
-        return "/" + self.project() + "/discussions/" + self.id() + "/view";
+        return "/" + data.base_url + self.entity() + "/discussions/" + self.id() + "/view";
     }, this);
 
     self.clear = function () {
@@ -90,22 +99,24 @@ var Message = function (data, discussionid, projectid) {
 
     self.id = ko.observable((data && data.id) || "0");
     self.text = ko.observable(data && data.text);
-    self.date = ko.observable(data && data.date || new Date().toString());
+    self.date = ko.observable(data && data.date);
     self.person = ko.observable(data && data.person);
-    
-    self.formatted_date = ko.computed(function () {
-        return new Date(parseInt(self.date().substr(6)));
+
+    self.dateFormatted = ko.computed(function () {
+        if (self.date()) {
+            var date = new Date(parseInt(self.date().substr(6)));
+            return date.getDay() + "/" + date.getMonth() + "/" + date.getFullYear();
+        }
+        return self.date();
     }, this);
+
         
     self.url = ko.computed(function () {
         return "/projects/" + projectid + "/discussion/" + discussionid + "/message/" + self.id() + "/view";
     }, this);
 
     self.clear = function () {
-        self.id("");
         self.text("");
-        self.date("");
-        self.person("");
     };
 };
 

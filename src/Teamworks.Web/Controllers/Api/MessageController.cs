@@ -62,7 +62,6 @@ namespace Teamworks.Web.Controllers.Api
             var message = Message.Forge(model.Text, Request.GetUserPrincipalId());
             message.Id = topic.GenerateNewTimeEntryId();
             topic.Messages.Add(message);
-            DbSession.SaveChanges();
 
             return new HttpResponseMessage<MessageModel>(Mapper.Map<Message, MessageModel>(message),
                                                          HttpStatusCode.Created);
@@ -89,7 +88,6 @@ namespace Teamworks.Web.Controllers.Api
             }
 
             topic.Messages.Remove(message);
-            DbSession.SaveChanges();
 
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
@@ -148,7 +146,6 @@ namespace Teamworks.Web.Controllers.Api
             var message = Message.Forge(model.Text, Request.GetUserPrincipalId());
             message.Id = topic.GenerateNewTimeEntryId();
             topic.Messages.Add(message);
-            DbSession.SaveChanges();
 
             return new HttpResponseMessage<MessageModel>(Mapper.Map<Message, MessageModel>(message),
                                                          HttpStatusCode.Created);
@@ -176,7 +173,6 @@ namespace Teamworks.Web.Controllers.Api
             }
 
             topic.Messages.Remove(message);
-            DbSession.SaveChanges();
 
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }

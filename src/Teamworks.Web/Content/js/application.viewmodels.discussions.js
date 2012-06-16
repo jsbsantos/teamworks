@@ -56,13 +56,15 @@
     };
 };
 
-var discussion_list_viewmodel = function (entity, discussions) {
+var discussion_list_viewmodel = function (entity, discussions, base_url) {
     var self = this;
     self.discussion = new Discussion();
-    
-    self.endpoint = "/api/projects/" + projectid + "/discussions/";
+
+    self.endpoint = "/api/"+ base_url + entity + "/discussions/";
     self.discussions = ko.observableArray(
         $.map(discussions, function (item) {
+            item.entity = entity;
+            item.base_url = base_url;
             return new Discussion(item);
         })
     );

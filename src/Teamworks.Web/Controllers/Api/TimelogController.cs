@@ -68,7 +68,6 @@ namespace Teamworks.Web.Controllers.Api
             var timeentry = TimeEntry.Forge(model.Description, model.Date, model.Duration, model.Person);
             timeentry.Id = task.GenerateNewTimeEntryId();
             task.Timelog.Add(timeentry);
-            DbSession.SaveChanges();
 
             return new HttpResponseMessage<TimeEntryModel>(Mapper.Map<TimeEntry, TimeEntryModel>(timeentry),
                                                            HttpStatusCode.Created);
@@ -107,7 +106,6 @@ namespace Teamworks.Web.Controllers.Api
             timeentry.Date = model.Date;
             timeentry.Description = model.Description;
             timeentry.Duration = model.Duration;
-            DbSession.SaveChanges();
 
             return new HttpResponseMessage<TimeEntryModel>(Mapper.Map<TimeEntry, TimeEntryModel>(timeentry),
                                           HttpStatusCode.Created);
@@ -136,7 +134,6 @@ namespace Teamworks.Web.Controllers.Api
             }
 
             task.Timelog.Remove(timeentry);
-            DbSession.SaveChanges();
 
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }

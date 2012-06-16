@@ -4,7 +4,7 @@ var TimelogViewmodel = function(task) {
 
     /* new TimeEntryViewmodel */
     self.task = task;
-    self.requestUrl = "/api/projects/" + task.projectid() + "/tasks/" + task.id() + "/timelog";
+    self.requestUrl = "/api/projects/" + task.project() + "/tasks/" + task.id() + "/timelog";
     /* TimeEntryViewmodel interactions */
 
     self.create = function() {

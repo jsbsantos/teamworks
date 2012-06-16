@@ -56,6 +56,12 @@
     <Reference Include="AutoMapper, Version=2.1.267.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\..\packages\AutoMapper.2.1.267\lib\net40\AutoMapper.dll</HintPath>
     </Reference>
+    <Reference Include="Glimpse.Core">
+      <HintPath>..\..\packages\Glimpse.0.87\lib\net40\Glimpse.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Glimpse.Mvc3">
+      <HintPath>..\..\packages\Glimpse.Mvc3.0.87\lib\net40\Glimpse.Mvc3.dll</HintPath>
+    </Reference>
     <Reference Include="LowercaseRoutesMVC, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\LowercaseRoutesMVC.1.0.3\lib\LowercaseRoutesMVC.dll</HintPath>
     </Reference>
@@ -150,6 +156,8 @@
   <ItemGroup>
     <Compile Include="App_Start\AttributeRoutingHttp.cs" />
     <Compile Include="App_Start\RestApiAuthenticationConfig.cs" />
+    <Content Include="App_Readme\glimpse.mvc3.readme.txt" />
+    <Content Include="App_Readme\glimpse.readme.txt" />
     <Content Include="Content\js\gac.js" />
     <Compile Include="Controllers\Api\DiscussionsController.cs" />
     <Compile Include="Controllers\Api\Handlers\FormsAuthenticationHandler.cs" />
@@ -158,7 +166,7 @@
     <Compile Include="Controllers\Api\MessageController.cs" />
     <Compile Include="Controllers\Api\TimelogController.cs" />
     <Compile Include="Controllers\Api\PeopleController.cs" />
-    <Compile Include="Controllers\Mvc\DiscussionsController.cs" />
+    <Compile Include="Controllers\Mvc\ThreadsController.cs" />
     <Compile Include="Controllers\Mvc\TimelogController.cs" />
     <Compile Include="Controllers\Mvc\Filters\FormsAuthenticationAttribute.cs" />
     <Compile Include="Helpers\Teamworks\EntityExtensions.cs" />
@@ -289,8 +297,8 @@
     <Content Include="Views\Tasks\Task.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Timelog\View.cshtml" />
-    <Content Include="Views\Discussions\Discussion.cshtml" />
-    <Content Include="Views\Discussions\View.cshtml" />
+    <Content Include="Views\Threads\Discussion.cshtml" />
+    <Content Include="Views\Threads\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\teamworks.css" />

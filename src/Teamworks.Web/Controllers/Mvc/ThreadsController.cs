@@ -11,7 +11,7 @@ using Teamworks.Web.Models.DryModels;
 
 namespace Teamworks.Web.Controllers.Web
 {
-    public class DiscussionsController : RavenController
+    public class ThreadsController : RavenController
     {
         [HttpGet]
         [ActionName("View")]

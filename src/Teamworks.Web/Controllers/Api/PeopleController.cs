@@ -65,7 +65,6 @@ namespace Teamworks.Web.Controllers.Api
             var person = Get<Person>("people/" + name);
 
             project.People.Add(person.Id);
-            DbSession.SaveChanges();
             //todo permissions?
             return new HttpResponseMessage<PersonModel>(Mapper.Map<Person, PersonModel>(person),
                                                         HttpStatusCode.Created);
@@ -120,7 +119,6 @@ namespace Teamworks.Web.Controllers.Api
 
             task.People.Add(person.Id);
             //todo permissions?
-            DbSession.SaveChanges();
             return new HttpResponseMessage<PersonModel>(Mapper.Map<Person, PersonModel>(person),
                                                         HttpStatusCode.Created);
         }
