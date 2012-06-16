@@ -1,4 +1,4 @@
-Domain Driven Design
+﻿Domain Driven Design
 =
 
 \label{app:domaindrivendesign}
@@ -10,9 +10,9 @@ Para representar o modelo de domínio podem ser usados diagramas UML, texto deta
 Um aspecto importante é compreensão do modelo de domínio por todos os intervenientes no projecto (e.g. arquitectos de software, programadores, cliente).
 Aos elementos do modelo de domínio dá-se o nome de objectos de domínio.
 
-Algusn objectos de domínio transversais a qualquer projecto são as entidades, os *value objects*, os agregados, as fábricas e os repositórios.
+Alguns objectos de domínio transversais a qualquer projecto são as entidades, os *value objects*, os agregados, as fábricas e os repositórios.
 
- Uma entidade representa um objecto do modelo possível de identificar únivocamente em todo o seu tempo de vida na aplicação.
+Uma entidade representa um objecto do modelo possível de identificar únivocamente em todo o seu tempo de vida na aplicação.
 
 Um *value object*, assim como uma entidade, é representado pelas suas características e atributos mas não tem identidade no sistema, ou seja *value objects* com os mesmas características e atributos são considerados iguais.
 

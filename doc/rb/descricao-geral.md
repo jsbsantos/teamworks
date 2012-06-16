@@ -47,6 +47,6 @@ A camada de serviços é responsável por toda a lógica aplicacional e a camada
 
 A interacção dos componentes é a seguinte: a aplicação web e a Api usam a camada de serviços para responder aos pedidos que lhes são feitos; a camada de serviços envia e obtém dados da camada de dados para implementar a sua lógica; e a camada de dados é responsável pela comunicação com a base de dados. A figura \ref{fig:arquitectura} demonstra esta interacção.
 
-![Arquitectura da infra-estrutura *Teamworks*\label{fig:arquitectura}](http://www.lucidchart.com/publicSegments/view/4fd9ee2c-c028-4828-8962-51ad0a4022d4/image.png)
+![Arquitectura da plataforma *Teamworks*\label{fig:arquitectura}](http://www.lucidchart.com/publicSegments/view/4fd9ee2c-c028-4828-8962-51ad0a4022d4/image.png)
 
 Alguns dos problemas não directamente relacionadas com a plataforma são resolvidos usando projectos *opensource* que serão indicados quando se justificar.
