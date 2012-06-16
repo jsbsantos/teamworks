@@ -5,7 +5,7 @@ Domínio
 
 Para descrever o modelo de domínio foi utilizada uma abordagem *Domain-Driven Design* \cite{domaindrivendesign} (descrita no anexo \ref{app:domaindrivendesign}). As caracteristicas e funcionalidades apresentadas na  descrição geral (ver secção \ref{sec:descricao-geral}) serviram de base para a elaboração do modelo de domínio.
 
-Modelo
+Modelo de Domínio
 -
 
 \label{sec:dominio-modelo}
@@ -19,9 +19,9 @@ Uma **tarefa** (`Task`) tem nome e descrição e pode também ter várias pessoa
 
 Sobre os projectos e tarefas é ainda possível criar **debates** (`Thread`), visíveis apenas a **pessoas** que lhes estão associadas, onde é possível criar **mensagens** (`Message`).
 
-A descrição destas entidades e das suas relações é descrita no seguinte diagrama de classes da figura \ref{fig:digramadeclassesdedominio}.
+A descrição destas entidades e das suas relações é descrita no seguinte diagrama de classes da figura \ref{fig:diagramadedominio}.
 
-![Diagrama de relação entre os objectos de domínio.\label{fig:diagramadeclassesdedominio}](http://www.lucidchart.com/publicSegments/view/4fd89208-da90-4b53-8506-66290a443549/image.png)
+![Diagrama de relação entre os objectos de domínio.\label{fig:diagramadedominio}](http://www.lucidchart.com/publicSegments/view/4fd89208-da90-4b53-8506-66290a443549/image.png)
 
 Depois de analisadas as relações e responsabilidades de cada entidade foram caracterizados como agregados os objectos de domínio **projecto** e **pessoa**. As entidades **tarefa** e **debate** são entidades do agregado **projecto** pois é possível identificá-las univocamente. O **registo de tempo** e as **mensagens** são definidos como *value object* e inseridos nas entidades que os referenciam. 
 

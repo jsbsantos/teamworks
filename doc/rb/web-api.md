@@ -3,7 +3,7 @@ Web Api
 
 \label{sec:api}
 
-A Api assenta sobre modelo de arquitectura ReSTful \ref{restful} e todos os objectos da aplicação são considerados recursos e têm URL definido. 
+A Api assenta sobre modelo de arquitectura ReSTful e todos os objectos da aplicação são considerados recursos e têm URL definido. 
 A comunicação é feita utilizando o protocolo HTTP.
 
 Em todos os pedidos à Api é comum a necessidade de aceder ao repositório de dados, para isso é usada uma instância de sessão do cliente RavenDB.
@@ -25,9 +25,9 @@ O acesso a esta propriedade tem como resultado a chamada à propriedade `Global.
 Segurança
 - 
 
-A autenticação na Api é feita utilizando HTTP *Basic authentication* \ref{basicauth}, sendo as credenciais do utilizador enviadas convertidas em *Base64*. 
+A autenticação na Api é feita utilizando HTTP *Basic authentication*, sendo as credenciais do utilizador enviadas convertidas em *Base64*. 
 O pedido ao passar pelo *pipeline* de processamento de pedidos HTTP é analisado por uma instância da classe `BasicAuthenticationHandler`, que verifica se o *header* de nome `Authorization` tem como esquema de autenticação *Basic* e converte as credenciais para a forma original, `nome-de-utilizador:password`. 
-A validação das credenciais enviadas para o servidor utiliza o serviço de autenticação (ver secção [sec:servicos-autenticacao]()).
+A validação das credenciais enviadas para o servidor utiliza o processo descrito no domínio (ver secção \ref{sec:dominio}).
 
 Se o utilizador não preencher o *header* de autenticação quando necessário o código da resposta é `401 Unauthorized`.
 

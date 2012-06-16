@@ -1,4 +1,4 @@
-﻿Introdução
+Introdução
 =
 
 \label{sec:introducao}
@@ -17,7 +17,7 @@ Soluções Existentes
 Actualmente existem soluções que pretendem agilizar a gestão de projectos e podem ser encontradas sobre a forma de aplicações desktop ou web. 
 
 As aplicações desktop são usadas em ambiente local tornando a interacção e partilha de resultados com outras pessoas do projecto.
-Um exemplo deste tipo de aplicações é a aplicação *Microsoft Project* usada para o planeamento de tarefas, estimar a sua duração e atribuir-lhe recursos. 
+Um exemplo deste tipo de aplicações é a aplicação *Microsoft Project* \cite{mproject} usada para o planeamento de tarefas, estimar a sua duração e atribuir-lhe recursos. 
 
 Ao contrário das aplicações desktop todas as interacções com uma aplicação web ficam alojadas na *cloud* tornando a informação acessível a todos os membros do projecto. Há uma grande variedade de aplicações web disponíveis, entre as quais, se destacam as aplicações *basecamp* \cite{basecamp}, *freckle* \cite{freckle} e *LiquidPlanner* \cite{liquidplanner}.
 

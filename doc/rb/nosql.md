@@ -4,17 +4,20 @@ NoSQL
 As bases de dados NoSQL diferem do modelo relacional porque são tipicamente desenhadas para escalar horizontalmente e podem ter as seguintes características:
 
  * Não têm *schema* fixo;
- * Não suportam operações de join;
- * Suportam o conceito de BASE;
- * Suportam o conceito de CAP;  
+ * Não suportam operações de `JOIN`;
+ * Suportam o conceito de BASE[^base];
+ * Suportam o conceito de CAP[^CAP];  
 
-Embora algumas destas características possam parecer negativas, existem vantagens na utilização deste tipo de base de dados dependendo da sua categoria. Em NoSQL as bases de dados podem ser categorizadas como key-value stores, base de dados de documentos, base de dados de grafos ou implementações BigTable. As base de dados de grafos e implementações BigTable não foram consideras neste projecto.
+[^base]: BASE - **B**asically **A**vailable, **S**oft state, **E**ventual consistency.
+
+[^cap]: CAP - **C**onsitency, **A**vailability, **P**artition tolerance.
+
+Embora algumas destas características possam parecer negativas, existem vantagens na utilização deste tipo de base de dados dependendo da sua categoria \cite{dropacid}.
+Em NoSQL as bases de dados podem ser categorizadas como *key-value  stores* \cite{amazonkeyvaluestore} \cite{keyvaluestore}, base de dados de documentos \cite{documentdb} \cite{ibmdocumentdb}, base de dados de grafos ou implementações BigTable.
+As base de dados de grafos e implementações BigTable não foram consideras para a realização deste projecto.
 
 Key-value stores
 -
-
-[referência](http://ayende.com/blog/4449/that-no-sql-thing-key-value-stores)
-[referência](http://s3.amazonaws.com/AllThingsDistributed/sosp/amazon-dynamo-sosp2007.pdf)
 
 A função principal de um key-value store é guardar um valor associado a uma chave. Para essa função é disponibilizada uma variação da Api descrita na lista [valuestore](#):
 
@@ -28,50 +31,47 @@ void Remove(string key);
 
 O valor guardado é um blob. Esta característica torna desnecessária a definição de um *schema* dando assim total flexibilidade no armazenamento de dados. Devido ao acesso ser feito através de uma chave este tipo de persistência pode facilmente ser optimizada e ter a sua performance melhorada.
 
- + **Concorrência** - Num key-value store a concorrência apenas se manifesta quando são feitas operações sobre a mesma chave.
-
- + **Queries** - Uma *query* é apenas possível fazer com base na chave e como retorno obtêm-se o valor associado. Esta é uma limitação deste tipo de solução mas que se torna uma vantagem em ambientes em que o único tipo de acesso necessário é com base numa chave, como é o case de um sistema de cache.
-
- + **Transações** - A garantia de que as escritas são feitas no contexto de uma transação só é garantida se for escrita apenas uma chave. É possível oferecer essas garantias para múltiplas chaves mas tendo em conta a natureza de um key-value store de permitir que diferentes chaves estejam armazenadas em diferenter máquinas torna o processo de dificil implementação.
-
  + ***Schema*** - O *schema* neste tipo de base de dados é simples, a chave é uma string e o valor é um blob. O tipo e a forma como os dados são estruturados é da responsabilidade do utilizador.
 
+ + **Concorrência** - Num key-value a concorrência apenas se manifesta quando são feitas operações sobre a mesma chave.
+
+ + **Queries** - Uma *query* é apenas possível fazer com base na chave e como retorno obtêm-se o valor associado. Esta é uma limitação deste tipo de solução que não se manifesta em ambientes em que o único tipo de acesso necessário é com base numa chave, como é o case de um sistema de cache.
+
  + **Escalabilidade** - Existem duas formas para o fazer sendo que a mais simples seria separar as chaves. Separar chaves implica decidir a regra de separação, que pode separar as chaves com base no seu primeiro caracter e cada caracter é alojado numa máquina diferente, esta forma torna-se uma não opção quando a máquina onde está a chave não está disponível. Para resolver esse problema é usada replicação.
+
+ + **Transações** - A garantia de que as escritas são feitas no contexto de uma transação só é dada se for escrita apenas uma chave. É possível oferecer essas garantias para múltiplas chaves mas tendo em conta que um key-value store permite que diferentes chaves estejam armazenadas em diferenter máquinas torna o processo de dificil implementação.
 
 Base de dados de documentos
 -
 
-[referencia](http://ayende.com/blog/4459/that-no-sql-thing-document-databases)
-[referencia](http://www.ibm.com/developerworks/opensource/library/os-couchdb/index.html#N10062)
-[referencia](http://weblogs.asp.net/britchie/archive/2010/08/12/document-databases.aspx)
-[referencia](http://highscalability.com/drop-acid-and-think-about-data)
-
 Uma base de dados de documentos é na sua essência um key-value store. A diferença é que, numa base de dados de documentos, o blob de informação é persistido de uma forma semi-estruturada, em documentos, utilizando um formato que possa ser interpretado pela base de dados como JSON, BSON, XML, etc, permitindo realizar queries sobre essa informação.
 
-+ **Concorrência** - Existem várias abordagens para resolver este problema como a concorrência optimista, pessimista ou *merge*. 
-  + Concorrência Optimista: Antes de gravar informação é verificado se o documento foi alterado por outra transacção, sendo a transacção abortada nesse caso;
-  + Concorrência Péssimista: Usa locks para impedir várias transacções de modificarem o mesmo documento. Esta abordagem é um problema para a escalabilidade destes sistemas;
-  + Concorrência *merge*: Semelhante à concorrência optimista mas em vez de abortar a transacção permite ao utilizador resolver o conflito entre as versões do documento.
+ + ***Schema*** - Este tipo de base de dados não necessita que lhe seja definido um *schema à priori* e não têm tabelas, colunas, tuplos ou relações. Uma base de dados orientada a documentos é composta por vários documentos auto-descritivos, ou seja, a informação relativa a um documento está guardada dentro deste. Isso permite que sejam armazenados objectos complexos (i.e. grafos, dicionários, listas, etc) com facilidade. 
+ Esta característica implica que, apesar de poderem existir referências entre documentos a base de dados não garante a integridade dessa relação.
 
-+ **Transações**- Em alguns casos é dada a garantia de que as operações cumprem com a regra ACID (atomicity, consistency, isolation, durability). Algumas implementações optam por não seguir a regra ACID, desprezando algumas propriedades em detrimento de um aumento de rendimento, usando as regras CAP (Consistency, Availability, Partition Tolerance) ou BASE (Basically Available, Soft State, Eventually Consistent).
+ + **Concorrência** - Existem várias abordagens para resolver este problema como a concorrência optimista, pessimista ou *merge*. 
+    + Concorrência Optimista: Antes de gravar informação é verificado se o documento foi alterado por outra transacção, sendo a transacção abortada nesse caso;
+	+ Concorrência Péssimista: Usa locks para impedir várias transacções de modificarem o mesmo documento. Esta abordagem é um problema para a escalabilidade destes sistemas;
+  	+ Concorrência *merge*: Semelhante à concorrência optimista mas em vez de abortar a transacção permite ao utilizador resolver o conflito entre as versões do documento.
 
-+ ***Schema*** - Este tipo de base de dados não necessita que lhe seja definido um *schema à priori* e não têm tabelas, colunas, tuplos ou relações. Uma base de dados orientada a documentos é composta por vários documentos auto-descritivos, ou seja, a informação relativa a um documento está guardada dentro deste. Isso permite que sejam armazenados objectos complexos (i.e. grafos, dicionários, listas, etc) com facilidade. Esta característica implica que, apesar de poderem existir referências entre documentos a base de dados não garante a integridade dessa relação.
+ + **Transações**- Em alguns casos é dada a garantia de que as operações cumprem com a regra ACID (atomicity, consistency, isolation, durability). Algumas implementações optam por não seguir a regra ACID, desprezando algumas propriedades em detrimento de um aumento de rendimento, usando as regras CAP (Consistency, Availability, Partition Tolerance) ou BASE (Basically Available, Soft State, Eventually Consistent).
 
-+ ***Queries*** - As *queries* são feitas com base em índices inferidos automaticamente ou definidos explicitamente pelo programador. Quando o índice é definido o SGBD executa-o e prepara os resultados minimizando o esforço computacional necessário para responder a uma *query*. 
+ + ***Queries*** - As *queries* são feitas com base em índices inferidos automaticamente ou definidos explicitamente pelo programador. Quando o índice é definido o SGBD executa-o e prepara os resultados minimizando o esforço computacional necessário para responder a uma *query*. 
 
- A forma de actualização destes índices difere em cada implementação deste tipo de base de dados, podendo ser actualizados quando os documentos associados a estes índices são alterados ou no momento anterior à execução da *query*. No primeiro caso isso significa que podem ser obtidos resultados desactualizados, uma vez que as *queries* aos índices têm resultados imediatos e a actualização pode não estar concluída. Na segunda abordagem, se existirem muitas alterações para fazer a *query* pode demorar algum tempo a responder.
+ 	A forma de actualização destes índices difere em cada implementação deste tipo de base de dados, podendo ser actualizados quando os documentos associados a estes índices são alterados ou no momento anterior à execução da *query*.
+ 	No primeiro caso isso significa que podem ser obtidos resultados desactualizados, uma vez que as *queries* aos índices têm resultados imediatos e a actualização pode não estar concluída. Na segunda abordagem, se existirem muitas alterações para fazer a *query* pode demorar algum tempo a responder.
 
-+ **Escalabilidade** - Este tipo tipo de base de dados suporta Sharding, ou seja partição horizontal, o que permite separar documentos por vários servidores.
+ + **Escalabilidade** - Este tipo tipo de base de dados suporta Sharding, ou seja partição horizontal, o que permite separar documentos por vários servidores.
 
 RavenDB
 -
 
-O RavenDB [#ravendb]() é uma base de dados de documentos implementada na *framework* .NET [#net]() que suporta a componente Linq [#linq]() para *querying*. 
-A base de dados é dividida em dois blocos o servidor e o cliente. O servidor é transaccional, armazena os dados no formato JSON [#json]() e tem como interface um serviço web disponibilizado através do protocolo HTTP. O cliente tem como função expor todas as funcionalidades do servidor através de uma Api. 
+O RavenDB \cite{ravendb} é uma base de dados de documentos implementada na *framework* .NET \cite{net} que suporta a componente Linq \cite{linq} para *querying*. 
+A base de dados é dividida em dois blocos o servidor e o cliente. O servidor é transaccional, armazena os dados no formato JSON e tem como interface um serviço web disponibilizado através do protocolo HTTP. O cliente tem como função expor todas as funcionalidades do servidor através de uma Api. 
 
 ### Cliente RavenDB
 
-Para interacção com o cliente são usadas classes *POCO* (*Plain Old CLR Object*) o que torna desnecessária a utilização de um ORM ou qualquer sistema de correspondência entre objectos de domínio e os objectos persistidos. O cliente para além de gerir a comunicação com o servidor o cliente é responsável por fazer cache dos pedidos ao servidor e pela implementação do padrão *Unit of Work*[#unitofwork]().
+Para interacção com o cliente são usadas classes *POCO* (*Plain Old CLR Object*) o que torna desnecessária a utilização de um *ORM* ou qualquer sistema de correspondência entre objectos de domínio e os objectos persistidos. O cliente para além de gerir a comunicação com o servidor o cliente é responsável por fazer cache dos pedidos ao servidor e pela implementação do padrão *Unit of Work*.
 
 A infra-estrutura utiliza principalmente duas classes do cliente, `IDocumentStore` e `IDocumentSession`.
 A classe `IDocumentSession` representa uma sessão e permite obter dados, persistir dados e apagar dados da base de dados. O padrão *Unit of Work* é implementado nas instâmcias desta classe e é dada a garantia que todas as alterações serão persistidas numa única transacção.
@@ -91,9 +91,9 @@ No RavenDB esta opção é suportada pelo método `Include` que recebe os identi
 
 A desnormalização de um documento consiste em extrair as informações relevantes, de outros documentos, e replicá-las no documento a persistir.
 
-A figura \ref{desnormalização} mostra um exemplo de desnormalização. O documento Projecto guarda para além do identificar dos utilizadores que lhe estão associados o seu Nome. Numa situação em que seja necessário apenas o Nome dos utilizadores associados essa informação já está no documento.
+A figura \ref{fig:desnormalização} mostra um exemplo de desnormalização. O documento Projecto guarda para além do identificar dos utilizadores que lhe estão associados o seu Nome. Numa situação em que seja necessário apenas o Nome dos utilizadores associados essa informação já está no documento.
 
-![Exemplo de desnormalização de informação\label{desnormalizacao}](http://www.lucidchart.com/publicSegments/view/4fd722d2-6770-4fe6-951d-51600a5705ae/image.png)
+![Exemplo de desnormalização de informação\label{fig:desnormalizacao}](http://www.lucidchart.com/publicSegments/view/4fd722d2-6770-4fe6-951d-51600a5705ae/image.png)
 
 Esta situação tem a vantagem de reduzir o número de pedidos à base de dados porque o documento guarda toda a informação necessária.
 Esta abordagem tem a desvantagem de que qualquer alteração a um documento desnormalizado implica a alteração de todos os documentos que o utilizam.

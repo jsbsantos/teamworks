@@ -31,3 +31,5 @@ Na aplicação web um utilizador está autorizado a aceder a qualquer um dos *co
 Cliente da Api
 -
 
+Um pedido feito à aplicação web que tenha por objectivo obter dados da plataforma que possam ser dados pela Api retornam, como indicado anteriormente, um cliente da Api.
+O cliente da Api é implementado usando knockout e para fazer pedidos à Api é usado AJAX. 
