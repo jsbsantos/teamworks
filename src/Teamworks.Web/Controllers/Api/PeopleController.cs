@@ -21,7 +21,7 @@ namespace Teamworks.Web.Controllers.Api
     public class PeopleController : RavenApiController
     {
         #region General
-        //todo unbound result set - page results?
+        //todo unbound (limited by raven) result set - page results?
         [GET("people")]
         public IEnumerable<PersonModel> GetPeople()
         {

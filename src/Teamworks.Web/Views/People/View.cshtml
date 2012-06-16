@@ -1,0 +1,17 @@
+﻿@model IEnumerable<Teamworks.Web.Models.PersonModel>
+
+@{
+    ViewBag.Title = "People";
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+@foreach (var person in Model)
+{
+    <div class="well-small">
+        <div>ID: @person.Id</div>
+        <div>Name: @person.Name</div>
+        <div>Email: @person.Email</div>
+    </div>
+}
+
+

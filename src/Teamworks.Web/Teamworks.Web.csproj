@@ -166,6 +166,7 @@
     <Compile Include="Controllers\Api\MessageController.cs" />
     <Compile Include="Controllers\Api\TimelogController.cs" />
     <Compile Include="Controllers\Api\PeopleController.cs" />
+    <Compile Include="Controllers\Mvc\PeopleController.cs" />
     <Compile Include="Controllers\Mvc\ThreadsController.cs" />
     <Compile Include="Controllers\Mvc\TimelogController.cs" />
     <Compile Include="Controllers\Mvc\Filters\FormsAuthenticationAttribute.cs" />
@@ -299,6 +300,7 @@
     <Content Include="Views\Timelog\View.cshtml" />
     <Content Include="Views\Threads\Discussion.cshtml" />
     <Content Include="Views\Threads\View.cshtml" />
+    <Content Include="Views\People\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\teamworks.css" />
