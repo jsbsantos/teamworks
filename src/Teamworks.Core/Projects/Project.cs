@@ -18,7 +18,7 @@ namespace Teamworks.Core.Projects
                            Description = description,
                            Tasks = new List<string>(),
                            Threads = new List<string>(),
-                           People = new List<string>()
+                           People = new List<string>(),
                        };
         }
 

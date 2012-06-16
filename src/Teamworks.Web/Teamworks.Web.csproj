@@ -185,7 +185,7 @@
     <Compile Include="Helpers\Api\JsonNetFormatter.cs" />
     <Compile Include="Models\DryModels\DryProjectModel.cs" />
     <Compile Include="Models\DryModels\DryTaskModel.cs" />
-    <Compile Include="Models\DryModels\DryTopicModel.cs" />
+    <Compile Include="Models\DryModels\DryThreadModel.cs" />
     <Compile Include="Models\DryModels\DryPersonModel.cs" />
     <Compile Include="Models\PersonModel.cs" />
     <Compile Include="Models\MessageModel.cs" />
@@ -193,7 +193,7 @@
     <Compile Include="Models\ProjectModel.cs" />
     <Compile Include="Models\TaskModel.cs" />
     <Compile Include="Models\TokenModel.cs" />
-    <Compile Include="Models\TopicModel.cs" />
+    <Compile Include="Models\ThreadModel.cs" />
     <Compile Include="Views\ViewsExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

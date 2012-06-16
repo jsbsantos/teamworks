@@ -2,7 +2,7 @@ using System;
 
 namespace Teamworks.Web.Models.DryModels
 {
-    public class DryTopicModel
+    public class DryThreadModel
     {
         public string Id { get; set; }
         public string Name { get; set; }

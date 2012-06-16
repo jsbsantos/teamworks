@@ -12,7 +12,7 @@ var project_viewmodel = function (project) {
 var project_list_viewmodel = function (projects) {
     var self = this;
     self.project = new Project();
-    self.endpoint = "api/projects/";
+    self.endpoint = "/api/projects/";
     self.projects = ko.observableArray(
         $.map(projects, function (item) {
              return new Project(item);

@@ -11,11 +11,11 @@ namespace Teamworks.Core.Projects
         public IList<Message> Messages { get; set; }
         public string Entity { get; set; }
 
-        public int LastDiscussionId { get; private set; }
+        public int LastThreadId { get; private set; }
 
         public int GenerateNewTimeEntryId()
         {
-            return ++LastDiscussionId;
+            return ++LastThreadId;
         }
 
         public static Thread Forge(string name, string text, string entity, string person)
@@ -27,7 +27,7 @@ namespace Teamworks.Core.Projects
                            Date = DateTime.Now,
                            Messages = new List<Message>(),
                            Person = person,
-                           LastDiscussionId = 0,
+                           LastThreadId = 0,
                            Entity = entity
                        };
         }

@@ -4,7 +4,7 @@ using Teamworks.Web.Models.DryModels;
 
 namespace Teamworks.Web.Models
 {
-    public class TopicModel : DryTopicModel
+    public class ThreadModel : DryThreadModel
     {
         public IList<MessageModel> Messages { get; set; }
     }

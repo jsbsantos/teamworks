@@ -36,11 +36,11 @@ namespace Teamworks.Web.Controllers.Web
                     return new HttpNotFoundResult();
                 }
                 var topic = DbSession.Load<Thread>(discussionid);
-                var model = Mapper.Map<Thread, TopicModel>(topic);
+                var model = Mapper.Map<Thread, ThreadModel>(topic);
                 return View("Discussion", model);
             }
 
-            return View(Mapper.Map<List<Thread>, List<DryTopicModel>>(DbSession.Load<Thread>(project.Threads).ToList()));
+            return View(Mapper.Map<List<Thread>, List<DryThreadModel>>(DbSession.Load<Thread>(project.Threads).ToList()));
         }
     }
 }

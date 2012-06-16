@@ -1,6 +1,12 @@
 Conclusão
 =
 
+A solução desenvolvida permite aos utilizadores fazerem diversas acções sobre a plataforma, como a criação e gestão de projectos, tarefas e debates. No entanto ainda existe trabalho que é necessário fazer para que a plataforma atinja os níveis a que nos propusemos.
+
+No desenvolvimento deste projecto foram usadas técnicas e tecnologias com as quais não estávamos familiarizados, havendo por isso um período de aprendizagem. Como exemplo temos as bases de dados de documentos, *domain driven design*, *RavenDB*, *knockout* e *web Api*.
+
+Este desconhecimento inicial, principalmente das bases de dados de documentos, *domain driven design* e *RavenDB*, condicionou o desenvolvimento do modelo de dados, tornando-o um processo iterativo. Durante este processo, e com a aprendizagem feita sobre estes temas, o modelo de dados foi alterado até chegar ao estado actual.
+
 Trabalho Futuro
 -
 
@@ -14,7 +20,7 @@ As funcionalidades a implementar são:
 
  * Planeamento de tarefas
 
-	Adicionar à gestão de tarefas a possibilidade de lhes atibuir prioridades e que dependam umas das outras. Desta forma é molhorado o controlo e organização das tarefas de um projecto.
+	Adicionar à gestão de tarefas a possibilidade de lhes atribuir prioridades e que dependam umas das outras. Desta forma é melhorado o controlo e organização das tarefas de um projecto.
 
  * Análise e Monitorização 
 
@@ -30,4 +36,3 @@ A cobertura dos testes unitários deve ser alargada tanto na Api, como na aplica
 A forma de autenticação usada na api web é pouco segura por isso devem ser estudadas alternativas, como a utilização do esquema HMAC (Hash Message Authentication Code) ou Oauth.
 
 [^ravendberro]: O *topic* http://goo.gl/FpIoq no Google Groups do RavenDB detalha o erro e a solução.
-

@@ -31,5 +31,7 @@ Na aplicação web um utilizador está autorizado a aceder a qualquer um dos *co
 Cliente da Api
 -
 
-Um pedido feito à aplicação web que tenha por objectivo obter dados da plataforma que possam ser dados pela Api retornam, como indicado anteriormente, um cliente da Api.
-O cliente da Api é implementado usando knockout e para fazer pedidos à Api é usado AJAX. 
+A forma como foi desenvolvida a aplicação web torna-a um cliente da Api da plataforma. Este comportamento é conseguido através da utilização da framework javascript knockout e AJAX. Esta framework é usada para fazer actualização de elementos da página web com a informação do servidor, respondendo a interacções com o utilizador. Neste componente é usado o padrão MVVM (**M**odel-**V**iew-**V**iew**M**odel) para tornar as páginas web mais dinâmicas e melhorando a experiência do utilizador. 
+
+Este comportamento é conseguido definindo, em javascript, um *View Model* que representa do dados retornados pela Api. Estes View Models definem propriedades observáveis por elementos HTML, através de javascript. Através desta ligação é possivel o valor do elemento HTML seja alterado consoante o valor do atributo que observa e vice versa.
+ 

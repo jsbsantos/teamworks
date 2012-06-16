@@ -6,21 +6,21 @@
 
 Como indicado anteriormente, a solução *Teamworks*, tem como objectivo disponibilizar funcionalidades para a gestão de projectos. Para isso a cada projecto estão associadas as seguintes funcionalidades:
 
-+ Possibilidade de criar tarefas e gerir o tempo da sua execução. Possibilidade ainda de atribuir reponsáveis pela sua realização e disponibilizar uma lista a cada utilizador para que possa facilmente dar prioridade às tarefas e organizar o seu tempo. 
++ Possibilidade de criar tarefas, gerir o tempo estimado da sua execução, atribuir responsáveis pela sua realização e disponibilizar uma lista a cada utilizador para que possa decidir a que tarefas dar prioridade e organizar o seu tempo. 
 
-+ Possibilidade de cada utilizador registar o tempo que despendeu em determinada tarefa. Esta funcionalide é importante para controlar se as estimativas estão correctas e se o desenvolvimento do projecto está a correr como esperado.
++ Possibilidade de cada utilizador registar o tempo que despendeu em determinada tarefa. Esta funcionalidade é importante para controlar se as estimativas estão correctas e se o desenvolvimento do projecto está a correr como esperado.
 
 + Ferramentas para monitorização do estado do projecto.
 
-Para promover a colaboração existe ainda a possibilidade dos utilizadores terem uma àrea de "debate" onde partilham informação, trocam ideias e debatem soluções relacionadas com o projecto ou com tarefas.
+Para promover a colaboração existe ainda a possibilidade dos utilizadores terem uma área de "debate" onde partilham informação, trocam ideias e debatem soluções relacionadas com o projecto ou com tarefas.
 
-Para além das funcionalidades enunciadas o acesso à informação dos utilizadores e dos projectos deve ser mantida apenas acessível aos utilizadores com quem tenha sido partilhada.
+Para além das funcionalidades enunciadas o acesso à informação dos utilizadores e projectos deve estar disponível aos utilizadores com quem tenha sido partilhada.
 
 
 Casos de Utilização
 -
 
-A autenticação na plataforma é obrigatória para a sua utilização sendo que as únicas acções possíveis a um utilizador anónimo são o registo e a autenticação, como indicado na figura \ref{fig:usecase-anonimo}
+A autenticação na plataforma é obrigatória para a sua utilização, sendo que as únicas acções possíveis a um utilizador anónimo são o registo e a autenticação, como indicado na figura \ref{fig:usecase-anonimo}
 
 ![Caso de utilização de utilizador não autenticado.\label{fig:usecase-anonimo}](http://www.lucidchart.com/publicSegments/view/4fd71023-3b68-497b-b199-60a50a443549/image.png)
 
@@ -45,8 +45,8 @@ A aplicação web utiliza processamento do lado do cliente para complementar a i
 A aplicação web e a Api são implementadas utilizando a *framework* ASP.NET \cite{aspnet} e expõem as funcionalidades da plataforma através do protocolo HTTP. 
 A camada de serviços é responsável por toda a lógica aplicacional e a camada de dados tem como responsabilidade persistir os dados e disponibilizá-los quando pedidos. Para a persistência dos dados é usada a base de dados de documentos RavenDB \cite{ravendb}.
 
-A interação dos componentes é a seguinte: a aplicação web e a Api usam a camada de serviços para responder aos pedidos que lhes são feitos; a camada de serviços envia e obtem dados da camada de dados para implementar a sua lógica; e a camada de dados é responsável pela comunicação com a base de dados. A figura \ref{fig:arquitectura} demonstra esta interação.
+A interacção dos componentes é a seguinte: a aplicação web e a Api usam a camada de serviços para responder aos pedidos que lhes são feitos; a camada de serviços envia e obtém dados da camada de dados para implementar a sua lógica; e a camada de dados é responsável pela comunicação com a base de dados. A figura \ref{fig:arquitectura} demonstra esta interacção.
 
-![Arquitetura da infra-estrutura *Teamworks*\label{fig:arquitectura}](http://www.lucidchart.com/publicSegments/view/4fd9ee2c-c028-4828-8962-51ad0a4022d4/image.png)
+![Arquitectura da infra-estrutura *Teamworks*\label{fig:arquitectura}](http://www.lucidchart.com/publicSegments/view/4fd9ee2c-c028-4828-8962-51ad0a4022d4/image.png)
 
 Alguns dos problemas não directamente relacionadas com a plataforma são resolvidos usando projectos *opensource* que serão indicados quando se justificar.
