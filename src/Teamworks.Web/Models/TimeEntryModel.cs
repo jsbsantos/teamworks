@@ -1,4 +1,5 @@
 ﻿using System;
+using Teamworks.Web.Models.DryModels;
 
 namespace Teamworks.Web.Models
 {
@@ -9,6 +10,6 @@ namespace Teamworks.Web.Models
         public DateTime Date { get; set; }
         public long Duration { get; set; }
 
-        public string Person { get; set; }
+        public DryPersonModel Person { get; set; }
     }
 }

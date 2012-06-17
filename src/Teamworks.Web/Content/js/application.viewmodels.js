@@ -105,7 +105,7 @@ var Message = function (data, discussionid, projectid) {
     self.dateFormatted = ko.computed(function () {
         if (self.date()) {
             var date = new Date(parseInt(self.date().substr(6)));
-            return date.getDay() + "/" + date.getMonth() + "/" + date.getFullYear();
+            return date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear();
         }
         return self.date();
     }, this);

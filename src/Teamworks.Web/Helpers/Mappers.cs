@@ -57,7 +57,8 @@ namespace Teamworks.Web.Helpers
             #region TimeEntry Mappings
 
             Mapper.CreateMap<TimeEntryModel, TimeEntry>();
-            Mapper.CreateMap<TimeEntry, TimeEntryModel>();
+            Mapper.CreateMap<TimeEntry, TimeEntryModel>()
+                .ForMember(src => src.Person, opt => opt.MapFrom(src => Global.Raven.CurrentSession.Load<Person>(src.Person)));
 
             #endregion
 
