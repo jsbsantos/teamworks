@@ -301,6 +301,7 @@
     <Content Include="Views\Threads\Discussion.cshtml" />
     <Content Include="Views\Threads\View.cshtml" />
     <Content Include="Views\People\View.cshtml" />
+    <Content Include="Views\People\Person.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\teamworks.css" />

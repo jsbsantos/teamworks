@@ -18,7 +18,7 @@ namespace Teamworks.Web.Controllers.Api
     [RoutePrefix("api/projects/{projectid}")]
     public class DiscussionsController : RavenApiController
     {
-        #region Entity ThreadsController
+        #region Project Discussion
 
         private Project LoadProject(int projectid)
         {

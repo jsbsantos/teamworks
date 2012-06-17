@@ -14,10 +14,20 @@ namespace Teamworks.Web.Controllers.Web
     {
         [HttpGet]
         [ActionName("View")]
-        public ActionResult Index(int? id)
+        public ActionResult Index(string id)
         {
-            return View(DbSession.Query<Person>().Select(
+            if (string.IsNullOrEmpty(id))
+                return View(DbSession.Query<Person>().Select(
                         Mapper.Map<Person, PersonModel>));
+
+            var person = DbSession.Load<Person>("people/"+id);
+            if (person == null)
+            {
+                throw new HttpException(404, "Not Found");
+               
+            }
+
+            return View("Person", Mapper.Map<Person, PersonModel>(person));
         }
     }
 }
