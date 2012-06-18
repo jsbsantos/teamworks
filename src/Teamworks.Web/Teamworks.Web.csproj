@@ -156,6 +156,9 @@
   <ItemGroup>
     <Compile Include="App_Start\AttributeRoutingHttp.cs" />
     <Compile Include="App_Start\RestApiAuthenticationConfig.cs" />
+    <Content Include="Content\js\app\teamworks.utils.js" />
+    <Content Include="Content\js\app\teamworks.js" />
+    <Content Include="Content\js\app\teamworks.viewmodels.js" />
     <Content Include="Content\js\gac.js" />
     <Compile Include="Controllers\Api\DiscussionsController.cs" />
     <Compile Include="Controllers\Api\Handlers\FormsAuthenticationHandler.cs" />

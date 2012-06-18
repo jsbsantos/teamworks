@@ -1,13 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using AutoMapper;
-using Teamworks.Core.Projects;
-using Teamworks.Web.Models;
-using Teamworks.Web.Models.DryModels;
+﻿using System.Web.Mvc;
 
-namespace Teamworks.Web.Controllers.Web
+namespace Teamworks.Web.Controllers.Mvc
 {
     public class ProjectsController : RavenController
     {
@@ -15,19 +8,7 @@ namespace Teamworks.Web.Controllers.Web
         [ActionName("View")]
         public ActionResult Index(int? id)
         {
-            if (id != null)
-            {
-                var project = DbSession.Include<Project>(p => p.Tasks).Load<Project>(id);
-                if (project == null)
-                {
-                    throw new HttpException(404, "Not Found");
-                }
-
-                ProjectModel ret = Mapper.Map<Project, ProjectModel>(project);
-                return View("Project", ret);
-            }
-            var projects = DbSession.Query<Project>().ToList();
-            return View(Mapper.Map<List<Project>, IEnumerable<DryProjectModel>>(projects));
+            return id != null ? View("Project", id.GetValueOrDefault(0)) : View();
         }
     }
 }

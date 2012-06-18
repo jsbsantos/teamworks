@@ -30,13 +30,13 @@ namespace Teamworks.Core.Services
                     }
                     else
                     {
-                        var web_hashtable = HttpContext.Current.Items[LocalDataHashtableKey] as Hashtable;
-                        if (web_hashtable == null)
+                        var webHashtable = HttpContext.Current.Items[LocalDataHashtableKey] as Hashtable;
+                        if (webHashtable == null)
                         {
-                            web_hashtable = new Hashtable();
-                            HttpContext.Current.Items[LocalDataHashtableKey] = web_hashtable;
+                            webHashtable = new Hashtable();
+                            HttpContext.Current.Items[LocalDataHashtableKey] = webHashtable;
                         }
-                        return web_hashtable;
+                        return webHashtable;
                     }
                 }
             }

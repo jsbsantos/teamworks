@@ -31,7 +31,7 @@
     <!--[if lt IE 9]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
     <header class="navbar navbar-fixed-top">
         <div class="navbar-inner">
-            <nav class="container">
+            <nav class="container-fluid">
                 <ul class="nav">
                     <li>@Html.ActionLink("teamworks", "View", "Home", null, new {@class = "brand"})</li>
                     <li class="@Html.ActiveController("Home")"><a href="@Url.Action("View", "Home")"><i class="icon-home icon-white"></i>Home</a></li>
@@ -46,8 +46,10 @@
             </nav>
         </div>
     </header>
-    <div class="main container" role="main">
+    <div class="main container-fluid" role="main">
+        <div class="row-fluid">
             @RenderBody()
+        </div>
     </div>
     <footer></footer>
     <!-- JavaScript at the bottom for fast page loading -->
@@ -61,30 +63,10 @@
         if (Html.IsDebugging())
         {
             <script src="@Url.Content("~/content/js/libs/knockout-2.0.0.js")"> </script>
-            
-            <script src="@Url.Content("~/content/js/application.viewmodels.js")"> </script>
-            <script src="@Url.Content("~/content/js/application.viewmodels.timelog.js")"> </script>
-            <script src="@Url.Content("~/content/js/application.viewmodels.tasks.js")"> </script>
-            <script src="@Url.Content("~/content/js/application.viewmodels.projects.js")"> </script>
-            <script src="@Url.Content("~/content/js/application.viewmodels.discussions.js")"> </script>
-        
-            <script src="@Url.Content("~/content/js/application.js")"> </script>
+            <script src="@Url.Content("~/content/js/app/teamworks.utils.js")"> </script>
+            <script src="@Url.Content("~/content/js/app/teamworks.viewmodels.js")"> </script>
+            <script src="@Url.Content("~/content/js/app/teamworks.js")"> </script>
         }
     }
-    
-    <script type="text/javascript">
-       /* $(function () {
-            $(":date")
-                .dateinput(
-                    {
-                    change: function (e, date) {
-                        $("#hdate")
-                            .val(this.getValue("yyyy/mm/dd"))
-                            .trigger("change");
-                    }
-                }
-                );
-        });*/
-    </script>
 </body>
 </html>

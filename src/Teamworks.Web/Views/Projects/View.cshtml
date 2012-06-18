@@ -1,42 +1,38 @@
-﻿@using Teamworks.Web.Helpers.Extensions
-@using Teamworks.Web.Helpers.Teamworks
-@model IEnumerable<Teamworks.Web.Models.DryModels.DryProjectModel>
+﻿@model IEnumerable<Teamworks.Web.Models.DryModels.DryProjectModel>
 
 @{
     ViewBag.Title = "projects";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div id="project_list">
-    <header id="create_project" class="span12 row">
-        <h1>Your current projects <a data-toggle="modal" href="#project-modal"><i class="icon-plus-sign"></i></a></h1>
-        <div class="modal hide" id="project-modal">
-            <div class="modal-header">
-                <h1>Create a project</h1>    
-            </div>
-            <div class="modal-body">
-                <form class="form-inline" data-bind="submit: create">
-                    <input class="input-medium" name="name" placeholder="Name your project" data-bind="value: project.name, valueUpdate: 'afterkeyup'" />
-                    <input class="input-large" name="description" placeholder="Describe your project" data-bind="value: project.description, valueUpdate: 'afterkeyup'" />
-                    <button class="btn" type="submit">Start working</button>
-                </form>
-            </div>
-        </div>
-    </header>
-    <article id="projects_list" class="row span12">
-        <div class="thumbnails" data-bind="template: { name: 'project-template', foreach: projects }"></div>
-    </article>
-    <script type="text/html" id="project-template">
-        <section class="span3">
-            <div>
-                <h2><a data-bind="text: name, attr: { href: url }"></a></h2>
-                <p data-bind="text: description"></p>
-                <form class="btn-group" data-bind="submit: $parent.remove">
-                    <button class="btn" type="submit" name="remove">Remove</button>
-                </form>
-            </div>
-        </section>
-    </script>
-    <script>
-        var data = @Html.Raw(Model.ToJson());
-    </script>
+
+
+<div class="span2 thumbnails">
+    <div class="thumbnail" style="background-color: yellow"></div>
 </div>
+<div id="viewmodel-projects" class="span8">
+    <header>
+        <h1>all projects</h1>
+    </header>
+    <article data-bind="template: { name: 'project-template', foreach: projects }"></article>
+</div> 
+<div class="span1">
+    <ul class="thumbnails">
+        <li class="span1"><a class="thumbnail">Projects</a></li>
+        <li class="span1"><a class="thumbnail">Timeline</a></li>
+        <li class="span1"><a class="thumbnail">Everybody</a></li>
+    </ul>
+</div>
+
+    
+
+<script type="text/html" id="project-template">
+    <section>
+        <div>
+            <span><a data-bind="text: name"></a></span>
+            <span data-bind="text: description"></span>
+            <form class="btn-group" data-bind="submit: $parent.remove">
+                <button class="btn" type="submit" name="remove">Remove</button>
+            </form>
+        </div>
+    </section>
+</script>

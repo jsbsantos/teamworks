@@ -20,13 +20,9 @@ namespace Teamworks.Web.Helpers.Extensions
             js.AddFile("~/content/js/libs/knockout-2.0.0.js");
             js.AddFile("~/content/js/libs/knockout.unobtrusive.js");
 
-            js.AddFile("~/content/js/application.viewmodels.js");
-            js.AddFile("~/content/js/application.viewmodels.tasks.js");
-            js.AddFile("~/content/js/application.viewmodels.projects.js");
-            js.AddFile("~/content/js/application.viewmodels.timelog.js");
-            js.AddFile("~/content/js/application.viewmodels.discussions.js");
-            
-            js.AddFile("~/content/js/application.js");
+            js.AddFile("~/content/js/app/teamworks.utils.js");
+            js.AddFile("~/content/js/app/teamworks.viewmodels.js");
+            js.AddFile("~/content/js/gac.js");
 #endif
             bundles.Add(js);
         }

@@ -1,14 +1,12 @@
-﻿@using Teamworks.Web.Helpers.Extensions
-@using Teamworks.Web.Helpers.Teamworks
-@model Teamworks.Web.Models.ProjectModel
+﻿@using Teamworks.Web.Helpers.Teamworks
+@model int
 
 @{
-    ViewBag.Title = Model.Name;
+    ViewBag.Title = "Teamworks project";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div id="project">
     <header class="jumbotron subhead">
-        <h1>@Model.Name <small>@Model.Description</small></h1>
         <div class="subnav subnav-fixed">
             <ul class="nav nav-pills">
                 <li><a href="#project_tasks"><span data-bind="text: tasks.tasks().length"></span>&nbsp;tasks</a></li>
@@ -99,9 +97,5 @@
                 </form>
             </div>
         </section>
-    </script>
-
-    <script type="text/javascript" language="javascript">
-        var data = @Html.Raw(Model.ToJson())
     </script>
 </div>
