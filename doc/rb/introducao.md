@@ -13,7 +13,7 @@ Para além da gestão do projecto é também importante gerir as pessoas que del
 Soluções Existentes
 -
 
-Actualmente existem soluções que pretendem agilizar a gestão de projectos e podem ser encontradas sobre a forma de aplicações desktop ou web. 
+As soluções existentes que pretendem agilizar a gestão de projectos e podem ser encontradas sobre a forma de aplicações desktop ou web. 
 
 As aplicações desktop são usadas em ambiente local limitando a interacção e partilha de resultados com outras pessoas do projecto.
 Um exemplo deste tipo de aplicações é o *Microsoft Project* \cite{mproject} usado para o planeamento de tarefas, estimar a sua duração e atribuir-lhe recursos. 

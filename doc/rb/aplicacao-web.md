@@ -3,11 +3,11 @@ Aplicação Web
 
 \label{sec:app-web}
 
-A aplicação web disponibiliza uma interface para interacção com a infra-estrutura, implementada usando a *framework* ASP.NET MVC \ref{aspnetmvc}.
+A aplicação web disponibiliza uma interface para interacção com a infra-estrutura, implementada usando a *framework* ASP.NET MVC \cite{aspnetmvc}.
 
-A aplicação web disponibiliza *controllers*, cujas *actions* têm como resposta aos pedidos uma página web com código *javascript* que tornam o browser um cliente da Api. As páginas web retornadas utilizam as *frameworks javascript* jQuery \ref{jquery} e knockout \ref{knockout} para interacção com o utilizador.
+A aplicação web disponibiliza *controllers*, cujas *actions* têm como resposta aos pedidos uma página web com código *javascript* que tornam o browser um cliente da Api. As páginas web retornadas utilizam as *frameworks javascript* jQuery \cite{jquery} e knockout \cite{knockout} para interacção com o utilizador.
 
-A componente visual é conseguida usando HTML5, CSS3 e o *kit* Twitter Bootstrap \ref{bootstrap}.
+A componente visual é conseguida usando HTML5, CSS3 e o *kit* Twitter Bootstrap \cite{bootstrap}.
 
 A autenticação na aplicação web é feita através de um formulário onde o utilizador insere o nome de utilizador e a *password*. A validação dos dados inseridos é feita de forma semelhante à utilizada na Api com a diferença que na aplicação web é usada uma cookie para manter o utilizador autenticado nos pedidos subsequentes. 
 Para isso são usadas funcionalidades do modo de autenticação *forms* da *framework* ASP.NET. 

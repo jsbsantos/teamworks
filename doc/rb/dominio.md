@@ -23,7 +23,9 @@ A descrição destas entidades e das suas relações é descrita no seguinte dia
 
 ![Diagrama de relação entre os objectos de domínio.\label{fig:diagramadedominio}](http://www.lucidchart.com/publicSegments/view/4fd89208-da90-4b53-8506-66290a443549/image.png)
 
-Depois de analisadas as relações e responsabilidades de cada entidade foram caracterizados como agregados os objectos de domínio **projecto** e **pessoa**. Os objectos *tarefa* e *debate* são considerados entidades porque são identificados univocamente. A *tarefa* é entidade do agregado projecto e o *debate* pertence tanto ao agregado projecto como à entidade tarefa.
+Depois de analisadas as relações e responsabilidades de cada entidade foram caracterizados como agregados os objectos de domínio **projecto** e **pessoa**.
+Os objectos **tarefa** e **debate** são considerados entidades porque são identificados univocamente.
+A **tarefa** é entidade do agregado projecto e o **debate** pertence tanto ao agregado projecto como à entidade tarefa.
 O **registo de tempo** e as **mensagens** são definidos como *value object* e inseridos nas entidades que os referenciam. 
 
 Segurança
