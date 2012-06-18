@@ -10,6 +10,7 @@ using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
 using Teamworks.Core.Projects;
+using Teamworks.Web.Helpers.Api;
 using Teamworks.Web.Models;
 
 namespace Teamworks.Web.Controllers.Api
@@ -65,7 +66,7 @@ namespace Teamworks.Web.Controllers.Api
 
             //todo check for collisions?
 
-            var timeentry = TimeEntry.Forge(model.Description, model.Date, model.Duration, model.Person);
+            var timeentry = TimeEntry.Forge(model.Description, model.Date, model.Duration, Request.GetUserPrincipalId());
             timeentry.Id = task.GenerateNewTimeEntryId();
             task.Timelog.Add(timeentry);
 

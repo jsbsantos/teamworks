@@ -4,7 +4,7 @@
 \label{sec:descricao-geral}
 
 
-Como indicado anteriormente, a solução *Teamworks*, tem como objectivo disponibilizar funcionalidades para a gestão de projectos. Para isso a cada projecto estão associadas as seguintes funcionalidades:
+Como indicado anteriormente, a solução *Teamworks*, tem como objectivo disponibilizar funcionalidades para a gestão de projectos e pessoas. Para isso a cada projecto estão associadas as seguintes funcionalidades:
 
 + Possibilidade de criar tarefas, gerir o tempo estimado da sua execução, atribuir responsáveis pela sua realização e disponibilizar uma lista a cada utilizador para que possa decidir a que tarefas dar prioridade e organizar o seu tempo. 
 

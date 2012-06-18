@@ -31,7 +31,7 @@ As funcionalidades a implementar são:
 	Deverá estar disponível aos utilizadores informação sobre quais os projectos e respectivas tarefas que lhe estão atribuídas para um período de tempo (e.g. semana actual).
 
 Além de novas funcionalidades existem aspectos da solução que têm de ser melhorados. 
-A cobertura dos testes unitários deve ser alargada tanto na Api, como na aplicação web e em todos os serviços
+A cobertura dos testes unitários deve ser alargada tanto na Api, como na aplicação web e em todos os serviços.
 
 A forma de autenticação usada na api web é pouco segura por isso devem ser estudadas alternativas, como a utilização do esquema HMAC (Hash Message Authentication Code) ou Oauth.
 

@@ -156,8 +156,6 @@
   <ItemGroup>
     <Compile Include="App_Start\AttributeRoutingHttp.cs" />
     <Compile Include="App_Start\RestApiAuthenticationConfig.cs" />
-    <Content Include="App_Readme\glimpse.mvc3.readme.txt" />
-    <Content Include="App_Readme\glimpse.readme.txt" />
     <Content Include="Content\js\gac.js" />
     <Compile Include="Controllers\Api\DiscussionsController.cs" />
     <Compile Include="Controllers\Api\Handlers\FormsAuthenticationHandler.cs" />
@@ -301,6 +299,7 @@
     <Content Include="Views\Threads\Discussion.cshtml" />
     <Content Include="Views\Threads\View.cshtml" />
     <Content Include="Views\People\View.cshtml" />
+    <Content Include="Views\People\Person.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\teamworks.css" />

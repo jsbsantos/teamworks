@@ -2,7 +2,7 @@
     var self = this;
 
     self.timelog = new Timelog();
-    self.discussions = new discussion_list_viewmodel(task.id, project.threads, "/projects/" + task.project + "tasks/");
+    self.discussions = new discussion_list_viewmodel(task.id, task.threads, "/projects/" + task.project + "tasks/");
     self.endpoint = "/api/projects/" + task.project + "/tasks/" + task.id + "/timelog/";
     self.timelog_list = ko.observableArray(
         $.map(task.timelog, function (item) {

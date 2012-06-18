@@ -34,14 +34,12 @@
     </div>
     <script type="text/html" id="message-template">
         <li>
-            <section class="span10 row">
-                <div class="well">
+            <section class="span10 row well" >
                     <form class="form-inline" data-bind="submit: $parent.remove">
                         <button class="close pull-right" type="submit" name="remove">&times;</button>
                     </form>
                     <h5><div data-bind="text: text"></div></h5>
                     <div><h6><a data-bind="text: person().name, attr: { href: '/'+person().id }"></a> @@ <span data-bind="text: dateFormatted" /></h6></div>
-                    </div>                
         </section>
             </li>
     </script>

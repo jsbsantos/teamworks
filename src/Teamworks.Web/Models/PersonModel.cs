@@ -1,11 +1,9 @@
+using Teamworks.Web.Models.DryModels;
+
 namespace Teamworks.Web.Models
 {
-    public class PersonModel
+    public class PersonModel : DryPersonModel
     {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
-    
-    //todo add permission and roles?
+        //todo add permission and roles?
     }
 }

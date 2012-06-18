@@ -81,15 +81,13 @@ var Discussion = function (data) {
     self.entity = ko.observable(data.entity);
     
     self.url = ko.computed(function () {
-        return "/" + data.base_url + self.entity() + "/discussions/" + self.id() + "/view";
+        return "/" + (data.base_url || "") + self.entity() + "/discussions/" + self.id() + "/view";
     }, this);
 
     self.clear = function () {
         self.id("");
         self.name("");
-        self.date("");
         self.text("");
-        self.person("");
     };
 };
 
@@ -105,7 +103,7 @@ var Message = function (data, discussionid, projectid) {
     self.dateFormatted = ko.computed(function () {
         if (self.date()) {
             var date = new Date(parseInt(self.date().substr(6)));
-            return date.getDay() + "/" + date.getMonth() + "/" + date.getFullYear();
+            return date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear();
         }
         return self.date();
     }, this);

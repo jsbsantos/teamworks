@@ -1,7 +1,6 @@
 ﻿@using Teamworks.Web.Helpers.Extensions
 @using Teamworks.Web.Helpers.Teamworks
 @model Teamworks.Web.Models.TaskModel
-
 @{
     ViewBag.Title = "timeEntryModels";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -10,7 +9,7 @@
     <header class="span12 row">
         <h1>
             Task work time log <a data-toggle="modal" href="#timelog-modal"><i class="icon-plus-sign">
-            </i></a>
+                                                                            </i></a>
         </h1>
         <div class="modal hide" id="timelog-modal">
             <div class="modal-header">
@@ -19,11 +18,13 @@
             </div>
             <div class="modal-body">
                 <form class="form-inline" data-bind="submit: create">
-                <input class="input-medium" name="description" placeholder="What you did" data-bind="value: timelog.description, valueUpdate: 'afterkeyup'" />
-                <input id="datein" type="date" class="input-medium" name="date" placeholder="When you did it (dd/mm/yyyy)" data-bind="value: timelog.date, valueUpdate: 'afterkeyup'" />
-                <input class="input-medium" name="duration" placeholder="How long it took (minutes)" data-bind="value: timelog.duration, valueUpdate: 'afterkeyup'" />
-                <button class="btn" type="submit">
-                    Add</button>
+                    <input class="input-medium" name="description" placeholder="What you did" data-bind="value: timelog.description, valueUpdate: 'afterkeyup'" />
+                    <input id="datein" type="date" class="input-medium" name="date" placeholder="When you did it (dd/mm/yyyy)"
+                           data-bind="value: timelog.date, valueUpdate: 'afterkeyup'" />
+                    <input class="input-medium" name="duration" placeholder="How long it took (minutes)"
+                           data-bind="value: timelog.duration, valueUpdate: 'afterkeyup'" />
+                    <button class="btn" type="submit">
+                        Add</button>
                 </form>
             </div>
         </div>
@@ -35,16 +36,17 @@
         </ul>
     </article>
     <script type="text/html" id="timelog-template">
-            <li>
-        <section class="span3">
+        <li>
+            <section class="well span3">
+                <form class="form-inline" data-bind="submit: $parent.remove">
+                    <button class="close" type="submit" name="remove">&times;</button>
+                </form>
+                <div>User: <span data-bind="text: person().name"></span></div>
                 <div>Description: <span data-bind="text: description"></span></div>
                 <div>Date: <span data-bind="text: dateFormatted"></span></div>
-                <div>Duration (min.): <span  data-bind="text: duration"></span></div>
-                <form class="btn-group" data-bind="submit: $parent.remove">
-                    <button class="btn" type="submit" name="remove">Remove</button>
-                </form>
-        </section>
-            </li>
+                <div>Duration (min.): <span  data-bind="text: duration"></span></div> 
+            </section>
+        </li>
     </script>
     <script type="text/javascript">
         var data = @Html.Raw(Model.ToJson());

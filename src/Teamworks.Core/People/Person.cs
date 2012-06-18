@@ -22,7 +22,7 @@ namespace Teamworks.Core.People
                            Id = "people/" + username,
                            Salt = salt,
                            Email = email,
-                           Name = string.Empty,
+                           Name = username,
                            Username = username,
                            Roles = new List<string>(),
                            Permissions = new List<IPermission>(),

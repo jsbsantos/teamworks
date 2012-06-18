@@ -23,6 +23,8 @@ namespace Teamworks.Web.Helpers.Extensions
             js.AddFile("~/content/js/application.viewmodels.js");
             js.AddFile("~/content/js/application.viewmodels.tasks.js");
             js.AddFile("~/content/js/application.viewmodels.projects.js");
+            js.AddFile("~/content/js/application.viewmodels.timelog.js");
+            js.AddFile("~/content/js/application.viewmodels.discussions.js");
             
             js.AddFile("~/content/js/application.js");
 #endif
