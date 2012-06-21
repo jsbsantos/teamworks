@@ -8,7 +8,5 @@ if (!String.prototype.trim) {
     }
 
 var TW = TW || {};
-TW.utils = TW.utils || {};
-
-$(document).ajaxStart(console.log('ajax start'));
-$(document).ajaxStop(console.log('ajax stop'));
+TW.app = TW.app || {};
+TW.app.messages = ko.observableArray([]);

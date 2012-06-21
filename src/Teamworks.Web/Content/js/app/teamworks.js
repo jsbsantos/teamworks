@@ -4,7 +4,7 @@
 (function () {
     'use strict';
 
-    $('#viewmodel-projects').length && ko.applyBindings(
-        new TW.viewmodels.Projects(),
-        document.getElementById('viewmodel-projects'));
+    viewmodel && (TW.app.viewmodel = viewmodel());
+    /* apply bindings only if TW.app is setted */
+    !$.isEmptyObject(TW.app) && ko.applyBindings(TW.app);
 })();

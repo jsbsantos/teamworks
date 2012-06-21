@@ -2,7 +2,7 @@ using System;
 
 namespace Teamworks.Web.Models.DryModels
 {
-    public class DryThreadModel
+    public class DryBoard
     {
         public string Id { get; set; }
         public string Name { get; set; }
@@ -10,6 +10,6 @@ namespace Teamworks.Web.Models.DryModels
         public string Entity { get; set; }
         public string Text { get; set; }
         public DateTime Date { get; set; }
-        public DryPersonModel Person { get; set; }
+        public DryPerson Person { get; set; }
     }
 }

@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Raven.Bundles.Authorization.Model;
 
-namespace Teamworks.Core.People
+namespace Teamworks.Core
 {
     public class Person : Entity
     {

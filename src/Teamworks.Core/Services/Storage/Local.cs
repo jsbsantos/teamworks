@@ -2,20 +2,20 @@ using System;
 using System.Collections;
 using System.Web;
 
-namespace Teamworks.Core.Services
+namespace Teamworks.Core.Services.Storage
 {
     public static class Local
     {
-        private static readonly ILocalData _data = new LocalData();
+        private static readonly IStorage _data = new Storage();
 
-        public static ILocalData Data
+        public static IStorage Data
         {
             get { return _data; }
         }
 
-        #region Nested type: LocalData
+        #region Nested type: Storage
 
-        private class LocalData : ILocalData
+        private class Storage : IStorage
         {
             [ThreadStatic] private static Hashtable _localData;
             private static readonly object LocalDataHashtableKey = new object();
@@ -46,7 +46,7 @@ namespace Teamworks.Core.Services
                 get { return HttpContext.Current != null; }
             }
 
-            #region ILocalData Members
+            #region IStorage Members
 
             public object this[object key]
             {

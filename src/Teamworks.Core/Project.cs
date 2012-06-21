@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Teamworks.Core.Projects
+namespace Teamworks.Core
 {
     public class Project : Entity
     {
@@ -8,7 +8,7 @@ namespace Teamworks.Core.Projects
         public IList<string> Tasks { get; set; }
         public bool Archived { get; set; }
         public IList<string> People { get; set; }
-        public IList<string> Threads { get; set; }
+        public IList<string> Boards { get; set; }
         
         public static Project Forge(string name, string description)
         {
@@ -17,7 +17,7 @@ namespace Teamworks.Core.Projects
                            Name = name,
                            Description = description,
                            Tasks = new List<string>(),
-                           Threads = new List<string>(),
+                           Boards = new List<string>(),
                            People = new List<string>(),
                        };
         }

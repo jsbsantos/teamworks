@@ -60,23 +60,20 @@
     <Compile Include="Authentication\PersonIdentity.cs" />
     <Compile Include="Authentication\BasicAuthenticator.cs" />
     <Compile Include="Authentication\AuthenticatorFactory.cs" />
-    <Compile Include="Authentication\TokenAuthenticator.cs" />
-    <Compile Include="Projects\Message.cs" />
-    <Compile Include="Projects\TimeEntry.cs" />
+    <Compile Include="Message.cs" />
+    <Compile Include="Services\Storage\IStorage.cs" />
+    <Compile Include="Timelog.cs" />
     <Compile Include="Services\Global.cs" />
     <Compile Include="Authentication\IAuthenticator.cs" />
-    <Compile Include="Services\Raven.cs" />
-    <Compile Include="People\Token.cs" />
+    <Compile Include="Services\RavenDB.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Extensions\Validator.cs" />
-    <Compile Include="Services\ILocalData.cs" />
-    <Compile Include="Services\Local.cs" />
-    <Compile Include="People\Person.cs" />
-    <Compile Include="Projects\Project.cs" />
-    <Compile Include="Projects\Task.cs" />
+    <Compile Include="Services\Storage\Local.cs" />
+    <Compile Include="Person.cs" />
+    <Compile Include="Project.cs" />
+    <Compile Include="Task.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Projects\Thread.cs" />
-    <Compile Include="Services\TeamworksConfiguration.cs" />
+    <Compile Include="Board.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

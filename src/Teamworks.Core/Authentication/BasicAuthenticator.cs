@@ -1,4 +1,3 @@
-using Teamworks.Core.People;
 using Teamworks.Core.Services;
 
 namespace Teamworks.Core.Authentication
@@ -31,7 +30,7 @@ namespace Teamworks.Core.Authentication
         public bool IsValid(string username, string password, out Person person)
         {
             person = null;
-            var p = Global.Raven.CurrentSession.Load<Person>("people/" + username);
+            var p = Global.Database.CurrentSession.Load<Person>("people/" + username);
             if (p == null)
             {
                 return false;

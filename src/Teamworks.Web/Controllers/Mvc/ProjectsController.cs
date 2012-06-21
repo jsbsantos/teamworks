@@ -6,9 +6,9 @@ namespace Teamworks.Web.Controllers.Mvc
     {
         [HttpGet]
         [ActionName("View")]
-        public ActionResult Index(int? id)
+        public ActionResult Index(int? identifier)
         {
-            return id != null ? View("Project", id.GetValueOrDefault(0)) : View();
+            return identifier != null ? View("Project", identifier.Value) : View();
         }
     }
 }

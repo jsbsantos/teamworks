@@ -1,6 +1,6 @@
 using System;
 
-namespace Teamworks.Core.Projects
+namespace Teamworks.Core
 {
     public class Message
     {

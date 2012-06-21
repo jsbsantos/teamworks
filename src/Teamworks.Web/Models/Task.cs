@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Teamworks.Web.Models
 {
-    public class TaskModel
+    public class Task
     {
         public string Id { get; set; }
         [Required]
@@ -16,7 +16,7 @@ namespace Teamworks.Web.Models
         //public DateTime Deadline { get; set; }
         //public long EstimatedTime { get; set; }
 
-        public ICollection<TimeEntryModel> Timelog { get; set; }
+        public ICollection<Timelog> Timelog { get; set; }
         public IList<string> Threads { get; set; }
         public IList<string> People { get; set; }
     }

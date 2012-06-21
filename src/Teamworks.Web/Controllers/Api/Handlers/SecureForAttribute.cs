@@ -19,7 +19,7 @@ namespace Teamworks.Web.Controllers.Api.Handlers
         {
             var person = context.Request.GetCurrentPerson();
 
-            var session = Global.Raven.CurrentSession;
+            var session = Global.Database.CurrentSession;
             session.SecureFor(person.Id, Operation);
             
             base.OnAuthorization(context);

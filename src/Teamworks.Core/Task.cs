@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 
-namespace Teamworks.Core.Projects
+namespace Teamworks.Core
 {
     public class Task : Entity
     {
         public string Project { get; set; }
         public string Description { get; set; }
         public IList<string> Pretasks { get; set; }
-        public IList<TimeEntry> Timelog { get; set; }
-        public IList<string> Threads { get; set; }
+        public IList<Timelog> Timelogs { get; set; }
+        public IList<string> Boards { get; set; }
         public IList<string> People{ get; set; }
 
         public int LastTimeEntryId { get; private set; }
@@ -25,9 +25,9 @@ namespace Teamworks.Core.Projects
                            Project = project,
                            Description = description,
                            Pretasks = new List<string>(),
-                           Threads = new List<string>(),
+                           Boards = new List<string>(),
                            People = new List<string>(),
-                           Timelog = new List<TimeEntry>(),
+                           Timelogs = new List<Timelog>(),
                            LastTimeEntryId = 0
                        };
         }

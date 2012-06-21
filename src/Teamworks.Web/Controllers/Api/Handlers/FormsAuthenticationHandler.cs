@@ -6,8 +6,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http.Hosting;
+using Teamworks.Core;
 using Teamworks.Core.Authentication;
-using Teamworks.Core.People;
 using Teamworks.Core.Services;
 
 namespace Teamworks.Web.Controllers.Api.Handlers
@@ -21,7 +21,7 @@ namespace Teamworks.Web.Controllers.Api.Handlers
             if (!string.IsNullOrEmpty(identity.Name) &&
                 identity.AuthenticationType.Equals("Forms", StringComparison.OrdinalIgnoreCase))
             {
-                var person = Global.Raven.CurrentSession.Load<Person>(identity.Name);
+                var person = Global.Database.CurrentSession.Load<Person>(identity.Name);
                 if (person != null)
                 {
                     identity = new PersonIdentity(person);

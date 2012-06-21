@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 
-namespace Teamworks.Core.Projects
+namespace Teamworks.Core
 {
-    public class Thread : Entity
+    public class Board : Entity
     {
         public string Text { get; set; }
         public DateTime Date { get; set; }
@@ -18,9 +18,9 @@ namespace Teamworks.Core.Projects
             return ++LastThreadId;
         }
 
-        public static Thread Forge(string name, string text, string entity, string person)
+        public static Board Forge(string name, string text, string entity, string person)
         {
-            return new Thread()
+            return new Board()
                        {
                            Text = text,
                            Name = name,

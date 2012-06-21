@@ -156,7 +156,7 @@
   <ItemGroup>
     <Compile Include="App_Start\AttributeRoutingHttp.cs" />
     <Compile Include="App_Start\RestApiAuthenticationConfig.cs" />
-    <Content Include="Content\js\app\teamworks.utils.js" />
+    <Content Include="Content\js\app\teamworks.app.js" />
     <Content Include="Content\js\app\teamworks.js" />
     <Content Include="Content\js\app\teamworks.viewmodels.js" />
     <Content Include="Content\js\gac.js" />
@@ -168,7 +168,7 @@
     <Compile Include="Controllers\Api\TimelogController.cs" />
     <Compile Include="Controllers\Api\PeopleController.cs" />
     <Compile Include="Controllers\Mvc\PeopleController.cs" />
-    <Compile Include="Controllers\Mvc\ThreadsController.cs" />
+    <Compile Include="Controllers\Mvc\BoardsController.cs" />
     <Compile Include="Controllers\Mvc\TimelogController.cs" />
     <Compile Include="Controllers\Mvc\Filters\FormsAuthenticationAttribute.cs" />
     <Compile Include="Helpers\Teamworks\EntityExtensions.cs" />
@@ -181,7 +181,6 @@
     <Compile Include="Controllers\RavenController.cs" />
     <Compile Include="Controllers\Mvc\ProjectsController.cs" />
     <Compile Include="Controllers\Mvc\AccountController.cs" />
-    <Compile Include="Controllers\Mvc\TimelineController.cs" />
     <Compile Include="Helpers\Mvc\BundleExtensions.cs" />
     <Compile Include="Helpers\Api\HttpRequestMessageExtensions.cs" />
     <Compile Include="Controllers\Api\Handlers\BasicAuthenticationHandler.cs" />
@@ -193,17 +192,16 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Api\JsonNetFormatter.cs" />
-    <Compile Include="Models\DryModels\DryProjectModel.cs" />
-    <Compile Include="Models\DryModels\DryTaskModel.cs" />
-    <Compile Include="Models\DryModels\DryThreadModel.cs" />
-    <Compile Include="Models\DryModels\DryPersonModel.cs" />
-    <Compile Include="Models\PersonModel.cs" />
-    <Compile Include="Models\MessageModel.cs" />
-    <Compile Include="Models\TimeEntryModel.cs" />
-    <Compile Include="Models\ProjectModel.cs" />
-    <Compile Include="Models\TaskModel.cs" />
-    <Compile Include="Models\TokenModel.cs" />
-    <Compile Include="Models\ThreadModel.cs" />
+    <Compile Include="Models\DryModels\DryProject.cs" />
+    <Compile Include="Models\DryModels\DryTask.cs" />
+    <Compile Include="Models\DryModels\DryBoard.cs" />
+    <Compile Include="Models\DryModels\DryPerson.cs" />
+    <Compile Include="Models\Person.cs" />
+    <Compile Include="Models\Reply.cs" />
+    <Compile Include="Models\Timelog.cs" />
+    <Compile Include="Models\Project.cs" />
+    <Compile Include="Models\Task.cs" />
+    <Compile Include="Models\Board.cs" />
     <Compile Include="Views\ViewsExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -212,17 +210,10 @@
     <Content Include="Content\css\bootstrap\bootstrap-responsive.min.css" />
     <Content Include="Content\css\bootstrap\bootstrap.css" />
     <Content Include="Content\css\bootstrap\bootstrap.min.css" />
-    <Content Include="Content\css\jquery.tools.calc.css" />
     <Content Include="Content\css\font-awesome.css" />
     <Content Include="Content\font\fontawesome-webfont.svg" />
     <Content Include="Content\img\glyphicons-halflings-white.png" />
     <Content Include="Content\img\glyphicons-halflings.png" />
-    <Content Include="Content\js\application.viewmodels.discussions.js" />
-    <Content Include="Content\js\application.viewmodels.js" />
-    <Content Include="Content\js\application.viewmodels.message.js" />
-    <Content Include="Content\js\application.viewmodels.tasks.js" />
-    <Content Include="Content\js\application.viewmodels.projects.js" />
-    <Content Include="Content\js\application.viewmodels.timelog.js" />
     <Content Include="Content\js\libs\bootstrap\alert.js" />
     <Content Include="Content\js\libs\bootstrap\bootstrap.js" />
     <Content Include="Content\js\libs\bootstrap\bootstrap.min.js" />
@@ -251,7 +242,6 @@
     <Content Include="Content\js\libs\knockout.unobtrusive.min.js" />
     <Content Include="Content\js\libs\modernizr-2.5.3-respond-1.1.0.min.js" />
     <Content Include="Content\js\libs\_references.js" />
-    <Content Include="Content\js\application.js" />
     <Content Include="Global.asax" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -299,8 +289,8 @@
     <Content Include="Views\Tasks\Task.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Timelog\View.cshtml" />
-    <Content Include="Views\Threads\Discussion.cshtml" />
-    <Content Include="Views\Threads\View.cshtml" />
+    <Content Include="Views\Boards\Discussion.cshtml" />
+    <Content Include="Views\Boards\View.cshtml" />
     <Content Include="Views\People\View.cshtml" />
     <Content Include="Views\People\Person.cshtml" />
   </ItemGroup>

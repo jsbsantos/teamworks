@@ -1,8 +1,8 @@
 using System.Linq;
 using System.Security.Principal;
 using System.Web.Mvc;
+using Teamworks.Core;
 using Teamworks.Core.Authentication;
-using Teamworks.Core.People;
 using Teamworks.Core.Services;
 
 namespace Teamworks.Web.Controllers.Mvc.Filters
@@ -17,7 +17,7 @@ namespace Teamworks.Web.Controllers.Mvc.Filters
                 var id = user.Identity.Name;
                 if (!string.IsNullOrEmpty(id))
                 {
-                    var person = Global.Raven.CurrentSession.Load<Person>(id);
+                    var person = Global.Database.CurrentSession.Load<Person>(id);
                     if (person != null)
                     {
                         context.HttpContext.User = new GenericPrincipal(new PersonIdentity(person), person.Roles.ToArray());

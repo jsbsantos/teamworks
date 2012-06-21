@@ -1,6 +1,6 @@
 using System.Web;
+using Teamworks.Core;
 using Teamworks.Core.Authentication;
-using Teamworks.Core.People;
 
 namespace Teamworks.Web.Helpers.Mvc
 {

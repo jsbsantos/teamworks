@@ -9,9 +9,12 @@ using System.Web.Http.ModelBinding.Binders;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
-using Teamworks.Core.Projects;
+using Teamworks.Core;
 using Teamworks.Web.Helpers.Api;
 using Teamworks.Web.Models;
+using Project = Teamworks.Core.Project;
+using Task = Teamworks.Core.Task;
+using Timelog = Teamworks.Web.Models.Timelog;
 
 namespace Teamworks.Web.Controllers.Api
 {
@@ -19,7 +22,7 @@ namespace Teamworks.Web.Controllers.Api
     [RoutePrefix("api/projects/{projectid}/tasks/{taskid}/timelog")]
     public class TimelogController : RavenApiController
     {
-        public IEnumerable<TimeEntryModel> Get(int projectid, int taskid)
+        public IEnumerable<Timelog> Get(int projectid, int taskid)
         {
             var project = DbSession
                 .Include<Project>(p => p.Tasks)
@@ -36,13 +39,13 @@ namespace Teamworks.Web.Controllers.Api
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            return task.Timelog.Select(Mapper.Map<TimeEntry, TimeEntryModel>);
+            return task.Timelogs.Select(Mapper.Map<Core.Timelog, Timelog>);
         }
 
-        public HttpResponseMessage<TimeEntryModel> Post(
+        public HttpResponseMessage<Timelog> Post(
             [ModelBinder(typeof (TypeConverterModelBinder))] int projectid,
             [ModelBinder(typeof (TypeConverterModelBinder))] int taskid,
-            TimeEntryModel model)
+            Timelog model)
         {
             if (!ModelState.IsValid)
             {
@@ -66,18 +69,18 @@ namespace Teamworks.Web.Controllers.Api
 
             //todo check for collisions?
 
-            var timeentry = TimeEntry.Forge(model.Description, model.Date, model.Duration, Request.GetUserPrincipalId());
+            var timeentry = Core.Timelog.Forge(model.Description, model.Date, model.Duration, Request.GetUserPrincipalId());
             timeentry.Id = task.GenerateNewTimeEntryId();
-            task.Timelog.Add(timeentry);
+            task.Timelogs.Add(timeentry);
 
-            return new HttpResponseMessage<TimeEntryModel>(Mapper.Map<TimeEntry, TimeEntryModel>(timeentry),
+            return new HttpResponseMessage<Timelog>(Mapper.Map<Core.Timelog, Timelog>(timeentry),
                                                            HttpStatusCode.Created);
         }
 
         /// <see cref="http://forums.asp.net/post/4855634.aspx" />
-        public HttpResponseMessage<TimeEntryModel> Put([ModelBinder(typeof (TypeConverterModelBinder))] int taskid,
+        public HttpResponseMessage<Timelog> Put([ModelBinder(typeof (TypeConverterModelBinder))] int taskid,
                                        [ModelBinder(typeof (TypeConverterModelBinder))] int projectid,
-                                       TimeEntryModel model)
+                                       Timelog model)
         {
             if (!ModelState.IsValid)
             {
@@ -98,7 +101,7 @@ namespace Teamworks.Web.Controllers.Api
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            var timeentry = task.Timelog.FirstOrDefault(t => t.Id.Equals(model.Id));
+            var timeentry = task.Timelogs.FirstOrDefault(t => t.Id.Equals(model.Id));
             if (timeentry == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
@@ -108,7 +111,7 @@ namespace Teamworks.Web.Controllers.Api
             timeentry.Description = model.Description;
             timeentry.Duration = model.Duration;
 
-            return new HttpResponseMessage<TimeEntryModel>(Mapper.Map<TimeEntry, TimeEntryModel>(timeentry),
+            return new HttpResponseMessage<Timelog>(Mapper.Map<Core.Timelog, Timelog>(timeentry),
                                           HttpStatusCode.Created);
         }
 
@@ -128,13 +131,13 @@ namespace Teamworks.Web.Controllers.Api
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            var timeentry = task.Timelog.FirstOrDefault(t => t.Id == id);
+            var timeentry = task.Timelogs.FirstOrDefault(t => t.Id == id);
             if (timeentry == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            task.Timelog.Remove(timeentry);
+            task.Timelogs.Remove(timeentry);
 
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }

@@ -9,7 +9,7 @@ using Teamworks.Core.Services;
 using Teamworks.Web.Controllers.Mvc.Filters;
 using Teamworks.Web.Helpers;
 using Teamworks.Web.Helpers.Api;
-using Teamworks.Web.Helpers.Extensions;
+using Teamworks.Web.Helpers.Mvc;
 
 namespace Teamworks.Web
 {
@@ -28,63 +28,18 @@ namespace Teamworks.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapRouteLowercase(
-                name: "project_task_timelog",
-                url: "projects/{projectid}/tasks/{taskid}/timelog/{id}/{action}",
-                defaults:
-                    new
-                        {
-                            controller = "TimeEntry",
-                            action = "View",
-                            id = UrlParameter.Optional
-                        }
-                );
 
             routes.MapRouteLowercase(
-                name: "project_discussion",
-                url: "projects/{projectid}/discussions/{id}/{action}",
-                defaults:
-                    new
-                        {
-                            controller = "Threads",
-                            action = "View",
-                            id = UrlParameter.Optional
-                        }
-                );
+                 name: "",
+                 url: "projects/{identifier}",
+                 defaults: new { controller = "Projects", action = "View", identifier = UrlParameter.Optional }
+                 );
 
             routes.MapRouteLowercase(
-                name: "project_task",
-                url: "projects/{projectid}/tasks/{id}/{action}",
-                defaults:
-                    new
-                        {
-                            controller = "Tasks",
-                            action = "View",
-                            id = UrlParameter.Optional
-                        }
-                );
-
-            routes.MapRouteLowercase(
-                name: "account",
-                url: "account/{action}",
-                defaults: new
-                              {
-                                  controller = "Account",
-                                  action = "login"
-                              }
-                );
-
-            routes.MapRouteLowercase(
-                name: "",
-                url: "{controller}/{id}/{action}",
-                defaults: new {action = "View", id = UrlParameter.Optional}
-                );
-
-            routes.MapRouteLowercase(
-                name: "default",
-                url: "{controller}/{action}/{id}",
-                defaults: new {controller = "Home", action = "View", id = UrlParameter.Optional}
-                );
+                 name: "default",
+                 url: "{controller}/{action}/{id}",
+                 defaults: new { controller = "Home", action = "View", id = UrlParameter.Optional }
+                 );
         }
 
         protected void Application_Start()

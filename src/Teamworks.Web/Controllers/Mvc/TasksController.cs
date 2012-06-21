@@ -3,10 +3,11 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using AutoMapper;
-using Teamworks.Core.Projects;
-using Teamworks.Web.Helpers.Extensions;
+using Teamworks.Core;
 using Teamworks.Web.Helpers.Teamworks;
 using Teamworks.Web.Models;
+using Project = Teamworks.Core.Project;
+using Task = Teamworks.Web.Models.Task;
 
 namespace Teamworks.Web.Controllers.Web
 {
@@ -35,12 +36,12 @@ namespace Teamworks.Web.Controllers.Web
                 {
                     return new HttpNotFoundResult();
                 }
-                var task = DbSession.Load<Task>(taskid);
-                TaskModel model = Mapper.Map<Task, TaskModel>(task);
+                var task = DbSession.Load<Core.Task>(taskid);
+                Task model = Mapper.Map<Core.Task, Task>(task);
                 return View("Task", model);
             }
 
-            return View(Mapper.Map<List<Task>, List<TaskModel>>(DbSession.Load<Task>(project.Tasks).ToList()));
+            return View(Mapper.Map<List<Core.Task>, List<Task>>(DbSession.Load<Core.Task>(project.Tasks).ToList()));
         }
     }
 }

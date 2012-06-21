@@ -2,7 +2,7 @@ using Teamworks.Web.Models.DryModels;
 
 namespace Teamworks.Web.Models
 {
-    public class PersonModel : DryPersonModel
+    public class Person : DryPerson
     {
         //todo add permission and roles?
     }

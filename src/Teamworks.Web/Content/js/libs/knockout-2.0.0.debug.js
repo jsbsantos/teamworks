@@ -1769,7 +1769,7 @@
                     var rewrittenBindings = " { " + ko.jsonExpressionRewriting.insertPropertyAccessorsIntoJson(bindingsString) + " } ";
                     return ko.utils.evalWithinScope(rewrittenBindings, viewModel === null ? window : viewModel, bindingContext);
                 } catch(ex) {
-                    throw new Error("Unable to parse bindings.\nMessage: " + ex + ";\nBindings value: " + bindingsString);
+                    throw new Error("Unable to parse bindings.\nReply: " + ex + ";\nBindings value: " + bindingsString);
                 }
             }
         });

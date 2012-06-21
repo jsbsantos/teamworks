@@ -10,7 +10,7 @@ namespace Teamworks.Web.Controllers.Api.Handlers
         protected override Task<HttpResponseMessage> SendAsync(
             HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            var session = Global.Raven.CurrentSession;
+            var session = Global.Database.CurrentSession;
             return base.SendAsync(request, cancellationToken)
                 .ContinueWith(t =>
                                   {

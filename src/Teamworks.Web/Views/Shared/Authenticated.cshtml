@@ -2,10 +2,10 @@
     <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
         <i class="icon-user"></i>
         @User.Identity.Name
-        <span class="caret"></span>
     </a>
     <ul class="dropdown-menu">
         <li><a href="#">Profile</a></li>
+        <li class="divider"></li>
         <li><a href="@Url.Action("Logout", "Account")">Logout</a></li>
     </ul>
 </aside>

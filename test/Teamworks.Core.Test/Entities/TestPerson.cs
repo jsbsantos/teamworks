@@ -1,5 +1,4 @@
 ﻿using Xunit;
-using Teamworks.Core.People;
 
 namespace Teamworks.Core.Test.Entities {
 

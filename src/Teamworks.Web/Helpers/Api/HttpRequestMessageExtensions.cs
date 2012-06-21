@@ -4,8 +4,8 @@ using System.Net.Http;
 using System.Security.Principal;
 using System.Web;
 using System.Web.Http.Hosting;
+using Teamworks.Core;
 using Teamworks.Core.Authentication;
-using Teamworks.Core.People;
 
 namespace Teamworks.Web.Helpers.Api
 {

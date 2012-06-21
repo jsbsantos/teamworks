@@ -10,7 +10,7 @@ namespace Teamworks.Web.Controllers
     {
         protected IDocumentSession DbSession
         {
-            get { return Global.Raven.CurrentSession; }
+            get { return Global.Database.CurrentSession; }
         }
 
         protected T Get<T>(int id) where T : class

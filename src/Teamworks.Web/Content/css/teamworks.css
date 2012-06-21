@@ -1,14 +1,6 @@
-/* ===== Primary Styles ========================================================
-   Author:
-   ========================================================================== */
+body{ padding-top: 80px; }
 
-.navbar .nav > li > a { padding: 10px 20px; }
-.navbar .divider-vertical { margin: 0; }
+.project h1 { display: inline-block; }
+.page-header [class*='icon-'] { font-size: 30px; }
 
-/* Body and structure
--------------------------------------------------- */
-
-body {
-    padding-top: 90px;
-    position: relative;
-}
+.global-messages { padding: 4px 16px; }

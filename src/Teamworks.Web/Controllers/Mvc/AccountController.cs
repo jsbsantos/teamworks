@@ -2,8 +2,8 @@
 using System.Dynamic;
 using System.Web.Mvc;
 using System.Web.Security;
+using Teamworks.Core;
 using Teamworks.Core.Authentication;
-using Teamworks.Core.People;
 using Teamworks.Core.Services;
 
 namespace Teamworks.Web.Controllers.Mvc

@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Teamworks.Core.Projects
+namespace Teamworks.Core
 {
-    public class TimeEntry
+    public class Timelog
     {
         public int Id { get; set; }
         public string Description { get; set; }
@@ -11,9 +11,9 @@ namespace Teamworks.Core.Projects
 
         public string Person { get; set; }
 
-        public static TimeEntry Forge(string description, DateTime date, long duration, string person)
+        public static Timelog Forge(string description, DateTime date, long duration, string person)
         {
-            return new TimeEntry()
+            return new Timelog()
                        {
                            Description = description,
                            Date = date,

@@ -1,6 +1,6 @@
-﻿namespace Teamworks.Core.Services
+﻿namespace Teamworks.Core.Services.Storage
 {
-    public interface ILocalData
+    public interface IStorage
     {
         object this[object key] { get; set; }
         int Count { get; }

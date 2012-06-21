@@ -1,7 +1,5 @@
 ﻿using Newtonsoft.Json;
-using Raven.Client.Authorization;
-using Teamworks.Core.People;
-using Teamworks.Core.Services;
+using Teamworks.Core;
 using Teamworks.Web.Helpers.Api;
 
 namespace Teamworks.Web.Helpers.Teamworks

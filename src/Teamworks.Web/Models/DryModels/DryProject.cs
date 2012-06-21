@@ -1,6 +1,6 @@
 ﻿namespace Teamworks.Web.Models.DryModels
 {
-    public class DryProjectModel
+    public class DryProject
     {
         public string Id { get; set; }
         public string Name { get; set; }

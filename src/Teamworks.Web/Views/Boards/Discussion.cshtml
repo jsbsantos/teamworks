@@ -1,6 +1,5 @@
-﻿@using Teamworks.Web.Helpers.Extensions
-@using Teamworks.Web.Helpers.Teamworks
-@model Teamworks.Web.Models.ThreadModel
+﻿@using Teamworks.Web.Helpers.Teamworks
+@model Teamworks.Web.Models.Board
 
 @{
     ViewBag.Title = "Discussion";
@@ -25,7 +24,7 @@
         <div class="well">
             <form class="form-inline " data-bind="submit: create">
             <h3>
-                Your Message</h3>
+                Your Reply</h3>
             <input class="input-xxlarge" name="description" placeholder="Your message" data-bind="value: message.text, valueUpdate: 'afterkeyup'" />
             <button class="btn" type="submit">
                 Add</button>

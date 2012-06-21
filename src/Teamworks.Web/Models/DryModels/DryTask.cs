@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Teamworks.Web.Models.DryModels
 {
-    public class DryTaskModel
+    public class DryTask
     {
         public string Id { get; set; }
         [Required]
