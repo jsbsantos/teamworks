@@ -10,6 +10,7 @@ using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
 using Raven.Client.Linq;
+using Teamworks.Web.Controllers.Api.Filters;
 using Teamworks.Web.Controllers.Api.Handlers;
 using Project = Teamworks.Web.Models.Project;
 
@@ -26,6 +27,7 @@ namespace Teamworks.Web.Controllers.Api
             return Mapper.Map<IEnumerable<Core.Project>, IEnumerable<Project>>(projects);
         }
 
+        [SecureFor("/projects/view")]
         public Project Get(int id)
         {
             var project = DbSession.Include<Core.Project>(p => p.Tasks).Load<Core.Project>(id);
@@ -38,6 +40,11 @@ namespace Teamworks.Web.Controllers.Api
 
         public HttpResponseMessage<Project> Post(Project model)
         {
+            if (!ModelState.IsValid)
+            {
+                return new HttpResponseMessage<Project>(null, HttpStatusCode.BadRequest);
+            }
+            
             var project = Core.Project.Forge(model.Name, model.Description);
             DbSession.Store(project);
             var response = new HttpResponseMessage<Project>(Mapper.Map<Core.Project, Project>(project),

@@ -4,7 +4,7 @@ using Raven.Client.Authorization;
 using Teamworks.Core.Services;
 using Teamworks.Web.Helpers.Api;
 
-namespace Teamworks.Web.Controllers.Api.Handlers
+namespace Teamworks.Web.Controllers.Api.Filters
 {
     public class SecureForAttribute : AuthorizeAttribute
     {

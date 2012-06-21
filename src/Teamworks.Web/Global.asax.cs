@@ -1,3 +1,5 @@
+using System;
+using System.Net;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -6,7 +8,8 @@ using LowercaseRoutesMVC;
 using Microsoft.Web.Optimization;
 using Teamworks.Core.Authentication;
 using Teamworks.Core.Services;
-using Teamworks.Web.Controllers.Mvc.Filters;
+using Teamworks.Web.Controllers.Api.Filters;
+using Teamworks.Web.Controllers.Api.Handlers;
 using Teamworks.Web.Helpers;
 using Teamworks.Web.Helpers.Api;
 using Teamworks.Web.Helpers.Mvc;
@@ -20,6 +23,10 @@ namespace Teamworks.Web
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
+            var filter = new ExceptionAttribute();
+            filter.Mappings.Add(typeof(ArgumentException), HttpStatusCode.BadRequest);
+
+            filters.Add(filter);
             filters.Add(new HandleErrorAttribute());
             filters.Add(new FormsAuthenticationAttribute());
         }

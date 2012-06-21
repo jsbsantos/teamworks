@@ -161,8 +161,9 @@
     <Content Include="Content\js\app\teamworks.viewmodels.js" />
     <Content Include="Content\js\gac.js" />
     <Compile Include="Controllers\Api\DiscussionsController.cs" />
+    <Compile Include="Controllers\Api\Filters\ExceptionAttribute.cs" />
     <Compile Include="Controllers\Api\Handlers\FormsAuthenticationHandler.cs" />
-    <Compile Include="Controllers\Api\Handlers\SecureForAttribute.cs" />
+    <Compile Include="Controllers\Api\Filters\SecureForAttribute.cs" />
     <Compile Include="Controllers\Api\Handlers\UnauthorizedHandler.cs" />
     <Compile Include="Controllers\Api\MessageController.cs" />
     <Compile Include="Controllers\Api\TimelogController.cs" />
@@ -170,7 +171,7 @@
     <Compile Include="Controllers\Mvc\PeopleController.cs" />
     <Compile Include="Controllers\Mvc\BoardsController.cs" />
     <Compile Include="Controllers\Mvc\TimelogController.cs" />
-    <Compile Include="Controllers\Mvc\Filters\FormsAuthenticationAttribute.cs" />
+    <Compile Include="Controllers\Api\Filters\FormsAuthenticationAttribute.cs" />
     <Compile Include="Helpers\Teamworks\EntityExtensions.cs" />
     <Compile Include="Helpers\Api\HttpConfigurationExtensions.cs" />
     <Compile Include="Helpers\Mappers.cs" />
