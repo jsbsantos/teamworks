@@ -3,4 +3,4 @@ body{ padding-top: 80px; }
 .project h1 { display: inline-block; }
 .page-header [class*='icon-'] { font-size: 30px; }
 
-.global-messages { padding: 4px 16px; }
+div.global-messages { margin: auto; float: none; padding-top: 20px; }
