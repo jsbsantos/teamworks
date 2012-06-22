@@ -10,8 +10,7 @@ using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
 using Raven.Client.Linq;
-using Teamworks.Web.Controllers.Api.Filters;
-using Teamworks.Web.Controllers.Api.Handlers;
+using Teamworks.Web.Controllers.Api.Attribute;
 using Project = Teamworks.Web.Models.Project;
 
 namespace Teamworks.Web.Controllers.Api
@@ -40,11 +39,6 @@ namespace Teamworks.Web.Controllers.Api
 
         public HttpResponseMessage<Project> Post(Project model)
         {
-            if (!ModelState.IsValid)
-            {
-                return new HttpResponseMessage<Project>(null, HttpStatusCode.BadRequest);
-            }
-            
             var project = Core.Project.Forge(model.Name, model.Description);
             DbSession.Store(project);
             var response = new HttpResponseMessage<Project>(Mapper.Map<Core.Project, Project>(project),
@@ -59,11 +53,6 @@ namespace Teamworks.Web.Controllers.Api
         public HttpResponseMessage Put([ModelBinder(typeof (TypeConverterModelBinder))] int id,
                                        Core.Project project)
         {
-            if (!ModelState.IsValid)
-            {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
-            }
-            
             var p = Get<Core.Project>(id);
             /* todo mapping */
             return new HttpResponseMessage(HttpStatusCode.NoContent);

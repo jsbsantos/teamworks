@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Teamworks.Web.Models.DryModels.DryProject>
+
+@{
+    ViewBag.Title = "All Projects";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+    <header class="page-header">
+        <h1 class="inline">All Projects</h1>
+        <a href="#" class="inline" data-bind="visible: !project.editing(), click: function() { project.editing(true); } ">Create a new project</a>
+    </header>
+    <div class="clearfix hide" data-bind="css: { hide: !project.editing() }">
+        <form class="form-horizontal" data-bind="submit: create">
+            <input type="text" class="control-group input-xlarge" placeholder="Project name" data-bind="value: project.name, valueUpdate: 'afterkeyup'" />
+            <input type="text" class="control-group input-xlarge" placeholder="Project description" data-bind="value: project.description, valueUpdate: 'afterkeyup'" />
+            <button type="submit" class="btn btn-success pull-right">Start working</button>  
+            <a type="button" class="btn-mini pull-right clear-right" data-bind="click: function() { project.editing(false) }"><i class="icon-remove"></i> Cancel</a>  
+        </form>
+    </div>
+    <article data-bind="template: { name: 'project-template', foreach: projects.data }"></article>
+
+<script type="text/html" id="project-template">
+    <section class="clearfix">
+        <form class="btn-group form-inline pull-right" data-bind="submit: $parent.projects.remove">
+            <button class="btn btn-small btn-danger" type="submit" name="remove">Remove</button>
+        </form>
+        <h2 class="inline lead"><a data-bind="text: name, attr: { href: '/projects/' + id() }"></a></h2>
+        <span class="inline" data-bind="text: description"></span>
+    </section>
+</script>
+
+<script>
+    var page = function() {
+        return new TW.pages.Projects();
+    }
+</script>
+</div>

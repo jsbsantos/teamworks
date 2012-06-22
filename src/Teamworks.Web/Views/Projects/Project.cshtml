@@ -3,59 +3,55 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<header class="page-header">
-    <h1 data-bind="text: name"></h1>
-</header>
-<article>
-    <section>
-        <h2>Discussions</h2>
-    </section>
-</article>
-    
-<script type="text/html" id="tasks-template">
-    <section class="span3">
-        <div>
-            <h2><a data-bind="text: name, attr: { href: url }"></a></h2>
-            <p data-bind="text: description"></p>
-            <form class="btn-group" data-bind="submit: $parent.tasks.remove">
-                <button class="btn" type="submit" name="remove">Remove</button>
-            </form>
-        </div>
-    </section>
-</script>
+<div class="content" data-bind="visible: project.name">
+    <header class="page-header">
+        <h1 data-bind="text: project.name"></h1>
+    </header>
+    <article>
+        <section>
+            <header>
+                <h2 class="inline">Discussions</h2>
+                <a class="btn-mini" href="#" data-bind="visible: !discussion.editing(), click: function() { discussion.editing(true); }">One more discussion</a>
+            </header>
+            <div class="clearfix hide" data-bind="css: { hide: !discussion.editing() }">
+                <form class="form-horizontal" data-bind="submit: create_discussion">
+                    <input type="text" class="control-group input-xlarge" placeholder="Discussion name" data-bind="value: discussion.name, valueUpdate: 'afterkeyup'" />
+                    <input type="text" class="control-group input-xlarge" placeholder="Project description" data-bind="value: discussion.description, valueUpdate: 'afterkeyup'" />
+                    <button type="submit" class="btn btn-success pull-right">Start discussing</button>  
+                    <a type="button" class="btn-mini pull-right clear-right" data-bind="click: function() { discussion.editing(false) }"><i class="icon-remove"></i> Cancel</a>  
+                </form>
+            </div>
+            <div data-bind="template: { name: 'discussion-template', foreach: project.discussions.data }"></div>
+            
+        </section>
+    </article>
+    <script type="text/html" id="tasks-template">
+        <section class="span3">
+            <div>
+                <h2><a data-bind="text: name, attr: { href: url }"></a></h2>
+                <p data-bind="text: description"></p>
+                <form class="btn-group" data-bind="submit: $parent.tasks.remove">
+                    <button class="btn" type="submit" name="remove">Remove</button>
+                </form>
+            </div>
+        </section>
+    </script>
 
-<script type="text/html" id="discussions-template">
-    <section class="span3">
-        <div>
-            <h2><a data-bind="text: name, attr: { href: url }"></a></h2>
-            <p data-bind="text: name"></p>
-            <form class="btn-group" data-bind="submit: $parent.discussions.remove">
-                <button class="btn" type="submit" name="remove">Remove</button>
-            </form>
-        </div>
-    </section>
-</script>
+    <script type="text/html" id="discussion-template">
+        <section class="clearfix">
+            <div>
+                <form class="btn-group pull-right" data-bind="submit: $parent.project.discussions.remove">
+                    <button class="btn btn-small btn-danger" type="submit" name="remove">Remove</button>
+                </form>
+                <h2><a data-bind="text: name"></a></h2>
+                <span class="inline" data-bind="text: name"></span>
+            </div>
+        </section>
+    </script>
 
-<script>
-    var viewmodel = function () {
-        var ret = undefined;
-        $.ajax(
-            '/api/projects/' + @Model,
-            {
-                async: false,
-                type: 'get',
-                contentType: 'application/json; charset=utf-8',
-                cache: 'false',
-                statusCode: {
-                    200: /*ok*/ function(data) {
-                        ret = new TW.viewmodels.Project(data);
-                    },
-                    404: /*not found*/ function () {
-                        TW.app.messages.push({ message: 'The project you requested doesn\'t exist.' });
-                    }
-                }                
-            }
-        );
-        return ret;
-    }
-</script>
+    <script>
+        var page = function() {
+            return new TW.pages.Project().load(@Model);
+        }
+    </script>
+</div>

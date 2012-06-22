@@ -8,11 +8,12 @@ using LowercaseRoutesMVC;
 using Microsoft.Web.Optimization;
 using Teamworks.Core.Authentication;
 using Teamworks.Core.Services;
-using Teamworks.Web.Controllers.Api.Filters;
-using Teamworks.Web.Controllers.Api.Handlers;
+using Teamworks.Web.Controllers.Api.Attribute;
+using Teamworks.Web.Controllers.Mvc.Attributes;
 using Teamworks.Web.Helpers;
 using Teamworks.Web.Helpers.Api;
 using Teamworks.Web.Helpers.Mvc;
+using GlobalFilterCollection = System.Web.Http.Filters.GlobalFilterCollection;
 
 namespace Teamworks.Web
 {
@@ -21,14 +22,19 @@ namespace Teamworks.Web
 
     public class MvcApplication : HttpApplication
     {
-        public static void RegisterGlobalFilters(GlobalFilterCollection filters)
+        public void RegisterGlobalFilters(System.Web.Mvc.GlobalFilterCollection filters)
         {
-            var filter = new ExceptionAttribute();
-            filter.Mappings.Add(typeof(ArgumentException), HttpStatusCode.BadRequest);
-
-            filters.Add(filter);
             filters.Add(new HandleErrorAttribute());
             filters.Add(new FormsAuthenticationAttribute());
+        }
+
+        public static void RegisterGlobalApiFilters(GlobalFilterCollection filters)
+        {
+            filters.Add(new ModelStateAttribute());
+            
+            var filter = new ExceptionAttribute();
+            filter.Mappings.Add(typeof(ArgumentException), HttpStatusCode.BadRequest);
+            filters.Add(filter);
         }
 
         public static void RegisterRoutes(RouteCollection routes)
@@ -54,6 +60,7 @@ namespace Teamworks.Web
             AreaRegistration.RegisterAllAreas();
 
             RegisterGlobalFilters(GlobalFilters.Filters);
+            RegisterGlobalApiFilters(GlobalConfiguration.Configuration.Filters);
             RegisterRoutes(RouteTable.Routes);
 
             GlobalConfiguration.Configuration.RegisterFormatters();
@@ -64,5 +71,7 @@ namespace Teamworks.Web
             Global.Authentication.Add("Basic", new BasicAuthenticator());
             Mappers.RegisterMappers();
         }
+
+        
     }
 }

@@ -22,7 +22,8 @@ namespace Teamworks.Web.Helpers.Mvc
 
             js.AddFile("~/content/js/app/teamworks.app.js");
             js.AddFile("~/content/js/app/teamworks.viewmodels.js");
-            js.AddFile("~/content/js/app/teamworks.teamworks.js");
+            js.AddFile("~/content/js/app/teamworks.pages.js");
+            js.AddFile("~/content/js/app/teamworks.js");
             js.AddFile("~/content/js/gac.js");
 #endif
             bundles.Add(js);

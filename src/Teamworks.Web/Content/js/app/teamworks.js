@@ -3,8 +3,9 @@
 
 (function () {
     'use strict';
-
-    viewmodel && (TW.app.viewmodel = viewmodel());
-    /* apply bindings only if TW.app is setted */
-    !$.isEmptyObject(TW.app) && ko.applyBindings(TW.app);
+    if (typeof page !== 'undefined') {
+        TW.app.page = page();
+        /* apply bindings only if TW.app is setted */
+        !$.isEmptyObject(TW.app) && ko.applyBindings(TW.app);
+    }
 })();

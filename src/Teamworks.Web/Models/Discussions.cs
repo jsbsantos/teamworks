@@ -3,8 +3,8 @@ using Teamworks.Web.Models.DryModels;
 
 namespace Teamworks.Web.Models
 {
-    public class Board : DryBoard
+    public class Discussions : DryDiscussions
     {
-        public IList<Reply> Messages { get; set; }
+        public IList<Message> Messages { get; set; }
     }
 }

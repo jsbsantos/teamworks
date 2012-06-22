@@ -3,31 +3,31 @@ using System.Collections.Generic;
 
 namespace Teamworks.Core
 {
-    public class Board : Entity
+    public class Discussion : Entity
     {
-        public string Text { get; set; }
+        public string Content { get; set; }
         public DateTime Date { get; set; }
         public string Person { get; set; }
         public IList<Message> Messages { get; set; }
         public string Entity { get; set; }
 
-        public int LastThreadId { get; private set; }
+        public int LastDiscussionId { get; private set; }
 
         public int GenerateNewTimeEntryId()
         {
-            return ++LastThreadId;
+            return ++LastDiscussionId;
         }
 
-        public static Board Forge(string name, string text, string entity, string person)
+        public static Discussion Forge(string name, string content, string entity, string person)
         {
-            return new Board()
+            return new Discussion()
                        {
-                           Text = text,
                            Name = name,
+                           Content = content,
                            Date = DateTime.Now,
                            Messages = new List<Message>(),
                            Person = person,
-                           LastThreadId = 0,
+                           LastDiscussionId = 0,
                            Entity = entity
                        };
         }

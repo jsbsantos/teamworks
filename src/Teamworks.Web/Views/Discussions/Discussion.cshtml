@@ -1,5 +1,5 @@
 ﻿@using Teamworks.Web.Helpers.Teamworks
-@model Teamworks.Web.Models.Board
+@model Teamworks.Web.Models.Discussions
 
 @{
     ViewBag.Title = "Discussion";
@@ -10,7 +10,7 @@
         <h3>
             @Model.Name
         </h3>
-        <p>@Model.Text</p>
+        <p>@Model.Content</p>
         <small><a href="/@Model.Person.Id">@Model.Person.Name</a> @@ @Model.Date </small>
     </header>
     <article class="row span12">
@@ -24,7 +24,7 @@
         <div class="well">
             <form class="form-inline " data-bind="submit: create">
             <h3>
-                Your Reply</h3>
+                Your Message</h3>
             <input class="input-xxlarge" name="description" placeholder="Your message" data-bind="value: message.text, valueUpdate: 'afterkeyup'" />
             <button class="btn" type="submit">
                 Add</button>

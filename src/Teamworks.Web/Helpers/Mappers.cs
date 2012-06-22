@@ -5,7 +5,7 @@ using Teamworks.Core.Services;
 using Teamworks.Web.Helpers.Teamworks;
 using Teamworks.Web.Models;
 using Teamworks.Web.Models.DryModels;
-using Board = Teamworks.Web.Models.Board;
+using Message = Teamworks.Web.Models.Message;
 using Person = Teamworks.Web.Models.Person;
 using Project = Teamworks.Web.Models.Project;
 using Task = Teamworks.Web.Models.Task;
@@ -22,7 +22,7 @@ namespace Teamworks.Web.Helpers
 
         public static void RegisterMappers()
         {
-            #region Entity Mappings
+            #region Parent Mappings
 
             Mapper.CreateMap<Project, Core.Project>();
             Mapper.CreateMap<Core.Project, Project>()
@@ -33,12 +33,12 @@ namespace Teamworks.Web.Helpers
                                src =>
                                Mapper.Map<IList<Core.Task>, IList<Task>>(
                                    Global.Database.CurrentSession.Load<Core.Task>(src.Tasks))))
-                .ForMember(src => src.Threads,
+                .ForMember(src => src.Discussions,
                            opt =>
                            opt.MapFrom(
                                src =>
-                               Mapper.Map<IList<Core.Board>, IList<Board>>(
-                                   Global.Database.CurrentSession.Load<Core.Board>(src.Boards))));
+                               Mapper.Map<IList<Core.Discussion>, IList<Discussions>>(
+                                   Global.Database.CurrentSession.Load<Core.Discussion>(src.Boards))));
 
             Mapper.CreateMap<Core.Project, DryProject>()
                 .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier));
@@ -65,10 +65,10 @@ namespace Teamworks.Web.Helpers
 
             #endregion
 
-            #region Board Mappings
+            #region Discussions Mappings
 
-            Mapper.CreateMap<DryBoard, Core.Board>();
-            Mapper.CreateMap<Core.Board, DryBoard>()
+            Mapper.CreateMap<DryDiscussions, Core.Discussion>();
+            Mapper.CreateMap<Core.Discussion, DryDiscussions>()
                 .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier))
                 .ForMember(src => src.Person,
                            opt =>
@@ -76,8 +76,8 @@ namespace Teamworks.Web.Helpers
                                src =>
                                Mapper.Map<Core.Person, DryPerson>(Global.Database.CurrentSession.Load<Core.Person>(src.Person))));
 
-            Mapper.CreateMap<Board, Core.Board>();
-            Mapper.CreateMap<Core.Board, Board>()
+            Mapper.CreateMap<Discussions, Core.Discussion>();
+            Mapper.CreateMap<Core.Discussion, Discussions>()
                 .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier))
                 .ForMember(src => src.Person,
                            opt =>
@@ -87,12 +87,12 @@ namespace Teamworks.Web.Helpers
 
             #endregion
 
-            #region Reply Mappings
+            #region Message Mappings
 
-            Mapper.CreateMap<Reply, Core.Message>()
+            Mapper.CreateMap<Message, Core.Message>()
                 .ForMember(src => src.Content, opt => opt.MapFrom(src => src.Text));
 
-            Mapper.CreateMap<Core.Message, Reply>()
+            Mapper.CreateMap<Core.Message, Message>()
                 .ForMember(src => src.Text, opt => opt.MapFrom(src => src.Content))
                 .ForMember(src => src.Person,
                            opt =>

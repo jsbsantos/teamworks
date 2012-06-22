@@ -5,7 +5,7 @@ using Teamworks.Core;
 using Teamworks.Core.Authentication;
 using Teamworks.Core.Services;
 
-namespace Teamworks.Web.Controllers.Api.Filters
+namespace Teamworks.Web.Controllers.Mvc.Attributes
 {
     public class FormsAuthenticationAttribute : ActionFilterAttribute
     {

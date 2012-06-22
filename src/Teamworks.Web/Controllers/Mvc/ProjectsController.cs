@@ -8,7 +8,7 @@ namespace Teamworks.Web.Controllers.Mvc
         [ActionName("View")]
         public ActionResult Index(int? identifier)
         {
-            return identifier != null ? View("Project", identifier.Value) : View();
+            return identifier != null ? View("Project", identifier.Value) : View("Projects");
         }
     }
 }

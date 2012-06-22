@@ -3,7 +3,7 @@ using Teamworks.Web.Models.DryModels;
 
 namespace Teamworks.Web.Models
 {
-    public class Reply
+    public class Message
     {
         public int Id { get; set; }
         public string Text { get; set; }

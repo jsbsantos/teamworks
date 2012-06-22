@@ -17,6 +17,7 @@
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
     <!-- Custom font from google -->
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="@BundleTable.Bundles.ResolveBundleUrl("~/css")" >
     <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
     <!-- All JavaScript at the bottom, except this Modernizr build.
@@ -46,10 +47,10 @@
         </div>
         <div class="span8 global-messages"data-bind="template: { name: 'messages-template', foreach: messages}"></div>
         <script type="text/html" id="messages-template">
-            <div class="alert alert-error" data-bind="text: message"></div>
+            <div class="span6 alert alert-error"><p data-bind="text: message"></p></div>
         </script>
     </header>
-    <div class="main container-fluid" role="main" data-bind="with: viewmodel">
+    <div class="main container-fluid" role="main" data-bind="with: page">
         <div class="row-fluid">
             <div class="span2">
                 @RenderSection("SideBar", false)
@@ -75,6 +76,8 @@
             <script src="@Url.Content("~/content/js/libs/knockout-2.0.0.js")"> </script>
             <script src="@Url.Content("~/content/js/app/teamworks.app.js")"> </script>
             <script src="@Url.Content("~/content/js/app/teamworks.viewmodels.js")"> </script>
+            <script src="@Url.Content("~/content/js/app/teamworks.pages.js")"> </script>
+        
             <script src="@Url.Content("~/content/js/app/teamworks.js")"> </script>
         }
     }

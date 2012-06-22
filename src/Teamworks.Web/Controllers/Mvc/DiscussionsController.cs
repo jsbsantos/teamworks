@@ -2,16 +2,14 @@
 using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
-using Teamworks.Core;
 using Teamworks.Web.Helpers.Teamworks;
 using Teamworks.Web.Models;
 using Teamworks.Web.Models.DryModels;
-using Board = Teamworks.Web.Models.Board;
 using Project = Teamworks.Core.Project;
 
 namespace Teamworks.Web.Controllers.Mvc
 {
-    public class BoardsController : RavenController
+    public class DiscussionsController : RavenController
     {
         [HttpGet]
         [ActionName("View")]
@@ -35,12 +33,12 @@ namespace Teamworks.Web.Controllers.Mvc
                 {
                     return new HttpNotFoundResult();
                 }
-                var topic = DbSession.Load<Core.Board>(discussionid);
-                var model = Mapper.Map<Core.Board, Board>(topic);
+                var topic = DbSession.Load<Core.Discussion>(discussionid);
+                var model = Mapper.Map<Core.Discussion, Discussions>(topic);
                 return View("Discussion", model);
             }
 
-            return View(Mapper.Map<List<Core.Board>, List<DryBoard>>(DbSession.Load<Core.Board>(project.Boards).ToList()));
+            return View(Mapper.Map<List<Core.Discussion>, List<DryDiscussions>>(DbSession.Load<Core.Discussion>(project.Boards).ToList()));
         }
     }
 }

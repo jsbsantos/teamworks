@@ -341,7 +341,7 @@
                 if ((value === null) || (value === undefined))
                     value = "";
 
-                'innerText' in element ? element.innerText = value
+                'innerContent' in element ? element.innerText = value
                     : element.textContent = value;
 
                 if (ieVersion >= 9) {
@@ -752,7 +752,7 @@
     ko.exportSymbol('ko.memoization', ko.memoization);
     ko.exportSymbol('ko.memoization.memoize', ko.memoization.memoize);
     ko.exportSymbol('ko.memoization.unmemoize', ko.memoization.unmemoize);
-    ko.exportSymbol('ko.memoization.parseMemoText', ko.memoization.parseMemoText);
+    ko.exportSymbol('ko.memoization.parseMemoContent', ko.memoization.parseMemoText);
     ko.exportSymbol('ko.memoization.unmemoizeDomNodeAndDescendants', ko.memoization.unmemoizeDomNodeAndDescendants);
     ko.extenders = {
         'throttle': function(target, timeout) {
@@ -1769,7 +1769,7 @@
                     var rewrittenBindings = " { " + ko.jsonExpressionRewriting.insertPropertyAccessorsIntoJson(bindingsString) + " } ";
                     return ko.utils.evalWithinScope(rewrittenBindings, viewModel === null ? window : viewModel, bindingContext);
                 } catch(ex) {
-                    throw new Error("Unable to parse bindings.\nReply: " + ex + ";\nBindings value: " + bindingsString);
+                    throw new Error("Unable to parse bindings.\nMessage: " + ex + ";\nBindings value: " + bindingsString);
                 }
             }
         });
@@ -2208,7 +2208,7 @@
                     else if (typeof optionsTextValue == "string")
                         optionText = value[i][optionsTextValue]; // Given a string; treat it as a property name on the data value
                     else
-                        optionText = optionValue; // Given no optionsText arg; use the data value itself
+                        optionText = optionValue; // Given no optionsContent arg; use the data value itself
                     if ((optionText === null) || (optionText === undefined))
                         optionText = "";
 

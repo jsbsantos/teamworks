@@ -1,6 +1,21 @@
-body{ padding-top: 80px; }
+body { padding-top: 80px; }
 
-.project h1 { display: inline-block; }
+
+
+a { cursor: pointer; }
+
+.brand { font-family: 'Droid Sans Mono', sans-serif;font-weight: 700; }
+.inline { display: inline-block; }
+.clear-left { clear: left; }
+.clear-right { clear: right; }
 .page-header [class*='icon-'] { font-size: 30px; }
 
-div.global-messages { margin: auto; float: none; padding-top: 20px; }
+div.global-messages {
+    margin: auto;
+    float: none;
+    padding-top: 20px;
+}
+
+div.global-messages p {
+    margin: 0;
+}

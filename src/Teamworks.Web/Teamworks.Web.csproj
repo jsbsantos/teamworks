@@ -160,18 +160,20 @@
     <Content Include="Content\js\app\teamworks.js" />
     <Content Include="Content\js\app\teamworks.viewmodels.js" />
     <Content Include="Content\js\gac.js" />
+    <Content Include="Content\js\app\teamworks.pages.js" />
     <Compile Include="Controllers\Api\DiscussionsController.cs" />
-    <Compile Include="Controllers\Api\Filters\ExceptionAttribute.cs" />
+    <Compile Include="Controllers\Api\Attribute\ModelStateAttribute.cs" />
+    <Compile Include="Controllers\Api\Attribute\ExceptionAttribute.cs" />
     <Compile Include="Controllers\Api\Handlers\FormsAuthenticationHandler.cs" />
-    <Compile Include="Controllers\Api\Filters\SecureForAttribute.cs" />
+    <Compile Include="Controllers\Api\Attribute\SecureForAttribute.cs" />
     <Compile Include="Controllers\Api\Handlers\UnauthorizedHandler.cs" />
     <Compile Include="Controllers\Api\MessageController.cs" />
     <Compile Include="Controllers\Api\TimelogController.cs" />
     <Compile Include="Controllers\Api\PeopleController.cs" />
     <Compile Include="Controllers\Mvc\PeopleController.cs" />
-    <Compile Include="Controllers\Mvc\BoardsController.cs" />
+    <Compile Include="Controllers\Mvc\DiscussionsController.cs" />
     <Compile Include="Controllers\Mvc\TimelogController.cs" />
-    <Compile Include="Controllers\Api\Filters\FormsAuthenticationAttribute.cs" />
+    <Compile Include="Controllers\Mvc\Attributes\FormsAuthenticationAttribute.cs" />
     <Compile Include="Helpers\Teamworks\EntityExtensions.cs" />
     <Compile Include="Helpers\Api\HttpConfigurationExtensions.cs" />
     <Compile Include="Helpers\Mappers.cs" />
@@ -195,14 +197,14 @@
     <Compile Include="Helpers\Api\JsonNetFormatter.cs" />
     <Compile Include="Models\DryModels\DryProject.cs" />
     <Compile Include="Models\DryModels\DryTask.cs" />
-    <Compile Include="Models\DryModels\DryBoard.cs" />
+    <Compile Include="Models\DryModels\DryDiscussions.cs" />
     <Compile Include="Models\DryModels\DryPerson.cs" />
     <Compile Include="Models\Person.cs" />
-    <Compile Include="Models\Reply.cs" />
+    <Compile Include="Models\Message.cs" />
     <Compile Include="Models\Timelog.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\Task.cs" />
-    <Compile Include="Models\Board.cs" />
+    <Compile Include="Models\Discussions.cs" />
     <Compile Include="Views\ViewsExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -290,8 +292,8 @@
     <Content Include="Views\Tasks\Task.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Timelog\View.cshtml" />
-    <Content Include="Views\Boards\Discussion.cshtml" />
-    <Content Include="Views\Boards\View.cshtml" />
+    <Content Include="Views\Discussions\Discussion.cshtml" />
+    <Content Include="Views\Discussions\View.cshtml" />
     <Content Include="Views\People\View.cshtml" />
     <Content Include="Views\People\Person.cshtml" />
   </ItemGroup>
@@ -299,7 +301,7 @@
     <Content Include="Content\css\teamworks.css" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Projects\View.cshtml" />
+    <Content Include="Views\Projects\Projects.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Teamworks.Core\Teamworks.Core.csproj">
@@ -324,7 +326,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>50747</DevelopmentServerPort>
+          <DevelopmentServerPort>51485</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:51000/</IISUrl>
           <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>

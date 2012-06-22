@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web;
+using System.Web.Http;
 using System.Web.Http.Filters;
 
-namespace Teamworks.Web.Controllers.Api.Filters
+namespace Teamworks.Web.Controllers.Api.Attribute
 {
     public class ExceptionAttribute : ExceptionFilterAttribute
     {
@@ -23,15 +24,15 @@ namespace Teamworks.Web.Controllers.Api.Filters
                 var exception = context.Exception;
                 if (exception is HttpException)
                 {
-                    context.Result = new HttpResponseMessage<dynamic>(
-                        new { exception.Message }, (HttpStatusCode) ((HttpException) exception).GetHttpCode());
+                    context.Result = new HttpResponseMessage<string>(exception.Message,
+                                                                     (HttpStatusCode)
+                                                                     ((HttpException) exception).GetHttpCode());
                 }
                 else if (Mappings.ContainsKey(exception.GetType()))
                 {
-                    context.Result = new HttpResponseMessage<dynamic>(
-                        new { exception.Message }, Mappings[exception.GetType()]);
+                    context.Result = new HttpResponseMessage<string>(exception.Message, Mappings[exception.GetType()]);
                 }
-                else
+                else if (!(exception is HttpResponseException))
                 {
                     context.Result = new HttpResponseMessage(HttpStatusCode.InternalServerError);
                 }

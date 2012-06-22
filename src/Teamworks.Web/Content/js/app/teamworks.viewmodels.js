@@ -6,62 +6,59 @@ TW.viewmodels = TW.viewmodels || { };
 
 TW.viewmodels.Project = function (data) {
     var self = this;
-    var map = function (data) {
+    self.base = "/api/projects/";
+    self.load = function (data) {
         self.id(data.id);
         self.name(data.name);
         self.description(data.description);
+        self.discussions.data(data.discussions);
     };
 
     self.id = ko.observable();
     self.name = ko.observable();
     self.description = ko.observable();
+    self.discussions = new TW.viewmodels.Discussions();
+    self.discussions.endpoint = ko.computed(function () {
+        return self.base + self.id() + "/discussions/";
+    });
+
     self.endpoint = ko.computed(function () {
-        return "/api/projects/" + this.id();
+        return self.base + self.id();
     }, self);
 
     self.clear = function () {
-        map({});
+        self.load({});
     };
-
-    var id = parseInt(data);
-    if (isNaN(id)) {
-        map(data || {});
-    } else {
-        self.id(id);
-        $.getJSON(self.endpoint(), function (project) {
-            map(project);
-        });
-    }
-
+    self.load(data || {});
 };
 
-TW.viewmodels.Projects = function () {
+TW.viewmodels.Projects = function() {
     var self = this;
     self.endpoint = "/api/projects/";
-    self.project = new TW.viewmodels.Project();
-    self.projects = ko.observableArray([]);
-    self.editable = ko.observable(false);
 
+    self.data = ko.observableArray([]);
     /*interact methods*/
-    self.create = function () {
+    self.create = function(project, callback) {
         var request = $.ajax(
             self.endpoint,
             {
                 type: 'post',
-                data: ko.toJSON(self.project),
+                data: ko.toJSON(project),
                 contentType: 'application/json; charset=utf-8',
                 cache: 'false',
                 statusCode: {
-                    201: /*created*/function (data) {
-                        self.projects.push(new TW.viewmodels.Project(data));
-                        self.project.clear();
-                        self.editable(false);
+                    201: /*created*/function(data) {
+                        self.data.push(new TW.viewmodels.Project(data));
+                        callback && callback();
+                    },
+                    400: /*bad request*/function(data) {
+                        TW.app.messages.push({ message: 'An error as ocurred.' });
                     }
                 }
             }
         );
     };
-    self.remove = function () {
+    self.remove = function(element, callback) {
         var project = this;
         var message = 'You are about to delete ' + project.name() + '.';
         if (confirm(message)) {
@@ -72,17 +69,80 @@ TW.viewmodels.Projects = function () {
                     contentType: 'application/json; charset=utf-8',
                     cache: 'false',
                     statusCode: {
-                        204: /*no content*/function () {
-                            self.projects.destroy(project);
+                        204: /*no content*/function() {
+                            self.data.destroy(project);
+                            callback && callback();
                         }
                     }
                 });
         }
     };
+};
 
-    $.getJSON(self.endpoint, function (projects) {
-        self.projects($.map(projects, function (item) {
-            return new TW.viewmodels.Project(item);
-        }));
-    });
+TW.viewmodels.Discussion = function (data) {
+    var self = this;
+    self.load = function (data) {
+        self.id(data.id);
+        self.name(data.name);
+        self.content(data.content);
+    };
+
+    self.id = ko.observable();
+    self.name = ko.observable();
+    self.content = ko.observable();
+    self.endpoint = ko.computed(function () {
+        return self.base + self.id();
+    }, self);
+    self.clear = function () {
+        self.load({});
+    };
+    self.load(data || {});
+};
+
+
+TW.viewmodels.Discussions = function () {
+    var self = this;
+    self.data = ko.observableArray([]);
+    
+    /*interact methods*/
+    self.create = function (discussion, callback) {
+        var request = $.ajax(
+            self.endpoint(),
+            {
+                type: 'post',
+                data: ko.toJSON(discussion),
+                contentType: 'application/json; charset=utf-8',
+                cache: 'false',
+                statusCode: {
+                    201: /*created*/function (data) {
+                        self.data.push(new TW.viewmodels.Discussion(data));
+                        self.base = self.endpoint;
+                        callback && callback();
+                    },
+                    400: /*bad request*/function (data) {
+                        TW.app.messages.push({ message: 'An error as ocurred.' });
+                    }
+                }
+            }
+        );
+    };
+    self.remove = function (element, callback) {
+        var discussion = this;
+        var message = 'You are about to delete ' + discussion.name() + '.';
+        if (confirm(message)) {
+            $.ajax(
+                self.endpoint + discussion.id(),
+                {
+                    type: 'delete',
+                    contentType: 'application/json; charset=utf-8',
+                    cache: 'false',
+                    statusCode: {
+                        204: /*no content*/function () {
+                            self.data.destroy(discussion);
+                            callback && callback();
+                        }
+                    }
+                });
+        }
+    };
 };
