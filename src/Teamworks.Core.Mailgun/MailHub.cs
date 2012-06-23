@@ -13,8 +13,14 @@ namespace Teamworks.Core.Mailgun
         {
             var client = CreateClient();
             var content = new FormUrlEncodedContent(message);
-            var json =
-                client.PostAsync(client.BaseAddress + "/messages", content).Result.Content.ReadAsAsync<string>().
+
+            var result =
+                client.PostAsync(client.BaseAddress + "/messages", content).Result;
+
+            //change content type to JSON so we can parse the response
+            result.Content.Headers.ContentType.MediaType = "application/json";
+            
+            var json = result.Content.ReadAsStringAsync().
                     Result;
 
             return JObject.Parse(json)["id"].Value<string>();

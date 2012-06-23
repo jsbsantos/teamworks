@@ -77,13 +77,14 @@ namespace Teamworks.Web.Controllers.Api
                 foreach (var email in emails)
                 {
                     notifications.Append(email);
-                    notifications.Append(",");
+                    notifications.Append(";");
                 }
 
                 message.Reply= MailHub.Send(new MailgunMessage()
                                  {
+                                     To = notifications.ToString().TrimEnd(new[] { ';' }),
                                      From = MailgunConfiguration.Host,
-                                     Bcc = notifications.ToString().TrimEnd(new[] {','}),
+                                     //Bcc = notifications.ToString().TrimEnd(new[] {';'}),
                                      Subject = topic.Name,
                                      Message = message.Content,
                                  });

@@ -13,7 +13,7 @@ namespace Teamworks.Web.Helpers
                 var model = new MailgunModel();
                 foreach (var key in actionContext.RequestContentKeyValueModel.Keys)
                 {
-                    model[key] = bindingContext.ValueProvider.GetValue(key).AttemptedValue;
+                    model[key.ToLower()] = bindingContext.ValueProvider.GetValue(key).AttemptedValue;
                 }
                 bindingContext.Model = model;
                 return true;

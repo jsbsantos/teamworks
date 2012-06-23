@@ -107,7 +107,7 @@ var discussion_list_viewmodel = function (entity, discussions, base_url) {
                 cache: 'false',
                 statusCode: {
                     204: /*no content*/function () {
-                        self.discussions.remove(task);
+                        self.discussions.remove(discussion);
                     }
                 }
             });

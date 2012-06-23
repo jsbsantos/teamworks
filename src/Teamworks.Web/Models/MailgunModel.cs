@@ -38,8 +38,8 @@ namespace Teamworks.Web.Models
 
         public string Reply
         {
-            get { return this["in-reply-to"]; }
-            set { this["in-reply-to"] = value; }
+            get { return this["references"].Split(new [] {'\t'})[0]; }
+            set { this["references"] = value; }
         }
     }
 

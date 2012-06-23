@@ -16,7 +16,8 @@ namespace Teamworks.Core.Projects
                        {
                            Content = text,
                            Date = DateTime.Now,
-                           Person = person
+                           Person = person,
+                           Reply = null
                        };
         }
     }
