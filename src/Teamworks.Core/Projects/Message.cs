@@ -8,6 +8,7 @@ namespace Teamworks.Core.Projects
         public string Content { get; set; }
         public DateTime Date { get; set; }
         public string Person { get; set; }
+        public string Reply { get; set; }
 
         public static Message Forge(string text, string person)
         {

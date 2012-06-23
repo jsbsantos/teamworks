@@ -3,17 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Web.Http;
 using System.Web.Http.ModelBinding;
 using System.Web.Http.ModelBinding.Binders;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
+using Teamworks.Core.Mailgun;
+using Teamworks.Core.People;
 using Teamworks.Core.Projects;
 using Teamworks.Web.Helpers.Api;
 using Teamworks.Web.Helpers.Extensions;
 using Teamworks.Web.Models;
-  //  [RoutePrefix("api/projects/{projectid}/discussions/{discussionid}/messages")]
+
+//  [RoutePrefix("api/projects/{projectid}/discussions/{discussionid}/messages")]
 
 namespace Teamworks.Web.Controllers.Api
 {
@@ -22,6 +26,7 @@ namespace Teamworks.Web.Controllers.Api
     public class MessageController : RavenApiController
     {
         #region Project
+
         private Thread LoadProjectDiscussion(int projectid, int discussionid)
         {
             var project = DbSession
@@ -48,9 +53,10 @@ namespace Teamworks.Web.Controllers.Api
         }
 
         [POST("discussions/{discussionid}/messages")]
-        public HttpResponseMessage<MessageModel> PostProjectDiscussionMessage([ModelBinder(typeof(TypeConverterModelBinder))] int discussionid,
-                                                      [ModelBinder(typeof(TypeConverterModelBinder))] int projectid,
-                                                      MessageModel model)
+        public HttpResponseMessage<MessageModel> PostProjectDiscussionMessage(
+            [ModelBinder(typeof (TypeConverterModelBinder))] int discussionid,
+            [ModelBinder(typeof (TypeConverterModelBinder))] int projectid,
+            MessageModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -62,16 +68,37 @@ namespace Teamworks.Web.Controllers.Api
             var message = Message.Forge(model.Text, Request.GetUserPrincipalId());
             message.Id = topic.GenerateNewTimeEntryId();
             topic.Messages.Add(message);
+            //"joao.sb.santos@gmail.com"
 
+            var emails = DbSession.Load<Person>(topic.Notify).Select(x => x.Email).ToList();
+            if (emails.Count > 0)
+            {
+                var notifications = new StringBuilder();
+                foreach (var email in emails)
+                {
+                    notifications.Append(email);
+                    notifications.Append(",");
+                }
+
+                message.Reply= MailHub.Send(new MailgunMessage()
+                                 {
+                                     From = MailgunConfiguration.Host,
+                                     Bcc = notifications.ToString().TrimEnd(new[] {','}),
+                                     Subject = topic.Name,
+                                     Message = message.Content,
+                                 });
+                
+            }
             return new HttpResponseMessage<MessageModel>(Mapper.Map<Message, MessageModel>(message),
                                                          HttpStatusCode.Created);
         }
 
         /// <see cref="http://forums.asp.net/post/4855634.aspx" />
         [PUT("discussions/{discussionid}/messages")]
-        public HttpResponseMessage<MessageModel> PutProjectDiscussionMessage([ModelBinder(typeof(TypeConverterModelBinder))] int discussionid,
-                                                     [ModelBinder(typeof(TypeConverterModelBinder))] int projectid,
-                                                     MessageModel model)
+        public HttpResponseMessage<MessageModel> PutProjectDiscussionMessage(
+            [ModelBinder(typeof (TypeConverterModelBinder))] int discussionid,
+            [ModelBinder(typeof (TypeConverterModelBinder))] int projectid,
+            MessageModel model)
         {
             throw new NotImplementedException();
         }
@@ -91,15 +118,16 @@ namespace Teamworks.Web.Controllers.Api
 
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
-        
-        #endregion 
-    
+
+        #endregion
+
         #region Task
+
         private Thread LoadTaskDiscussion(int projectid, int taskid, int discussionid)
         {
             var project = DbSession
-                           .Include<Project>(p => p.Tasks)
-                           .Load<Project>(projectid);
+                .Include<Project>(p => p.Tasks)
+                .Load<Project>(projectid);
 
             if (project == null)
             {
@@ -131,10 +159,11 @@ namespace Teamworks.Web.Controllers.Api
         }
 
         [POST("tasks/{taskid}/discussions/{discussionid}/messages")]
-        public HttpResponseMessage<MessageModel> PostTaskDiscussionMessage([ModelBinder(typeof(TypeConverterModelBinder))] int discussionid,
-                                                      [ModelBinder(typeof(TypeConverterModelBinder))] int projectid,
-                                                      [ModelBinder(typeof(TypeConverterModelBinder))] int taskid,
-                                                      MessageModel model)
+        public HttpResponseMessage<MessageModel> PostTaskDiscussionMessage(
+            [ModelBinder(typeof (TypeConverterModelBinder))] int discussionid,
+            [ModelBinder(typeof (TypeConverterModelBinder))] int projectid,
+            [ModelBinder(typeof (TypeConverterModelBinder))] int taskid,
+            MessageModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -153,10 +182,11 @@ namespace Teamworks.Web.Controllers.Api
 
         /// <see cref="http://forums.asp.net/post/4855634.aspx" />
         [PUT("tasks/{taskid}/discussions/{discussionid}/messages")]
-        public HttpResponseMessage<MessageModel> PutTaskDiscussionMessage([ModelBinder(typeof(TypeConverterModelBinder))] int discussionid,
-                                                     [ModelBinder(typeof(TypeConverterModelBinder))] int projectid,
-                                                     [ModelBinder(typeof(TypeConverterModelBinder))] int taskid,
-                                                     MessageModel model)
+        public HttpResponseMessage<MessageModel> PutTaskDiscussionMessage(
+            [ModelBinder(typeof (TypeConverterModelBinder))] int discussionid,
+            [ModelBinder(typeof (TypeConverterModelBinder))] int projectid,
+            [ModelBinder(typeof (TypeConverterModelBinder))] int taskid,
+            MessageModel model)
         {
             throw new NotImplementedException();
         }
@@ -176,7 +206,7 @@ namespace Teamworks.Web.Controllers.Api
 
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
-        
+
         #endregion
     }
 }

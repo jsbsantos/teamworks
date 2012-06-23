@@ -10,6 +10,7 @@ namespace Teamworks.Core.Projects
         public string Person { get; set; }
         public IList<Message> Messages { get; set; }
         public string Entity { get; set; }
+        public IList<string> Notify { get; set; } 
 
         public int LastThreadId { get; private set; }
 

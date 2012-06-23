@@ -96,6 +96,7 @@ namespace Teamworks.Web
 
             GlobalConfiguration.Configuration.RegisterFormatters();
             GlobalConfiguration.Configuration.RegisterWebApiHandlers();
+            GlobalConfiguration.Configuration.RegisterModelBinders();
 
             BundleTable.Bundles.EnableTeamworksBundle();
 

@@ -157,6 +157,7 @@
     <Compile Include="App_Start\AttributeRoutingHttp.cs" />
     <Compile Include="App_Start\RestApiAuthenticationConfig.cs" />
     <Content Include="Content\js\gac.js" />
+    <Compile Include="Controllers\Api\MailgunController.cs" />
     <Compile Include="Controllers\Api\DiscussionsController.cs" />
     <Compile Include="Controllers\Api\Handlers\FormsAuthenticationHandler.cs" />
     <Compile Include="Controllers\Api\Handlers\SecureForAttribute.cs" />
@@ -168,6 +169,7 @@
     <Compile Include="Controllers\Mvc\ThreadsController.cs" />
     <Compile Include="Controllers\Mvc\TimelogController.cs" />
     <Compile Include="Controllers\Mvc\Filters\FormsAuthenticationAttribute.cs" />
+    <Compile Include="Helpers\MailgunModelBinderProvider.cs" />
     <Compile Include="Helpers\Teamworks\EntityExtensions.cs" />
     <Compile Include="Helpers\Api\HttpConfigurationExtensions.cs" />
     <Compile Include="Helpers\Mappers.cs" />
@@ -190,6 +192,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Api\JsonNetFormatter.cs" />
+    <Compile Include="Helpers\MailgunModelBinder.cs" />
+    <Compile Include="Models\MailgunModel.cs" />
     <Compile Include="Models\DryModels\DryProjectModel.cs" />
     <Compile Include="Models\DryModels\DryTaskModel.cs" />
     <Compile Include="Models\DryModels\DryThreadModel.cs" />
@@ -308,6 +312,10 @@
     <Content Include="Views\Projects\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Teamworks.Core.Mailgun\Teamworks.Core.Mailgun.csproj">
+      <Project>{0A3B8E1C-38D0-4996-91D7-CE9EF96D5275}</Project>
+      <Name>Teamworks.Core.Mailgun</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Teamworks.Core\Teamworks.Core.csproj">
       <Project>{C85D88CF-7DA3-4628-99FA-D5D570FCE940}</Project>
       <Name>Teamworks.Core</Name>
