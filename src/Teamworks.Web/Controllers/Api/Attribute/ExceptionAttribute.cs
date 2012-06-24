@@ -34,7 +34,7 @@ namespace Teamworks.Web.Controllers.Api.Attribute
                 }
                 else if (!(exception is HttpResponseException))
                 {
-                    context.Result = new HttpResponseMessage(HttpStatusCode.InternalServerError);
+                    context.Result = new HttpResponseMessage<string>(exception.Message, HttpStatusCode.InternalServerError);
                 }
             }
             base.OnException(context);

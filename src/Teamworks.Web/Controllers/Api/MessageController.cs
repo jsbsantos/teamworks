@@ -28,7 +28,7 @@ namespace Teamworks.Web.Controllers.Api
         private Discussion LoadProjectDiscussion(int projectid, int discussionid)
         {
             var project = DbSession
-                .Include<Project>(p => p.Boards)
+                .Include<Project>(p => p.Discussions)
                 .Load<Project>(projectid);
             if (project == null)
             {
@@ -36,7 +36,7 @@ namespace Teamworks.Web.Controllers.Api
             }
 
             var topic = DbSession.Load<Discussion>(discussionid);
-            if (topic == null || !project.Boards.Contains(topic.Id))
+            if (topic == null || !project.Discussions.Contains(topic.Id))
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }

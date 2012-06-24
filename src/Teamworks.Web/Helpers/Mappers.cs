@@ -38,7 +38,7 @@ namespace Teamworks.Web.Helpers
                            opt.MapFrom(
                                src =>
                                Mapper.Map<IList<Core.Discussion>, IList<Discussions>>(
-                                   Global.Database.CurrentSession.Load<Core.Discussion>(src.Boards))));
+                                   Global.Database.CurrentSession.Load<Core.Discussion>(src.Discussions))));
 
             Mapper.CreateMap<Core.Project, DryProject>()
                 .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier));

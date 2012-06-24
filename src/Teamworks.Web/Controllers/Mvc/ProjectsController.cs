@@ -8,7 +8,10 @@ namespace Teamworks.Web.Controllers.Mvc
         [ActionName("View")]
         public ActionResult Index(int? identifier)
         {
-            return identifier != null ? View("Project", identifier.Value) : View("Projects");
+            var model = "/api/projects/";
+            return identifier != null ? 
+                View("Project", (object) (model + identifier)) 
+                : View("Projects", (object) model);
         }
     }
 }

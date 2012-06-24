@@ -26,7 +26,7 @@ namespace Teamworks.Web.Controllers.Api
         private Project LoadProject(int projectid)
         {
             var project = DbSession
-                .Include<Project>(p => p.Boards)
+                .Include<Project>(p => p.Discussions)
                 .Load<Project>(projectid);
 
             if (project == null)
@@ -42,7 +42,7 @@ namespace Teamworks.Web.Controllers.Api
         {
             return
                 new List<DryDiscussions>(
-                    DbSession.Load<Core.Discussion>(LoadProject(projectid).Boards).Select(Mapper.Map<Core.Discussion, DryDiscussions>));
+                    DbSession.Load<Core.Discussion>(LoadProject(projectid).Discussions).Select(Mapper.Map<Core.Discussion, DryDiscussions>));
         }
 
         [GET("discussions/{id}")]
@@ -71,7 +71,7 @@ namespace Teamworks.Web.Controllers.Api
 
             Core.Discussion discussion = Core.Discussion.Forge(model.Name, model.Content, project.Id, Request.GetUserPrincipalId());
             DbSession.Store(discussion);
-            project.Boards.Add(discussion.Id);
+            project.Discussions.Add(discussion.Id);
 
             return new HttpResponseMessage<Discussions>(Mapper.Map<Core.Discussion, Discussions>(discussion),
                                                        HttpStatusCode.Created);
@@ -111,7 +111,7 @@ namespace Teamworks.Web.Controllers.Api
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            project.Boards.Remove(topic.Id);
+            project.Discussions.Remove(topic.Id);
             DbSession.Delete(topic);
 
             return new HttpResponseMessage(HttpStatusCode.NoContent);

@@ -50,7 +50,7 @@
             <div class="span6 alert alert-error"><p data-bind="text: message"></p></div>
         </script>
     </header>
-    <div class="main container-fluid" role="main" data-bind="with: page">
+    <div class="main container-fluid" role="main" data-bind="visible: ready, with: viewmodel">
         <div class="row-fluid">
             <div class="span2">
                 @RenderSection("SideBar", false)
@@ -66,7 +66,7 @@
     <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"> </script>
     <script> window.jQuery || document.write('<script src="@Url.Content("~/content/js/libs/jquery-1.7.2.min.js")"><\/script>') </script>
-    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- Placed at the end of the document so the layout load faster -->
     <script src="@BundleTable.Bundles.ResolveBundleUrl("~/js")"> </script>
     
     @{
@@ -74,11 +74,10 @@
         {
             <script src="@Url.Content("~/content/js/libs/bootstrap/bootstrap.js")"> </script>
             <script src="@Url.Content("~/content/js/libs/knockout-2.0.0.js")"> </script>
-            <script src="@Url.Content("~/content/js/app/teamworks.app.js")"> </script>
-            <script src="@Url.Content("~/content/js/app/teamworks.viewmodels.js")"> </script>
-            <script src="@Url.Content("~/content/js/app/teamworks.pages.js")"> </script>
-        
             <script src="@Url.Content("~/content/js/app/teamworks.js")"> </script>
+            <script src="@Url.Content("~/content/js/app/teamworks.viewmodels.models.js")"> </script>
+            <script src="@Url.Content("~/content/js/app/teamworks.viewmodels.js")"> </script>
+            <script src="@Url.Content("~/content/js/app/teamworks.start.js")"> </script>
         }
     }
 </body>

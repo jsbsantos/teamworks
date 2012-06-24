@@ -156,11 +156,11 @@
   <ItemGroup>
     <Compile Include="App_Start\AttributeRoutingHttp.cs" />
     <Compile Include="App_Start\RestApiAuthenticationConfig.cs" />
-    <Content Include="Content\js\app\teamworks.app.js" />
+    <Content Include="Content\js\app\teamworks.start.js" />
     <Content Include="Content\js\app\teamworks.js" />
-    <Content Include="Content\js\app\teamworks.viewmodels.js" />
+    <Content Include="Content\js\app\teamworks.viewmodels.models.js" />
     <Content Include="Content\js\gac.js" />
-    <Content Include="Content\js\app\teamworks.pages.js" />
+    <Content Include="Content\js\app\teamworks.viewmodels.js" />
     <Compile Include="Controllers\Api\DiscussionsController.cs" />
     <Compile Include="Controllers\Api\Attribute\ModelStateAttribute.cs" />
     <Compile Include="Controllers\Api\Attribute\ExceptionAttribute.cs" />
@@ -293,7 +293,7 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Timelog\View.cshtml" />
     <Content Include="Views\Discussions\Discussion.cshtml" />
-    <Content Include="Views\Discussions\View.cshtml" />
+    <Content Include="Views\Discussions\Discussions.cshtml" />
     <Content Include="Views\People\View.cshtml" />
     <Content Include="Views\People\Person.cshtml" />
   </ItemGroup>

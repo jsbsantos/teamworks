@@ -8,7 +8,7 @@ namespace Teamworks.Core
         public IList<string> Tasks { get; set; }
         public bool Archived { get; set; }
         public IList<string> People { get; set; }
-        public IList<string> Boards { get; set; }
+        public IList<string> Discussions { get; set; }
         
         public static Project Forge(string name, string description)
         {
@@ -17,7 +17,7 @@ namespace Teamworks.Core
                            Name = name,
                            Description = description,
                            Tasks = new List<string>(),
-                           Boards = new List<string>(),
+                           Discussions = new List<string>(),
                            People = new List<string>(),
                        };
         }

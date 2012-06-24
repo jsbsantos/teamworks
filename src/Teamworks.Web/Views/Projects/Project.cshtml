@@ -1,11 +1,12 @@
-﻿@model int
+﻿@model string
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="content" data-bind="visible: project.name">
     <header class="page-header">
-        <h1 data-bind="text: project.name"></h1>
+        <h1 class="inline" data-bind="text: project.name"></h1>
+        <p class="inline" data-bind="text: project.description, visible: project.description"></p>
     </header>
     <article>
         <section>
@@ -14,44 +15,29 @@
                 <a class="btn-mini" href="#" data-bind="visible: !discussion.editing(), click: function() { discussion.editing(true); }">One more discussion</a>
             </header>
             <div class="clearfix hide" data-bind="css: { hide: !discussion.editing() }">
-                <form class="form-horizontal" data-bind="submit: create_discussion">
+                <form class="form-horizontal" data-bind="submit: project.discussions.create">
                     <input type="text" class="control-group input-xlarge" placeholder="Discussion name" data-bind="value: discussion.name, valueUpdate: 'afterkeyup'" />
-                    <input type="text" class="control-group input-xlarge" placeholder="Project description" data-bind="value: discussion.description, valueUpdate: 'afterkeyup'" />
+                    <input type="text" class="control-group input-xlarge" placeholder="Discussion content" data-bind="value: discussion.content, valueUpdate: 'afterkeyup'" />
                     <button type="submit" class="btn btn-success pull-right">Start discussing</button>  
                     <a type="button" class="btn-mini pull-right clear-right" data-bind="click: function() { discussion.editing(false) }"><i class="icon-remove"></i> Cancel</a>  
                 </form>
             </div>
-            <div data-bind="template: { name: 'discussion-template', foreach: project.discussions.data }"></div>
-            
+            <div class="span12" data-bind="template: { name: 'discussion-template', foreach: project.discussions }"></div>
         </section>
     </article>
-    <script type="text/html" id="tasks-template">
-        <section class="span3">
-            <div>
-                <h2><a data-bind="text: name, attr: { href: url }"></a></h2>
-                <p data-bind="text: description"></p>
-                <form class="btn-group" data-bind="submit: $parent.tasks.remove">
-                    <button class="btn" type="submit" name="remove">Remove</button>
-                </form>
-            </div>
-        </section>
-    </script>
-
     <script type="text/html" id="discussion-template">
         <section class="clearfix">
-            <div>
                 <form class="btn-group pull-right" data-bind="submit: $parent.project.discussions.remove">
-                    <button class="btn btn-small btn-danger" type="submit" name="remove">Remove</button>
+                    <button class="btn btn-mini btn-danger" type="submit" name="remove">Remove</button>
                 </form>
-                <h2><a data-bind="text: name"></a></h2>
-                <span class="inline" data-bind="text: name"></span>
-            </div>
+                <h3 class="inline"><a data-bind="text: name, attr: { href: '/projects/' + $parent.project.id() + '/discussions/' + id() }"></a></h3>
+                <span class="inline" data-bind="text: content"></span>
         </section>
     </script>
 
     <script>
-        var page = function() {
-            return new TW.pages.Project().load(@Model);
-        }
+        var viewmodel = function() {
+            return new TW.viewmodels.Project('@Model');
+        };
     </script>
 </div>

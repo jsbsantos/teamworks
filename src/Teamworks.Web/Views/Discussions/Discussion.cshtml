@@ -1,48 +1,27 @@
-﻿@using Teamworks.Web.Helpers.Teamworks
-@model Teamworks.Web.Models.Discussions
+﻿@model string
 
 @{
-    ViewBag.Title = "Discussion";
     Layout = "../Shared/_Layout.cshtml";
 }
-<div id="discussion">
-    <header class="span12 row">
-        <h3>
-            @Model.Name
-        </h3>
-        <p>@Model.Content</p>
-        <small><a href="/@Model.Person.Id">@Model.Person.Name</a> @@ @Model.Date </small>
-    </header>
-    <article class="row span12">
-        <ul>
-            <div class="thumbnails" data-bind="template: { name: 'message-template', foreach: message_list }">
-            </div>
-        </ul>
-    </article>
 
-    <div id="message-form">
-        <div class="well">
-            <form class="form-inline " data-bind="submit: create">
-            <h3>
-                Your Message</h3>
-            <input class="input-xxlarge" name="description" placeholder="Your message" data-bind="value: message.text, valueUpdate: 'afterkeyup'" />
-            <button class="btn" type="submit">
-                Add</button>
-            </form>
-        </div>
-    </div>
+<div class="content" data-bind="visible: discussion.name">
+    <header class="page-header">
+        <h1 data-bind="text: discussion.name"></h1>
+        <p class="span6" data-bind="text: discussion.content"></p>
+    </header>
+    <article data-bind="template: { name: 'messages-template', foreach: discussion.messages }">
+    </article>
+    
     <script type="text/html" id="message-template">
-        <li>
-            <section class="span10 row well" >
-                    <form class="form-inline" data-bind="submit: $parent.remove">
-                        <button class="close pull-right" type="submit" name="remove">&times;</button>
-                    </form>
-                    <h5><div data-bind="text: text"></div></h5>
-                    <div><h6><a data-bind="text: person().name, attr: { href: '/'+person().id }"></a> @@ <span data-bind="text: dateFormatted" /></h6></div>
-        </section>
-            </li>
+        
     </script>
-    <script type="text/javascript">
-        var data = @Html.Raw(Model.ToJson());
+    
+    <script>
+        var viewmodel = function () {
+            return new TW.viewmodels.Discussion('@Model');
+        }
     </script>
 </div>
+
+    
+

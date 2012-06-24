@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
@@ -13,32 +14,12 @@ namespace Teamworks.Web.Controllers.Mvc
     {
         [HttpGet]
         [ActionName("View")]
-        public ActionResult Index(string id, int projectid)
+        public ActionResult Index(int? identifier, int projectid)
         {
-            int discussionid;
-            
-            var project = DbSession
-                .Include<Project>(p => p.Boards)
-                .Load<Project>(projectid);
-
-            if (project == null)
-            {
-                return new HttpNotFoundResult();
-            }
-
-            bool parse = int.TryParse(id, out discussionid);
-            if (id != null && parse)
-            {
-                if (project.Boards.Count(t => t.Identifier() == discussionid) == 0)
-                {
-                    return new HttpNotFoundResult();
-                }
-                var topic = DbSession.Load<Core.Discussion>(discussionid);
-                var model = Mapper.Map<Core.Discussion, Discussions>(topic);
-                return View("Discussion", model);
-            }
-
-            return View(Mapper.Map<List<Core.Discussion>, List<DryDiscussions>>(DbSession.Load<Core.Discussion>(project.Boards).ToList()));
+            string model = string.Format("/api/projects/{0}/discussions/", projectid);
+            return identifier != null
+                       ? View("Discussion", (object) (model + identifier.Value))
+                       : View("Discussions", (object) model);
         }
     }
 }

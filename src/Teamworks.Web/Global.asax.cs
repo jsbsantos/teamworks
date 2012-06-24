@@ -41,6 +41,11 @@ namespace Teamworks.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.MapRouteLowercase(
+                 name: "",
+                 url: "projects/{projectid}/{controller}/{identifier}",
+                 defaults: new { action = "View", identifier = UrlParameter.Optional }
+                 );
 
             routes.MapRouteLowercase(
                  name: "",
