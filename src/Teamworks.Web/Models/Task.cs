@@ -17,7 +17,7 @@ namespace Teamworks.Web.Models
         //public long EstimatedTime { get; set; }
 
         public ICollection<Timelog> Timelog { get; set; }
-        public IList<string> Threads { get; set; }
+        public IList<string> Discussions { get; set; }
         public IList<string> People { get; set; }
     }
 }

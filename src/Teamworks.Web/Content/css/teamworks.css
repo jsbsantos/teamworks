@@ -1,13 +1,14 @@
 body { padding-top: 80px; }
 
-
-
 a { cursor: pointer; }
 
+.hide { display: none !important; }
 .brand { font-family: 'Droid Sans Mono', sans-serif;font-weight: 700; }
 .inline { display: inline-block; }
 .clear-left { clear: left; }
 .clear-right { clear: right; }
+.page-header { overflow: hidden; }
+.page-header h3 { font-weight: 100; }
 .page-header [class*='icon-'] { font-size: 30px; }
 
 div.global-messages {

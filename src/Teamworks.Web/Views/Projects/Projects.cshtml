@@ -17,14 +17,14 @@
             <a type="button" class="btn-mini pull-right clear-right" data-bind="click: function() { project.editing(false) }"><i class="icon-remove"></i> Cancel</a>  
         </form>
     </div>
-    <article data-bind="template: { name: 'project-template', foreach: projects }"></article>
+    <article class="span12" data-bind="template: { name: 'project-template', foreach: projects }"></article>
 
     <script type="text/html" id="project-template">
         <section class="clearfix">
             <form class="btn-group form-inline pull-right" data-bind="submit: $parent.projects.remove">
                 <button class="btn btn-mini btn-danger" type="submit" name="remove">Remove</button>
             </form>
-            <h3 class="inline lead"><a data-bind="text: name, attr: { href: '/projects/' + id() }"></a></h3>
+            <h2 class="inline"><a data-bind="text: name, attr: { href: '/projects/' + id() }"></a></h2>
             <span class="inline" data-bind="text: description"></span>
         </section>
     </script>

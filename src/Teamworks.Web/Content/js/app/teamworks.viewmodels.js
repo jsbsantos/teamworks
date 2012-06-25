@@ -1,12 +1,16 @@
 ﻿var TW = TW || { };
 TW.viewmodels = TW.viewmodels || { };
 
-TW.viewmodels.Project = function(endpoint) {
+TW.viewmodels.Project = function (endpoint) {
     var self = this;
     self.project = new TW.viewmodels.models.Project();
     self.discussion = new TW.viewmodels.models.Discussion();
+    self.activities = new TW.viewmodels.models.Activity();
+
     self.discussion.editing = ko.observable(false);
-    self.project.discussions.create = function() {
+    self.activities.editing = ko.observable(false);
+
+    self.project.discussions.create = function () {
         $.ajax(endpoint + self.project.id() + '/discussions/',
             {
                 type: 'post',
@@ -14,19 +18,19 @@ TW.viewmodels.Project = function(endpoint) {
                 contentType: 'application/json; charset=utf-8',
                 cache: 'false',
                 statusCode: {
-                    201: /*created*/function(data) {
+                    201: /*created*/function (data) {
                         self.project.discussions.push(new TW.viewmodels.models.Discussion(data));
                         self.discussion.editing(false);
                         self.discussion.clear();
                     },
-                    400: /*bad request*/function() {
+                    400: /*bad request*/function () {
                         TW.app.messages.push({ message: 'An error as ocurred.' });
                     }
                 }
             }
         );
     };
-    self.project.discussions.remove = function() {
+    self.project.discussions.remove = function () {
         var discussion = this;
         var message = 'You are about to delete ' + discussion.name() + '.';
         if (confirm(message)) {
@@ -36,7 +40,7 @@ TW.viewmodels.Project = function(endpoint) {
                     contentType: 'application/json; charset=utf-8',
                     cache: 'false',
                     statusCode: {
-                        204: /*no content*/function() {
+                        204: /*no content*/function () {
                             self.project.discussions.destroy(project);
                         }
                     }
@@ -51,10 +55,10 @@ TW.viewmodels.Project = function(endpoint) {
             contentType: 'application/json; charset=utf-8',
             cache: 'false',
             statusCode: {
-                200: /*ok*/function(data) {
+                200: /*ok*/function (data) {
                     self.project.load(data);
                 },
-                404: /*not found*/function() {
+                404: /*not found*/function () {
                     TW.app.messages.push({ message: 'The project you requested doesn\'t exist.' });
                 }
             }

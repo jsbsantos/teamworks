@@ -5,16 +5,17 @@
 
 <div class="content" data-bind="visible: project.name">
     <header class="page-header">
-        <h1 class="inline" data-bind="text: project.name"></h1>
-        <p class="inline" data-bind="text: project.description, visible: project.description"></p>
+        <h1 data-bind="text: project.name"></h1>
+        <h3 class="span12 inline" data-bind="text: project.description, visible: project.description"></h3>
     </header>
     <article>
+        <!-- Discussions -->
         <section>
             <header>
                 <h2 class="inline">Discussions</h2>
                 <a class="btn-mini" href="#" data-bind="visible: !discussion.editing(), click: function() { discussion.editing(true); }">One more discussion</a>
             </header>
-            <div class="clearfix hide" data-bind="css: { hide: !discussion.editing() }">
+            <div class="clearfix span12 hide" data-bind="css: { hide: !discussion.editing() }">
                 <form class="form-horizontal" data-bind="submit: project.discussions.create">
                     <input type="text" class="control-group input-xlarge" placeholder="Discussion name" data-bind="value: discussion.name, valueUpdate: 'afterkeyup'" />
                     <input type="text" class="control-group input-xlarge" placeholder="Discussion content" data-bind="value: discussion.content, valueUpdate: 'afterkeyup'" />
@@ -23,9 +24,35 @@
                 </form>
             </div>
             <div class="span12" data-bind="template: { name: 'discussion-template', foreach: project.discussions }"></div>
+            
+            <script type="text/html" id="discussion-template">
+                <section class="clearfix">
+                    <form class="btn-group pull-right" data-bind="submit: $parent.project.discussions.remove">
+                        <button class="btn btn-mini btn-danger" type="submit" name="remove">Remove</button>
+                    </form>
+                    <h3 class="inline"><a data-bind="text: name, attr: { href: '/projects/' + $parent.project.id() + '/discussions/' + id() }"></a></h3>
+                    <span class="inline" data-bind="text: content"></span>
+                </section>
+            </script>
+
         </section>
-    </article>
-    <script type="text/html" id="discussion-template">
+        <!-- Activities -->
+        <section>
+            <header>
+                <h2 class="inline">Activities</h2>
+                <a class="btn-mini" href="#" data-bind="visible: !discussion.editing(), click: function() { discussion.editing(true); }">One more activity</a>
+            </header>
+            <div class="clearfix span12 hide" data-bind="css: { hide: !discussion.editing() }">
+                <form class="form-horizontal" data-bind="submit: project.discussions.create">
+                    <input type="text" class="control-group input-xlarge" placeholder="Discussion name" data-bind="value: discussion.name, valueUpdate: 'afterkeyup'" />
+                    <input type="text" class="control-group input-xlarge" placeholder="Discussion content" data-bind="value: discussion.content, valueUpdate: 'afterkeyup'" />
+                    <button type="submit" class="btn btn-success pull-right">Start discussing</button>  
+                    <a type="button" class="btn-mini pull-right clear-right" data-bind="click: function() { discussion.editing(false) }"><i class="icon-remove"></i> Cancel</a>  
+                </form>
+            </div>
+            <div class="span12" data-bind="template: { name: 'discussion-template', foreach: project.discussions }"></div>
+            
+            <script type="text/html" id="activities-template">
         <section class="clearfix">
                 <form class="btn-group pull-right" data-bind="submit: $parent.project.discussions.remove">
                     <button class="btn btn-mini btn-danger" type="submit" name="remove">Remove</button>
@@ -34,7 +61,9 @@
                 <span class="inline" data-bind="text: content"></span>
         </section>
     </script>
-
+        </section>
+    </article>
+    
     <script>
         var viewmodel = function() {
             return new TW.viewmodels.Project('@Model');
