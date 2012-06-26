@@ -169,6 +169,7 @@
     <Compile Include="Controllers\Mvc\TimelogController.cs" />
     <Compile Include="Controllers\Mvc\Filters\FormsAuthenticationAttribute.cs" />
     <Compile Include="Helpers\MailgunModelBinderProvider.cs" />
+    <Compile Include="Helpers\Teamworks\DiscussionExtensions.cs" />
     <Compile Include="Helpers\Teamworks\EntityExtensions.cs" />
     <Compile Include="Helpers\Api\HttpConfigurationExtensions.cs" />
     <Compile Include="Helpers\Mappers.cs" />

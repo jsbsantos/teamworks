@@ -9,8 +9,25 @@ namespace Teamworks.Core.Mailgun
 {
     public class MailHub
     {
-        public static string Send(MailgunMessage message)
+        public static string Send(string from, string to, string subject, string text)
         {
+            return Send(from, to, subject, text, null);
+        }
+
+        public static string Send(string from, string to, string subject, string text, string id)
+        {
+            var message = new Dictionary<string, string>()
+                              {
+                                  {"to", MailgunConfiguration.Host},
+                                  {"bcc", to},
+                                  {"from", from},
+                                  {"subject", subject},
+                                  {"text", text}
+                              };
+
+            if(!string.IsNullOrEmpty(id))
+                message.Add("h:message-id", id);
+
             var client = CreateClient();
             var content = new FormUrlEncodedContent(message);
 

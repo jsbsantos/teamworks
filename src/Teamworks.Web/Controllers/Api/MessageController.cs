@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web.Http;
 using System.Web.Http.ModelBinding;
 using System.Web.Http.ModelBinding.Binders;
@@ -15,6 +16,7 @@ using Teamworks.Core.People;
 using Teamworks.Core.Projects;
 using Teamworks.Web.Helpers.Api;
 using Teamworks.Web.Helpers.Extensions;
+using Teamworks.Web.Helpers.Teamworks;
 using Teamworks.Web.Models;
 
 //  [RoutePrefix("api/projects/{projectid}/discussions/{discussionid}/messages")]
@@ -65,31 +67,13 @@ namespace Teamworks.Web.Controllers.Api
 
             var topic = LoadProjectDiscussion(projectid, discussionid);
 
-            var message = Message.Forge(model.Text, Request.GetUserPrincipalId());
+            var userPrincipalId = Request.GetUserPrincipalId();
+            var message = Message.Forge(model.Text, userPrincipalId);
             message.Id = topic.GenerateNewTimeEntryId();
             topic.Messages.Add(message);
-            //"joao.sb.santos@gmail.com"
 
-            var emails = DbSession.Load<Person>(topic.Notify).Select(x => x.Email).ToList();
-            if (emails.Count > 0)
-            {
-                var notifications = new StringBuilder();
-                foreach (var email in emails)
-                {
-                    notifications.Append(email);
-                    notifications.Append(";");
-                }
+            topic.Notify(message);
 
-                message.Reply= MailHub.Send(new MailgunMessage()
-                                 {
-                                     To = notifications.ToString().TrimEnd(new[] { ';' }),
-                                     From = MailgunConfiguration.Host,
-                                     //Bcc = notifications.ToString().TrimEnd(new[] {';'}),
-                                     Subject = topic.Name,
-                                     Message = message.Content,
-                                 });
-                
-            }
             return new HttpResponseMessage<MessageModel>(Mapper.Map<Message, MessageModel>(message),
                                                          HttpStatusCode.Created);
         }

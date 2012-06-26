@@ -10,7 +10,7 @@ namespace Teamworks.Core.Projects
         public string Person { get; set; }
         public IList<Message> Messages { get; set; }
         public string Entity { get; set; }
-        public IList<string> Notify { get; set; } 
+        public IList<string> Subscribers { get; set; } 
 
         public int LastThreadId { get; private set; }
 
@@ -27,9 +27,10 @@ namespace Teamworks.Core.Projects
                            Name = name,
                            Date = DateTime.Now,
                            Messages = new List<Message>(),
+                           Subscribers = new List<string>(),
                            Person = person,
                            LastThreadId = 0,
-                           Entity = entity
+                           Entity = entity,
                        };
         }
     }

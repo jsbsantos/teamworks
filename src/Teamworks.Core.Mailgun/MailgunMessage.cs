@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using Newtonsoft.Json.Linq;
+﻿using System.Collections.Generic;
 
 namespace Teamworks.Core.Mailgun
 {
-    public class MailgunMessage : Dictionary<string,string>
+    public class MailgunMessages : Dictionary<string,string>
     {
         public string From { get { return this["from"]; } set { this["from"] = value; } }
         public string To { get { return this["to"]; } set { this["to"] = value; } }
