@@ -3,6 +3,7 @@ using System.Web;
 
 namespace Teamworks.Web.Helpers.Api
 {
+    /// <see cref="http://haacked.com/archive/2011/10/04/prevent-forms-authentication-login-page-redirect-when-you-donrsquot-want.aspx" />
     public class RestApiSupressAuthenticationRedirectModule : IHttpModule
     {
         private const string SupressRedirectLoginKey = "WEBAPI_AUTHENTICATION";

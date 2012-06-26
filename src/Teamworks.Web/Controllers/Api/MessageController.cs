@@ -12,9 +12,10 @@ using AutoMapper;
 using Teamworks.Core;
 using Teamworks.Web.Helpers.Api;
 using Teamworks.Web.Models;
+using Activity = Teamworks.Core.Activity;
+using Discussion = Teamworks.Core.Discussion;
 using Message = Teamworks.Web.Models.Message;
 using Project = Teamworks.Core.Project;
-using Task = Teamworks.Core.Task;
 
 //  [RoutePrefix("api/projects/{projectid}/discussions/{discussionid}/messages")]
 
@@ -62,7 +63,7 @@ namespace Teamworks.Web.Controllers.Api
 
             var topic = LoadProjectDiscussion(projectid, discussionid);
 
-            var message = Core.Message.Forge(model.Text, Request.GetUserPrincipalId());
+            var message = Core.Message.Forge(model.Content, Request.GetUserPrincipalId());
             message.Id = topic.GenerateNewTimeEntryId();
             topic.Messages.Add(message);
 
@@ -97,11 +98,11 @@ namespace Teamworks.Web.Controllers.Api
         
         #endregion 
     
-        #region Task
+        #region Activities
         private Discussion LoadTaskDiscussion(int projectid, int taskid, int discussionid)
         {
             var project = DbSession
-                           .Include<Project>(p => p.Tasks)
+                           .Include<Project>(p => p.Activities)
                            .Load<Project>(projectid);
 
             if (project == null)
@@ -110,8 +111,8 @@ namespace Teamworks.Web.Controllers.Api
             }
 
             var task = DbSession
-                .Include<Task>(t => t.Boards)
-                .Load<Task>(taskid);
+                .Include<Activity>(t => t.Discussions)
+                .Load<Activity>(taskid);
 
             if (task == null || !task.Project.Equals(project.Id))
             {
@@ -146,7 +147,7 @@ namespace Teamworks.Web.Controllers.Api
 
             var topic = LoadTaskDiscussion(projectid, taskid, discussionid);
 
-            var message = Core.Message.Forge(model.Text, Request.GetUserPrincipalId());
+            var message = Core.Message.Forge(model.Content, Request.GetUserPrincipalId());
             message.Id = topic.GenerateNewTimeEntryId();
             topic.Messages.Add(message);
 

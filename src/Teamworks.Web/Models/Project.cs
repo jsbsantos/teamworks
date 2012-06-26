@@ -14,7 +14,7 @@ namespace Teamworks.Web.Models
         [StringLength(256, MinimumLength = 3)]
         public string Description { get; set; }
 
-        public ICollection<Task> Tasks { get; set; }
-        public ICollection<Discussions> Discussions { get; set; }
+        public ICollection<Activity> Activities { get; set; }
+        public ICollection<Discussion> Discussions { get; set; }
     }
 }

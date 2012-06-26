@@ -1,12 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Web.Mvc;
-using AutoMapper;
-using Teamworks.Web.Helpers.Teamworks;
-using Teamworks.Web.Models;
-using Teamworks.Web.Models.DryModels;
-using Project = Teamworks.Core.Project;
+﻿using System.Web.Mvc;
 
 namespace Teamworks.Web.Controllers.Mvc
 {

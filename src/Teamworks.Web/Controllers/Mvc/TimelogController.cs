@@ -5,8 +5,8 @@ using AutoMapper;
 using Teamworks.Core;
 using Teamworks.Web.Helpers.Teamworks;
 using Teamworks.Web.Models;
+using Activity = Teamworks.Web.Models.Activity;
 using Project = Teamworks.Core.Project;
-using Task = Teamworks.Web.Models.Task;
 
 namespace Teamworks.Web.Controllers.Web
 {
@@ -17,7 +17,7 @@ namespace Teamworks.Web.Controllers.Web
         public ActionResult Index(int projectid, int taskid)
         {
             var project = DbSession
-                .Include<Project>(p => p.Tasks)
+                .Include<Project>(p => p.Activities)
                 .Load<Project>(projectid);
 
             if (project == null)
@@ -25,18 +25,18 @@ namespace Teamworks.Web.Controllers.Web
                 return new HttpNotFoundResult();
             }
 
-            if (project.Tasks.Count(t => t.Identifier() == taskid) == 0)
+            if (project.Activities.Count(t => t.Identifier() == taskid) == 0)
             {
                 return new HttpNotFoundResult();
             }
 
-            var task = DbSession.Load<Core.Task>(taskid);
+            var task = DbSession.Load<Core.Activity>(taskid);
             if (task == null)
             {
                 return new HttpNotFoundResult();
             }
 
-            return View(Mapper.Map<Core.Task, Task>(task));
+            return View(Mapper.Map<Core.Activity, Activity>(task));
         }
     }
 }

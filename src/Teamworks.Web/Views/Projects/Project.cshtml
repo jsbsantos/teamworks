@@ -9,10 +9,36 @@
         <h3 class="span12 inline" data-bind="text: project.description, visible: project.description"></h3>
     </header>
     <article>
-        <!-- Discussions -->
+        <!-- Activities -->
         <section>
             <header>
-                <h2 class="inline">Discussions</h2>
+                <h2 class="inline">Activities</h2>
+                <a class="btn-mini" href="#" data-bind="visible: !activity.editing(), click: function() { activity.editing(true); }">One more activity</a>
+            </header>
+            <div class="clearfix span12 hide" data-bind="css: { hide: !activity.editing() }">
+                <form class="form-horizontal" data-bind="submit: project.activities.create">
+                    <input type="text" class="control-group input-xlarge" placeholder="Activities name" data-bind="value: activity.name, valueUpdate: 'afterkeyup'" />
+                    <input type="text" class="control-group input-xlarge" placeholder="Activities description" data-bind="value: activity.description, valueUpdate: 'afterkeyup'" />
+                    <button type="submit" class="btn btn-success pull-right">Start activity</button>  
+                    <a type="button" class="btn-mini pull-right clear-right" data-bind="click: function() { activity.editing(false) }"><i class="icon-remove"></i> Cancel</a>  
+                </form>
+            </div>
+            <div class="span12" data-bind="template: { name: 'activities-template', foreach: project.activities }"></div>
+            
+            <script type="text/html" id="activities-template">
+                <section class="clearfix">
+                    <form class="btn-group pull-right" data-bind="submit: $parent.project.activities.remove">
+                        <button class="btn btn-mini btn-danger" type="submit" name="remove">Remove</button>
+                    </form>
+                    <h3 class="inline"><a data-bind="text: name, attr: { href: '/projects/' + $parent.project.id() + '/activities/' + id() }"></a></h3>
+                    <span class="inline" data-bind="text: description"></span>
+                </section>
+            </script>
+        </section>
+        <!-- Discussion -->
+        <section>
+            <header>
+                <h2 class="inline">Discussion</h2>
                 <a class="btn-mini" href="#" data-bind="visible: !discussion.editing(), click: function() { discussion.editing(true); }">One more discussion</a>
             </header>
             <div class="clearfix span12 hide" data-bind="css: { hide: !discussion.editing() }">
@@ -36,32 +62,7 @@
             </script>
 
         </section>
-        <!-- Activities -->
-        <section>
-            <header>
-                <h2 class="inline">Activities</h2>
-                <a class="btn-mini" href="#" data-bind="visible: !discussion.editing(), click: function() { discussion.editing(true); }">One more activity</a>
-            </header>
-            <div class="clearfix span12 hide" data-bind="css: { hide: !discussion.editing() }">
-                <form class="form-horizontal" data-bind="submit: project.discussions.create">
-                    <input type="text" class="control-group input-xlarge" placeholder="Discussion name" data-bind="value: discussion.name, valueUpdate: 'afterkeyup'" />
-                    <input type="text" class="control-group input-xlarge" placeholder="Discussion content" data-bind="value: discussion.content, valueUpdate: 'afterkeyup'" />
-                    <button type="submit" class="btn btn-success pull-right">Start discussing</button>  
-                    <a type="button" class="btn-mini pull-right clear-right" data-bind="click: function() { discussion.editing(false) }"><i class="icon-remove"></i> Cancel</a>  
-                </form>
-            </div>
-            <div class="span12" data-bind="template: { name: 'discussion-template', foreach: project.discussions }"></div>
-            
-            <script type="text/html" id="activities-template">
-        <section class="clearfix">
-                <form class="btn-group pull-right" data-bind="submit: $parent.project.discussions.remove">
-                    <button class="btn btn-mini btn-danger" type="submit" name="remove">Remove</button>
-                </form>
-                <h3 class="inline"><a data-bind="text: name, attr: { href: '/projects/' + $parent.project.id() + '/discussions/' + id() }"></a></h3>
-                <span class="inline" data-bind="text: content"></span>
-        </section>
-    </script>
-        </section>
+
     </article>
     
     <script>

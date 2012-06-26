@@ -22,14 +22,14 @@ namespace Teamworks.Web.Controllers.Api
         [SecureFor("/projects/view")]
         public IEnumerable<Project> Get()
         {
-            var projects = DbSession.Query<Core.Project>().Include(p => p.Tasks).ToList();
+            var projects = DbSession.Query<Core.Project>().Include(p => p.Activities).ToList();
             return Mapper.Map<IEnumerable<Core.Project>, IEnumerable<Project>>(projects);
         }
 
         [SecureFor("/projects/view")]
         public Project Get(int id)
         {
-            var project = DbSession.Include<Core.Project>(p => p.Tasks).Load<Core.Project>(id);
+            var project = DbSession.Include<Core.Project>(p => p.Activities).Load<Core.Project>(id);
             if (project == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
@@ -47,15 +47,6 @@ namespace Teamworks.Web.Controllers.Api
             var uri = Request.RequestUri.Authority + Url.Route(null, new {id = project.Id});
             response.Headers.Location = new Uri(uri);
             return response;
-        }
-
-        /// <see cref="http://forums.asp.net/post/4855634.aspx" />
-        public HttpResponseMessage Put([ModelBinder(typeof (TypeConverterModelBinder))] int id,
-                                       Core.Project project)
-        {
-            var p = Get<Core.Project>(id);
-            /* todo mapping */
-            return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
 
         public HttpResponseMessage Delete(int id)

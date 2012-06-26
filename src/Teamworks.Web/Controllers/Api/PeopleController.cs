@@ -67,12 +67,12 @@ namespace Teamworks.Web.Controllers.Api
         }
         #endregion
 
-        #region Task
+        #region Activities
         [GET("task/{taskid}/people")]
         public IEnumerable<Person> GetTaskPeople(int projectid, int taskid)
         {
             var project = DbSession
-                            .Include<Project>(p => p.Tasks)
+                            .Include<Project>(p => p.Activities)
                             .Load<Project>(projectid);
 
             if (project == null)
@@ -81,8 +81,8 @@ namespace Teamworks.Web.Controllers.Api
             }
 
             var task = DbSession
-                .Include<Core.Task>(t => t.People)
-                .Load<Core.Task>(taskid);
+                .Include<Core.Activity>(t => t.People)
+                .Load<Core.Activity>(taskid);
 
             if (task == null || !task.Project.Equals(project.Id))
             {
@@ -105,7 +105,7 @@ namespace Teamworks.Web.Controllers.Api
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
 
-            var task = Get<Core.Task>(taskid);
+            var task = Get<Core.Activity>(taskid);
 
             var person = Get<Core.Person>("people/"+name);
             if (person == null)

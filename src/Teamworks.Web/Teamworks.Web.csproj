@@ -179,7 +179,7 @@
     <Compile Include="Helpers\Mappers.cs" />
     <Compile Include="Helpers\Mvc\HttpContextExtensions.cs" />
     <Compile Include="Helpers\Api\RestApiSupressAuthenticationRedirectModule.cs" />
-    <Compile Include="Controllers\Api\TasksController.cs" />
+    <Compile Include="Controllers\Api\ActivitiesController.cs" />
     <Compile Include="Controllers\RavenApiController.cs" />
     <Compile Include="Controllers\RavenController.cs" />
     <Compile Include="Controllers\Mvc\ProjectsController.cs" />
@@ -187,7 +187,7 @@
     <Compile Include="Helpers\Mvc\BundleExtensions.cs" />
     <Compile Include="Helpers\Api\HttpRequestMessageExtensions.cs" />
     <Compile Include="Controllers\Api\Handlers\BasicAuthenticationHandler.cs" />
-    <Compile Include="Controllers\Mvc\TasksController.cs" />
+    <Compile Include="Controllers\Mvc\ActivitiesController.cs" />
     <Compile Include="Controllers\Api\Handlers\RavenHandler.cs" />
     <Compile Include="Controllers\Mvc\HomeController.cs" />
     <Compile Include="Controllers\Api\ProjectsController.cs" />
@@ -196,15 +196,15 @@
     </Compile>
     <Compile Include="Helpers\Api\JsonNetFormatter.cs" />
     <Compile Include="Models\DryModels\DryProject.cs" />
-    <Compile Include="Models\DryModels\DryTask.cs" />
-    <Compile Include="Models\DryModels\DryDiscussions.cs" />
+    <Compile Include="Models\DryModels\DryActivity.cs" />
+    <Compile Include="Models\DryModels\DryDiscussion.cs" />
     <Compile Include="Models\DryModels\DryPerson.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\Timelog.cs" />
     <Compile Include="Models\Project.cs" />
-    <Compile Include="Models\Task.cs" />
-    <Compile Include="Models\Discussions.cs" />
+    <Compile Include="Models\Activity.cs" />
+    <Compile Include="Models\Discussion.cs" />
     <Compile Include="Views\ViewsExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -288,8 +288,8 @@
     <Content Include="Content\font\fontawesome-webfont.woff" />
     <Content Include="Views\Projects\Project.cshtml" />
     <Content Include="Views\Account\Signup.cshtml" />
-    <Content Include="Views\Tasks\View.cshtml" />
-    <Content Include="Views\Tasks\Task.cshtml" />
+    <Content Include="Views\Activities\Activities.cshtml" />
+    <Content Include="Views\Activities\Activity.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Timelog\View.cshtml" />
     <Content Include="Views\Discussions\Discussion.cshtml" />

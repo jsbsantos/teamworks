@@ -12,16 +12,27 @@
     <article data-bind="template: { name: 'messages-template', foreach: discussion.messages }">
     </article>
     
-    <script type="text/html" id="message-template">
-        
+    <div class="clearfix span12">
+        <form class="form-horizontal" data-bind="submit: discussion.messages.create">
+            <div class="control-group">
+                <textarea class="span6" data-bind="value: message.content, valueUpdate: 'afterkeyup'">
+                </textarea>
+            </div>
+            <div class="control-group">
+                <button type="submit" class="btn btn-success">Reply</button>                 
+            </div>
+        </form>
+    </div>
+
+    <script type="text/html" id="messages-template">
+        <section class="clearfix">
+            <p class="inline" data-bind="text: content"></p>
+        </section>
     </script>
     
     <script>
-        var viewmodel = function () {
+        var viewmodel = function() {
             return new TW.viewmodels.Discussion('@Model');
         }
     </script>
 </div>
-
-    
-

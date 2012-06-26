@@ -40,16 +40,17 @@
                 <div class="nav-collapse">
                     <ul class="nav">
                         <li class="@Html.ActiveController("Home")"><a href="@Url.Action("View", "Home")"><i class="icon-home icon-white"></i>Home</a></li>
-                        <li class="@Html.ActiveController("Projects")"><a href="@Url.Action("View", "Projects", new { identifier     = UrlParameter.Optional })">Projects</a></li>
+                        <li class="@Html.ActiveController("Projects")"><a href="@Url.Action("View", "Projects", new {identifier = UrlParameter.Optional})">Projects</a></li>
                     </ul>
                 </div>
             </nav>
         </div>
-        <div class="span8 global-messages"data-bind="template: { name: 'messages-template', foreach: messages}"></div>
-        <script type="text/html" id="messages-template">
-            <div class="span6 alert alert-error"><p data-bind="text: message"></p></div>
-        </script>
+        
     </header>
+    <div class="span8 global-messages" data-bind="visible: alerts().length > 0, template: { name: 'alert-template', foreach: alerts}"></div>
+    <script type="text/html" id="alert-template">
+        <div class="span6 fade in alert alert-error"><p data-bind="text: message"></p></div>
+    </script>
     <div class="main container-fluid" role="main" data-bind="visible: ready, with: viewmodel">
         <div class="row-fluid">
             <div class="span2">

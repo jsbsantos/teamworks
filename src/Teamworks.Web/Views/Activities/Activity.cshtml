@@ -1,0 +1,18 @@
+﻿@model string
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content" data-bind="visible: activity.name">
+    <header class="page-header">
+        <h1 data-bind="text: activity.name"></h1>
+        <h3 class="span6" data-bind="text: activity.description"></h3>
+    </header>
+    
+    <script>
+        var viewmodel = function () {
+            return new TW.viewmodels.Activity('@Model');
+        }
+    </script>
+</div>

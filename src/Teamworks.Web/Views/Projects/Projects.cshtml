@@ -9,7 +9,7 @@
         <h1 class="inline">All Projects</h1>
         <a href="#" class="inline" data-bind="visible: !project.editing(), click: function() { project.editing(true); } ">Create a new project</a>
     </header>
-    <div class="clearfix hide" data-bind="css: { hide: !project.editing() }">
+    <div class="span12 clearfix hide" data-bind="css: { hide: !project.editing() }">
         <form class="form-horizontal" data-bind="submit: projects.create">
             <input type="text" class="control-group input-xlarge" placeholder="Project name" data-bind="value: project.name, valueUpdate: 'afterkeyup'" />
             <input type="text" class="control-group input-xlarge" placeholder="Project description" data-bind="value: project.description, valueUpdate: 'afterkeyup'" />

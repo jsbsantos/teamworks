@@ -11,12 +11,4 @@ var TW = TW || {};
 TW.app = TW.app || {};
 
 TW.app.ready = ko.observable(false);
-
-
-
-
-
-
-
-
-TW.app.messages = ko.observableArray([]);
+TW.app.alerts = ko.observableArray([]);

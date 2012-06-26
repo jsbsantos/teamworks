@@ -12,8 +12,8 @@ using AutoMapper;
 using Teamworks.Core;
 using Teamworks.Web.Helpers.Api;
 using Teamworks.Web.Models;
+using Activity = Teamworks.Core.Activity;
 using Project = Teamworks.Core.Project;
-using Task = Teamworks.Core.Task;
 using Timelog = Teamworks.Web.Models.Timelog;
 
 namespace Teamworks.Web.Controllers.Api
@@ -25,7 +25,7 @@ namespace Teamworks.Web.Controllers.Api
         public IEnumerable<Timelog> Get(int projectid, int taskid)
         {
             var project = DbSession
-                .Include<Project>(p => p.Tasks)
+                .Include<Project>(p => p.Activities)
                 .Load<Project>(projectid);
 
             if (project == null)
@@ -33,7 +33,7 @@ namespace Teamworks.Web.Controllers.Api
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            var task = DbSession.Load<Task>(taskid);
+            var task = DbSession.Load<Activity>(taskid);
             if (task == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
@@ -53,7 +53,7 @@ namespace Teamworks.Web.Controllers.Api
             }
             
             var project = DbSession
-                .Include<Project>(p => p.Tasks)
+                .Include<Project>(p => p.Activities)
                 .Load<Project>(projectid);
 
             if (project == null)
@@ -61,7 +61,7 @@ namespace Teamworks.Web.Controllers.Api
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            var task = DbSession.Load<Task>(taskid);
+            var task = DbSession.Load<Activity>(taskid);
             if (task == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
@@ -88,14 +88,14 @@ namespace Teamworks.Web.Controllers.Api
             }
             
             var project = DbSession
-                .Include<Project>(p => p.Tasks)
+                .Include<Project>(p => p.Activities)
                 .Load<Project>(projectid);
             if (project == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            var task = DbSession.Load<Task>(taskid);
+            var task = DbSession.Load<Activity>(taskid);
             if (task == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
@@ -118,14 +118,14 @@ namespace Teamworks.Web.Controllers.Api
         public HttpResponseMessage Delete(int id, int taskid, int projectid)
         {
             var project = DbSession
-                .Include<Project>(p => p.Tasks)
+                .Include<Project>(p => p.Activities)
                 .Load<Project>(projectid);
             if (project == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            var task = DbSession.Load<Task>(taskid);
+            var task = DbSession.Load<Activity>(taskid);
             if (task == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
