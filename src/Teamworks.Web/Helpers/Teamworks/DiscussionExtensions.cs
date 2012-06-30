@@ -14,7 +14,7 @@ namespace Teamworks.Web.Helpers.Teamworks
         {
             var emails = Global.Raven.CurrentSession.Load<Person>(thread.Subscribers)
                 .Select(x => x.Email).ToList();
-
+            
             if (emails.Count > 0)
             {
                 var notifications = new StringBuilder();
