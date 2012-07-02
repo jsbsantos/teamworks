@@ -3,9 +3,9 @@ using System.Net;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
+using System.Web.Optimization;
 using System.Web.Routing;
 using LowercaseRoutesMVC;
-using Microsoft.Web.Optimization;
 using Teamworks.Core.Authentication;
 using Teamworks.Core.Services;
 using Teamworks.Web.Controllers.Api.Attribute;
@@ -13,7 +13,6 @@ using Teamworks.Web.Controllers.Mvc.Attributes;
 using Teamworks.Web.Helpers;
 using Teamworks.Web.Helpers.Api;
 using Teamworks.Web.Helpers.Mvc;
-using GlobalFilterCollection = System.Web.Http.Filters.GlobalFilterCollection;
 
 namespace Teamworks.Web
 {
@@ -22,13 +21,13 @@ namespace Teamworks.Web
 
     public class TeamworksApp : HttpApplication
     {
-        public void RegisterGlobalFilters(System.Web.Mvc.GlobalFilterCollection filters)
+        public void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
             filters.Add(new FormsAuthenticationAttribute());
         }
 
-        public static void RegisterGlobalApiFilters(GlobalFilterCollection filters)
+        public static void RegisterGlobalApiFilters(System.Web.Http.Filters.HttpFilterCollection filters)
         {
             filters.Add(new ModelStateAttribute());
             
@@ -68,8 +67,7 @@ namespace Teamworks.Web
             RegisterGlobalApiFilters(GlobalConfiguration.Configuration.Filters);
             RegisterRoutes(RouteTable.Routes);
 
-            GlobalConfiguration.Configuration.RegisterFormatters();
-            GlobalConfiguration.Configuration.RegisterWebApiHandlers();
+            // GlobalConfiguration.Configuration.RegisterWebApiHandlers();
             GlobalConfiguration.Configuration.RegisterModelBinders();
 
             BundleTable.Bundles.EnableTeamworksBundle();

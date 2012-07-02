@@ -24,17 +24,16 @@ namespace Teamworks.Web.Controllers.Api.Attribute
                 var exception = context.Exception;
                 if (exception is HttpException)
                 {
-                    context.Result = new HttpResponseMessage<string>(exception.Message,
-                                                                     (HttpStatusCode)
-                                                                     ((HttpException) exception).GetHttpCode());
+                    context.Response = context.Request.CreateResponse((HttpStatusCode) ((HttpException) exception).GetHttpCode(),
+                                                   (exception.Message));
                 }
                 else if (Mappings.ContainsKey(exception.GetType()))
                 {
-                    context.Result = new HttpResponseMessage<string>(exception.Message, Mappings[exception.GetType()]);
+                    context.Response = context.Request.CreateResponse(Mappings[exception.GetType()], exception.Message);
                 }
                 else if (!(exception is HttpResponseException))
                 {
-                    context.Result = new HttpResponseMessage<string>(exception.Message, HttpStatusCode.InternalServerError);
+                    context.Response = context.Request.CreateResponse(HttpStatusCode.InternalServerError, exception.Message);
                 }
             }
             base.OnException(context);

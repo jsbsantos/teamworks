@@ -3,9 +3,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using Teamworks.Core.Authentication;
 using Teamworks.Core.Services;
-using Teamworks.Web.Models;
 using Teamworks.Web.Models.Mvc;
-using Person = Teamworks.Core.Person;
 
 namespace Teamworks.Web.Controllers.Mvc
 {
@@ -38,7 +36,7 @@ namespace Teamworks.Web.Controllers.Mvc
             dyn.Username = model.Username;
             dyn.Password = model.Password;
 
-            Person person;
+            Core.Person person;
             IAuthenticator auth = Global.Authentication["Basic"];
             if (auth.IsValid(dyn, out person))
             {
@@ -79,7 +77,7 @@ namespace Teamworks.Web.Controllers.Mvc
                 return View();
             }
 
-            Person person = Person.Forge(register.Email, register.Username, register.Password);
+            Core.Person person = Core.Person.Forge(register.Email, register.Username, register.Password);
             DbSession.Store(person);
             return RedirectToAction("View", "Home");
         }

@@ -9,6 +9,7 @@ using Teamworks.Core;
 using Teamworks.Web.Helpers;
 using Teamworks.Web.Helpers.Teamworks;
 using Teamworks.Web.Models;
+using Teamworks.Web.Models.Api;
 
 namespace Teamworks.Web.Controllers.Api
 {
@@ -16,7 +17,7 @@ namespace Teamworks.Web.Controllers.Api
     [RoutePrefix("api/mailgun")]
     public class MailgunController : RavenApiController
     {
-        public HttpResponseMessage Post([ModelBinder(typeof (MailgunModelBinderProvider))]MailgunModel model)
+        public HttpResponseMessage Post([ModelBinder(typeof (MailgunModelBinderProvider))]Mailgun model)
         {
             var person = DbSession.Query<Core.Person>().FirstOrDefault(p => p.Email == model.Sender);
             

@@ -1,17 +1,9 @@
-﻿using Newtonsoft.Json;
-using Teamworks.Core;
-using Teamworks.Web.Helpers.Api;
+﻿using Teamworks.Core;
 
 namespace Teamworks.Web.Helpers.Teamworks
 {
     public static class EntityExtensions
     {
-        public static string ToJson(this object obj)
-        {
-            return JsonConvert.SerializeObject(obj, Formatting.None,
-                                               new JsonSerializerSettings() { ContractResolver = new JsonNetFormatter.LowercaseContractResolver() });
-        }
-
         public static int Identifier(this string str)
         {
             int i;

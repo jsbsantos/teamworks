@@ -9,15 +9,11 @@ namespace Teamworks.Web.Helpers.Api
     {
         public static void RegisterModelBinders(this HttpConfiguration configuration)
         {
+            /*
             var modelBinderProviderServices = configuration.ServiceResolver.GetServices(typeof (ModelBinderProvider));
             var services = new List<object>(modelBinderProviderServices) {new MailgunModelBinderProvider()};
             configuration.ServiceResolver.SetServices(typeof (ModelBinderProvider), services.ToArray());
-        }
-
-        public static void RegisterFormatters(this HttpConfiguration configuration)
-        {
-            configuration.Formatters.Remove(configuration.Formatters.JsonFormatter);
-            configuration.Formatters.Add(new JsonNetFormatter());
+             * */
         }
 
         public static void RegisterWebApiHandlers(this HttpConfiguration configuration)

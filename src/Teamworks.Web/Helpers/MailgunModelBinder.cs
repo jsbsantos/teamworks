@@ -1,6 +1,8 @@
 using System.Web.Http.Controllers;
 using System.Web.Http.ModelBinding;
-using Teamworks.Web.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Teamworks.Web.Models.Api;
 
 namespace Teamworks.Web.Helpers
 {
@@ -8,18 +10,13 @@ namespace Teamworks.Web.Helpers
     {
         public bool BindModel(HttpActionContext actionContext, ModelBindingContext bindingContext)
         {
-            if (actionContext.RequestContentKeyValueModel != null)
-            {
-                var model = new MailgunModel();
-                foreach (var key in actionContext.RequestContentKeyValueModel.Keys)
-                {
-                    model[key.ToLower()] = bindingContext.ValueProvider.GetValue(key).AttemptedValue;
-                }
-                bindingContext.Model = model;
-                return true;
-            }
+            var value = JObject.Parse(actionContext.Request.Content.ReadAsStringAsync().Result);
 
-            return false;
+            var serializer = new JsonSerializer();
+            var model = (Mailgun)serializer.Deserialize(new JTokenReader(value), typeof(Mailgun));
+
+            bindingContext.Model = model;
+            return true;
         }
     }
 }

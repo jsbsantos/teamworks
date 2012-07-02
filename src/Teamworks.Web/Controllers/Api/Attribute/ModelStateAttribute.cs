@@ -15,13 +15,13 @@ namespace Teamworks.Web.Controllers.Api.Attribute
         {
             if (!context.ModelState.IsValid)
             {
-                dynamic dyn = new ExpandoObject();
+                IDictionary<string, object> dict = new Dictionary<string, object>();
                 foreach (var entry in context.ModelState)
                 {
-                    ((IDictionary<string, object>) dyn).Add(entry.Key.Replace("model.", ""),
-                                                            entry.Value.Errors.Select(e => e.ErrorMessage).ToArray());
+                    dict.Add(entry.Key.Replace("model.", ""),
+                             entry.Value.Errors.Select(e => e.ErrorMessage).ToArray());
                 }
-                var response = new HttpResponseMessage<dynamic>(dyn, HttpStatusCode.BadRequest);
+                var response = context.Request.CreateResponse(HttpStatusCode.BadRequest, dict);
                 throw new HttpResponseException(response);
             }
         }

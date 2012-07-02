@@ -5,7 +5,6 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web.Http.Hosting;
 using Teamworks.Core;
 using Teamworks.Core.Authentication;
 using Teamworks.Core.Services;
@@ -27,8 +26,7 @@ namespace Teamworks.Web.Controllers.Api.Handlers
                     if (Global.Authentication.Basic(credentials[0], credentials[1], out person))
                     {
                         var identity = new PersonIdentity(person);
-                        request.Properties[HttpPropertyKeys.UserPrincipalKey] =
-                            new GenericPrincipal(identity, person.Roles.ToArray());                        
+                        Thread.CurrentPrincipal = new GenericPrincipal(identity, person.Roles.ToArray());                        
                     }
                 }
             }

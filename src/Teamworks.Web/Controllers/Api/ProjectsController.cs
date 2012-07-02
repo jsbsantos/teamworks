@@ -32,17 +32,18 @@ namespace Teamworks.Web.Controllers.Api
             var project = DbSession.Include<Core.Project>(p => p.Activities).Load<Core.Project>(id);
             if (project == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
             }
             return Mapper.Map<Core.Project, Project>(project);
         }
 
-        public HttpResponseMessage<Project> Post(Project model)
+        public HttpResponseMessage Post(Project model)
         {
             var project = Core.Project.Forge(model.Name, model.Description);
             DbSession.Store(project);
-            var response = new HttpResponseMessage<Project>(Mapper.Map<Core.Project, Project>(project),
-                                                                 HttpStatusCode.Created);
+
+            var value = Mapper.Map<Core.Project, Project>(project);
+            var response = Request.CreateResponse(HttpStatusCode.Created, value);
             
             var uri = Request.RequestUri.Authority + Url.Route(null, new {id = project.Id});
             response.Headers.Location = new Uri(uri);
@@ -51,7 +52,7 @@ namespace Teamworks.Web.Controllers.Api
 
         public HttpResponseMessage Delete(int id)
         {
-            var project = Get<Core.Project>(id);
+            var project = DbSession.Load<Core.Project>(id);
             DbSession.Delete(project);
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }

@@ -1,10 +1,8 @@
 using System.Collections.Generic;
-using Teamworks.Core.Projects;
-using Teamworks.Web.Models.DryModels;
 
-namespace Teamworks.Web.Models
+namespace Teamworks.Web.Models.Api
 {
-    public class MailgunModel : Dictionary<string, string>
+    public class Mailgun : Dictionary<string, string>
     {
         public string Recipient
         {

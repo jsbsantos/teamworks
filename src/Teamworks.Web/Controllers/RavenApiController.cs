@@ -12,26 +12,5 @@ namespace Teamworks.Web.Controllers
         {
             get { return Global.Database.CurrentSession; }
         }
-
-        protected T Get<T>(int id) where T : class
-        {
-            var o = DbSession.Load<T>(id);
-            if (o == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
-            return o;
-        }
-
-        protected T Get<T>(string id) where T : class
-        {
-            var o = DbSession.Load<T>(id);
-            if (o == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
-            return o;
-        }
-
     }
 }

@@ -1,4 +1,4 @@
-using Teamworks.Web.Models.DryModels;
+using Teamworks.Web.Models.Api.DryModels;
 
 namespace Teamworks.Web.Models.Api
 {

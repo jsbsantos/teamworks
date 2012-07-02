@@ -25,8 +25,7 @@ namespace Teamworks.Web.Controllers.Api.Handlers
                 if (person != null)
                 {
                     identity = new PersonIdentity(person);
-                    request.Properties[HttpPropertyKeys.UserPrincipalKey] =
-                        new GenericPrincipal(identity, person.Roles.ToArray());
+                    Thread.CurrentPrincipal = new GenericPrincipal(identity, person.Roles.ToArray());                        
                 }
             }
 

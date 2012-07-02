@@ -28,19 +28,19 @@ namespace Teamworks.Web.Controllers.Api
 
             if (project == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
             }
 
             var task = DbSession.Load<Activity>(activityid);
             if (task == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
             }
 
             return task.Timelogs.Select(Mapper.Map<Core.Timelog, Timelog>);
         }
 
-        public HttpResponseMessage<Timelog> Post(
+        public HttpResponseMessage Post(
             [ModelBinder(typeof (TypeConverterModelBinder))] int projectid,
             [ModelBinder(typeof(TypeConverterModelBinder))] int activityid,
             Timelog model)
@@ -51,32 +51,31 @@ namespace Teamworks.Web.Controllers.Api
 
             if (project == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
             }
 
             var task = DbSession.Load<Activity>(activityid);
             if (task == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
             }
 
-            //todo check for collisions?
             DateTime date;
             if (!DateTime.TryParse(model.Date, out date))
             {
                 date = DateTime.Now;
             }
 
-            var timelog = Core.Timelog.Forge(model.Description, model.Duration, date, Request.GetUserPrincipalId());
+            var timelog = Core.Timelog.Forge(model.Description, model.Duration, date, Request.GetCurrentPersonId());
             timelog.Id = task.GenerateNewTimeEntryId();
             task.Timelogs.Add(timelog);
 
-            return new HttpResponseMessage<Timelog>(Mapper.Map<Core.Timelog, Timelog>(timelog),
-                                                           HttpStatusCode.Created);
+            var value = Mapper.Map<Core.Timelog, Timelog>(timelog);
+            return Request.CreateResponse(HttpStatusCode.Created, value);
         }
 
         /// <see cref="http://forums.asp.net/post/4855634.aspx" />
-        public HttpResponseMessage<Timelog> Put([ModelBinder(typeof(TypeConverterModelBinder))] int activityid,
+        public HttpResponseMessage Put([ModelBinder(typeof(TypeConverterModelBinder))] int activityid,
                                        [ModelBinder(typeof (TypeConverterModelBinder))] int projectid,
                                        Timelog model)
         {
@@ -86,27 +85,27 @@ namespace Teamworks.Web.Controllers.Api
             
             if (project == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
             }
 
             var task = DbSession.Load<Activity>(activityid);
             if (task == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
             }
 
             var timelog = task.Timelogs.FirstOrDefault(t => t.Id.Equals(model.Id));
             if (timelog == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
             }
 
             timelog.Date = DateTime.Parse(model.Date);
             timelog.Description = model.Description;
             timelog.Duration = model.Duration;
 
-            return new HttpResponseMessage<Timelog>(Mapper.Map<Core.Timelog, Timelog>(timelog),
-                                          HttpStatusCode.Created);
+            var value = Mapper.Map<Core.Timelog, Timelog>(timelog);
+            return Request.CreateResponse(HttpStatusCode.Created, value);
         }
 
         public HttpResponseMessage Delete(int id, int activityid, int projectid)
@@ -116,19 +115,19 @@ namespace Teamworks.Web.Controllers.Api
                 .Load<Project>(projectid);
             if (project == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
             }
 
             var task = DbSession.Load<Activity>(activityid);
             if (task == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
             }
 
             var timeentry = task.Timelogs.FirstOrDefault(t => t.Id == id);
             if (timeentry == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
             }
 
             task.Timelogs.Remove(timeentry);

@@ -1,6 +1,6 @@
 using System;
 
-namespace Teamworks.Web.Models.DryModels
+namespace Teamworks.Web.Models.Api.DryModels
 {
     public class DryDiscussion
     {
