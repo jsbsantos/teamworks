@@ -39,8 +39,8 @@
                     <li class="@Html.ActiveController("projects")"><a href="@Url.Action("View", "Projects", new {id = UrlParameter.Optional})">Projects</a></li>
                     <li class="@Html.ActiveController("Timeline")"><a href="@Url.Action("View", "Timeline")">Timeline</a></li>
                     <li class="divider-vertical"></li>
-                    <li class="@Html.ActiveControllerAndAction("Everyone", "Timeline")"><a href="#">Everyone</a></li>
-                    <li class="@Html.ActiveControllerAndAction("Me", "Timeline")"><a href="#">Me</a></li>
+                    <li class="@Html.ActiveControllerAndAction("Everyone", "Timeline")"><a href="@Url.Action("View", "People", new { id = UrlParameter.Optional })">Everyone</a></li>
+                    <li class="@Html.ActiveControllerAndAction("Me", "Timeline")"><a href="@Url.Action("View", "People", new { id = @User.Identity.Name })">Me</a></li>
                 </ul>
                 @Html.Identity()
             </nav>

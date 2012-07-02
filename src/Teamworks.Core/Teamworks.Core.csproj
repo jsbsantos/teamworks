@@ -61,6 +61,9 @@
     <Compile Include="Authentication\BasicAuthenticator.cs" />
     <Compile Include="Authentication\AuthenticatorFactory.cs" />
     <Compile Include="Authentication\TokenAuthenticator.cs" />
+    <Compile Include="People\Todo.cs" />
+    <Compile Include="People\TodoList.cs" />
+    <Compile Include="Projects\Event.cs" />
     <Compile Include="Projects\Message.cs" />
     <Compile Include="Projects\TimeEntry.cs" />
     <Compile Include="Services\Global.cs" />

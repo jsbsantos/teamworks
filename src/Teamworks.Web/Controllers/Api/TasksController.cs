@@ -20,6 +20,7 @@ namespace Teamworks.Web.Controllers.Api
     [RoutePrefix("api/projects/{projectid}/tasks")]
     public class TasksController : RavenApiController
     {
+        #region General
         public IEnumerable<TaskModel> Get(int projectid)
         {
             var project = DbSession
@@ -98,5 +99,6 @@ namespace Teamworks.Web.Controllers.Api
 
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
+        #endregion
     }
 }

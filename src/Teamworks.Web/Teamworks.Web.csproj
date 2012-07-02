@@ -156,6 +156,7 @@
     <Compile Include="App_Start\AttributeRoutingHttp.cs" />
     <Compile Include="App_Start\RestApiAuthenticationConfig.cs" />
     <Content Include="Content\js\gac.js" />
+    <Compile Include="Controllers\Api\EventsController.cs" />
     <Compile Include="Controllers\Api\MailgunController.cs" />
     <Compile Include="Controllers\Api\DiscussionsController.cs" />
     <Compile Include="Controllers\Api\Handlers\FormsAuthenticationHandler.cs" />
@@ -304,6 +305,7 @@
     <Content Include="Views\Threads\View.cshtml" />
     <Content Include="Views\People\View.cshtml" />
     <Content Include="Views\People\Person.cshtml" />
+    <Content Include="Views\Timeline\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\teamworks.css" />

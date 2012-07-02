@@ -6,9 +6,9 @@ namespace Teamworks.Web.Controllers.Web
     {
         [HttpGet]
         [ActionName("View")]
-        public ActionResult Index(int id)
+        public ActionResult Index(int? id)
         {
-            return new ContentResult {Content = "Not Implemented."};
+            return View();
         }
     }
 }

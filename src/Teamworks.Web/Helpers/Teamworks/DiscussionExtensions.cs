@@ -25,7 +25,7 @@ namespace Teamworks.Web.Helpers.Teamworks
                 }
 
                 var id = string.Format("{0}.{1}.{2}@teamworks.mailgun.org",
-                                       thread.Identifier, thread.Id, DateTime.Now.ToString("yyyymmddhhMMss"));
+                                       thread.Identifier, message.Id, DateTime.Now.ToString("yyyymmddhhMMss"));
 
                 message.Reply = MailHub.Send(MailgunConfiguration.Host,
                                              notifications.ToString().TrimEnd(new[] {';'}),

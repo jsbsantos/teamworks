@@ -39,6 +39,7 @@ namespace Teamworks.Web.Controllers.Api
                 if (thread != null)
                 {
                     var message = Message.Forge(model.Message, person.Id);
+                    message.Reply = message_id[1];
                     message.Id = thread.GenerateNewTimeEntryId();
                     thread.Messages.Add(message);
                     thread.Notify(message);
