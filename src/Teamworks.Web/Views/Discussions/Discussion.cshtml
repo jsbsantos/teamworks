@@ -4,15 +4,15 @@
     Layout = "../Shared/_Layout.cshtml";
 }
 
-<div class="content" data-bind="visible: discussion.name">
+<div data-bind="visible: discussion.name">
     <header class="page-header">
         <h1 data-bind="text: discussion.name"></h1>
         <p class="span6" data-bind="text: discussion.content"></p>
     </header>
-    <article data-bind="template: { name: 'messages-template', foreach: discussion.messages }">
-    </article>
+    <div data-bind="template: { name: 'message-template', foreach: discussion.messages }">
+    </div>
     
-    <div class="clearfix span12">
+    <div class="clear-left">
         <form class="form-horizontal" data-bind="submit: discussion.messages.create">
             <div class="control-group">
                 <textarea class="span6" data-bind="value: message.content, valueUpdate: 'afterkeyup'">
@@ -24,10 +24,12 @@
         </form>
     </div>
 
-    <script type="text/html" id="messages-template">
-        <section class="clearfix">
-            <p class="inline" data-bind="text: content"></p>
-        </section>
+    <script type="text/html" id="message-template">
+        <div class="well span6 clear-left">
+            <h3 class="inline" data-bind="text: person.name"></h3>
+            <small> @@ <span data-bind="text: date"></span></small>
+            <p data-bind="text: content"></p>
+        </div>
     </script>
     
     <script>

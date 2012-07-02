@@ -161,6 +161,8 @@
     <Content Include="Content\js\app\teamworks.viewmodels.models.js" />
     <Content Include="Content\js\gac.js" />
     <Content Include="Content\js\app\teamworks.viewmodels.js" />
+    <Content Include="Content\js\libs\iso8601.min.js" />
+    <Content Include="Content\js\libs\iso8601.js" />
     <Compile Include="Controllers\Api\DiscussionsController.cs" />
     <Compile Include="Controllers\Api\Attribute\ModelStateAttribute.cs" />
     <Compile Include="Controllers\Api\Attribute\ExceptionAttribute.cs" />
@@ -170,8 +172,10 @@
     <Compile Include="Controllers\Api\MessageController.cs" />
     <Compile Include="Controllers\Api\TimelogController.cs" />
     <Compile Include="Controllers\Api\PeopleController.cs" />
+    <Compile Include="Models\Mvc\Login.cs" />
     <Compile Include="Controllers\Mvc\PeopleController.cs" />
     <Compile Include="Controllers\Mvc\DiscussionsController.cs" />
+    <Compile Include="Models\Mvc\Register.cs" />
     <Compile Include="Controllers\Mvc\TimelogController.cs" />
     <Compile Include="Controllers\Mvc\Attributes\FormsAuthenticationAttribute.cs" />
     <Compile Include="Helpers\Teamworks\EntityExtensions.cs" />
@@ -195,16 +199,16 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Api\JsonNetFormatter.cs" />
-    <Compile Include="Models\DryModels\DryProject.cs" />
-    <Compile Include="Models\DryModels\DryActivity.cs" />
-    <Compile Include="Models\DryModels\DryDiscussion.cs" />
-    <Compile Include="Models\DryModels\DryPerson.cs" />
-    <Compile Include="Models\Person.cs" />
-    <Compile Include="Models\Message.cs" />
-    <Compile Include="Models\Timelog.cs" />
-    <Compile Include="Models\Project.cs" />
-    <Compile Include="Models\Activity.cs" />
-    <Compile Include="Models\Discussion.cs" />
+    <Compile Include="Models\Api\DryModels\DryProject.cs" />
+    <Compile Include="Models\Api\DryModels\DryActivity.cs" />
+    <Compile Include="Models\Api\DryModels\DryDiscussion.cs" />
+    <Compile Include="Models\Api\DryModels\DryPerson.cs" />
+    <Compile Include="Models\Api\Person.cs" />
+    <Compile Include="Models\Api\Message.cs" />
+    <Compile Include="Models\Api\Timelog.cs" />
+    <Compile Include="Models\Api\Project.cs" />
+    <Compile Include="Models\Api\Activity.cs" />
+    <Compile Include="Models\Api\Discussion.cs" />
     <Compile Include="Views\ViewsExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

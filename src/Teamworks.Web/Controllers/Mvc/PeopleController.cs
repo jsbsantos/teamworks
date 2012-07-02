@@ -3,6 +3,7 @@ using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
 using Teamworks.Web.Models;
+using Teamworks.Web.Models.Api;
 
 namespace Teamworks.Web.Controllers.Mvc
 {

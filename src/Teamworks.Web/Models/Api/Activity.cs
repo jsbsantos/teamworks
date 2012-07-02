@@ -1,8 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Teamworks.Web.Models
+namespace Teamworks.Web.Models.Api
 {
     public class Activity
     {
@@ -13,7 +12,7 @@ namespace Teamworks.Web.Models
         public string Description { get; set; }
         public string Project { get; set; }
 
-        public ICollection<Timelog> Timelog { get; set; }
+        public ICollection<Timelog> Timelogs { get; set; }
         public IList<string> Discussions { get; set; }
         public IList<string> People { get; set; }
     }

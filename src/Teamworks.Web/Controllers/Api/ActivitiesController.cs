@@ -12,7 +12,7 @@ using AutoMapper;
 using Teamworks.Core;
 using Teamworks.Web.Helpers.Teamworks;
 using Teamworks.Web.Models;
-using Activity = Teamworks.Web.Models.Activity;
+using Activity = Teamworks.Web.Models.Api.Activity;
 using Project = Teamworks.Core.Project;
 
 namespace Teamworks.Web.Controllers.Api

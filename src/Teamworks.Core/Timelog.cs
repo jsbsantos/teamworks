@@ -11,7 +11,7 @@ namespace Teamworks.Core
 
         public string Person { get; set; }
 
-        public static Timelog Forge(string description, DateTime date, long duration, string person)
+        public static Timelog Forge(string description, long duration, DateTime date, string person)
         {
             return new Timelog()
                        {

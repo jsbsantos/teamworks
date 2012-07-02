@@ -203,10 +203,31 @@ TW.viewmodels.Discussion = function (endpoint) {
         });
 };
 
-TW.viewmodels.Activity = function(endpoint) {
+TW.viewmodels.Activity = function (endpoint) {
 
     var self = this;
+    self.timelog = new TW.viewmodels.models.Timelog();
     self.activity = new TW.viewmodels.models.Activity();
+
+    self.timelog.create = function() {
+        $.ajax(endpoint + '/timelogs/',
+            {
+                type: 'post',
+                data: ko.toJSON(self.timelog),
+                contentType: 'application/json; charset=utf-8',
+                cache: 'false',
+                statusCode: {
+                    201: /*created*/function(data) {
+                        self.activity.timelogs.push(new TW.viewmodels.models.Timelog(data));
+                        self.timelog.clear();
+                    },
+                    400: /*bad request*/function() {
+                        TW.app.alerts.push({ message: 'An error as ocurred.' });
+                    }
+                }
+            }
+        );
+    };
 
     $.ajax(endpoint,
         {
@@ -215,10 +236,10 @@ TW.viewmodels.Activity = function(endpoint) {
             contentType: 'application/json; charset=utf-8',
             cache: 'false',
             statusCode: {
-                200: /*ok*/function(data) {
+                200: /*ok*/function (data) {
                     self.activity.load(data);
                 },
-                404: /*not found*/function() {
+                404: /*not found*/function () {
                     TW.app.alerts.push({ message: 'The project you requested doesn\'t exist.' });
                 }
             }

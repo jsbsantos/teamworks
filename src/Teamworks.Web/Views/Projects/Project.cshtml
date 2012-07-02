@@ -8,7 +8,7 @@
         <h1 data-bind="text: project.name"></h1>
         <h3 class="span12 inline" data-bind="text: project.description, visible: project.description"></h3>
     </header>
-    <article>
+    <div>
         <!-- Activities -->
         <section>
             <header>
@@ -26,15 +26,16 @@
             <div class="span12" data-bind="template: { name: 'activities-template', foreach: project.activities }"></div>
             
             <script type="text/html" id="activities-template">
-                <section class="clearfix">
+                <article class="clearfix">
                     <form class="btn-group pull-right" data-bind="submit: $parent.project.activities.remove">
                         <button class="btn btn-mini btn-danger" type="submit" name="remove">Remove</button>
                     </form>
                     <h3 class="inline"><a data-bind="text: name, attr: { href: '/projects/' + $parent.project.id() + '/activities/' + id() }"></a></h3>
                     <span class="inline" data-bind="text: description"></span>
-                </section>
+                </article>
             </script>
         </section>
+        
         <!-- Discussion -->
         <section>
             <header>
@@ -52,18 +53,16 @@
             <div class="span12" data-bind="template: { name: 'discussion-template', foreach: project.discussions }"></div>
             
             <script type="text/html" id="discussion-template">
-                <section class="clearfix">
+                <div class="clearfix">
                     <form class="btn-group pull-right" data-bind="submit: $parent.project.discussions.remove">
                         <button class="btn btn-mini btn-danger" type="submit" name="remove">Remove</button>
                     </form>
                     <h3 class="inline"><a data-bind="text: name, attr: { href: '/projects/' + $parent.project.id() + '/discussions/' + id() }"></a></h3>
                     <span class="inline" data-bind="text: content"></span>
-                </section>
+                </div>
             </script>
-
         </section>
-
-    </article>
+    </div>
     
     <script>
         var viewmodel = function() {

@@ -15,6 +15,7 @@ namespace Teamworks.Web.Helpers.Mvc
             bundles.Add(css);
 
             var js = new Bundle("~/js", typeof (JsMinify));
+            js.AddFile("~/content/js/libs/iso8601.js");
 #if !DEBUG
             js.AddFile("~/content/js/libs/bootstrap/bootstrap.js");
             js.AddFile("~/content/js/libs/knockout-2.0.0.js");

@@ -11,7 +11,7 @@ using AttributeRouting.Web.Http;
 using AutoMapper;
 using Raven.Client.Linq;
 using Teamworks.Web.Controllers.Api.Attribute;
-using Project = Teamworks.Web.Models.Project;
+using Project = Teamworks.Web.Models.Api.Project;
 
 namespace Teamworks.Web.Controllers.Api
 {

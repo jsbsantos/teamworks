@@ -8,7 +8,7 @@ using System.Web.Http.ModelBinding.Binders;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
-using Person = Teamworks.Web.Models.Person;
+using Person = Teamworks.Web.Models.Api.Person;
 using Project = Teamworks.Core.Project;
 
 namespace Teamworks.Web.Controllers.Api

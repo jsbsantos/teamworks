@@ -1,6 +1,6 @@
 using Teamworks.Web.Models.DryModels;
 
-namespace Teamworks.Web.Models
+namespace Teamworks.Web.Models.Api
 {
     public class Person : DryPerson
     {

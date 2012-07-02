@@ -5,12 +5,12 @@ using Teamworks.Core.Services;
 using Teamworks.Web.Helpers.Teamworks;
 using Teamworks.Web.Models;
 using Teamworks.Web.Models.DryModels;
-using Activity = Teamworks.Web.Models.Activity;
+using Activity = Teamworks.Web.Models.Api.Activity;
 using Discussion = Teamworks.Web.Models.Discussion;
 using Message = Teamworks.Web.Models.Message;
-using Person = Teamworks.Web.Models.Person;
-using Project = Teamworks.Web.Models.Project;
-using Timelog = Teamworks.Web.Models.Timelog;
+using Person = Teamworks.Web.Models.Api.Person;
+using Project = Teamworks.Web.Models.Api.Project;
+using Timelog = Teamworks.Web.Models.Api.Timelog;
 
 namespace Teamworks.Web.Helpers
 {
@@ -52,16 +52,17 @@ namespace Teamworks.Web.Helpers
             Mapper.CreateMap<Core.Activity, Activity>()
                 .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier))
                 .ForMember(src => src.Project, opt => opt.MapFrom(src => src.Project.Identifier()))
-                .ForMember(src => src.Timelog, opt => opt.MapFrom(src => src.Timelogs));
+                .ForMember(src => src.Timelogs, opt => opt.MapFrom(src => src.Timelogs));
             Mapper.CreateMap<Core.Activity, DryActivity>()
                 .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier));
 
             #endregion
 
-            #region Timelogs Mappings
+            #region Timelog Mappings
 
             Mapper.CreateMap<Timelog, Core.Timelog>();
             Mapper.CreateMap<Core.Timelog, Timelog>()
+                .ForMember(src => src.Date, opt => opt.MapFrom(src => src.Date.ToString("yyyy-MM-ddTHH:mm:ssZ")))
                 .ForMember(src => src.Person, opt => opt.MapFrom(src => Global.Database.CurrentSession.Load<Core.Person>(src.Person)));
 
             #endregion

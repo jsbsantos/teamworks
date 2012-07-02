@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Teamworks.Web.Models
+namespace Teamworks.Web.Models.Api
 {
     public class Project
     {

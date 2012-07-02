@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Dynamic;
+﻿using System.Dynamic;
 using System.Web.Mvc;
 using System.Web.Security;
-using Teamworks.Core;
 using Teamworks.Core.Authentication;
 using Teamworks.Core.Services;
+using Teamworks.Web.Models;
+using Teamworks.Web.Models.Mvc;
+using Person = Teamworks.Core.Person;
 
 namespace Teamworks.Web.Controllers.Mvc
 {
@@ -82,32 +83,5 @@ namespace Teamworks.Web.Controllers.Mvc
             DbSession.Store(person);
             return RedirectToAction("View", "Home");
         }
-    }
-
-    public class Login
-    {
-        [Required]
-        [Display(Name = "Username")]
-        public string Username { get; set; }
-
-        [Required]
-        [DataType(DataType.Password)]
-        [Display(Name = "Password")]
-        public string Password { get; set; }
-
-        [Display(Name = "Remember me?")]
-        public bool Persist { get; set; }
-    }
-
-    public class Register
-    {
-        [Required]
-        public string Email { get; set; }
-
-        [Required]
-        public string Password { get; set; }
-
-        [Required]
-        public string Username { get; set; }
     }
 }
