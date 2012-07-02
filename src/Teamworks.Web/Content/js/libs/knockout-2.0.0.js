@@ -196,7 +196,7 @@
             Ma: function(a, e) {
                 var b = r.a.d(e);
                 if (b === o || b === l) b = "";
-                "innerText" in a ? a.innerText = b : a.textContent = b;
+                "innerContent" in a ? a.innerText = b : a.textContent = b;
                 if (9 <= j) a.innerHTML = a.innerHTML;
             },
             yb: function(a, e) {
@@ -394,7 +394,7 @@
     r.b("ko.memoization", r.r);
     r.b("ko.memoization.memoize", r.r.ka);
     r.b("ko.memoization.unmemoize", r.r.Ra);
-    r.b("ko.memoization.parseMemoText", r.r.Ga);
+    r.b("ko.memoization.parseMemoContent", r.r.Ga);
     r.b("ko.memoization.unmemoizeDomNodeAndDescendants", r.r.Sa);
     r.Aa = {
         throttle: function(a, b) {

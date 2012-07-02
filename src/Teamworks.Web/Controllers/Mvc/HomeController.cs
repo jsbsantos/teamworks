@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace Teamworks.Web.Controllers.Web
+namespace Teamworks.Web.Controllers.Mvc
 {
     public class HomeController : RavenController
     {

@@ -8,12 +8,8 @@ using System.Web.Http.ModelBinding.Binders;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
-using Raven.Bundles.Authorization.Model;
-using Raven.Client.Authorization;
-using Teamworks.Core.People;
-using Teamworks.Core.Projects;
-using Teamworks.Web.Helpers.Extensions;
-using Teamworks.Web.Models;
+using Person = Teamworks.Web.Models.Api.Person;
+using Project = Teamworks.Core.Project;
 
 namespace Teamworks.Web.Controllers.Api
 {
@@ -23,17 +19,17 @@ namespace Teamworks.Web.Controllers.Api
         #region General
         //todo unbound (limited by raven) result set - page results?
         [GET("people")]
-        public IEnumerable<PersonModel> GetPeople()
+        public IEnumerable<Person> GetPeople()
         {
-            return new List<PersonModel>(
-                    DbSession.Query<Person>().Select(
-                        Mapper.Map<Person, PersonModel>));
+            return new List<Person>(
+                    DbSession.Query<Core.Person>().Select(
+                        Mapper.Map<Core.Person, Person>));
         }
         #endregion
 
         #region Project
         [GET("projects/{projectid}/people")]
-        public IEnumerable<PersonModel> GetProjectPeople(int projectid)
+        public IEnumerable<Person> GetProjectPeople(int projectid)
         {
             var project = DbSession
                  .Include<Project>(p => p.People)
@@ -44,13 +40,13 @@ namespace Teamworks.Web.Controllers.Api
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            return new List<PersonModel>(
-                    DbSession.Load<Person>(project.People).Select(
-                        Mapper.Map<Person, PersonModel>));
+            return new List<Person>(
+                    DbSession.Load<Core.Person>(project.People).Select(
+                        Mapper.Map<Core.Person, Person>));
         }
 
         [POST("projects/{projectid}/people/{name}")]
-        public HttpResponseMessage<PersonModel> PostProjectPeople(
+        public HttpResponseMessage<Person> PostProjectPeople(
             [ModelBinder(typeof (TypeConverterModelBinder))] int projectid,
             string name)
         {
@@ -62,21 +58,21 @@ namespace Teamworks.Web.Controllers.Api
             var project = Get<Project>(projectid);
 
             // todo check if user exists
-            var person = Get<Person>("people/" + name);
+            var person = Get<Core.Person>("people/" + name);
 
             project.People.Add(person.Id);
             //todo permissions?
-            return new HttpResponseMessage<PersonModel>(Mapper.Map<Person, PersonModel>(person),
+            return new HttpResponseMessage<Person>(Mapper.Map<Core.Person, Person>(person),
                                                         HttpStatusCode.Created);
         }
         #endregion
 
-        #region Task
+        #region Activities
         [GET("task/{taskid}/people")]
-        public IEnumerable<PersonModel> GetTaskPeople(int projectid, int taskid)
+        public IEnumerable<Person> GetTaskPeople(int projectid, int taskid)
         {
             var project = DbSession
-                            .Include<Project>(p => p.Tasks)
+                            .Include<Project>(p => p.Activities)
                             .Load<Project>(projectid);
 
             if (project == null)
@@ -85,21 +81,21 @@ namespace Teamworks.Web.Controllers.Api
             }
 
             var task = DbSession
-                .Include<Task>(t => t.People)
-                .Load<Task>(taskid);
+                .Include<Core.Activity>(t => t.People)
+                .Load<Core.Activity>(taskid);
 
             if (task == null || !task.Project.Equals(project.Id))
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            return new List<PersonModel>(
-                    DbSession.Load<Person>(task.People).Select(
-                        Mapper.Map<Person, PersonModel>));
+            return new List<Person>(
+                    DbSession.Load<Core.Person>(task.People).Select(
+                        Mapper.Map<Core.Person, Person>));
         }
 
         [POST("task/{taskid}/people/{name}")]
-        public HttpResponseMessage<PersonModel> PostTaskPeople(
+        public HttpResponseMessage<Person> PostTaskPeople(
             [ModelBinder(typeof (TypeConverterModelBinder))] int projectid,
             [ModelBinder(typeof (TypeConverterModelBinder))] int taskid,
             string name)
@@ -109,9 +105,9 @@ namespace Teamworks.Web.Controllers.Api
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
 
-            var task = Get<Task>(taskid);
+            var task = Get<Core.Activity>(taskid);
 
-            var person = Get<Person>("people/"+name);
+            var person = Get<Core.Person>("people/"+name);
             if (person == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
@@ -119,7 +115,7 @@ namespace Teamworks.Web.Controllers.Api
 
             task.People.Add(person.Id);
             //todo permissions?
-            return new HttpResponseMessage<PersonModel>(Mapper.Map<Person, PersonModel>(person),
+            return new HttpResponseMessage<Person>(Mapper.Map<Core.Person, Person>(person),
                                                         HttpStatusCode.Created);
         }
         #endregion

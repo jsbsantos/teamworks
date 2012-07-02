@@ -1,3 +1,5 @@
+using System;
+using System.Net;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -6,22 +8,33 @@ using LowercaseRoutesMVC;
 using Microsoft.Web.Optimization;
 using Teamworks.Core.Authentication;
 using Teamworks.Core.Services;
-using Teamworks.Web.Controllers.Mvc.Filters;
+using Teamworks.Web.Controllers.Api.Attribute;
+using Teamworks.Web.Controllers.Mvc.Attributes;
 using Teamworks.Web.Helpers;
 using Teamworks.Web.Helpers.Api;
-using Teamworks.Web.Helpers.Extensions;
+using Teamworks.Web.Helpers.Mvc;
+using GlobalFilterCollection = System.Web.Http.Filters.GlobalFilterCollection;
 
 namespace Teamworks.Web
 {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
 
-    public class MvcApplication : HttpApplication
+    public class TeamworksApp : HttpApplication
     {
-        public static void RegisterGlobalFilters(GlobalFilterCollection filters)
+        public void RegisterGlobalFilters(System.Web.Mvc.GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
             filters.Add(new FormsAuthenticationAttribute());
+        }
+
+        public static void RegisterGlobalApiFilters(GlobalFilterCollection filters)
+        {
+            filters.Add(new ModelStateAttribute());
+            
+            var filter = new ExceptionAttribute();
+            filter.Mappings.Add(typeof(ArgumentException), HttpStatusCode.BadRequest);
+            filters.Add(filter);
         }
 
         public static void RegisterRoutes(RouteCollection routes)
@@ -29,62 +42,22 @@ namespace Teamworks.Web
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRouteLowercase(
-                name: "project_task_timelog",
-                url: "projects/{projectid}/tasks/{taskid}/timelog/{id}/{action}",
-                defaults:
-                    new
-                        {
-                            controller = "TimeEntry",
-                            action = "View",
-                            id = UrlParameter.Optional
-                        }
-                );
+                 name: "",
+                 url: "projects/{projectid}/{controller}/{identifier}",
+                 defaults: new { action = "View", identifier = UrlParameter.Optional }
+                 );
 
             routes.MapRouteLowercase(
-                name: "project_discussion",
-                url: "projects/{projectid}/discussions/{id}/{action}",
-                defaults:
-                    new
-                        {
-                            controller = "Threads",
-                            action = "View",
-                            id = UrlParameter.Optional
-                        }
-                );
+                 name: "",
+                 url: "projects/{identifier}",
+                 defaults: new { controller = "Projects", action = "View", identifier = UrlParameter.Optional }
+                 );
 
             routes.MapRouteLowercase(
-                name: "project_task",
-                url: "projects/{projectid}/tasks/{id}/{action}",
-                defaults:
-                    new
-                        {
-                            controller = "Tasks",
-                            action = "View",
-                            id = UrlParameter.Optional
-                        }
-                );
-
-            routes.MapRouteLowercase(
-                name: "account",
-                url: "account/{action}",
-                defaults: new
-                              {
-                                  controller = "Account",
-                                  action = "login"
-                              }
-                );
-
-            routes.MapRouteLowercase(
-                name: "",
-                url: "{controller}/{id}/{action}",
-                defaults: new {action = "View", id = UrlParameter.Optional}
-                );
-
-            routes.MapRouteLowercase(
-                name: "default",
-                url: "{controller}/{action}/{id}",
-                defaults: new {controller = "Home", action = "View", id = UrlParameter.Optional}
-                );
+                 name: "default",
+                 url: "{controller}/{action}/{id}",
+                 defaults: new { controller = "Home", action = "View", id = UrlParameter.Optional }
+                 );
         }
 
         protected void Application_Start()
@@ -92,6 +65,7 @@ namespace Teamworks.Web
             AreaRegistration.RegisterAllAreas();
 
             RegisterGlobalFilters(GlobalFilters.Filters);
+            RegisterGlobalApiFilters(GlobalConfiguration.Configuration.Filters);
             RegisterRoutes(RouteTable.Routes);
 
             GlobalConfiguration.Configuration.RegisterFormatters();
@@ -103,5 +77,7 @@ namespace Teamworks.Web
             Global.Authentication.Add("Basic", new BasicAuthenticator());
             Mappers.RegisterMappers();
         }
+
+        
     }
 }

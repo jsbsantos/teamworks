@@ -9,20 +9,21 @@ using System.Web.Http.ModelBinding.Binders;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
-using Teamworks.Core.Projects;
 using Teamworks.Web.Helpers.Api;
-using Teamworks.Web.Models;
+using Activity = Teamworks.Core.Activity;
+using Project = Teamworks.Core.Project;
+using Timelog = Teamworks.Web.Models.Api.Timelog;
 
 namespace Teamworks.Web.Controllers.Api
 {
     [DefaultHttpRouteConvention]
-    [RoutePrefix("api/projects/{projectid}/tasks/{taskid}/timelog")]
+    [RoutePrefix("api/projects/{projectid}/activities/{activityid}/timelogs")]
     public class TimelogController : RavenApiController
     {
-        public IEnumerable<TimeEntryModel> Get(int projectid, int taskid)
+        public IEnumerable<Timelog> Get(int projectid, int activityid)
         {
             var project = DbSession
-                .Include<Project>(p => p.Tasks)
+                .Include<Project>(p => p.Activities)
                 .Load<Project>(projectid);
 
             if (project == null)
@@ -30,27 +31,22 @@ namespace Teamworks.Web.Controllers.Api
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            var task = DbSession.Load<Task>(taskid);
+            var task = DbSession.Load<Activity>(activityid);
             if (task == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            return task.Timelog.Select(Mapper.Map<TimeEntry, TimeEntryModel>);
+            return task.Timelogs.Select(Mapper.Map<Core.Timelog, Timelog>);
         }
 
-        public HttpResponseMessage<TimeEntryModel> Post(
+        public HttpResponseMessage<Timelog> Post(
             [ModelBinder(typeof (TypeConverterModelBinder))] int projectid,
-            [ModelBinder(typeof (TypeConverterModelBinder))] int taskid,
-            TimeEntryModel model)
+            [ModelBinder(typeof(TypeConverterModelBinder))] int activityid,
+            Timelog model)
         {
-            if (!ModelState.IsValid)
-            {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
-            }
-            
             var project = DbSession
-                .Include<Project>(p => p.Tasks)
+                .Include<Project>(p => p.Activities)
                 .Load<Project>(projectid);
 
             if (project == null)
@@ -58,83 +54,84 @@ namespace Teamworks.Web.Controllers.Api
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            var task = DbSession.Load<Task>(taskid);
+            var task = DbSession.Load<Activity>(activityid);
             if (task == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
             //todo check for collisions?
+            DateTime date;
+            if (!DateTime.TryParse(model.Date, out date))
+            {
+                date = DateTime.Now;
+            }
 
-            var timeentry = TimeEntry.Forge(model.Description, model.Date, model.Duration, Request.GetUserPrincipalId());
-            timeentry.Id = task.GenerateNewTimeEntryId();
-            task.Timelog.Add(timeentry);
+            var timelog = Core.Timelog.Forge(model.Description, model.Duration, date, Request.GetUserPrincipalId());
+            timelog.Id = task.GenerateNewTimeEntryId();
+            task.Timelogs.Add(timelog);
 
-            return new HttpResponseMessage<TimeEntryModel>(Mapper.Map<TimeEntry, TimeEntryModel>(timeentry),
+            return new HttpResponseMessage<Timelog>(Mapper.Map<Core.Timelog, Timelog>(timelog),
                                                            HttpStatusCode.Created);
         }
 
         /// <see cref="http://forums.asp.net/post/4855634.aspx" />
-        public HttpResponseMessage<TimeEntryModel> Put([ModelBinder(typeof (TypeConverterModelBinder))] int taskid,
+        public HttpResponseMessage<Timelog> Put([ModelBinder(typeof(TypeConverterModelBinder))] int activityid,
                                        [ModelBinder(typeof (TypeConverterModelBinder))] int projectid,
-                                       TimeEntryModel model)
+                                       Timelog model)
         {
-            if (!ModelState.IsValid)
-            {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
-            }
-            
             var project = DbSession
-                .Include<Project>(p => p.Tasks)
+                .Include<Project>(p => p.Activities)
                 .Load<Project>(projectid);
+            
             if (project == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            var task = DbSession.Load<Task>(taskid);
+            var task = DbSession.Load<Activity>(activityid);
             if (task == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            var timeentry = task.Timelog.FirstOrDefault(t => t.Id.Equals(model.Id));
-            if (timeentry == null)
+            var timelog = task.Timelogs.FirstOrDefault(t => t.Id.Equals(model.Id));
+            if (timelog == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            timeentry.Date = model.Date;
-            timeentry.Description = model.Description;
-            timeentry.Duration = model.Duration;
+            timelog.Date = DateTime.Parse(model.Date);
+            timelog.Description = model.Description;
+            timelog.Duration = model.Duration;
 
-            return new HttpResponseMessage<TimeEntryModel>(Mapper.Map<TimeEntry, TimeEntryModel>(timeentry),
+            return new HttpResponseMessage<Timelog>(Mapper.Map<Core.Timelog, Timelog>(timelog),
                                           HttpStatusCode.Created);
         }
 
-        public HttpResponseMessage Delete(int id, int taskid, int projectid)
+        public HttpResponseMessage Delete(int id, int activityid, int projectid)
         {
             var project = DbSession
-                .Include<Project>(p => p.Tasks)
+                .Include<Project>(p => p.Activities)
                 .Load<Project>(projectid);
             if (project == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            var task = DbSession.Load<Task>(taskid);
+            var task = DbSession.Load<Activity>(activityid);
             if (task == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            var timeentry = task.Timelog.FirstOrDefault(t => t.Id == id);
+            var timeentry = task.Timelogs.FirstOrDefault(t => t.Id == id);
             if (timeentry == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            task.Timelog.Remove(timeentry);
+            task.Timelogs.Remove(timeentry);
 
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }

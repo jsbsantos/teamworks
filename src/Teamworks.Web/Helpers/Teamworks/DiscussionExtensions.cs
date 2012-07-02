@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using Teamworks.Core;
 using Teamworks.Core.Mailgun;
-using Teamworks.Core.People;
-using Teamworks.Core.Projects;
 using Teamworks.Core.Services;
 
 namespace Teamworks.Web.Helpers.Teamworks
 {
     public static class DiscussionExtensions
     {
-        public static void Notify(this Thread thread, Message message)
+        public static void Notify(this Discussion thread, Message message)
         {
-            var emails = Global.Raven.CurrentSession.Load<Person>(thread.Subscribers)
+            var emails = Global.Database.CurrentSession.Load<Person>(thread.Subscribers)
                 .Select(x => x.Email).ToList();
             
             if (emails.Count > 0)

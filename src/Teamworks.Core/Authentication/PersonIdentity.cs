@@ -1,5 +1,4 @@
 using System.Security.Principal;
-using Teamworks.Core.People;
 
 namespace Teamworks.Core.Authentication
 {

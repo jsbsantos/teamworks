@@ -1,16 +1,13 @@
 using System;
-using System.Dynamic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Security.Principal;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http.Hosting;
+using Teamworks.Core;
 using Teamworks.Core.Authentication;
-using Teamworks.Core.People;
 using Teamworks.Core.Services;
 
 namespace Teamworks.Web.Controllers.Api.Handlers

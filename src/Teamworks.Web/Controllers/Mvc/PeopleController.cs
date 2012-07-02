@@ -1,14 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
-using Teamworks.Core.People;
-using Teamworks.Core.Projects;
 using Teamworks.Web.Models;
-using Teamworks.Web.Models.DryModels;
+using Teamworks.Web.Models.Api;
 
-namespace Teamworks.Web.Controllers.Web
+namespace Teamworks.Web.Controllers.Mvc
 {
     public class PeopleController : RavenController
     {
@@ -17,17 +14,17 @@ namespace Teamworks.Web.Controllers.Web
         public ActionResult Index(string id)
         {
             if (string.IsNullOrEmpty(id))
-                return View(DbSession.Query<Person>().Select(
-                        Mapper.Map<Person, PersonModel>));
+                return View(DbSession.Query<Core.Person>().Select(
+                        Mapper.Map<Core.Person, Person>));
 
-            var person = DbSession.Load<Person>("people/"+id);
+            var person = DbSession.Load<Core.Person>("people/"+id);
             if (person == null)
             {
                 throw new HttpException(404, "Not Found");
                
             }
 
-            return View("Person", Mapper.Map<Person, PersonModel>(person));
+            return View("Person", Mapper.Map<Core.Person, Person>(person));
         }
     }
 }

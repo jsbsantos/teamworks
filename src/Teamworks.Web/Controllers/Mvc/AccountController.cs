@@ -1,24 +1,33 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Dynamic;
+﻿using System.Dynamic;
 using System.Web.Mvc;
 using System.Web.Security;
 using Teamworks.Core.Authentication;
-using Teamworks.Core.People;
 using Teamworks.Core.Services;
+using Teamworks.Web.Models;
+using Teamworks.Web.Models.Mvc;
+using Person = Teamworks.Core.Person;
 
-namespace Teamworks.Web.Controllers.Web
+namespace Teamworks.Web.Controllers.Mvc
 {
     [AllowAnonymous]
     public class AccountController : RavenController
     {
+        private const string ReturnUrlKey = "RETURN_URL_KEY";
+
         [HttpGet]
-        public ActionResult Login()
+        public ActionResult Login(string returnUrl)
         {
-            return View();
+            if (string.IsNullOrEmpty(returnUrl))
+            {
+                return View();
+            }
+            Session[ReturnUrlKey] = returnUrl;
+            return RedirectToAction("Login");
+
         }
 
         [HttpPost]
-        public ActionResult Login(Login model, string returnUrl)
+        public ActionResult Login(Login model)
         {
             if (!ModelState.IsValid)
             {
@@ -33,6 +42,9 @@ namespace Teamworks.Web.Controllers.Web
             IAuthenticator auth = Global.Authentication["Basic"];
             if (auth.IsValid(dyn, out person))
             {
+                var returnUrl = Session[ReturnUrlKey] as string 
+                    ?? FormsAuthentication.DefaultUrl;
+                
                 FormsAuthentication.SetAuthCookie(person.Id, model.Persist);
                 if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
                     && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
@@ -71,32 +83,5 @@ namespace Teamworks.Web.Controllers.Web
             DbSession.Store(person);
             return RedirectToAction("View", "Home");
         }
-    }
-
-    public class Login
-    {
-        [Required]
-        [Display(Name = "Username")]
-        public string Username { get; set; }
-
-        [Required]
-        [DataType(DataType.Password)]
-        [Display(Name = "Password")]
-        public string Password { get; set; }
-
-        [Display(Name = "Remember me?")]
-        public bool Persist { get; set; }
-    }
-
-    public class Register
-    {
-        [Required]
-        public string Email { get; set; }
-
-        [Required]
-        public string Password { get; set; }
-
-        [Required]
-        public string Username { get; set; }
     }
 }

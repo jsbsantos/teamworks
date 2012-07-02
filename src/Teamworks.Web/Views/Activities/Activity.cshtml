@@ -1,0 +1,37 @@
+﻿@model string
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content" data-bind="visible: activity.name">
+    <header class="page-header">
+        <h1 data-bind="text: activity.name"></h1>
+        <h3 class="span6" data-bind="text: activity.description"></h3>
+    </header>
+    
+    <div class="span12">
+        <form class="form-horizontal" data-bind="submit: timelog.create">
+            <input type="text" class="control-group input-xlarge" placeholder="Duration in minutes" data-bind="value: timelog.duration, valueUpdate: 'afterkeyup'" />
+            <input type="text" class="control-group input-xlarge" placeholder="Timelog description" data-bind="value: timelog.description, valueUpdate: 'afterkeyup'" />
+            <button type="submit" class="btn btn-success pull-right">Register time</button>  
+        </form>
+    </div>
+    
+    <div data-bind="template: { name: 'timelog-template', foreach: activity.timelogs }">
+    </div>
+    
+    <script type="text/html" id="timelog-template">
+        <div>
+            <div class="inline" data-bind="text: duration"></div>
+            <div> @@ <span data-bind="text: date"></span></div>
+            <div class="inline" data-bind="text: description"></div>
+        </div>
+    </script>
+
+    <script>
+        var viewmodel = function() {
+            return new TW.viewmodels.Activity('@Model');
+        }
+    </script>
+</div>

@@ -9,9 +9,9 @@ namespace Teamworks.Core.Services
             get { return AuthenticatorFactory.Instance; }
         }
 
-        public static Raven Raven
+        public static RavenDB Database
         {
-            get { return Raven.Instance; }
+            get { return RavenDB.Instance; }
         }
     }
 }

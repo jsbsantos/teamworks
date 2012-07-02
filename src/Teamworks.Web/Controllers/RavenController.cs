@@ -9,7 +9,7 @@ namespace Teamworks.Web.Controllers
     {
         public IDocumentSession DbSession
         {
-            get { return Global.Raven.CurrentSession; }
+            get { return Global.Database.CurrentSession; }
         }
 
         protected override void OnResultExecuted(ResultExecutedContext context)

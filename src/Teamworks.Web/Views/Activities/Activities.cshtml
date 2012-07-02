@@ -1,0 +1,53 @@
+﻿@model List<Teamworks.Web.Models.Api.Activity>
+
+@{
+    ViewBag.Title = "taskModels";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+//TODO
+
+
+@*<div id="tasks">
+    <header class="span12 row">
+        <h1>
+            project tasks <a data-toggle="modal" href="#task-modal"><i class="icon-plus-sign"></i>
+            </a>
+        </h1>
+        <div class="modal hide" id="task-modal">
+            <div class="modal-header">
+                <h1>
+                    Add a task</h1>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline" data-bind="submit: create">
+                <input class="input-medium" name="name" placeholder="Name your task" data-bind="value: task.name, valueUpdate: 'afterkeyup'" />
+                <input class="input-large" name="description" placeholder="Describe your task" data-bind="value: task.description, valueUpdate: 'afterkeyup'" />
+                <button class="btn" type="submit">
+                    Add</button>
+                </form>
+            </div>
+        </div>
+    </header>
+    <article class="row span12">
+        <div class="thumbnails" data-bind="template: { name: 'task-template', foreach: tasks }">
+        </div>
+    </article>
+    <script type="text/html" id="task-template">
+        <section class="span3">
+            <div>
+                <h2><a data-bind="text: name, attr: { href: url }"></a></h2>
+                <p data-bind="text: description"></p>
+                <div data-bind="template: { name: 'task-template', foreach: tasks }"></div>
+                <form class="btn-group" data-bind="submit: $parent.remove">
+                    <button class="btn" type="submit" name="remove">Remove</button>
+                </form>
+            </div>
+        </section>
+    </script>
+
+    <script type="text/javascript">
+    var data = @Html.Raw(Model.ToJson())
+    </script>
+</div>
+*@

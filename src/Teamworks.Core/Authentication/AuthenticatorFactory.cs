@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Teamworks.Core.People;
 
 namespace Teamworks.Core.Authentication
 {
