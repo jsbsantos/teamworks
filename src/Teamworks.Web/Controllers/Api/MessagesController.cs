@@ -19,7 +19,6 @@ using Teamworks.Web.Models.Api;
 namespace Teamworks.Web.Controllers.Api
 {
     [DefaultHttpRouteConvention]
-    [RoutePrefix("api/projects/{projectid}")]
     public class MessagesController : RavenApiController
     {
         #region Project
@@ -42,13 +41,13 @@ namespace Teamworks.Web.Controllers.Api
             return topic;
         }
 
-        [GET("discussions/{discussionid}/messages")]
+        [GET("api/projects/{projectid}/discussions/{discussionid}/messages")]
         public IEnumerable<Message> GetProjectDiscussionMessage(int projectid, int discussionid)
         {
             return LoadProjectDiscussion(projectid, discussionid).Messages.Select(Mapper.Map<Core.Message, Message>);
         }
 
-        [POST("discussions/{discussionid}/messages")]
+        [POST("api/projects/{projectid}/discussions/{discussionid}/messages")]
         public HttpResponseMessage PostProjectDiscussionMessage(
             [ModelBinder(typeof (TypeConverterModelBinder))] int discussionid,
             [ModelBinder(typeof (TypeConverterModelBinder))] int projectid,
@@ -67,7 +66,7 @@ namespace Teamworks.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.Created, value);
         }
 
-        [DELETE("discussions/{discussionid}/messages/{id}")]
+        [DELETE("api/projects/{projectid}/discussions/{discussionid}/messages/{id}")]
         public HttpResponseMessage DeleteProjectDiscussionMessage(int id, int projectid, int discussionid)
         {
             var discussion = LoadProjectDiscussion(projectid, discussionid);
@@ -113,13 +112,13 @@ namespace Teamworks.Web.Controllers.Api
             return discussion;
         }
 
-        [GET("tasks/{taskid}/discussions/{discussionid}/messages")]
+        [GET("api/projects/{projectid}/tasks/{taskid}/discussions/{discussionid}/messages")]
         public IEnumerable<Message> GetTaskDiscussionMessage(int projectid, int taskid, int discussionid)
         {
             return LoadTaskDiscussion(projectid, taskid, discussionid).Messages.Select(Mapper.Map<Core.Message, Message>);
         }
 
-        [POST("tasks/{taskid}/discussions/{discussionid}/messages")]
+        [POST("api/projects/{projectid}/tasks/{taskid}/discussions/{discussionid}/messages")]
         public HttpResponseMessage PostTaskDiscussionMessage(
             [ModelBinder(typeof (TypeConverterModelBinder))] int discussionid,
             [ModelBinder(typeof (TypeConverterModelBinder))] int projectid,
@@ -136,7 +135,7 @@ namespace Teamworks.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.Created, value);
         }
 
-        [DELETE("tasks/{taskid}/discussions/{discussionid}/messages/{id}")]
+        [DELETE("api/projects/{projectid}/tasks/{taskid}/discussions/{discussionid}/messages/{id}")]
         public HttpResponseMessage DeleteTaskDiscussionMessage(int id, int projectid, int taskid, int discussionid)
         {
             var discussion = LoadTaskDiscussion(projectid, taskid, discussionid);

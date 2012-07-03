@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using System.Web.Http.ModelBinding;
 using Newtonsoft.Json.Serialization;
 using Teamworks.Web.Controllers.Api.Handlers;
 
@@ -14,11 +15,7 @@ namespace Teamworks.Web.Helpers.Api
 
         public static void RegisterModelBinders(this HttpConfiguration configuration)
         {
-            /*
-            var modelBinderProviderServices = configuration.ServiceResolver.GetServices(typeof (ModelBinderProvider));
-            var services = new List<object>(modelBinderProviderServices) {new MailgunModelBinderProvider()};
-            configuration.ServiceResolver.SetServices(typeof (ModelBinderProvider), services.ToArray());
-             * */
+            configuration.Services.Add(typeof(ModelBinderProvider), new MailgunModelBinderProvider());
         }
 
         public static void RegisterWebApiHandlers(this HttpConfiguration configuration)
