@@ -1,16 +1,9 @@
 ﻿using System.Collections.Generic;
 using AutoMapper;
-using Teamworks.Core;
 using Teamworks.Core.Services;
 using Teamworks.Web.Helpers.Teamworks;
-using Teamworks.Web.Models;
+using Teamworks.Web.Models.Api;
 using Teamworks.Web.Models.Api.DryModels;
-using Activity = Teamworks.Web.Models.Api.Activity;
-using Discussion = Teamworks.Web.Models.Api.Discussion;
-using Message = Teamworks.Web.Models.Api.Message;
-using Person = Teamworks.Web.Models.Api.Person;
-using Project = Teamworks.Web.Models.Api.Project;
-using Timelog = Teamworks.Web.Models.Api.Timelog;
 
 namespace Teamworks.Web.Helpers
 {

@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using System.Diagnostics;
+using System.Web.Http;
 using System.Web.Http.Controllers;
 using Raven.Client.Authorization;
 using Teamworks.Core.Services;
@@ -9,7 +10,7 @@ namespace Teamworks.Web.Controllers.Api.Attribute
     public class SecureForAttribute : AuthorizeAttribute
     {
         public string Operation { get; set; }
-        
+
         public SecureForAttribute(string operation)
         {
             Operation = operation;
@@ -17,11 +18,14 @@ namespace Teamworks.Web.Controllers.Api.Attribute
 
         public override void OnAuthorization(HttpActionContext context)
         {
-            var person = context.Request.GetCurrentPerson();
-
-            var session = Global.Database.CurrentSession;
-            session.SecureFor(person.Id, Operation);
-            
+            var id = context.Request.GetCurrentPersonId();
+            Debug.Print(id ?? "Person is NULL.");
+            if (id != null)
+            {
+                
+                var session = Global.Database.CurrentSession;
+                session.SecureFor(id, Operation);
+            }
             base.OnAuthorization(context);
         }
     }

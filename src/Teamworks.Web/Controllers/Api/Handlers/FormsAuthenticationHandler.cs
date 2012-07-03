@@ -28,7 +28,6 @@ namespace Teamworks.Web.Controllers.Api.Handlers
                     Thread.CurrentPrincipal = new GenericPrincipal(identity, person.Roles.ToArray());                        
                 }
             }
-
             return base.SendAsync(request, cancellationToken);
         }
     }

@@ -17,7 +17,6 @@ namespace Teamworks.Web.Controllers.Api
     [RoutePrefix("api/projects")]
     public class ProjectsController : RavenApiController
     {
-        [SecureFor("/projects/view")]
         public IEnumerable<Project> Get()
         {
             var projects = DbSession.Query<Core.Project>().Include(p => p.Activities).ToList();

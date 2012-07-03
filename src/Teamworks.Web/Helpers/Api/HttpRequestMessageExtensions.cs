@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Security.Principal;
+﻿using System.Net.Http;
 using System.Threading;
-using System.Web;
-using System.Web.Http.Hosting;
 using Teamworks.Core;
 using Teamworks.Core.Authentication;
 

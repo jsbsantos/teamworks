@@ -20,8 +20,10 @@ namespace Teamworks.Web.Helpers.Mvc
                                                          "~/content/js/app/teamworks.js",
                                                          "~/content/js/app/teamworks.viewmodels.models.js",
                                                          "~/content/js/app/teamworks.viewmodels.js",
-                                                         "~/content/js/app/teamworks.start.js", "~/content/js/gac.js");
-
+                                                         "~/content/js/app/teamworks.start.js");
+#if !DEBUG            
+            js.Include("~/content/js/gac.js");
+#endif
             bundles.Add(js);
         }
     }

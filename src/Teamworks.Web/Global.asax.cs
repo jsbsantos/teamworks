@@ -5,7 +5,6 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using LowercaseRoutesMVC;
 using Teamworks.Core.Authentication;
 using Teamworks.Core.Services;
 using Teamworks.Web.Controllers.Api.Attribute;
@@ -30,7 +29,6 @@ namespace Teamworks.Web
         public static void RegisterGlobalApiFilters(System.Web.Http.Filters.HttpFilterCollection filters)
         {
             filters.Add(new ModelStateAttribute());
-            
             var filter = new ExceptionAttribute();
             filter.Mappings.Add(typeof(ArgumentException), HttpStatusCode.BadRequest);
             filters.Add(filter);
@@ -40,19 +38,19 @@ namespace Teamworks.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapRouteLowercase(
+            routes.MapRoute(
                  name: "",
                  url: "projects/{projectid}/{controller}/{identifier}",
                  defaults: new { action = "View", identifier = UrlParameter.Optional }
                  );
 
-            routes.MapRouteLowercase(
+            routes.MapRoute(
                  name: "",
                  url: "projects/{identifier}",
                  defaults: new { controller = "Projects", action = "View", identifier = UrlParameter.Optional }
                  );
 
-            routes.MapRouteLowercase(
+            routes.MapRoute(
                  name: "default",
                  url: "{controller}/{action}/{id}",
                  defaults: new { controller = "Home", action = "View", id = UrlParameter.Optional }
@@ -72,9 +70,6 @@ namespace Teamworks.Web
             GlobalConfiguration.Configuration.RegisterModelBinders();
 
             BundleTable.Bundles.EnableTeamworksBundle();
-
-            var json = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
-            
 
             Global.Authentication.Add("Basic", new BasicAuthenticator());
             Mappers.RegisterMappers();

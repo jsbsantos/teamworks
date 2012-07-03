@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Web.Http;
-using System.Web.Http.ModelBinding;
+﻿using System.Web.Http;
 using Newtonsoft.Json.Serialization;
 using Teamworks.Web.Controllers.Api.Handlers;
 
@@ -26,10 +23,10 @@ namespace Teamworks.Web.Helpers.Api
 
         public static void RegisterWebApiHandlers(this HttpConfiguration configuration)
         {
-            configuration.MessageHandlers.Add(new UnauthorizedHandler());
+            configuration.MessageHandlers.Add(new RavenHandler());
             configuration.MessageHandlers.Add(new BasicAuthenticationHandler());
             configuration.MessageHandlers.Add(new FormsAuthenticationHandler());
-            configuration.MessageHandlers.Add(new RavenHandler());
+            configuration.MessageHandlers.Add(new UnauthorizedHandler());
         }
 
         public class LowercaseContractResolver : DefaultContractResolver

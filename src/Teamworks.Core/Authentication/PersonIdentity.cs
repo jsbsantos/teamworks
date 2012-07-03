@@ -1,7 +1,9 @@
+using System;
 using System.Security.Principal;
 
 namespace Teamworks.Core.Authentication
 {
+    [Serializable]
     public class PersonIdentity : IIdentity
     {
         public PersonIdentity(Person person)
