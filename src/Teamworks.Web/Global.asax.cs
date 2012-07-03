@@ -67,10 +67,14 @@ namespace Teamworks.Web
             RegisterGlobalApiFilters(GlobalConfiguration.Configuration.Filters);
             RegisterRoutes(RouteTable.Routes);
 
-            // GlobalConfiguration.Configuration.RegisterWebApiHandlers();
+            GlobalConfiguration.Configuration.ConfigureJsonNet();
+            GlobalConfiguration.Configuration.RegisterWebApiHandlers();
             GlobalConfiguration.Configuration.RegisterModelBinders();
 
             BundleTable.Bundles.EnableTeamworksBundle();
+
+            var json = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
+            
 
             Global.Authentication.Add("Basic", new BasicAuthenticator());
             Mappers.RegisterMappers();

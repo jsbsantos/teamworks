@@ -18,7 +18,7 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
     <!-- Custom font from google -->
     <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="@Styles.Render("~/css")" >
+    @Styles.Render("~/css")
     <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
     <!-- All JavaScript at the bottom, except this Modernizr build.
         Modernizr enables HTML5 elements & feature detects for optimal performance.
@@ -68,18 +68,6 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"> </script>
     <script> window.jQuery || document.write('<script src="@Url.Content("~/content/js/libs/jquery-1.7.2.min.js")"><\/script>') </script>
     <!-- Placed at the end of the document so the layout load faster -->
-    <script src="@Scripts.Render("~/js")"> </script>
-    
-    @{
-        if (Html.IsDebugging())
-        {
-            <script src="@Url.Content("~/content/js/libs/bootstrap/bootstrap.js")"> </script>
-            <script src="@Url.Content("~/content/js/libs/knockout-2.0.0.js")"> </script>
-            <script src="@Url.Content("~/content/js/app/teamworks.js")"> </script>
-            <script src="@Url.Content("~/content/js/app/teamworks.viewmodels.models.js")"> </script>
-            <script src="@Url.Content("~/content/js/app/teamworks.viewmodels.js")"> </script>
-            <script src="@Url.Content("~/content/js/app/teamworks.start.js")"> </script>
-        }
-    }
+    @Scripts.Render("~/js")
 </body>
 </html>
