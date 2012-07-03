@@ -61,6 +61,14 @@ namespace Teamworks.Web
         {
             AreaRegistration.RegisterAllAreas();
 
+            try
+            {
+                new Uri("http://fail/first/time?only=%2bplus");
+            }
+            catch (Exception)
+            {
+            }
+
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterGlobalApiFilters(GlobalConfiguration.Configuration.Filters);
             RegisterRoutes(RouteTable.Routes);

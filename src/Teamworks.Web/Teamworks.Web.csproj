@@ -132,7 +132,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\AttributeRoutingHttp.cs" />
-    <Compile Include="App_Start\RestApiAuthenticationConfig.cs" />
     <Compile Include="Controllers\Api\ActivitiesController.cs" />
     <Compile Include="Controllers\Api\Attribute\ExceptionAttribute.cs" />
     <Compile Include="Controllers\Api\Attribute\ModelStateAttribute.cs" />

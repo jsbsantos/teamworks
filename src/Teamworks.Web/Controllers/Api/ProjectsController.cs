@@ -8,8 +8,8 @@ using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
 using Raven.Client.Linq;
+using Teamworks.Web.Models.Api;
 using Teamworks.Web.Controllers.Api.Attribute;
-using Project = Teamworks.Web.Models.Api.Project;
 
 namespace Teamworks.Web.Controllers.Api
 {
@@ -17,6 +17,7 @@ namespace Teamworks.Web.Controllers.Api
     [RoutePrefix("api/projects")]
     public class ProjectsController : RavenApiController
     {
+        [SecureFor("/projects/view")]
         public IEnumerable<Project> Get()
         {
             var projects = DbSession.Query<Core.Project>().Include(p => p.Activities).ToList();

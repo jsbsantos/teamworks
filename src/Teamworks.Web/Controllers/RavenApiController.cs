@@ -1,7 +1,5 @@
-﻿using System.Net;
+﻿using Raven.Client;
 using System.Web.Http;
-using Raven.Client;
-
 using Teamworks.Core.Services;
 
 namespace Teamworks.Web.Controllers

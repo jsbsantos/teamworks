@@ -5,7 +5,6 @@ using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
-using System.Web.Http.Hosting;
 using Teamworks.Core;
 using Teamworks.Core.Authentication;
 using Teamworks.Core.Services;

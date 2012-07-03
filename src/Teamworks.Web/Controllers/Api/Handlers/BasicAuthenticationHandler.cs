@@ -13,7 +13,8 @@ namespace Teamworks.Web.Controllers.Api.Handlers
 {
     public class BasicAuthenticationHandler : DelegatingHandler
     {
-        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
+                                                               CancellationToken cancellationToken)
         {
             var header = request.Headers.Authorization;
             if (header != null && header.Scheme.Equals("Basic", StringComparison.OrdinalIgnoreCase))
@@ -26,7 +27,7 @@ namespace Teamworks.Web.Controllers.Api.Handlers
                     if (Global.Authentication.Basic(credentials[0], credentials[1], out person))
                     {
                         var identity = new PersonIdentity(person);
-                        Thread.CurrentPrincipal = new GenericPrincipal(identity, person.Roles.ToArray());                        
+                        Thread.CurrentPrincipal = new GenericPrincipal(identity, person.Roles.ToArray());
                     }
                 }
             }
