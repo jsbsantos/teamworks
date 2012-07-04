@@ -32,7 +32,7 @@ namespace Teamworks.Web.Controllers.Api
             var activities = DbSession.Load<Core.Activity>(project.Activities);
             return new List<Activity>(activities.Select(Mapper.Map<Core.Activity, Activity>));
         }
-
+        
         public Activity Get(int id, int projectid)
         {
             var project = DbSession
@@ -51,8 +51,8 @@ namespace Teamworks.Web.Controllers.Api
             }
             return Mapper.Map<Core.Activity, Activity>(activity);
         }
-
-        public HttpResponseMessage Post([ModelBinder(typeof (TypeConverterModelBinder))] int projectid,
+        
+        public HttpResponseMessage Post(int projectid,
                                                    Activity model)
         {
             var project = DbSession

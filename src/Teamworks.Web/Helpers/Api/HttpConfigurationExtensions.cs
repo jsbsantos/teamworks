@@ -21,6 +21,7 @@ namespace Teamworks.Web.Helpers.Api
         public static void RegisterWebApiHandlers(this HttpConfiguration configuration)
         {
             configuration.MessageHandlers.Add(new BasicAuthenticationHandler());
+            configuration.MessageHandlers.Add(new FormsAuthenticationHandler());
             configuration.MessageHandlers.Add(new UnauthorizedHandler());
             configuration.MessageHandlers.Add(new RavenHandler());
         }

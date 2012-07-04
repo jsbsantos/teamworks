@@ -43,7 +43,7 @@ TW.viewmodels.Project = function(endpoint) {
                     cache: 'false',
                     statusCode: {
                         204: /*no content*/function() {
-                            self.project.discussions.destroy(project);
+                            self.project.discussions.destroy(discussion);
                         }
                     }
                 });
@@ -80,7 +80,7 @@ TW.viewmodels.Project = function(endpoint) {
                     cache: 'false',
                     statusCode: {
                         204: /*no content*/function() {
-                            self.project.activities.destroy(project);
+                            self.project.activities.destroy(activity);
                         }
                     }
                 });

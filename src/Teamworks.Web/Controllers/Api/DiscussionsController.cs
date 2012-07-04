@@ -56,7 +56,7 @@ namespace Teamworks.Web.Controllers.Api
 
         [POST("discussions")]
         public HttpResponseMessage PostProjectDiscussion(
-            [ModelBinder(typeof (TypeConverterModelBinder))] int projectid,
+             int projectid,
             Discussion model)
         {
             var project = LoadProject(projectid);
@@ -72,8 +72,8 @@ namespace Teamworks.Web.Controllers.Api
 
         /// <see cref="http://forums.asp.net/post/4855634.aspx" />
         [PUT("discussions/{id}")]
-        public HttpResponseMessage PutProjectDiscussion([ModelBinder(typeof (TypeConverterModelBinder))] int id,
-                                                        [ModelBinder(typeof (TypeConverterModelBinder))] int projectid,
+        public HttpResponseMessage PutProjectDiscussion( int id,
+                                                         int projectid,
                                                         Discussion model)
         {
             var project = LoadProject(projectid);
@@ -109,7 +109,7 @@ namespace Teamworks.Web.Controllers.Api
 
         #region Activities Discussion
 
-        private Core.Activity LoadTask(int projectid, int taskid)
+        private Core.Activity LoadTask(int projectid, int activityid)
         {
             var project = DbSession
                 .Include<Core.Project>(p => p.Activities)
@@ -122,7 +122,7 @@ namespace Teamworks.Web.Controllers.Api
 
             var activity = DbSession
                 .Include<Core.Activity>(t => t.Discussions)
-                .Load<Core.Activity>(taskid);
+                .Load<Core.Activity>(activityid);
 
             if (activity == null || !activity.Project.Equals(project.Id))
             {
@@ -131,19 +131,19 @@ namespace Teamworks.Web.Controllers.Api
             return activity;
         }
 
-        [GET("tasks/{taskid}/discussions")]
-        public IEnumerable<DryDiscussion> GetTaskDiscussion(int projectid, int taskid)
+        [GET("activities/{activityid}/discussions")]
+        public IEnumerable<DryDiscussion> GetTaskDiscussion(int projectid, int activityid)
         {
             return
                 new List<DryDiscussion>(
-                    DbSession.Load<Core.Discussion>(LoadTask(projectid, taskid).Discussions).Select(
+                    DbSession.Load<Core.Discussion>(LoadTask(projectid, activityid).Discussions).Select(
                         Mapper.Map<Core.Discussion, DryDiscussion>));
         }
 
-        [GET("tasks/{taskid}/discussions/{id}")]
-        public Discussion GetTaskDiscussion(int id, int projectid, int taskid)
+        [GET("activities/{activityid}/discussions/{id}")]
+        public Discussion GetTaskDiscussion(int id, int projectid, int activityid)
         {
-            var task = LoadTask(projectid, taskid);
+            var task = LoadTask(projectid, activityid);
             var topic = DbSession.Load<Core.Discussion>(id);
             if (topic == null || !topic.Entity.Equals(task.Id))
             {
@@ -152,13 +152,13 @@ namespace Teamworks.Web.Controllers.Api
             return Mapper.Map<Core.Discussion, Discussion>(topic);
         }
 
-        [POST("tasks/{taskid}/discussions/")]
+        [POST("activities/{activityid}/discussions/")]
         public HttpResponseMessage PostTaskDiscussion(
-            [ModelBinder(typeof (TypeConverterModelBinder))] int projectid,
-            [ModelBinder(typeof (TypeConverterModelBinder))] int taskid,
+             int projectid,
+             int activityid,
             Discussion model)
         {
-            var task = LoadTask(projectid, taskid);
+            var task = LoadTask(projectid, activityid);
 
             Core.Discussion discussion = Core.Discussion.Forge(model.Name, model.Content, task.Id, Request.GetCurrentPersonId());
             DbSession.Store(discussion);
@@ -169,13 +169,13 @@ namespace Teamworks.Web.Controllers.Api
         }
 
         /// <see cref="http://forums.asp.net/post/4855634.aspx" />
-        [PUT("tasks/{taskid}/discussions/{id}")]
-        public HttpResponseMessage PutTaskDiscussion([ModelBinder(typeof (TypeConverterModelBinder))] int id,
-                                                     [ModelBinder(typeof (TypeConverterModelBinder))] int projectid,
-                                                     [ModelBinder(typeof (TypeConverterModelBinder))] int taskid,
+        [PUT("activities/{activityid}/discussions/{id}")]
+        public HttpResponseMessage PutTaskDiscussion( int id,
+                                                      int projectid,
+                                                      int activityid,
                                                      Message model)
         {
-            var task = LoadTask(projectid, taskid);
+            var task = LoadTask(projectid, activityid);
             var discussion = DbSession.Load<Core.Discussion>(id);
             if (discussion == null || !discussion.Entity.Equals(task.Id))
             {
@@ -188,10 +188,10 @@ namespace Teamworks.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.Created, response);
         }
 
-        [DELETE("tasks/{taskid}/discussions/{id}")]
-        public HttpResponseMessage DeleteTaskDiscussion(int id, int projectid, int taskid)
+        [DELETE("activities/{activityid}/discussions/{id}")]
+        public HttpResponseMessage DeleteTaskDiscussion(int id, int projectid, int activityid)
         {
-            var task = LoadTask(projectid, taskid);
+            var task = LoadTask(projectid, activityid);
             var discussion = DbSession.Load<Core.Discussion>(id);
             if (discussion == null || !discussion.Entity.Equals(task.Id))
             {

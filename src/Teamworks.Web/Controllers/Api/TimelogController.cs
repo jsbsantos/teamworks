@@ -41,8 +41,8 @@ namespace Teamworks.Web.Controllers.Api
         }
 
         public HttpResponseMessage Post(
-            [ModelBinder(typeof (TypeConverterModelBinder))] int projectid,
-            [ModelBinder(typeof(TypeConverterModelBinder))] int activityid,
+             int projectid,
+             int activityid,
             Timelog model)
         {
             var project = DbSession
@@ -75,8 +75,8 @@ namespace Teamworks.Web.Controllers.Api
         }
 
         /// <see cref="http://forums.asp.net/post/4855634.aspx" />
-        public HttpResponseMessage Put([ModelBinder(typeof(TypeConverterModelBinder))] int activityid,
-                                       [ModelBinder(typeof (TypeConverterModelBinder))] int projectid,
+        public HttpResponseMessage Put( int activityid,
+                                        int projectid,
                                        Timelog model)
         {
             var project = DbSession

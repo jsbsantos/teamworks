@@ -12,12 +12,11 @@ using Teamworks.Web.Models.Api;
 
 namespace Teamworks.Web.Controllers.Api
 {
-    [RoutePrefix("api")]
     public class PeopleController : RavenApiController
     {
         #region General
         //todo unbound (limited by raven) result set - page results?
-        [GET("people")]
+        [GET("api/people")]
         public IEnumerable<Person> GetPeople()
         {
             return new List<Person>(
@@ -46,7 +45,7 @@ namespace Teamworks.Web.Controllers.Api
 
         [POST("projects/{projectid}/people/{name}")]
         public HttpResponseMessage PostProjectPeople(
-            [ModelBinder(typeof (TypeConverterModelBinder))] int projectid,
+             int projectid,
             string name)
         {
             var project = DbSession.Load<Core.Project>(projectid);
@@ -86,8 +85,8 @@ namespace Teamworks.Web.Controllers.Api
 
         [POST("task/{taskid}/people/{name}")]
         public HttpResponseMessage PostTaskPeople(
-            [ModelBinder(typeof (TypeConverterModelBinder))] int projectid,
-            [ModelBinder(typeof (TypeConverterModelBinder))] int taskid,
+             int projectid,
+             int taskid,
             string name)
         {
             var task = DbSession.Load<Core.Activity>(taskid);
