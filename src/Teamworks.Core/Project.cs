@@ -6,8 +6,9 @@ namespace Teamworks.Core
     {
         public bool Archived { get; set; }
         public string Description { get; set; }
-        public IList<string> Activities { get; set; }
+        
         public IList<string> People { get; set; }
+        public IList<string> Activities { get; set; }
         public IList<string> Discussions { get; set; }
         
         public static Project Forge(string name, string description)

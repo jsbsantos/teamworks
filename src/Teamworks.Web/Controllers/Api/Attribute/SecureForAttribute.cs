@@ -19,10 +19,8 @@ namespace Teamworks.Web.Controllers.Api.Attribute
         public override void OnAuthorization(HttpActionContext context)
         {
             var id = context.Request.GetCurrentPersonId();
-            Debug.Print(id ?? "Person is NULL.");
-            if (id != null)
+            if (!string.IsNullOrEmpty(id))
             {
-                
                 var session = Global.Database.CurrentSession;
                 session.SecureFor(id, Operation);
             }

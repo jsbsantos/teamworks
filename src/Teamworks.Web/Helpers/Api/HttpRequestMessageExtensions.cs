@@ -1,5 +1,7 @@
-﻿using System.Net.Http;
+﻿using System.Net;
+using System.Net.Http;
 using System.Threading;
+using System.Web.Http;
 using Teamworks.Core;
 using Teamworks.Core.Authentication;
 
@@ -25,6 +27,11 @@ namespace Teamworks.Web.Helpers.Api
         {
             var person = GetCurrentPerson(request);
             return person == null ? "" : person.Id;
+        }
+
+        public static void NotFound(this HttpRequestMessage request)
+        {
+            throw new HttpResponseException(request.CreateResponse(HttpStatusCode.NotFound));
         }
     }
 }

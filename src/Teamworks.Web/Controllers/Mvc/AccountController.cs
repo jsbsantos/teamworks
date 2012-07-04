@@ -1,6 +1,8 @@
-﻿using System.Dynamic;
+﻿using System.Collections.Generic;
+using System.Dynamic;
 using System.Web.Mvc;
 using System.Web.Security;
+using Raven.Bundles.Authorization.Model;
 using Teamworks.Core.Authentication;
 using Teamworks.Core.Services;
 using Teamworks.Web.Models.Mvc;
@@ -76,9 +78,22 @@ namespace Teamworks.Web.Controllers.Mvc
             {
                 return View();
             }
+            
+            var person = DbSession.Load<Core.Person>("people/" + register.Username);
+            if (person != null)
+            {
+                ModelState.AddModelError("model.unique", "The username you specified already exists in the system");
+                return View();
+            }
 
-            Core.Person person = Core.Person.Forge(register.Email, register.Username, register.Password);
+            person = Core.Person.Forge(register.Email, register.Username, register.Password);
             DbSession.Store(person);
+            person.Permissions.Add(new OperationPermission
+                                       {
+                                           Allow = true,
+                                           Operation = "/",
+                                           Tags = { person.Id }
+                                       });
             return RedirectToAction("View", "Home");
         }
     }
