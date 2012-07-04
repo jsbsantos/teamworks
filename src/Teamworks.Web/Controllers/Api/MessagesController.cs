@@ -36,7 +36,7 @@ namespace Teamworks.Web.Controllers.Api
 
             return topic;
         }
-
+        
         [GET("discussions/{discussionid}/messages")]
         public IEnumerable<Message> GetProjectDiscussionMessage(int projectid, int discussionid)
         {

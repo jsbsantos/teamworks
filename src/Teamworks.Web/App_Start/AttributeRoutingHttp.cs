@@ -1,6 +1,7 @@
 using System.Reflection;
 using System.Web.Routing;
 using AttributeRouting.Web.Http.WebHost;
+using Teamworks.Web.Controllers.Api;
 
 [assembly: WebActivator.PreApplicationStartMethod(typeof(Teamworks.Web.App_Start.AttributeRoutingHttp), "Start")]
 namespace Teamworks.Web.App_Start {
@@ -13,6 +14,8 @@ namespace Teamworks.Web.App_Start {
             routes.MapHttpAttributeRoutes(c =>
                                               {
                                                   c.ScanAssembly(Assembly.GetExecutingAssembly());
+                                                  c.AddRoutesFromController<ProjectsController>();
+                                                  c.AddRoutesFromController<MessagesController>();
                                                   c.UseLowercaseRoutes = true;
                                               });
 		}

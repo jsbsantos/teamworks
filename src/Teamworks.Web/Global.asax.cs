@@ -1,5 +1,6 @@
 using System;
 using System.Net;
+using System.Reflection;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -7,7 +8,9 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using Teamworks.Core.Authentication;
 using Teamworks.Core.Services;
+using Teamworks.Web.App_Start;
 using Teamworks.Web.Controllers.Api.Attribute;
+using Teamworks.Web.Controllers.Mvc;
 using Teamworks.Web.Controllers.Mvc.Attributes;
 using Teamworks.Web.Helpers;
 using Teamworks.Web.Helpers.Api;
@@ -37,7 +40,7 @@ namespace Teamworks.Web
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-
+            
             routes.MapRoute(
                  name: "",
                  url: "projects/{projectid}/{controller}/{identifier}",

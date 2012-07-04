@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web.Http;
 using System.Web.Http.ModelBinding;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
@@ -17,7 +18,8 @@ namespace Teamworks.Web.Controllers.Api
     [RoutePrefix("api/mailgun")]
     public class MailgunController : RavenApiController
     {
-        public HttpResponseMessage Post([ModelBinder(typeof (MailgunModelBinderProvider))]Mailgun model)
+        //[ModelBinder(typeof(MailgunModelBinderProvider))]
+        public HttpResponseMessage Post([ModelBinder(typeof(MailgunModelBinderProvider))]Mailgun model)
         {
             var person = DbSession.Query<Core.Person>().FirstOrDefault(p => p.Email == model.Sender);
             

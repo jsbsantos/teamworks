@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using Teamworks.Core;
@@ -9,6 +11,11 @@ namespace Teamworks.Web.Helpers.Teamworks
 {
     public static class DiscussionExtensions
     {
+        public static Dictionary<string, string> ToDictionary(this NameValueCollection source)
+        {
+            return source.Cast<string>().Select(s => new { Key = s, Value = source[s] }).ToDictionary(p => p.Key, p => p.Value);
+        }
+
         public static void Notify(this Discussion thread, Message message)
         {
             var emails = Global.Database.CurrentSession.Load<Person>(thread.Subscribers)
@@ -23,7 +30,7 @@ namespace Teamworks.Web.Helpers.Teamworks
                     notifications.Append(";");
                 }
 
-                var id = string.Format("{0}.{1}.{2}@teamworks.mailgun.org",
+                var id = String.Format("{0}.{1}.{2}@teamworks.mailgun.org",
                                        thread.Identifier, message.Id, DateTime.Now.ToString("yyyymmddhhMMss"));
 
                 message.Reply = MailHub.Send(MailgunConfiguration.Host,

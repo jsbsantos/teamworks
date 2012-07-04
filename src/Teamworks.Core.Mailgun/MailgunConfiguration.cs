@@ -18,7 +18,7 @@ namespace Teamworks.Core.Mailgun
             set { _user = value; }
         }
 
-        private static string _pwd = "key-20kdn4zyszbkxvk63baq02sxppv2a4n5";
+        private static string _pwd = "key-5opux2qii1iwgi-ityrwigh3g2zn31i5";
 
         public static string Password
         {
