@@ -19,7 +19,20 @@ namespace Teamworks.Web.Controllers.Api
     public class MailgunController : RavenApiController
     {
         //[ModelBinder(typeof(MailgunModelBinderProvider))]
-        public HttpResponseMessage Post([ModelBinder(typeof(MailgunModelBinderProvider))]Mailgun model)
+        [POST("teste")]
+        public HttpResponseMessage PostAll([ModelBinder(typeof(MailgunModelBinderProvider))]Mailgun model)
+        {
+            return new HttpResponseMessage(HttpStatusCode.OK);
+        }
+
+        [POST("create")]
+        public HttpResponseMessage PostCreate([ModelBinder(typeof(MailgunModelBinderProvider))]Mailgun model)
+        {
+            return new HttpResponseMessage(HttpStatusCode.OK);
+        }
+
+        [POST("reply")]
+        public HttpResponseMessage PostReply([ModelBinder(typeof(MailgunModelBinderProvider))]Mailgun model)
         {
             var person = DbSession.Query<Core.Person>().FirstOrDefault(p => p.Email == model.Sender);
             

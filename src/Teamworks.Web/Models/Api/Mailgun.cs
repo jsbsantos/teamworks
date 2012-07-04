@@ -36,7 +36,7 @@ namespace Teamworks.Web.Models.Api
 
         public string Reply
         {
-            get { return this["references"].Split(new [] {'\t'})[0]; }
+            get { return this["references"] != null ? this["references"].Split(new [] {'\t'})[0] : string.Empty; }
             set { this["references"] = value; }
         }
     }

@@ -176,6 +176,7 @@
     <Compile Include="Helpers\Mappers.cs" />
     <Compile Include="Helpers\Mvc\BundleExtensions.cs" />
     <Compile Include="Helpers\Mvc\HttpContextExtensions.cs" />
+    <Compile Include="Helpers\Teamworks\NameValueCollectionExtensions.cs" />
     <Compile Include="Helpers\Teamworks\DiscussionExtensions.cs" />
     <Compile Include="Helpers\Teamworks\EntityExtensions.cs" />
     <Compile Include="Models\Api\Activity.cs" />
