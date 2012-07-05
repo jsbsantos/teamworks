@@ -13,7 +13,7 @@ namespace Teamworks.Web.Helpers.Teamworks
     {
         public static Dictionary<string, string> ToDictionary(this NameValueCollection source)
         {
-            return source.Cast<string>().Select(s => new { Key = s, Value = source[s] }).ToDictionary(p => p.Key, p => p.Value);
+            return source.Cast<string>().Select(s => new { Key = s, Value = source.GetValues(s)[0] }).ToDictionary(p => p.Key, p => p.Value);
         }
     }
 }

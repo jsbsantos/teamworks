@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Teamworks.Web.Test", "test\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Teamworks.Web", "src\Teamworks.Web\Teamworks.Web.csproj", "{B7D11025-5FD5-4AE3-92F8-CC31873449E6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Teamworks.Core.Oauth2", "Teamworks.Core.Oauth2\Teamworks.Core.Oauth2.csproj", "{8FADCE95-A16E-42E3-8BFA-06C8006FB8BD}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Teamworks.vsmdi
@@ -98,6 +100,16 @@ Global
 		{B7D11025-5FD5-4AE3-92F8-CC31873449E6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{B7D11025-5FD5-4AE3-92F8-CC31873449E6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{B7D11025-5FD5-4AE3-92F8-CC31873449E6}.Release|x86.ActiveCfg = Release|Any CPU
+		{8FADCE95-A16E-42E3-8BFA-06C8006FB8BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FADCE95-A16E-42E3-8BFA-06C8006FB8BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FADCE95-A16E-42E3-8BFA-06C8006FB8BD}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{8FADCE95-A16E-42E3-8BFA-06C8006FB8BD}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{8FADCE95-A16E-42E3-8BFA-06C8006FB8BD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8FADCE95-A16E-42E3-8BFA-06C8006FB8BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FADCE95-A16E-42E3-8BFA-06C8006FB8BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FADCE95-A16E-42E3-8BFA-06C8006FB8BD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{8FADCE95-A16E-42E3-8BFA-06C8006FB8BD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{8FADCE95-A16E-42E3-8BFA-06C8006FB8BD}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -108,6 +120,7 @@ Global
 		{C85D88CF-7DA3-4628-99FA-D5D570FCE940} = {FFC7F3A0-ABC9-47F7-8A53-AD0138F892DB}
 		{0A3B8E1C-38D0-4996-91D7-CE9EF96D5275} = {FFC7F3A0-ABC9-47F7-8A53-AD0138F892DB}
 		{B7D11025-5FD5-4AE3-92F8-CC31873449E6} = {FFC7F3A0-ABC9-47F7-8A53-AD0138F892DB}
+		{8FADCE95-A16E-42E3-8BFA-06C8006FB8BD} = {FFC7F3A0-ABC9-47F7-8A53-AD0138F892DB}
 		{EF081F34-339E-434C-A8D9-59E8345380EC} = {A6ED9F7B-FE71-4728-A36B-A62B44B15A90}
 	EndGlobalSection
 EndGlobal

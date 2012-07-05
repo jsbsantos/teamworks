@@ -51,6 +51,9 @@
                 </form>
             </div>
             <div class="span12" data-bind="template: { name: 'discussion-template', foreach: project.discussions }"></div>
+
+            <div class="span12">Endereço para criação de discussões: 
+            <a data-bind="text: 'tw+' + project.token() + '@@teamworks.mailgun.org', attr: { href: 'mailto:tw+' + project.token() + '@@teamworks.mailgun.org' }"></a></div>
             
             <script type="text/html" id="discussion-template">
                 <div class="clearfix">

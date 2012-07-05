@@ -17,5 +17,7 @@ namespace Teamworks.Web.Models.Api
         public ICollection<Person> People { get; set; }
         public ICollection<Activity> Activities { get; set; }
         public ICollection<Discussion> Discussions { get; set; }
+
+        public string Token { get; set; }
     }
 }

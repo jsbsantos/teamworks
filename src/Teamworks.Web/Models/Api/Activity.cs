@@ -15,5 +15,7 @@ namespace Teamworks.Web.Models.Api
         public ICollection<Timelog> Timelogs { get; set; }
         public IList<string> Discussions { get; set; }
         public IList<string> People { get; set; }
+
+        public string Token { get; set; }
     }
 }

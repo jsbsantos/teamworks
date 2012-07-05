@@ -11,6 +11,7 @@ TW.viewmodels.models.Project = function(data) {
         self.id(data.id);
         self.name(data.name);
         self.description(data.description);
+        self.token(data.token);
 
         self.discussions($.map(data.discussions || { }, function(item) {
             return new TW.viewmodels.models.Discussion(item);
@@ -24,6 +25,7 @@ TW.viewmodels.models.Project = function(data) {
     self.id = ko.observable();
     self.name = ko.observable();
     self.description = ko.observable();
+    self.token = ko.observable();
 
     self.activities = ko.observableArray([]);
     self.discussions = ko.observableArray([]);
@@ -82,6 +84,7 @@ TW.viewmodels.models.Activity = function(data) {
         self.id(data.id);
         self.name(data.name);
         self.description(data.description);
+        self.token(data.token);
 
         self.timelogs($.map(data.timelogs || { }, function(item) {
             return new TW.viewmodels.models.Timelog(item);
@@ -91,6 +94,7 @@ TW.viewmodels.models.Activity = function(data) {
     self.id = ko.observable();
     self.name = ko.observable();
     self.description = ko.observable();
+    self.token = ko.observable();
     self.timelogs = ko.observableArray([]);
 
     self.clear = function() {

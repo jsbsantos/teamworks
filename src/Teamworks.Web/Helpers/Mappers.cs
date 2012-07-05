@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using AutoMapper;
 using Teamworks.Core.Services;
 using Teamworks.Web.Helpers.Teamworks;
@@ -32,7 +33,9 @@ namespace Teamworks.Web.Helpers
                            opt.MapFrom(
                                src =>
                                Mapper.Map<IList<Core.Discussion>, IList<Discussion>>(
-                                   Global.Database.CurrentSession.Load<Core.Discussion>(src.Discussions))));
+                                   Global.Database.CurrentSession.Load<Core.Discussion>(src.Discussions))))
+                .ForMember(src => src.Token,
+                opt => opt.MapFrom(src => src.Token(Global.CurrentPerson.Id.Replace("people/",""))));
 
             Mapper.CreateMap<Core.Project, DryProject>()
                 .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier));
