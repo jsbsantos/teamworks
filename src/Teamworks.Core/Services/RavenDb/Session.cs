@@ -1,8 +1,6 @@
 using System;
 using Raven.Client;
 using Raven.Client.Document;
-using Raven.Client.Indexes;
-using Teamworks.Core.Services.RavenDb.Indexes;
 using Teamworks.Core.Services.Storage;
 
 namespace Teamworks.Core.Services.RavenDb

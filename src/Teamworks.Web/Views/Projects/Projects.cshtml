@@ -27,6 +27,9 @@
             </form>
             <h2 class="inline"><a data-bind="text: name, attr: { href: '/projects/' + id() }"></a></h2>
             <span class="inline" data-bind="text: description"></span>
+            <div data-bind="foreach: people">
+                <img rel="tooltip-bottom" data-bind="attr: { src: gravatar_url, 'title': name }" />
+            </div>
         </article>
     </script>
 

@@ -1,8 +1,9 @@
 /// <reference path="~/Content/js/libs/jquery-1.7.2.min.js" />
 /// <reference path="~/Content/js/libs/knockout-2.0.0.js" />
 
-(function () {
+var TW = TW || {};
 
+(function () {
     if (!String.prototype.trim) {
         String.prototype.trim = function () {
             return this.replace(/^\s+|\s+$/g, '');
@@ -61,8 +62,15 @@
     };
 } ());
 
-var TW = TW || {};
-TW.app = TW.app || {};
+(function(tw) {
+    tw.app = TW.app || {};
 
-TW.app.ready = ko.observable(false);
-TW.app.alerts = ko.observableArray([]);
+    tw.app.ready = ko.observable(false);
+    tw.app.alerts = ko.observableArray([]);
+
+    tw.helpers = TW.helpers || {};
+    tw.helpers.md5 = CryptoJS.MD5;
+}(TW));
+
+
+

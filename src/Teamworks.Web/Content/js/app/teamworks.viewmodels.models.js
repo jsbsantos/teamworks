@@ -13,6 +13,10 @@ TW.viewmodels.models.Project = function(data) {
         self.description(data.description);
         self.token(data.token);
 
+        self.people($.map(data.people || {}, function (item) {
+            return new TW.viewmodels.models.Person(item);
+        }));
+
         self.discussions($.map(data.discussions || { }, function(item) {
             return new TW.viewmodels.models.Discussion(item);
         }));
@@ -27,6 +31,7 @@ TW.viewmodels.models.Project = function(data) {
     self.description = ko.observable();
     self.token = ko.observable();
 
+    self.people = ko.observableArray([]);
     self.activities = ko.observableArray([]);
     self.discussions = ko.observableArray([]);
     self.clear = function() {
@@ -103,9 +108,9 @@ TW.viewmodels.models.Activity = function(data) {
     self.load(data || { });
 };
 
-TW.viewmodels.models.Person = function(data) {
+TW.viewmodels.models.Person = function (data) {
     var self = this;
-    self.load = function(data) {
+    self.load = function (data) {
         self.id(data.id);
         self.name(data.name);
         self.username(data.username);
@@ -116,11 +121,14 @@ TW.viewmodels.models.Person = function(data) {
     self.name = ko.observable();
     self.username = ko.observable();
     self.email = ko.observable();
+    self.gravatar_url = ko.computed(function () {
+        return '//www.gravatar.com/avatar/' + TW.helpers.md5((self.email() || "").trim()) + '?s=32&d=mm&r=g';
+    });
 
-    self.clear = function() {
-        self.load({ });
+    self.clear = function () {
+        self.load({});
     };
-    self.load(data || { });
+    self.load(data || {});
 };
 
 TW.viewmodels.models.Timelog = function (data) {

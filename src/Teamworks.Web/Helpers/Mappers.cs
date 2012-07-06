@@ -39,12 +39,8 @@ namespace Teamworks.Web.Helpers
                            opt.MapFrom(
                                src =>
                                Mapper.Map<IList<Core.Person>, IList<Person>>(
-                                   Global.Database.CurrentSession.Load<Core.Person>(src.People))));
-
-                               Mapper.Map<IList<Core.Discussion>, IList<Discussion>>(
-                                   Global.Database.CurrentSession.Load<Core.Discussion>(src.Discussions))))
-                .ForMember(src => src.Token,
-                opt => opt.MapFrom(src => src.Token(Global.CurrentPerson.Id.Replace("people/",""))));
+                                  Global.Database.CurrentSession.Load<Core.Person>(src.People))))
+                .ForMember(src => src.Token, opt => opt.MapFrom(src => src.Token(Global.CurrentPerson.Id)));
 
 				Mapper.CreateMap<Core.Project, DryProject>()
                 .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier));

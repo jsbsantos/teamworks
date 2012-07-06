@@ -1,6 +1,7 @@
 using System.Threading;
 using System.Security.Principal;
 using Teamworks.Core.Authentication;
+using Teamworks.Core.Services.RavenDb;
 
 namespace Teamworks.Core.Services
 {

@@ -9,5 +9,10 @@
         !$.isEmptyObject(TW.app) && ko.applyBindings(TW.app);
     }
     TW.app.ready(true);
+
+    $('body').tooltip({
+       placement: 'bottom',
+       selector: '[rel="tooltip-bottom"]'
+    });
 })();
 
