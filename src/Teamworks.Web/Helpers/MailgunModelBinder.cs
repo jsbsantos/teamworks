@@ -14,24 +14,6 @@ namespace Teamworks.Web.Helpers
 {
     public class MailgunModelBinder : IModelBinder
     {
-
-        //public bool BindModel(HttpActionContext actionContext, ModelBindingContext bindingContext)
-        //{
-        //    if (actionContext.RequestContentKeyValueModel != null)
-        //    {
-        //        var model = new MailgunModel();
-        //        foreach (var key in actionContext.RequestContentKeyValueModel.Keys)
-        //        {
-        //            model[key.ToLower()] = bindingContext.ValueProvider.GetValue(key).AttemptedValue;
-        //        }
-        //        bindingContext.Model = model;
-        //        return true;
-        //    }
-
-        //    return false;
-        //}
-
-       
         public bool BindModel(HttpActionContext actionContext, ModelBindingContext bindingContext)
         {
             var content = HttpUtility.ParseQueryString(actionContext.Request.Content.ReadAsStringAsync().Result);

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using AutoMapper;
 using Teamworks.Core.Services;
 using Teamworks.Web.Helpers.Teamworks;
@@ -40,9 +41,13 @@ namespace Teamworks.Web.Helpers
                                Mapper.Map<IList<Core.Person>, IList<Person>>(
                                    Global.Database.CurrentSession.Load<Core.Person>(src.People))));
 
-            Mapper.CreateMap<Core.Project, DryProject>()
-                .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier));
+                               Mapper.Map<IList<Core.Discussion>, IList<Discussion>>(
+                                   Global.Database.CurrentSession.Load<Core.Discussion>(src.Discussions))))
+                .ForMember(src => src.Token,
+                opt => opt.MapFrom(src => src.Token(Global.CurrentPerson.Id.Replace("people/",""))));
 
+				Mapper.CreateMap<Core.Project, DryProject>()
+                .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier));
             #endregion
 
             #region Activities Mappings

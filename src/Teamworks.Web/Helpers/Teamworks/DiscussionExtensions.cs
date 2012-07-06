@@ -11,11 +11,6 @@ namespace Teamworks.Web.Helpers.Teamworks
 {
     public static class DiscussionExtensions
     {
-        public static Dictionary<string, string> ToDictionary(this NameValueCollection source)
-        {
-            return source.Cast<string>().Select(s => new { Key = s, Value = source[s] }).ToDictionary(p => p.Key, p => p.Value);
-        }
-
         public static void Notify(this Discussion thread, Message message)
         {
             var emails = Global.Database.CurrentSession.Load<Person>(thread.Subscribers)

@@ -64,7 +64,7 @@ namespace Teamworks.Web.Controllers.Api
             var value = Mapper.Map<Core.Project, Project>(project);
             var response = Request.CreateResponse(HttpStatusCode.Created, value);
 
-            var uri = Request.RequestUri.Authority + Url.Route(null, new {id = project.Id});
+            var uri = Uri.UriSchemeHttp + Uri.SchemeDelimiter + Request.RequestUri.Authority + Url.Route(null, new { id = project.Id });
             response.Headers.Location = new Uri(uri);
             return response;
         }
