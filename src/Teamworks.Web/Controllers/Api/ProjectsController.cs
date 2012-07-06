@@ -22,7 +22,9 @@ namespace Teamworks.Web.Controllers.Api
         public IEnumerable<Project> Get()
         {
             var projects = DbSession.Query<Core.Project>()
-                .Customize(q => q.Include<Core.Project>(p => p.Activities))
+                .Customize(q => q.Include<Core.Project>(p => p.Activities)
+                    .Include<Core.Project>(p => p.Discussions)
+                    .Include<Core.Project>(p => p.People))
                 .ToList();
 
             return Mapper.Map<IEnumerable<Core.Project>, IEnumerable<Project>>(projects);
@@ -31,7 +33,10 @@ namespace Teamworks.Web.Controllers.Api
         [SecureFor("/projects")]
         public Project Get(int id)
         {
-            var project = DbSession.Include<Core.Project>(p => p.Activities)
+            var project = DbSession
+                .Include<Core.Project>(p => p.Discussions)
+                .Include<Core.Project>(p => p.Activities)
+                .Include<Core.Project>(p => p.People)
                 .Load<Core.Project>(id);
             
             return Mapper.Map<Core.Project, Project>(project);
@@ -46,10 +51,16 @@ namespace Teamworks.Web.Controllers.Api
             DbSession.SetAuthorizationFor(project,
                                           new DocumentAuthorization()
                                               {
-                                                  Tags = {Request.GetCurrentPersonId()}
+                                                  Permissions = { new DocumentPermission()
+                                                                      {
+                                                                          Allow = true,
+                                                                          Operation = "/project",
+                                                                          User = Request.GetCurrentPersonId()
+                                                                      }},
+                                                  Tags = new List<string>()
                                               });
 
-
+            project.People.Add(Request.GetCurrentPersonId());
             var value = Mapper.Map<Core.Project, Project>(project);
             var response = Request.CreateResponse(HttpStatusCode.Created, value);
 
@@ -89,8 +100,14 @@ namespace Teamworks.Web.Controllers.Api
             }
 
             var authorization = DbSession.GetAuthorizationFor(project);
-            authorization.Tags.Add(person.Id);
+            authorization.Permissions.Add(new DocumentPermission()
+                                              {
+                                                  Allow = true,
+                                                  Operation = "/project",
+                                                  User = person.Id
+                                              });
             DbSession.SetAuthorizationFor(project, authorization);
+            project.People.Add(Request.GetCurrentPersonId());
 
             return Request.CreateResponse(HttpStatusCode.NoContent);
         }
@@ -108,9 +125,12 @@ namespace Teamworks.Web.Controllers.Api
             {
                 Request.NotFound();
             }
-            var person = DbSession.Load<Core.Person>(personid);
+
             var authorization = DbSession.GetAuthorizationFor(project);
-            if (!authorization.Tags.Remove(person.Id))
+            var permission = authorization.Permissions
+                .SingleOrDefault(p => p.User.Equals(personid));
+
+            if (permission == null || !authorization.Permissions.Remove(permission))
             {
                 Request.NotFound();
             }

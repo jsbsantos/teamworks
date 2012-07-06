@@ -21,18 +21,24 @@ namespace Teamworks.Web.Helpers
             Mapper.CreateMap<Project, Core.Project>();
             Mapper.CreateMap<Core.Project, Project>()
                 .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier))
+                .ForMember(src => src.Discussions,
+                           opt =>
+                           opt.MapFrom(
+                               src =>
+                               Mapper.Map<IList<Core.Discussion>, IList<Discussion>>(
+                                   Global.Database.CurrentSession.Load<Core.Discussion>(src.Discussions))))
                 .ForMember(src => src.Activities,
                            opt =>
                            opt.MapFrom(
                                src =>
                                Mapper.Map<IList<Core.Activity>, IList<Activity>>(
                                    Global.Database.CurrentSession.Load<Core.Activity>(src.Activities))))
-                .ForMember(src => src.Discussions,
+                .ForMember(src => src.People,
                            opt =>
                            opt.MapFrom(
                                src =>
-                               Mapper.Map<IList<Core.Discussion>, IList<Discussion>>(
-                                   Global.Database.CurrentSession.Load<Core.Discussion>(src.Discussions))));
+                               Mapper.Map<IList<Core.Person>, IList<Person>>(
+                                   Global.Database.CurrentSession.Load<Core.Person>(src.People))));
 
             Mapper.CreateMap<Core.Project, DryProject>()
                 .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier));
@@ -56,7 +62,8 @@ namespace Teamworks.Web.Helpers
             Mapper.CreateMap<Timelog, Core.Timelog>();
             Mapper.CreateMap<Core.Timelog, Timelog>()
                 .ForMember(src => src.Date, opt => opt.MapFrom(src => src.Date.ToString("yyyy-MM-ddTHH:mm:ssZ")))
-                .ForMember(src => src.Person, opt => opt.MapFrom(src => Global.Database.CurrentSession.Load<Core.Person>(src.Person)));
+                .ForMember(src => src.Person,
+                           opt => opt.MapFrom(src => Global.Database.CurrentSession.Load<Core.Person>(src.Person)));
 
             #endregion
 
@@ -69,7 +76,8 @@ namespace Teamworks.Web.Helpers
                            opt =>
                            opt.MapFrom(
                                src =>
-                               Mapper.Map<Core.Person, DryPerson>(Global.Database.CurrentSession.Load<Core.Person>(src.Person))));
+                               Mapper.Map<Core.Person, DryPerson>(
+                                   Global.Database.CurrentSession.Load<Core.Person>(src.Person))));
 
             Mapper.CreateMap<Discussion, Core.Discussion>();
             Mapper.CreateMap<Core.Discussion, Discussion>()
@@ -78,7 +86,8 @@ namespace Teamworks.Web.Helpers
                            opt =>
                            opt.MapFrom(
                                src =>
-                               Mapper.Map<Core.Person, DryPerson>(Global.Database.CurrentSession.Load<Core.Person>(src.Person))));
+                               Mapper.Map<Core.Person, DryPerson>(
+                                   Global.Database.CurrentSession.Load<Core.Person>(src.Person))));
 
             #endregion
 
@@ -93,7 +102,8 @@ namespace Teamworks.Web.Helpers
                            opt =>
                            opt.MapFrom(
                                src =>
-                               Mapper.Map<Core.Person, DryPerson>(Global.Database.CurrentSession.Load<Core.Person>(src.Person))));
+                               Mapper.Map<Core.Person, DryPerson>(
+                                   Global.Database.CurrentSession.Load<Core.Person>(src.Person))));
 
             #endregion
 

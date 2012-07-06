@@ -70,11 +70,13 @@
     <Compile Include="People\TodoList.cs" />
     <Compile Include="Projects\Event.cs" />
     <Compile Include="Message.cs" />
+    <Compile Include="Services\RavenDb\Indexes\People_PersonByUsernameOrEmal.cs" />
+    <Compile Include="Services\RavenDb\PersonQueryListenter.cs" />
+    <Compile Include="Services\RavenDb\Session.cs" />
     <Compile Include="Services\Storage\IStorage.cs" />
     <Compile Include="Timelog.cs" />
     <Compile Include="Services\Global.cs" />
     <Compile Include="Authentication\IAuthenticator.cs" />
-    <Compile Include="Services\RavenDb.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Extensions\Validator.cs" />
     <Compile Include="Services\Storage\Local.cs" />

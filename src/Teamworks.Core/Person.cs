@@ -21,7 +21,6 @@ namespace Teamworks.Core
             string salt = GenSalt();
             return new Person
                        {
-                           Id = "people/" + username,
                            Salt = salt,
                            Email = email,
                            Name = username,

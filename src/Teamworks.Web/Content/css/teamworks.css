@@ -21,3 +21,7 @@ div.global-messages {
 div.global-messages p {
     margin: 0;
 }
+
+.btn [class^="icon-"], .btn [class*=" icon-"] {
+    font-size: 1.3em;
+}

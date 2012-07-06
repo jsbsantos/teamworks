@@ -1,28 +1,31 @@
 using System;
 using Raven.Client;
 using Raven.Client.Document;
+using Raven.Client.Indexes;
+using Teamworks.Core.Services.RavenDb.Indexes;
 using Teamworks.Core.Services.Storage;
 
-namespace Teamworks.Core.Services
+namespace Teamworks.Core.Services.RavenDb
 {
-    public class RavenDb
+    public class Session
     {
         private const string Key = "RAVEN_CURRENT_SESSION_KEY";
 
-        private static readonly Lazy<RavenDb> _instance =
-            new Lazy<RavenDb>(() => new RavenDb());
+        private static readonly Lazy<Session> _instance =
+            new Lazy<Session>(() => new Session());
 
         public readonly IDocumentStore Store;
 
-        private RavenDb()
+        private Session()
         {
             Store = new DocumentStore
                         {
                             ConnectionStringName = "RavenDB"
-                        }.Initialize();
+                        }.RegisterListener(new PersonQueryListenter())
+                        .Initialize();
         }
 
-        public static RavenDb Instance
+        public static Session Instance
         {
             get { return _instance.Value; }
         }

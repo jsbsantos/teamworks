@@ -1,4 +1,5 @@
 ﻿using Teamworks.Core.Authentication;
+using Teamworks.Core.Services.RavenDb;
 
 namespace Teamworks.Core.Services
 {
@@ -9,9 +10,9 @@ namespace Teamworks.Core.Services
             get { return AuthenticatorFactory.Instance; }
         }
 
-        public static RavenDb Database
+        public static Session Database
         {
-            get { return RavenDb.Instance; }
+            get { return Session.Instance; }
         }
     }
 }

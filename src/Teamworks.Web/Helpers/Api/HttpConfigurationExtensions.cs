@@ -1,5 +1,6 @@
 ﻿using System.Web.Http;
 using System.Web.Http.ModelBinding;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Teamworks.Web.Controllers.Api.Handlers;
 
@@ -11,6 +12,7 @@ namespace Teamworks.Web.Helpers.Api
         {
             var json = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
             json.SerializerSettings.ContractResolver = new LowercaseContractResolver();
+            json.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
         }
 
         public static void RegisterModelBinders(this HttpConfiguration configuration)

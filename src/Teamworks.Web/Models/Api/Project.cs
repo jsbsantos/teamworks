@@ -6,7 +6,7 @@ namespace Teamworks.Web.Models.Api
     public class Project
     {
         public string Id { get; set; }
-        
+
         [Required]
         [StringLength(256, MinimumLength = 6)]
         public string Name { get; set; }
