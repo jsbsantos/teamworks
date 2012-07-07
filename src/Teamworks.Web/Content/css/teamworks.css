@@ -1,16 +1,33 @@
-body { padding-top: 80px; box-sizing: border-box; }
+body {
+    padding-top: 80px;
+    box-sizing: border-box;
+}
 
 a { cursor: pointer; }
+
 form { margin-bottom: 0 }
 
 .main { clear: both; }
+
+.center {padding-left: 16px; padding-right: 16px;  border-right: 1px solid #ececec; }
+
 .hide { display: none !important; }
-.brand { font-family: 'Droid Sans Mono', sans-serif;font-weight: 700; }
+
+.brand {
+    font-family: 'Droid Sans Mono', sans-serif;
+    font-weight: 700;
+}
+
 .inline { display: inline-block; }
+
 .clear-left { clear: left; }
+
 .clear-right { clear: right; }
+
 .page-header { overflow: hidden; }
+
 .page-header h3 { font-weight: 100; }
+
 .page-header [class*='icon-'] { font-size: 30px; }
 
 div.global-messages {
@@ -19,26 +36,18 @@ div.global-messages {
     padding-top: 20px;
 }
 
-div.global-messages p {
-    margin: 0;
-}
+div.global-messages p { margin: 0; }
 
-.btn [class^="icon-"], .btn [class*=" icon-"] {
-    font-size: 1.3em;
-}
+.btn [class^="icon-"], .btn [class*=" icon-"] { font-size: 1.3em; }
 
-.thumbnails a.create [class^="icon-"], .thumbnails a.create [class*=" icon-"] {
-    text-align: center;
-}
+.thumbnails a.create [class^="icon-"], .thumbnails a.create [class*=" icon-"] { text-align: center; }
 
 .more-options {
     text-align: center;
     padding-top: 10px;
 }
 
-.people .dropdown-menu a {
-    clear: none;
-}
+.people .dropdown-menu a { clear: none; }
 
 .people .dropdown-menu p {
     color: #333;
@@ -49,24 +58,24 @@ div.global-messages p {
     white-space: nowrap;
 }
 
-.people .thumbnails > li {
-    margin-left: 8px;
-}
+.people .thumbnails > li { margin-left: 8px; }
 
-.people .thumbnails .thumbnail.create {
-    margin: 9px;
-}
+.people .thumbnails .thumbnail.create { margin: 9px; }
 
 
-.people img + div {
-    padding-left: 64px;
-}
+.people img + div { padding-left: 64px; }
 
 .people input {
     border-style: none none solid none;
     -moz-border-radius: 0px;
-	-webkit-border-radius: 0px;
-	border-radius: 0px;
-    box-shadow: none;    
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+    box-shadow: none;
 }
 
+@media (min-width: 980px) {
+    .main {
+        margin-left: 40px;
+        margin-right: 40px;
+    }
+}

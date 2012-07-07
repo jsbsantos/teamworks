@@ -75,7 +75,7 @@ TW.viewmodels.Project = function (endpoint) {
     self.people.ids = ko.computed(function () {
         return self.people().map(function (item) {
             var int = parseInt(item.id());
-            return isNaN(int) ? 0: int;
+            return isNaN(int) ? 0 : int;
         });
     });
     self.people.more = function () {
@@ -97,7 +97,13 @@ TW.viewmodels.Project = function (endpoint) {
                 cache: 'false',
                 statusCode: {
                     204: /*created*/function () {
-                        TW.app.alerts.push({ message: 'Person added, please refresh.' });
+                        $.getJSON(endpoint + '/people', function (people) {
+                            self.project.people(
+                                $.map(people, function (item) {
+                                    return new TW.viewmodels.models.Person(item);
+                                }));
+                        });
+                        self.people.editing(false);
                         self.people([]);
                         self.people.more();
                     },

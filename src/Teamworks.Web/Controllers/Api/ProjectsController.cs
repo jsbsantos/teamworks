@@ -80,6 +80,16 @@ namespace Teamworks.Web.Controllers.Api
 
         #region People
 
+        [SecureFor("/project")]
+        [GET("{projectid}/people")]
+        public IEnumerable<Person> GetPeople(int projectid)
+        {
+            var project = DbSession.Include<Core.Project>(p => p.People).Load<Core.Project>(projectid);
+            var people = DbSession.Load<Core.Person>(project.People);
+
+            return Mapper.Map<IEnumerable<Core.Person>, IEnumerable<Person>>(people);
+        }
+        
         [SecureFor("/projects")]
         [POST("{projectid}/people")]
         public HttpResponseMessage Post(int projectid, Permissions model)

@@ -7,8 +7,7 @@ namespace Teamworks.Web.Test.Api
         [Fact]
         public void GetProjects()
         {
-            var controller = new Controllers.Api.ProjectsController();
-            var result = controller.Get();
+            
         }
     }
 

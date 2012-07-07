@@ -53,13 +53,13 @@
     </script>
     <div class="main container-fluid" role="main" data-bind="visible: ready, with: viewmodel">
         <div class="row-fluid">
-            <div class="span3">
+            <div class="left span1">
                 @RenderSection("Left", false)
             </div>
-            <div class="span6">
+            <div class="center span8">
                 @RenderBody()
             </div>
-            <div class="span3">
+            <div class="right span3">
                 @RenderSection("Right", false)
             </div>
         </div>
