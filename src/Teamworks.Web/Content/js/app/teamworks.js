@@ -70,6 +70,17 @@ var TW = TW || {};
 
     tw.helpers = TW.helpers || {};
     tw.helpers.md5 = CryptoJS.MD5;
+    tw.helpers.count = (function () {
+        var count = 0;
+        return {
+            curr: function () {
+                return count;
+            },
+            next: function() {
+                return ++count;
+            }
+        };
+    }());
 }(TW));
 
 

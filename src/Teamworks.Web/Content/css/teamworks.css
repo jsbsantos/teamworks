@@ -1,6 +1,7 @@
-body { padding-top: 80px; }
+body { padding-top: 80px; box-sizing: border-box; }
 
 a { cursor: pointer; }
+form { margin-bottom: 0 }
 
 .main { clear: both; }
 .hide { display: none !important; }
@@ -25,3 +26,47 @@ div.global-messages p {
 .btn [class^="icon-"], .btn [class*=" icon-"] {
     font-size: 1.3em;
 }
+
+.thumbnails a.create [class^="icon-"], .thumbnails a.create [class*=" icon-"] {
+    text-align: center;
+}
+
+.more-options {
+    text-align: center;
+    padding-top: 10px;
+}
+
+.people .dropdown-menu a {
+    clear: none;
+}
+
+.people .dropdown-menu p {
+    color: #333;
+    display: block;
+    font-weight: normal;
+    line-height: 18px;
+    padding: 3px 15px;
+    white-space: nowrap;
+}
+
+.people .thumbnails > li {
+    margin-left: 8px;
+}
+
+.people .thumbnails .thumbnail.create {
+    margin: 9px;
+}
+
+
+.people img + div {
+    padding-left: 64px;
+}
+
+.people input {
+    border-style: none none solid none;
+    -moz-border-radius: 0px;
+	-webkit-border-radius: 0px;
+	border-radius: 0px;
+    box-shadow: none;    
+}
+

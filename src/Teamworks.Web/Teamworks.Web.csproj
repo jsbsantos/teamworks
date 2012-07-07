@@ -152,6 +152,7 @@
     <Compile Include="Controllers\Api\MessagesController.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Models\Api\Permissions.cs" />
     <Compile Include="Controllers\Api\ProjectsController.cs" />
     <Compile Include="Controllers\Api\TimelogController.cs">
       <SubType>Code</SubType>

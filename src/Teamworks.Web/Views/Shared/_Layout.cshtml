@@ -53,11 +53,14 @@
     </script>
     <div class="main container-fluid" role="main" data-bind="visible: ready, with: viewmodel">
         <div class="row-fluid">
-            <div class="span2">
-                @RenderSection("SideBar", false)
+            <div class="span3">
+                @RenderSection("Left", false)
             </div>
-            <div class="span8">
+            <div class="span6">
                 @RenderBody()
+            </div>
+            <div class="span3">
+                @RenderSection("Right", false)
             </div>
         </div>
         

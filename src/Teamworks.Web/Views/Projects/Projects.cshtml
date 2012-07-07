@@ -9,7 +9,7 @@
         <h1 class="inline">All Projects</h1>
         <a href="#" class="inline" data-bind="visible: !project.editing(), click: function() { project.editing(true); } ">Create a new project</a>
     </header>
-    <div class="span12 clearfix hide" data-bind="css: { hide: !project.editing() }">
+    <div class="row-fluid hide" data-bind="css: { hide: !project.editing() }">
         <form class="form-horizontal" data-bind="submit: projects.create">
             <input type="text" class="control-group input-xlarge" placeholder="Project name" data-bind="value: project.name, valueUpdate: 'afterkeyup'" />
             <input type="text" class="control-group input-xlarge" placeholder="Project description" data-bind="value: project.description, valueUpdate: 'afterkeyup'" />
@@ -17,19 +17,21 @@
             <a type="button" class="btn-mini pull-right clear-right" data-bind="click: function() { project.editing(false) }"><i class="icon-remove"></i> Cancel</a>  
         </form>
     </div>
-    <div class="span12" data-bind="template: { name: 'project-template', foreach: projects }"></div>
+    <div class="row-fluid" data-bind="template: { name: 'project-template', foreach: projects }"></div>
 
     <script type="text/html" id="project-template">
-        <article class="clearfix">
-            <form class="btn-group form-inline pull-right" data-bind="submit: $parent.projects.remove">
-                <button class="btn btn-mini btn-danger" type="submit" name="remove">Remove</button>
-                <button class="btn btn-mini"><i class="icon-caret-down"></i></button>
-            </form>
+        <article class="row-fluid">
             <h2 class="inline"><a data-bind="text: name, attr: { href: '/projects/' + id() }"></a></h2>
             <span class="inline" data-bind="text: description"></span>
-            <div data-bind="foreach: people">
-                <img rel="tooltip-bottom" data-bind="attr: { src: gravatar_url, 'title': name }" />
-            </div>
+            <ul class="thumbnails people clear-right">
+                <!-- ko foreach: people -->
+                <li>
+                    <a rel="tooltip-bottom" class="thumbnail inline" data-bind="attr: { href: '#', 'title': name }">
+                        <img data-bind="attr: { src: gravatar.small }" />
+                    </a>
+                </li>
+                <!-- /ko -->
+            </ul>
         </article>
     </script>
 

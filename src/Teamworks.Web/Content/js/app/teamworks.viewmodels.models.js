@@ -121,13 +121,22 @@ TW.viewmodels.models.Person = function (data) {
     self.name = ko.observable();
     self.username = ko.observable();
     self.email = ko.observable();
-    self.gravatar_url = ko.computed(function () {
-        return '//www.gravatar.com/avatar/' + TW.helpers.md5((self.email() || "").trim()) + '?s=32&d=mm&r=g';
-    });
-
     self.clear = function () {
         self.load({});
     };
+    
+    function gravatar(size) {
+        return '//www.gravatar.com/avatar/' + TW.helpers.md5((self.email() || "").trim()) + '?s=' + size + '&d=mm&r=g';
+    }
+    self.gravatar = {
+        small: ko.computed(function () {
+            return gravatar(32);
+        }),
+        medium: ko.computed(function () {
+            return gravatar(64);
+        })
+    };
+    
     self.load(data || {});
 };
 

@@ -1511,7 +1511,7 @@ table .span24 {
 
 [class^="icon-"],
 [class*=" icon-"] {
-    background-image: url("content/img/glyphicons-halflings.png");
+    background-image: url("~/content/img/glyphicons-halflings.png");
     background-position: 14px 14px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1525,7 +1525,7 @@ table .span24 {
 [class^="icon-"]:last-child,
 [class*=" icon-"]:last-child { *margin-left: 0; }
 
-.icon-white { background-image: url("content/img/glyphicons-halflings-white.png"); }
+.icon-white { background-image: url("~/content/img/glyphicons-halflings-white.png"); }
 
 .icon-glass { background-position: 0 0; }
 

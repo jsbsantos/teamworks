@@ -1,7 +1,7 @@
 ﻿var TW = TW || { };
 TW.viewmodels = TW.viewmodels || { };
 
-TW.viewmodels.Project = function(endpoint) {
+TW.viewmodels.Project = function (endpoint) {
     var self = this;
 
     self.project = new TW.viewmodels.models.Project();
@@ -12,7 +12,7 @@ TW.viewmodels.Project = function(endpoint) {
     self.discussion = new TW.viewmodels.models.Discussion();
     self.discussion.editing = ko.observable(false);
 
-    self.project.discussions.create = function() {
+    self.project.discussions.create = function () {
         $.ajax(endpoint + '/discussions/',
             {
                 type: 'post',
@@ -20,19 +20,19 @@ TW.viewmodels.Project = function(endpoint) {
                 contentType: 'application/json; charset=utf-8',
                 cache: 'false',
                 statusCode: {
-                    201: /*created*/function(data) {
+                    201: /*created*/function (data) {
                         self.project.discussions.push(new TW.viewmodels.models.Discussion(data));
                         self.discussion.editing(false);
                         self.discussion.clear();
                     },
-                    400: /*bad request*/function() {
+                    400: /*bad request*/function () {
                         TW.app.alerts.push({ message: 'An error as ocurred.' });
                     }
                 }
             }
         );
     };
-    self.project.discussions.remove = function() {
+    self.project.discussions.remove = function () {
         var discussion = this;
         var message = 'You are about to delete ' + discussion.name() + '.';
         if (confirm(message)) {
@@ -42,14 +42,14 @@ TW.viewmodels.Project = function(endpoint) {
                     contentType: 'application/json; charset=utf-8',
                     cache: 'false',
                     statusCode: {
-                        204: /*no content*/function() {
+                        204: /*no content*/function () {
                             self.project.discussions.destroy(discussion);
                         }
                     }
                 });
         }
     };
-    self.project.activities.create = function() {
+    self.project.activities.create = function () {
         $.ajax(endpoint + '/activities/',
             {
                 type: 'post',
@@ -57,30 +57,69 @@ TW.viewmodels.Project = function(endpoint) {
                 contentType: 'application/json; charset=utf-8',
                 cache: 'false',
                 statusCode: {
-                    201: /*created*/function(data) {
+                    201: /*created*/function (data) {
                         self.project.activities.push(new TW.viewmodels.models.Activity(data));
                         self.activity.editing(false);
                         self.activity.clear();
                     },
-                    400: /*bad request*/function() {
+                    400: /*bad request*/function () {
                         TW.app.alerts.push({ message: 'An error as ocurred.' });
                     }
                 }
             }
         );
     };
-    self.project.activities.remove = function() {
-        var activity = this;
-        var message = 'You are about to delete ' + activity.name() + '.';
+
+    self.people = ko.observableArray([]);
+    self.people.editing = ko.observable(false);
+    self.people.ids = ko.computed(function () {
+        return self.people().map(function (item) {
+            var int = parseInt(item.id());
+            return isNaN(int) ? 0: int;
+        });
+    });
+    self.people.more = function () {
+        for (var i in [0, 1, 2]) {
+            self.people.push({ id: ko.observable("") });
+        }
+    };
+
+    self.project.people.add = function () {
+        var data = {
+            ids: self.people.ids()
+        };
+
+        $.ajax(endpoint + '/people/',
+            {
+                type: 'post',
+                data: ko.toJSON(data),
+                contentType: 'application/json; charset=utf-8',
+                cache: 'false',
+                statusCode: {
+                    204: /*created*/function () {
+                        TW.app.alerts.push({ message: 'Person added, please refresh.' });
+                        self.people([]);
+                        self.people.more();
+                    },
+                    400: /*bad request*/function () {
+                        TW.app.alerts.push({ message: 'An error as ocurred.' });
+                    }
+                }
+            }
+        );
+    };
+    self.project.people.remove = function () {
+        var person = this;
+        var message = 'You are about to remove ' + person.name() + ' from the project.';
         if (confirm(message)) {
-            $.ajax(endpoint + '/activities/' + activity.id(),
+            $.ajax(endpoint + '/people/' + person.id(),
                 {
                     type: 'delete',
                     contentType: 'application/json; charset=utf-8',
                     cache: 'false',
                     statusCode: {
-                        204: /*no content*/function() {
-                            self.project.activities.destroy(activity);
+                        204: /*no content*/function () {
+                            self.project.people.destroy(person);
                         }
                     }
                 });
@@ -94,18 +133,18 @@ TW.viewmodels.Project = function(endpoint) {
             contentType: 'application/json; charset=utf-8',
             cache: 'false',
             statusCode: {
-                200: /*ok*/function(data) {
+                200: /*ok*/function (data) {
                     self.project.load(data);
                 },
-                404: /*not found*/function() {
+                404: /*not found*/function () {
                     TW.app.alerts.push({ message: 'The project you requested doesn\'t exist.' });
                 }
             }
         });
+    self.people.more();
 };
 
 TW.viewmodels.Projects = function(endpoint) {
-
     var self = this;
     self.project = new TW.viewmodels.models.Project();
     self.project.editing = ko.observable(false);
@@ -158,14 +197,14 @@ TW.viewmodels.Projects = function(endpoint) {
     });
 };
 
-TW.viewmodels.Discussion = function (endpoint) {
+TW.viewmodels.Discussion = function(endpoint) {
 
     var self = this;
     self.message = new TW.viewmodels.models.Message();
     self.message.editing = ko.observable(false);
 
     self.discussion = new TW.viewmodels.models.Discussion();
-    self.discussion.messages.create = function () {
+    self.discussion.messages.create = function() {
         $.ajax(endpoint + '/messages/',
             {
                 type: 'post',
@@ -173,12 +212,12 @@ TW.viewmodels.Discussion = function (endpoint) {
                 contentType: 'application/json; charset=utf-8',
                 cache: 'false',
                 statusCode: {
-                    201: /*created*/function (data) {
+                    201: /*created*/function(data) {
                         self.discussion.messages.push(new TW.viewmodels.models.Message(data));
                         self.message.editing(false);
                         self.message.clear();
                     },
-                    400: /*bad request*/function () {
+                    400: /*bad request*/function() {
                         TW.app.alerts.push({ message: 'An error as ocurred.' });
                     }
                 }
@@ -193,17 +232,17 @@ TW.viewmodels.Discussion = function (endpoint) {
             contentType: 'application/json; charset=utf-8',
             cache: 'false',
             statusCode: {
-                200: /*ok*/function (data) {
+                200: /*ok*/function(data) {
                     self.discussion.load(data);
                 },
-                404: /*not found*/function () {
+                404: /*not found*/function() {
                     TW.app.alerts.push({ message: 'The project you requested doesn\'t exist.' });
                 }
             }
         });
 };
 
-TW.viewmodels.Activity = function (endpoint) {
+TW.viewmodels.Activity = function(endpoint) {
 
     var self = this;
     self.timelog = new TW.viewmodels.models.Timelog();
@@ -236,10 +275,10 @@ TW.viewmodels.Activity = function (endpoint) {
             contentType: 'application/json; charset=utf-8',
             cache: 'false',
             statusCode: {
-                200: /*ok*/function (data) {
+                200: /*ok*/function(data) {
                     self.activity.load(data);
                 },
-                404: /*not found*/function () {
+                404: /*not found*/function() {
                     TW.app.alerts.push({ message: 'The project you requested doesn\'t exist.' });
                 }
             }

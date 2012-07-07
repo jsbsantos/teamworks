@@ -111,9 +111,11 @@ namespace Teamworks.Web.Helpers
             #region Person Mappings
 
             Mapper.CreateMap<DryPerson, Core.Person>();
-            Mapper.CreateMap<Core.Person, DryPerson>();
+            Mapper.CreateMap<Core.Person, DryPerson>()
+                .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier));
             Mapper.CreateMap<Person, Core.Person>();
-            Mapper.CreateMap<Core.Person, Person>();
+            Mapper.CreateMap<Core.Person, Person>()
+                .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier));
 
             #endregion
         }

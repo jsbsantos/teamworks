@@ -21,8 +21,9 @@ namespace Teamworks.Web.Controllers.Api
         [SecureFor("/projects")]
         public IEnumerable<Project> Get()
         {
-            var projects = DbSession.Query<Core.Project>()
-                .Customize(q => q.Include<Core.Project>(p => p.Activities)
+            var projects = DbSession
+                .Query<Core.Project>().Customize(q => q
+                    .Include<Core.Project>(p => p.Activities)
                     .Include<Core.Project>(p => p.Discussions)
                     .Include<Core.Project>(p => p.People))
                 .ToList();
@@ -80,12 +81,10 @@ namespace Teamworks.Web.Controllers.Api
         #region People
 
         [SecureFor("/projects")]
-        [POST("{projectid}/people/{identifier}")]
-        public HttpResponseMessage Post(int projectid, string identifier)
+        [POST("{projectid}/people")]
+        public HttpResponseMessage Post(int projectid, Permissions model)
         {
-            var personid = "people/" + identifier;
             var project = DbSession
-                .Include(personid)
                 .Load<Core.Project>(projectid);
 
             if (project == null)
@@ -93,19 +92,29 @@ namespace Teamworks.Web.Controllers.Api
                 Request.NotFound();
             }
 
-            var person = DbSession.Load<Core.Person>(personid);
-            if (person == null)
+            var people = DbSession
+                .Load<Core.Person>(model.Ids.Select(i => "people/" + i));
+            if (people == null)
             {
                 Request.NotFound();
             }
 
             var authorization = DbSession.GetAuthorizationFor(project);
-            authorization.Permissions.Add(new DocumentPermission()
-                                              {
-                                                  Allow = true,
-                                                  Operation = "/project",
-                                                  User = person.Id
-                                              });
+            
+            foreach (var person in people)
+            {
+                if (person == null)
+                {
+                    continue;
+                }
+                authorization.Permissions.Add(new DocumentPermission()
+                                                      {
+                                                          Allow = true,
+                                                          Operation = "/project",
+                                                          User = person.Id
+                                                      });
+            }
+            
             DbSession.SetAuthorizationFor(project, authorization);
             project.People.Add(Request.GetCurrentPersonId());
 
@@ -113,10 +122,10 @@ namespace Teamworks.Web.Controllers.Api
         }
 
         [SecureFor("/projects")]
-        [DELETE("{projectid}/people/{identifier}")]
-        public HttpResponseMessage Delete(int projectid, string identifier)
+        [DELETE("{projectid}/people/{id}")]
+        public HttpResponseMessage Delete(int projectid, string id)
         {
-            var personid = "people/" + identifier;
+            var personid = "people/" + id;
             var project = DbSession
                 .Include(personid)
                 .Load<Core.Project>(projectid);

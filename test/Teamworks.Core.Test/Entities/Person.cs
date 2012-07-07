@@ -2,7 +2,7 @@
 
 namespace Teamworks.Core.Test.Entities {
 
-    public class TestPerson {
+    public class Person {
         
         [Fact]
         public void ForgePerson()
@@ -11,7 +11,7 @@ namespace Teamworks.Core.Test.Entities {
             const string username = "username";
             const string password = "password";
 
-            var person = Person.Forge(email, username, password);
+            var person = Core.Person.Forge(email, username, password);
             Assert.Equal(email, person.Email);
             Assert.Equal(username, person.Username);
         }
@@ -23,7 +23,7 @@ namespace Teamworks.Core.Test.Entities {
             const string username = "username";
             const string password = "password";
 
-            var person = Person.Forge(email, username, password);
+            var person = Core.Person.Forge(email, username, password);
             Assert.True(person.IsThePassword(password));
         }
     }
