@@ -286,6 +286,10 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Teamworks.Core.Oauth2\Teamworks.Core.Oauth2.csproj">
+      <Project>{8FADCE95-A16E-42E3-8BFA-06C8006FB8BD}</Project>
+      <Name>Teamworks.Core.Oauth2</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Teamworks.Core.Mailgun\Teamworks.Core.Mailgun.csproj">
       <Project>{0A3B8E1C-38D0-4996-91D7-CE9EF96D5275}</Project>
       <Name>Teamworks.Core.Mailgun</Name>
@@ -319,7 +323,7 @@
           <IISUrl>
           </IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>False</UseCustomServer>
+          <UseCustomServer>True</UseCustomServer>
           <CustomServerUrl>http://localhost:80</CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>

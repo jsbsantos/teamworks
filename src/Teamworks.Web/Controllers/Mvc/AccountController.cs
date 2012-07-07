@@ -1,7 +1,9 @@
 ﻿using System.Dynamic;
+using System.Text;
 using System.Web.Mvc;
 using System.Web.Security;
 using Teamworks.Core.Authentication;
+using Teamworks.Core.Oauth2;
 using Teamworks.Core.Services;
 using Teamworks.Web.Models.Mvc;
 
@@ -21,7 +23,6 @@ namespace Teamworks.Web.Controllers.Mvc
             }
             Session[ReturnUrlKey] = returnUrl;
             return RedirectToAction("Login");
-
         }
 
         [HttpPost]
@@ -40,9 +41,9 @@ namespace Teamworks.Web.Controllers.Mvc
             IAuthenticator auth = Global.Authentication["Basic"];
             if (auth.IsValid(dyn, out person))
             {
-                var returnUrl = Session[ReturnUrlKey] as string 
-                    ?? FormsAuthentication.DefaultUrl;
-                
+                var returnUrl = Session[ReturnUrlKey] as string
+                                ?? FormsAuthentication.DefaultUrl;
+
                 FormsAuthentication.SetAuthCookie(person.Id, model.Persist);
                 if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
                     && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
@@ -69,6 +70,33 @@ namespace Teamworks.Web.Controllers.Mvc
             return View();
         }
 
+        [HttpGet]
+        public ActionResult Signup2(string provider)
+        {
+            var p = new Oauth()
+                        {
+                            ClientId = @"937363753546.apps.googleusercontent.com",
+                            Secret = "lcUNnsobBB5sl_1NHohHnhlh",
+                            Callback = "http://alkalined.dyndns.org/account/oauth"
+                        };
+
+            return Redirect(p.Url);
+        }
+
+        [HttpGet]
+        public ActionResult oauth(string code)
+        {
+            var p = new Oauth()
+                        {
+                            ClientId = @"937363753546.apps.googleusercontent.com",
+                            Secret = "lcUNnsobBB5sl_1NHohHnhlh",
+                            Callback = "http://alkalined.dyndns.org/account/oauth"
+                        };
+            //p.Authorize(Request.QueryString["code"]);
+            var content = p.GetInfo(Request.QueryString["code"]);
+            return new ContentResult() { Content = content, ContentType = "application/json",ContentEncoding = Encoding.UTF8};
+        }
+
         [HttpPost]
         public ActionResult Signup(Register register)
         {
@@ -76,7 +104,7 @@ namespace Teamworks.Web.Controllers.Mvc
             {
                 return View();
             }
-            
+
             var person = DbSession.Load<Core.Person>("people/" + register.Username);
             if (person != null)
             {
