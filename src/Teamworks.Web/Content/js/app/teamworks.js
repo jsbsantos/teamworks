@@ -63,24 +63,19 @@ var TW = TW || {};
 } ());
 
 (function(tw) {
-    tw.app = TW.app || {};
+    tw.app = TW.app || { };
 
     tw.app.ready = ko.observable(false);
     tw.app.alerts = ko.observableArray([]);
 
-    tw.helpers = TW.helpers || {};
+    tw.helpers = TW.helpers || { };
     tw.helpers.md5 = CryptoJS.MD5;
-    tw.helpers.count = (function () {
-        var count = 0;
-        return {
-            curr: function () {
-                return count;
-            },
-            next: function() {
-                return ++count;
-            }
-        };
-    }());
+
+    $.ajaxSetup({
+        type: 'get',
+       contentType: 'application/json; charset=utf-8',
+       cache: false
+    });
 }(TW));
 
 

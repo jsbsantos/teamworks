@@ -23,15 +23,17 @@
         <article class="row-fluid">
             <h2 class="inline"><a data-bind="text: name, attr: { href: '/projects/' + id() }"></a></h2>
             <span class="inline" data-bind="text: description"></span>
-            <ul class="thumbnails people clear-right">
-                <!-- ko foreach: people -->
-                <li>
-                    <a rel="tooltip-bottom" class="thumbnail inline" data-bind="attr: { href: '#', 'title': name }">
-                        <img data-bind="attr: { src: gravatar.small }" />
-                    </a>
-                </li>
-                <!-- /ko -->
-            </ul>
+            <div class="people"">
+                <ul class="thumbnails people clear-right">
+                    <!-- ko foreach: people -->
+                    <li>
+                        <a rel="tooltip-bottom" class="thumbnail inline" data-bind="attr: { href: '#', 'title': name }">
+                            <img data-bind="attr: { src: gravatar.small }" />
+                        </a>
+                    </li>
+                    <!-- /ko -->
+                </ul>
+            </div>
         </article>
     </script>
 
