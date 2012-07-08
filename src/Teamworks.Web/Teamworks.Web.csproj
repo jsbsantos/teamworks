@@ -152,6 +152,7 @@
     <Compile Include="Controllers\Api\MessagesController.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controllers\Api\PeopleController.cs" />
     <Compile Include="Models\Api\Permissions.cs" />
     <Compile Include="Controllers\Api\ProjectsController.cs" />
     <Compile Include="Controllers\Api\TimelogController.cs">
@@ -201,11 +202,11 @@
     <Content Include="Content\css\bootstrap\bootstrap-responsive.min.css" />
     <Content Include="Content\css\bootstrap\bootstrap.css" />
     <Content Include="Content\css\bootstrap\bootstrap.min.css" />
+    <Content Include="Content\css\bootstrap\img\glyphicons-halflings-white.png" />
+    <Content Include="Content\css\bootstrap\img\glyphicons-halflings.png" />
     <Content Include="Content\css\font-awesome.css" />
     <Content Include="Content\css\teamworks.css" />
     <Content Include="Content\font\fontawesome-webfont.svg" />
-    <Content Include="Content\img\glyphicons-halflings-white.png" />
-    <Content Include="Content\img\glyphicons-halflings.png" />
     <Content Include="Content\js\app\teamworks.js" />
     <Content Include="Content\js\app\teamworks.start.js" />
     <Content Include="Content\js\app\teamworks.viewmodels.js" />
@@ -261,7 +262,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\font\fontawesome-webfont.eot" />
-    <None Include="Content\font\fontawesome-webfont.svgz" />
     <None Include="Content\font\fontawesome-webfont.ttf" />
     <None Include="Content\font\fontawesome-webfont.woff" />
     <Content Include="Views\Account\Login.cshtml" />
@@ -295,7 +295,9 @@
       <Name>Teamworks.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Content\img\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

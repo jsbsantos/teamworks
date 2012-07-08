@@ -12,6 +12,9 @@ TW.viewmodels.Project = function(endpoint) {
     self.discussion = new TW.viewmodels.models.Discussion();
     self.discussion.editing = ko.observable(false);
 
+    self.project.discussions.empty = ko.computed(function() {
+        return self.project.discussions.length == 0;
+    });
     self.project.discussions.create = function() {
         $.ajax(endpoint + '/discussions/',
             {
@@ -45,6 +48,9 @@ TW.viewmodels.Project = function(endpoint) {
                 });
         }
     };
+    self.project.activities.empty = ko.computed(function() {
+        return self.project.activities().length === 0;
+    });
     self.project.activities.create = function() {
         $.ajax(endpoint + '/activities/',
             {
@@ -63,6 +69,21 @@ TW.viewmodels.Project = function(endpoint) {
             }
         );
     };
+    self.project.activities.remove = function() {
+        var activity = this;
+        var message = 'You are about to delete ' + activity.name() + '.';
+        if (confirm(message)) {
+            $.ajax(endpoint + '/activities/' + activity.id(),
+                {
+                    type: 'delete',
+                    statusCode: {
+                        204: /*no content*/function() {
+                            self.project.activities.destroy(activity);
+                        }
+                    }
+                });
+        }
+    };
 
     self.people = ko.observableArray([]);
     self.people.editing = ko.observable(false);
@@ -72,29 +93,54 @@ TW.viewmodels.Project = function(endpoint) {
             return isNaN(int) ? 0 : int;
         });
     });
+    self.people.sugestions = ko.computed(function() {
+        var suggested = ko.observableArray([]);
+        return {
+            read: function() {
+                return suggested;
+            },
+            write: function(value) {
+                $.ajax('/api/people?filter=' + value,
+                    {
+                        statusCode: {
+                            200: /*no content*/function(data) {
+                                suggested($.map(data, function() {
+                                    return new TW.viewmodels.models.Person(data);
+                                }));
+                            }
+                        }
+                    });
+            }
+        };
+    });
     self.people.more = function() {
         for (var i in [0, 1, 2]) {
             self.people.push({ id: ko.observable("") });
         }
     };
-
     self.project.people.add = function() {
         var data = {
             ids: self.people.ids()
         };
 
-        $.ajax(endpoint + '/people/',
+        $.ajax(endpoint + '/people',
             {
                 type: 'post',
                 data: ko.toJSON(data),
                 statusCode: {
                     204: /*created*/function() {
-                        $.getJSON(endpoint + '/people', function(people) {
-                            self.project.people(
-                                $.map(people, function(item) {
-                                    return new TW.viewmodels.models.Person(item);
-                                }));
-                        });
+                        $.ajax(endpoint + '/people',
+                            {
+                                statusCode: {
+                                    200: /*ok*/function(data) {
+                                        self.project.people(
+                                            $.map(data, function(item) {
+                                                return new TW.viewmodels.models.Person(item);
+                                            }));
+                                    }
+                                }
+                            }
+                        );
                         self.people.editing(false);
                         self.people([]);
                         self.people.more();

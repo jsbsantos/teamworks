@@ -9,40 +9,31 @@ form { margin-bottom: 0 }
 
 .main { clear: both; }
 
-.center {padding-left: 16px; padding-right: 16px;  border-right: 1px solid #ececec; }
+[class^="icon-"], [class*=" icon-"] { background-image: none; }
+[class^="icon-"], [class*=" icon-"] { font-size: 1.3em; }
 
 .hide { display: none !important; }
+.clear-left { clear: left; }
+.clear-right { clear: right; }
+.ident { padding-left: 16px; }
+.inline { display: inline-block; }
+.center { border-right: 1px solid #ececec; }
 
 .brand {
     font-family: 'Droid Sans Mono', sans-serif;
     font-weight: 700;
 }
 
-.inline { display: inline-block; }
-
-.clear-left { clear: left; }
-
-.clear-right { clear: right; }
-
-.page-header { overflow: hidden; }
-
-.page-header h3 { font-weight: 100; }
-
-.page-header [class*='icon-'] { font-size: 30px; }
 
 div.global-messages {
-    margin: auto;
     float: none;
+    margin: auto;
     padding-top: 20px;
 }
 
 div.global-messages p { margin: 0; }
 
-.btn [class^="icon-"], .btn [class*=" icon-"] { font-size: 1.3em; }
-
-.thumbnails a.create [class^="icon-"], .thumbnails a.create [class*=" icon-"] { text-align: center; }
-
-.more-options {
+    .more-options {
     text-align: center;
     padding-top: 10px;
 }
@@ -56,14 +47,12 @@ div.global-messages p { margin: 0; }
     line-height: 18px;
     padding: 3px 15px;
     white-space: nowrap;
+    margin: 0;
 }
 
-.people .thumbnails > li { margin-left: 8px; }
-
-.people .thumbnails .thumbnail.create { margin: 9px; }
-
-
 .people img + div { padding-left: 64px; }
+.people .thumbnails > li { margin-left: 8px; }
+.people .thumbnails .thumbnail.create { margin: 9px; }
 
 .people input {
     border-style: none none solid none;
@@ -72,6 +61,8 @@ div.global-messages p { margin: 0; }
     border-radius: 0px;
     box-shadow: none;
 }
+
+p.inline { margin-bottom: 0;    }
 
 @media (min-width: 980px) {
     .main {

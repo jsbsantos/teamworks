@@ -7,14 +7,23 @@ using Teamworks.Web.Models.Api;
 
 namespace Teamworks.Web.Controllers.Api
 {
+    [RoutePrefix("api/people")]
+    [DefaultHttpRouteConvention]
     public class PeopleController : RavenApiController
     {
-        [GET("people")]
-        public IEnumerable<Person> Get()
+        public IEnumerable<Person> Get(string filter)
         {
-            return new List<Person>(
-                    DbSession.Query<Core.Person>().Select(
-                        Mapper.Map<Core.Person, Person>));
+            IList < Core.Person > people;
+            if (string.IsNullOrEmpty(filter)) {
+               people = DbSession.Query<Core.Person>().ToList();    
+            }
+
+            people = DbSession.Advanced.LuceneQuery<Core.Person>()
+                .Search("Name", "*" + filter + "*")
+                .Search("Username", "*" + filter + "*")
+                .Take(5).ToList();
+
+            return Mapper.Map<IEnumerable<Core.Person>, IEnumerable<Person>>(people);
         }
     }
 }

@@ -2,14 +2,14 @@
     Layout = "../Shared/_Root.cshtml";
 }
 
-        <div class="row-fluid">
-            <div class="left span1">
-                @RenderSection("Left", false)
-            </div>
-            <div class="center span8">
-                @RenderBody()
-            </div>
-            <div class="right span3">
-                @RenderSection("Right", false)
-            </div>
-        </div>
+<div class="row-fluid">
+    <div class="left span1">
+        @RenderSection("Left", false)
+    </div>
+    <div class="center span8 well-large">
+        @RenderBody()
+    </div>
+    <div class="right span3">
+        @RenderSection("Right", false)
+    </div>
+</div>
