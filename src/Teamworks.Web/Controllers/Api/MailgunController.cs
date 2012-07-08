@@ -21,12 +21,6 @@ namespace Teamworks.Web.Controllers.Api
     [RoutePrefix("api/mailgun")]
     public class MailgunController : RavenApiController
     {
-        [GET("oauth")]
-        public HttpResponseMessage GetOauth(object model)
-        {
-            return new HttpResponseMessage(HttpStatusCode.OK);
-        }
-
         [POST("teste")]
         public HttpResponseMessage PostAll([ModelBinder(typeof(MailgunModelBinderProvider))] Mailgun model)
         {

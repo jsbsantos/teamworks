@@ -2,6 +2,6 @@
     <ul class="nav">
         <li><a href="@Url.Action("Login", "Account")">Login</a></li>
         <li><a href="@Url.Action("Signup", "Account")">Sign up</a></li>
-        <li><a href="@Url.Action("Signup2", "Account",new {provider="google"})">Google</a></li>
+        <li><a href="@Url.Action("SignupOAuth", "Account", new { provider = "google" })">Google</a></li>
     </ul>
 </aside>

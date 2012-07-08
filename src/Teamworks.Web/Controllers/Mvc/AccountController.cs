@@ -1,7 +1,11 @@
-﻿using System.Dynamic;
+﻿using System;
+using System.Dynamic;
+using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using System.Web.Security;
+using Newtonsoft.Json.Linq;
+using Raven.Client.Linq;
 using Teamworks.Core.Authentication;
 using Teamworks.Core.Oauth2;
 using Teamworks.Core.Services;
@@ -71,30 +75,42 @@ namespace Teamworks.Web.Controllers.Mvc
         }
 
         [HttpGet]
-        public ActionResult Signup2(string provider)
+        public ActionResult SignupOAuth(string provider)
         {
-            var p = new Oauth()
+            var p = new Google()
                         {
                             ClientId = @"937363753546.apps.googleusercontent.com",
                             Secret = "lcUNnsobBB5sl_1NHohHnhlh",
-                            Callback = "http://alkalined.dyndns.org/account/oauth"
+                            Callback = "http://alkalined.dyndns.org/account/GoogleOAuth"
                         };
-
+            Session["teamworks.oauth.provider"] = p;
             return Redirect(p.Url);
         }
 
         [HttpGet]
-        public ActionResult oauth(string code)
+        public ActionResult GoogleOAuth(string code)
         {
-            var p = new Oauth()
-                        {
-                            ClientId = @"937363753546.apps.googleusercontent.com",
-                            Secret = "lcUNnsobBB5sl_1NHohHnhlh",
-                            Callback = "http://alkalined.dyndns.org/account/oauth"
-                        };
-            //p.Authorize(Request.QueryString["code"]);
-            var content = p.GetInfo(Request.QueryString["code"]);
-            return new ContentResult() { Content = content, ContentType = "application/json",ContentEncoding = Encoding.UTF8};
+            var provider = (Google) Session["teamworks.oauth.provider"];
+
+            var content = JObject.Parse(provider.GetProfile(Request.QueryString["code"]));
+            var person = Core.Person.Forge(content.Value<string>("email"),
+                                           content.Value<string>("name"), null);
+
+            var personExists =
+                DbSession.Query<Core.Person>().Where(
+                    p => p.Username.Equals(person.Username, StringComparison.InvariantCultureIgnoreCase) ||
+                         p.Email.Equals(person.Email, StringComparison.InvariantCultureIgnoreCase))
+                         .ToList();;
+
+            if (personExists.Count > 0)
+            {
+                ModelState.AddModelError("model.unique",
+                                         "The username or email you specified already exists in the system");
+                return RedirectToAction("Signup");
+            }
+
+            DbSession.Store(person);
+            return RedirectToAction("View", "Home");
         }
 
         [HttpPost]
@@ -113,6 +129,10 @@ namespace Teamworks.Web.Controllers.Mvc
             }
 
             person = Core.Person.Forge(register.Email, register.Username, register.Password);
+
+            var metadata = DbSession.Advanced.GetMetadataFor(person);
+            metadata.Add("LoginType", "teamworks");
+
             DbSession.Store(person);
             return RedirectToAction("View", "Home");
         }
