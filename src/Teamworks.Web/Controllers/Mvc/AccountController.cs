@@ -29,6 +29,45 @@ namespace Teamworks.Web.Controllers.Mvc
             return RedirectToAction("Login");
         }
 
+        [HttpGet]
+        public ActionResult LoginOpenID(string returnUrl, string provider)
+        {
+            if (string.IsNullOrEmpty(provider))
+            {
+                return View("Login");
+            }
+
+            //Session[ReturnUrlKey] = returnUrl;
+
+            var result = new OpenId().Authenticate(provider);
+
+            return OpenIdHandler(
+                result,
+                () =>
+                    {
+                        ModelState.AddModelError("", "The username or password you entered is incorrect.");
+                        return View("login");
+                    },
+                () =>
+                    {
+                        var url = Session[ReturnUrlKey] as string
+                                  ?? FormsAuthentication.DefaultUrl;
+
+                        var person = DbSession.Query<Core.Person>()
+                            .Where(p => p.Email.Equals(result.Email)).SingleOrDefault();
+
+                        if (person == null)
+                        {
+                            ModelState.AddModelError("", "Invalid user or password.");
+                            return RedirectToAction("Signup", "Account");
+                        }
+
+                        return SetUpAuthenticatedUser(person, true);
+                    }
+                );
+        }
+
+
         [HttpPost]
         public ActionResult Login(Login model)
         {
@@ -45,16 +84,7 @@ namespace Teamworks.Web.Controllers.Mvc
             IAuthenticator auth = Global.Authentication["Basic"];
             if (auth.IsValid(dyn, out person))
             {
-                var returnUrl = Session[ReturnUrlKey] as string
-                                ?? FormsAuthentication.DefaultUrl;
-
-                FormsAuthentication.SetAuthCookie(person.Id, model.Persist);
-                if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
-                    && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
-                {
-                    return Redirect(returnUrl);
-                }
-                return RedirectToAction("View", "Home");
+                return SetUpAuthenticatedUser(person, model.Persist);
             }
 
             ModelState.AddModelError("", "The username or password you entered is incorrect.");
@@ -72,6 +102,23 @@ namespace Teamworks.Web.Controllers.Mvc
         public ActionResult Signup()
         {
             return View();
+        }
+
+        [HttpGet]
+        public ActionResult SignupOpenId(string provider)
+        {
+            var result = new OpenId().Authenticate(provider);
+
+            return OpenIdHandler(
+                result,
+                () =>
+                    {
+                        ModelState.AddModelError("", "Authentication failed. Correct errors and try again.");
+                        return View("Signup");
+                    },
+                () => CreateUser(result.First + result.Last, null, result.Email)
+                          ? RedirectToAction("View", "Home")
+                          : RedirectToAction("Signup"));
         }
 
         [HttpGet]
@@ -100,7 +147,7 @@ namespace Teamworks.Web.Controllers.Mvc
                 DbSession.Query<Core.Person>().Where(
                     p => p.Username.Equals(person.Username, StringComparison.InvariantCultureIgnoreCase) ||
                          p.Email.Equals(person.Email, StringComparison.InvariantCultureIgnoreCase))
-                         .ToList();;
+                    .ToList();
 
             if (personExists.Count > 0)
             {
@@ -121,19 +168,60 @@ namespace Teamworks.Web.Controllers.Mvc
                 return View();
             }
 
-            var person = DbSession.Load<Core.Person>("people/" + register.Username);
-            if (person != null)
+            return CreateUser(register.Username, register.Password, register.Email)
+                       ? RedirectToAction("View", "Home")
+                       : RedirectToAction("Signup");
+        }
+
+        private ActionResult OpenIdHandler(dynamic result,
+                                           Func<ActionResult> fail,
+                                           Func<ActionResult> success)
+        {
+            switch ((int) (result.State))
             {
-                ModelState.AddModelError("model.unique", "The username you specified already exists in the system");
-                return View();
+                case -1:
+                    return fail();
+                case 0:
+                    return new EmptyResult();
+                case 1:
+                    return success();
+                default:
+                    throw new NotSupportedException();
+            }
+        }
+
+        private bool CreateUser(string username, string password, string email)
+        {
+            var personExists =
+                DbSession.Query<Core.Person>().Where(
+                    p => p.Username.Equals(username, StringComparison.InvariantCultureIgnoreCase) ||
+                         p.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase))
+                    .ToList();
+
+            if (personExists.Count > 0)
+            {
+                ModelState.AddModelError("model.unique",
+                                         "The username or email you specified already exists in the system");
+                return false;
             }
 
-            person = Core.Person.Forge(register.Email, register.Username, register.Password);
-
-            var metadata = DbSession.Advanced.GetMetadataFor(person);
-            metadata.Add("LoginType", "teamworks");
+            var person = Core.Person.Forge(email, username, password);
 
             DbSession.Store(person);
+            return true;
+        }
+
+        private ActionResult SetUpAuthenticatedUser(Core.Person person, bool persist)
+        {
+            var returnUrl = Session[ReturnUrlKey] as string
+                            ?? FormsAuthentication.DefaultUrl;
+
+            FormsAuthentication.SetAuthCookie(person.Id, persist);
+            if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
+                && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+            {
+                return Redirect(returnUrl);
+            }
             return RedirectToAction("View", "Home");
         }
     }

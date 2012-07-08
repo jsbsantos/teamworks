@@ -12,4 +12,9 @@
         <input name="password" placeholder="Password" type="password"/>
         <button class="btn btn-small" type="submit" value="register">Signup</button>
     </form>
+    <div class="page-header">
+        <h4>Signup using:</h4>
+    </div>
+    <a href="@Url.Action("SignupOpenId", "Account", new {provider = "https://www.google.com/accounts/o8/id"})">Google</a>
+    
 </div>

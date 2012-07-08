@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Teamworks.Core.Services;
 
@@ -31,8 +32,10 @@ namespace Teamworks.Core.Authentication
         public bool IsValid(string username, string password, out Person person)
         {
             person = null;
-            var p = Global.Database.CurrentSession.Query<Person>().SingleOrDefault(e => e.Username.Equals(username));
-                
+            var p =
+                Global.Database.CurrentSession.Query<Person>().SingleOrDefault(
+                    e => e.Username.Equals(username, StringComparison.InvariantCultureIgnoreCase));
+
             if (p == null)
             {
                 return false;

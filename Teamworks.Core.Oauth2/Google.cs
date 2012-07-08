@@ -1,29 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Linq;
-using System.Net.Http;
 using Newtonsoft.Json.Linq;
 
 namespace Teamworks.Core.Oauth2
 {
-    public class Google
+    public class Google : OAuth2Provider
     {
         private const string _AuthorizeParams = "code={0}&client_id={1}&client_secret={2}&redirect_uri={3}&grant_type={4}";
 
         private const string _host = "https://accounts.google.com/o/oauth2/";
-
-        public string InitialRequest
-        {
-            get { return _host + "auth?client_id={0}&redirect_uri={1}&scope={2}"; }
-        }
-
-        private string AccessToken { get; set; }
-        private DateTime ExpiresIn { get; set; }
-
-        public string ClientId { get; set; }
-        public string Secret { get; set; }
-        public string Callback { get; set; }
 
         public string Url
         {
@@ -34,44 +19,6 @@ namespace Teamworks.Core.Oauth2
                     _host,
                     ClientId, Callback);
             }
-        }
-
-        private string Request(string method,
-                               string host,
-                               string parameters,
-                               NameValueCollection headers)
-        {
-            var uri = new UriBuilder(host) {Query = parameters};
-            var client = new HttpClient
-                             {
-                                 BaseAddress = uri.Uri,
-                             };
-
-            if (method == "POST")
-            {
-                var param = new Dictionary<string, string>();
-                parameters
-                    .Split(new[] {'&'})
-                    .ToList()
-                    .ForEach(i =>
-                                 {
-                                     var split = i.Split(new[] {'='});
-                                     param.Add(split[0], split[1]);
-                                 });
-
-                var content = new FormUrlEncodedContent(param);
-                var response = client.PostAsync(client.BaseAddress, content).Result;
-                return response.Content.ReadAsStringAsync().Result;
-            }
-            if (method == "GET")
-            {
-                foreach (var key in headers.AllKeys)
-                    client.DefaultRequestHeaders.Add(key, headers[key]);
-                var response = client.GetAsync(uri.Uri).Result;
-                return response.Content.ReadAsStringAsync().Result;
-            }
-
-            throw new NotSupportedException("Method not supported.");
         }
 
         public void Authorize(string _params, string code, string grant)
