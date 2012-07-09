@@ -25,7 +25,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Teamworks.Web.Test", "test\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Teamworks.Web", "src\Teamworks.Web\Teamworks.Web.csproj", "{B7D11025-5FD5-4AE3-92F8-CC31873449E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Teamworks.Core.Oauth2", "Teamworks.Core.Oauth2\Teamworks.Core.Oauth2.csproj", "{8FADCE95-A16E-42E3-8BFA-06C8006FB8BD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Teamworks.Core.Oauth2", "src\Teamworks.Core.Oauth2\Teamworks.Core.Oauth2.csproj", "{8FADCE95-A16E-42E3-8BFA-06C8006FB8BD}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
