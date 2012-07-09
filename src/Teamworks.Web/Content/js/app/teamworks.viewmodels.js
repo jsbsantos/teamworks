@@ -114,9 +114,7 @@ TW.viewmodels.Project = function(endpoint) {
         };
     });
     self.people.more = function() {
-        for (var i in [0, 1, 2]) {
-            self.people.push({ id: ko.observable("") });
-        }
+        self.people.push({ id: ko.observable("") });
     };
     self.project.people.add = function() {
         var data = {
@@ -142,7 +140,7 @@ TW.viewmodels.Project = function(endpoint) {
                             }
                         );
                         self.people.editing(false);
-                        self.people([]);
+                        self.people(new Array());
                         self.people.more();
                     },
                     400: /*bad request*/function() {

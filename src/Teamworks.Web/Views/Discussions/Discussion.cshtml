@@ -9,19 +9,21 @@
         <h1 data-bind="text: discussion.name"></h1>
         <p class="span6" data-bind="text: discussion.content"></p>
     </header>
-    <div data-bind="template: { name: 'message-template', foreach: discussion.messages }">
-    </div>
+    <div class="well-large">
+        <div data-bind="template: { name: 'message-template', foreach: discussion.messages }">
+        </div>
     
-    <div class="clear-left">
-        <form class="form-horizontal" data-bind="submit: discussion.messages.create">
-            <div class="control-group">
-                <textarea class="span6" data-bind="value: message.content, valueUpdate: 'afterkeyup'">
+        <div class="row-fluid clear-left">
+            <form class="form-horizontal" data-bind="submit: discussion.messages.create">
+                <div class="control-group">
+                    <textarea class="span6" data-bind="value: message.content, valueUpdate: 'afterkeyup'">
                 </textarea>
-            </div>
-            <div class="control-group">
-                <button type="submit" class="btn btn-success">Reply</button>                 
-            </div>
-        </form>
+                </div>
+                <div class="control-group">
+                    <button type="submit" class="btn btn-success">Reply</button>                 
+                </div>
+            </form>
+        </div>
     </div>
 
     <script type="text/html" id="message-template">

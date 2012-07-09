@@ -48,8 +48,12 @@
         
     </header>
     <div class="span8 global-messages" data-bind="visible: alerts().length > 0, template: { name: 'alert-template', foreach: alerts}"></div>
+    <!-- message template -->
     <script type="text/html" id="alert-template">
-        <div class="span6 fade in alert alert-error"><p data-bind="text: message"></p></div>
+        <div class="span6 alert fade in">
+            <button class="close" data-dismiss="alert" data-bind="click: $parent.alerts.remove">×</button>
+            <span data-bind="text: message"></span>
+        </div>
     </script>
     <div class="main container-fluid" role="main" data-bind="visible: ready, with: viewmodel">
         @RenderBody()   

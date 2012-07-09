@@ -3,9 +3,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="content" data-bind="visible: project.name">
+<div data-bind="visible: project.name">
     <header class="page-header">
-        <h1><span data-bind="text: project.name"></span> <small data-bind="text: project.description, visible: project.description"></small></h1>
+        <h1>
+            <span data-bind="text: project.name"></span>
+            <small data-bind="text: project.description, visible: project.description"></small>
+        </h1>
     </header>
     <div>
         <!-- Activities -->
@@ -14,13 +17,13 @@
                 <h2 class="inline">Activities</h2>
                 <a class="btn-mini" href="#" data-bind="visible: !activity.editing(), click: function() { activity.editing(true); }">One more activity</a>
                 <div class="row-fluid hide" data-bind="css: { hide: !activity.editing() }">
-                <form class="form-horizontal" data-bind="submit: project.activities.create">
-                    <input type="text" class="control-group input-xlarge" placeholder="Activities name" data-bind="value: activity.name, valueUpdate: 'afterkeyup'" />
-                    <input type="text" class="control-group input-xlarge" placeholder="Activities description" data-bind="value: activity.description, valueUpdate: 'afterkeyup'" />
-                    <button type="submit" class="btn btn-success pull-right">Start activity</button>  
-                    <a class="btn-mini pull-right clear-right" data-bind="click: function() { activity.editing(false) }"><i class="icon-remove"></i> Cancel</a>  
-                </form>
-            </div>
+                    <form class="form-horizontal" data-bind="submit: project.activities.create">
+                        <input type="text" class="control-group input-xlarge" placeholder="Activities name" data-bind="value: activity.name, valueUpdate: 'afterkeyup'" />
+                        <input type="text" class="control-group input-xlarge" placeholder="Activities description" data-bind="value: activity.description, valueUpdate: 'afterkeyup'" />
+                        <button type="submit" class="btn btn-success pull-right">Start activity</button>  
+                        <a class="btn-mini pull-right clear-right" data-bind="click: function() { activity.editing(false) }"><i class="icon-remove"></i> Cancel</a>  
+                    </form>
+                </div>
             </header>
             <p data-bind="visible: project.activities.empty">
                 Click here to create your first activity.
@@ -46,13 +49,13 @@
                 <h2 class="inline">Discussion</h2>
                 <a class="btn-mini" href="#" data-bind="visible: !discussion.editing(), click: function() { discussion.editing(true); }">One more discussion</a>
                 <div class="row-fluid hide" data-bind="css: { hide: !discussion.editing() }">
-                <form class="form-horizontal" data-bind="submit: project.discussions.create">
-                    <input type="text" class="control-group input-xlarge" placeholder="Discussion name" data-bind="value: discussion.name, valueUpdate: 'afterkeyup'" />
-                    <input type="text" class="control-group input-xlarge" placeholder="Discussion content" data-bind="value: discussion.content, valueUpdate: 'afterkeyup'" />
-                    <button type="submit" class="btn btn-success pull-right">Start discussing</button>  
-                    <a class="btn-mini pull-right clear-right" data-bind="click: function() { discussion.editing(false) }"><i class="icon-remove"></i> Cancel</a>  
-                </form>
-            </div>
+                    <form class="form-horizontal" data-bind="submit: project.discussions.create">
+                        <input type="text" class="control-group input-xlarge" placeholder="Discussion name" data-bind="value: discussion.name, valueUpdate: 'afterkeyup'" />
+                        <input type="text" class="control-group input-xlarge" placeholder="Discussion content" data-bind="value: discussion.content, valueUpdate: 'afterkeyup'" />
+                        <button type="submit" class="btn btn-success pull-right">Start discussing</button>  
+                        <a class="btn-mini pull-right clear-right" data-bind="click: function() { discussion.editing(false) }"><i class="icon-remove"></i> Cancel</a>  
+                    </form>
+                </div>
             </header>
             
             <div data-bind="template: { name: 'discussion-template', foreach: project.discussions }"></div>
@@ -89,20 +92,20 @@
         <ul class="thumbnails" data-bind="template: { name: 'person-template', foreach: project.people }"></ul>
         <a href="#" class="more-options" data-bind="visible: !people.editing(), click: function() { people.editing(true); }" >Invite another person to join this project</a>
         <div class="row-fluid hide" data-bind="css: { hide: !people.editing() }">
-                <form class="form-horizontal" data-bind="submit: project.people.add">
-                    <!-- ko foreach: people -->
-                    <div>
-                        <a class=" btn-mini pull-left" data-bind="click: function() { $parent.people.remove($data) }"><i class="icon-remove"></i></a>  
-                        <input type="text" class="span11" placeholder="Who do you wanto to add" data-bind="value: id"/>
-                    </div>
-                    <!-- /ko -->
-                    <div class="well-small">
-                        <button class="btn btn-success" type="submit">Add them all</button>
-                        <a class="btn-mini pull-right" data-bind="click: function() { people.more() }"><i class="icon-plus"></i> Add more</a>
-                        <a class="btn-mini pull-right clear-right" data-bind="click: function() { people.editing(false) }"><i class="icon-remove"></i> Cancel</a>  
-                    </div>
-                </form>
-            </div>
+            <form class="form-horizontal" data-bind="submit: project.people.add">
+                <!-- ko foreach: people -->
+                <div>
+                    <a class=" btn-mini pull-left" data-bind="click: function() { $parent.people.remove($data) }"><i class="icon-remove"></i></a>  
+                    <input type="text" class="span11" placeholder="Who do you wanto to add" data-bind="value: id"/>
+                </div>
+                <!-- /ko -->
+                <div class="well-small">
+                    <button class="btn btn-success" type="submit">Add them all</button>
+                    <a class="btn-mini pull-right" data-bind="click: function() { people.more() }"><i class="icon-plus"></i> Add more</a>
+                    <a class="btn-mini pull-right clear-right" data-bind="click: function() { people.editing(false) }"><i class="icon-remove"></i> Cancel</a>  
+                </div>
+            </form>
+        </div>
     </section>
     
     <script type="text/html" id="person-template">
