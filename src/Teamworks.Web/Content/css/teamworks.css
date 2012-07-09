@@ -4,40 +4,34 @@ body {
 }
 
 a { cursor: pointer; }
-
-form { margin-bottom: 0 }
-
 .main { clear: both; }
 
 [class^="icon-"], [class*=" icon-"] { background-image: none; }
-[class^="icon-"], [class*=" icon-"] { font-size: 1.3em; }
 
 .hide { display: none !important; }
 .clear-left { clear: left; }
 .clear-right { clear: right; }
-.ident { padding-left: 16px; }
 .inline { display: inline-block; }
-.center { border-right: 1px solid #ececec; }
 
 .brand {
     font-family: 'Droid Sans Mono', sans-serif;
     font-weight: 700;
 }
 
-
-div.global-messages {
+.global-messages {
     float: none;
     margin: auto;
     padding-top: 20px;
 }
 
-div.global-messages p { margin: 0; }
+.global-messages p { margin: 0; }
 
-    .more-options {
+.more-options {
     text-align: center;
     padding-top: 10px;
 }
 
+.bottom-divider { border-bottom: 1px solid #ececec; }
 .people .dropdown-menu a { clear: none; }
 
 .people .dropdown-menu p {
@@ -62,11 +56,15 @@ div.global-messages p { margin: 0; }
     box-shadow: none;
 }
 
-p.inline { margin-bottom: 0;    }
+.btn-mini.pull-right + a.pull-right { margin-top: 6px; }
 
 @media (min-width: 980px) {
     .main {
         margin-left: 40px;
         margin-right: 40px;
+    }
+    .center { border-right: 1px solid #ececec; }
+    section.span6 + .span6 {
+        border-left: 1px solid #ececec;
     }
 }

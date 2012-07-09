@@ -40,7 +40,7 @@ namespace Teamworks.Web.Helpers
                                src =>
                                Mapper.Map<IList<Core.Person>, IList<Person>>(
                                   Global.Database.CurrentSession.Load<Core.Person>(src.People))))
-                .ForMember(src => src.Token, opt => opt.MapFrom(src => src.Token(Global.CurrentPerson.Id)));
+                .ForMember(src => src.Token, opt => opt.MapFrom(src => string.Format("tw+{0}@teamworks.mailgun.org", src.Token(Global.CurrentPerson.Id))));
 
 				Mapper.CreateMap<Core.Project, DryProject>()
                 .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier));

@@ -20,6 +20,7 @@ _[Ss]cripts
 *.DS_Store
 *.[Pp]ublish.xml
 *.[Rr]e[Ss]harper
+*.[Dd]otSettings
 *.exe
 
 # nuget

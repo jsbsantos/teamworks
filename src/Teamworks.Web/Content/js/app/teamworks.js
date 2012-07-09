@@ -69,6 +69,12 @@ var TW = TW || { };
         tw.app.alerts.destroy(item);
     };
 
+
     tw.helpers = TW.helpers || { };
     tw.helpers.md5 = CryptoJS.MD5;
+    tw.helpers.copy = function(text) {
+       return function() {
+           window.prompt ("ctrl+c, Enter", text);
+        };
+    };
 }(TW));
