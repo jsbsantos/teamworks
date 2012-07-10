@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Text;
-using DotNetOpenAuth.Messaging;
-using DotNetOpenAuth.OpenId.Extensions.AttributeExchange;
+﻿using DotNetOpenAuth.OpenId.Extensions.AttributeExchange;
 using DotNetOpenAuth.OpenId.RelyingParty;
 
 namespace Teamworks.Core.Oauth2
@@ -17,8 +11,19 @@ namespace Teamworks.Core.Oauth2
         public string Last { get; set; }
         public string ClaimedIdentifier { get; set; }
     }
+
     public class OpenId
     {
+        public static string ClaimKey
+        {
+            get { return "authOpenIdClaim"; }
+        }
+
+        public static string ProviderKey
+        {
+            get { return "authOpenIdProvider"; }
+        }
+
         public OpenIdResult Authenticate(string provider)
         {
             //The Request
@@ -36,7 +41,6 @@ namespace Teamworks.Core.Oauth2
                     fetch.Attributes.AddRequired(WellKnownAttributes.Name.Last);
                     request.AddExtension(fetch);
 
-                    // Send your visitor to their Provider for authentication.
                     request.RedirectToProvider();
                     obj.State = 0;
                     return obj;

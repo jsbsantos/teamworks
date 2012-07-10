@@ -158,6 +158,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controllers\Api\PeopleController.cs" />
+    <Compile Include="Helpers\Teamworks\PersonExtensions.cs" />
     <Compile Include="Models\Api\Permissions.cs" />
     <Compile Include="Controllers\Api\ProjectsController.cs" />
     <Compile Include="Controllers\Api\TimelogController.cs">
