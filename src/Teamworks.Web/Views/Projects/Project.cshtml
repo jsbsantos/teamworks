@@ -19,7 +19,7 @@
                 <div class="hide well-small bottom-divider" data-bind="css: { hide: !activity.editing() }">
                     <form class="form-horizontal" data-bind="submit: project.activities.create">
                         <div class="control-group">
-                            <input type="text" placeholder="Activities name" class="span12" data-bind="value: activity.name, valueUpdate: 'afterkeyup'" />
+                            <input type="text" placeholder="Activities name" class="input-block-level" data-bind="value: activity.name, valueUpdate: 'afterkeyup'" />
 
                         </div>
                         <div class="control-group">
@@ -61,7 +61,7 @@
                 <div class="hide well-small bottom-divider " data-bind="css: { hide: !discussion.editing() }">
                     <form class="form-horizontal" data-bind="submit: project.discussions.create">
                         <div class="control-group">
-                            <input type="text" class="span12" placeholder="Discussion name" data-bind="value: discussion.name, valueUpdate: 'afterkeyup'" />
+                            <input type="text" class="input-block-level" placeholder="Discussion name" data-bind="value: discussion.name, valueUpdate: 'afterkeyup'" />
                         </div>
                         <div class="control-group">
                             <button type="submit" class="btn btn-success pull-right">Start discussing</button>  
