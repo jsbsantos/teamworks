@@ -49,7 +49,7 @@ namespace Teamworks.Web.Controllers.Mvc
                                              "The username or email you specified already exists in the system");
                     return RedirectToAction("Signup");
                 }
-                var person = Core.Person.Forge(result.Email, username, null);
+                var person = Core.Person.Forge(result.Email, username, null, string.Format("{0} {1}", result.First,result.Last));
                 DbSession.Store(person);
                 person.SetOpenId(provider, result.ClaimedIdentifier);
                 return RedirectToAction("View", "Home");
@@ -142,7 +142,7 @@ namespace Teamworks.Web.Controllers.Mvc
                                          "The username or email you specified already exists in the system");
                 RedirectToAction("Signup");
             }
-            var person = Core.Person.Forge(register.Email, register.Username, register.Password);
+            var person = Core.Person.Forge(register.Email, register.Username, register.Password, register.Username);
             DbSession.Store(person);
 
             return RedirectToAction("View", "Home");
@@ -192,7 +192,7 @@ namespace Teamworks.Web.Controllers.Mvc
 
             var content = JObject.Parse(provider.GetProfile(Request.QueryString["code"]));
             var person = Core.Person.Forge(content.Value<string>("email"),
-                                           content.Value<string>("name"), null);
+                                           content.Value<string>("name"), null, content.Value<string>("name"));
 
             var personExists =
                 DbSession.Query<Core.Person>().Where(
