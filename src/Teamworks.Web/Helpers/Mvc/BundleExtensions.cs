@@ -6,14 +6,14 @@ namespace Teamworks.Web.Helpers.Mvc
     {
         public static void EnableTeamworksBundle(this BundleCollection bundles)
         {
-            Bundle css = new StyleBundle("~/css").Include("~/content/css/bootstrap/bootstrap.css",
+            Bundle css = new StyleBundle("~/c/css").Include("~/content/css/bootstrap/bootstrap.css",
                                                           "~/content/css/font-awesome.css",
                                                           "~/content/css/teamworks.css",
                                                           "~/content/css/bootstrap/bootstrap-responsive.css");
 
             bundles.Add(css);
 
-            Bundle js = new ScriptBundle("~/js").Include("~/content/js/libs/iso8601.js",
+            Bundle js = new ScriptBundle("~/c/js").Include("~/content/js/libs/iso8601.js",
                 "~/content/js/libs/crypto/core.js",
                                                          "~/content/js/libs/crypto/md5.js",
                                                          "~/content/js/libs/bootstrap/bootstrap.js",
