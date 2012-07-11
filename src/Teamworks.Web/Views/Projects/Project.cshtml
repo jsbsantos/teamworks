@@ -20,7 +20,7 @@
                     <form class="form-horizontal" data-bind="submit: project.activities.create">
                         <div class="control-group">
                             <input type="text" placeholder="Activities name" class="input-block-level" data-bind="value: activity.name, valueUpdate: 'afterkeyup'" />
-</div>
+                        </div>
                         <div class="control-group">
                             <button type="submit" class="btn btn-success pull-right">Start activity</button>  
                             <a class="btn-mini" data-bind="click: function() { activity.editing(false) }"><i class="icon-remove"></i> Cancel</a>                          
@@ -45,7 +45,7 @@
                     <div>
                         <h3>
                             <a class="well-small" data-bind="text: name, attr: { href: '/projects/' + $parent.project.id() + '/activities/' + id() }"></a>
-                            </h3>
+                        </h3>
                         <p data-bind="text: description"></p>
                     </div>
                 </article>

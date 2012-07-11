@@ -16,14 +16,14 @@ namespace Teamworks.Core
         public IList<IPermission> Permissions { get; set; }
         public IList<TodoList> Todos { get; set; }
 
-        public static Person Forge(string email, string username, string password)
+        public static Person Forge(string email, string username, string password, string name)
         {
             string salt = GenSalt();
             return new Person
                        {
                            Salt = salt,
                            Email = email,
-                           Name = username,
+                           Name = name,
                            Username = username,
                            Roles = new List<string>(),
                            Permissions = new List<IPermission>(),

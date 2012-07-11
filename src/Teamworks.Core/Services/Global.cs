@@ -17,7 +17,6 @@ namespace Teamworks.Core.Services
             get { return Session.Instance; }
         }
 
-
         //exception are used because anonymous should never access this
         public static Person CurrentPerson
         {
