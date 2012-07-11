@@ -65,7 +65,7 @@ namespace Teamworks.Web.Controllers.Api
                     var message = Core.Message.Forge(model.Message, person.Id);
                     message.Reply = messageId[1];
                     message.Id = discussion.GenerateNewTimeEntryId();
-                    discussion.Messages.Add(message);
+                    discussion.Discussions.Add(message);
                     discussion.Notify(message);
                 }
             }

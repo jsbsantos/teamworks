@@ -40,7 +40,7 @@ namespace Teamworks.Web.Controllers.Api
         [GET("discussions/{discussionid}/messages")]
         public IEnumerable<Message> GetProjectDiscussionMessage(int projectid, int discussionid)
         {
-            return LoadProjectDiscussion(projectid, discussionid).Messages.Select(Mapper.Map<Core.Message, Message>);
+            return LoadProjectDiscussion(projectid, discussionid).Discussions.Select(Mapper.Map<Core.Message, Message>);
         }
 
         [POST("discussions/{discussionid}/messages")]
@@ -55,7 +55,7 @@ namespace Teamworks.Web.Controllers.Api
             var message = Core.Message.Forge(model.Content, userPrincipalId);
             message.Id = discussion.GenerateNewTimeEntryId();
 
-            discussion.Messages.Add(message);
+            discussion.Discussions.Add(message);
             discussion.Notify(message);
 
             var value = Mapper.Map<Core.Message, Message>(message);
@@ -67,13 +67,13 @@ namespace Teamworks.Web.Controllers.Api
         {
             var discussion = LoadProjectDiscussion(projectid, discussionid);
 
-            var message = discussion.Messages.FirstOrDefault(m => m.Id == id);
+            var message = discussion.Discussions.FirstOrDefault(m => m.Id == id);
             if (message == null)
             {
                 throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
             }
 
-            discussion.Messages.Remove(message);
+            discussion.Discussions.Remove(message);
             return Request.CreateResponse(HttpStatusCode.NoContent);
         }
 
@@ -114,7 +114,7 @@ namespace Teamworks.Web.Controllers.Api
         public IEnumerable<Message> GetTaskDiscussionMessage(int projectid, int activityid, int discussionid)
         {
             return
-                LoadTaskDiscussion(projectid, activityid, discussionid).Messages.Select(
+                LoadTaskDiscussion(projectid, activityid, discussionid).Discussions.Select(
                     Mapper.Map<Core.Message, Message>);
         }
 
@@ -126,7 +126,7 @@ namespace Teamworks.Web.Controllers.Api
 
             var message = Core.Message.Forge(model.Content, Request.GetCurrentPersonId());
             message.Id = discussion.GenerateNewTimeEntryId();
-            discussion.Messages.Add(message);
+            discussion.Discussions.Add(message);
 
             var value = Mapper.Map<Core.Message, Message>(message);
             return Request.CreateResponse(HttpStatusCode.Created, value);
@@ -137,13 +137,13 @@ namespace Teamworks.Web.Controllers.Api
         {
             var discussion = LoadTaskDiscussion(projectid, activityid, discussionid);
 
-            var message = discussion.Messages.FirstOrDefault(m => m.Id == id);
+            var message = discussion.Discussions.FirstOrDefault(m => m.Id == id);
             if (message == null)
             {
                 throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
             }
 
-            discussion.Messages.Remove(message);
+            discussion.Discussions.Remove(message);
             return Request.CreateResponse(HttpStatusCode.NoContent);
         }
 

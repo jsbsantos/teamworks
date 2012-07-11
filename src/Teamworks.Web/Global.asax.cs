@@ -6,6 +6,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Raven.Client.Exceptions;
 using Teamworks.Core.Authentication;
 using Teamworks.Core.Services;
 using Teamworks.Web.App_Start;
@@ -32,32 +33,34 @@ namespace Teamworks.Web
         public static void RegisterGlobalApiFilters(System.Web.Http.Filters.HttpFilterCollection filters)
         {
             filters.Add(new ModelStateAttribute());
+
             var filter = new ExceptionAttribute();
-            filter.Mappings.Add(typeof(ArgumentException), HttpStatusCode.BadRequest);
+            filter.Mappings.Add(typeof (ReadVetoException), new ExceptionAttribute.Rule { Status = HttpStatusCode.NotFound });
+            filter.Mappings.Add(typeof (ArgumentException), new ExceptionAttribute.Rule { HasBody = true, Status = HttpStatusCode.BadRequest });
             filters.Add(filter);
         }
 
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            
-            routes.MapRoute(
-                 name: "",
-                 url: "projects/{projectid}/{controller}/{identifier}",
-                 defaults: new { action = "View", identifier = UrlParameter.Optional }
-                 );
 
             routes.MapRoute(
-                 name: "",
-                 url: "projects/{identifier}",
-                 defaults: new { controller = "Projects", action = "View", identifier = UrlParameter.Optional }
-                 );
+                name: "",
+                url: "projects/{projectid}/{controller}/{identifier}",
+                defaults: new {action = "View", identifier = UrlParameter.Optional}
+                );
 
             routes.MapRoute(
-                 name: "default",
-                 url: "{controller}/{action}/{id}",
-                 defaults: new { controller = "Home", action = "View", id = UrlParameter.Optional }
-                 );
+                name: "",
+                url: "projects/{identifier}",
+                defaults: new {controller = "Projects", action = "View", identifier = UrlParameter.Optional}
+                );
+
+            routes.MapRoute(
+                name: "default",
+                url: "{controller}/{action}/{id}",
+                defaults: new {controller = "Home", action = "View", id = UrlParameter.Optional}
+                );
         }
 
         protected void Application_Start()
@@ -85,7 +88,5 @@ namespace Teamworks.Web
             Global.Authentication.Add("Basic", new BasicAuthenticator());
             Mappers.RegisterMappers();
         }
-
-        
     }
 }

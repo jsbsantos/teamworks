@@ -23,57 +23,18 @@ namespace Teamworks.Web.Controllers.Mvc
         {
             if (string.IsNullOrEmpty(returnUrl))
             {
-                return View();
+                return View("View");
             }
             Session[ReturnUrlKey] = returnUrl;
-            return RedirectToAction("Login");
+            return RedirectToAction("View");
         }
-
-        [HttpGet]
-        public ActionResult LoginOpenID(string returnUrl, string provider)
-        {
-            if (string.IsNullOrEmpty(provider))
-            {
-                return View("Login");
-            }
-
-            //Session[ReturnUrlKey] = returnUrl;
-
-            var result = new OpenId().Authenticate(provider);
-
-            return OpenIdHandler(
-                result,
-                () =>
-                    {
-                        ModelState.AddModelError("", "The username or password you entered is incorrect.");
-                        return View("login");
-                    },
-                () =>
-                    {
-                        var url = Session[ReturnUrlKey] as string
-                                  ?? FormsAuthentication.DefaultUrl;
-
-                        var person = DbSession.Query<Core.Person>()
-                            .Where(p => p.Email.Equals(result.Email)).SingleOrDefault();
-
-                        if (person == null)
-                        {
-                            ModelState.AddModelError("", "Invalid user or password.");
-                            return RedirectToAction("Signup", "Account");
-                        }
-
-                        return SetUpAuthenticatedUser(person, true);
-                    }
-                );
-        }
-
 
         [HttpPost]
         public ActionResult Login(Login model)
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return View("View", model);
             }
 
             dynamic dyn = new ExpandoObject();
@@ -88,7 +49,7 @@ namespace Teamworks.Web.Controllers.Mvc
             }
 
             ModelState.AddModelError("", "The username or password you entered is incorrect.");
-            return View(model);
+            return View("View", model);
         }
 
         [HttpGet]
@@ -101,7 +62,45 @@ namespace Teamworks.Web.Controllers.Mvc
         [HttpGet]
         public ActionResult Signup()
         {
-            return View();
+            return View("View");
+        }
+
+        [HttpGet]
+        public ActionResult OpenID(string returnUrl, string provider)
+        {
+            if (string.IsNullOrEmpty(provider))
+            {
+                return View("View");
+            }
+
+            //Session[ReturnUrlKey] = returnUrl;
+
+            var result = new OpenId().Authenticate(provider);
+
+            return OpenIdHandler(
+                result,
+                () =>
+                {
+                    ModelState.AddModelError("", "The username or password you entered is incorrect.");
+                    return View("View");
+                },
+                () =>
+                {
+                    var url = Session[ReturnUrlKey] as string
+                              ?? FormsAuthentication.DefaultUrl;
+
+                    var person = DbSession.Query<Core.Person>()
+                        .SingleOrDefault(p => p.Email.Equals(result.Email));
+
+                    if (person == null)
+                    {
+                        ModelState.AddModelError("", "Invalid user or password.");
+                        return RedirectToAction("Signup", "Account");
+                    }
+
+                    return SetUpAuthenticatedUser(person, true);
+                }
+                );
         }
 
         [HttpGet]
@@ -114,7 +113,7 @@ namespace Teamworks.Web.Controllers.Mvc
                 () =>
                     {
                         ModelState.AddModelError("", "Authentication failed. Correct errors and try again.");
-                        return View("Signup");
+                        return View("View");
                     },
                 () => CreateUser(result.First + result.Last, null, result.Email)
                           ? RedirectToAction("View", "Home")
@@ -165,7 +164,7 @@ namespace Teamworks.Web.Controllers.Mvc
         {
             if (!ModelState.IsValid)
             {
-                return View();
+                return View("View");
             }
 
             return CreateUser(register.Username, register.Password, register.Email)

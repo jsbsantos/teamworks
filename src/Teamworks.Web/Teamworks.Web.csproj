@@ -212,6 +212,7 @@
     <Content Include="Content\css\font-awesome.css" />
     <Content Include="Content\css\teamworks.css" />
     <Content Include="Content\font\fontawesome-webfont.svg" />
+    <Content Include="Content\img\google.png" />
     <Content Include="Content\js\app\teamworks.js" />
     <Content Include="Content\js\app\teamworks.start.js" />
     <Content Include="Content\js\app\teamworks.viewmodels.js" />
@@ -266,8 +267,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\Signup.cshtml" />
     <Content Include="Views\Account\View.cshtml" />
     <Content Include="Views\Activities\Activities.cshtml" />
     <Content Include="Views\Activities\Activity.cshtml" />
@@ -301,9 +300,7 @@
       <Name>Teamworks.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Content\img\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Content\font\fontawesome-webfont.eot" />
   </ItemGroup>

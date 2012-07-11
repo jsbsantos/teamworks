@@ -59,10 +59,6 @@ a { cursor: pointer; }
 .btn-mini.pull-right + a.pull-right { margin-top: 6px; }
 
 @media (min-width: 980px) {
-    .main {
-        margin-left: 40px;
-        margin-right: 40px;
-    }
     .center { border-right: 1px solid #ececec; }
     section.span6 + .span6 {
         border-left: 1px solid #ececec;

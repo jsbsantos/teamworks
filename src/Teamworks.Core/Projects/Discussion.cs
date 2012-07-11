@@ -8,7 +8,7 @@ namespace Teamworks.Core
         public string Content { get; set; }
         public DateTime Date { get; set; }
         public string Person { get; set; }
-        public IList<Message> Messages { get; set; }
+        public IList<Message> Discussions { get; set; }
         public string Entity { get; set; }
         public IList<string> Subscribers { get; set; } 
 
@@ -26,7 +26,7 @@ namespace Teamworks.Core
                            Name = name,
                            Content = content,
                            Date = DateTime.Now,
-                           Messages = new List<Message>(),
+                           Discussions = new List<Message>(),
                            Subscribers = new List<string>(),
                            Person = person,
                            LastDiscussionId = 0,

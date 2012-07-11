@@ -84,7 +84,10 @@ namespace Teamworks.Web.Controllers.Api
         [GET("{projectid}/people")]
         public IEnumerable<Person> GetPeople(int projectid)
         {
-            var project = DbSession.Include<Core.Project>(p => p.People).Load<Core.Project>(projectid);
+            var project = DbSession
+                .Include<Core.Project>(p => p.People)
+                .Load<Core.Project>(projectid);
+
             var people = DbSession.Load<Core.Person>(project.People);
 
             return Mapper.Map<IEnumerable<Core.Person>, IEnumerable<Person>>(people);
