@@ -37,21 +37,26 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AttributeRouting">
-      <HintPath>..\..\packages\AttributeRouting.WebApi.2.3.0.0\lib\net40\AttributeRouting.dll</HintPath>
+    <Reference Include="AttributeRouting, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\AttributeRouting.WebApi.2.4.0.0\lib\net40\AttributeRouting.dll</HintPath>
     </Reference>
-    <Reference Include="AttributeRouting.Web">
-      <HintPath>..\..\packages\AttributeRouting.WebApi.2.3.0.0\lib\net40\AttributeRouting.Web.dll</HintPath>
+    <Reference Include="AttributeRouting.Web, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\AttributeRouting.WebApi.2.4.0.0\lib\net40\AttributeRouting.Web.dll</HintPath>
     </Reference>
-    <Reference Include="AttributeRouting.Web.Http">
-      <HintPath>..\..\packages\AttributeRouting.WebApi.2.3.0.0\lib\net40\AttributeRouting.Web.Http.dll</HintPath>
+    <Reference Include="AttributeRouting.Web.Http, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\AttributeRouting.WebApi.2.4.0.0\lib\net40\AttributeRouting.Web.Http.dll</HintPath>
     </Reference>
-    <Reference Include="AttributeRouting.Web.Http.WebHost">
-      <HintPath>..\..\packages\AttributeRouting.WebApi.2.3.0.0\lib\net40\AttributeRouting.Web.Http.WebHost.dll</HintPath>
+    <Reference Include="AttributeRouting.Web.Http.WebHost, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\AttributeRouting.WebApi.2.4.0.0\lib\net40\AttributeRouting.Web.Http.WebHost.dll</HintPath>
     </Reference>
     <Reference Include="AutoMapper">
       <HintPath>..\..\packages\AutoMapper.2.1.267\lib\net40\AutoMapper.dll</HintPath>
     </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -131,8 +136,9 @@
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
-    <Reference Include="WebActivator">
-      <HintPath>..\..\packages\WebActivator.1.0.0.0\lib\WebActivator.dll</HintPath>
+    <Reference Include="WebActivator, Version=1.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\WebActivator.1.5.1\lib\net40\WebActivator.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -141,6 +147,8 @@
     <Compile Include="Controllers\Api\Attribute\ExceptionAttribute.cs" />
     <Compile Include="Controllers\Api\Attribute\ModelStateAttribute.cs" />
     <Compile Include="Controllers\Api\Attribute\SecureForAttribute.cs" />
+    <Compile Include="Controllers\Api\TodoController.cs" />
+    <Compile Include="Controllers\Api\TodoListController.cs" />
     <Compile Include="Controllers\Api\DiscussionsController.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -159,6 +167,8 @@
     </Compile>
     <Compile Include="Controllers\Api\PeopleController.cs" />
     <Compile Include="Helpers\Teamworks\PersonExtensions.cs" />
+    <Compile Include="Models\Api\Todo.cs" />
+    <Compile Include="Models\Api\TodoList.cs" />
     <Compile Include="Models\Api\Permissions.cs" />
     <Compile Include="Controllers\Api\ProjectsController.cs" />
     <Compile Include="Controllers\Api\TimelogController.cs">

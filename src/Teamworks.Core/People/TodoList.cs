@@ -1,15 +1,15 @@
 using System.Collections.Generic;
 
-namespace Teamworks.Core.People
+namespace Teamworks.Core
 {
     public class TodoList
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public IList<Todo> Todos { get; set; }
 
         public int LastTodoId { get; private set; }
-
         public int GenerateNewTodoId()
         {
             return ++LastTodoId;

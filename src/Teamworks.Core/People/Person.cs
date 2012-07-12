@@ -2,7 +2,6 @@
 using System.Security.Cryptography;
 using System.Text;
 using Raven.Bundles.Authorization.Model;
-using Teamworks.Core.People;
 
 namespace Teamworks.Core
 {
@@ -52,5 +51,12 @@ namespace Teamworks.Core
             random.GetBytes(salt);
             return Encoding.UTF8.GetString(salt);
         }
+
+        public int LastTodoListId { get; private set; }
+        public int GenerateNewTodoListId()
+        {
+            return ++LastTodoListId;
+        }
+
     }
 }

@@ -118,6 +118,16 @@ namespace Teamworks.Web.Helpers
                 .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier));
 
             #endregion
+
+            #region TodoList
+            Mapper.CreateMap<TodoList, Core.TodoList>();
+            Mapper.CreateMap<Core.TodoList, TodoList>();
+            #endregion
+
+            #region Todo
+            Mapper.CreateMap<Todo, Core.Todo>();
+            Mapper.CreateMap<Core.Todo, Todo>();
+            #endregion
         }
     }
 }
