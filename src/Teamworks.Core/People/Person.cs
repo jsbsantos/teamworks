@@ -13,7 +13,6 @@ namespace Teamworks.Core
         public string Password { get; set; }
         public IList<string> Roles { get; set; }
         public IList<IPermission> Permissions { get; set; }
-        public IList<TodoList> Todos { get; set; }
 
         public static Person Forge(string email, string username, string password, string name)
         {
@@ -26,7 +25,6 @@ namespace Teamworks.Core
                            Username = username,
                            Roles = new List<string>(),
                            Permissions = new List<IPermission>(),
-                           Todos = new List<TodoList>(),
                            Password = EncodePassword(password, salt)
                        };
         }
@@ -52,11 +50,6 @@ namespace Teamworks.Core
             return Encoding.UTF8.GetString(salt);
         }
 
-        public int LastTodoListId { get; private set; }
-        public int GenerateNewTodoListId()
-        {
-            return ++LastTodoListId;
-        }
-
+       
     }
 }

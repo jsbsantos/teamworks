@@ -13,6 +13,7 @@ namespace Teamworks.Web.Models.Api
         public string Project { get; set; }
 
         public IList<Timelog> Timelogs { get; set; }
+        public IList<TodoList> Todos { get; set; }
         public IList<string> Discussions { get; set; }
         public IList<string> People { get; set; }
 

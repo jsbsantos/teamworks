@@ -9,10 +9,18 @@ namespace Teamworks.Core
         public IList<Timelog> Timelogs { get; set; }
         public IList<string> Discussions { get; set; }
         public IList<string> People{ get; set; }
+        public IList<TodoList> Todos { get; set; }
+        
         public int LastTimeEntryId { get; private set; }
         public int GenerateNewTimeEntryId()
         {
             return ++LastTimeEntryId;
+        }
+        
+        public int LastTodoListId { get; private set; }
+        public int GenerateNewTodoListId()
+        {
+            return ++LastTodoListId;
         }
 
         public static Activity Forge(string project, string name, string description)
@@ -25,6 +33,7 @@ namespace Teamworks.Core
                            Discussions = new List<string>(),
                            People = new List<string>(),
                            Timelogs = new List<Timelog>(),
+                           Todos = new List<TodoList>(),
                            LastTimeEntryId = 0
                        };
         }

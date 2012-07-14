@@ -66,8 +66,8 @@
     <Compile Include="Authentication\PersonIdentity.cs" />
     <Compile Include="Authentication\BasicAuthenticator.cs" />
     <Compile Include="Authentication\AuthenticatorFactory.cs" />
-    <Compile Include="People\Todo.cs" />
-    <Compile Include="People\TodoList.cs" />
+    <Compile Include="Projects\Todo.cs" />
+    <Compile Include="Projects\TodoList.cs" />
     <Compile Include="Projects\Event.cs" />
     <Compile Include="Services\RavenDb\PersonQueryListenter.cs" />
     <Compile Include="Services\RavenDb\Session.cs" />
