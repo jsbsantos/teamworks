@@ -88,7 +88,12 @@ namespace Teamworks.Web.Helpers
                            opt.MapFrom(
                                src =>
                                Mapper.Map<Core.Person, DryPerson>(
-                                   Global.Database.CurrentSession.Load<Core.Person>(src.Person))));
+                                   Global.Database.CurrentSession.Load<Core.Person>(src.Person))))
+                .ForMember(src => src.Messages,
+                           opt =>
+                           opt.MapFrom(
+                               src =>
+                               Mapper.Map<IList<Core.Message>, IList<Message>>(src.Discussions)));
 
             #endregion
 

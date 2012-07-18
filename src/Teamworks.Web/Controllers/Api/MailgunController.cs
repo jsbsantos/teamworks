@@ -33,7 +33,7 @@ namespace Teamworks.Web.Controllers.Api
             var str =
                 Encoding.UTF8.GetString(Convert.FromBase64String(model.Recipient.Substring(3).Split(new char[] {'@'})[0]));
             var split = str.Split(new char[] {':'});
-            var person = "people/" + split[0];
+            var person = split[0];
             var project = split[1];
 
             var discussion = Core.Discussion.Forge(model.Subject, model.Message, project, person);

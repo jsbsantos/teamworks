@@ -29,7 +29,7 @@ namespace Teamworks.Web.Controllers.Mvc
             Session[ReturnUrlKey] = returnUrl;
             return RedirectToAction("Login");
         }
-
+        /*
         [HttpGet]
         public ActionResult SignupOpenId(string provider)
         {
@@ -43,11 +43,14 @@ namespace Teamworks.Web.Controllers.Mvc
             if (result.State > 0) // opendid auth response with success
             {
                 var username = result.First + result.Last;
-                if (UserExists(username, result.Email))
+                var user = GetUser(username, result.Email);
+                if (user != null)
                 {
-                    ModelState.AddModelError("model.unique",
-                                             "The username or email you specified already exists in the system");
-                    return RedirectToAction("Signup");
+                    //ModelState.AddModelError("model.unique",
+                    //                         "The username or email you specified already exists in the system");
+                    //return RedirectToAction("Signup");
+
+                    return SetUpAuthenticatedUser(user, true);
                 }
                 var person = Core.Person.Forge(result.Email, username, null, string.Format("{0} {1}", result.First,result.Last));
                 DbSession.Store(person);
@@ -56,7 +59,35 @@ namespace Teamworks.Web.Controllers.Mvc
             }
             return new EmptyResult();
         }
+        */
+        [HttpGet]
+        public ActionResult OpenId(string provider)
+        {
+            var result = new OpenId().Authenticate(provider); // first request, set state to 0 (zero)
 
+            if (result.State < 0) // opendid auth response with error
+            {
+                ModelState.AddModelError("", "Authentication failed. Correct errors and try again.");
+                return View("View");
+            }
+            if (result.State > 0) // opendid auth response with success
+            {
+                var username = result.First + result.Last;
+                var user = GetUser(username, result.Email);
+                if (user == null)
+                {
+                    //ModelState.AddModelError("model.unique",
+                    //                         "The username or email you specified already exists in the system");
+                    //return RedirectToAction("Signup");
+                    user = Core.Person.Forge(result.Email, username, null, string.Format("{0} {1}", result.First, result.Last));
+                    DbSession.Store(user);
+                    user.SetOpenId(provider, result.ClaimedIdentifier);
+                }
+                return SetUpAuthenticatedUser(user, true);
+            }
+            return new EmptyResult();
+        }
+        /*
         [HttpGet]
         public ActionResult LoginOpenID(string returnUrl, string provider)
         {
@@ -91,7 +122,7 @@ namespace Teamworks.Web.Controllers.Mvc
             Session[ReturnUrlKey] = returnUrl;
             return new EmptyResult();
         }
-
+        */
         [HttpPost]
         public ActionResult Login(Login model)
         {
@@ -135,8 +166,8 @@ namespace Teamworks.Web.Controllers.Mvc
             {
                 return View("View");
             }
-
-            if (UserExists(register.Username, register.Email))
+            var user = GetUser(register.Username, register.Email);
+            if (user != null)
             {
                 ModelState.AddModelError("model.unique",
                                          "The username or email you specified already exists in the system");
@@ -148,12 +179,12 @@ namespace Teamworks.Web.Controllers.Mvc
             return RedirectToAction("View", "Home");
         }
 
-        private bool UserExists(string username = "", string email = "")
+        private Core.Person GetUser(string username = "", string email = "")
         {
             var list = DbSession.Query<Core.Person>()
-                .Count(p => p.Username.Equals(username, StringComparison.InvariantCultureIgnoreCase) ||
+                .Where(p => p.Username.Equals(username, StringComparison.InvariantCultureIgnoreCase) ||
                             p.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase));
-            return list > 0;
+            return list.SingleOrDefault();
         }
 
         private ActionResult SetUpAuthenticatedUser(Core.Person person, bool persist)
@@ -212,5 +243,6 @@ namespace Teamworks.Web.Controllers.Mvc
         }
 
         #endregion
+
     }
 }

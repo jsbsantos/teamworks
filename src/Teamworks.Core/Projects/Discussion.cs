@@ -27,7 +27,7 @@ namespace Teamworks.Core
                            Content = content,
                            Date = DateTime.Now,
                            Discussions = new List<Message>(),
-                           Subscribers = new List<string>(),
+                           Subscribers = new List<string>(){person},
                            Person = person,
                            LastDiscussionId = 0,
                            Entity = entity
