@@ -6,6 +6,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using LowercaseRoutesMVC4;
 using Raven.Client.Exceptions;
 using Teamworks.Core.Authentication;
 using Teamworks.Core.Services;
@@ -44,19 +45,19 @@ namespace Teamworks.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapRoute(
+            routes.MapRouteLowercase(
                 name: "",
                 url: "projects/{projectid}/{controller}/{identifier}",
                 defaults: new {action = "View", identifier = UrlParameter.Optional}
                 );
 
-            routes.MapRoute(
+            routes.MapRouteLowercase(
                 name: "",
                 url: "projects/{identifier}",
                 defaults: new {controller = "Projects", action = "View", identifier = UrlParameter.Optional}
                 );
 
-            routes.MapRoute(
+            routes.MapRouteLowercase(
                 name: "default",
                 url: "{controller}/{action}/{id}",
                 defaults: new {controller = "Home", action = "View", id = UrlParameter.Optional}
