@@ -66,7 +66,7 @@
            
         </section>
         <script type="text/html" id="activities-template">
-            <article>
+            <article class="well-small">
                 <div class="pull-right">
                     <ul class="nav">
                         <li class="dropdown">
@@ -81,14 +81,14 @@
                 </div>
                 <div>
                     <h3>
-                        <a class="well-small" data-bind="text: name, attr: { href: '/projects/' + $parent.project.id() + '/activities/' + id() }"></a>
+                        <a data-bind="text: name, attr: { href: '/projects/' + $parent.project.id() + '/activities/' + id() }"></a>
                     </h3>
                     <p data-bind="text: description"></p>
                 </div>
             </article>
         </script>
         <script type="text/html" id="discussion-template">
-            <article>
+            <article class="well-small">
                 <div class="pull-right">
                     <ul class="nav">
                         <li class="dropdown">
@@ -103,7 +103,7 @@
                 </div>
                 <div>
                     <h3>
-                        <a class="well-small" data-bind="text: name, attr: { href: '/projects/' + $parent.project.id() + '/discussions/' + id() }"></a>
+                        <a data-bind="text: name, attr: { href: '/projects/' + $parent.project.id() + '/discussions/' + id() }"></a>
                     </h3>
                     <p data-bind="text: content"></p>
                 </div>

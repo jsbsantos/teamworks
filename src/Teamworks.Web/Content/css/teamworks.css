@@ -34,6 +34,7 @@ form { margin-bottom: 0; }
 .people input { border-style: none none solid none; moz-border-radius: 0px; webkit-border-radius: 0px; border-radius: 0px; box-shadow: none; }
 .btn-mini.pull-right + a.pull-right { margin-top: 6px; }
 
+.account-area { margin-top: 20px; }
 .tc { text-align: center; }
 
 @media (min-width: 980px) {
