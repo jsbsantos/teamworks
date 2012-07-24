@@ -6,11 +6,14 @@ using System.Net.Http;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
+using Newtonsoft.Json.Linq;
 using Raven.Bundles.Authorization.Model;
 using Raven.Client.Authorization;
 using Teamworks.Web.Helpers.Api;
+using Teamworks.Web.Helpers.Teamworks;
 using Teamworks.Web.Models.Api;
 using Teamworks.Web.Controllers.Api.Attribute;
+using Teamworks.Web.Models.Api.DryModels;
 
 namespace Teamworks.Web.Controllers.Api
 {
@@ -54,7 +57,7 @@ namespace Teamworks.Web.Controllers.Api
                                               {
                                                   Permissions =
                                                       {
-                                                          new DocumentPermission
+                                                          new DocumentPermission()
                                                               {
                                                                   Allow = true,
                                                                   Operation = "/project",
@@ -116,6 +119,7 @@ namespace Teamworks.Web.Controllers.Api
             }
 
             var authorization = DbSession.GetAuthorizationFor(project);
+       
             foreach (var person in people)
             {
                 if (person == null)
@@ -160,6 +164,29 @@ namespace Teamworks.Web.Controllers.Api
             }
             DbSession.SetAuthorizationFor(project, authorization);
             return Request.CreateResponse(HttpStatusCode.NoContent);
+        }
+
+        #endregion
+
+        #region Task Dependencies
+
+        [GET("{projectid}/precedences")]
+        [SecureFor("/projects")]
+        public DependencyGraph GetPre(int projectid)
+        {
+            var project = DbSession
+                .Include<Core.Project>(p => p.Activities)
+                .Load<Core.Project>(projectid);
+
+            if (project == null)
+                Request.NotFound();
+
+            var relations = project.DependencyGraph();
+            var elements = DbSession.Load<Core.Activity>(project.Activities)
+                .Select(Mapper.Map<Core.Activity, DryActivity>)
+                .ToList();
+            
+            return new DependencyGraph(){ Elements = elements, Relations = relations};
         }
 
         #endregion

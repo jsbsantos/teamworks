@@ -7,6 +7,7 @@ namespace Teamworks.Core
         public string Project { get; set; }
         public string Description { get; set; }
         public IList<Timelog> Timelogs { get; set; }
+        public IList<string> Dependencies { get; set; }
         public IList<string> Discussions { get; set; }
         public IList<string> People{ get; set; }
         public IList<TodoList> Todos { get; set; }
@@ -30,6 +31,7 @@ namespace Teamworks.Core
                            Name = name,
                            Project = project,
                            Description = description,
+                           Dependencies = new List<string>(),
                            Discussions = new List<string>(),
                            People = new List<string>(),
                            Timelogs = new List<Timelog>(),

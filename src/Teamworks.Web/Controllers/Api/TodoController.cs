@@ -25,16 +25,14 @@ namespace Teamworks.Web.Controllers.Api
             if (project.Activities.Contains(activityid.ToString()))
             {
                 Request.NotFound();
-                return null;
             }
             var activity = DbSession.Load<Core.Activity>(activityid);
 
             var list = activity.Todos.SingleOrDefault(p => p.Id == id);
-            if (list != null)
-                return Mapper.Map<IEnumerable<Core.Todo>, IEnumerable<Todo>>(list.Todos);
+            if (list == null)
+                Request.NotFound();
 
-            Request.NotFound();
-            return null;
+            return Mapper.Map<IEnumerable<Core.Todo>, IEnumerable<Todo>>(list.Todos);
         }
 
         public Todo Get(int id, int projectid, int activityid, int listid)
@@ -46,7 +44,6 @@ namespace Teamworks.Web.Controllers.Api
             if (project.Activities.Contains(activityid.ToString()))
             {
                 Request.NotFound();
-                return null;
             }
             var activity = DbSession.Load<Core.Activity>(activityid);
 
@@ -63,7 +60,6 @@ namespace Teamworks.Web.Controllers.Api
             if (project.Activities.Contains(activityid.ToString()))
             {
                 Request.NotFound();
-                return null;
             }
             var activity = DbSession.Load<Core.Activity>(activityid);
 
@@ -87,7 +83,6 @@ namespace Teamworks.Web.Controllers.Api
             if (project.Activities.Contains(activityid.ToString()))
             {
                 Request.NotFound();
-                return null;
             }
             var activity = DbSession.Load<Core.Activity>(activityid);
             var list = activity.Todos.Single(p => p.Id == listid);
@@ -111,7 +106,6 @@ namespace Teamworks.Web.Controllers.Api
             if (project.Activities.Contains(activityid.ToString()))
             {
                 Request.NotFound();
-                return null;
             }
             var activity = DbSession.Load<Core.Activity>(activityid);
             var list = activity.Todos.Single(p => p.Id == listid);
