@@ -12,10 +12,11 @@
             <div class="span5">
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#login" data-toggle="tab">Login</a></li>
-                    <li><a href="#signup" data-toggle="tab">Sign up</a></li>
+                    <li><a href="#signup" data-toggle="tab">Register</a></li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" id="login">
+                        <p>You can also use one of the services available.</p>
                         <form  class="form-horizontal"method="post" action="@Url.Action("Login", "Account")" name="login">
                             <div class="control-group">
                                 <label class="control-label" for="username">Username</label>
@@ -37,10 +38,7 @@
                         </form>
                     </div>
                     <div class="tab-pane" id="signup">
-                        <header class="lead">
-                            <h3>Register</h3>
-                            <p>You can also use one of the <strong>OpenID</strong> services available.</p>
-                        </header>
+                        <p>You can also use one of the services available.</p>
                         <form  method="post" class="form-horizontal" action="@Url.Action("Signup", "Account")" name="login">
                             <div class="control-group">
                                 <label class="control-label" for="username">Name</label>
@@ -74,7 +72,7 @@
                 </div>
                 </div>
         <div class="span3">
-            <h4>Or use one of the following services:</h4>
+            <h3>Available services</h3>
             <ul class="thumbnails well-large">
                 <li class="span1">
                     <a class="thumbnail" href="@Url.Action("OpenId", "Account", new {provider = "https://www.google.com/accounts/o8/id"})">

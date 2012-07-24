@@ -37,6 +37,10 @@ form { margin-bottom: 0; }
 .account-area { margin-top: 20px; }
 .tc { text-align: center; }
 
+input + .fetch { display: none; }
+input:focus + .fetch { display: block; }
+
+
 @media (min-width: 980px) {
     .center { border-right: 1px solid #ececec; }
     section.span6 + .span6 {

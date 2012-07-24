@@ -46,17 +46,6 @@
                     <small data-bind="text: description"></small>
                 </h2>
             </a>
-            <div class="people clear-both">
-                <ul class="thumbnails">
-                    <!-- ko foreach: people -->
-                    <li>
-                        <a data-provide="tooltip" class="thumbnail" data-bind="attr: { href: '#', 'title': name }">
-                            <img data-bind="attr: { src: gravatar.small }" />
-                        </a>
-                    </li>
-                    <!-- /ko -->
-                </ul>
-            </div>
         </article>
     </script>
 

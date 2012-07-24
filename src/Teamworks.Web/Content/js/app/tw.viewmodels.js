@@ -1,39 +1,43 @@
 ﻿var TW = TW || { };
 TW.viewmodels = TW.viewmodels || { };
 
-TW.viewmodels.Project = function(endpoint) {
+TW.viewmodels.Project = function (endpoint) {
     var self = this;
     /*project information*/
     self.project = new TW.viewmodels.models.Project();
 
     /* new entities */
-    self.people = ko.observableArray([]);
+    self.people = ko.observable()
+        .extend({ throttle: 500 })
+        .extend({ autocomplete: "/api/people" });
+
+
     self.activity = new TW.viewmodels.models.Activity();
     self.discussion = new TW.viewmodels.models.Discussion();
-    
+
     self.people.editing = ko.observable(false);
     self.activity.editing = ko.observable(false);
     self.discussion.editing = ko.observable(false);
-    
-    self.project.discussions._create = function() {
+
+    self.project.discussions._create = function () {
         $.ajax(endpoint + '/discussions/',
             {
                 type: 'post',
                 data: ko.toJSON(self.discussion),
                 statusCode: {
-                    201: /*created*/function(data) {
+                    201: /*created*/function (data) {
                         self.project.discussions.push(new TW.viewmodels.models.Discussion(data));
                         self.discussion.editing(false);
                         self.discussion.clear();
                     },
-                    400: /*bad request*/function() {
+                    400: /*bad request*/function () {
                         TW.app.alerts.push({ message: 'An error as ocurred.' });
                     }
                 }
             }
         );
     };
-    self.project.discussions._remove = function() {
+    self.project.discussions._remove = function () {
         var discussion = this;
         var message = 'You are about to delete ' + discussion.name() + '.';
         if (confirm(message)) {
@@ -41,32 +45,32 @@ TW.viewmodels.Project = function(endpoint) {
                 {
                     type: 'delete',
                     statusCode: {
-                        204: /*no content*/function() {
+                        204: /*no content*/function () {
                             self.project.discussions.remove(discussion);
                         }
                     }
                 });
         }
     };
-    self.project.activities._create = function() {
+    self.project.activities._create = function () {
         $.ajax(endpoint + '/activities/',
             {
                 type: 'post',
                 data: ko.toJSON(self.activity),
                 statusCode: {
-                    201: /*created*/function(data) {
+                    201: /*created*/function (data) {
                         self.project.activities.push(new TW.viewmodels.models.Activity(data));
                         self.activity.editing(false);
                         self.activity.clear();
                     },
-                    400: /*bad request*/function() {
+                    400: /*bad request*/function () {
                         TW.app.alerts.push({ message: 'An error as ocurred.' });
                     }
                 }
             }
         );
     };
-    self.project.activities._remove = function() {
+    self.project.activities._remove = function () {
         var activity = this;
         var message = 'You are about to delete ' + activity.name() + '.';
         if (confirm(message)) {
@@ -74,52 +78,57 @@ TW.viewmodels.Project = function(endpoint) {
                 {
                     type: 'delete',
                     statusCode: {
-                        204: /*no content*/function() {
+                        204: /*no content*/function () {
                             self.project.activities.remove(activity);
                         }
                     }
                 });
         }
     };
+
+    self.people.list = ko.observableArray([]);
+    self.people._add = function () {
+        var person = this;
+        self.people.list.push(person);
+        self.people("");
+    };
     self.people._ids = ko.computed(function () {
-        return self.people().map(function (item) {
-            var int = parseInt(item.id());
-            return isNaN(int) ? 0 : int;
+        return self.people.list().map(function (item) {
+            var i = parseInt(item.id());
+            return isNaN(i) ? 0 : i;
         });
     });
-    self.people._more = function () { self.people.push({ id: ko.observable("") }); };
-    self.people._more();
-    
-    self.project.people._add = function() {
+
+    self.project.people._add = function () {
         $.ajax(endpoint + '/people', {
-                type: 'post',
-                data: ko.toJSON({ ids: self.people._ids() }),
-                statusCode: {
-                    204: /*created*/function() {
-                        $.ajax(endpoint + '/people',
+            type: 'post',
+            data: ko.toJSON({ ids: self.people._ids() }),
+            statusCode: {
+                204: /*created*/function () {
+                    $.ajax(endpoint + '/people',
                             {
                                 statusCode: {
-                                    200: /*ok*/function(data) {
+                                    200: /*ok*/function (data) {
                                         self.project.people(
-                                            $.map(data, function(item) {
+                                            $.map(data, function (item) {
                                                 return new TW.viewmodels.models.Person(item);
                                             }));
                                     }
                                 }
                             }
                         );
-                        self.people.editing(false);
-                        self.people(new Array());
-                        self.people._more();
-                    },
-                    400: /*bad request*/function() {
-                        TW.app.alerts.push({ message: 'An error as ocurred.' });
-                    }
+                    self.people.editing(false);
+                    self.people(new Array());
+                    self.people._more();
+                },
+                400: /*bad request*/function () {
+                    TW.app.alerts.push({ message: 'An error as ocurred.' });
                 }
             }
+        }
         );
     };
-    self.project.people._remove = function() {
+    self.project.people._remove = function () {
         var person = this;
         var message = 'You are about to remove ' + person.name() + ' from the project.';
         if (confirm(message)) {
@@ -127,7 +136,7 @@ TW.viewmodels.Project = function(endpoint) {
                 {
                     type: 'delete',
                     statusCode: {
-                        204: /*no content*/function() {
+                        204: /*no content*/function () {
                             self.project.people.remove(person);
                         }
                     }
@@ -136,17 +145,17 @@ TW.viewmodels.Project = function(endpoint) {
     };
 
     $.ajax(endpoint, {
-            async: false,
-            statusCode: {
-                200: /*ok*/function(data) {
-                    self.project.load(data);
-                },
-                404: /*not found*/function() {
-                    TW.app.alerts.push({ message: 'The project you requested doesn\'t exist.' });
-                }
+        async: false,
+        statusCode: {
+            200: /*ok*/function (data) {
+                self.project.load(data);
+            },
+            404: /*not found*/function () {
+                TW.app.alerts.push({ message: 'The project you requested doesn\'t exist.' });
             }
-        });
-    
+        }
+    });
+
 };
 
 TW.viewmodels.Projects = function (endpoint) {

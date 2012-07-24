@@ -45,7 +45,7 @@
                             <label class="control-label" for="name">Name</label>
                             <div class="controls">
                                 <div class="input-append">
-                                    <input type="text" placeholder="Discussion title" class="span3" data-bind="value: discussion.name, valueUpdate: 'afterkeyup'" />
+                                    <input type="text" placeholder="Discussion title" class="span3" data-bind="value: discussion.name" />
                                     <button type="submit" class="btn btn-success">Start discussing</button>  
                                 </div>
                             </div>
@@ -125,20 +125,25 @@
         <ul class="thumbnails" data-bind="template: { name: 'person-template', foreach: project.people }"></ul>
         <a href="#" class="more-options" data-bind="visible: !people.editing(), click: function() { people.editing(true); }" >Invite another person to join this project</a>
         <div class="row hide" data-bind="css: { hide: !people.editing() }">
-            <form class="form-horizontal" data-bind="submit: project.people._add">
-                <!-- ko foreach: people -->
-                <div>
-                    <a class="btn-mini inline" data-bind="click: function() { $parent.people._remove($data) }"><i class="icon-remove"></i></a>  
-                    <input type="text" class="span3" placeholder="Who do you wanto to add" data-bind="value: id"/>
-                </div>
-                <!-- /ko -->
+            <form class="form-horizontal" data-bind="submit: people._add">
                 <div class="well-small">
-                    <button class="btn btn-success" type="submit">Add them all</button>
-                    <a class="btn-mini pull-right" data-bind="click: function() { people._more() }"><i class="icon-plus"></i> Add more</a>
-                    <a class="btn-mini pull-right clear-right" data-bind="click: function() { people.editing(false) }"><i class="icon-remove"></i> Cancel</a>  
+                    <input type="text" class="input-block-level" placeholder="Who do you wanto to add" data-bind="value: people, valueUpdate: 'afterkeyup'"/>
+                    <div class="dropdown fetch" data-bind="css: { open: people.values().length > 0 }">
+                        <ul class="dropdown-menu" data-bind="foreach: people.values">
+                            <li><a data-bind="click: $parent.people._add"><strong data-bind="text: name"></strong>
+                                                      (<span data-bind="text: username"></span>)</a></li>
+                        </ul>
+                    </div>
                 </div>
+                
             </form>
+            <div class="well-small">
+                <button class="btn btn-success" type="submit">Invite</button>
+                    
+                <a class="btn-mini" data-bind="click: function() { people.editing(false) }"><i class="icon-remove"></i> Cancel</a>  
+            </div>
         </div>
+        
     </section>
     
     <script type="text/html" id="person-template">

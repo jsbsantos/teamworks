@@ -20,7 +20,7 @@
     ko.extenders.min_length = function (target, min) {
         var fn = function (value) {
             var valid = value && value.length > min;
-            target.validation_message(valid ?[] : [""+ min]);
+            target.validation_message(valid ? [] : ["" + min]);
         };
         return validate(target, fn);
     };
@@ -41,6 +41,28 @@
             }
         });
         target.formatted(target());
+        return target;
+    };
+    ko.extenders.autocomplete = function (target, endpoint) {
+        target.values = ko.observableArray([]);
+        function fetch(value) {
+            target.values([]);
+            if (value && value.length > 2) {
+                $.ajax(endpoint + '?filter=' + value,
+                    {
+                        statusCode: {
+                            200: /*ok*/function (data) {
+                                target.values($.map(data, function (item) {
+                                    return new TW.viewmodels.models.Person(item);
+                                }));
+                            }
+                        }
+                    });
+            }
+        }
+
+        fetch(target());
+        target.subscribe(fetch);
         return target;
     };
 } ());
