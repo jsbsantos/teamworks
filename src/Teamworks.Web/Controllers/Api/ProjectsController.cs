@@ -6,11 +6,14 @@ using System.Net.Http;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
+using Newtonsoft.Json.Linq;
 using Raven.Bundles.Authorization.Model;
 using Raven.Client.Authorization;
 using Teamworks.Web.Helpers.Api;
+using Teamworks.Web.Helpers.Teamworks;
 using Teamworks.Web.Models.Api;
 using Teamworks.Web.Controllers.Api.Attribute;
+using Teamworks.Web.Models.Api.DryModels;
 
 namespace Teamworks.Web.Controllers.Api
 {
@@ -23,9 +26,9 @@ namespace Teamworks.Web.Controllers.Api
         {
             var projects = DbSession
                 .Query<Core.Project>().Customize(q => q
-                    .Include<Core.Project>(p => p.Activities)
-                    .Include<Core.Project>(p => p.Discussions)
-                    .Include<Core.Project>(p => p.People))
+                                                          .Include<Core.Project>(p => p.Activities)
+                                                          .Include<Core.Project>(p => p.Discussions)
+                                                          .Include<Core.Project>(p => p.People))
                 .ToList();
 
             return Mapper.Map<IEnumerable<Core.Project>, IEnumerable<Project>>(projects);
@@ -39,7 +42,7 @@ namespace Teamworks.Web.Controllers.Api
                 .Include<Core.Project>(p => p.Activities)
                 .Include<Core.Project>(p => p.People)
                 .Load<Core.Project>(id);
-            
+
             return Mapper.Map<Core.Project, Project>(project);
         }
 
@@ -52,12 +55,15 @@ namespace Teamworks.Web.Controllers.Api
             DbSession.SetAuthorizationFor(project,
                                           new DocumentAuthorization()
                                               {
-                                                  Permissions = { new DocumentPermission()
-                                                                      {
-                                                                          Allow = true,
-                                                                          Operation = "/project",
-                                                                          User = Request.GetCurrentPersonId()
-                                                                      }},
+                                                  Permissions =
+                                                      {
+                                                          new DocumentPermission()
+                                                              {
+                                                                  Allow = true,
+                                                                  Operation = "/project",
+                                                                  User = Request.GetCurrentPersonId()
+                                                              }
+                                                      },
                                                   Tags = new List<string>()
                                               });
 
@@ -65,7 +71,8 @@ namespace Teamworks.Web.Controllers.Api
             var value = Mapper.Map<Core.Project, Project>(project);
             var response = Request.CreateResponse(HttpStatusCode.Created, value);
 
-            var uri = Uri.UriSchemeHttp + Uri.SchemeDelimiter + Request.RequestUri.Authority + Url.Route(null, new { id = project.Id });
+            var uri = Uri.UriSchemeHttp + Uri.SchemeDelimiter + Request.RequestUri.Authority +
+                      Url.Route(null, new {id = project.Id});
             response.Headers.Location = new Uri(uri);
             return response;
         }
@@ -92,7 +99,7 @@ namespace Teamworks.Web.Controllers.Api
 
             return Mapper.Map<IEnumerable<Core.Person>, IEnumerable<Person>>(people);
         }
-        
+
         [SecureFor("/projects")]
         [POST("{projectid}/people")]
         public HttpResponseMessage Post(int projectid, Permissions model)
@@ -113,7 +120,7 @@ namespace Teamworks.Web.Controllers.Api
             }
 
             var authorization = DbSession.GetAuthorizationFor(project);
-            
+
             foreach (var person in people)
             {
                 if (person == null)
@@ -121,13 +128,13 @@ namespace Teamworks.Web.Controllers.Api
                     continue;
                 }
                 authorization.Permissions.Add(new DocumentPermission()
-                                                      {
-                                                          Allow = true,
-                                                          Operation = "/project",
-                                                          User = person.Id
-                                                      });
+                                                  {
+                                                      Allow = true,
+                                                      Operation = "/project",
+                                                      User = person.Id
+                                                  });
             }
-            
+
             DbSession.SetAuthorizationFor(project, authorization);
             project.People.Add(Request.GetCurrentPersonId());
 
@@ -158,6 +165,29 @@ namespace Teamworks.Web.Controllers.Api
             }
             DbSession.SetAuthorizationFor(project, authorization);
             return Request.CreateResponse(HttpStatusCode.NoContent);
+        }
+
+        #endregion
+
+        #region Task Dependencies
+
+        [GET("{projectid}/precedences")]
+        [SecureFor("/projects")]
+        public DependencyGraph GetPre(int projectid)
+        {
+            var project = DbSession
+                .Include<Core.Project>(p => p.Activities)
+                .Load<Core.Project>(projectid);
+
+            if (project == null)
+                Request.NotFound();
+
+            var relations = project.DependencyGraph();
+            var elements = DbSession.Load<Core.Activity>(project.Activities)
+                .Select(Mapper.Map<Core.Activity, DryActivity>)
+                .ToList();
+            
+            return new DependencyGraph(){ Elements = elements, Relations = relations};
         }
 
         #endregion

@@ -12,5 +12,8 @@ namespace Teamworks.Web.Models.Mvc
 
         [Required]
         public string Username { get; set; }
+
+        [Required]
+        public string Name { get; set; }
     }
 }

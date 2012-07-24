@@ -22,5 +22,6 @@ namespace Teamworks.Core
                 return int.TryParse(Id.Substring(i + 1, Id.Length - i - 1), out id) ? id : 0;
             }
         }
+
     }
 }

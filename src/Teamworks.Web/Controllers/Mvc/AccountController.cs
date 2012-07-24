@@ -29,37 +29,7 @@ namespace Teamworks.Web.Controllers.Mvc
             Session[ReturnUrlKey] = returnUrl;
             return RedirectToAction("Login");
         }
-        /*
-        [HttpGet]
-        public ActionResult SignupOpenId(string provider)
-        {
-            var result = new OpenId().Authenticate(provider); // first request, set state to 0 (zero)
-
-            if (result.State < 0) // opendid auth response with error
-            {
-                ModelState.AddModelError("", "Authentication failed. Correct errors and try again.");
-                return View("View");
-            }
-            if (result.State > 0) // opendid auth response with success
-            {
-                var username = result.First + result.Last;
-                var user = GetUser(username, result.Email);
-                if (user != null)
-                {
-                    //ModelState.AddModelError("model.unique",
-                    //                         "The username or email you specified already exists in the system");
-                    //return RedirectToAction("Signup");
-
-                    return SetUpAuthenticatedUser(user, true);
-                }
-                var person = Core.Person.Forge(result.Email, username, null, string.Format("{0} {1}", result.First,result.Last));
-                DbSession.Store(person);
-                person.SetOpenId(provider, result.ClaimedIdentifier);
-                return RedirectToAction("View", "Home");
-            }
-            return new EmptyResult();
-        }
-        */
+        
         [HttpGet]
         public ActionResult OpenId(string provider)
         {
@@ -76,9 +46,6 @@ namespace Teamworks.Web.Controllers.Mvc
                 var user = GetUser(username, result.Email);
                 if (user == null)
                 {
-                    //ModelState.AddModelError("model.unique",
-                    //                         "The username or email you specified already exists in the system");
-                    //return RedirectToAction("Signup");
                     user = Core.Person.Forge(result.Email, username, null, string.Format("{0} {1}", result.First, result.Last));
                     DbSession.Store(user);
                     user.SetOpenId(provider, result.ClaimedIdentifier);
@@ -87,42 +54,7 @@ namespace Teamworks.Web.Controllers.Mvc
             }
             return new EmptyResult();
         }
-        /*
-        [HttpGet]
-        public ActionResult LoginOpenID(string returnUrl, string provider)
-        {
-            if (string.IsNullOrEmpty(provider))
-            {
-                return View("View");
-            }
-
-            var result = new OpenId().Authenticate(provider);
-
-            if (result.State == 0)
-            {
-                ModelState.AddModelError("", "The username or password you entered is incorrect.");
-                return View("View");
-            }
-            if (result.State > 0)
-            {
-                var url = Session[ReturnUrlKey] as string
-                          ?? FormsAuthentication.DefaultUrl;
-
-                var person = DbSession.Query<Core.Person>()
-                    .Where(p => p.Email.Equals(result.Email)).SingleOrDefault();
-
-                if (person == null || !person.GetOpenIdClaim().Equals(result.ClaimedIdentifier,StringComparison.Ordinal))
-                {
-                    ModelState.AddModelError("", "Invalid user or password.");
-                    return RedirectToAction("Login", "Account");
-                }
-
-                return SetUpAuthenticatedUser(person, true);
-            }
-            Session[ReturnUrlKey] = returnUrl;
-            return new EmptyResult();
-        }
-        */
+        
         [HttpPost]
         public ActionResult Login(Login model)
         {
@@ -171,9 +103,9 @@ namespace Teamworks.Web.Controllers.Mvc
             {
                 ModelState.AddModelError("model.unique",
                                          "The username or email you specified already exists in the system");
-                RedirectToAction("Signup");
+                return RedirectToAction("Signup");
             }
-            var person = Core.Person.Forge(register.Email, register.Username, register.Password, register.Username);
+            var person = Core.Person.Forge(register.Email, register.Username, register.Password, register.Name);
             DbSession.Store(person);
 
             return RedirectToAction("View", "Home");
