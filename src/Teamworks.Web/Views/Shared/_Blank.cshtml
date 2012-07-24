@@ -1,0 +1,41 @@
+@using System.Web.Optimization
+@using Teamworks.Web.Views
+<!doctype html>
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!-- Consider adding a manifest.appcache: h5bp.com/d/Offline -->
+<!--[if gt IE 8]><!--><html class="no-js" lang="en"><!--[endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>@ViewBag.Title Teamworks</title>
+    <meta name="description" content="teamworks">
+    <meta name="author" content="Filipe Pinheiro, João Santos"/>
+    <!-- Mobile viewport optimized: h5bp.com/viewport -->
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
+    <!-- Custom font from google -->
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+    @Styles.Render("~/css")
+    <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
+    <!-- All JavaScript at the bottom, except this Modernizr build.
+        Modernizr enables HTML5 elements & feature detects for optimal performance.
+        Create your own custom Modernizr build: www.modernizr.com/download/ -->
+    <script src="@Url.Content("~/content/js/libs/modernizr-2.5.3-respond-1.1.0.min.js")"> </script>
+</head>
+<body>
+    <!--[if lt IE 9]><p class="chrome-frame alert alert-error">Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site correctly.</p><![endif]-->
+    @RenderBody()   
+    <footer class="well-large tc">
+        <p>© Copyright 2012 Filipe Pinheiro (@@fampinheiro) e João Santos.</p>
+    </footer>
+    <!-- JavaScript at the bottom for fast page loading -->
+    <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"> </script>
+    <script> window.jQuery || document.write('<script src="@Url.Content("~/content/js/libs/jquery-1.7.2.min.js")"><\/script>') </script>
+    <!-- Placed at the end of the document so the layout load faster -->
+    @Scripts.Render("~/js")
+</body>
+</html>

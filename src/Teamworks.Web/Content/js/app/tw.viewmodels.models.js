@@ -5,9 +5,9 @@ var TW = TW || { };
 TW.viewmodels = TW.viewmodels || { };
 TW.viewmodels.models = TW.viewmodels.models || { };
 
-TW.viewmodels.models.Project = function(data) {
+TW.viewmodels.models.Project = function (data) {
     var self = this;
-    self.load = function(data) {
+    self.load = function (data) {
         self.id(data.id);
         self.name(data.name);
         self.description(data.description);
@@ -17,27 +17,27 @@ TW.viewmodels.models.Project = function(data) {
             return new TW.viewmodels.models.Person(item);
         }));
 
-        self.discussions($.map(data.discussions || { }, function(item) {
+        self.discussions($.map(data.discussions || {}, function (item) {
             return new TW.viewmodels.models.Discussion(item);
         }));
 
-        self.activities($.map(data.activities || { }, function(item) {
+        self.activities($.map(data.activities || {}, function (item) {
             return new TW.viewmodels.models.Activity(item);
         }));
     };
 
     self.id = ko.observable();
-    self.name = ko.observable();
+    self.name = ko.observable().extend({ min_length: 6 });
     self.description = ko.observable();
     self.token = ko.observable();
 
     self.people = ko.observableArray([]);
     self.activities = ko.observableArray([]);
     self.discussions = ko.observableArray([]);
-    self.clear = function() {
-        self.load({ });
+    self.clear = function () {
+        self.load({});
     };
-    self.load(data || { });
+    self.load(data || {});
 };
 
 TW.viewmodels.models.Discussion = function(data) {

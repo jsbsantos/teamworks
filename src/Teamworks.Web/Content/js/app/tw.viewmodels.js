@@ -3,19 +3,19 @@ TW.viewmodels = TW.viewmodels || { };
 
 TW.viewmodels.Project = function(endpoint) {
     var self = this;
-
+    /*project information*/
     self.project = new TW.viewmodels.models.Project();
 
+    /* new entities */
+    self.people = ko.observableArray([]);
     self.activity = new TW.viewmodels.models.Activity();
-    self.activity.editing = ko.observable(false);
-
     self.discussion = new TW.viewmodels.models.Discussion();
+    
+    self.people.editing = ko.observable(false);
+    self.activity.editing = ko.observable(false);
     self.discussion.editing = ko.observable(false);
-
-    self.project.discussions.empty = ko.computed(function() {
-        return self.project.discussions.length == 0;
-    });
-    self.project.discussions.create = function() {
+    
+    self.project.discussions._create = function() {
         $.ajax(endpoint + '/discussions/',
             {
                 type: 'post',
@@ -33,7 +33,7 @@ TW.viewmodels.Project = function(endpoint) {
             }
         );
     };
-    self.project.discussions.remove = function() {
+    self.project.discussions._remove = function() {
         var discussion = this;
         var message = 'You are about to delete ' + discussion.name() + '.';
         if (confirm(message)) {
@@ -42,16 +42,13 @@ TW.viewmodels.Project = function(endpoint) {
                     type: 'delete',
                     statusCode: {
                         204: /*no content*/function() {
-                            self.project.discussions.destroy(discussion);
+                            self.project.discussions.remove(discussion);
                         }
                     }
                 });
         }
     };
-    self.project.activities.empty = ko.computed(function() {
-        return self.project.activities().length === 0;
-    });
-    self.project.activities.create = function() {
+    self.project.activities._create = function() {
         $.ajax(endpoint + '/activities/',
             {
                 type: 'post',
@@ -69,7 +66,7 @@ TW.viewmodels.Project = function(endpoint) {
             }
         );
     };
-    self.project.activities.remove = function() {
+    self.project.activities._remove = function() {
         var activity = this;
         var message = 'You are about to delete ' + activity.name() + '.';
         if (confirm(message)) {
@@ -78,53 +75,25 @@ TW.viewmodels.Project = function(endpoint) {
                     type: 'delete',
                     statusCode: {
                         204: /*no content*/function() {
-                            self.project.activities.destroy(activity);
+                            self.project.activities.remove(activity);
                         }
                     }
                 });
         }
     };
-
-    self.people = ko.observableArray([]);
-    self.people.editing = ko.observable(false);
-    self.people.ids = ko.computed(function() {
-        return self.people().map(function(item) {
+    self.people._ids = ko.computed(function () {
+        return self.people().map(function (item) {
             var int = parseInt(item.id());
             return isNaN(int) ? 0 : int;
         });
     });
-    self.people.sugestions = ko.computed(function() {
-        var suggested = ko.observableArray([]);
-        return {
-            read: function() {
-                return suggested;
-            },
-            write: function(value) {
-                $.ajax('/api/people?filter=' + value,
-                    {
-                        statusCode: {
-                            200: /*no content*/function(data) {
-                                suggested($.map(data, function() {
-                                    return new TW.viewmodels.models.Person(data);
-                                }));
-                            }
-                        }
-                    });
-            }
-        };
-    });
-    self.people.more = function() {
-        self.people.push({ id: ko.observable("") });
-    };
-    self.project.people.add = function() {
-        var data = {
-            ids: self.people.ids()
-        };
-
-        $.ajax(endpoint + '/people',
-            {
+    self.people._more = function () { self.people.push({ id: ko.observable("") }); };
+    self.people._more();
+    
+    self.project.people._add = function() {
+        $.ajax(endpoint + '/people', {
                 type: 'post',
-                data: ko.toJSON(data),
+                data: ko.toJSON({ ids: self.people._ids() }),
                 statusCode: {
                     204: /*created*/function() {
                         $.ajax(endpoint + '/people',
@@ -141,7 +110,7 @@ TW.viewmodels.Project = function(endpoint) {
                         );
                         self.people.editing(false);
                         self.people(new Array());
-                        self.people.more();
+                        self.people._more();
                     },
                     400: /*bad request*/function() {
                         TW.app.alerts.push({ message: 'An error as ocurred.' });
@@ -150,7 +119,7 @@ TW.viewmodels.Project = function(endpoint) {
             }
         );
     };
-    self.project.people.remove = function() {
+    self.project.people._remove = function() {
         var person = this;
         var message = 'You are about to remove ' + person.name() + ' from the project.';
         if (confirm(message)) {
@@ -159,15 +128,14 @@ TW.viewmodels.Project = function(endpoint) {
                     type: 'delete',
                     statusCode: {
                         204: /*no content*/function() {
-                            self.project.people.destroy(person);
+                            self.project.people.remove(person);
                         }
                     }
                 });
         }
     };
 
-    $.ajax(endpoint,
-        {
+    $.ajax(endpoint, {
             async: false,
             statusCode: {
                 200: /*ok*/function(data) {
@@ -178,35 +146,35 @@ TW.viewmodels.Project = function(endpoint) {
                 }
             }
         });
-    self.people.more();
+    
 };
 
-TW.viewmodels.Projects = function(endpoint) {
+TW.viewmodels.Projects = function (endpoint) {
     var self = this;
     self.project = new TW.viewmodels.models.Project();
     self.project.editing = ko.observable(false);
 
     self.projects = ko.observableArray([]);
-    self.projects.create = function() {
+    self.projects._create = function () {
         $.ajax(endpoint,
             {
                 type: 'post',
                 data: ko.toJSON(self.project),
                 statusCode: {
-                    201: /*created*/function(data) {
+                    201: /*created*/function (data) {
                         self.projects.push(new TW.viewmodels.models.Project(data));
                         self.project.editing(false);
                         self.project.clear();
                     },
-                    400: /*bad request*/function(data) {
-                        TW.app.alerts.push({ message: 'An error as ocurred.' });
+                    400: /*bad request*/function (data) {
+                        TW.helpers.bad_format(self.project, data.responseText);
                     }
                 }
             }
         );
     };
 
-    self.projects.remove = function() {
+    self.projects._remove = function () {
         var project = this;
         var message = 'You are about to delete ' + project.name() + '.';
         if (confirm(message)) {
@@ -214,17 +182,17 @@ TW.viewmodels.Projects = function(endpoint) {
                 {
                     type: 'delete',
                     statusCode: {
-                        204: /*no content*/function() {
-                            self.projects.destroy(project);
+                        204: /*no content*/function () {
+                            self.projects.remove(project);
                         }
                     }
                 });
         }
     };
 
-    $.getJSON(endpoint, function(projects) {
+    $.getJSON(endpoint, function (projects) {
         self.projects(
-            $.map(projects, function(item) {
+            $.map(projects, function (item) {
                 return new TW.viewmodels.models.Project(item);
             }));
     });

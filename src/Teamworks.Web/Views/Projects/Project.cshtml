@@ -14,58 +14,43 @@
         <!-- Activities -->
         <section class="well-large">
             <header class="lead">
-                <h2 class="inline">Activities</h2>
-                <a class="btn-mini" href="#" data-bind="visible: !activity.editing(), click: function() { activity.editing(true); }">One more activity</a>
-                <div class="hide well-small bottom-divider" data-bind="css: { hide: !activity.editing() }">
-                    <form class="form-horizontal" data-bind="submit: project.activities.create">
-                        <div class="control-group">
-                            <input type="text" placeholder="Activities name" class="input-block-level" data-bind="value: activity.name, valueUpdate: 'afterkeyup'" />
-                        </div>
-                        <div class="control-group">
-                            <button type="submit" class="btn btn-success pull-right">Start activity</button>  
-                            <a class="btn-mini" data-bind="click: function() { activity.editing(false) }"><i class="icon-remove"></i> Cancel</a>                          
+                <h2>Activities <a href="#" class="btn-mini" data-bind="visible: !activity.editing(), click: function() { activity.editing(true); }">One more activity</a></h2>
+                <div class="hide" data-bind="css: { hide: !activity.editing() }">
+                    <form class="form-horizontal" data-bind="submit: project.activities._create">
+                        <div class="control-group inline">
+                            <label class="control-label" for="name">Name</label>
+                            <div class="controls">
+                                <div class="input-append">
+                                    <input type="text" placeholder="Activities name" class="span3" data-bind="value: activity.name, valueUpdate: 'afterkeyup'" />
+                                    <button type="submit" class="btn btn-success">Start activity</button>  
+                                </div>
+                                <a class="btn-mini" data-bind="click: function() { activity.editing(false) }"><i class="icon-remove"></i></a>                   
+                            </div>
                         </div>
                     </form>
                 </div>
             </header>
             <div data-bind="template: { name: 'activities-template', foreach: project.activities }"></div>
             
-            <script type="text/html" id="activities-template">
-                <article class="row-fluid">
-                    <ul class="pull-right nav nav-pills">
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                <i class="icon-caret-down"></i>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a data-bind="click: $parent.project.activities.remove" href="#"><i class="icon-trash"></i> Remover</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <div>
-                        <h3>
-                            <a class="well-small" data-bind="text: name, attr: { href: '/projects/' + $parent.project.id() + '/activities/' + id() }"></a>
-                        </h3>
-                        <p data-bind="text: description"></p>
-                    </div>
-                </article>
-            </script>
+           
         </section>
         
         <!-- Discussion -->
         <section class="well-large">
             <header class="lead">
-                <h2 class="inline">Discussion</h2>
-                <a class="btn-mini" href="#" data-bind="visible: !discussion.editing(), click: function() { discussion.editing(true); }">One more discussion</a>
-                <div class="hide well-small bottom-divider " data-bind="css: { hide: !discussion.editing() }">
-                    <form class="form-horizontal" data-bind="submit: project.discussions.create">
-                        <div class="control-group">
-                            <input type="text" class="input-block-level" placeholder="Discussion name" data-bind="value: discussion.name, valueUpdate: 'afterkeyup'" />
+                <h2>Discussion  <a href="#" class="btn-mini" data-bind="visible: !discussion.editing(), click: function() { discussion.editing(true); }">One more discussion</a></h2>
+                <div class="hide" data-bind="css: { hide: !discussion.editing() }">
+                    <form class="form-horizontal" data-bind="submit: project.discussions._create">
+                        <div class="control-group inline">
+                            <label class="control-label" for="name">Name</label>
+                            <div class="controls">
+                                <div class="input-append">
+                                    <input type="text" placeholder="Discussion title" class="span3" data-bind="value: discussion.name, valueUpdate: 'afterkeyup'" />
+                                    <button type="submit" class="btn btn-success">Start discussing</button>  
+                                </div>
+                            </div>
                         </div>
-                        <div class="control-group">
-                            <button type="submit" class="btn btn-success pull-right">Start discussing</button>  
-                            <a class="btn-mini" data-bind="click: function() { discussion.editing(false) }"><i class="icon-remove"></i> Cancel</a>  
-                        </div>
+                        <a class="btn-mini" data-bind="click: function() { discussion.editing(false) }"><i class="icon-remove"></i></a>  
                     </form>
                 </div>
             </header>
@@ -78,27 +63,52 @@
                 <i class="icon-copy"></i>
             </div>
             
-            <script type="text/html" id="discussion-template">
-                <article class="row-fluid">
-                    <ul class="pull-right nav nav-pills">
+           
+        </section>
+        <script type="text/html" id="activities-template">
+            <article class="well-small">
+                <div class="pull-right">
+                    <ul class="nav">
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                 <i class="icon-caret-down"></i>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a data-bind="click: $parent.project.discussions.remove" href="#"><i class="icon-trash"></i> Remover</a></li>
+                                <li><a data-bind="click: $parent.project.activities._remove" href="#"><i class="icon-trash"></i> Remover</a></li>
                             </ul>
                         </li>
                     </ul>
-                    <div>
-                        <h3>
-                            <a data-bind="text: name, attr: { href: '/projects/' + $parent.project.id() + '/discussions/' + id() }"></a>
-                        </h3>
-                        <p class="inline" data-bind="text: content"></p>
-                    </div>
-                </article>
-            </script>
-        </section>
+                </div>
+                <div>
+                    <h3>
+                        <a data-bind="text: name, attr: { href: '/projects/' + $parent.project.id() + '/activities/' + id() }"></a>
+                    </h3>
+                    <p data-bind="text: description"></p>
+                </div>
+            </article>
+        </script>
+        <script type="text/html" id="discussion-template">
+            <article class="well-small">
+                <div class="pull-right">
+                    <ul class="nav">
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a data-bind="click: $parent.project.discussions._remove" href="#"><i class="icon-trash"></i> Remover</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>
+                        <a data-bind="text: name, attr: { href: '/projects/' + $parent.project.id() + '/discussions/' + id() }"></a>
+                    </h3>
+                    <p data-bind="text: content"></p>
+                </div>
+            </article>
+        </script>
     </div>
     
     <script>
@@ -110,21 +120,21 @@
 
 @section Right
 {
-    <section class="people">
+    <section class="people left-border">
         <h2>People</h2>
         <ul class="thumbnails" data-bind="template: { name: 'person-template', foreach: project.people }"></ul>
         <a href="#" class="more-options" data-bind="visible: !people.editing(), click: function() { people.editing(true); }" >Invite another person to join this project</a>
-        <div class="row-fluid hide" data-bind="css: { hide: !people.editing() }">
-            <form class="form-horizontal" data-bind="submit: project.people.add">
+        <div class="row hide" data-bind="css: { hide: !people.editing() }">
+            <form class="form-horizontal" data-bind="submit: project.people._add">
                 <!-- ko foreach: people -->
                 <div>
-                    <a class=" btn-mini pull-left" data-bind="click: function() { $parent.people.remove($data) }"><i class="icon-remove"></i></a>  
-                    <input type="text" class="span11" placeholder="Who do you wanto to add" data-bind="value: id"/>
+                    <a class="btn-mini inline" data-bind="click: function() { $parent.people._remove($data) }"><i class="icon-remove"></i></a>  
+                    <input type="text" class="span3" placeholder="Who do you wanto to add" data-bind="value: id"/>
                 </div>
                 <!-- /ko -->
                 <div class="well-small">
                     <button class="btn btn-success" type="submit">Add them all</button>
-                    <a class="btn-mini pull-right" data-bind="click: function() { people.more() }"><i class="icon-plus"></i> Add more</a>
+                    <a class="btn-mini pull-right" data-bind="click: function() { people._more() }"><i class="icon-plus"></i> Add more</a>
                     <a class="btn-mini pull-right clear-right" data-bind="click: function() { people.editing(false) }"><i class="icon-remove"></i> Cancel</a>  
                 </div>
             </form>
@@ -134,15 +144,15 @@
     <script type="text/html" id="person-template">
         <li class="dropdown">
             <a class="thumbnail dropdown-toggle inline" data-toggle="dropdown" rel="tooltip-top" data-bind="attr: { href: '#', 'title': name }">
-                <img data-bind="attr: { src: gravatar.small }" />
+                <img data-bind="attr: { src: gravatar.medium }" />
             </a>               
-            <ul class="dropdown-menu well-small">
+            <ul class="dropdown-menu well-mini">
                 <img class="pull-left" data-bind="attr: { src: gravatar.medium }" />
                 <div>
                     <p data-bind="text: username"></p>
                     <h3><a data-bind="text: name"></a></h3>
                     <p data-bind="text: email"></p>
-                    <form class="more-options clear-left pull-right" data-bind="submit: $parent.project.people.remove">
+                    <form class="more-options clear-left pull-right" data-bind="submit: $parent.project.people._remove">
                         <button class="btn" type="submit" name="remove">Remove from project</button>
                     </form>
                 </div>

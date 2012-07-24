@@ -19,10 +19,10 @@ namespace Teamworks.Web.Helpers.Mvc
                                                          "~/content/js/libs/bootstrap/bootstrap.js",
                                                          "~/content/js/libs/knockout-2.0.0.js",
                                                          "~/content/js/libs/knockout.unobtrusive.js",
-                                                         "~/content/js/app/teamworks.js",
-                                                         "~/content/js/app/teamworks.viewmodels.models.js",
-                                                         "~/content/js/app/teamworks.viewmodels.js",
-                                                         "~/content/js/app/teamworks.start.js");
+                                                         "~/content/js/app/tw.base.js",
+                                                         "~/content/js/app/tw.knockout.js",
+                                                         "~/content/js/app/tw.viewmodels.models.js",
+                                                         "~/content/js/app/tw.viewmodels.js");
 #if !DEBUG            
             js.Include("~/content/js/gac.js");
 #endif

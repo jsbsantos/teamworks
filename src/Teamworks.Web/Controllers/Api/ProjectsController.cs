@@ -53,7 +53,7 @@ namespace Teamworks.Web.Controllers.Api
 
             DbSession.Store(project);
             DbSession.SetAuthorizationFor(project,
-                                          new DocumentAuthorization()
+                                          new DocumentAuthorization
                                               {
                                                   Permissions =
                                                       {
@@ -96,7 +96,6 @@ namespace Teamworks.Web.Controllers.Api
                 .Load<Core.Project>(projectid);
 
             var people = DbSession.Load<Core.Person>(project.People);
-
             return Mapper.Map<IEnumerable<Core.Person>, IEnumerable<Person>>(people);
         }
 
@@ -120,7 +119,7 @@ namespace Teamworks.Web.Controllers.Api
             }
 
             var authorization = DbSession.GetAuthorizationFor(project);
-
+       
             foreach (var person in people)
             {
                 if (person == null)

@@ -4,59 +4,38 @@ body {
 }
 
 a { cursor: pointer; }
+form { margin-bottom: 0; }
 .main { clear: both; }
 
-[class^="icon-"], [class*=" icon-"] { background-image: none; }
-
 .hide { display: none !important; }
+.inline { display: inline-block; vertical-align: middle; }
 .clear-left { clear: left; }
 .clear-right { clear: right; }
-.inline { display: inline-block; }
+.clear-both { clear: both; }
+.well-mini { moz-border-radius: 3px; webkit-border-radius: 3px; border-radius: 3px; padding: 4px; }
+.control-group.inline { margin-bottom: 0 !important; }
+[class^="icon-"], [class*=" icon-"] { background-image: none; line-height: 14px; }
 
-.brand {
-    font-family: 'Droid Sans Mono', sans-serif;
-    font-weight: 700;
-}
-
-.global-messages {
-    float: none;
-    margin: auto;
-    padding-top: 20px;
-}
-
+.page-header { margin-bottom: 0; }
+.brand { font-family: 'Droid Sans Mono', sans-serif; font-weight: 700; }
+.global-messages {  float: none; margin: auto; }
 .global-messages p { margin: 0; }
-
-.more-options {
-    text-align: center;
-    padding-top: 10px;
-}
-
+.more-options { text-align: center; padding-top: 10px; }
 .bottom-divider { border-bottom: 1px solid #ececec; }
+
+.people .dropdown { position: relative; }
+.people .dropdown-menu { position: absolute; top: 0; left: 0; }
 .people .dropdown-menu a { clear: none; }
-
-.people .dropdown-menu p {
-    color: #333;
-    display: block;
-    font-weight: normal;
-    line-height: 18px;
-    padding: 3px 15px;
-    white-space: nowrap;
-    margin: 0;
-}
-
+.people .dropdown-menu p { color: #333; display: block; font-weight: normal; line-height: 18px; padding: 3px 15px; white-space: nowrap; margin: 0;}
 .people img + div { padding-left: 64px; }
-.people .thumbnails > li { margin-left: 8px; }
+.people .thumbnails { margin-left: 0; } 
+.people .thumbnails > li { margin-left: 8px; margin-bottom: 8px;}
 .people .thumbnails .thumbnail.create { margin: 9px; }
-
-.people input {
-    border-style: none none solid none;
-    -moz-border-radius: 0px;
-    -webkit-border-radius: 0px;
-    border-radius: 0px;
-    box-shadow: none;
-}
-
+.people input { border-style: none none solid none; moz-border-radius: 0px; webkit-border-radius: 0px; border-radius: 0px; box-shadow: none; }
 .btn-mini.pull-right + a.pull-right { margin-top: 6px; }
+
+.account-area { margin-top: 20px; }
+.tc { text-align: center; }
 
 @media (min-width: 980px) {
     .center { border-right: 1px solid #ececec; }

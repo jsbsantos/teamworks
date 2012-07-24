@@ -57,6 +57,9 @@
       <HintPath>..\..\packages\AutoMapper.2.1.267\lib\net40\AutoMapper.dll</HintPath>
     </Reference>
     <Reference Include="DotNetOpenAuth.OpenId, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL" />
+    <Reference Include="LowercaseRoutesMVC4">
+      <HintPath>..\..\packages\LowercaseRoutesMVC4.0.4.1\lib\LowercaseRoutesMVC4.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -226,10 +229,10 @@
     <Content Include="Content\css\teamworks.css" />
     <Content Include="Content\font\fontawesome-webfont.svg" />
     <Content Include="Content\img\google.png" />
-    <Content Include="Content\js\app\teamworks.js" />
-    <Content Include="Content\js\app\teamworks.start.js" />
-    <Content Include="Content\js\app\teamworks.viewmodels.js" />
-    <Content Include="Content\js\app\teamworks.viewmodels.models.js" />
+    <Content Include="Content\js\app\tw.base.js" />
+    <Content Include="Content\js\app\tw.viewmodels.js" />
+    <Content Include="Content\js\app\tw.viewmodels.models.js" />
+    <Content Include="Content\js\app\tw.knockout.js" />
     <Content Include="Content\js\gac.js" />
     <Content Include="Content\js\libs\bootstrap\alert.js" />
     <Content Include="Content\js\libs\bootstrap\bootstrap.js" />
@@ -293,7 +296,7 @@
     <Content Include="Views\Shared\Anonymous.cshtml" />
     <Content Include="Views\Shared\Authenticated.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Root.cshtml" />
+    <Content Include="Views\Shared\_Blank.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="packages.config" />
@@ -313,7 +316,9 @@
       <Name>Teamworks.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Views\Shared\_Root.cshtml" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Content\font\fontawesome-webfont.eot" />
   </ItemGroup>
