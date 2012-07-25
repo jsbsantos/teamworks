@@ -11,7 +11,7 @@ namespace Teamworks.Web.Controllers.Api
     [DefaultHttpRouteConvention]
     public class PeopleController : RavenApiController
     {
-        public IEnumerable<Person> Get(string filter)
+        public IEnumerable<string> Get(string filter)
         {
             IList < Core.Person > people;
             if (string.IsNullOrEmpty(filter)) {
@@ -23,7 +23,7 @@ namespace Teamworks.Web.Controllers.Api
                 .Search("Username", "*" + filter + "*")
                 .Take(5).ToList();
 
-            return Mapper.Map<IEnumerable<Core.Person>, IEnumerable<Person>>(people);
+            return people.Select(p => p.Username);
         }
     }
 }
