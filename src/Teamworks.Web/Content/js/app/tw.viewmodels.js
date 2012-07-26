@@ -7,11 +7,7 @@ TW.viewmodels.Project = function (endpoint) {
     self.project = new TW.viewmodels.models.Project();
 
     /* new entities */
-    self.people = ko.observable()
-        .extend({ throttle: 500 })
-        .extend({ autocomplete: "/api/people" });
-
-
+    self.people = ko.observable().extend({ throttle: 500 });
     self.activity = new TW.viewmodels.models.Activity();
     self.discussion = new TW.viewmodels.models.Discussion();
 
@@ -158,24 +154,24 @@ TW.viewmodels.Project = function (endpoint) {
 
 };
 
-TW.viewmodels.Projects = function (endpoint) {
+TW.viewmodels.Projects = function(endpoint) {
     var self = this;
     self.project = new TW.viewmodels.models.Project();
     self.project.editing = ko.observable(false);
 
     self.projects = ko.observableArray([]);
-    self.projects._create = function () {
+    self.projects._create = function() {
         $.ajax(endpoint,
             {
                 type: 'post',
                 data: ko.toJSON(self.project),
                 statusCode: {
-                    201: /*created*/function (data) {
+                    201: /*created*/function(data) {
                         self.projects.push(new TW.viewmodels.models.Project(data));
                         self.project.editing(false);
                         self.project.clear();
                     },
-                    400: /*bad request*/function (data) {
+                    400: /*bad request*/function(data) {
                         TW.helpers.bad_format(self.project, data.responseText);
                     }
                 }
@@ -183,7 +179,7 @@ TW.viewmodels.Projects = function (endpoint) {
         );
     };
 
-    self.projects._remove = function () {
+    self.projects._remove = function() {
         var project = this;
         var message = 'You are about to delete ' + project.name() + '.';
         if (confirm(message)) {
@@ -191,7 +187,7 @@ TW.viewmodels.Projects = function (endpoint) {
                 {
                     type: 'delete',
                     statusCode: {
-                        204: /*no content*/function () {
+                        204: /*no content*/function() {
                             self.projects.remove(project);
                         }
                     }
@@ -199,9 +195,9 @@ TW.viewmodels.Projects = function (endpoint) {
         }
     };
 
-    $.getJSON(endpoint, function (projects) {
+    $.getJSON(endpoint, function(projects) {
         self.projects(
-            $.map(projects, function (item) {
+            $.map(projects, function(item) {
                 return new TW.viewmodels.models.Project(item);
             }));
     });

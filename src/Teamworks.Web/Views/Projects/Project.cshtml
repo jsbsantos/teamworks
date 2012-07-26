@@ -1,4 +1,4 @@
-﻿@model string
+﻿@model dynamic
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -111,33 +111,32 @@
     
     <script>
         var viewmodel = function() {
-            return new TW.viewmodels.Project('@Model');
+            return new TW.viewmodels.Project('@ViewBag.Endpoint');
         };
     </script>
 </div>
 
 @section Right
 {
-    <section class="people left-border">
+    <section class="people">
         <h2>People</h2>
         <ul class="thumbnails" data-bind="template: { name: 'person-template', foreach: project.people }"></ul>
         <a href="#" class="more-options" data-bind="visible: !people.editing(), click: function() { people.editing(true); }" >Invite another person to join this project</a>
         <div class="row hide" data-bind="css: { hide: !people.editing() }">
             <form class="form-horizontal" data-bind="submit: people._add">
                 <div class="well-small">
-                    <input type="text" class="input-block-level" placeholder="Who do you wanto to add" data-bind="value: people, valueUpdate: 'afterkeyup'"/>
-                    <div class="dropdown fetch" data-bind="css: { open: people.values().length > 0 }">
-                        <ul class="dropdown-menu" data-bind="foreach: people.values">
-                            <li><a data-bind="click: $parent.people._add"><strong data-bind="text: name"></strong>
-                                                      (<span data-bind="text: username"></span>)</a></li>
-                        </ul>
-                    </div>
+                    <input autocomplete="off" class="input-block-level" placeholder="Who do you wanto to add" 
+                          data-provide="people-typeahead" data-items="4" data-bind="value: people, valueUpdate: 'afterkeyup'" />
+                          
                 </div>
-                
             </form>
             <div class="well-small">
+                <div>
+                    <ul data-bind="foreach: people.list">
+                        <li data-bind="text: $data"></li>
+                    </ul>
+                    </div>
                 <button class="btn btn-success" type="submit">Invite</button>
-                    
                 <a class="btn-mini" data-bind="click: function() { people.editing(false) }"><i class="icon-remove"></i> Cancel</a>  
             </div>
         </div>

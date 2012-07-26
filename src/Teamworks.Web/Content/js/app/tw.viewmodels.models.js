@@ -5,23 +5,23 @@ var TW = TW || { };
 TW.viewmodels = TW.viewmodels || { };
 TW.viewmodels.models = TW.viewmodels.models || { };
 
-TW.viewmodels.models.Project = function (data) {
+TW.viewmodels.models.Project = function(data) {
     var self = this;
-    self.load = function (data) {
+    self.load = function(data) {
         self.id(data.id);
         self.name(data.name);
         self.description(data.description);
         self.token(data.token);
 
-        self.people($.map(data.people || {}, function (item) {
+        self.people($.map(data.people || { }, function(item) {
             return new TW.viewmodels.models.Person(item);
         }));
 
-        self.discussions($.map(data.discussions || {}, function (item) {
+        self.discussions($.map(data.discussions || { }, function(item) {
             return new TW.viewmodels.models.Discussion(item);
         }));
 
-        self.activities($.map(data.activities || {}, function (item) {
+        self.activities($.map(data.activities || { }, function(item) {
             return new TW.viewmodels.models.Activity(item);
         }));
     };
@@ -34,10 +34,10 @@ TW.viewmodels.models.Project = function (data) {
     self.people = ko.observableArray([]);
     self.activities = ko.observableArray([]);
     self.discussions = ko.observableArray([]);
-    self.clear = function () {
-        self.load({});
+    self.clear = function() {
+        self.load({ });
     };
-    self.load(data || {});
+    self.load(data || { });
 };
 
 TW.viewmodels.models.Discussion = function(data) {
@@ -108,9 +108,9 @@ TW.viewmodels.models.Activity = function(data) {
     self.load(data || { });
 };
 
-TW.viewmodels.models.Person = function (data) {
+TW.viewmodels.models.Person = function(data) {
     var self = this;
-    self.load = function (data) {
+    self.load = function(data) {
         self.id(data.id);
         self.name(data.name);
         self.username(data.username);
@@ -121,41 +121,41 @@ TW.viewmodels.models.Person = function (data) {
     self.name = ko.observable();
     self.username = ko.observable();
     self.email = ko.observable();
-    self.clear = function () {
-        self.load({});
+    self.clear = function() {
+        self.load({ });
     };
-    
-    function gravatar(size) {
-        return '//www.gravatar.com/avatar/' + TW.helpers.md5((self.email() || "").trim()) + '?s=' + size + '&d=mm&r=g';
-    }
+
+
     self.gravatar = {
-        small: ko.computed(function () {
-            return gravatar(32);
+        small: ko.computed(function() {
+            return TW.helpers.gravatar(self.email(), 32);
         }),
-        medium: ko.computed(function () {
-            return gravatar(64);
+        medium: ko.computed(function() {
+            return TW.helpers.gravatar(self.email(), 64);
         })
     };
-    
-    self.load(data || {});
+
+    self.load(data || { });
 };
 
-TW.viewmodels.models.Timelog = function (data) {
-    var now = new Date().toISOString();
-    
+TW.viewmodels.models.Timelog = function(data) {
+    var now = new Date().format('dd/mm/yyyy');
+
     var self = this;
     self.load = function(data) {
         self.id(data.id);
         self.description(data.description);
         self.duration(data.duration);
-        self.date(data.date || now);
+        data.date ?
+            self.date(data.date)
+            : self.date.formatted(now);
     };
 
     self.id = ko.observable();
     self.description = ko.observable();
     self.duration = ko.observable();
     self.date = ko.observable().extend({
-        isoDate: 'dd/mm/yyyy'
+        isoDate: ''
     });
 
     self.clear = function() {

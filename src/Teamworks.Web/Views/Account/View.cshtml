@@ -32,47 +32,31 @@
                                     <p><a href="#">Forgot password?</a></p>
                                 </div>
                             </div>
-<<<<<<< HEAD
-                        </div>
-                        <div class="form-actions">
-                            <button class="btn btn-success" type="submit" value="login">Login</button>
-                        </div>
-                    </form>
-                </div>
-                <div class="tab-pane" id="openid">
-                    <ul class="thumbnails">
-                        <li class="span1">
-                            <a class="thumbnail" href="@Url.Action("OpenId", "Account", new {provider = "https://www.google.com/accounts/o8/id"})">
-                                <img src="~/Content/img/google.png" alt="google openid"/>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="tab-pane" id="signup">
-                    <header class="lead">
-                        <h3>Register</h3>
-                        <p>You can also use one of the <strong>OpenID</strong> services available.</p>
-                    </header>
-                    <form  method="post" class="form-horizontal" action="@Url.Action("Signup", "Account")" name="login">
-                        <div class="control-group">
-                            <label class="control-label" for="username">Name</label>
-                            <div class="controls">
-                                <input name="name" placeholder="Name" />
-=======
                             <div class="form-actions">
                                 <button class="btn btn-success" type="submit" value="login">Login</button>
                             </div>
                         </form>
                     </div>
+                    <div class="tab-pane" id="openid">
+                        <ul class="thumbnails">
+                            <li class="span1">
+                                <a class="thumbnail" href="@Url.Action("OpenId", "Account", new {provider = "https://www.google.com/accounts/o8/id"})">
+                                    <img src="~/Content/img/google.png" alt="google openid"/>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                     <div class="tab-pane" id="signup">
-                        <p>You can also use one of the services available.</p>
+                        <header class="lead">
+                            <h3>Register</h3>
+                            <p>You can also use one of the <strong>OpenID</strong> services available.</p>
+                        </header>
                         <form  method="post" class="form-horizontal" action="@Url.Action("Signup", "Account")" name="login">
                             <div class="control-group">
                                 <label class="control-label" for="username">Name</label>
                                 <div class="controls">
-                                    <input name="username" placeholder="Name" />
+                                    <input name="name" placeholder="Name" />
                                 </div>
->>>>>>> 7910ebc4e3666fd5a8cade96ce307ead2a62c143
                             </div>
                             <div class="control-group">
                                 <label class="control-label" for="username">Username</label>
@@ -95,20 +79,21 @@
                             <div class="form-actions">
                                 <button class="btn btn-success" type="submit" value="signup">Register</button>
                             </div>
+                        
                         </form>
                     </div>
                 </div>
-                </div>
-        <div class="span3">
-            <h3>Available services</h3>
-            <ul class="thumbnails well-large">
-                <li class="span1">
-                    <a class="thumbnail" href="@Url.Action("OpenId", "Account", new {provider = "https://www.google.com/accounts/o8/id"})">
-                        <img src="~/Content/img/google.png" alt="google openid"/>
-                    </a>
-                </li>
-            </ul>
-        </div>
+            </div>
+            <div class="span3">
+                <h3>Available services</h3>
+                <ul class="thumbnails well-large">
+                    <li class="span1">
+                        <a class="thumbnail" href="@Url.Action("OpenId", "Account", new {provider = "https://www.google.com/accounts/o8/id"})">
+                            <img src="~/Content/img/google.png" alt="google openid"/>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>

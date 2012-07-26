@@ -8,10 +8,14 @@ namespace Teamworks.Web.Controllers.Mvc
         [ActionName("View")]
         public ActionResult Index(int? identifier)
         {
-            var model = "/api/projects/";
-            return identifier != null ? 
-                View("Project", (object) (model + identifier)) 
-                : View("Projects", (object) model);
+            const string endpoint = "/api/projects/";
+            if (identifier != null)
+            {
+                ViewBag.Endpoint = endpoint + identifier;
+                return View("Project");
+            }
+            ViewBag.Endpoint = endpoint;
+            return View("Projects");
         }
     }
 }

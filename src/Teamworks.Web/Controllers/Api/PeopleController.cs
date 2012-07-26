@@ -11,19 +11,19 @@ namespace Teamworks.Web.Controllers.Api
     [DefaultHttpRouteConvention]
     public class PeopleController : RavenApiController
     {
-        public IEnumerable<string> Get(string filter)
+        public IEnumerable<Person> Get(string q)
         {
             IList < Core.Person > people;
-            if (string.IsNullOrEmpty(filter)) {
+            if (string.IsNullOrEmpty(q)) {
                people = DbSession.Query<Core.Person>().ToList();    
             }
 
             people = DbSession.Advanced.LuceneQuery<Core.Person>()
-                .Search("Name", "*" + filter + "*")
-                .Search("Username", "*" + filter + "*")
+                .Search("Name", q + "*")
+                .Search("Username", q + "*")
                 .Take(5).ToList();
 
-            return people.Select(p => p.Username);
+            return Mapper.Map<IEnumerable<Core.Person>, IEnumerable<Person>>(people);
         }
     }
 }

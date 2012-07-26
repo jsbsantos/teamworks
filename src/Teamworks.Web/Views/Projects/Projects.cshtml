@@ -1,7 +1,7 @@
-﻿@model string
+﻿@model dynamic
 
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Root.cshtml";
 }
 
 <div>
@@ -29,29 +29,33 @@
     <div data-bind="template: { name: 'project-template', foreach: projects }"></div>
 
     <script type="text/html" id="project-template">
-        <article class="well-small">
-            <ul class="nav nav-pills pull-right">
-                <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="icon-caret-down"></i>
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a data-bind="click: $parent.project.activities._remove" href="#"><i class="icon-trash"></i> Remover</a></li>
+        <article class="row well-small">
+            <div class="pull-right">
+                <ul class="nav">
+                    <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="icon-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a data-bind="click: $parent.project.activities._remove" href="#"><i class="icon-trash"></i> Remover</a></li>
+                    </ul>
+                    <li>
                 </ul>
-                <li>
-            </ul>
-            <a data-bind="attr: { href: '/projects/' + id() }">
-                <h2>
-                    <span data-bind="text: name"></span>
-                    <small data-bind="text: description"></small>
-                </h2>
-            </a>
+            </div>
+            <div class="span11">
+                <a data-bind="attr: { href: '/projects/' + id() }">
+                    <h2>
+                        <span data-bind="text: name"></span>
+                        <small data-bind="text: description"></small>
+                    </h2>
+                </a>
+            </div>
         </article>
     </script>
 
     <script>
         var viewmodel = function() {
-            return new TW.viewmodels.Projects('@Model');
+            return new TW.viewmodels.Projects('@ViewBag.Endpoint');
         }
     </script>
 </div>
