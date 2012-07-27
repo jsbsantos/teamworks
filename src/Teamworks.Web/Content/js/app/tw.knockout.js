@@ -25,19 +25,18 @@
         return validate(target, fn);
     };
 
-    ko.extenders.isoDate = function (target) {
+    ko.extenders.isoDate = function (target, pattern) {
         target.formatted = ko.computed({
             read: function () {
                 if (!target()) {
                     return;
                 }
-                var dt = new Date(Date.parse(target()));
-                return dt.format('dd/mm/yyyy', true);
+                var dt = new Date(Date.parseISOString(target()));
+                return dt.toString(pattern);
             },
             write: function (value) {
                 if (value) {
-                    var parts = value.split('/');
-                    target(new Date(Date.UTC(parts[2], (parts[1] - 1), parts[0])).toISOString());
+                    target(new Date(Date.parse(value, pattern)).toISOString());
                 }
             }
         });

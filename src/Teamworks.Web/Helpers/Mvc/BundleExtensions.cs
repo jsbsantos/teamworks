@@ -16,8 +16,7 @@ namespace Teamworks.Web.Helpers.Mvc
             bundles.Add(css);
 
             Bundle js = new ScriptBundle("~/js")
-                .Include("~/content/js/libs/iso8601.js",
-                         "~/content/js/libs/date.format.js",
+                .Include("~/content/js/libs/date.js",
                          "~/content/js/libs/crypto/core.js",
                          "~/content/js/libs/crypto/md5.js")
                 .Include("~/content/js/libs/bootstrap/transaction.js",

@@ -139,8 +139,6 @@ TW.viewmodels.models.Person = function(data) {
 };
 
 TW.viewmodels.models.Timelog = function(data) {
-    var now = new Date().format('dd/mm/yyyy');
-
     var self = this;
     self.load = function(data) {
         self.id(data.id);
@@ -148,14 +146,14 @@ TW.viewmodels.models.Timelog = function(data) {
         self.duration(data.duration);
         data.date ?
             self.date(data.date)
-            : self.date.formatted(now);
+            : self.date.formatted(new Date().toString('dd/MM/yyyy'));
     };
 
     self.id = ko.observable();
     self.description = ko.observable();
     self.duration = ko.observable();
     self.date = ko.observable().extend({
-        isoDate: ''
+        isoDate: 'dd/MM/yyyy'
     });
 
     self.clear = function() {
