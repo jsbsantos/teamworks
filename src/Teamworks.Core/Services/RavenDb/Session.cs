@@ -12,16 +12,7 @@ namespace Teamworks.Core.Services.RavenDb
         private static readonly Lazy<Session> _instance =
             new Lazy<Session>(() => new Session());
 
-        public readonly IDocumentStore Store;
-
-        private Session()
-        {
-            Store = new DocumentStore
-                        {
-                            ConnectionStringName = "RavenDB"
-                        }.RegisterListener(new PersonQueryListenter())
-                        .Initialize();
-        }
+        public static IDocumentStore Store;
 
         public static Session Instance
         {

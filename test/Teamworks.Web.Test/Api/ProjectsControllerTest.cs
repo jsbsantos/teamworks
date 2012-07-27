@@ -1,9 +1,12 @@
-﻿using Xunit;
+﻿using Raven.Client.Document;
+using Raven.Client.Embedded;
+using Teamworks.Core.Services.RavenDb;
+using Xunit;
 using Teamworks.Web.Controllers.Api;
 
 namespace Teamworks.Web.Test.Api
 {
-    public class ProjectsControllerTest
+    public class ProjectsControllerTest : IUseFixture<EmbeddableDatabase>
     {
         [Fact]
         public void GetProjects()
@@ -16,6 +19,23 @@ namespace Teamworks.Web.Test.Api
                 Assert.NotNull(project.Id);
             }
         }
+
+        public void SetFixture(EmbeddableDatabase data)
+        {
+            data.Initialize();
+        }
     }
 
+    public class EmbeddableDatabase
+    {
+        public void Initialize()
+        {
+            Session.Store =
+                new EmbeddableDocumentStore
+                    {
+                        UseEmbeddedHttpServer = true
+                    }.RegisterListener(new PersonQueryListenter())
+                    .Initialize();
+        }
+    }
 }

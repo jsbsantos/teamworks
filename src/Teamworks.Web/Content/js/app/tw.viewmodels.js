@@ -83,14 +83,15 @@ TW.viewmodels.Project = function (endpoint) {
     };
 
     self.people.list = ko.observableArray([]);
-    self.people._add = function () {
-        var person = this;
-        self.people.list.push(person);
-        self.people("");
+    self.people._add = function (project, event, person) {
+        if (person) {
+            self.people.list.push(person);
+            self.people("");
+        }
     };
     self.people._ids = ko.computed(function () {
         return self.people.list().map(function (item) {
-            var i = parseInt(item.id());
+            var i = parseInt(item.id);
             return isNaN(i) ? 0 : i;
         });
     });
@@ -113,9 +114,9 @@ TW.viewmodels.Project = function (endpoint) {
                                 }
                             }
                         );
+                    self.people.list([]);
                     self.people.editing(false);
-                    self.people(new Array());
-                    self.people._more();
+                    self.people("");
                 },
                 400: /*bad request*/function () {
                     TW.app.alerts.push({ message: 'An error as ocurred.' });

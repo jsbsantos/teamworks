@@ -126,19 +126,21 @@
             <form class="form-horizontal" data-bind="submit: people._add">
                 <div class="well-small">
                     <input autocomplete="off" class="input-block-level" placeholder="Who do you wanto to add" 
-                          data-provide="people-typeahead" data-items="4" data-bind="value: people, valueUpdate: 'afterkeyup'" />
+                           data-provide="people-typeahead" data-items="4" data-bind="value: people, valueUpdate: 'afterkeyup', event: { select: people._add}" />
                           
                 </div>
             </form>
-            <div class="well-small">
-                <div>
-                    <ul data-bind="foreach: people.list">
-                        <li data-bind="text: $data"></li>
-                    </ul>
+            <form class="form-horizontal" data-bind="submit: project.people._add">
+                <div class="well-small">
+                    <div>
+                        <ul data-bind="foreach: people.list">
+                            <li data-bind="text: name"></li>
+                        </ul>
                     </div>
-                <button class="btn btn-success" type="submit">Invite</button>
-                <a class="btn-mini" data-bind="click: function() { people.editing(false) }"><i class="icon-remove"></i> Cancel</a>  
-            </div>
+                    <button class="btn btn-success" type="submit">Invite</button>
+                    <a class="btn-mini" data-bind="click: function() { people.editing(false) }"><i class="icon-remove"></i> Cancel</a>  
+                </div>
+            </form>
         </div>
         
     </section>

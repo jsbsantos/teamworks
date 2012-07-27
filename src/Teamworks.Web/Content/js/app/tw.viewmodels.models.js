@@ -125,7 +125,6 @@ TW.viewmodels.models.Person = function(data) {
         self.load({ });
     };
 
-
     self.gravatar = {
         small: ko.computed(function() {
             return TW.helpers.gravatar(self.email(), 32);

@@ -1,9 +1,9 @@
 ﻿/// <reference path="~/Content/js/libs/jquery-1.7.2.min.js" />
 /// <reference path="~/Content/js/libs/knockout-2.0.0.js" />
 
-(function () {
-    var validate = function (target, fn) {
-        var change_message = function (msg) {
+(function() {
+    var validate = function(target, fn) {
+        var change_message = function(msg) {
             target.has_error(msg.length ? true : false);
         };
 
@@ -17,24 +17,24 @@
         return target;
     };
 
-    ko.extenders.min_length = function (target, min) {
-        var fn = function (value) {
+    ko.extenders.min_length = function(target, min) {
+        var fn = function(value) {
             var valid = value && value.length > min;
             target.validation_message(valid ? [] : ["" + min]);
         };
         return validate(target, fn);
     };
 
-    ko.extenders.isoDate = function (target, pattern) {
+    ko.extenders.isoDate = function(target, pattern) {
         target.formatted = ko.computed({
-            read: function () {
+            read: function() {
                 if (!target()) {
                     return;
                 }
                 var dt = new Date(Date.parseISOString(target()));
                 return dt.toString(pattern);
             },
-            write: function (value) {
+            write: function(value) {
                 if (value) {
                     target(new Date(Date.parse(value, pattern)).toISOString());
                 }
@@ -43,7 +43,7 @@
         target.formatted(target());
         return target;
     };
-} ());
+}());
 
 var TW = TW || { };
 
@@ -63,7 +63,7 @@ TW.helpers = {
             window.prompt("ctrl+c, Enter", text);
         };
     },
-    gravatar: function (value, size) {
+    gravatar: function(value, size) {
         return '//www.gravatar.com/avatar/' + TW.helpers.md5((value || "").trim()) + '?s=' + size + '&d=mm&r=g';
     },
     bad_format: function(obj, data) {
@@ -76,7 +76,7 @@ TW.helpers = {
     }
 };
 
-$(function () {
+$(function() {
     'use strict';
     if (typeof viewmodel !== 'undefined') {
         TW.app.viewmodel = viewmodel();
@@ -91,36 +91,43 @@ $(function () {
         selector: '[rel="tooltip-bottom"]'
     });
 
-    $('body').on('focus.typeahead.data-api', '[data-provide="people-typeahead"]', function (e) {
+    $('body').on('focus.typeahead.data-api', '[data-provide="people-typeahead"]', function(e) {
         var $this = $(this);
         if ($this.data('typeahead')) return;
         e.preventDefault();
 
-        var obj, labels;
+        var labels, objects;
         $this.typeahead({
-            source: function (query, process) {
-                $.get('/api/people', { q: query }, function (data) {
-                    process(data);
+            source: function(query, process) {
+                labels = [], objects = { };
+                $.get('/api/people', { q: query }, function(data) {
+                    $.each(data, function(i, item) {
+                        objects[item.id] = item;
+                        labels.push(item.id);
+                    });
+                    process(labels);
                 });
             },
-            sorter: function (items) {
-                return items;
+            matcher: function(item) {
+                var q = this.query.toLowerCase();
+                var obj = objects[item];
+                return ~obj.username.toLowerCase().indexOf(q)
+                    || ~obj.name.toLowerCase().indexOf(q)
+                        || ~obj.email.toLowerCase().indexOf(q);
             },
-            matcher: function (item) {
-                return true;
-            },
-            updater: function (item) {
-                return item.id;
-            },
-            menu: '<ul class="typeahead dropdown-menu"></ul>',
-            item: '<li><a href="#awesome"></a></li>'
+            updater: function(item) {
+                var obj = objects[item];
+                $this.trigger('select', obj);
+                return obj.name;
+            }
         });
-        $this.data('typeahead').render = function (items) {
+        $this.data('typeahead').render = function(items) {
             var that = this;
 
             items = $(items).map(function (i, item) {
+                var obj = objects[item];
                 i = $(that.options.item).attr('data-value', item);
-                i.find('a').html(that.highlighter(item.name)).append('<img href="' + TW.helpers.gravatar(item.email, 16) + '"/>');
+                i.find('a').html(that.highlighter(obj.name)).append('<img width="16px" href="' + TW.helpers.gravatar(obj.email, 16) + '"/>');
                 return i[0];
             });
 
@@ -130,7 +137,7 @@ $(function () {
         };
     });
 
-    $(function () {
+    $(function() {
         $('body').on('focus.datepicker.data-api', '[data-provide="datepicker"]', function(e) {
             var $this = $(this);
             if ($this.data('datepicker')) return;
