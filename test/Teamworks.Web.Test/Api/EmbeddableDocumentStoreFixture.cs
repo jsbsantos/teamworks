@@ -10,7 +10,7 @@ namespace Teamworks.Web.Test.Api
             Session.Store =
                 new EmbeddableDocumentStore
                     {
-                        UseEmbeddedHttpServer = true
+                        DataDirectory = "App_Data/Database"
                     }.RegisterListener(new PersonQueryListenter())
                     .Initialize();
         }
