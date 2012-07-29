@@ -9,6 +9,7 @@ using AttributeRouting.Web.Http;
 using AutoMapper;
 using Teamworks.Web.Helpers.Api;
 using Teamworks.Web.Helpers.Teamworks;
+using Teamworks.Web.Models.Api;
 using Activity = Teamworks.Web.Models.Api.Activity;
 
 namespace Teamworks.Web.Controllers.Api
@@ -64,7 +65,7 @@ namespace Teamworks.Web.Controllers.Api
                 throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
             }
 
-            var activity = Core.Activity.Forge(project.Id, model.Name, model.Description);
+            var activity = Core.Activity.Forge(project.Id, model.Name, model.Description, model.Duration);
             DbSession.Store(activity);
             project.Activities.Add(activity.Id);
             var activities = Mapper.Map<Core.Activity, Activity>(activity);
@@ -99,7 +100,7 @@ namespace Teamworks.Web.Controllers.Api
         #region Precedence
 
         [GET("{id}/precedences")]
-        public List<int[]> GetPre(int id, int projectid)
+        public List<ActivityRelation> GetPre(int id, int projectid)
         {
             var project = DbSession
                 .Include<Core.Project>(p => p.Activities)

@@ -2,6 +2,7 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div id="chart"></div>
 
 <div data-bind="visible: project.name">
     <header class="page-header">
@@ -21,7 +22,8 @@
                             <label class="control-label" for="name">Name</label>
                             <div class="controls">
                                 <div class="input-append">
-                                    <input type="text" placeholder="Activities name" class="span3" data-bind="value: activity.name, valueUpdate: 'afterkeyup'" />
+                                    <input type="text" placeholder="Activity name" class="span3" data-bind="value: activity.name, valueUpdate: 'afterkeyup'" />
+                                    <input type="text" placeholder="Activity Duration" class="span2" data-bind="value: activity.duration, valueUpdate: 'afterkeyup'" />
                                     <button type="submit" class="btn btn-success">Start activity</button>  
                                 </div>
                                 <a class="btn-mini" data-bind="click: function() { activity.editing(false) }"><i class="icon-remove"></i></a>                   

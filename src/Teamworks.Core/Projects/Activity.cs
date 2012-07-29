@@ -6,6 +6,7 @@ namespace Teamworks.Core
     {
         public string Project { get; set; }
         public string Description { get; set; }
+        public double Duration { get; set; }
         public IList<Timelog> Timelogs { get; set; }
         public IList<string> Dependencies { get; set; }
         public IList<string> Discussions { get; set; }
@@ -24,13 +25,14 @@ namespace Teamworks.Core
             return ++LastTodoListId;
         }
 
-        public static Activity Forge(string project, string name, string description)
+        public static Activity Forge(string project, string name, string description, double duration)
         {
             return new Activity
                        {
                            Name = name,
                            Project = project,
                            Description = description,
+                           Duration = duration,
                            Dependencies = new List<string>(),
                            Discussions = new List<string>(),
                            People = new List<string>(),

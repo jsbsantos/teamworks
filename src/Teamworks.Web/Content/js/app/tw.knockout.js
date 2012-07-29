@@ -132,11 +132,15 @@ $(function () {
     });
 
     $(function () {
-        $('body').on('focus.datepicker.data-api', '[data-provide="datepicker"]', function(e) {
+        $('body').on('focus.datepicker.data-api', '[data-provide="datepicker"]', function (e) {
             var $this = $(this);
             if ($this.data('datepicker')) return;
             e.preventDefault();
             $this.datepicker($this.data());
         });
+    });
+
+    $(function () {
+        viewmodel().Gantt();
     });
 });

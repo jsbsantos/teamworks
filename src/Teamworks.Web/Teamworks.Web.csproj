@@ -230,6 +230,7 @@
     <Content Include="Content\css\teamworks.css" />
     <Content Include="Content\font\fontawesome-webfont.svg" />
     <Content Include="Content\img\google.png" />
+    <Content Include="Content\js\app\tw.d3.js" />
     <Content Include="Content\js\app\tw.base.js" />
     <Content Include="Content\js\app\tw.viewmodels.js" />
     <Content Include="Content\js\app\tw.viewmodels.models.js" />
@@ -254,6 +255,7 @@
     <Content Include="Content\js\libs\crypto\core.js" />
     <Content Include="Content\js\libs\crypto\md5-min.js" />
     <Content Include="Content\js\libs\crypto\md5.js" />
+    <Content Include="Content\js\libs\d3js\d3.v2.js" />
     <Content Include="Content\js\libs\date.format.js" />
     <Content Include="Content\js\libs\iso8601.js" />
     <Content Include="Content\js\libs\iso8601.min.js" />
@@ -273,6 +275,21 @@
     <Content Include="Content\js\libs\_references.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Content\js\libs\d3js\d3.chart.js" />
+    <Content Include="Content\js\libs\d3js\d3.chart.min.js" />
+    <Content Include="Content\js\libs\d3js\d3.csv.js" />
+    <Content Include="Content\js\libs\d3js\d3.csv.min.js" />
+    <Content Include="Content\js\libs\d3js\d3.geo.js" />
+    <Content Include="Content\js\libs\d3js\d3.geo.min.js" />
+    <Content Include="Content\js\libs\d3js\d3.geom.js" />
+    <Content Include="Content\js\libs\d3js\d3.geom.min.js" />
+    <Content Include="Content\js\libs\d3js\d3.js" />
+    <Content Include="Content\js\libs\d3js\d3.layout.js" />
+    <Content Include="Content\js\libs\d3js\d3.layout.min.js" />
+    <Content Include="Content\js\libs\d3js\d3.LICENSE.txt" />
+    <Content Include="Content\js\libs\d3js\d3.min.js" />
+    <Content Include="Content\js\libs\d3js\d3.time.js" />
+    <Content Include="Content\js\libs\d3js\d3.time.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

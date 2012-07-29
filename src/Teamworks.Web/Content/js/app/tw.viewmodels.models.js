@@ -88,6 +88,7 @@ TW.viewmodels.models.Activity = function(data) {
     self.load = function(data) {
         self.id(data.id);
         self.name(data.name);
+        self.duration(data.duration);
         self.description(data.description);
         self.token(data.token);
 
@@ -98,6 +99,7 @@ TW.viewmodels.models.Activity = function(data) {
 
     self.id = ko.observable();
     self.name = ko.observable();
+    self.duration = ko.observable();
     self.description = ko.observable();
     self.token = ko.observable();
     self.timelogs = ko.observableArray([]);

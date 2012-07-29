@@ -10,5 +10,6 @@ namespace Teamworks.Web.Models.Api.DryModels
         public string Name { get; set; }
         public string Description { get; set; }
         public string Project { get; set; }
+        public double Duration { get; set; }
     }
 }
