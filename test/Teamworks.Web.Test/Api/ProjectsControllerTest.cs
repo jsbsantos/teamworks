@@ -1,9 +1,10 @@
-﻿using Xunit;
+﻿using Raven.Client.Document;
+using Xunit;
 using Teamworks.Web.Controllers.Api;
 
 namespace Teamworks.Web.Test.Api
 {
-    public class ProjectsControllerTest
+    public class ProjectsControllerTest : IUseFixture<EmbeddableDocumentStoreFixture>
     {
         [Fact]
         public void GetProjects()
@@ -16,6 +17,10 @@ namespace Teamworks.Web.Test.Api
                 Assert.NotNull(project.Id);
             }
         }
-    }
 
+        public void SetFixture(EmbeddableDocumentStoreFixture data)
+        {
+            data.Initialize();
+        }
+    }
 }

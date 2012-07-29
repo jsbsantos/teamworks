@@ -7,9 +7,11 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using LowercaseRoutesMVC4;
+using Raven.Client.Document;
 using Raven.Client.Exceptions;
 using Teamworks.Core.Authentication;
 using Teamworks.Core.Services;
+using Teamworks.Core.Services.RavenDb;
 using Teamworks.Web.App_Start;
 using Teamworks.Web.Controllers.Api.Attribute;
 using Teamworks.Web.Controllers.Mvc;
@@ -36,8 +38,10 @@ namespace Teamworks.Web
             filters.Add(new ModelStateAttribute());
 
             var filter = new ExceptionAttribute();
-            filter.Mappings.Add(typeof (ReadVetoException), new ExceptionAttribute.Rule { Status = HttpStatusCode.NotFound });
-            filter.Mappings.Add(typeof (ArgumentException), new ExceptionAttribute.Rule { HasBody = true, Status = HttpStatusCode.BadRequest });
+            filter.Mappings.Add(typeof (ReadVetoException),
+                                new ExceptionAttribute.Rule {Status = HttpStatusCode.NotFound});
+            filter.Mappings.Add(typeof (ArgumentException),
+                                new ExceptionAttribute.Rule {HasBody = true, Status = HttpStatusCode.BadRequest});
             filters.Add(filter);
         }
 
@@ -85,9 +89,16 @@ namespace Teamworks.Web
             GlobalConfiguration.Configuration.RegisterModelBinders();
 
             BundleTable.Bundles.EnableTeamworksBundle();
-
-            Global.Authentication.Add("Basic", new BasicAuthenticator());
             Mappers.RegisterMappers();
+
+            Core.Services.RavenDb.Session.Store =
+                new DocumentStore
+                    {
+                        ConnectionStringName = "RavenDB"
+                    }.RegisterListener(new PersonQueryListenter())
+                    .Initialize();
+            Global.Authentication.Add("Basic", new BasicAuthenticator());
+            
         }
     }
 }

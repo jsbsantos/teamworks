@@ -275,21 +275,6 @@
     <Content Include="Content\js\libs\_references.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Content\js\libs\d3js\d3.chart.js" />
-    <Content Include="Content\js\libs\d3js\d3.chart.min.js" />
-    <Content Include="Content\js\libs\d3js\d3.csv.js" />
-    <Content Include="Content\js\libs\d3js\d3.csv.min.js" />
-    <Content Include="Content\js\libs\d3js\d3.geo.js" />
-    <Content Include="Content\js\libs\d3js\d3.geo.min.js" />
-    <Content Include="Content\js\libs\d3js\d3.geom.js" />
-    <Content Include="Content\js\libs\d3js\d3.geom.min.js" />
-    <Content Include="Content\js\libs\d3js\d3.js" />
-    <Content Include="Content\js\libs\d3js\d3.layout.js" />
-    <Content Include="Content\js\libs\d3js\d3.layout.min.js" />
-    <Content Include="Content\js\libs\d3js\d3.LICENSE.txt" />
-    <Content Include="Content\js\libs\d3js\d3.min.js" />
-    <Content Include="Content\js\libs\d3js\d3.time.js" />
-    <Content Include="Content\js\libs\d3js\d3.time.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
