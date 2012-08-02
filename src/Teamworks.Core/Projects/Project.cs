@@ -17,7 +17,7 @@ namespace Teamworks.Core
         public DateTime StartDate { get; set; }
 
         public IList<OperationPermission> Permissions { get; set; }
-        public static Project Forge(string name, string description, DateTime? startdate)
+        public static Project Forge(string name, string description, DateTime? startdate = null)
         {
             return new Project
                        {
@@ -26,8 +26,7 @@ namespace Teamworks.Core
                            People = new List<string>(),
                            Activities = new List<string>(),
                            Discussions = new List<string>(),
-                           Permissions = new List<OperationPermission>()
-                           People = new List<string>(),
+                           Permissions = new List<OperationPermission>(),
                            StartDate = startdate ?? DateTime.Now,
                        };
         }

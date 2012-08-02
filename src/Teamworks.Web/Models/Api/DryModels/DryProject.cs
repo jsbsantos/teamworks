@@ -1,3 +1,6 @@
+using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace Teamworks.Web.Models.Api.DryModels
 {
     public class DryProject

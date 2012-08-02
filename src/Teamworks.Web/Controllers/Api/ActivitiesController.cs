@@ -6,6 +6,9 @@ using System.Web.Http;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
+using Teamworks.Web.Helpers.Api;
+using Teamworks.Web.Helpers.Teamworks;
+using Teamworks.Web.Models.Api;
 
 
 namespace Teamworks.Web.Controllers.Api
@@ -48,7 +51,6 @@ namespace Teamworks.Web.Controllers.Api
                                         Activity model)
         {
             var project = DbSession
-                .Include<Project>(p => p.Activities)
                 .Load<Core.Project>(projectid);
 
             if (project == null)
@@ -73,7 +75,6 @@ namespace Teamworks.Web.Controllers.Api
                                        Activity model)
         {
             var project = DbSession
-                .Include<Project>(p => p.Activities)
                 .Load<Core.Project>(projectid);
 
             if (project == null)

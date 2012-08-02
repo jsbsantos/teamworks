@@ -1,3 +1,5 @@
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Teamworks.Web.Models.Api
 {
@@ -10,5 +12,6 @@ namespace Teamworks.Web.Models.Api
         public string Description { get; set; }
 
         public string Token { get; set; }
+        public DateTime StartDate { get; set; }
     }
 }

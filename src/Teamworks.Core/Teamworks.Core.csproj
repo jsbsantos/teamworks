@@ -73,8 +73,6 @@
     <Compile Include="Services\RavenDb\Indexes\Timelog_Filter.cs" />
     <Compile Include="Services\RavenDb\Database.cs" />
     <Compile Include="Services\RavenDb\Indexes\ActivityWithDurationIndex.cs" />
-    <Compile Include="Services\RavenDb\PersonQueryListenter.cs" />
-    <Compile Include="Services\RavenDb\Session.cs" />
     <Compile Include="Projects\Message.cs" />
     <Compile Include="Services\Storage\IStorage.cs" />
     <Compile Include="Projects\Timelog.cs" />

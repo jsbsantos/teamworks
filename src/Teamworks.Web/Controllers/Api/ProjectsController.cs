@@ -162,7 +162,7 @@ namespace Teamworks.Web.Controllers.Api
         #region Task Dependencies
 
         [GET("{projectid}/precedences")]
-        [SecureFor("/projects")]
+        [SecureFor]
         public DependencyGraph GetPre(int projectid)
         {
             var project = DbSession
@@ -176,7 +176,7 @@ namespace Teamworks.Web.Controllers.Api
             }
 
             //var relations = project.DependencyGraph();
-            List<int[]> relations = null;
+            List<ActivityRelation> relations = null;
             var elements = DbSession.Load<Core.Activity>(project.Activities)
                 .Select(Mapper.Map<Core.Activity, DryActivity>)
                 .ToList();
