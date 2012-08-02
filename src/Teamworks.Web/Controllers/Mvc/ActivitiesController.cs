@@ -3,7 +3,7 @@ using System.Web.Mvc;
 
 namespace Teamworks.Web.Controllers.Mvc
 {
-    public class ActivitiesController : RavenController
+    public class ActivitiesController : RavenDbController
     {
         
         [HttpGet]

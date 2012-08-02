@@ -1,0 +1,65 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Title = "Timelog";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-header">
+    <h1>What have you done</h1>    
+</div>
+<div class="row">
+    <div class="span12 tabbable tabs-left">
+        <ul class="nav nav-tabs" data-bind="foreach: tabs">
+            <li data-bind="css: {active: $parent.selected() === $data }">
+                <a href="#" data-bind="click: $parent.select, text: description">2 days ago</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <p class="lead"> The registration will be made for day <strong data-bind="text: timelog.date.formatted"></strong>. 
+                <a class="hide" data-bind="datepicker: timelog.date.formatted, css: { hide: selected().calendar === false }" data-date-autoclose="true" data-date-format="dd/MM/yyyy" data-date-enddate="@DateTime.Today.ToString("dd/MM/yyyy")"><i class="icon-calendar"></i></a>
+            </p>
+            <form class="form-horizontal">
+                <div class="control-group">
+                    <label class="control-label" for="activity">Activity name</label>
+                    <div class="controls">
+                        <input name="activity" placeholder="Activity" data-bind="value: timelog.activity_description" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="description">What you did</label>
+                    <div class="controls">
+                        <input name="description" placeholder="Description" data-bind="value: timelog.description" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="duration">How long it took you did</label>
+                    <div class="controls">
+                        <input name="duration" placeholder="Duration" data-bind="value: timelog.duration" />
+                    </div>
+                </div>
+                <div class="hide control-group" >
+                    <label class="control-label" for="calendar">When</label>
+                    <div class="controls">
+                        <input name="calendar" size="16" data-autoclose="true" data-date-format="dd/mm/yyyy" data-provide="datepicker" data-bind="value: timelog.date.formatted" />
+                    </div>
+                </div>
+                    
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="page-header">
+        <h1>Where you spent your time</h1>
+ </div>
+ <div>
+    
+ </div>
+
+
+<script>
+    var viewmodel = function() {
+        return new TW.viewmodels.Timelogs();
+    };
+</script>

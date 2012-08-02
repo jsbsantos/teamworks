@@ -2,15 +2,15 @@
 using System.Net.Http;
 using System.Threading;
 using System.Web.Http;
+using Raven.Client;
 using Teamworks.Core;
 using Teamworks.Core.Authentication;
+using Teamworks.Core.Services;
 
 namespace Teamworks.Web.Helpers.Api
 {
     public static class HttpRequestMessageExtensions
     {
-        private const string QueryStringKey = "QUERY_STRING_KEY";
-
         public static Person GetCurrentPerson(this HttpRequestMessage request)
         {
             var principal = Thread.CurrentPrincipal;
@@ -33,5 +33,28 @@ namespace Teamworks.Web.Helpers.Api
         {
             throw new HttpResponseException(request.CreateResponse(HttpStatusCode.NotFound));
         }
+
+        public static IDocumentSession GetOrOpenCurrentSession(this HttpRequestMessage request)
+        {
+            object o;
+            if (request.Properties.TryGetValue(App.Keys.RavenDbSessionKey, out o))
+            {
+                if (o is IDocumentSession)
+                {
+                    return o as IDocumentSession;    
+                }
+            }
+            
+            var session = Global.Store.OpenSession();
+            request.Properties[App.Keys.RavenDbSessionKey] = session;
+            return session;
+        }
+
+        public static void SetCurrentSession(this HttpRequestMessage request, IDocumentSession session )
+        {
+            request.Properties[App.Keys.RavenDbSessionKey] = session;
+        }
+
+
     }
 }

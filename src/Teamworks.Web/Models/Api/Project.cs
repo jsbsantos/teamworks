@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Teamworks.Web.Models.Api
 {
@@ -13,11 +12,6 @@ namespace Teamworks.Web.Models.Api
 
         [StringLength(256, MinimumLength = 3)]
         public string Description { get; set; }
-
-        public IList<Person> People { get; set; }
-        public IList<Activity> Activities { get; set; }
-        public IList<Discussion> Discussions { get; set; }
-
         public string Token { get; set; }
     }
 }

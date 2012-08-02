@@ -1,15 +1,22 @@
+@using Teamworks.Web.Views
 @{
     Layout = "../Shared/_Root.cshtml";
 }
 
-<div class="row">
-    <div class="span1">
-        @RenderSection("Left", false)
-    </div>
-    <div class="center span8">
-        @RenderBody()
-    </div>
-    <div class="span3">
-        @RenderSection("Right", false)
-    </div>
-</div>
+@RenderBody()
+
+@section navigation {
+    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>      
+            @Html.Identity()
+            <div class="nav-collapse">
+                <ul class="nav">
+                    <li class="@Html.ActiveController("Home")"><a href="@Url.Action("View", "Home")"><i class="icon-home icon-white"></i>Home</a></li>
+                    <li class="@Html.ActiveController("Projects")"><a href="@Url.Action("View", "Projects", new {identifier = UrlParameter.Optional})">Projects</a></li>
+                    <li class="@Html.ActiveController("Timelog")"><a href="@Url.Action("View", "Timelog")">Time</a></li>
+                </ul>
+            </div>
+}

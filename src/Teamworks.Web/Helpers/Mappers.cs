@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using AutoMapper;
+﻿using AutoMapper;
 using Teamworks.Core.Services;
 using Teamworks.Web.Helpers.Teamworks;
 using Teamworks.Web.Models.Api;
@@ -14,7 +12,6 @@ namespace Teamworks.Web.Helpers
         AutoMapper uses "Convention over configuration" which means properties with the same name 
         will be auto-mapped to each other.         
         */
-
         public static void RegisterMappers()
         {
             #region Project Mappings
@@ -22,28 +19,14 @@ namespace Teamworks.Web.Helpers
             Mapper.CreateMap<Project, Core.Project>();
             Mapper.CreateMap<Core.Project, Project>()
                 .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier))
-                .ForMember(src => src.Discussions,
+                .ForMember(src => src.Token,
                            opt =>
                            opt.MapFrom(
-                               src =>
-                               Mapper.Map<IList<Core.Discussion>, IList<Discussion>>(
-                                   Global.Database.CurrentSession.Load<Core.Discussion>(src.Discussions))))
-                .ForMember(src => src.Activities,
-                           opt =>
-                           opt.MapFrom(
-                               src =>
-                               Mapper.Map<IList<Core.Activity>, IList<Activity>>(
-                                   Global.Database.CurrentSession.Load<Core.Activity>(src.Activities))))
-                .ForMember(src => src.People,
-                           opt =>
-                           opt.MapFrom(
-                               src =>
-                               Mapper.Map<IList<Core.Person>, IList<Person>>(
-                                  Global.Database.CurrentSession.Load<Core.Person>(src.People))))
-                .ForMember(src => src.Token, opt => opt.MapFrom(src => string.Format("tw+{0}@teamworks.mailgun.org", src.Token(Global.CurrentPerson.Id))));
+                               src => string.Format("tw+{0}@teamworks.mailgun.org", src.Token(Global.CurrentPerson.Id))));
 
-				Mapper.CreateMap<Core.Project, DryProject>()
+            Mapper.CreateMap<Core.Project, DryProject>()
                 .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier));
+
             #endregion
 
             #region Activities Mappings
@@ -62,9 +45,7 @@ namespace Teamworks.Web.Helpers
 
             Mapper.CreateMap<Timelog, Core.Timelog>();
             Mapper.CreateMap<Core.Timelog, Timelog>()
-                .ForMember(src => src.Date, opt => opt.MapFrom(src => src.Date.ToString("yyyy-MM-ddTHH:mm:ssZ")))
-                .ForMember(src => src.Person,
-                           opt => opt.MapFrom(src => Global.Database.CurrentSession.Load<Core.Person>(src.Person)));
+                .ForMember(src => src.Date, opt => opt.MapFrom(src => src.Date.ToString("yyyy-MM-ddTHH:mm:ssZ")));
 
             #endregion
 
@@ -72,29 +53,11 @@ namespace Teamworks.Web.Helpers
 
             Mapper.CreateMap<DryDiscussion, Core.Discussion>();
             Mapper.CreateMap<Core.Discussion, DryDiscussion>()
-                .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier))
-                .ForMember(src => src.Person,
-                           opt =>
-                           opt.MapFrom(
-                               src =>
-                               Mapper.Map<Core.Person, DryPerson>(
-                                   Global.Database.CurrentSession.Load<Core.Person>(src.Person))));
+                .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier));
 
             Mapper.CreateMap<Discussion, Core.Discussion>();
             Mapper.CreateMap<Core.Discussion, Discussion>()
-                .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier))
-                .ForMember(src => src.Person,
-                           opt =>
-                           opt.MapFrom(
-                               src =>
-                               Mapper.Map<Core.Person, DryPerson>(
-                                   Global.Database.CurrentSession.Load<Core.Person>(src.Person))))
-                .ForMember(src => src.Messages,
-                           opt =>
-                           opt.MapFrom(
-                               src =>
-                               Mapper.Map<IList<Core.Message>, IList<Message>>(src.Discussions)));
-
+                .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier));
             #endregion
 
             #region Message Mappings
@@ -103,13 +66,7 @@ namespace Teamworks.Web.Helpers
                 .ForMember(src => src.Content, opt => opt.MapFrom(src => src.Content));
 
             Mapper.CreateMap<Core.Message, Message>()
-                .ForMember(src => src.Content, opt => opt.MapFrom(src => src.Content))
-                .ForMember(src => src.Person,
-                           opt =>
-                           opt.MapFrom(
-                               src =>
-                               Mapper.Map<Core.Person, DryPerson>(
-                                   Global.Database.CurrentSession.Load<Core.Person>(src.Person))));
+                .ForMember(src => src.Content, opt => opt.MapFrom(src => src.Content));
 
             #endregion
 
@@ -125,13 +82,17 @@ namespace Teamworks.Web.Helpers
             #endregion
 
             #region TodoList
+
             Mapper.CreateMap<TodoList, Core.TodoList>();
             Mapper.CreateMap<Core.TodoList, TodoList>();
+
             #endregion
 
             #region Todo
+
             Mapper.CreateMap<Todo, Core.Todo>();
             Mapper.CreateMap<Core.Todo, Todo>();
+
             #endregion
         }
     }

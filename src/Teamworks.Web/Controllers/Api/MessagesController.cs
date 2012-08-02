@@ -14,7 +14,7 @@ namespace Teamworks.Web.Controllers.Api
 {
     [DefaultHttpRouteConvention]
     [RoutePrefix("api/projects/{projectid}")]
-    public class MessagesController : RavenApiController
+    public class MessagesController : RavenDbApiController
     {
         #region Project
 
@@ -56,7 +56,8 @@ namespace Teamworks.Web.Controllers.Api
             message.Id = discussion.GenerateNewTimeEntryId();
 
             discussion.Discussions.Add(message);
-            discussion.Notify(message);
+            discussion.Notify(message, DbSession.Load<Core.Person>(discussion.Subscribers)
+                        .Select(x => x.Email).ToList());
 
             var value = Mapper.Map<Core.Message, Message>(message);
             return Request.CreateResponse(HttpStatusCode.Created, value);

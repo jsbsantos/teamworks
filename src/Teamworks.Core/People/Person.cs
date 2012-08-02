@@ -7,12 +7,14 @@ namespace Teamworks.Core
 {
     public class Person : Entity
     {
+        public string Name { get; set; }
         public string Salt { get; private set; }
         public string Email { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
         public IList<string> Roles { get; set; }
         public IList<IPermission> Permissions { get; set; }
+        
 
         public static Person Forge(string email, string username, string password, string name)
         {

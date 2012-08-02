@@ -72,7 +72,7 @@ namespace Teamworks.Core.Extensions
                     new ParallelOptions {CancellationToken = cts.Token},
                     x => res &= x.Invoke());
             }
-            catch (OperationCanceledException oce)
+            catch (OperationCanceledException)
             {
                 throw new TimeoutException("Validation Timeout Exceeded");
             }

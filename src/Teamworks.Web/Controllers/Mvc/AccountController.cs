@@ -1,21 +1,19 @@
 ﻿using System;
-using System.Dynamic;
 using System.Linq;
-using System.Text;
 using System.Web.Mvc;
 using System.Web.Security;
 using Newtonsoft.Json.Linq;
+using Raven.Json.Linq;
+using Raven.Client;
 using Raven.Client.Linq;
-using Teamworks.Core.Authentication;
+using Teamworks.Core;
 using Teamworks.Core.Oauth2;
-using Teamworks.Core.Services;
-using Teamworks.Web.Helpers.Teamworks;
 using Teamworks.Web.Models.Mvc;
 
 namespace Teamworks.Web.Controllers.Mvc
 {
     [AllowAnonymous]
-    public class AccountController : RavenController
+    public class AccountController : RavenDbController
     {
         private const string ReturnUrlKey = "RETURN_URL_KEY";
 
@@ -43,18 +41,37 @@ namespace Teamworks.Web.Controllers.Mvc
             if (result.State > 0) // opendid auth response with success
             {
                 var username = result.First + result.Last;
-                var user = GetUser(username, result.Email);
-                if (user == null)
+                var person = GetUser(username, result.Email);
+                if (person == null)
                 {
-                    user = Core.Person.Forge(result.Email, username, null, string.Format("{0} {1}", result.First, result.Last));
-                    DbSession.Store(user);
-                    user.SetOpenId(provider, result.ClaimedIdentifier);
+                    person = Core.Person.Forge(result.Email, username, null, string.Format("{0} {1}", result.First, result.Last));
+                    DbSession.Store(person);
+                    SetOpenId(DbSession, person, provider, result.ClaimedIdentifier);
                 }
-                return SetUpAuthenticatedUser(user, true);
+                return SetUpAuthenticatedUser(person, true);
             }
             return new EmptyResult();
         }
         
+        private static void SetOpenId(IDocumentSession session, Core.Person person, string provider, string claim)
+        {
+            var metadata = session.Advanced.GetMetadataFor(person);
+            metadata[Core.Oauth2.OpenId.ProviderKey] = provider;
+            metadata[Core.Oauth2.OpenId.ClaimKey] = claim;
+        }
+
+        private static string GetOpenIdProvider(IDocumentSession session, Core.Person person)
+        {
+            var metadata = session.Advanced.GetMetadataFor(person);
+            return metadata[Core.Oauth2.OpenId.ProviderKey].Value<string>();
+        }
+
+        private static string GetOpenIdClaim(IDocumentSession session, Core.Person person)
+        {
+            var metadata = session.Advanced.GetMetadataFor(person);
+            return metadata[Core.Oauth2.OpenId.ClaimKey].Value<string>();
+        }
+
         [HttpPost]
         public ActionResult Login(Login model)
         {
@@ -63,13 +80,10 @@ namespace Teamworks.Web.Controllers.Mvc
                 return View("View", model);
             }
 
-            dynamic dyn = new ExpandoObject();
-            dyn.Username = model.Username;
-            dyn.Password = model.Password;
+            var person = DbSession.Query<Person>().SingleOrDefault(
+                p => p.Username.Equals(model.Username, StringComparison.InvariantCultureIgnoreCase));
 
-            Core.Person person;
-            IAuthenticator auth = Global.Authentication["Basic"];
-            if (auth.IsValid(dyn, out person))
+            if (person != null && person.IsThePassword(model.Password))
             {
                 return SetUpAuthenticatedUser(person, model.Persist);
             }

@@ -83,7 +83,7 @@ As relações entre documentos, devido à inexistência de operações *JOIN*, p
 
 #### Inclusão no pedido
 
-Nesta opção cada documento guarda o identificador do(s) documento(s) com que está relacionado (e.g. os documentos que representam projectos guardam o identificador dos documentos que representam tarefas) e quando é obtido um documento principal são também obtidos todos os documentos que lhe estão associadas. 
+Nesta opção cada documento guarda o identificador do(s) documento(s) com que está relacionado (e.g. os documentos que representam projectos guardam o identificador dos documentos que representam actividaes) e quando é obtido um documento principal são também obtidos todos os documentos que lhe estão associadas. 
 
 No RavenDB esta opção é suportada pelo método `Include` que recebe os identificadores das entidades a carregar em paralelo com as entidades principais. As entidades incluídas são adicionadas à sessão pelo cliente RavenDB. 
 

@@ -2,7 +2,7 @@
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var date = @DateTime.Now.ToString("dd/MM/yyyy");
+
 }
 
 <div class="content" data-bind="visible: activity.name">
@@ -12,18 +12,17 @@
             <small data-bind="text: activity.description, visible: activity.description"></small>
         </h1>
     </header>
+
     <div class="well-large">
-        <div>
-            <form class="form-horizontal" data-bind="submit: timelog.create">
-                <div class="date input-append" data-autoclose="true" data-date-format="dd/mm/yyyy" data-provide="datepicker">
-                    <input value="@date" class="span2" size="16" data-bind="value: timelog.date.formatted" readonly="readonly"/>
-                    <span class="add-on"><i class="icon-th"></i></span>
-                </div>
-                <input type="text" class="control-group input-xlarge" placeholder="Duration in minutes" data-bind="value: timelog.duration, valueUpdate: 'afterkeyup'" />
-                <input type="text" class="control-group input-xlarge" placeholder="Timelog description" data-bind="value: timelog.description, valueUpdate: 'afterkeyup'" />
-                <button type="submit" class="btn btn-success pull-right">Register time</button>  
-            </form>
-        </div>
+        <ul class="breadcrumb">
+            <li>
+                <a href="#">Home</a> <span class="divider">/</span>
+            </li>
+            <li>
+                <a href="#">Library</a> <span class="divider">/</span>
+            </li>
+            <li class="active">Data</li>
+        </ul>
         <table class="table table-striped table-bordered table-condensed">
             <thead>
                 <tr>

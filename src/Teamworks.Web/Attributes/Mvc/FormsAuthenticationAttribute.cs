@@ -3,9 +3,9 @@ using System.Security.Principal;
 using System.Web.Mvc;
 using Teamworks.Core;
 using Teamworks.Core.Authentication;
-using Teamworks.Core.Services;
+using Teamworks.Web.Helpers.Mvc;
 
-namespace Teamworks.Web.Controllers.Mvc.Attributes
+namespace Teamworks.Web.Attributes.Mvc
 {
     public class FormsAuthenticationAttribute : ActionFilterAttribute
     {
@@ -17,7 +17,9 @@ namespace Teamworks.Web.Controllers.Mvc.Attributes
                 var id = user.Identity.Name;
                 if (!string.IsNullOrEmpty(id))
                 {
-                    var person = Global.Database.CurrentSession.Load<Person>(id);
+                    var person = context.HttpContext
+                        .GetOrOpenCurrentSession().Load<Person>(id);
+
                     if (person != null)
                     {
                         context.HttpContext.User = new GenericPrincipal(new PersonIdentity(person), person.Roles.ToArray());

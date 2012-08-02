@@ -3,164 +3,126 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div data-bind="visible: project.name">
-    <header class="page-header">
-        <h1>
-            <span data-bind="text: project.name"></span>
-            <small data-bind="text: project.description, visible: project.description"></small>
-        </h1>
-    </header>
-    <div>
+<div class="row" data-bind="visible: project.name">
+    <div class="span9" >
+        <header>
+            <h1>
+                <span data-bind="text: project.name"></span>
+                <small> <i class="icon-edit"></i> <span data-bind="text: project.description, visible: project.description"></span></small>
+            </h1>
+        </header>
+    
         <!-- Activities -->
-        <section class="well-large">
-            <header class="lead">
-                <h2>Activities <a href="#" class="btn-mini" data-bind="visible: !activity.editing(), click: function() { activity.editing(true); }">One more activity</a></h2>
+        <section>
+            <div class="page-header">
+                <h2>Activities 
+                    <small>
+                        <a class="hide btn-mini" data-bind="css: { hide: activity.editing()}, click: function() { activity.editing(true); }">One more activity</a>
+                    </small>
+                </h2>
                 <div class="hide" data-bind="css: { hide: !activity.editing() }">
-                    <form class="form-horizontal" data-bind="submit: project.activities._create">
-                        <div class="control-group inline">
-                            <label class="control-label" for="name">Name</label>
-                            <div class="controls">
-                                <div class="input-append">
-                                    <input type="text" placeholder="Activities name" class="span3" data-bind="value: activity.name, valueUpdate: 'afterkeyup'" />
-                                    <button type="submit" class="btn btn-success">Start activity</button>  
-                                </div>
-                                <a class="btn-mini" data-bind="click: function() { activity.editing(false) }"><i class="icon-remove"></i></a>                   
-                            </div>
-                        </div>
+                    <form class="well form-inline" data-bind="submit: project.activities._create">
+                        <label for="activity_name">Name</label>
+                        <input id="activity_name" name="name" autofocus="autofocus" placeholder="Activity name" data-bind="value: activity.name, valueUpdate: 'afterkeyup'" />
+                        <button type="submit" class="btn btn-success">Create</button>  
+                        <a class="btn-mini" data-bind="click: function() { activity.editing(false) }"><i class="icon-remove"></i></a>                   
                     </form>
                 </div>
-            </header>
-            <div data-bind="template: { name: 'activities-template', foreach: project.activities }"></div>
-        </section>
-        
-        <!-- Discussion -->
-        <section class="well-large">
-            <header class="lead">
-                <h2>Discussion  <a href="#" class="btn-mini" data-bind="visible: !discussion.editing(), click: function() { discussion.editing(true); }">One more discussion</a></h2>
-                <div class="hide" data-bind="css: { hide: !discussion.editing() }">
-                    <form class="form-horizontal" data-bind="submit: project.discussions._create">
-                        <div class="control-group inline">
-                            <label class="control-label" for="name">Name</label>
-                            <div class="controls">
-                                <div class="input-append">
-                                    <input type="text" placeholder="Discussion title" class="span3" data-bind="value: discussion.name" />
-                                    <button type="submit" class="btn btn-success">Start discussing</button>  
-                                </div>
-                            </div>
-                        </div>
-                        <a class="btn-mini" data-bind="click: function() { discussion.editing(false) }"><i class="icon-remove"></i></a>  
-                    </form>
-                </div>
-            </header>
-            <div data-bind="template: { name: 'discussion-template', foreach: project.discussions }"></div>
-
-            <div class="more-options">To create a new discussion you can send an email to  
-                <a id="ediscussion" target="_blank" data-bind="attr: { href: 'mailto:' + project.token() }">
-                    an email created just for you
-                </a>
-                <i class="icon-copy"></i>
             </div>
-            
-           
-        </section>
-        <script type="text/html" id="activities-template">
-            <article class="well-small">
-                <div class="pull-right">
-                    <ul class="nav">
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                <i class="icon-caret-down"></i>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a data-bind="click: $parent.project.activities._remove" href="#"><i class="icon-trash"></i> Remover</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
+            <!-- ko template: { name: 'activities-template', foreach: project.activities } -->
+            <!-- /ko -->
+            <script type="text/html" id="activities-template">
                 <div>
                     <h3>
                         <a data-bind="text: name, attr: { href: '/projects/' + $parent.project.id() + '/activities/' + id() }"></a>
                     </h3>
                     <p data-bind="text: description"></p>
                 </div>
-            </article>
-        </script>
-        <script type="text/html" id="discussion-template">
-            <article class="well-small">
-                <div class="pull-right">
-                    <ul class="nav">
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                <i class="icon-caret-down"></i>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a data-bind="click: $parent.project.discussions._remove" href="#"><i class="icon-trash"></i> Remover</a></li>
-                            </ul>
-                        </li>
-                    </ul>
+            </script>
+        </section>
+        <!-- Discussion -->
+        <section>
+            <div class="page-header">
+                <h2>Discussion
+                    <small>
+                        <a class="hide btn-mini" data-bind="css: { hide: discussion.editing()}, click: function() { discussion.editing(true); }">One more discussion</a>
+                    </small>
+                </h2>
+                <div class="hide" data-bind="css: { hide: !discussion.editing() }">
+                    <form class="well form-inline" data-bind="submit: project.discussions._create">
+                        <label for="discussion_name">Name</label>
+                        <input id="discussion_name" name="name" autofocus="autofocus" placeholder="Discussion name" data-bind="value: discussion.name, valueUpdate: 'afterkeyup'" />
+                        <button type="submit" class="btn btn-success">Create</button>  
+                        <a class="btn-mini" data-bind="click: function() { discussion.editing(false) }"><i class="icon-remove"></i></a>                   
+                    </form>
                 </div>
+            </div>
+            <!-- ko template: { name: 'discussion-template', foreach: project.discussions } -->
+            <!-- /ko -->
+            <div class="more-options">To create a new discussion you can send an email to  
+                <a id="email_discussion" target="_blank" data-bind="attr: { href: 'mailto:' + project.token() }">
+                    an email created just for you
+                </a>
+                <i class="icon-copy"></i>
+            </div>
+            <script type="text/html" id="discussion-template">
                 <div>
                     <h3>
                         <a data-bind="text: name, attr: { href: '/projects/' + $parent.project.id() + '/discussions/' + id() }"></a>
                     </h3>
                     <p data-bind="text: content"></p>
                 </div>
-            </article>
-        </script>
-    </div>
+            </script>
+        </section>
     
-    <script>
-        var viewmodel = function() {
-            return new TW.viewmodels.Project('@ViewBag.Endpoint');
-        };
-    </script>
-</div>
 
-@section Right
-{
-    <section class="people">
+    </div>
+    <div class="span3">
         <h2>People</h2>
-        <ul class="thumbnails" data-bind="template: { name: 'person-template', foreach: project.people }"></ul>
-        <a href="#" class="more-options" data-bind="visible: !people.editing(), click: function() { people.editing(true); }" >Invite another person to join this project</a>
-        <div class="row hide" data-bind="css: { hide: !people.editing() }">
-            <form class="form-horizontal" data-bind="submit: people._add">
-                <div class="well-small">
-                    <input autocomplete="off" class="input-block-level" placeholder="Who do you wanto to add" 
-                           data-provide="people-typeahead" data-items="4" data-bind="value: people, valueUpdate: 'afterkeyup', event: { select: people._add}" />
-                          
-                </div>
-            </form>
-            <form class="form-horizontal" data-bind="submit: project.people._add">
-                <div class="well-small">
+        <div class="people">
+            <ul class="thumbnails" data-bind="template: { name: 'person-template', foreach: project.people }"></ul>
+            <a href="#" class="more-options" data-bind="visible: !people.editing(), click: function() { people.editing(true); }" >More members</a>
+            <div class="hide" data-bind="css: { hide: !people.editing() }">
+                <form class="form-horizontal" data-bind="submit: people._add">
+                    <input autocomplete="off" placeholder="Who do you wanto to add" 
+                           data-items="4" data-bind="valueUpdate: 'afterkeyup', typeahead: { endpoint: '/api/people' }" />
+                </form>
+                <form class="form-horizontal" data-bind="submit: project.people._add">
                     <div>
                         <ul data-bind="foreach: people.list">
                             <li data-bind="text: name"></li>
                         </ul>
                     </div>
                     <button class="btn btn-success" type="submit">Invite</button>
-                    <a class="btn-mini" data-bind="click: function() { people.editing(false) }"><i class="icon-remove"></i> Cancel</a>  
-                </div>
-            </form>
+                    <a class="btn-mini" data-bind="click: function() { people.editing(false) }"><i class="icon-remove"></i></a>  
+                </form>
+            </div>
         </div>
         
-    </section>
+        <script type="text/html" id="person-template">
+            <li class="dropdown">
+                <a class="thumbnail dropdown-toggle" data-toggle="dropdown" rel="tooltip-top" data-bind="attr: { href: '#', 'title': name }">
+                    <img data-bind="attr: { src: gravatar.medium }" />
+                </a>               
+                <ul class="dropdown-menu well-mini">
+                    <img class="pull-left" data-bind="attr: { src: gravatar.medium }" />
+                    <div>
+                        <p data-bind="text: username"></p>
+                        <h3><a data-bind="text: name"></a></h3>
+                        <p data-bind="text: email"></p>
+                        <a class="btn pull-right pull-down" href="#" data-bind="click: $parent.project.people._remove">Remove</a>
+                    </div>
+                </ul>
+            </li>
+        </script>
+        <br/>
+        <h2>Actions</h2>
     
-    <script type="text/html" id="person-template">
-        <li class="dropdown">
-            <a class="thumbnail dropdown-toggle inline" data-toggle="dropdown" rel="tooltip-top" data-bind="attr: { href: '#', 'title': name }">
-                <img data-bind="attr: { src: gravatar.medium }" />
-            </a>               
-            <ul class="dropdown-menu well-mini">
-                <img class="pull-left" data-bind="attr: { src: gravatar.medium }" />
-                <div>
-                    <p data-bind="text: username"></p>
-                    <h3><a data-bind="text: name"></a></h3>
-                    <p data-bind="text: email"></p>
-                    <form class="more-options clear-left pull-right" data-bind="submit: $parent.project.people._remove">
-                        <button class="btn" type="submit" name="remove">Remove from project</button>
-                    </form>
-                </div>
-            </ul>
-        </li>
-    </script>
-}
+    </div>
+</div>
+
+<script>
+    var viewmodel = function() {
+        return new TW.viewmodels.Project('@ViewBag.Endpoint');
+    };
+</script>

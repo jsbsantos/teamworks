@@ -1,92 +1,38 @@
 ﻿@model dynamic
 @{
-    ViewBag.Title = "teamworks";
-    Layout = "~/Views/Shared/_Blank.cshtml";
+    Layout = "~/Views/Shared/_Root.cshtml";
 }
-<div class="container">
-    <div class="offset2 span8">
-        <div class="row page-header">
-            <h1 class="tc brand"><a href="@Url.Action("View", "Home")">Teamworks</a></h1>
-        </div>
-        <div class="row account-area">
-            <div class="span5">
-                <ul class="nav nav-tabs">
-                    <li class="active"><a href="#login" data-toggle="tab">Login</a></li>
-                    <li><a href="#signup" data-toggle="tab">Register</a></li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane active" id="login">
-                        <p>You can also use one of the services available.</p>
-                        <form  class="form-horizontal"method="post" action="@Url.Action("Login", "Account")" name="login">
-                            <div class="control-group">
-                                <label class="control-label" for="username">Username</label>
-                                <div class="controls">
-                                    <input name="username" placeholder="Insert your username here" />
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label" for="password">Password</label>
-                                <div class="controls">
+<div class="row">
+    <div class="offset2 span5">
+        <ul class="nav nav-pills">
+            <li class="active"><a href="#login" data-toggle="tab">Login</a></li>
+            <li><a href="#signup" data-toggle="tab">Register</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="login">
+                <p>You can also use one of the services available.</p>
+                <form  class="form-horizontal"method="post" action="@Url.Action("Login", "Account")" name="login">
+                    <div class="control-group">
+                        <label class="control-label" for="username">Username</label>
+                        <div class="controls">
+                            <input name="username" placeholder="Insert your username here" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="password">Password</label>
+                        <div class="controls">
                                 
-                                    <input  name="password" placeholder="Insert your password here" type="password" />
-                                    <p><a href="#">Forgot password?</a></p>
-                                </div>
-                            </div>
-                            <div class="form-actions">
-                                <button class="btn btn-success" type="submit" value="login">Login</button>
-                            </div>
-                        </form>
+                            <input  name="password" placeholder="Insert your password here" type="password" />
+                            <p><a href="#">Forgot password?</a></p>
+                        </div>
                     </div>
-                    <div class="tab-pane" id="openid">
-                        <ul class="thumbnails">
-                            <li class="span1">
-                                <a class="thumbnail" href="@Url.Action("OpenId", "Account", new {provider = "https://www.google.com/accounts/o8/id"})">
-                                    <img src="~/Content/img/google.png" alt="google openid"/>
-                                </a>
-                            </li>
-                        </ul>
+                    <div class="form-actions">
+                        <button class="btn btn-success" type="submit" value="login">Login</button>
                     </div>
-                    <div class="tab-pane" id="signup">
-                        <header class="lead">
-                            <h3>Register</h3>
-                            <p>You can also use one of the <strong>OpenID</strong> services available.</p>
-                        </header>
-                        <form  method="post" class="form-horizontal" action="@Url.Action("Signup", "Account")" name="login">
-                            <div class="control-group">
-                                <label class="control-label" for="username">Name</label>
-                                <div class="controls">
-                                    <input name="name" placeholder="Name" />
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label" for="username">Username</label>
-                                <div class="controls">
-                                    <input name="username" placeholder="Username" />
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label" for="email">Email</label>
-                                <div class="controls">
-                                    <input name="email" placeholder="Email" />
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label" for="password">Password</label>
-                                <div class="controls">
-                                    <input  name="password" placeholder="Insert your password here" type="password" />
-                                </div>
-                            </div>
-                            <div class="form-actions">
-                                <button class="btn btn-success" type="submit" value="signup">Register</button>
-                            </div>
-                        
-                        </form>
-                    </div>
-                </div>
+                </form>
             </div>
-            <div class="span3">
-                <h3>Available services</h3>
-                <ul class="thumbnails well-large">
+            <div class="tab-pane" id="openid">
+                <ul class="thumbnails">
                     <li class="span1">
                         <a class="thumbnail" href="@Url.Action("OpenId", "Account", new {provider = "https://www.google.com/accounts/o8/id"})">
                             <img src="~/Content/img/google.png" alt="google openid"/>
@@ -94,6 +40,52 @@
                     </li>
                 </ul>
             </div>
+            <div class="tab-pane" id="signup">
+                <header class="lead">
+                    <h3>Register</h3>
+                    <p>You can also use one of the <strong>OpenID</strong> services available.</p>
+                </header>
+                <form  method="post" class="form-horizontal" action="@Url.Action("Signup", "Account")" name="login">
+                    <div class="control-group">
+                        <label class="control-label" for="username">Name</label>
+                        <div class="controls">
+                            <input name="name" placeholder="Name" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="username">Username</label>
+                        <div class="controls">
+                            <input name="username" placeholder="Username" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="email">Email</label>
+                        <div class="controls">
+                            <input name="email" placeholder="Email" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="password">Password</label>
+                        <div class="controls">
+                            <input  name="password" placeholder="Insert your password here" type="password" />
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-success" type="submit" value="signup">Register</button>
+                    </div>
+                        
+                </form>
+            </div>
         </div>
+    </div>
+    <div class="span3">
+        <h3>Available services</h3>
+        <ul class="thumbnails well-large">
+            <li class="span1">
+                <a class="thumbnail" href="@Url.Action("OpenId", "Account", new {provider = "https://www.google.com/accounts/o8/id"})">
+                    <img src="~/Content/img/google.png" alt="google openid"/>
+                </a>
+            </li>
+        </ul>
     </div>
 </div>

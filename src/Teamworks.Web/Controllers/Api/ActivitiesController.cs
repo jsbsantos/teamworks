@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -7,18 +6,19 @@ using System.Web.Http;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
+using Raven.Bundles.Authorization.Model;
+using Raven.Client.Authorization;
 using Teamworks.Web.Helpers.Api;
 using Teamworks.Web.Helpers.Teamworks;
-using Activity = Teamworks.Web.Models.Api.Activity;
+using Teamworks.Web.Models.Api;
 
 namespace Teamworks.Web.Controllers.Api
 {
     [DefaultHttpRouteConvention]
     [RoutePrefix("api/projects/{projectid}/activities")]
-    public class ActivitiesController : RavenApiController
+    public class ActivitiesController : RavenDbApiController
     {
         #region General
-
         public IEnumerable<Activity> Get(int projectid)
         {
             var project = DbSession
@@ -110,9 +110,9 @@ namespace Teamworks.Web.Controllers.Api
             if (project == null || activity == null || !project.Activities.Any(t => t.Identifier() == id))
                 Request.NotFound();
 
-            var graph = activity.DependencyGraph();
-
-            return graph;
+            //var graph = activity.DependencyGraph();
+            //return graph;
+            return null;
         }
 
         [POST("{id}/precedences/{precedenceid}")]
@@ -152,6 +152,10 @@ namespace Teamworks.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.Created);
         }
 
+        #endregion
+
+        #region People
+        
         #endregion
     }
 }

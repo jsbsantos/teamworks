@@ -6,7 +6,7 @@ using System.Net.Http;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
-using Teamworks.Web.Controllers.Api.Attribute;
+using Teamworks.Web.Attributes.Api;
 using Teamworks.Web.Helpers.Api;
 using Teamworks.Web.Models.Api;
 using Teamworks.Web.Models.Api.DryModels;
@@ -15,7 +15,7 @@ namespace Teamworks.Web.Controllers.Api
 {
     [SecureFor("/projects")]
     [RoutePrefix("api/projects/{projectid}")]
-    public class DiscussionsController : RavenApiController
+    public class DiscussionsController : RavenDbApiController
     {
         #region Project Discussion
 

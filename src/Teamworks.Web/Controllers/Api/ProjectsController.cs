@@ -3,71 +3,71 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web.Http;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
-using Newtonsoft.Json.Linq;
 using Raven.Bundles.Authorization.Model;
+using Raven.Client;
 using Raven.Client.Authorization;
+using Raven.Client.Linq;
+using Raven.Client.Util;
+using Teamworks.Web.Attributes.Api;
 using Teamworks.Web.Helpers.Api;
-using Teamworks.Web.Helpers.Teamworks;
 using Teamworks.Web.Models.Api;
-using Teamworks.Web.Controllers.Api.Attribute;
 using Teamworks.Web.Models.Api.DryModels;
 
 namespace Teamworks.Web.Controllers.Api
 {
     [DefaultHttpRouteConvention]
     [RoutePrefix("api/projects")]
-    public class ProjectsController : RavenApiController
+    public class ProjectsController : RavenDbApiController
     {
-        [SecureFor("/projects")]
+        public ProjectsController()
+        {   
+        }
+
+        public ProjectsController(IDocumentSession session)
+            : base(session)
+        {
+        }
+
+        [SecureFor]
         public IEnumerable<Project> Get()
         {
+            RavenQueryStatistics stat;
             var projects = DbSession
-                .Query<Core.Project>().Customize(q => q
-                                                          .Include<Core.Project>(p => p.Activities)
-                                                          .Include<Core.Project>(p => p.Discussions)
-                                                          .Include<Core.Project>(p => p.People))
+                .Query<Core.Project>()
+                .Statistics(out stat)
                 .ToList();
 
             return Mapper.Map<IEnumerable<Core.Project>, IEnumerable<Project>>(projects);
         }
 
-        [SecureFor("/projects")]
+        [SecureFor]
         public Project Get(int id)
         {
             var project = DbSession
-                .Include<Core.Project>(p => p.Discussions)
-                .Include<Core.Project>(p => p.Activities)
-                .Include<Core.Project>(p => p.People)
                 .Load<Core.Project>(id);
 
             return Mapper.Map<Core.Project, Project>(project);
         }
 
-        [SecureFor("/projects")]
         public HttpResponseMessage Post(Project model)
         {
             var project = Core.Project.Forge(model.Name, model.Description);
-
             DbSession.Store(project);
-            DbSession.SetAuthorizationFor(project,
-                                          new DocumentAuthorization
-                                              {
-                                                  Permissions =
-                                                      {
-                                                          new DocumentPermission()
-                                                              {
-                                                                  Allow = true,
-                                                                  Operation = "/project",
-                                                                  User = Request.GetCurrentPersonId()
-                                                              }
-                                                      },
-                                                  Tags = new List<string>()
-                                              });
 
-            project.People.Add(Request.GetCurrentPersonId());
+            project.AllowPersonAssociation();
+            DbSession.SetAuthorizationFor(project, new DocumentAuthorization
+                                                       {
+                                                           Tags = {project.Id}
+                                                       });
+            var person = Request.GetCurrentPerson();
+            project.People.Add(person.Id);
+            person.Roles.Add(project.Id);
+
+
             var value = Mapper.Map<Core.Project, Project>(project);
             var response = Request.CreateResponse(HttpStatusCode.Created, value);
 
@@ -77,18 +77,21 @@ namespace Teamworks.Web.Controllers.Api
             return response;
         }
 
-        [SecureFor("/projects")]
+        [SecureFor]
         public HttpResponseMessage Delete(int id)
         {
             var project = DbSession.Load<Core.Project>(id);
             DbSession.Delete(project);
+
+            // todo cascade remove
+
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
 
         #region People
 
-        [SecureFor("/project")]
-        [GET("{projectid}/people")]
+        [SecureFor]
+        [GET("{id}/people")]
         public IEnumerable<Person> GetPeople(int projectid)
         {
             var project = DbSession
@@ -99,8 +102,8 @@ namespace Teamworks.Web.Controllers.Api
             return Mapper.Map<IEnumerable<Core.Person>, IEnumerable<Person>>(people);
         }
 
-        [SecureFor("/projects")]
-        [POST("{projectid}/people")]
+        [SecureFor]
+        [POST("{id}/people")]
         public HttpResponseMessage Post(int projectid, Permissions model)
         {
             var project = DbSession
@@ -108,61 +111,48 @@ namespace Teamworks.Web.Controllers.Api
 
             if (project == null)
             {
-                Request.NotFound();
+                throw new HttpResponseException(
+                    Request.CreateResponse(HttpStatusCode.NotFound));
             }
 
+            var plural = Inflector.Pluralize("person");
             var people = DbSession
-                .Load<Core.Person>(model.Ids.Select(i => "people/" + i));
-            if (people == null)
+                .Load<Core.Person>(
+                    model.Ids.Select(i => string.Format("{0}/{1}", plural, i)));
+
+            foreach (var person in people.Where(p => p != null))
             {
-                Request.NotFound();
+                person.Roles.Add(project.Id);
+                project.People.Add(person.Id);
             }
-
-            var authorization = DbSession.GetAuthorizationFor(project);
-       
-            foreach (var person in people)
-            {
-                if (person == null)
-                {
-                    continue;
-                }
-                authorization.Permissions.Add(new DocumentPermission()
-                                                  {
-                                                      Allow = true,
-                                                      Operation = "/project",
-                                                      User = person.Id
-                                                  });
-            }
-
-            DbSession.SetAuthorizationFor(project, authorization);
-            project.People.Add(Request.GetCurrentPersonId());
-
             return Request.CreateResponse(HttpStatusCode.NoContent);
         }
 
-        [SecureFor("/projects")]
-        [DELETE("{projectid}/people/{id}")]
-        public HttpResponseMessage Delete(int projectid, string id)
+        [SecureFor]
+        [DELETE("{id}/people/{personId}")]
+        public HttpResponseMessage Delete(int id, string personId)
         {
-            var personid = "people/" + id;
             var project = DbSession
-                .Include(personid)
-                .Load<Core.Project>(projectid);
+                .Include(string.Format("{0}/{1}",
+                                       Inflector.Pluralize("person"), personId))
+                .Load<Core.Project>(id);
 
             if (project == null)
             {
-                Request.NotFound();
+                throw new HttpResponseException(
+                    Request.CreateResponse(HttpStatusCode.NotFound));
             }
 
-            var authorization = DbSession.GetAuthorizationFor(project);
-            var permission = authorization.Permissions
-                .SingleOrDefault(p => p.User.Equals(personid));
-
-            if (permission == null || !authorization.Permissions.Remove(permission))
+            var person = DbSession.Load<Core.Person>(personId);
+            if (!project.People.Remove(person.Id))
             {
-                Request.NotFound();
+                throw new HttpResponseException(
+                    Request.CreateResponse(HttpStatusCode.NotFound));
             }
-            DbSession.SetAuthorizationFor(project, authorization);
+            person.Roles.Remove(project.Id);
+
+            // todo cascade remove
+
             return Request.CreateResponse(HttpStatusCode.NoContent);
         }
 
@@ -179,14 +169,18 @@ namespace Teamworks.Web.Controllers.Api
                 .Load<Core.Project>(projectid);
 
             if (project == null)
-                Request.NotFound();
+            {
+                throw new HttpResponseException(
+                    Request.CreateResponse(HttpStatusCode.NotFound));
+            }
 
-            var relations = project.DependencyGraph();
+            //var relations = project.DependencyGraph();
+            List<int[]> relations = null;
             var elements = DbSession.Load<Core.Activity>(project.Activities)
                 .Select(Mapper.Map<Core.Activity, DryActivity>)
                 .ToList();
-            
-            return new DependencyGraph(){ Elements = elements, Relations = relations};
+
+            return new DependencyGraph() {Elements = elements, Relations = relations};
         }
 
         #endregion

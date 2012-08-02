@@ -27,7 +27,7 @@ TW.viewmodels.models.Project = function(data) {
     };
 
     self.id = ko.observable();
-    self.name = ko.observable().extend({ min_length: 6 });
+    self.name = ko.observable().extend({ required: "" });
     self.description = ko.observable();
     self.token = ko.observable();
 

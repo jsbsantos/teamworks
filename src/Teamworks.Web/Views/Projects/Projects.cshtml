@@ -1,61 +1,53 @@
 ﻿@model dynamic
 
 @{
-    Layout = "~/Views/Shared/_Root.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div>
-    <header class="page-header">
-        <h1 class="inline">All Projects
-            <a href="#" class="btn-mini" data-bind="visible: !project.editing(), click: function() { project.editing(true); } ">Create a new project</a>
-        </h1>
-        
-        <div class="inline hide" data-bind="css: { hide: !project.editing() }">
+<div class="row">
+    <div class="span8">
+        <header class="page-header">
+            <h1>Projects
+                <small>Here are listed your projects</small>
+            </h1>
+        </header>
+        <div data-bind="template: { name: 'project-template', foreach: projects }"></div>
+        <script type="text/html" id="project-template">
+            <div>
+                <button class="close" data-bind="click: $parent.projects._remove">&times;</button>
+                <a data-bind="attr: { href: '/projects/' + id() }">
+                    <h3>
+                        <span data-bind="text: name"></span>
+                        <small data-bind="text: description"></small>
+                    </h3>
+                </a>
+            </div>
+        </script>
+    </div>
+    <div class="span4">
+        <div class="lead">
+            <h3>New project
+                <small>
+                    <a href="#" class="" data-bind="visible: !project.editing(), click: function() { project.editing(true); } ">Create a new project</a>
+                </small>
+            </h3>
+        </div>
+        <div class="hide" data-bind="css: { hide: !project.editing() }">
             <form class="form-horizontal" data-bind="submit: projects._create">
-                <div class="control-group inline" data-bind="css: { error: project.name.has_error }">
-                    <label class="control-label" for="name">Name</label>
-                    <div class="controls">
-                        <div class="input-append">
-                            <input name="name" type="text" class="span3" placeholder="Project name" data-bind="value: project.name, valueUpdate: 'afterkeyup'" />
-                            <button type="submit" class="btn" data-bind="disable: project.name.has_error, css: { 'btn-success': !project.name.has_error(), 'btn-danger': project.name.has_error }">Start working</button>  
-                                
-                        </div>
-                        <a type="submit" class="help-inline" data-bind="click: function() { project.editing(false) }"><i class="icon-remove"></i></a>  
-                    </div>
+                <div class="control-group">
+                    <input name="name" autofocus="autofocus" class="span3" placeholder="Project name" data-bind="value: project.name, valueUpdate: 'afterkeyup'" />
+                </div>
+                <div class="control-group">
+                    <button type="submit" class="btn" data-bind="disable: project.name.has_error, css: { 'btn-success': !project.name.has_error(), 'btn-danger': project.name.has_error }">Start working</button>  
+                    <a type="submit" class="help-inline" data-bind="click: function() { project.editing(false) }"><i class="icon-remove"></i></a>  
                 </div>
             </form>
         </div>
-    </header>
-    <div data-bind="template: { name: 'project-template', foreach: projects }"></div>
-
-    <script type="text/html" id="project-template">
-        <article class="row well-small">
-            <div class="pull-right">
-                <ul class="nav">
-                    <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="icon-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a data-bind="click: $parent.project.activities._remove" href="#"><i class="icon-trash"></i> Remover</a></li>
-                    </ul>
-                    <li>
-                </ul>
-            </div>
-            <div class="span11">
-                <a data-bind="attr: { href: '/projects/' + id() }">
-                    <h2>
-                        <span data-bind="text: name"></span>
-                        <small data-bind="text: description"></small>
-                    </h2>
-                </a>
-            </div>
-        </article>
-    </script>
-
-    <script>
-        var viewmodel = function() {
-            return new TW.viewmodels.Projects('@ViewBag.Endpoint');
-        }
-    </script>
+    </div>
 </div>
+
+<script>
+    var viewmodel = function() {
+        return new TW.viewmodels.Projects('@ViewBag.Endpoint');
+    }
+</script>

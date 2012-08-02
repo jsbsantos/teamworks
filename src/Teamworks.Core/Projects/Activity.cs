@@ -19,6 +19,8 @@ namespace Teamworks.Core
         }
         
         public int LastTodoListId { get; private set; }
+        public string Name { get; set; }
+
         public int GenerateNewTodoListId()
         {
             return ++LastTodoListId;

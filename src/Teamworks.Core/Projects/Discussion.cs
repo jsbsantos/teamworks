@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
+using Teamworks.Core.Mailgun;
 
 namespace Teamworks.Core
 {
@@ -13,6 +15,7 @@ namespace Teamworks.Core
         public IList<string> Subscribers { get; set; } 
 
         public int LastDiscussionId { get; private set; }
+        public string Name { get; set; }
 
         public int GenerateNewTimeEntryId()
         {
@@ -32,6 +35,28 @@ namespace Teamworks.Core
                            LastDiscussionId = 0,
                            Entity = entity
                        };
+        }
+
+        public void Notify(Message message, IList<string> emails)
+        {
+            if (emails.Count > 0)
+            {
+                var notifications = new StringBuilder();
+                foreach (var email in emails)
+                {
+                    notifications.Append(email);
+                    notifications.Append(";");
+                }
+
+                var id = String.Format("{0}.{1}.{2}@teamworks.mailgun.org",
+                                       Identifier, message.Id, DateTime.Now.ToString("yyyymmddhhMMss"));
+
+                message.Reply = MailHub.Send(MailgunConfiguration.Host,
+                                             notifications.ToString().TrimEnd(new[] { ';' }),
+                                             Name,
+                                             message.Content,
+                                             id);
+            }
         }
     }
 }

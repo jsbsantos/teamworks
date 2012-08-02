@@ -5,7 +5,7 @@ namespace Teamworks.Web.Controllers.Api
 {
     [DefaultHttpRouteConvention]
     [RoutePrefix("api/events")]
-    public class EventsController : RavenApiController
+    public class EventsController : RavenDbApiController
     {
 
     }

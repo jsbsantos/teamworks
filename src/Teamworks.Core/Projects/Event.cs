@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Teamworks.Core.Projects
+namespace Teamworks.Core
 {
     public class Event : Entity
     {
@@ -9,6 +9,7 @@ namespace Teamworks.Core.Projects
         public string Host { get; set; }
         public IList<string> Attendees { get; set; }
         public DateTime Schedule { get; set; }
+        public string Name { get; set; }
 
         public static Event Forge(string name, string description, string host, DateTime schedule)
         {

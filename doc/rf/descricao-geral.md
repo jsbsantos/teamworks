@@ -1,4 +1,4 @@
-﻿Descrição Geral
+Descrição Geral
 =
 
 \label{sec:descricao-geral}
@@ -6,9 +6,9 @@
 
 Como indicado anteriormente, a solução *Teamworks*, tem como objectivo disponibilizar funcionalidades para a gestão de projectos e pessoas. Para isso a cada projecto estão associadas as seguintes funcionalidades:
 
-+ Possibilidade de criar tarefas, gerir o tempo estimado da sua execução, atribuir responsáveis pela sua realização e disponibilizar uma lista a cada utilizador para que possa decidir a que tarefas dar prioridade e organizar o seu tempo. 
++ Possibilidade de criar actividades, gerir o tempo estimado da sua execução, atribuir responsáveis pela sua realização e disponibilizar uma lista a cada utilizador para que possa decidir a que actividades dar prioridade e organizar o seu tempo. 
 
-+ Possibilidade de cada utilizador registar o tempo que despendeu em determinada tarefa. Esta funcionalidade é importante para controlar se as estimativas estão correctas e se o desenvolvimento do projecto está a correr como esperado.
++ Possibilidade de cada utilizador registar o tempo que despendeu em determinada actividade. Esta funcionalidade é importante para controlar se as estimativas estão correctas e se o desenvolvimento do projecto está a correr como esperado.
 
 + Ferramentas para monitorização do estado do projecto.
 

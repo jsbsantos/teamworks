@@ -6,13 +6,13 @@
 
 Como indicado anteriormente, a solução *Teamworks*, tem como objectivo disponibilizar funcionalidades para a gestão de projectos e pessoas. Para isso a cada projecto estão associadas as seguintes funcionalidades:
 
-+ Possibilidade de criar tarefas, gerir o tempo estimado da sua execução, atribuir responsáveis pela sua realização e disponibilizar uma lista a cada utilizador para que possa decidir a que tarefas dar prioridade e organizar o seu tempo. 
++ Possibilidade de criar actividades, gerir o tempo estimado da sua execução, atribuir responsáveis pela sua realização e disponibilizar uma lista a cada utilizador para que possa decidir a que actividades dar prioridade e organizar o seu tempo. 
 
-+ Possibilidade de cada utilizador registar o tempo que despendeu em determinada tarefa. Esta funcionalidade é importante para controlar se as estimativas estão correctas e se o desenvolvimento do projecto está a correr como esperado.
++ Possibilidade de cada utilizador registar o tempo que despendeu em determinada actividade. Esta funcionalidade é importante para controlar se as estimativas estão correctas e se o desenvolvimento do projecto está a correr como esperado.
 
 + Ferramentas para monitorização do estado do projecto.
 
-Para promover a colaboração existe ainda a possibilidade dos utilizadores terem uma área de "debate" onde partilham informação, trocam ideias e debatem soluções relacionadas com o projecto ou com tarefas.
+Para promover a colaboração existe ainda a possibilidade dos utilizadores terem uma área de "debate" onde partilham informação, trocam ideias e debatem soluções relacionadas com o projecto ou com actividades.
 
 Para além das funcionalidades enunciadas o acesso à informação dos utilizadores e projectos deve estar disponível aos utilizadores com quem tenha sido partilhada.
 
@@ -24,11 +24,11 @@ A autenticação na plataforma é obrigatória para a sua utilização, sendo qu
 
 ![Caso de utilização de utilizador não autenticado.\label{fig:usecase-anonimo}](http://www.lucidchart.com/publicSegments/view/4fd71023-3b68-497b-b199-60a50a443549/image.png)
 
-Depois de autenticado o utilizador tem a opção de criar um projecto ou alterar um projecto já existente. A um projecto já existente é possível adicionar e remover utilizadores, adicionar tarefas ou apagar o projecto. Ao criar um projecto o utilizador fica associado a ele e pode fazer todas as acções enunciadas. 
+Depois de autenticado o utilizador tem a opção de criar um projecto ou alterar um projecto já existente. A um projecto já existente é possível adicionar e remover utilizadores, adicionar actividades ou apagar o projecto. Ao criar um projecto o utilizador fica associado a ele e pode fazer todas as acções enunciadas. 
 
-Ao criar uma tarefa são disponibilizadas novas acções ao utilizador. O utilizador pode, sobre a tarefa criada, criar novas entradas de registo do tempo despendido na sua realização, adicionar e remover utilizadores e apagá-la. 
+Ao criar uma actividade são disponibilizadas novas acções ao utilizador. O utilizador pode, sobre a actividade criada, criar novas entradas de registo do tempo despendido na sua realização, adicionar e remover utilizadores e apagá-la. 
 
-De forma a promover a troca e partilha de informação é possível aos utilizadores criar e aceder aos debates relacionados com os projectos e/ou tarefas em que estão envolvidos.
+De forma a promover a troca e partilha de informação é possível aos utilizadores criar e aceder aos debates relacionados com os projectos e/ou actividades em que estão envolvidos.
 
 Os casos de utilização enunciados podem ser observados na figura \ref{fig:usecase-global}
 

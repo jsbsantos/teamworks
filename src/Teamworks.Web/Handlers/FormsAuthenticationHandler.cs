@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 using System.Web;
 using Teamworks.Core;
 using Teamworks.Core.Authentication;
-using Teamworks.Core.Services;
+using Teamworks.Web.Helpers.Api;
 
-namespace Teamworks.Web.Controllers.Api.Handlers
+namespace Teamworks.Web.Handlers
 {
     public class FormsAuthenticationHandler : DelegatingHandler
     {
@@ -20,7 +20,7 @@ namespace Teamworks.Web.Controllers.Api.Handlers
             if (!string.IsNullOrEmpty(identity.Name) &&
                 identity.AuthenticationType.Equals("Forms", StringComparison.OrdinalIgnoreCase))
             {
-                var person = Global.Database.CurrentSession.Load<Person>(identity.Name);
+                var person = request.GetOrOpenCurrentSession().Load<Person>(identity.Name);
                 if (person != null)
                 {
                     identity = new PersonIdentity(person);

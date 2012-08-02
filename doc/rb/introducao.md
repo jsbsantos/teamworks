@@ -16,15 +16,15 @@ Soluções Existentes
 As soluções existentes que pretendem agilizar a gestão de projectos e podem ser encontradas sobre a forma de aplicações desktop ou web. 
 
 As aplicações desktop são usadas em ambiente local limitando a interacção e partilha de resultados com outras pessoas do projecto.
-Um exemplo deste tipo de aplicações é o *Microsoft Project* \cite{mproject} usado para o planeamento de tarefas, estimar a sua duração e atribuir-lhe recursos. 
+Um exemplo deste tipo de aplicações é o *Microsoft Project* \cite{mproject} usado para o planeamento de actividades, estimar a sua duração e atribuir-lhe recursos. 
 
 Ao contrário das aplicações desktop todas as interacções com uma aplicação web ficam alojadas na *cloud* tornando a informação acessível a todos os membros do projecto. Há uma grande variedade de aplicações web disponíveis, entre as quais, se destacam as aplicações *basecamp* \cite{basecamp}, *freckle* \cite{freckle} e *LiquidPlanner* \cite{liquidplanner}.
 
 A aplicação web *basecamp* foca as suas funcionalidades na partilha e armazenamento de informação dos projectos criados. Tem ainda gestão de actividades, *todos* e eventos.
 
-A aplicação web *freckle* tem como funcionalidades principais o registo de horas e monitorização de tempo despendido por tarefa.
+A aplicação web *freckle* tem como funcionalidades principais o registo de horas e monitorização de tempo despendido por actividade.
 
-A aplicação web *LiquidPlanner* oferece as funcionalidades das anteriores e ainda o planeamento de tarefas mas com uma interface mais complexa que as soluções anteriores, o que aumenta o tempo despendido na gestão do projecto. 
+A aplicação web *LiquidPlanner* oferece as funcionalidades das anteriores e ainda o planeamento de actividades mas com uma interface mais complexa que as soluções anteriores, o que aumenta o tempo despendido na gestão do projecto. 
 
 Solução Teamworks
 -
@@ -33,4 +33,4 @@ A solução *Teamworks* é composta por uma aplicação web e por uma web Api. A
 A aplicação web assenta sobre a Api e tem uma interface simples com o objectivo de minimizar o tempo utilizado na plataforma.
 
 As funcionalidades disponibilizadas permitem a gestão de projectos e pessoas. 
-Para a gestão de projectos é possível planear tarefas, estimar a sua duração, atribuir-lhes responsáveis e monitorizar o estado global do projecto. Para gerir pessoas estas podem ver as tarefas que têm a realizar, registar o tempo despendido e para promover a colaboração partilhar informações e debater soluções.
+Para a gestão de projectos é possível planear actividades, estimar a sua duração, atribuir-lhes responsáveis e monitorizar o estado global do projecto. Para gerir pessoas estas podem ver as actividades que têm a realizar, registar o tempo despendido e para promover a colaboração partilhar informações e debater soluções.

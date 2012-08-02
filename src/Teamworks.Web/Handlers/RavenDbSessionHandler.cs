@@ -2,15 +2,17 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Teamworks.Core.Services;
+using Teamworks.Web.Helpers.Api;
 
-namespace Teamworks.Web.Controllers.Api.Handlers
+namespace Teamworks.Web.Handlers
 {
-    public class RavenHandler : DelegatingHandler
+    public class RavenDbSessionHandler : DelegatingHandler
     {
         protected override Task<HttpResponseMessage> SendAsync(
             HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            var session = Global.Database.CurrentSession;
+            var session = request.GetOrOpenCurrentSession();
+            request.SetCurrentSession(session);
             return base.SendAsync(request, cancellationToken)
                 .ContinueWith(t =>
                                   {

@@ -32,17 +32,7 @@ namespace Teamworks.Core.Authentication
         public bool IsValid(string username, string password, out Person person)
         {
             person = null;
-            var p =
-                Global.Database.CurrentSession.Query<Person>().SingleOrDefault(
-                    e => e.Username.Equals(username, StringComparison.InvariantCultureIgnoreCase));
-
-            if (p == null)
-            {
-                return false;
-            }
-
-            person = p;
-            return p.IsThePassword(password);
+            return false;
         }
     }
 }

@@ -1,21 +1,20 @@
 using System;
 using System.Net;
-using System.Reflection;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using LowercaseRoutesMVC4;
+using Raven.Client;
 using Raven.Client.Document;
 using Raven.Client.Exceptions;
 using Teamworks.Core.Authentication;
 using Teamworks.Core.Services;
 using Teamworks.Core.Services.RavenDb;
-using Teamworks.Web.App_Start;
-using Teamworks.Web.Controllers.Api.Attribute;
-using Teamworks.Web.Controllers.Mvc;
-using Teamworks.Web.Controllers.Mvc.Attributes;
+using Teamworks.Core.Services.RavenDb.Indexes;
+using Teamworks.Web.Attributes.Api;
+using Teamworks.Web.Attributes.Mvc;
 using Teamworks.Web.Helpers;
 using Teamworks.Web.Helpers.Api;
 using Teamworks.Web.Helpers.Mvc;
@@ -25,8 +24,13 @@ namespace Teamworks.Web
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
 
-    public class TeamworksApp : HttpApplication
+    public class App : HttpApplication
     {
+        public static class Keys
+        {
+            public const string RavenDbSessionKey = "RAVENDB_SESSION_KEY";
+        }
+
         public void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
@@ -68,6 +72,11 @@ namespace Teamworks.Web
                 );
         }
 
+        public static void RegisterIndixes(IDocumentStore store)
+        {
+            Raven.Client.Indexes.IndexCreation.CreateIndexes(typeof(Timelog_Filter).Assembly, store);
+        }
+
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -87,16 +96,18 @@ namespace Teamworks.Web
             GlobalConfiguration.Configuration.ConfigureJsonNet();
             GlobalConfiguration.Configuration.RegisterWebApiHandlers();
             GlobalConfiguration.Configuration.RegisterModelBinders();
+            GlobalConfiguration.Configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
 
             BundleTable.Bundles.EnableTeamworksBundle();
             Mappers.RegisterMappers();
 
-            Core.Services.RavenDb.Session.Store =
+            var store = 
                 new DocumentStore
                     {
                         ConnectionStringName = "RavenDB"
-                    }.RegisterListener(new PersonQueryListenter())
-                    .Initialize();
+                    }.Initialize();
+            Global.Store = store;
+            RegisterIndixes(store);
             Global.Authentication.Add("Basic", new BasicAuthenticator());
             
         }

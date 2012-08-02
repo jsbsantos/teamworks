@@ -1,12 +1,14 @@
-﻿var TW = TW || { };
+﻿/// <reference path="~/Content/js/libs/jquery-1.7.2.min.js" />
+/// <reference path="~/Content/js/libs/knockout-2.0.0.debug.js" />
+/// <reference path="~/Content/js/libs/knockout.mapping.debug.js" />
+
+var TW = TW || { };
 TW.viewmodels = TW.viewmodels || { };
 
 TW.viewmodels.Project = function (endpoint) {
     var self = this;
-    /*project information*/
-    self.project = new TW.viewmodels.models.Project();
-
     /* new entities */
+    self.project = new TW.viewmodels.models.Project();
     self.people = ko.observable().extend({ throttle: 500 });
     self.activity = new TW.viewmodels.models.Activity();
     self.discussion = new TW.viewmodels.models.Discussion();
@@ -22,8 +24,7 @@ TW.viewmodels.Project = function (endpoint) {
                 data: ko.toJSON(self.discussion),
                 statusCode: {
                     201: /*created*/function (data) {
-                        self.project.discussions.push(new TW.viewmodels.models.Discussion(data));
-                        self.discussion.editing(false);
+                        self.project.discussions.push(ko.mapping.fromJS(data));
                         self.discussion.clear();
                     },
                     400: /*bad request*/function () {
@@ -56,7 +57,6 @@ TW.viewmodels.Project = function (endpoint) {
                 statusCode: {
                     201: /*created*/function (data) {
                         self.project.activities.push(new TW.viewmodels.models.Activity(data));
-                        self.activity.editing(false);
                         self.activity.clear();
                     },
                     400: /*bad request*/function () {
@@ -283,3 +283,47 @@ TW.viewmodels.Activity = function(endpoint) {
             }
         });
 };
+
+TW.viewmodels.Timelogs = function() {
+    var self = this;
+    self.activity = {
+        id: ko.observable(),
+        name: ko.observable(),
+        project_id: ko.observable(),
+        project_name: ko.observable()
+    };
+
+    self.activity_description = ko.computed(function() {
+        return self.activity.project_name + self.activity.name;
+    });
+    self.timelog = new TW.viewmodels.models.Timelog();
+    self.timelog.create = function() {
+        $.ajax('/api/projects/' + self.activity.project_id() + '/activities/' + self.activity.id() + '/timelogs/',
+            {
+                type: 'post',
+                data: ko.toJSON(self.timelog),
+                statusCode: {
+                    201: /*created*/function(data) {
+                        self.activity.timelogs.push(new TW.viewmodels.models.Timelog(data));
+                        self.timelog.clear();
+                    },
+                    400: /*bad request*/function() {
+                        TW.app.alerts.push({ message: 'An error as ocurred.' });
+                    }
+                }
+            }
+        );
+    };
+    
+    self.tabs = [
+        { description: "2 days ago", date: Date.today().add(-2).days().toISOString(), calendar: false },
+        { description: "Yesterday", date: Date.today().add(-1).days().toISOString(), calendar: false },
+        { description: "Today", date: Date.today().toISOString(), calendar: false },
+        { description: "Calendar", date: Date.today().toISOString(), calendar: true }];
+
+    self.selected = ko.observable(self.tabs[2]);
+    self.select = function(item) {
+        self.selected(item);
+        self.timelog.date(item.date);
+    };
+}

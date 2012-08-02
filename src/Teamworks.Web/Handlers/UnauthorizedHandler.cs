@@ -4,7 +4,7 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Teamworks.Web.Controllers.Api.Handlers
+namespace Teamworks.Web.Handlers
 {
     public class UnauthorizedHandler : DelegatingHandler
     {
@@ -16,7 +16,7 @@ namespace Teamworks.Web.Controllers.Api.Handlers
                     if (t.Result.StatusCode == HttpStatusCode.Unauthorized)
                     {
                         t.Result.Headers.WwwAuthenticate.Add(
-                            new AuthenticationHeaderValue("Basic", "realm=\"Api Teamworks\""));
+                            new AuthenticationHeaderValue("Basic", "realm=\"Teamworks Api\""));
                     }
                     return t.Result;
                 });

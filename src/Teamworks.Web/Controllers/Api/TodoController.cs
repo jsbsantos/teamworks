@@ -5,7 +5,7 @@ using System.Net.Http;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
-using Teamworks.Web.Controllers.Api.Attribute;
+using Teamworks.Web.Attributes.Api;
 using Teamworks.Web.Helpers.Api;
 using Teamworks.Web.Models.Api;
 
@@ -14,7 +14,7 @@ namespace Teamworks.Web.Controllers.Api
     [SecureFor("/projects")]
     [DefaultHttpRouteConvention]
     [RoutePrefix("api/projects/{projectid}/activities/{activityid}/todolist/{listid}/todo")]
-    public class TodoController : RavenApiController
+    public class TodoController : RavenDbApiController
     {
         public IEnumerable<Todo> Get(int id, int projectid, int activityid)
         {

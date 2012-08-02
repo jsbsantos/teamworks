@@ -1,5 +1,6 @@
 using System.Threading;
 using System.Security.Principal;
+using Raven.Client;
 using Teamworks.Core.Authentication;
 using Teamworks.Core.Services.RavenDb;
 
@@ -12,12 +13,8 @@ namespace Teamworks.Core.Services
             get { return AuthenticatorFactory.Instance; }
         }
 
-        public static Session Database
-        {
-            get { return Session.Instance; }
-        }
+        public static IDocumentStore Store;
 
-        //exception are used because anonymous should never access this
         public static Person CurrentPerson
         {
             get
@@ -35,6 +32,11 @@ namespace Teamworks.Core.Services
                 return person.Person;
             }
 
+        }
+
+        public static class Constants
+        {
+            public const string Operation = "GOD";
         }
     }
 }

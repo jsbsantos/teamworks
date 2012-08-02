@@ -5,7 +5,6 @@ namespace Teamworks.Core
     public abstract class Entity
     {
         public string Id { get; set; }
-        public string Name { get; set; }
 
         [JsonIgnore]
         public int Identifier

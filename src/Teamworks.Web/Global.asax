@@ -1,1 +1,1 @@
-﻿<%@ Application Codebehind="Global.asax.cs" Inherits="Teamworks.Web.TeamworksApp" Language="C#" %>
+﻿<%@ Application Codebehind="Global.asax.cs" Inherits="Teamworks.Web.App" Language="C#" %>

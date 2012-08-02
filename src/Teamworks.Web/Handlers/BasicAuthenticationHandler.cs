@@ -9,7 +9,7 @@ using Teamworks.Core;
 using Teamworks.Core.Authentication;
 using Teamworks.Core.Services;
 
-namespace Teamworks.Web.Controllers.Api.Handlers
+namespace Teamworks.Web.Handlers
 {
     public class BasicAuthenticationHandler : DelegatingHandler
     {
