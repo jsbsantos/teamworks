@@ -16,6 +16,9 @@ TW.viewmodels.Project = function (endpoint) {
     self.people.editing = ko.observable(false);
     self.activity.editing = ko.observable(false);
     self.discussion.editing = ko.observable(false);
+    self.DependencyGraph = ko.observable(false);
+
+    self.Gantt = function () { TW.Gantt(endpoint + '/precedences'); };
 
     self.project.discussions._create = function () {
         $.ajax(endpoint + '/discussions/',
@@ -141,6 +144,25 @@ TW.viewmodels.Project = function (endpoint) {
         }
     };
 
+    self.Dependency = function () {
+        $.ajax(endpoint + '/precedences',
+            {
+                type: 'get',
+                statusCode: {
+                    200: /*ok*/function (data) {
+                        self.DependencyGraph(data);
+
+                    },
+                    404: /*bad request*/function () {
+                        TW.app.alerts.push({ message: 'An error as ocurred.' });
+                    },
+                    400: /*bad request*/function () {
+                        TW.app.alerts.push({ message: 'An error as ocurred.' });
+                    }
+                }
+            });
+    };
+
     $.ajax(endpoint, {
         async: false,
         statusCode: {
@@ -152,6 +174,8 @@ TW.viewmodels.Project = function (endpoint) {
             }
         }
     });
+
+    self.Dependency();
 
 };
 

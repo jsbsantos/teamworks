@@ -1,4 +1,7 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
+using Raven.Client.Linq;
+using Teamworks.Core.Services.RavenDb.Indexes;
 
 namespace Teamworks.Web.Controllers.Mvc
 {

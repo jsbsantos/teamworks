@@ -130,4 +130,9 @@ $(function () {
         !$.isEmptyObject(TW.app) && ko.applyBindings(TW.app);
     }
     TW.app.ready(true);
+
+    $(function () {
+        if (viewmodel.Gantt)
+			viewmodel().Gantt();
+    });
 });

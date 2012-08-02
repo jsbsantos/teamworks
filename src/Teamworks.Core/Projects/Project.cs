@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Raven.Bundles.Authorization.Model;
 using Teamworks.Core.Services;
@@ -13,10 +14,10 @@ namespace Teamworks.Core
         public IList<string> People { get; set; }
         public IList<string> Activities { get; set; }
         public IList<string> Discussions { get; set; }
+        public DateTime StartDate { get; set; }
 
         public IList<OperationPermission> Permissions { get; set; }
-
-        public static Project Forge(string name, string description)
+        public static Project Forge(string name, string description, DateTime? startdate)
         {
             return new Project
                        {
@@ -26,6 +27,8 @@ namespace Teamworks.Core
                            Activities = new List<string>(),
                            Discussions = new List<string>(),
                            Permissions = new List<OperationPermission>()
+                           People = new List<string>(),
+                           StartDate = startdate ?? DateTime.Now,
                        };
         }
 

@@ -72,6 +72,9 @@
     <Compile Include="Projects\Event.cs" />
     <Compile Include="Services\RavenDb\Indexes\Timelog_Filter.cs" />
     <Compile Include="Services\RavenDb\Database.cs" />
+    <Compile Include="Services\RavenDb\Indexes\ActivityWithDurationIndex.cs" />
+    <Compile Include="Services\RavenDb\PersonQueryListenter.cs" />
+    <Compile Include="Services\RavenDb\Session.cs" />
     <Compile Include="Projects\Message.cs" />
     <Compile Include="Services\Storage\IStorage.cs" />
     <Compile Include="Projects\Timelog.cs" />
@@ -95,6 +98,7 @@
       <Name>Teamworks.Core.Mailgun</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

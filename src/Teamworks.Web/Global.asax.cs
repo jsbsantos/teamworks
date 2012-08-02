@@ -13,11 +13,7 @@ using Teamworks.Core.Authentication;
 using Teamworks.Core.Services;
 using Teamworks.Core.Services.RavenDb;
 using Teamworks.Core.Services.RavenDb.Indexes;
-using Teamworks.Web.Attributes.Api;
-using Teamworks.Web.Attributes.Mvc;
-using Teamworks.Web.Helpers;
-using Teamworks.Web.Helpers.Api;
-using Teamworks.Web.Helpers.Mvc;
+
 
 namespace Teamworks.Web
 {
@@ -108,8 +104,9 @@ namespace Teamworks.Web
                     }.Initialize();
             Global.Store = store;
             RegisterIndixes(store);
+			// todo change this to the method RegisterIndex
+            Core.Services.RavenDb.Session.Store.ExecuteIndex(new ActivityWithDurationIndex());
             Global.Authentication.Add("Basic", new BasicAuthenticator());
-            
         }
     }
 }

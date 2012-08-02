@@ -231,6 +231,7 @@
     <Content Include="Content\css\teamworks.css" />
     <Content Include="Content\font\fontawesome-webfont.svg" />
     <Content Include="Content\img\google.png" />
+    <Content Include="Content\js\app\tw.d3.js" />
     <Content Include="Content\js\app\tw.base.js" />
     <Content Include="Content\js\app\tw.viewmodels.models.js" />
     <Content Include="Content\js\app\tw.knockout.js" />
@@ -255,7 +256,7 @@
     <Content Include="Content\js\libs\crypto\core.js" />
     <Content Include="Content\js\libs\crypto\md5-min.js" />
     <Content Include="Content\js\libs\crypto\md5.js" />
-    <Content Include="Content\js\libs\date.js" />
+    <Content Include="Content\js\libs\d3\d3.v2.js" />
     <Content Include="Content\js\libs\jquery-1.7.2.min.js" />
     <Content Include="Content\js\libs\jquery.unobtrusive-ajax.js" />
     <Content Include="Content\js\libs\jquery.unobtrusive-ajax.min.js" />

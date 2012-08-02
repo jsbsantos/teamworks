@@ -10,8 +10,6 @@ namespace Teamworks.Web.Models.Api
         public string Description { get; set; }
         [Required]
         public string Date { get; set; }
-        [Required]
-        public long Duration { get; set; }
-        public DryPerson Person { get; set; }
+        public int Duration { get; set; }
     }
 }

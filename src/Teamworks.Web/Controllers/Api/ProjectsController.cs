@@ -55,7 +55,8 @@ namespace Teamworks.Web.Controllers.Api
 
         public HttpResponseMessage Post(Project model)
         {
-            var project = Core.Project.Forge(model.Name, model.Description);
+            var project = Core.Project.Forge(model.Name, model.Description, model.StartDate);
+
             DbSession.Store(project);
 
             project.AllowPersonAssociation();
