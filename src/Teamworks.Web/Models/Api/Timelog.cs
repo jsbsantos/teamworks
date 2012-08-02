@@ -8,7 +8,7 @@ namespace Teamworks.Web.Models.Api
         public int Id { get; set; }
         public string Description { get; set; }
         public string Date { get; set; }
-        public long Duration { get; set; }
+        public int Duration { get; set; }
 
         public DryPerson Person { get; set; }
     }

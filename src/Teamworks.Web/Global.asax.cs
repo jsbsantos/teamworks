@@ -12,6 +12,7 @@ using Raven.Client.Exceptions;
 using Teamworks.Core.Authentication;
 using Teamworks.Core.Services;
 using Teamworks.Core.Services.RavenDb;
+using Teamworks.Core.Services.RavenDb.Indexes;
 using Teamworks.Web.App_Start;
 using Teamworks.Web.Controllers.Api.Attribute;
 using Teamworks.Web.Controllers.Mvc;
@@ -97,8 +98,9 @@ namespace Teamworks.Web
                         ConnectionStringName = "RavenDB"
                     }.RegisterListener(new PersonQueryListenter())
                     .Initialize();
+            Core.Services.RavenDb.Session.Store.ExecuteIndex(new ActivityWithDurationIndex());
+
             Global.Authentication.Add("Basic", new BasicAuthenticator());
-            
         }
     }
 }

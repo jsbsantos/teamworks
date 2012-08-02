@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Raven.Imports.Newtonsoft.Json;
 
@@ -17,8 +18,9 @@ namespace Teamworks.Core
         public IList<string> People { get; set; }
         public IList<string> Activities { get; set; }
         public IList<string> Discussions { get; set; }
+        public DateTime StartDate { get; set; }
         
-        public static Project Forge(string name, string description)
+        public static Project Forge(string name, string description, DateTime? startdate)
         {
             return new Project
                        {
@@ -27,6 +29,7 @@ namespace Teamworks.Core
                            Activities = new List<string>(),
                            Discussions = new List<string>(),
                            People = new List<string>(),
+                           StartDate = startdate ?? DateTime.Now,
                        };
         }
 

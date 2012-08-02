@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Teamworks.Core
@@ -6,26 +7,29 @@ namespace Teamworks.Core
     {
         public string Project { get; set; }
         public string Description { get; set; }
-        public double Duration { get; set; }
+        public int Duration { get; set; }
         public IList<Timelog> Timelogs { get; set; }
         public IList<string> Dependencies { get; set; }
         public IList<string> Discussions { get; set; }
-        public IList<string> People{ get; set; }
+        public IList<string> People { get; set; }
         public IList<TodoList> Todos { get; set; }
-        
+        public DateTime StartDate { get; set; }
+
         public int LastTimeEntryId { get; private set; }
+
         public int GenerateNewTimeEntryId()
         {
             return ++LastTimeEntryId;
         }
-        
+
         public int LastTodoListId { get; private set; }
+
         public int GenerateNewTodoListId()
         {
             return ++LastTodoListId;
         }
 
-        public static Activity Forge(string project, string name, string description, double duration)
+        public static Activity Forge(string project, string name, string description, int duration)
         {
             return new Activity
                        {

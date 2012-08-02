@@ -14,6 +14,6 @@ namespace Teamworks.Web.Models.Api
     {
         public int Activity { get; set; }
         public int Parent { get; set; }
-        public double Duration { get; set; }
+        public int Duration { get; set; }
     }
 }

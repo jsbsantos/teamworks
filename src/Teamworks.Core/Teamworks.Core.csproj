@@ -69,6 +69,7 @@
     <Compile Include="Projects\Todo.cs" />
     <Compile Include="Projects\TodoList.cs" />
     <Compile Include="Projects\Event.cs" />
+    <Compile Include="Services\RavenDb\Indexes\ActivityWithDurationIndex.cs" />
     <Compile Include="Services\RavenDb\PersonQueryListenter.cs" />
     <Compile Include="Services\RavenDb\Session.cs" />
     <Compile Include="Projects\Message.cs" />
@@ -88,9 +89,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\RavenDb\Indexes\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
