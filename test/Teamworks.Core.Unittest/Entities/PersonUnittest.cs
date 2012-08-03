@@ -1,8 +1,8 @@
 ﻿using Xunit;
 
-namespace Teamworks.Core.Test.Entities {
+namespace Teamworks.Core.Unittest.Entities {
 
-    public class Person {
+    public class PersonUnittest {
         
         [Fact]
         public void ForgePerson()

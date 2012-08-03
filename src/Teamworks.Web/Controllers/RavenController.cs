@@ -1,8 +1,6 @@
-﻿using System.Web.Routing;
-using Raven.Client;
+﻿using Raven.Client;
 using System.Web.Mvc;
 using Teamworks.Core.Services;
-using Teamworks.Web.Helpers.Mvc;
 
 namespace Teamworks.Web.Controllers
 {
@@ -18,7 +16,19 @@ namespace Teamworks.Web.Controllers
             DbSession = session;
         }
 
-        protected IDocumentSession DbSession { get; set; }
+        public IDocumentSession DbSession { get; set; }
+
+        protected override void OnActionExecuting(ActionExecutingContext context)
+        {
+            var session = context.HttpContext.Items[App.Keys.RavenDbSessionKey] as IDocumentSession;
+            if (session == null)
+            {
+                session = Global.Store.OpenSession();
+                context.HttpContext.Items[App.Keys.RavenDbSessionKey] = session;
+            }
+            DbSession = session;
+            base.OnActionExecuting(context);
+        }
 
         protected override void OnResultExecuted(ResultExecutedContext context)
         {

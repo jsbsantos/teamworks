@@ -20,7 +20,6 @@ using Teamworks.Web.Attributes.Api;
 using Teamworks.Web.Attributes.Mvc;
 using Teamworks.Web.Handlers;
 using Teamworks.Web.Helpers;
-using Teamworks.Web.Helpers.Api;
 using Teamworks.Web.Helpers.Mvc;
 
 
@@ -28,7 +27,6 @@ namespace Teamworks.Web
 {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
-
     public class App : HttpApplication
     {
         public static class Keys
@@ -39,13 +37,14 @@ namespace Teamworks.Web
         public void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
-            filters.Add(new FormsAuthenticationAttribute());
+            filters.Add(new FormsAuthenticationAttribute(), 1);
         }
 
         public static void RegisterGlobalApiFilters(System.Web.Http.Filters.HttpFilterCollection filters)
         {
             filters.Add(new ModelStateAttribute());
             filters.Add(new RavenSessionAttribute());
+            filters.Add(new FormsAuthenticationFilter());
 
             var filter = new ExceptionAttribute();
             filter.Mappings.Add(typeof (ReadVetoException),
@@ -59,7 +58,6 @@ namespace Teamworks.Web
         {
             messageHandlers.Add(new RavenSessionHandler());
             messageHandlers.Add(new BasicAuthenticationHandler());
-            messageHandlers.Add(new FormsAuthenticationHandler());
             messageHandlers.Add(new UnauthorizedHandler());
         }
 

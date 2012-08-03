@@ -163,7 +163,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Handlers\BasicAuthenticationHandler.cs" />
-    <Compile Include="Handlers\FormsAuthenticationHandler.cs" />
+    <Compile Include="Attributes\Api\FormsAuthenticationFilter.cs" />
     <Compile Include="Handlers\RavenSessionHandler.cs" />
     <Compile Include="Handlers\UnauthorizedHandler.cs" />
     <Compile Include="Controllers\Api\MailgunController.cs">

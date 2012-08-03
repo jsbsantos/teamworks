@@ -42,27 +42,5 @@ namespace Teamworks.Web.Helpers.Api
                 throw new HttpResponseException(request.CreateResponse(HttpStatusCode.NotFound));
             }
         }
-
-        public static IDocumentSession GetOrOpenSession(this HttpRequestMessage request)
-        {
-            IDocumentSession session;
-            object o;
-            if (request.Properties.TryGetValue(App.Keys.RavenDbSessionKey, out o))
-            {
-                if (o is IDocumentSession)
-                {
-                    return o as IDocumentSession;
-                }
-            }
-
-            session = Global.Store.OpenSession();
-            request.Properties[App.Keys.RavenDbSessionKey] = session;
-            return session;
-        }
-
-        public static void SetCurrentSession(this HttpRequestMessage request, IDocumentSession session)
-        {
-            request.Properties[App.Keys.RavenDbSessionKey] = session;
-        }
     }
 }

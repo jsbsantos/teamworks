@@ -1,11 +1,10 @@
-﻿using System.Net.Http;
+﻿using Teamworks.Web.Uni.Api.Fixture;
 using Xunit;
 using Teamworks.Core;
 using Teamworks.Core.Services;
-using Teamworks.Web.Test.Api.Fixture;
 using Teamworks.Web.Controllers.Api;
 
-namespace Teamworks.Web.Test.Api
+namespace Teamworks.Web.Uni.Api
 {
     public class HomeControllerUnittest : IUseFixture<DocumentStoreFixture>
     {

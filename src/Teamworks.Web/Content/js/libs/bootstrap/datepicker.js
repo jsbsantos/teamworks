@@ -479,6 +479,8 @@
                                 if (this.autoclose) {
                                     element.blur();
                                 }
+                            } else if (this.autoclose) {
+                                this.hide();
                             }
                         }
                         break;

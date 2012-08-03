@@ -6,7 +6,7 @@ using Teamworks.Core.Authentication;
 using Teamworks.Core.Services;
 using Teamworks.Web.Helpers;
 
-namespace Teamworks.Web.Test.Api.Fixture
+namespace Teamworks.Web.Uni.Api.Fixture
 {
     public class DocumentStoreFixture
     {

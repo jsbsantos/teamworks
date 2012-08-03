@@ -46,7 +46,8 @@ namespace Teamworks.Web.Attributes.Api
 
         public override void OnActionExecuting(HttpActionContext context)
         {
-            TrySetSession(context.ControllerContext.Controller, context.Request.GetOrOpenSession());
+            var session = context.Request.Properties[App.Keys.RavenDbSessionKey] as IDocumentSession;
+            TrySetSession(context.ControllerContext.Controller, session);
             base.OnActionExecuting(context);
         }
     }

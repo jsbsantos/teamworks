@@ -9,8 +9,8 @@
     <ProjectGuid>{63FB48DC-85A6-4EEA-8644-C884E21DC869}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Teamworks.Core.Test</RootNamespace>
-    <AssemblyName>Teamworks.Core.Test</AssemblyName>
+    <RootNamespace>Teamworks.Core.Unittest</RootNamespace>
+    <AssemblyName>Teamworks.Core.Unittest</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -51,16 +51,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Entities\Person.cs" />
+    <Compile Include="Entities\PersonUnittest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Teamworks.Core\Teamworks.Core.csproj">
       <Project>{C85D88CF-7DA3-4628-99FA-D5D570FCE940}</Project>
       <Name>Teamworks.Core</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
