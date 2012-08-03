@@ -16,9 +16,11 @@ namespace Teamworks.Web.Helpers.Mvc
             bundles.Add(css);
 
             Bundle js = new ScriptBundle("~/js")
+                 // extra libs
                 .Include("~/content/js/libs/date.js",
                          "~/content/js/libs/crypto/core.js",
                          "~/content/js/libs/crypto/md5.js")
+                // bootstrap in the correct order
                 .Include("~/content/js/libs/bootstrap/transaction.js",
                          "~/content/js/libs/bootstrap/alert.js",
                          "~/content/js/libs/bootstrap/button.js",
@@ -32,14 +34,18 @@ namespace Teamworks.Web.Helpers.Mvc
                          "~/content/js/libs/bootstrap/tab.js",
                          "~/content/js/libs/bootstrap/typeahead.js",
                          "~/content/js/libs/bootstrap/datepicker.js")
+                // d3
                 .Include("~/content/js/libs/d3/d3.v2.js")
+                // visual aids
                 .Include("~/content/js/libs/knockout-2.0.0.js",
                          "~/content/js/libs/knockout.unobtrusive.js",
+                         "~/content/js/libs/knockout.mapping.js",
                          "~/content/js/app/tw.base.js",
                          "~/content/js/app/tw.knockout.js",
+                         "~/content/js/app/tw.js",
                          "~/content/js/app/tw.d3.js",
-                         "~/content/js/app/tw.viewmodels.models.js",
-                         "~/content/js/app/tw.viewmodels.js");
+                         "~/content/js/app/tw.viewmodels.people.js",
+                         "~/content/js/app/tw.viewmodels.projects.js");
 #if !DEBUG            
             js.Include("~/content/js/gac.js");
 #endif

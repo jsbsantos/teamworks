@@ -1,10 +1,14 @@
+using System;
 using System.Collections.Generic;
-using Teamworks.Web.Models.Api.DryModels;
 
 namespace Teamworks.Web.Models.Api
 {
-    public class Discussion : DryDiscussion
+    public class Discussion
     {
         public IList<Message> Messages { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Content { get; set; }
+        public DateTime Date { get; set; }
     }
 }

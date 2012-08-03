@@ -17,6 +17,7 @@ namespace Teamworks.Web.Controllers.Api
     [RoutePrefix("api/projects/{projectid}/activities/{activityid}/todolist")]
     public class TodoListController : RavenDbApiController
     {
+        /*
         public IEnumerable<TodoList> Get(int projectid, int activityid)
         {
             var project = DbSession
@@ -25,7 +26,7 @@ namespace Teamworks.Web.Controllers.Api
 
             if (project.Activities.Contains(activityid.ToString()))
             {
-                Request.NotFound();
+                Request.ThrowNotFoundIfNull();
             }
             var activity = DbSession.Load<Core.Activity>(activityid);
             return Mapper.Map<IEnumerable<Core.TodoList>, IEnumerable<TodoList>>(activity.Todos);
@@ -39,13 +40,13 @@ namespace Teamworks.Web.Controllers.Api
 
             if (project.Activities.Contains(activityid.ToString()))
             {
-                Request.NotFound();
+                Request.ThrowNotFoundIfNull();
             }
             var activity = DbSession.Load<Core.Activity>(activityid);
 
             var list = activity.Todos.SingleOrDefault(p => p.Id == id);
             if (list == null)
-                Request.NotFound();
+                Request.ThrowNotFoundIfNull();
 
             return Mapper.Map<Core.TodoList, TodoList>(list);
         }
@@ -58,7 +59,7 @@ namespace Teamworks.Web.Controllers.Api
 
             if (project.Activities.Contains(activityid.ToString()))
             {
-                Request.NotFound();
+                Request.ThrowNotFoundIfNull();
             }
             var activity = DbSession.Load<Core.Activity>(activityid);
 
@@ -76,13 +77,13 @@ namespace Teamworks.Web.Controllers.Api
                  .Load<Core.Project>(Request.GetCurrentPersonId());
 
             if (project.Activities.Contains(activityid.ToString()))
-                Request.NotFound();
+                Request.ThrowNotFoundIfNull();
             
             var activity = DbSession.Load<Core.Activity>(activityid);
 
             var list = activity.Todos.SingleOrDefault(p => p.Id == model.Id);
             if (list == null)
-                Request.NotFound();
+                Request.ThrowNotFoundIfNull();
             
             list.Name = model.Name;
             list.Description = model.Description;
@@ -97,17 +98,18 @@ namespace Teamworks.Web.Controllers.Api
                   .Load<Core.Project>(Request.GetCurrentPersonId());
 
             if (project.Activities.Contains(activityid.ToString()))
-                Request.NotFound();
+                Request.ThrowNotFoundIfNull();
             
             var activity = DbSession.Load<Core.Activity>(activityid);
 
             var list = activity.Todos.SingleOrDefault(p => p.Id == id);
             if (list == null)
-                Request.NotFound();
+                Request.ThrowNotFoundIfNull();
             
             activity.Todos.Remove(list);
             DbSession.SaveChanges();
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
+        */
     }
 }

@@ -1,20 +1,24 @@
 using System;
+using System.Collections.ObjectModel;
 using System.Net;
+using System.Net.Http;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.ModelBinding;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using LowercaseRoutesMVC4;
+using Newtonsoft.Json;
 using Raven.Client;
 using Raven.Client.Document;
 using Raven.Client.Exceptions;
-using Teamworks.Core.Authentication;
+using Raven.Client.Indexes;
 using Teamworks.Core.Services;
-using Teamworks.Core.Services.RavenDb;
 using Teamworks.Core.Services.RavenDb.Indexes;
 using Teamworks.Web.Attributes.Api;
 using Teamworks.Web.Attributes.Mvc;
+using Teamworks.Web.Handlers;
 using Teamworks.Web.Helpers;
 using Teamworks.Web.Helpers.Api;
 using Teamworks.Web.Helpers.Mvc;
@@ -50,6 +54,25 @@ namespace Teamworks.Web
             filters.Add(filter);
         }
 
+        public  static void RegisterGlobalWebApiHandlers(Collection<DelegatingHandler> messageHandlers)
+        {
+            messageHandlers.Add(new RavenDbSessionHandler());
+            messageHandlers.Add(new BasicAuthenticationHandler());
+            messageHandlers.Add(new FormsAuthenticationHandler());
+            messageHandlers.Add(new UnauthorizedHandler());
+        }
+
+        public static void AppGlobalConfiguration(HttpConfiguration configuration)
+        {
+            configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
+
+            var json = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
+            json.SerializerSettings.ContractResolver = new LowercaseContractResolver();
+            json.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+
+            configuration.Services.Add(typeof(ModelBinderProvider), new MailgunModelBinderProvider());
+        }
+
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
@@ -73,13 +96,6 @@ namespace Teamworks.Web
                 );
         }
 
-        public static void RegisterIndixes(IDocumentStore store)
-        {
-            Raven.Client.Indexes.IndexCreation.CreateIndexes(typeof(Timelog_Filter).Assembly, store);
-            Raven.Client.Indexes.IndexCreation.CreateIndexes(typeof(ActivityWithDurationIndex).Assembly, store);
-            
-        }
-
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -94,24 +110,32 @@ namespace Teamworks.Web
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterGlobalApiFilters(GlobalConfiguration.Configuration.Filters);
+            RegisterGlobalWebApiHandlers(GlobalConfiguration.Configuration.MessageHandlers);
+            InitializeDocumentStore();
+            
             RegisterRoutes(RouteTable.Routes);
+            AppGlobalConfiguration(GlobalConfiguration.Configuration);
 
-            GlobalConfiguration.Configuration.ConfigureJsonNet();
-            GlobalConfiguration.Configuration.RegisterWebApiHandlers();
-            GlobalConfiguration.Configuration.RegisterModelBinders();
-            GlobalConfiguration.Configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
-
+            AutoMapperConfiguration.Configure();
             BundleTable.Bundles.EnableTeamworksBundle();
-            Mappers.RegisterMappers();
+        }
 
-            var store = 
+        public static void InitializeDocumentStore()
+        {
+            if (Global.Store != null) return; // prevent misuse
+
+            Global.Store =
                 new DocumentStore
-                    {
-                        ConnectionStringName = "RavenDB"
-                    }.Initialize();
-            Global.Store = store;
-            RegisterIndixes(store);
-			Global.Authentication.Add("Basic", new BasicAuthenticator());
+                {
+                    ConnectionStringName = "RavenDB"
+                }.Initialize();
+
+            TryCreatingIndexesOrRedirectToErrorPage(Global.Store);
+        }
+
+        public static void TryCreatingIndexesOrRedirectToErrorPage(IDocumentStore store)
+        {
+            IndexCreation.CreateIndexes(typeof(Activities_ByProject).Assembly, store);
         }
     }
 }

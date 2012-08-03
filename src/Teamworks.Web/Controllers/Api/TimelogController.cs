@@ -18,6 +18,7 @@ namespace Teamworks.Web.Controllers.Api
     [RoutePrefix("api/projects/{projectid}/activities/{activityid}/timelogs")]
     public class TimelogController : RavenDbApiController
     {
+        /*
         [GET("api/timelogs", IsAbsoluteUrl = true)]
         public IEnumerable<Timelog_Filter.Projection> Get()
         {
@@ -141,5 +142,6 @@ namespace Teamworks.Web.Controllers.Api
 
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
+        */
     }
 }

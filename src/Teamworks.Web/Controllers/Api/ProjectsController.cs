@@ -11,11 +11,10 @@ using Raven.Bundles.Authorization.Model;
 using Raven.Client;
 using Raven.Client.Authorization;
 using Raven.Client.Linq;
-using Raven.Client.Util;
+using Teamworks.Core.Services;
 using Teamworks.Web.Attributes.Api;
 using Teamworks.Web.Helpers.Api;
 using Teamworks.Web.Models.Api;
-using Teamworks.Web.Models.Api.DryModels;
 
 namespace Teamworks.Web.Controllers.Api
 {
@@ -92,34 +91,27 @@ namespace Teamworks.Web.Controllers.Api
         #region People
 
         [SecureFor]
-        [GET("{id}/people")]
-        public IEnumerable<Person> GetPeople(int projectid)
+        [GET("{projectId}/people")]
+        public IEnumerable<Person> GetPeople(int projectId)
         {
             var project = DbSession
                 .Include<Core.Project>(p => p.People)
-                .Load<Core.Project>(projectid);
+                .Load<Core.Project>(projectId);
 
             var people = DbSession.Load<Core.Person>(project.People);
             return Mapper.Map<IEnumerable<Core.Person>, IEnumerable<Person>>(people);
         }
 
         [SecureFor]
-        [POST("{id}/people")]
-        public HttpResponseMessage Post(int projectid, Permissions model)
+        [POST("{projectId}/people")]
+        public HttpResponseMessage Post(int projectId, Permissions model)
         {
             var project = DbSession
-                .Load<Core.Project>(projectid);
+                .Load<Core.Project>(projectId);
 
-            if (project == null)
-            {
-                throw new HttpResponseException(
-                    Request.CreateResponse(HttpStatusCode.NotFound));
-            }
-
-            var plural = Inflector.Pluralize("person");
             var people = DbSession
                 .Load<Core.Person>(
-                    model.Ids.Select(i => string.Format("{0}/{1}", plural, i)));
+                    model.Ids.Select(i => i.ToId("person")));
 
             foreach (var person in people.Where(p => p != null))
             {
@@ -134,8 +126,7 @@ namespace Teamworks.Web.Controllers.Api
         public HttpResponseMessage Delete(int id, string personId)
         {
             var project = DbSession
-                .Include(string.Format("{0}/{1}",
-                                       Inflector.Pluralize("person"), personId))
+                .Include(id.ToId("project"))
                 .Load<Core.Project>(id);
 
             if (project == null)
@@ -161,13 +152,14 @@ namespace Teamworks.Web.Controllers.Api
 
         #region Task Dependencies
 
-        [GET("{projectid}/precedences")]
+        /*
+        [GET("{projectId}/precedences")]
         [SecureFor]
-        public DependencyGraph GetPre(int projectid)
+        public DependencyGraph GetPre(int projectId)
         {
             var project = DbSession
                 .Include<Core.Project>(p => p.Activities)
-                .Load<Core.Project>(projectid);
+                .Load<Core.Project>(projectId);
 
             if (project == null)
             {
@@ -183,7 +175,7 @@ namespace Teamworks.Web.Controllers.Api
 
             return new DependencyGraph() {Elements = elements, Relations = relations};
         }
-
+        */
         #endregion
     }
 }

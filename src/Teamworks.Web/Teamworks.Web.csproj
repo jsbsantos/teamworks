@@ -171,6 +171,7 @@
     <Compile Include="Controllers\Api\PeopleController.cs" />
     <Compile Include="Controllers\Api\HomeController.cs" />
     <Compile Include="Controllers\Mvc\TimelogController.cs" />
+    <Compile Include="Helpers\LowercaseContractResolver.cs" />
     <Compile Include="Helpers\Mvc\HttpRequestBaseExtensions.cs" />
     <Compile Include="Helpers\Teamworks\PersonExtensions.cs" />
     <Compile Include="Models\Api\DependencyGraph.cs" />
@@ -193,22 +194,17 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\Api\HttpConfigurationExtensions.cs" />
     <Compile Include="Helpers\Api\HttpRequestMessageExtensions.cs" />
     <Compile Include="Helpers\Api\RestApiSupressAuthenticationRedirectModule.cs" />
     <Compile Include="Helpers\MailgunModelBinder.cs" />
     <Compile Include="Helpers\MailgunModelBinderProvider.cs" />
-    <Compile Include="Helpers\Mappers.cs" />
+    <Compile Include="Helpers\AutoMapperConfiguration.cs" />
     <Compile Include="Helpers\Mvc\BundleExtensions.cs" />
     <Compile Include="Helpers\Mvc\HttpContextExtensions.cs" />
     <Compile Include="Helpers\Teamworks\NameValueCollectionExtensions.cs" />
     <Compile Include="Helpers\Teamworks\EntityExtensions.cs" />
     <Compile Include="Models\Api\Activity.cs" />
     <Compile Include="Models\Api\Discussion.cs" />
-    <Compile Include="Models\Api\DryModels\DryActivity.cs" />
-    <Compile Include="Models\Api\DryModels\DryDiscussion.cs" />
-    <Compile Include="Models\Api\DryModels\DryPerson.cs" />
-    <Compile Include="Models\Api\DryModels\DryProject.cs" />
     <Compile Include="Models\Api\Mailgun.cs" />
     <Compile Include="Models\Api\Message.cs" />
     <Compile Include="Models\Api\Person.cs" />
@@ -231,6 +227,9 @@
     <Content Include="Content\css\teamworks.css" />
     <Content Include="Content\font\fontawesome-webfont.svg" />
     <Content Include="Content\img\google.png" />
+    <Content Include="Content\js\app\Copy of tw.base.js" />
+    <Content Include="Content\js\app\tw.viewmodels.people.js" />
+    <Content Include="Content\js\app\tw.viewmodels.projects.js" />
     <Content Include="Content\js\app\tw.d3.js" />
     <Content Include="Content\js\app\tw.base.js" />
     <Content Include="Content\js\app\tw.viewmodels.models.js" />
@@ -257,6 +256,7 @@
     <Content Include="Content\js\libs\crypto\md5-min.js" />
     <Content Include="Content\js\libs\crypto\md5.js" />
     <Content Include="Content\js\libs\d3\d3.v2.js" />
+    <Content Include="Content\js\libs\date.js" />
     <Content Include="Content\js\libs\jquery-1.7.2.min.js" />
     <Content Include="Content\js\libs\jquery.unobtrusive-ajax.js" />
     <Content Include="Content\js\libs\jquery.unobtrusive-ajax.min.js" />
@@ -275,6 +275,7 @@
     <Content Include="Content\js\libs\_references.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="NoDb.htm" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

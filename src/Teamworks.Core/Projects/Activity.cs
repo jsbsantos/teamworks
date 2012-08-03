@@ -35,7 +35,7 @@ namespace Teamworks.Core
                        {
                            Name = name,
                            Project = project,
-                           Description = description,
+                           Description = description ?? "",
                            Duration = duration,
                            Dependencies = new List<string>(),
                            Discussions = new List<string>(),

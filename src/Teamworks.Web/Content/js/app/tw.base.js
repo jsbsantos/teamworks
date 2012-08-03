@@ -14,7 +14,7 @@
     *
     * ---
     *
-    * Edited to change parse to parseISOString
+    * Edited to change method name to parseISOString
     */
     (function(Date, undefined) {
         var orig_parse = Date.parse, numeric_keys = [1, 4, 5, 6, 7, 10, 11];
@@ -57,5 +57,4 @@
         contentType: 'application/json; charset=utf-8',
         cache: false
     });
-
 }());

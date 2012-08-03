@@ -5,7 +5,7 @@
 <div id="chart"></div>
 
 <div class="row" data-bind="visible: project.name">
-    <div class="span9" >
+    <div class="span9">
         <header>
             <h1>
                 <span data-bind="text: project.name"></span>
@@ -18,22 +18,14 @@
             <div class="page-header">
                 <h2>Activities 
                     <small>
-                        <a class="hide btn-mini" data-bind="css: { hide: activity.editing()}, click: function() { activity.editing(true); }">One more activity</a>
+                        <a class="hide btn-mini" data-bind="css: { hide: project.activity.editing()}, click: function() { project.activity.editing(true); }">One more activity</a>
                     </small>
                 </h2>
-                <div class="hide" data-bind="css: { hide: !activity.editing() }">
-                    <form class="form-horizontal" data-bind="submit: project.activities._create">
-                        <div class="control-group inline">
-                            <label class="control-label" for="name">Name</label>
-                            <div class="controls">
-                                <div class="input-append">
-                                    <input type="text" placeholder="Activity name" class="span3" data-bind="value: activity.name, valueUpdate: 'afterkeyup'" />
-                                    <input type="text" placeholder="Activity Duration" class="span2" data-bind="value: activity.duration, valueUpdate: 'afterkeyup'" />
-                                    <button type="submit" class="btn btn-success">Start activity</button>  
-                                </div>
-                                <a class="btn-mini" data-bind="click: function() { activity.editing(false) }"><i class="icon-remove"></i></a>                   
-                            </div>
-                        </div>
+                <div class="hide" data-bind="css: { hide: !project.activity.editing() }">
+                    <form class="well form-inline" data-bind="submit: project.activities._create">
+                        <input id="activity_name" name="activity_name" class="span4" autofocus="autofocus" placeholder="Activity name" data-bind="value: project.activity.name, valueUpdate: 'afterkeyup'" />
+                        <button type="submit" class="btn btn-success">Create</button>  
+                        <a class="btn-mini" data-bind="click: function() { project.activity.editing(false) }"><i class="icon-remove"></i></a>                   
                     </form>
                 </div>
             </div>
@@ -41,27 +33,28 @@
             <!-- /ko -->
             <script type="text/html" id="activities-template">
                 <div>
-                    <h3>
-                        <a data-bind="text: name, attr: { href: '/projects/' + $parent.project.id() + '/activities/' + id() }"></a>
-                    </h3>
-                    <p data-bind="text: description"></p>
+                    <button class="close" data-bind="click: $parent.project.discussions._remove">&times;</button>
+                    <a data-bind="attr: { href: '/projects/' + $parent.project.id() + '/discussions/' + id() }">
+                        <h3>
+                            <span data-bind="text: name"></span>
+                            <small data-bind="text: description"></small>
+                        </h3>
+                    </a>
                 </div>
             </script>
         </section>
-        <!-- Discussion -->
         <section>
             <div class="page-header">
                 <h2>Discussion
                     <small>
-                        <a class="hide btn-mini" data-bind="css: { hide: discussion.editing()}, click: function() { discussion.editing(true); }">One more discussion</a>
+                        <a class="hide btn-mini" data-bind="css: { hide: project.discussion.editing()}, click: function() { project.discussion.editing(true); }">One more discussion</a>
                     </small>
                 </h2>
-                <div class="hide" data-bind="css: { hide: !discussion.editing() }">
+                <div class="hide" data-bind="css: { hide: !project.discussion.editing() }">
                     <form class="well form-inline" data-bind="submit: project.discussions._create">
-                        <label for="discussion_name">Name</label>
-                        <input id="discussion_name" name="name" autofocus="autofocus" placeholder="Discussion name" data-bind="value: discussion.name, valueUpdate: 'afterkeyup'" />
+                        <input id="discussion_name" name="discussion_name" class="span4" autofocus="autofocus" placeholder="Discussion name" data-bind="value: project.discussion.name, valueUpdate: 'afterkeyup'" />
                         <button type="submit" class="btn btn-success">Create</button>  
-                        <a class="btn-mini" data-bind="click: function() { discussion.editing(false) }"><i class="icon-remove"></i></a>                   
+                        <a class="btn-mini" data-bind="click: function() { project.discussion.editing(false) }"><i class="icon-remove"></i></a>                   
                     </form>
                 </div>
             </div>
@@ -75,6 +68,7 @@
             </div>
             <script type="text/html" id="discussion-template">
                 <div>
+                    <button class="close" data-bind="click: $parent.project.activities._remove">&times;</button>
                     <h3>
                         <a data-bind="text: name, attr: { href: '/projects/' + $parent.project.id() + '/discussions/' + id() }"></a>
                     </h3>
@@ -82,38 +76,33 @@
                 </div>
             </script>
         </section>
-    
-
     </div>
     <div class="span3">
         <h2>People</h2>
         <div class="people">
             <ul class="thumbnails" data-bind="template: { name: 'person-template', foreach: project.people }"></ul>
-            <a href="#" class="more-options" data-bind="visible: !people.editing(), click: function() { people.editing(true); }" >More members</a>
-            <div class="hide" data-bind="css: { hide: !people.editing() }">
-                <form class="form-horizontal" data-bind="submit: people._add">
+            <a href="#" class="more-options" data-bind="visible: !project.person.editing(), click: function() { project.person.editing(true); }" >More members</a>
+            <div class="hide" data-bind="css: { hide: !project.person.editing() }">
+                <form class="form-horizontal" data-bind="submit: project.person._add">
                     <input autocomplete="off" placeholder="Who do you wanto to add" 
-                           data-items="4" data-bind="valueUpdate: 'afterkeyup', typeahead: { endpoint: '/api/people' }" />
+                           data-items="4" data-bind="valueUpdate: 'afterkeyup'" />
+                    <a class="btn-mini" data-bind="click: function() { discussion.editing(false) }"><i class="icon-remove"></i></a> 
                 </form>
-                <form class="form-horizontal" data-bind="submit: project.people._add">
-                    <div>
-                        <ul data-bind="foreach: people.list">
-                            <li data-bind="text: name"></li>
-                        </ul>
-                    </div>
-                    <button class="btn btn-success" type="submit">Invite</button>
-                    <a class="btn-mini" data-bind="click: function() { people.editing(false) }"><i class="icon-remove"></i></a>  
-                </form>
+                <div>
+                    <ul data-bind="foreach: project.person.invites">
+                        <li data-bind="text: name"></li>
+                    </ul>
+                </div>
             </div>
         </div>
         
         <script type="text/html" id="person-template">
             <li class="dropdown">
                 <a class="thumbnail dropdown-toggle" data-toggle="dropdown" rel="tooltip-top" data-bind="attr: { href: '#', 'title': name }">
-                    <img data-bind="attr: { src: gravatar.medium }" />
+                    <img data-bind="attr: { src: gravatar() + '&s=64' }" />
                 </a>               
                 <ul class="dropdown-menu well-mini">
-                    <img class="pull-left" data-bind="attr: { src: gravatar.medium }" />
+                    <img class="pull-left" data-bind="attr: { src: gravatar() + '&s=64' }" />
                     <div>
                         <p data-bind="text: username"></p>
                         <h3><a data-bind="text: name"></a></h3>
@@ -125,7 +114,6 @@
         </script>
         <br/>
         <h2>Actions</h2>
-    
     </div>
 </div>
 

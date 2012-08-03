@@ -4,7 +4,7 @@ using Raven.Client.Indexes;
 
 namespace Teamworks.Core.Services.RavenDb.Indexes
 {
-  
+    /*
     public class Timelog_Filter : AbstractIndexCreationTask<Activity, Activity>
     {
         public class Projection
@@ -39,5 +39,5 @@ namespace Teamworks.Core.Services.RavenDb.Indexes
                                               Timelog = timelog
                                           };
         }
-    }
+    }*/
 }

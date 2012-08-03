@@ -28,17 +28,17 @@
         <div class="lead">
             <h3>New project
                 <small>
-                    <a href="#" class="" data-bind="visible: !project.editing(), click: function() { project.editing(true); } ">Create a new project</a>
+                    <a href="#" class="" data-bind="visible: !editing(), click: function() { editing(true); } ">Create a new project</a>
                 </small>
             </h3>
         </div>
-        <div class="hide" data-bind="css: { hide: !project.editing() }">
+        <div class="hide" data-bind="css: { hide: !editing() }">
             <form class="form-horizontal" data-bind="submit: projects._create">
                 <div class="control-group">
-                    <input name="name" autofocus="autofocus" class="span3" placeholder="Project name" data-bind="value: project.name, valueUpdate: 'afterkeyup'" />
+                    <input name="name" autofocus="autofocus" class="span3" placeholder="Project name" data-bind="value: name, valueUpdate: 'afterkeyup'" />
                 </div>
                 <div class="control-group">
-                    <button type="submit" class="btn" data-bind="disable: project.name.has_error, css: { 'btn-success': !project.name.has_error(), 'btn-danger': project.name.has_error }">Start working</button>  
+                    <button type="submit" class="btn" data-bind="disable: name.has_error, css: { 'btn-success': !name.has_error(), 'btn-danger': name.has_error }">Start working</button>  
                     <a type="submit" class="help-inline" data-bind="click: function() { project.editing(false) }"><i class="icon-remove"></i></a>  
                 </div>
             </form>
@@ -47,7 +47,7 @@
 </div>
 
 <script>
-    var viewmodel = function() {
+    var viewmodel = function () {
         return new TW.viewmodels.Projects('@ViewBag.Endpoint');
     }
 </script>

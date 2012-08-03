@@ -2,10 +2,15 @@
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web.Http;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
+using Raven.Bundles.Authorization.Model;
+using Raven.Client.Authorization;
+using Raven.Client.Util;
+using Teamworks.Core.Services;
+using Teamworks.Core.Services.RavenDb.Indexes;
+using Teamworks.Web.Attributes.Api;
 using Teamworks.Web.Helpers.Api;
 using Teamworks.Web.Helpers.Teamworks;
 using Teamworks.Web.Models.Api;
@@ -13,114 +18,99 @@ using Teamworks.Web.Models.Api;
 
 namespace Teamworks.Web.Controllers.Api
 {
+    [SecureFor]
     [DefaultHttpRouteConvention]
-    [RoutePrefix("api/projects/{projectid}/activities")]
+    [RoutePrefix("api/projects/{projectId}/activities")]
     public class ActivitiesController : RavenDbApiController
     {
-        #region General
-        public IEnumerable<Activity> Get(int projectid)
+        public IEnumerable<Activity> Get(int projectId)
         {
-            var project = DbSession
-                .Include<Core.Project>(p => p.Activities)
-                .Load<Core.Project>(projectid);
+            var activities = DbSession
+                .Query<Core.Activity, Activities_ByProject>()
+                .Where(a => a.Project == projectId.ToId("project"));
 
-            if (project == null)
-                Request.NotFound();
-
-            var activities = DbSession.Load<Core.Activity>(project.Activities);
-            return activities.Select(Mapper.Map<Core.Activity, Activity>);
+            return Mapper.Map<IEnumerable<Core.Activity>, 
+                IEnumerable<Activity>>(activities.ToList());
         }
 
-        public Activity Get(int id, int projectid)
+        public Activity Get(int id, int projectId)
         {
-            var project = DbSession
-                .Include<Core.Project>(p => p.Activities)
-                .Load<Core.Project>(projectid);
+            var activity = DbSession
+                .Query<Core.Activity, Activities_ByProject>()
+                .FirstOrDefault(a => a.Project == projectId.ToId("project")
+                    && a.Id == id.ToId("activity"));
 
-            if (project == null)
-                Request.NotFound();
-
-            var activity = DbSession.Load<Core.Activity>(id);
-            if (activity == null)
-                Request.NotFound();
-
+            Request.ThrowNotFoundIfNull(activity);
             return Mapper.Map<Core.Activity, Activity>(activity);
         }
 
-        public HttpResponseMessage Post(int projectid,
-                                        Activity model)
+        public HttpResponseMessage Post(int projectId, Activity model)
         {
             var project = DbSession
-                .Load<Core.Project>(projectid);
-
-            if (project == null)
-                Request.NotFound();
+                .Load<Core.Project>(projectId);
 
             var activity = Core.Activity.Forge(project.Id, model.Name, model.Description, model.Duration);
-            DbSession.Store(activity);
 
+            DbSession.Store(activity);
+            DbSession.SetAuthorizationFor(activity, new DocumentAuthorization
+                                                        {
+                                                            Tags = {project.Id}
+                                                        });
+
+            // calculate dependency graph 
             if (model.Dependencies != null)
                 activity.Dependencies = model.Dependencies;
-            project.Activities.Add(activity.Id);
 
-            var domain = DbSession.Load<Core.Activity>(project.Activities).ToList();
+            var domain = DbSession.Query<Core.Activity>()
+                .Where(a => a.Project == project.Id).ToList();
+
             activity.StartDate = project.StartDate.AddMinutes(GetAccumulatedDuration(domain, activity));
 
             var activities = Mapper.Map<Core.Activity, Activity>(activity);
+
+            // todo add header of location
+
             return Request.CreateResponse(HttpStatusCode.Created, activities);
         }
 
         [PUT("")]
-        public HttpResponseMessage Put(int projectid,
+        public HttpResponseMessage Put(int projectId,
                                        Activity model)
         {
-            var project = DbSession
-                .Load<Core.Project>(projectid);
+            var project = string.Format("{0}/{1}",
+                                        Inflector.Pluralize("project"), projectId);
 
-            if (project == null)
-                Request.NotFound();
+            var activity = DbSession
+                .Load<Core.Activity>(model.Id);
 
-            var activity = DbSession.Load<Core.Activity>(int.Parse(model.Id));
-            if (activity == null)
-                Request.NotFound();
+            Request.ThrowNotFoundIfNull(activity);
 
-            activity.Name = model.Name;
-            activity.Description = model.Description;
+            activity.Name = model.Name ?? activity.Name;
+            activity.Description = model.Description ?? activity.Description;
             if (activity.Duration != model.Duration)
             {
-                var domain = DbSession.Load<Core.Activity>(project.Activities).ToList();
+                var domain = DbSession.Query<Core.Activity>()
+                    .Where(a => a.Project == project).ToList();
                 OffsetDuration(domain, activity, model.Duration - activity.Duration);
             }
-            activity.Duration = model.Duration;
 
+            activity.Duration = model.Duration;
             var activities = Mapper.Map<Core.Activity, Activity>(activity);
             return Request.CreateResponse(HttpStatusCode.Created, activities);
         }
 
-        public HttpResponseMessage Delete(int id, int projectid)
+        public HttpResponseMessage Delete(int id, int projectId)
         {
-            var project = DbSession
-                .Include<Core.Project>(p => p.Activities)
-                .Load<Core.Project>(projectid);
+            var activity = DbSession
+                .Query<Core.Activity, Activities_ByProject>()
+                .FirstOrDefault(a => a.Project == projectId.ToId("project")
+                                     && a.Id == id.ToId("activity"));
+            
+            Request.ThrowNotFoundIfNull(activity);
 
-            if (project == null)
-            {
-                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
-            }
-
-            if (project.Activities.Any(t => t.Identifier() == id))
-            {
-                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
-            }
-
-            var task = DbSession.Load<Core.Activity>(id);
-            DbSession.Delete(task);
-            project.Activities.Remove(task.Id);
-
+            DbSession.Delete(activity);
             return Request.CreateResponse(HttpStatusCode.NoContent);
         }
-
-        #endregion
 
         private double GetAccumulatedDuration(List<Core.Activity> domain, Core.Activity activity, int duration = 0)
         {
@@ -129,8 +119,8 @@ namespace Teamworks.Web.Controllers.Api
 
             if (parent == null)
                 return duration;
-             
-            return  parent.Dependencies.Count == 0
+
+            return parent.Dependencies.Count == 0
                        ? parent.Duration
                        : GetAccumulatedDuration(domain, parent, parent.Duration);
         }
@@ -150,32 +140,37 @@ namespace Teamworks.Web.Controllers.Api
         #region Precedence
 
         [GET("{id}/precedences")]
-        public List<ActivityRelation> GetPre(int id, int projectid)
+        public List<ActivityRelation> GetPre(int id, int projectId)
         {
+            /*
             var project = DbSession
                 .Include<Core.Project>(p => p.Activities)
-                .Load<Core.Project>(projectid);
+                .Load<Core.Project>(projectId);
 
             var activity = DbSession.Load<Core.Activity>(id);
 
-            if (project == null || activity == null || !project.Activities.Any(t => t.Identifier() == id))
-                Request.NotFound();
+
+            if (project == null || activity == null || !project.Activities.Any(t => t.ToIdentifier() == id))
+                Request.ThrowNotFoundIfNull();
 
             //var graph = activity.DependencyGraph();
             //return graph;
+            
+             */
             return null;
         }
 
         [POST("{id}/precedences/{precedenceid}")]
-        public HttpResponseMessage PostPre(int id, int projectid,
+        public HttpResponseMessage PostPre(int id, int projectId,
                                            int precedenceid)
         {
+            /*
             var project = DbSession
-                .Load<Core.Project>(projectid);
+                .Load<Core.Project>(projectId);
             var activity = DbSession.Load<Core.Activity>(id);
 
-            if (project == null || activity == null || !project.Activities.Any(t => t.Identifier() == id))
-                Request.NotFound();
+            if (project == null || activity == null || !project.Activities.Any(t => t.ToIdentifier() == id))
+                Request.ThrowNotFoundIfNull();
 
             var depid = "activities/" + precedenceid;
             if (activity.Dependencies.Contains(depid))
@@ -183,17 +178,20 @@ namespace Teamworks.Web.Controllers.Api
 
             activity.Dependencies.Add(depid);
             return Request.CreateResponse(HttpStatusCode.Created);
+            */
+            return null;
         }
 
         [DELETE("{id}/precedences/{precedenceid}")]
-        public HttpResponseMessage Delete(int id, int projectid, int precedenceid)
+        public HttpResponseMessage Delete(int id, int projectId, int precedenceid)
         {
+            /*
             var project = DbSession
-                .Load<Core.Project>(projectid);
+                .Load<Core.Project>(projectId);
             var activity = DbSession.Load<Core.Activity>(id);
 
-            if (project == null || activity == null || !project.Activities.Any(t => t.Identifier() == id))
-                Request.NotFound();
+            if (project == null || activity == null || !project.Activities.Any(t => t.ToIdentifier() == id))
+                Request.ThrowNotFoundIfNull();
 
             var depid = "activities/" + precedenceid;
             if (!activity.Dependencies.Contains(depid))
@@ -201,12 +199,15 @@ namespace Teamworks.Web.Controllers.Api
 
             activity.Dependencies.Remove(depid);
             return Request.CreateResponse(HttpStatusCode.Created);
+        
+             */
+            return null;
         }
 
         #endregion
 
         #region People
-        
+
         #endregion
     }
 }

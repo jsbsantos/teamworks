@@ -29,9 +29,17 @@ namespace Teamworks.Web.Helpers.Api
             return person == null ? "" : person.Id;
         }
 
-        public static void NotFound(this HttpRequestMessage request)
+        public static void ThrowNotFound(this HttpRequestMessage request)
         {
-            throw new HttpResponseException(request.CreateResponse(HttpStatusCode.NotFound));
+                throw new HttpResponseException(request.CreateResponse(HttpStatusCode.NotFound));
+        }
+
+        public static void ThrowNotFoundIfNull(this HttpRequestMessage request, object obj)
+        {
+            if (obj == null)
+            {
+                throw new HttpResponseException(request.CreateResponse(HttpStatusCode.NotFound));
+            }
         }
 
         public static IDocumentSession GetOrOpenCurrentSession(this HttpRequestMessage request)

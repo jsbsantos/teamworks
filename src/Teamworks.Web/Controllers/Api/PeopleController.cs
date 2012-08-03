@@ -24,18 +24,5 @@ namespace Teamworks.Web.Controllers.Api
                     .ToList();
             //return Mapper.Map<IEnumerable<Core.Person>, IEnumerable<Person>>(people);
         }
-
-        [GET("activities")]
-        [SecureFor("/projects")]
-        public IEnumerable<Activity> GetActivities()
-        {
-            var projects = DbSession.Query<Core.Project>()
-                .Customize(q => q.Include<Core.Project>(p => p.Activities));
-
-            var activities = DbSession.Load<Core.Activity>(projects.ToList().SelectMany(p => p.Activities).Distinct()).ToList();
-            return Mapper.Map<IList<Core.Activity>, IEnumerable<Activity>>(activities);
-        } 
-
-        
     }
 }

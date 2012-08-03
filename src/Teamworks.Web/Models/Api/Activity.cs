@@ -1,18 +1,22 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Teamworks.Web.Models.Api.DryModels;
 
 namespace Teamworks.Web.Models.Api
 {
-    public class Activity : DryActivity
+    public class Activity
     {
-        public IList<Timelog> Timelogs { get; set; }
-        public IList<TodoList> Todos { get; set; }
-        public IList<string> Dependencies { get; set; }
-        public IList<string> Discussions { get; set; }
-        public IList<string> People { get; set; }
-
         public string Token { get; set; }
+        public string Id { get; set; }
+
+        [Required]
+        public string Name { get; set; }
+
+        public string Description { get; set; }
+        public string Project { get; set; }
+        public int Duration { get; set; }
+        public DateTime StartDate { get; set; }
+
+        public IList<string> Dependencies { get; set; }
     }
 }

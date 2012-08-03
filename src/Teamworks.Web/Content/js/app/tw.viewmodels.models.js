@@ -12,18 +12,6 @@ TW.viewmodels.models.Project = function(data) {
         self.name(data.name);
         self.description(data.description);
         self.token(data.token);
-
-        self.people($.map(data.people || { }, function(item) {
-            return new TW.viewmodels.models.Person(item);
-        }));
-
-        self.discussions($.map(data.discussions || { }, function(item) {
-            return new TW.viewmodels.models.Discussion(item);
-        }));
-
-        self.activities($.map(data.activities || { }, function(item) {
-            return new TW.viewmodels.models.Activity(item);
-        }));
     };
 
     self.id = ko.observable();

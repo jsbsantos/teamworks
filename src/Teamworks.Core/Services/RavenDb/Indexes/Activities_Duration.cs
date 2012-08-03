@@ -5,9 +5,20 @@ using Raven.Client.Indexes;
 
 namespace Teamworks.Core.Services.RavenDb.Indexes
 {
-    public class ActivityWithDurationIndex : AbstractIndexCreationTask<Activity, ActivityWithDuration>
+    public class Activities_Duration : AbstractIndexCreationTask<Activity, Activities_Duration.Result>
     {
-        public ActivityWithDurationIndex()
+        public class Result
+        {
+            public string Activity { get; set; }
+            public string Name { get; set; }
+            public string Description { get; set; }
+            public int Duration { get; set; }
+            public DateTime StartDate { get; set; }
+            public string Project { get; set; }
+            public int TimeUsed { get; set; }
+        }
+
+        public Activities_Duration()
         {
             Map = activities => from act in activities
                                 from timelog in act.Timelogs
@@ -40,14 +51,5 @@ namespace Teamworks.Core.Services.RavenDb.Indexes
         }
     }
 
-    public class ActivityWithDuration
-    {
-        public string Activity { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public int Duration { get; set; }
-        public DateTime StartDate { get; set; }
-        public string Project { get; set; }
-        public int TimeUsed { get; set; }
-    }
+
 }

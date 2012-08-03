@@ -12,8 +12,6 @@ namespace Teamworks.Core
         public string Description { get; set; }
 
         public IList<string> People { get; set; }
-        public IList<string> Activities { get; set; }
-        public IList<string> Discussions { get; set; }
         public DateTime StartDate { get; set; }
 
         public IList<OperationPermission> Permissions { get; set; }
@@ -24,8 +22,6 @@ namespace Teamworks.Core
                            Name = name ?? "",
                            Description = description ?? "",
                            People = new List<string>(),
-                           Activities = new List<string>(),
-                           Discussions = new List<string>(),
                            Permissions = new List<OperationPermission>(),
                            StartDate = startdate ?? DateTime.Now,
                        };

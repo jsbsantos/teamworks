@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web.Http;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
 using Teamworks.Web.Attributes.Api;
+using Teamworks.Web.Helpers.Api;
 using Teamworks.Web.Models.Api;
 
 namespace Teamworks.Web.Controllers.Api
@@ -13,15 +13,23 @@ namespace Teamworks.Web.Controllers.Api
     public class HomeController : RavenDbApiController
     {
 
+        [SecureFor]
         [GET("activities")]
-        [SecureFor("/projects")]
-        public IEnumerable<Activity> GetActivities()
+        public IEnumerable<Activity> Activities()
         {
-            var projects = DbSession.Query<Core.Project>()
-                .Customize(q => q.Include<Core.Project>(p => p.Activities));
+            var current = Request.GetCurrentPersonId();
+            var activities = DbSession
+                .Query<Core.Activity>()
+                .Where(a => a.People.Contains(current));
 
-            var activities = DbSession.Load<Core.Activity>(projects.ToList().SelectMany(p => p.Activities).Distinct()).ToList();
-            return Mapper.Map<IList<Core.Activity>, IEnumerable<Activity>>(activities);
+            return Mapper.Map<IList<Core.Activity>, IEnumerable<Activity>>(activities.ToList());
+        }
+
+        [SecureFor]
+        [GET("time")]
+        public IEnumerable<Timelog> Timelogs()
+        {
+            return null;
         } 
     }
 }

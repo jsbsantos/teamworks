@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using Teamworks.Web.Models.Api.DryModels;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Teamworks.Web.Models.Api
 {

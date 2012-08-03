@@ -16,6 +16,7 @@ namespace Teamworks.Web.Controllers.Api
     [RoutePrefix("api/projects/{projectid}")]
     public class MessagesController : RavenDbApiController
     {
+        /*
         #region Project
 
         private Core.Discussion LoadProjectDiscussion(int projectid, int discussionid)
@@ -149,5 +150,6 @@ namespace Teamworks.Web.Controllers.Api
         }
 
         #endregion
+        */
     }
 }

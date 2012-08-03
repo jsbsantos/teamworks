@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Text;
-using Teamworks.Core;
-using Teamworks.Core.Mailgun;
-using Teamworks.Core.Services;
 
 namespace Teamworks.Web.Helpers.Teamworks
 {

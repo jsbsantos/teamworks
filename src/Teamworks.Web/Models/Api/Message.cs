@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using Teamworks.Web.Models.Api.DryModels;
 
 namespace Teamworks.Web.Models.Api
 {
@@ -11,6 +10,6 @@ namespace Teamworks.Web.Models.Api
         [StringLength(1024, MinimumLength = 1)]
         public string Content { get; set; }
         public DateTime Date { get; set; }
-        public DryPerson Person { get; set; }
+        public Person Person { get; set; }
     }
 }
