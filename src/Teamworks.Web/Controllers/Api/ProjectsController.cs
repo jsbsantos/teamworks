@@ -9,11 +9,16 @@ using AutoMapper;
 using Newtonsoft.Json.Linq;
 using Raven.Bundles.Authorization.Model;
 using Raven.Client.Authorization;
+using Teamworks.Core;
+using Teamworks.Core.Projects;
+using Teamworks.Core.Services.RavenDb.Indexes;
 using Teamworks.Web.Helpers.Api;
 using Teamworks.Web.Helpers.Teamworks;
 using Teamworks.Web.Models.Api;
 using Teamworks.Web.Controllers.Api.Attribute;
 using Teamworks.Web.Models.Api.DryModels;
+using Person = Teamworks.Web.Models.Api.Person;
+using Project = Teamworks.Web.Models.Api.Project;
 
 namespace Teamworks.Web.Controllers.Api
 {
@@ -182,8 +187,10 @@ namespace Teamworks.Web.Controllers.Api
                 Request.NotFound();
 
             var relations = project.DependencyGraph();
-            var elements = DbSession.Load<Core.Activity>(project.Activities)
-                .Select(Mapper.Map<Core.Activity, DryActivity>)
+            var proj = "projects/" + projectid;
+            var elements = DbSession.Query<ActivityWithDuration, ActivityWithDurationIndex>()
+                .Where(a => a.Project == proj)
+                .OrderBy(a => a.StartDate)
                 .ToList();
             
             return new DependencyGraph(){ Elements = elements, Relations = relations};

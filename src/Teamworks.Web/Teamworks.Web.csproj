@@ -169,9 +169,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controllers\Api\PeopleController.cs" />
-    <Compile Include="Helpers\Teamworks\GraphExtensions.cs" />
     <Compile Include="Helpers\Teamworks\PersonExtensions.cs" />
-    <Compile Include="Models\Api\DependencyGraph.cs" />
     <Compile Include="Models\Api\Todo.cs" />
     <Compile Include="Models\Api\TodoList.cs" />
     <Compile Include="Models\Api\Permissions.cs" />

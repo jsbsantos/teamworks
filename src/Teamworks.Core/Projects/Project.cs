@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Raven.Imports.Newtonsoft.Json;
+using Teamworks.Core.Services;
 
 namespace Teamworks.Core
 {
@@ -33,5 +35,16 @@ namespace Teamworks.Core
                        };
         }
 
+
+        public IEnumerable<ActivityRelation> DependencyGraph()
+        {
+            var activities = Global.Database.CurrentSession.Load<Activity>(Activities);
+            var relation = new List<ActivityRelation>();
+
+            foreach (var activity in activities)
+                relation.AddRange(activity.DependencyGraph());
+
+            return relation.ToList();
+        }
     }
 }

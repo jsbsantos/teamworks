@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Teamworks.Core.Services;
 
 namespace Teamworks.Core
 {
@@ -45,5 +47,23 @@ namespace Teamworks.Core
                            LastTimeEntryId = 0
                        };
         }
+
+        public IEnumerable<ActivityRelation> DependencyGraph()
+        {
+            var parents = Global.Database.CurrentSession.Load<Activity>(Dependencies).ToList();
+            return Dependencies.Select(p =>
+            {
+                var parent = parents.Single(x => p.Equals(x.Id,
+                                                          StringComparison.
+                                                              InvariantCultureIgnoreCase));
+                return new ActivityRelation
+                {
+                    Parent = parent.Identifier,
+                    Activity = Identifier,
+                    Duration = parent.Duration,
+                };
+            }).ToList();
+        }
+
     }
 }

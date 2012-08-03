@@ -7,11 +7,14 @@ using System.Web.Http;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
+using Teamworks.Core;
+using Teamworks.Core.Projects;
+using Teamworks.Core.Services.RavenDb.Indexes;
 using Teamworks.Core.Services.Storage;
 using Teamworks.Web.Helpers.Api;
 using Teamworks.Web.Helpers.Teamworks;
-using Teamworks.Web.Models.Api;
 using Activity = Teamworks.Web.Models.Api.Activity;
+using Project = Teamworks.Web.Models.Api.Project;
 
 namespace Teamworks.Web.Controllers.Api
 {
@@ -155,7 +158,7 @@ namespace Teamworks.Web.Controllers.Api
         #region Precedence
 
         [GET("{id}/precedences")]
-        public List<ActivityRelation> GetPre(int id, int projectid)
+        public IEnumerable<ActivityRelation> GetPre(int id, int projectid)
         {
             var project = DbSession
                 .Include<Core.Project>(p => p.Activities)
