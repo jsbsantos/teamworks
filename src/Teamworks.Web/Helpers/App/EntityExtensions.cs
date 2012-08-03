@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Text;
-using Raven.Client.Util;
 using Teamworks.Core;
 
-namespace Teamworks.Web.Helpers.Teamworks
+namespace Teamworks.Web.Helpers.App
 {
     public static class EntityExtensions
     {

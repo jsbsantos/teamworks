@@ -11,7 +11,6 @@ using AttributeRouting;
 using AttributeRouting.Web.Http;
 using Teamworks.Core;
 using Teamworks.Web.Helpers;
-using Teamworks.Web.Helpers.Teamworks;
 using Teamworks.Web.Models;
 using Teamworks.Web.Models.Api;
 

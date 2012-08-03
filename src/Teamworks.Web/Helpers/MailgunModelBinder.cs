@@ -7,7 +7,7 @@ using System.Web.Http.ModelBinding;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Raven.Abstractions.Extensions;
-using Teamworks.Web.Helpers.Teamworks;
+using Teamworks.Web.Helpers.App;
 using Teamworks.Web.Models.Api;
 
 namespace Teamworks.Web.Helpers

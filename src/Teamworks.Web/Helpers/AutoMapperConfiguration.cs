@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Teamworks.Core.Services;
-using Teamworks.Web.Helpers.Teamworks;
+using Teamworks.Web.Helpers.App;
 using Teamworks.Web.Models.Api;
 
 namespace Teamworks.Web.Helpers

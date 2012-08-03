@@ -13,7 +13,6 @@ using Teamworks.Core.Services;
 using Teamworks.Core.Services.RavenDb.Indexes;
 using Teamworks.Web.Attributes.Api;
 using Teamworks.Web.Helpers.Api;
-using Teamworks.Web.Helpers.Teamworks;
 using Teamworks.Web.Models.Api;
 
 

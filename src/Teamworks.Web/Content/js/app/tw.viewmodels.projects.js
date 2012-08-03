@@ -224,7 +224,7 @@
                     data: ko.toJSON({ 'name': self.name() }),
                     statusCode: {
                         201: /*created*/function(data) {
-                            self.projects.push(new TW.viewmodels.models.Project(data));
+                            self.projects.push(ko.mapping.fromJS(data));
                             self.editing(false);
                             self.name('');
                         },

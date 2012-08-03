@@ -176,8 +176,6 @@
     <Compile Include="Controllers\Api\HomeController.cs" />
     <Compile Include="Controllers\Mvc\TimelogController.cs" />
     <Compile Include="Helpers\LowercaseContractResolver.cs" />
-    <Compile Include="Helpers\Mvc\HttpRequestBaseExtensions.cs" />
-    <Compile Include="Helpers\Teamworks\PersonExtensions.cs" />
     <Compile Include="Models\Api\DependencyGraph.cs" />
     <Compile Include="Models\Api\Todo.cs" />
     <Compile Include="Models\Api\TodoList.cs" />
@@ -205,8 +203,8 @@
     <Compile Include="Helpers\AutoMapperConfiguration.cs" />
     <Compile Include="Helpers\Mvc\BundleExtensions.cs" />
     <Compile Include="Helpers\Mvc\HttpContextExtensions.cs" />
-    <Compile Include="Helpers\Teamworks\NameValueCollectionExtensions.cs" />
-    <Compile Include="Helpers\Teamworks\EntityExtensions.cs" />
+    <Compile Include="Helpers\App\NameValueCollectionExtensions.cs" />
+    <Compile Include="Helpers\App\EntityExtensions.cs" />
     <Compile Include="Models\Api\Activity.cs" />
     <Compile Include="Models\Api\Discussion.cs" />
     <Compile Include="Models\Api\Mailgun.cs" />
@@ -238,9 +236,7 @@
     <Content Include="Content\js\app\tw.viewmodels.projects.js" />
     <Content Include="Content\js\app\tw.d3.js" />
     <Content Include="Content\js\app\tw.base.js" />
-    <Content Include="Content\js\app\tw.viewmodels.models.js" />
     <Content Include="Content\js\app\tw.knockout.js" />
-    <Content Include="Content\js\app\tw.viewmodels.js" />
     <Content Include="Content\js\gac.js" />
     <Content Include="Content\js\libs\bootstrap\alert.js" />
     <Content Include="Content\js\libs\bootstrap\button.js" />

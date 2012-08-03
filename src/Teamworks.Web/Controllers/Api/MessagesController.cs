@@ -8,7 +8,6 @@ using AttributeRouting.Web.Http;
 using AutoMapper;
 using Teamworks.Core.Services;
 using Teamworks.Web.Helpers.Api;
-using Teamworks.Web.Helpers.Teamworks;
 using Teamworks.Web.Models.Api;
 
 namespace Teamworks.Web.Controllers.Api
