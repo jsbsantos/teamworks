@@ -30,7 +30,7 @@
                                 self.message.content("");
                             },
                             400: /*bad request*/function() {
-                                TW.app.alerts.push({ message: 'An error as ocurred.' });
+                                TW.page.alerts.push({ message: 'An error as ocurred.' });
                             }
                         }
                     }

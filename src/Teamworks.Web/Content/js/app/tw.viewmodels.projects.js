@@ -41,7 +41,7 @@
                             self.project.person.text("");
                         },
                         400: /*bad request*/function () {
-                            TW.app.alerts.push({ message: 'An error as ocurred.' });
+                            TW.page.alerts.push({ message: 'An error as ocurred.' });
                         }
                     }
                 }
@@ -109,7 +109,7 @@
                             self.project.activity.name("");
                         },
                         400: /*bad request*/function () {
-                            TW.app.alerts.push({ message: 'An error as ocurred.' });
+                            TW.page.alerts.push({ message: 'An error as ocurred.' });
                         }
                     }
                 }
@@ -149,7 +149,7 @@
                             self.project.discussions.name("");
                         },
                         400: /*bad request*/function () {
-                            TW.app.alerts.push({ message: 'An error as ocurred.' });
+                            TW.page.alerts.push({ message: 'An error as ocurred.' });
                         }
                     }
                 }

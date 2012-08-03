@@ -4,12 +4,12 @@ TW.viewmodels = TW.viewmodels || {};
 $(function () {
     'use strict';
     /* app */
-    TW.app = {
+    TW.page = {
         ready: ko.observable(false),
         alerts: ko.observableArray([])
     };
-    TW.app.alerts._remove = function (item) {
-        TW.app.alerts.remove(item);
+    TW.page.alerts._remove = function (item) {
+        TW.page.alerts.remove(item);
     };
     /* helpers */
     TW.helpers = {
@@ -42,12 +42,12 @@ $(function () {
     });
 
     if (typeof viewmodel !== 'undefined') {
-        TW.app.viewmodel = viewmodel();
+        TW.page.viewmodel = viewmodel();
         /* apply bindings only if TW.app is setted */
-        !$.isEmptyObject(TW.app) && ko.applyBindings(TW.app);
+        !$.isEmptyObject(TW.page) && ko.applyBindings(TW.page);
 
-        if (TW.app.viewmodel.Gantt)
+        if (TW.page.viewmodel.Gantt)
             viewmodel().Gantt();
     }
-    TW.app.ready(true);
+    TW.page.ready(true);
 });
