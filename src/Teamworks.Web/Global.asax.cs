@@ -122,15 +122,15 @@ namespace Teamworks.Web
 
         public static void InitializeDocumentStore()
         {
-            if (Global.Store != null) return; // prevent misuse
+            if (Global.Database != null) return; // prevent misuse
 
-            Global.Store =
+            Global.Database =
                 new DocumentStore
                 {
                     ConnectionStringName = "RavenDB"
                 }.Initialize();
 
-            TryCreatingIndexesOrRedirectToErrorPage(Global.Store);
+            TryCreatingIndexesOrRedirectToErrorPage(Global.Database);
         }
 
         public static void TryCreatingIndexesOrRedirectToErrorPage(IDocumentStore store)

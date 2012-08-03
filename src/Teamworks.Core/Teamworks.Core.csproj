@@ -73,9 +73,10 @@
     <Compile Include="Services\EntityExtensions.cs" />
     <Compile Include="Services\RavenDb\Indexes\Activities_ByProject.cs" />
     <Compile Include="Services\RavenDb\Indexes\Activities_Duration.cs" />
-    <Compile Include="Services\RavenDb\Indexes\Timelog_Filter.cs" />
     <Compile Include="Services\RavenDb\Indexes\Activities_ByPerson.cs" />
+    <Compile Include="Projects\DependencyGraph.cs" />
     <Compile Include="Projects\Message.cs" />
+    <Compile Include="Services\RavenDb\Indexes\Timelog_Filter.cs" />
     <Compile Include="Services\Storage\IStorage.cs" />
     <Compile Include="Projects\Timelog.cs" />
     <Compile Include="Services\Global.cs" />

@@ -17,7 +17,7 @@ TW.Gantt = function (jsonendpoint) {
 
     var vis = d3.select("#chart").append("svg")
         .attr("width", "100%")
-        .attr("height", chart_height+chart_start_pady);
+        .attr("height", chart_height + chart_start_pady);
 
     //draw gantt chart bars
     d3.json(jsonendpoint, function (json) {
@@ -37,7 +37,7 @@ TW.Gantt = function (jsonendpoint) {
             .attr("fill", "black")
             .attr("font-size", "0.9em");
 
-        //item duration box
+        //item estimated duration box
         node.append("rect").attr("x", function (d, i) {
             return chart_start_padx + d.tw_x;
         }).attr("y", function (d, i) {
@@ -52,7 +52,21 @@ TW.Gantt = function (jsonendpoint) {
             .style("stroke", "rgb(0,0,0)")
             .style("stroke-width", 1)
             .style("stroke-opacity", 0.5);
-        ;
+
+        node.append("rect").attr("x", function (d, i) {
+            return chart_start_padx + d.tw_x + 1;
+        }).attr("y", function (d, i) {
+            return (d.tw_y + boxoffset + padY * i + padY / 2) + (d.tw_h - 4); //pady/2 -> ballance padding
+        }).attr("width", function (d) {
+            return d.tw_real_w;
+        }).attr("height", 4)
+            .attr("rx", 4)
+            .attr("ry", 4)
+            .style("fill", function (d) {
+                if (d.tw_real_w >= d.tw_w * 0.95)
+                    return "red";
+                return "aqua";
+            });
 
         //item duration text
         node.append("text").text(function (d) {
@@ -79,7 +93,7 @@ TW.Gantt = function (jsonendpoint) {
             .data(x.ticks(vertical_ticks))
             .enter().insert("line", ":first-child")
             .attr("x1", x).attr("y1", chart_start_pady)
-            .attr("x2", x).attr("y2", chart_height - chart_start_pady - padY-1)
+            .attr("x2", x).attr("y2", chart_height - chart_start_pady - padY - 1)
             .attr("width", 1)
             .style("stroke", "#ccc");
 
@@ -132,7 +146,8 @@ TW.Gantt = function (jsonendpoint) {
             .attr("text-anchor", "start")
             .text("Activity")
             .attr("font-size", "0.7em")
-            .attr("transform", function (d) { return "rotate(28)" /*, " + padX + "," + chart_start_pady + headeroffset + ")"*/; }); ;
+            .attr("transform", function (d) { return "rotate(28)" /*, " + padX + "," + chart_start_pady + headeroffset + ")"*/; });
+        ;
 
         vis.selectAll("header_leg_top")
             .data([1])
@@ -142,7 +157,7 @@ TW.Gantt = function (jsonendpoint) {
             .attr("text-anchor", "start")
             .text("Hours")
             .attr("font-size", "0.7em")
-        .attr("transform", function (d) { return "rotate(28, 20,9)"; });  
+            .attr("transform", function (d) { return "rotate(28, 20,9)"; });
     }
 
     // Returns a flattened hierarchy containing all leaf nodes under the root.
@@ -152,6 +167,14 @@ TW.Gantt = function (jsonendpoint) {
         var elements = root.elements;
         var relations = root.relations;
         var flattened = [];
+        var graph = [];
+
+        $.each(relations, function (index, element) {
+            graph.push({
+                parent: $.grep(elements, function (e, i) { return element.parent == stripEntityName(e.activity); })[0],
+                activity: $.grep(elements, function (e, i) { return element.activity == stripEntityName(e.activity); })[0]
+            });
+        });
 
         var lasty = headeroffset;
         $.each(elements, function (index, element) {
@@ -163,7 +186,8 @@ TW.Gantt = function (jsonendpoint) {
                 tw_y: lasty + horizontal_ticks + chart_start_pady,
                 tw_w: element.duration,
                 tw_h: box_height,
-                tw_element: element
+                tw_element: element,
+                tw_real_w: element.timeused
             };
 
             flattened.push(e);
@@ -186,13 +210,14 @@ TW.Gantt = function (jsonendpoint) {
 
         $.each(flattened, function (index, elem) {
             elem.tw_w *= box_width;
+            elem.tw_real_w *= box_width;
             elem.tw_x *= box_width;
         });
 
         function getDurationOffset(elem, acc) {
             var sum = acc || 0;
 
-            var parents = $.grep(relations, function (e, i) { return e.activity == elem.id; });
+            var parents = $.grep(relations, function (e, i) { return e.activity == stripEntityName(elem.activity); });
             if (parents.length > 0) {
                 var par = maxParentDuration(parents);
                 return getDurationOffset(par, sum + par.duration);
@@ -209,7 +234,12 @@ TW.Gantt = function (jsonendpoint) {
                     parent = value;
                 }
             });
-            return $.grep(elements, function (e, i) { return e.id == parent.parent; })[0];
+            return $.grep(elements, function (e, i) { return stripEntityName(e.activity) == parent.parent; })[0];
+        }
+
+        function stripEntityName(entity) {
+            var splt = entity.toString().lastIndexOf("/") + 1;
+            return splt > 1 && entity.substr(splt);
         }
 
         return { children: flattened };

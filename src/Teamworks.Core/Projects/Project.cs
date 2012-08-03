@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Raven.Bundles.Authorization.Model;
 using Teamworks.Core.Services;
 
@@ -27,6 +28,7 @@ namespace Teamworks.Core
                        };
         }
 
+
         public void AllowPersonAssociation()
         {
             Permissions.Add(new OperationPermission()
@@ -35,7 +37,17 @@ namespace Teamworks.Core
                                     Operation = Global.Constants.Operation,
                                     Tags = {Id}
                                 });
+        }
 
+        public IEnumerable<ActivityRelation> DependencyGraph()
+        {
+            var activities = Global.Database.CurrentSession.Load<Activity>(Activities);
+            var relation = new List<ActivityRelation>();
+
+            foreach (var activity in activities)
+                relation.AddRange(activity.DependencyGraph());
+
+            return relation.ToList();
         }
     }
 }

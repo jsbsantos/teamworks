@@ -22,7 +22,7 @@ namespace Teamworks.Web.Attributes.Mvc
                     var session = context.HttpContext.Items[App.Keys.RavenDbSessionKey] as IDocumentSession;
                     if (session == null)
                     {
-                        session = Global.Store.OpenSession();
+                        session = Global.Database.OpenSession();
                         context.HttpContext.Items[App.Keys.RavenDbSessionKey] = session;
                     }
 

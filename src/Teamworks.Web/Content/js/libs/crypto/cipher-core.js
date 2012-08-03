@@ -87,7 +87,7 @@ CryptoJS.lib.Cipher || (function (undefined) {
             // Apply config defaults
             this.cfg = this.cfg.extend(cfg);
 
-            // Store transform mode and key
+            // Database transform mode and key
             this._xformMode = xformMode;
             this._key = key;
 

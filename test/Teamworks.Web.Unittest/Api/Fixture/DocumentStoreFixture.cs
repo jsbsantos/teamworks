@@ -12,9 +12,9 @@ namespace Teamworks.Web.Uni.Api.Fixture
     {
         public void Initialize()
         {
-            if (Global.Store == null)
+            if (Global.Database == null)
             {
-                Global.Store =
+                Global.Database =
                 new EmbeddableDocumentStore
                 {
                      RunInMemory = true
@@ -25,7 +25,7 @@ namespace Teamworks.Web.Uni.Api.Fixture
 
         public void Store(object entity)
         {
-            using (var session = Global.Store.OpenSession())
+            using (var session = Global.Database.OpenSession())
             {
                 session.Store(entity);
                 session.SaveChanges();
@@ -34,7 +34,7 @@ namespace Teamworks.Web.Uni.Api.Fixture
 
         public T Load<T>(string id)
         {
-            using (var session = Global.Store.OpenSession())
+            using (var session = Global.Database.OpenSession())
             {
                 return session.Load<T>(id);
             }

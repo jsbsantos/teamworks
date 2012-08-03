@@ -1319,7 +1319,7 @@
                         element.value = value;
                         break;
                     default:
-                        // Store arbitrary object using DomData
+                        // Database arbitrary object using DomData
                         ko.utils.domData.set(element, ko.bindingHandlers.options.optionValueDomDataKey, value);
                         element[hasDomDataExpandoProperty] = true;
 
@@ -3186,7 +3186,7 @@
                     ko.removeNode(node.element);
                 });
 
-            // Store a copy of the array items we just considered so we can difference it next time
+            // Database a copy of the array items we just considered so we can difference it next time
             ko.utils.domData.set(domNode, lastMappingResultDomDataKey, newMappingResult);
         };
     })();

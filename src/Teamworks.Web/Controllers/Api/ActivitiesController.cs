@@ -8,13 +8,13 @@ using AutoMapper;
 using Raven.Bundles.Authorization.Model;
 using Raven.Client;
 using Raven.Client.Authorization;
-using Raven.Client.Util;
+using Raven.Client.Linq;
+using Teamworks.Core;
 using Teamworks.Core.Services;
 using Teamworks.Core.Services.RavenDb.Indexes;
 using Teamworks.Web.Attributes.Api;
 using Teamworks.Web.Helpers.Api;
-using Teamworks.Web.Models.Api;
-
+using Activity = Teamworks.Web.Models.Api.Activity;
 
 namespace Teamworks.Web.Controllers.Api
 {
@@ -87,9 +87,6 @@ namespace Teamworks.Web.Controllers.Api
         public HttpResponseMessage Put(int projectId,
                                        Activity model)
         {
-            var project = string.Format("{0}/{1}",
-                                        Inflector.Pluralize("project"), projectId);
-
             var activity = DbSession
                 .Load<Core.Activity>(model.Id);
 
@@ -100,7 +97,7 @@ namespace Teamworks.Web.Controllers.Api
             if (activity.Duration != model.Duration)
             {
                 var domain = DbSession.Query<Core.Activity>()
-                    .Where(a => a.Project == project).ToList();
+                    .Where(a => a.Project == projectId.ToId("project")).ToList();
                 OffsetDuration(domain, activity, model.Duration - activity.Duration);
             }
 
@@ -150,24 +147,15 @@ namespace Teamworks.Web.Controllers.Api
         #region Precedence
 
         [GET("{id}/precedences")]
-        public List<ActivityRelation> GetPre(int id, int projectId)
+        public IEnumerable<ActivityRelation> GetPre(int id, int projectId)
         {
-            /*
-            var project = DbSession
-                .Include<Core.Project>(p => p.Activities)
-                .Load<Core.Project>(projectId);
+            var activity = DbSession
+                .Query<Core.Activity, Activities_ByProject>()
+                .FirstOrDefault(a => a.Id == id.ToId("activity")
+                    && a.Project == projectId.ToId("project"));
 
-            var activity = DbSession.Load<Core.Activity>(id);
-
-
-            if (project == null || activity == null || !project.Activities.Any(t => t.ToIdentifier() == id))
-                Request.ThrowNotFoundIfNull();
-
-            //var graph = activity.DependencyGraph();
-            //return graph;
-            
-             */
-            return null;
+            Request.ThrowNotFoundIfNull(activity);
+            return activity.DependencyGraph();;
         }
 
         [POST("{id}/precedences/{precedenceid}")]

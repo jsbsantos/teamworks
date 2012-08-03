@@ -13,7 +13,7 @@ namespace Teamworks.Core.Services
             get { return AuthenticatorFactory.Instance; }
         }
 
-        public static IDocumentStore Store;
+        public static IDocumentStore Database;
 
         public static Person CurrentPerson
         {

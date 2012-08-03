@@ -1,11 +1,13 @@
-using System.Collections.Generic;
 
-namespace Teamworks.Web.Models.Api
+using System.Collections.Generic;
+using Teamworks.Core.Services.RavenDb.Indexes;
+
+namespace Teamworks.Core
 {
     public class DependencyGraph
     {
-        public List<ActivityRelation> Relations { get; set; } 
-        public List<Activity> Elements { get; set; } 
+        public IEnumerable<ActivityRelation> Relations { get; set; }
+        public IEnumerable<Activities_Duration> Elements { get; set; } 
     }
 
     public class ActivityRelation

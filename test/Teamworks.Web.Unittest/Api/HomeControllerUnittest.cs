@@ -18,11 +18,10 @@ namespace Teamworks.Web.Uni.Api
                                                           Name = "Something",
                                                           Username = "somthing"
                                                       });
-            using (var session = Global.Store.OpenSession())
+            using (var session = Global.Database.OpenSession())
             {
                 var home = new HomeController(session);
                 var result = home.GetActivities();
-
             }
         }
 

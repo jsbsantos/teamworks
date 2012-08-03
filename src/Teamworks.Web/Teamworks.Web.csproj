@@ -176,7 +176,6 @@
     <Compile Include="Controllers\Api\HomeController.cs" />
     <Compile Include="Controllers\Mvc\TimelogController.cs" />
     <Compile Include="Helpers\LowercaseContractResolver.cs" />
-    <Compile Include="Models\Api\DependencyGraph.cs" />
     <Compile Include="Models\Api\Todo.cs" />
     <Compile Include="Models\Api\TodoList.cs" />
     <Compile Include="Models\Api\Permissions.cs" />
