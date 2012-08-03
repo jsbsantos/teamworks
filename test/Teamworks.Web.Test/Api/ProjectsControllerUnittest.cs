@@ -1,15 +1,12 @@
-﻿using System.Linq;
-using System.Net.Http;
-using Raven.Client.Document;
+﻿using Xunit;
+using System.Linq;
 using Teamworks.Core.Services;
-using Teamworks.Web.Models.Api;
 using Teamworks.Web.Test.Api.Fixture;
-using Xunit;
 using Teamworks.Web.Controllers.Api;
 
 namespace Teamworks.Web.Test.Api
 {
-    public class ProjectsControllerTest : IUseFixture<DocumentStoreFixture>
+    public class ProjectsControllerUnittest : IUseFixture<DocumentStoreFixture>
     {
         public DocumentStoreFixture Fixture { get; set; }
 

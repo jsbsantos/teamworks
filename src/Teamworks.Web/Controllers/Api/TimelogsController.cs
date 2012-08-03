@@ -1,0 +1,78 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using AttributeRouting;
+using AttributeRouting.Web.Http;
+using AutoMapper;
+using Teamworks.Core.Services;
+using Teamworks.Core.Services.RavenDb.Indexes;
+using Teamworks.Web.Helpers.Api;
+using Teamworks.Web.Models.Api;
+
+namespace Teamworks.Web.Controllers.Api
+{
+    [DefaultHttpRouteConvention]
+    [RoutePrefix("api/projects/{projectid}/activities/{activityid}/timelogs")]
+    public class TimelogsController : RavenApiController
+    {
+        /*
+        [GET("api/timelogs", IsAbsoluteUrl = true)]
+        public IEnumerable<Timelog> Get()
+        {
+            var timelogs =
+                DbSession.Query<Core.Timelog>()
+                    .Where(t => t.Person == Request.GetCurrentPersonId());
+                
+            return Map;
+        }
+        */
+        [NonAction]
+        public Core.Activity GetActivity(int projectId, int activityId)
+        {
+            return DbSession
+               .Query<Core.Activity, Activities_ByProject>()
+               .FirstOrDefault(a => a.Project == projectId.ToId("projectId")
+                   && a.Id == activityId.ToId("activityId"));
+        }
+
+        public IEnumerable<Timelog> Get(int projectId, int activityId)
+        {
+            var activity = GetActivity(projectId, activityId);
+            Request.ThrowNotFoundIfNull(activity);
+            return Mapper.Map<IList<Core.Timelog>, IEnumerable<Timelog>>(activity.Timelogs);
+        }
+        
+        public HttpResponseMessage Post(
+             int projectId, int activityId, Timelog model)
+        {
+            var activity = GetActivity(projectId, activityId);
+
+
+            DateTime date;
+            if (!DateTime.TryParse(model.Date, out date))
+            {
+                date = DateTime.Now;
+            }
+
+            var timelog = Core.Timelog.Forge(model.Description, model.Duration, date, Request.GetCurrentPersonId());
+            timelog.Id = activity.GenerateNewTimeEntryId();
+            activity.Timelogs.Add(timelog);
+
+            var value = Mapper.Map<Core.Timelog, Timelog>(timelog);
+            return Request.CreateResponse(HttpStatusCode.Created, value);
+        }
+        public HttpResponseMessage Delete(int id, int projectId, int activityId)
+        {
+            var activity = GetActivity(projectId, activityId);
+
+            var timelog = activity.Timelogs.FirstOrDefault(t => t.Id == id);
+            Request.ThrowNotFoundIfNull(timelog);
+            activity.Timelogs.Remove(timelog);
+
+            return new HttpResponseMessage(HttpStatusCode.NoContent);
+        }
+    }
+}

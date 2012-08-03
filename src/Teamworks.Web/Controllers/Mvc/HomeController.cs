@@ -5,7 +5,7 @@ using Teamworks.Core.Services.RavenDb.Indexes;
 
 namespace Teamworks.Web.Controllers.Mvc
 {
-    public class HomeController : RavenDbController
+    public class HomeController : RavenController
     {
         [HttpGet]
         [AllowAnonymous]

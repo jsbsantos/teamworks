@@ -44,33 +44,6 @@
         return target;
     };
     /* binders */
-    ko.bindingHandlers.typeahead = {
-        init: function (element, valueAccessor) {
-            var g = 0;
-            var $elem = $(element);
-            if ($elem.data('typeahead')) return;
-
-
-            var value = ko.utils.unwrapObservable(valueAccessor());
-            var data = $elem.data();
-            data.matcher = function () { return true; };
-            $elem.typeahead(data);
-            $elem.on('keyup', function () {
-                var t = g = setTimeout(function () {
-                    if (t !== g) return;
-                    
-                    var typeahead = $elem.data('typeahead');
-                    var query = typeahead.query;
-
-                    if (!query) return;
-                    $.get(value.endpoint, { q: query }, function (data) {
-                        if (query !== typeahead.query) return;
-                        typeahead.source = data;
-                    });
-                }, 500);
-            });
-        }
-    };
     ko.bindingHandlers.datepicker = {
         init: function (element, valueAccessor) {
             var elem = $(element);
@@ -81,4 +54,46 @@
             });
         }
     };
+    ko.bindingHandlers.typeahead = {
+        init: function (element, valueAccessor) {
+            var g = 0;
+            var $elem = $(element);
+            if ($elem.data('typeahead')) return;
+
+            var data = $elem.data();
+            $elem.typeahead(data);
+            var typeahead = $elem.data('typeahead');
+            var value = ko.utils.unwrapObservable(valueAccessor());
+            for (var prop in typeahead) {
+                if (value[prop]) {
+                    typeahead[prop] = value[prop];
+                }
+            }
+            $elem.on('keyup', function () {
+                var t = g = setTimeout(function () {
+                    if (t !== g) return;
+
+                    var query = typeahead.query;
+                    if (!query) {
+                        if (value.filter) {
+                            typeahead.source = value.filter([]);
+                        } else {
+                            typeahead.source = [];
+                        }
+                        return;
+                    };
+                    $.get(value.endpoint, { q: query }, function (data) {
+                        if (query !== typeahead.query) return;
+                        if (value.filter) {
+                            typeahead.source = value.filter(data);
+                        } else {
+                            typeahead.source = data;
+                        }
+                        typeahead.lookup();
+                    });
+                }, 200);
+            });
+        }
+    };
+
 } ());

@@ -7,27 +7,18 @@ using Teamworks.Web.Helpers.Mvc;
 namespace Teamworks.Web.Controllers
 {
     [Authorize]
-    public class RavenDbController : Controller
+    public class RavenController : Controller
     {
-        public RavenDbController()
+        public RavenController()
         {
-            
         }
 
-        public RavenDbController(IDocumentSession session)
+        public RavenController(IDocumentSession session)
         {
             DbSession = session;
         }
 
-        private IDocumentSession _session;
-        protected IDocumentSession DbSession
-        {
-            set { _session = value; }
-            get
-            {
-                return _session ?? (_session = HttpContext.GetOrOpenCurrentSession());
-            }
-        }
+        protected IDocumentSession DbSession { get; set; }
 
         protected override void OnResultExecuted(ResultExecutedContext context)
         {

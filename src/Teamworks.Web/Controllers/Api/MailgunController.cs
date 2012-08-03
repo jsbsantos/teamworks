@@ -19,7 +19,7 @@ namespace Teamworks.Web.Controllers.Api
 {
     [DefaultHttpRouteConvention]
     [RoutePrefix("api/mailgun")]
-    public class MailgunController : RavenDbApiController
+    public class MailgunController : RavenApiController
     {
         [POST("teste")]
         public HttpResponseMessage PostAll([ModelBinder(typeof(MailgunModelBinderProvider))] Mailgun model)
@@ -40,7 +40,7 @@ namespace Teamworks.Web.Controllers.Api
             DbSession.Store(discussion);
 
             var ent = DbSession.Load<Entity>(project);
-            var list = ent.GetType().GetProperty("Discussions").GetValue(ent,null) as List<string>;
+            var list = ent.GetType().GetProperty("Messages").GetValue(ent,null) as List<string>;
             list.Add(discussion.Id);
             DbSession.SaveChanges();
             return new HttpResponseMessage(HttpStatusCode.OK);
@@ -65,7 +65,7 @@ namespace Teamworks.Web.Controllers.Api
                     var message = Core.Message.Forge(model.Message, person.Id);
                     message.Reply = messageId[1];
                     message.Id = discussion.GenerateNewTimeEntryId();
-                    discussion.Discussions.Add(message);
+                    discussion.Messages.Add(message);
 
                     var emails = DbSession.Load<Core.Person>(discussion.Subscribers)
                         .Select(x => x.Email).ToList();

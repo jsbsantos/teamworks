@@ -14,7 +14,7 @@ namespace Teamworks.Web.Controllers.Api
     [SecureFor("/projects")]
     [DefaultHttpRouteConvention]
     [RoutePrefix("api/projects/{projectid}/activities/{activityid}/todolist/{listid}/todo")]
-    public class TodoController : RavenDbApiController
+    public class TodoController : RavenApiController
     {
         /*
         public IEnumerable<Todo> Get(int id, int projectid, int activityid)

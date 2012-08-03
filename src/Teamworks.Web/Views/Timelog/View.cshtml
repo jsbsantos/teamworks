@@ -12,18 +12,24 @@
     <div class="span12 tabbable tabs-left">
         <ul class="nav nav-tabs" data-bind="foreach: tabs">
             <li data-bind="css: {active: $parent.selected() === $data }">
-                <a href="#" data-bind="click: $parent.select, text: description">2 days ago</a>
+                <a href="#" data-bind="click: $parent._select, text: description">2 days ago</a>
             </li>
         </ul>
         <div class="tab-content">
-            <p class="lead"> The registration will be made for day <strong data-bind="text: timelog.date.formatted"></strong>. 
+            <p class="lead"> The registration will be made for day <strong class="alert alert-info" style="padding: 0 10px;" data-bind="text: timelog.date.formatted"></strong>. 
                 <a class="hide" data-bind="datepicker: timelog.date.formatted, css: { hide: selected().calendar === false }" data-date-autoclose="true" data-date-format="dd/MM/yyyy" data-date-enddate="@DateTime.Today.ToString("dd/MM/yyyy")"><i class="icon-calendar"></i></a>
             </p>
             <form class="form-horizontal">
                 <div class="control-group">
-                    <label class="control-label" for="activity">Activity name</label>
+                    <label class="control-label" for="activity">Project</label>
                     <div class="controls">
-                        <input name="activity" placeholder="Activity" data-bind="value: timelog.activity_description" />
+                        <input id="project_name" name="project_name" placeholder="Project name" data-bind="" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="activity">Activity</label>
+                    <div class="controls">
+                        <input id="activity_name" name="activity_name" placeholder="Activity name" data-bind="disable: !timelog.project_id()" />
                     </div>
                 </div>
                 <div class="control-group">

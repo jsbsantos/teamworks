@@ -18,7 +18,7 @@ namespace Teamworks.Web.Controllers.Api
 {
     [SecureFor]
     [RoutePrefix("api/projects/{projectId}")]
-    public class DiscussionsController : RavenDbApiController
+    public class DiscussionsController : RavenApiController
     {
         #region Project Discussion
 

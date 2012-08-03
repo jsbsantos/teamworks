@@ -1,6 +1,10 @@
+using System.Security.Principal;
+using System.Threading;
 using Raven.Client.Embedded;
-using Raven.Client.Util;
-using Teamworks.Core.Services.RavenDb;
+using Teamworks.Core;
+using Teamworks.Core.Authentication;
+using Teamworks.Core.Services;
+using Teamworks.Web.Helpers;
 
 namespace Teamworks.Web.Test.Api.Fixture
 {
@@ -8,16 +12,20 @@ namespace Teamworks.Web.Test.Api.Fixture
     {
         public void Initialize()
         {
-            Database.Store =
+            if (Global.Store == null)
+            {
+                Global.Store =
                 new EmbeddableDocumentStore
-                    {
-                        ConnectionStringName = "RavenDB"
-                    }.Initialize();
+                {
+                     RunInMemory = true
+                }.Initialize();
+            }
+            AutoMapperConfiguration.Configure();
         }
 
         public void Store(object entity)
         {
-            using (var session = Database.Store.OpenSession())
+            using (var session = Global.Store.OpenSession())
             {
                 session.Store(entity);
                 session.SaveChanges();
@@ -26,10 +34,15 @@ namespace Teamworks.Web.Test.Api.Fixture
 
         public T Load<T>(string id)
         {
-            using (var session = Database.Store.OpenSession())
+            using (var session = Global.Store.OpenSession())
             {
                 return session.Load<T>(id);
             }
+        }
+
+        public void InjectPersonAsCurrentIdentity(Person person)
+        {
+            Thread.CurrentPrincipal = new GenericPrincipal(new PersonIdentity(person), new string[0]);
         }
     }
 }

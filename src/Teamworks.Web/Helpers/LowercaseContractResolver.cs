@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json.Serialization;
 
-namespace Teamworks.Web.Helpers.Api
+namespace Teamworks.Web.Helpers
 {
     public class LowercaseContractResolver : DefaultContractResolver
     {

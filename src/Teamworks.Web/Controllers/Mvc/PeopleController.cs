@@ -7,7 +7,7 @@ using Teamworks.Web.Models.Api;
 
 namespace Teamworks.Web.Controllers.Mvc
 {
-    public class PeopleController : RavenDbController
+    public class PeopleController : RavenController
     {
         [HttpGet]
         [ActionName("View")]

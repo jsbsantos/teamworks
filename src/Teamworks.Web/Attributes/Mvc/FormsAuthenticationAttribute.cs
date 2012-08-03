@@ -18,7 +18,7 @@ namespace Teamworks.Web.Attributes.Mvc
                 if (!string.IsNullOrEmpty(id))
                 {
                     var person = context.HttpContext
-                        .GetOrOpenCurrentSession().Load<Person>(id);
+                        .GetOrOpenSession().Load<Person>(id);
 
                     if (person != null)
                     {

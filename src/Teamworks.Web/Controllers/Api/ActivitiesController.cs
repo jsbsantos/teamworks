@@ -6,6 +6,7 @@ using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
 using Raven.Bundles.Authorization.Model;
+using Raven.Client;
 using Raven.Client.Authorization;
 using Raven.Client.Util;
 using Teamworks.Core.Services;
@@ -21,8 +22,18 @@ namespace Teamworks.Web.Controllers.Api
     [SecureFor]
     [DefaultHttpRouteConvention]
     [RoutePrefix("api/projects/{projectId}/activities")]
-    public class ActivitiesController : RavenDbApiController
+    public class ActivitiesController : RavenApiController
     {
+        public ActivitiesController()
+        {
+            
+        }
+
+        public ActivitiesController(IDocumentSession session)
+            :base(session)
+        {
+        }
+
         public IEnumerable<Activity> Get(int projectId)
         {
             var activities = DbSession

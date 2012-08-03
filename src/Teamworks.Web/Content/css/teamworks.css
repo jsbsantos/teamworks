@@ -3,7 +3,6 @@ body {
     box-sizing: border-box;
 }
 
-
 a { cursor: pointer; }
 section { padding-top: 40px; }
 
@@ -28,5 +27,7 @@ span input.seamless, span input.seamless:focus { padding: 0; border: none; verti
 .people .dropdown-menu > div { padding-left: 64px; }
 .people .thumbnails { margin-left: -5px; }
 .people .thumbnails > li { margin-left: 5px; }
+
+.typeahead img { padding-right: 4px; }
 
 .tc { text-align: center; }

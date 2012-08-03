@@ -20,7 +20,7 @@ namespace Teamworks.Web.Handlers
             if (!string.IsNullOrEmpty(identity.Name) &&
                 identity.AuthenticationType.Equals("Forms", StringComparison.OrdinalIgnoreCase))
             {
-                var person = request.GetOrOpenCurrentSession().Load<Person>(identity.Name);
+                var person = request.GetOrOpenSession().Load<Person>(identity.Name);
                 if (person != null)
                 {
                     identity = new PersonIdentity(person);

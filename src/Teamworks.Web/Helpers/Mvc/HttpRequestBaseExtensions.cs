@@ -6,7 +6,7 @@ namespace Teamworks.Web.Helpers.Mvc
 {
     public static class HttpContextBaseExtensions
     {
-        public static IDocumentSession GetOrOpenCurrentSession(this HttpContextBase context)
+        public static IDocumentSession GetOrOpenSession(this HttpContextBase context)
         {
             var session = context.Items[App.Keys.RavenDbSessionKey] as IDocumentSession;
             if (session == null)

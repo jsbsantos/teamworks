@@ -2,7 +2,7 @@
 
 namespace Teamworks.Web.Controllers.Mvc
 {
-    public class TimelogController : RavenDbController
+    public class TimelogController : RavenController
     {
         [HttpGet]
         [ActionName("View")]

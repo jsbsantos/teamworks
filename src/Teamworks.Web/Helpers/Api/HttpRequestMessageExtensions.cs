@@ -6,6 +6,7 @@ using Raven.Client;
 using Teamworks.Core;
 using Teamworks.Core.Authentication;
 using Teamworks.Core.Services;
+using Teamworks.Core.Services.Storage;
 
 namespace Teamworks.Web.Helpers.Api
 {
@@ -19,7 +20,7 @@ namespace Teamworks.Web.Helpers.Api
                 return null;
             }
 
-            var person = principal.Identity as PersonIdentity; 
+            var person = principal.Identity as PersonIdentity;
             return person == null ? null : person.Person;
         }
 
@@ -31,7 +32,7 @@ namespace Teamworks.Web.Helpers.Api
 
         public static void ThrowNotFound(this HttpRequestMessage request)
         {
-                throw new HttpResponseException(request.CreateResponse(HttpStatusCode.NotFound));
+            throw new HttpResponseException(request.CreateResponse(HttpStatusCode.NotFound));
         }
 
         public static void ThrowNotFoundIfNull(this HttpRequestMessage request, object obj)
@@ -42,27 +43,26 @@ namespace Teamworks.Web.Helpers.Api
             }
         }
 
-        public static IDocumentSession GetOrOpenCurrentSession(this HttpRequestMessage request)
+        public static IDocumentSession GetOrOpenSession(this HttpRequestMessage request)
         {
+            IDocumentSession session;
             object o;
             if (request.Properties.TryGetValue(App.Keys.RavenDbSessionKey, out o))
             {
                 if (o is IDocumentSession)
                 {
-                    return o as IDocumentSession;    
+                    return o as IDocumentSession;
                 }
             }
-            
-            var session = Global.Store.OpenSession();
+
+            session = Global.Store.OpenSession();
             request.Properties[App.Keys.RavenDbSessionKey] = session;
             return session;
         }
 
-        public static void SetCurrentSession(this HttpRequestMessage request, IDocumentSession session )
+        public static void SetCurrentSession(this HttpRequestMessage request, IDocumentSession session)
         {
             request.Properties[App.Keys.RavenDbSessionKey] = session;
         }
-
-
     }
 }

@@ -81,6 +81,9 @@
     <Reference Include="Raven.Client.Lightweight, Version=1.2.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <HintPath>..\..\packages\RavenDB.Client.1.2.2027-Unstable\lib\net40\Raven.Client.Lightweight.dll</HintPath>
     </Reference>
+    <Reference Include="RouteDebugger">
+      <HintPath>..\..\packages\routedebugger.2.1.4.0\lib\net40\RouteDebugger.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
@@ -146,6 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\AttributeRoutingHttp.cs" />
+    <Compile Include="Attributes\Api\RavenSessionAttribute.cs" />
     <Compile Include="Controllers\Api\ActivitiesController.cs" />
     <Compile Include="Attributes\Api\ExceptionAttribute.cs" />
     <Compile Include="Attributes\Api\ModelStateAttribute.cs" />
@@ -160,7 +164,7 @@
     </Compile>
     <Compile Include="Handlers\BasicAuthenticationHandler.cs" />
     <Compile Include="Handlers\FormsAuthenticationHandler.cs" />
-    <Compile Include="Handlers\RavenDbSessionHandler.cs" />
+    <Compile Include="Handlers\RavenSessionHandler.cs" />
     <Compile Include="Handlers\UnauthorizedHandler.cs" />
     <Compile Include="Controllers\Api\MailgunController.cs">
       <SubType>Code</SubType>
@@ -179,7 +183,7 @@
     <Compile Include="Models\Api\TodoList.cs" />
     <Compile Include="Models\Api\Permissions.cs" />
     <Compile Include="Controllers\Api\ProjectsController.cs" />
-    <Compile Include="Controllers\Api\TimelogController.cs">
+    <Compile Include="Controllers\Api\TimelogsController.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controllers\Mvc\AccountController.cs" />
@@ -189,8 +193,8 @@
     <Compile Include="Controllers\Mvc\HomeController.cs" />
     <Compile Include="Controllers\Mvc\PeopleController.cs" />
     <Compile Include="Controllers\Mvc\ProjectsController.cs" />
-    <Compile Include="Controllers\RavenDbApiController.cs" />
-    <Compile Include="Controllers\RavenDbController.cs" />
+    <Compile Include="Controllers\RavenApiController.cs" />
+    <Compile Include="Controllers\RavenController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -227,8 +231,10 @@
     <Content Include="Content\css\teamworks.css" />
     <Content Include="Content\font\fontawesome-webfont.svg" />
     <Content Include="Content\img\google.png" />
-    <Content Include="Content\js\app\Copy of tw.base.js" />
-    <Content Include="Content\js\app\tw.viewmodels.people.js" />
+    <Content Include="Content\js\app\tw.viewmodels.timelogs.js" />
+    <Content Include="Content\js\app\tw.viewmodels.discussions.js" />
+    <Content Include="Content\js\app\tw.viewmodels.activities.js" />
+    <Content Include="Content\js\app\tw.js" />
     <Content Include="Content\js\app\tw.viewmodels.projects.js" />
     <Content Include="Content\js\app\tw.d3.js" />
     <Content Include="Content\js\app\tw.base.js" />

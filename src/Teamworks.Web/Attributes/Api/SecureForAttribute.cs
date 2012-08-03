@@ -26,7 +26,7 @@ namespace Teamworks.Web.Attributes.Api
             var id = context.Request.GetCurrentPersonId();
             if (!string.IsNullOrEmpty(id))
             {
-                var session = context.Request.GetOrOpenCurrentSession();
+                var session = context.Request.GetOrOpenSession();
                 session.SecureFor(id, Operation);
             }
             base.OnAuthorization(context);

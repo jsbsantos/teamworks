@@ -10,6 +10,5 @@ namespace Teamworks.Web.Models.Api
         [StringLength(1024, MinimumLength = 1)]
         public string Content { get; set; }
         public DateTime Date { get; set; }
-        public Person Person { get; set; }
     }
 }

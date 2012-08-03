@@ -2,7 +2,7 @@
 
 namespace Teamworks.Web.Controllers.Mvc
 {
-    public class ProjectsController : RavenDbController
+    public class ProjectsController : RavenController
     {
         [HttpGet]
         [ActionName("View")]

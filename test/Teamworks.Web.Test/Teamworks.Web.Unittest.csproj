@@ -113,8 +113,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\HomeControllerUnittest.cs" />
     <Compile Include="Api\Fixture\DocumentStoreFixture.cs" />
-    <Compile Include="Api\ProjectsControllerTest.cs" />
+    <Compile Include="Api\ProjectsControllerUnittest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -20,7 +20,7 @@ namespace Teamworks.Web.Controllers.Api
 {
     [DefaultHttpRouteConvention]
     [RoutePrefix("api/projects")]
-    public class ProjectsController : RavenDbApiController
+    public class ProjectsController : RavenApiController
     {
         public ProjectsController()
         {   
@@ -110,10 +110,10 @@ namespace Teamworks.Web.Controllers.Api
                 .Load<Core.Project>(projectId);
 
             var people = DbSession
-                .Load<Core.Person>(
-                    model.Ids.Select(i => i.ToId("person")));
+                .Load<Core.Person>(model.Ids.Select(i => i.ToId("person")))
+                    .Where(p => p != null);
 
-            foreach (var person in people.Where(p => p != null))
+            foreach (var person in people)
             {
                 person.Roles.Add(project.Id);
                 project.People.Add(person.Id);

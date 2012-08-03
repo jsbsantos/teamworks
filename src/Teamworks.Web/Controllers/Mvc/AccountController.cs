@@ -13,7 +13,7 @@ using Teamworks.Web.Models.Mvc;
 namespace Teamworks.Web.Controllers.Mvc
 {
     [AllowAnonymous]
-    public class AccountController : RavenDbController
+    public class AccountController : RavenController
     {
         private const string ReturnUrlKey = "RETURN_URL_KEY";
 

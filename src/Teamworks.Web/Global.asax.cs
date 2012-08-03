@@ -45,6 +45,7 @@ namespace Teamworks.Web
         public static void RegisterGlobalApiFilters(System.Web.Http.Filters.HttpFilterCollection filters)
         {
             filters.Add(new ModelStateAttribute());
+            filters.Add(new RavenSessionAttribute());
 
             var filter = new ExceptionAttribute();
             filter.Mappings.Add(typeof (ReadVetoException),
@@ -56,7 +57,7 @@ namespace Teamworks.Web
 
         public  static void RegisterGlobalWebApiHandlers(Collection<DelegatingHandler> messageHandlers)
         {
-            messageHandlers.Add(new RavenDbSessionHandler());
+            messageHandlers.Add(new RavenSessionHandler());
             messageHandlers.Add(new BasicAuthenticationHandler());
             messageHandlers.Add(new FormsAuthenticationHandler());
             messageHandlers.Add(new UnauthorizedHandler());
@@ -111,6 +112,7 @@ namespace Teamworks.Web
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterGlobalApiFilters(GlobalConfiguration.Configuration.Filters);
             RegisterGlobalWebApiHandlers(GlobalConfiguration.Configuration.MessageHandlers);
+
             InitializeDocumentStore();
             
             RegisterRoutes(RouteTable.Routes);

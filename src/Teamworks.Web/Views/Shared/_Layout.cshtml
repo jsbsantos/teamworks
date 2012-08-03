@@ -14,9 +14,9 @@
             @Html.Identity()
             <div class="nav-collapse">
                 <ul class="nav">
-                    <li class="@Html.ActiveController("Home")"><a href="@Url.Action("View", "Home")"><i class="icon-home icon-white"></i>Home</a></li>
-                    <li class="@Html.ActiveController("Projects")"><a href="@Url.Action("View", "Projects", new {identifier = UrlParameter.Optional})">Projects</a></li>
-                    <li class="@Html.ActiveController("Timelog")"><a href="@Url.Action("View", "Timelog")">Time</a></li>
+                    <li class="@Html.ActiveController("Home")"><a href="@Url.RouteUrl("default", new { controller = "Home", action = "View"})"><i class="icon-home icon-white"></i>Home</a></li>
+                    <li class="@Html.ActiveController("Projects")"><a href="@Url.RouteUrl("default", new { controller = "Projects", action = "View" })">Projects</a></li>
+                    <li class="@Html.ActiveController("Timelog")"><a href="@Url.RouteUrl("default", new { controller = "Timelog", action = "View" })">Time</a></li>
                 </ul>
             </div>
 }

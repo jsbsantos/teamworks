@@ -2,52 +2,120 @@
 /// <reference path="~/Content/js/libs/knockout-2.0.0.debug.js" />
 /// <reference path="~/Content/js/libs/knockout.mapping.debug.js" />
 
-(function(obj) {
-    obj.Project = function(endpoint) {
+(function (obj) {
+    obj.Project = function (endpoint) {
         var people_endpoint = endpoint + '/people/';
         var activities_endpoint = endpoint + '/activities/';
         var discussions_endpoint = endpoint + '/discussions/';
 
         var self = this;
+        self.project = ko.mapping.fromJS({});
 
-        self.project = ko.mapping.fromJS({ });
-        
-        // people
         self.project.person = {
-            name: ko.observable(),
-            editing: ko.observable(),
-            invites: ko.observableArray([]),
-            _add: function () {
-                alert('');
-            }
-        };
-
-        self.project.people = ko.mapping.fromJS([]);
-        // activities
-        self.project.activity = {
-            name: ko.observable(),
+            text: ko.observable(),
             editing: ko.observable()
         };
-        
-        self.project.activities = ko.mapping.fromJS([]);
-        self.project.activities._create = function() {
-            $.ajax(activities_endpoint,
+
+        // people
+        self.project.people = ko.mapping.fromJS([]);
+        self.project.people._add = function () {
+            var model = {
+                emails: [],
+                ids: []
+            };
+
+            var value = self.project.person.text();
+            if (isNaN(value)) {
+                model.emails.push(value);
+            } else {
+                model.ids.push(value);
+            }
+
+            $.ajax(people_endpoint,
                 {
                     type: 'post',
-                    data: ko.toJSON({ 'name': self.project.activity.name() }),
+                    data: ko.toJSON(model),
                     statusCode: {
-                        201: /*created*/function(data) {
-                            self.project.activities.push(ko.mapping.fromJS(data));
-                            self.project.activity.name("");
+                        201: /*created*/function (data) {
+                            self.project.people.push(ko.mapping.fromJS(data));
+                            self.project.person.text("");
                         },
-                        400: /*bad request*/function() {
+                        400: /*bad request*/function () {
                             TW.app.alerts.push({ message: 'An error as ocurred.' });
                         }
                     }
                 }
             );
         };
-        self.project.activities._remove = function() {
+        self.project.people.typeahead = (function () {
+            var data = {};
+            return {
+                endpoint: '/api/people',
+                updater: function (item) {
+                    self.project.person.text(data[item].id);
+                    self.project.people._add();
+                    return "";
+                },
+                matcher: function () {
+                    return true;
+                },
+                filter: function (items) {
+                    data = {};
+                    var labels = $(items).map(function (i, item) {
+                        data[item.id] = item;
+                        return item.id;
+                    });
+                    return labels;
+                },
+                render: function (items) {
+                    var that = this;
+
+                    items = $(items).map(function (i, item) {
+                        var o = data[item];
+                        i = $(that.options.item).attr('data-value', item);
+
+                        var block = $(document.createElement('div'))
+                            .append('<div>' + that.highlighter(o.name) + '</div>')
+                            .append('<div>(@' + that.highlighter(o.username) + ')</div>');
+
+                        i.find('a')
+                            .append('<img style="padding-right: 4px" class="pull-left" src=' + o.gravatar + '&s=36' + '/>')
+                            .append(block);
+
+                        return i[0];
+                    });
+
+                    items.first().addClass('active');
+                    this.$menu.html(items);
+                    return this;
+                }
+            };
+        } ());
+        // activities
+        self.project.activity = {
+            name: ko.observable(),
+            editing: ko.observable()
+        };
+
+        self.project.activities = ko.mapping.fromJS([]);
+        self.project.activities._create = function () {
+            $.ajax(activities_endpoint,
+                {
+                    type: 'post',
+                    data: ko.toJSON({ 'name': self.project.activity.name() }),
+                    statusCode: {
+                        201: /*created*/function (data) {
+                            self.project.activities.push(ko.mapping.fromJS(data));
+                            self.project.activity.name("");
+                        },
+                        400: /*bad request*/function () {
+                            TW.app.alerts.push({ message: 'An error as ocurred.' });
+                        }
+                    }
+                }
+            );
+        };
+        self.project.activities._remove = function () {
             var activity = this;
             var message = 'You are about to delete ' + activity.name() + '.';
             if (confirm(message)) {
@@ -55,39 +123,39 @@
                     {
                         type: 'delete',
                         statusCode: {
-                            204: /*no content*/function() {
+                            204: /*no content*/function () {
                                 self.project.activities.remove(activity);
                             }
                         }
                     });
             }
         };
-        
+
         // discussions
         self.project.discussion = {
             name: ko.observable(),
             editing: ko.observable()
         };
-        
+
         self.project.discussions = ko.mapping.fromJS([]);
-        self.project.discussions._create = function() {
+        self.project.discussions._create = function () {
             $.ajax(discussions_endpoint,
                 {
                     type: 'post',
                     data: ko.toJSON({ 'name': self.project.discussion.name() }),
                     statusCode: {
-                        201: /*created*/function(data) {
+                        201: /*created*/function (data) {
                             self.project.discussions.push(ko.mapping.fromJS(data));
                             self.project.discussions.name("");
                         },
-                        400: /*bad request*/function() {
+                        400: /*bad request*/function () {
                             TW.app.alerts.push({ message: 'An error as ocurred.' });
                         }
                     }
                 }
             );
         };
-        self.project.discussions._remove = function() {
+        self.project.discussions._remove = function () {
             var discussion = this;
             var message = 'You are about to delete ' + discussion.name() + '.';
             if (confirm(message)) {
@@ -95,7 +163,7 @@
                     {
                         type: 'delete',
                         statusCode: {
-                            204: /*no content*/function() {
+                            204: /*no content*/function () {
                                 self.project.discussions.remove(discussion);
                             }
                         }
@@ -106,7 +174,7 @@
         $.ajax(endpoint, {
             async: false,
             statusCode: {
-                200: /*ok*/function(data) {
+                200: /*ok*/function (data) {
                     ko.mapping.fromJS(data, self.project);
                 }
             }
@@ -115,7 +183,7 @@
         $.ajax(people_endpoint, {
             async: false,
             statusCode: {
-                200: /*ok*/function(data) {
+                200: /*ok*/function (data) {
                     ko.mapping.fromJS(data, self.project.people);
                 }
             }
@@ -124,22 +192,22 @@
         $.ajax(activities_endpoint, {
             async: false,
             statusCode: {
-                200: /*ok*/function(data) {
+                200: /*ok*/function (data) {
                     ko.mapping.fromJS(data, self.project.activities);
                 }
             }
         });
-        
+
         $.ajax(discussions_endpoint, {
             async: false,
             statusCode: {
-                200: /*ok*/function(data) {
+                200: /*ok*/function (data) {
                     ko.mapping.fromJS(data, self.project.discussions);
                 }
             }
         });
     };
-}(TW.viewmodels));
+} (TW.viewmodels));
 
 (function(obj) {
     obj.Projects = function(endpoint) {
@@ -148,7 +216,7 @@
         self.name = ko.observable().extend({ required: "" });
         self.editing = ko.observable(false);
 
-        self.projects = ko.observableArray([]);
+        self.projects = ko.mapping.fromJS([]);
         self.projects._create = function() {
             $.ajax(endpoint,
                 {
@@ -185,10 +253,7 @@
         };
 
         $.getJSON(endpoint, function(projects) {
-            self.projects(
-                $.map(projects, function(item) {
-                    return new TW.viewmodels.models.Project(item);
-                }));
+            ko.mapping.fromJS(projects, self.projects);
         });
     };
 }(TW.viewmodels));
