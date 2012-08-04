@@ -257,3 +257,14 @@
         });
     };
 }(TW.viewmodels));
+
+(function(obj) {
+    obj.Project = function(endpoint) {
+        var self = this;
+
+        self.activities = ko.observableArray();
+        self.activities._remove = function() {
+            alert('remove');
+        };
+    };
+}(TW.viewmodels));

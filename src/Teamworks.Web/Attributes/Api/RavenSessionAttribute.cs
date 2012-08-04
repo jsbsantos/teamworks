@@ -4,6 +4,7 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
+using Teamworks.Core.Services;
 using Teamworks.Web.Helpers.Api;
 
 namespace Teamworks.Web.Attributes.Api

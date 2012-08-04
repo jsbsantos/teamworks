@@ -17,6 +17,23 @@ namespace Teamworks.Web.Controllers.Mvc
             }
             ViewBag.Endpoint = endpoint;
             return View("Activities");
+
+            /*
+            var cprojects = new Api.ProjectsController(DbSession);
+            var cactivities = new Api.ActivitiesController(DbSession);
+
+            ViewBag.Project = cprojects.Get(projectId);
+            if (identifier == null)
+            {
+                var activities = cactivities.Get(projectId);
+                return View("Activities", activities);
+            }
+
+            var tlController = new Api.TimelogsController(DbSession);
+            ViewBag.Timelogs = tlController.Get(projectId, identifier.Value);
+
+            return View("Activity", cactivities.Get(identifier.Value, projectId));
+            */
         }
     }
 }

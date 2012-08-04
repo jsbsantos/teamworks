@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
@@ -23,15 +26,9 @@ namespace Teamworks.Web.Controllers.Api
     [RoutePrefix("api/projects/{projectId}/activities")]
     public class ActivitiesController : RavenApiController
     {
-        public ActivitiesController()
-        {
-            
-        }
-
+        public ActivitiesController() {}
         public ActivitiesController(IDocumentSession session)
-            :base(session)
-        {
-        }
+            : base(session) {}
 
         public IEnumerable<Activity> Get(int projectId)
         {
@@ -39,7 +36,7 @@ namespace Teamworks.Web.Controllers.Api
                 .Query<Core.Activity, Activities_ByProject>()
                 .Where(a => a.Project == projectId.ToId("project"));
 
-            return Mapper.Map<IEnumerable<Core.Activity>, 
+            return Mapper.Map<IEnumerable<Core.Activity>,
                 IEnumerable<Activity>>(activities.ToList());
         }
 
@@ -48,7 +45,7 @@ namespace Teamworks.Web.Controllers.Api
             var activity = DbSession
                 .Query<Core.Activity, Activities_ByProject>()
                 .FirstOrDefault(a => a.Project == projectId.ToId("project")
-                    && a.Id == id.ToId("activity"));
+                                     && a.Id == id.ToId("activity"));
 
             Request.ThrowNotFoundIfNull(activity);
             return Mapper.Map<Core.Activity, Activity>(activity);
@@ -112,7 +109,7 @@ namespace Teamworks.Web.Controllers.Api
                 .Query<Core.Activity, Activities_ByProject>()
                 .FirstOrDefault(a => a.Project == projectId.ToId("project")
                                      && a.Id == id.ToId("activity"));
-            
+
             Request.ThrowNotFoundIfNull(activity);
 
             DbSession.Delete(activity);
@@ -152,10 +149,11 @@ namespace Teamworks.Web.Controllers.Api
             var activity = DbSession
                 .Query<Core.Activity, Activities_ByProject>()
                 .FirstOrDefault(a => a.Id == id.ToId("activity")
-                    && a.Project == projectId.ToId("project"));
+                                     && a.Project == projectId.ToId("project"));
 
             Request.ThrowNotFoundIfNull(activity);
-            return activity.DependencyGraph();;
+            return activity.DependencyGraph();
+            ;
         }
 
         [POST("{id}/precedences/{precedenceid}")]

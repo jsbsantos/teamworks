@@ -64,8 +64,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Authentication\PersonIdentity.cs" />
-    <Compile Include="Authentication\BasicAuthenticator.cs" />
-    <Compile Include="Authentication\AuthenticatorFactory.cs" />
     <Compile Include="People\Group.cs" />
     <Compile Include="Projects\Todo.cs" />
     <Compile Include="Projects\TodoList.cs" />
@@ -77,13 +75,10 @@
     <Compile Include="Projects\DependencyGraph.cs" />
     <Compile Include="Projects\Message.cs" />
     <Compile Include="Services\RavenDb\Indexes\Timelog_Filter.cs" />
-    <Compile Include="Services\Storage\IStorage.cs" />
     <Compile Include="Projects\Timelog.cs" />
     <Compile Include="Services\Global.cs" />
-    <Compile Include="Authentication\IAuthenticator.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Extensions\Validator.cs" />
-    <Compile Include="Services\Storage\Local.cs" />
     <Compile Include="People\Person.cs" />
     <Compile Include="Projects\Project.cs" />
     <Compile Include="Projects\Activity.cs" />

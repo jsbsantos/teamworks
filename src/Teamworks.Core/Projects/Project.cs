@@ -41,6 +41,7 @@ namespace Teamworks.Core
 
         public IEnumerable<ActivityRelation> DependencyGraph()
         {
+            /*
             var activities = Global.Database.CurrentSession.Load<Activity>(Activities);
             var relation = new List<ActivityRelation>();
 
@@ -48,6 +49,8 @@ namespace Teamworks.Core
                 relation.AddRange(activity.DependencyGraph());
 
             return relation.ToList();
+             * */
+            return null;
         }
     }
 }

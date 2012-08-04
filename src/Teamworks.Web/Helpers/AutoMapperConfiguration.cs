@@ -18,11 +18,7 @@ namespace Teamworks.Web.Helpers
 
             Mapper.CreateMap<Project, Core.Project>();
             Mapper.CreateMap<Core.Project, Project>()
-                .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier))
-                .ForMember(src => src.Token,
-                           opt =>
-                           opt.MapFrom(
-                               src => string.Format("tw+{0}@teamworks.mailgun.org", src.Token(Global.CurrentPerson.Id))));
+                .ForMember(src => src.Id, opt => opt.MapFrom(src => src.Identifier));
 
             #endregion
 

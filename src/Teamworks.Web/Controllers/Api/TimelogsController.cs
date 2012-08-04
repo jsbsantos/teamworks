@@ -7,6 +7,7 @@ using System.Web.Http;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
+using Raven.Client;
 using Teamworks.Core.Services;
 using Teamworks.Core.Services.RavenDb.Indexes;
 using Teamworks.Web.Helpers.Api;
@@ -15,20 +16,20 @@ using Teamworks.Web.Models.Api;
 namespace Teamworks.Web.Controllers.Api
 {
     [DefaultHttpRouteConvention]
-    [RoutePrefix("api/projects/{projectid}/activities/{activityid}/timelogs")]
+    [RoutePrefix("api/projects/{projectId}/activities/{activityId}/timelogs")]
     public class TimelogsController : RavenApiController
     {
-        /*
-        [GET("api/timelogs", IsAbsoluteUrl = true)]
-        public IEnumerable<Timelog> Get()
+        public TimelogsController()
         {
-            var timelogs =
-                DbSession.Query<Core.Timelog>()
-                    .Where(t => t.Person == Request.GetCurrentPersonId());
-                
-            return Map;
+            
         }
-        */
+
+        public TimelogsController(IDocumentSession session)
+            : base(session)
+        {
+            
+        }
+
         [NonAction]
         public Core.Activity GetActivity(int projectId, int activityId)
         {

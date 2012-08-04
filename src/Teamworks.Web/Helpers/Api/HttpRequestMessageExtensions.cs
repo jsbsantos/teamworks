@@ -2,11 +2,8 @@
 using System.Net.Http;
 using System.Threading;
 using System.Web.Http;
-using Raven.Client;
 using Teamworks.Core;
 using Teamworks.Core.Authentication;
-using Teamworks.Core.Services;
-using Teamworks.Core.Services.Storage;
 
 namespace Teamworks.Web.Helpers.Api
 {

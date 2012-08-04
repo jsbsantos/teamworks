@@ -162,9 +162,8 @@
     <Compile Include="Controllers\Api\EventsController.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Handlers\BasicAuthenticationHandler.cs" />
+    <Compile Include="Attributes\Api\AuthenticationHandler.cs" />
     <Compile Include="Attributes\Api\FormsAuthenticationFilter.cs" />
-    <Compile Include="Handlers\RavenSessionHandler.cs" />
     <Compile Include="Handlers\UnauthorizedHandler.cs" />
     <Compile Include="Controllers\Api\MailgunController.cs">
       <SubType>Code</SubType>
@@ -338,7 +337,12 @@
   <ItemGroup>
     <Content Include="Views\Shared\_Root.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Views\Projects\ProjectNew.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Projects\ProjectsNew.cshtml" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

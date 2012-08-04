@@ -24,7 +24,7 @@ namespace Teamworks.Core.Authentication
 
         public string AuthenticationType
         {
-            get { return "tw"; }
+            get { return "TW"; }
         }
 
         public bool IsAuthenticated

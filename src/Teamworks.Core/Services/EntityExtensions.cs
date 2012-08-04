@@ -6,7 +6,7 @@ namespace Teamworks.Core.Services
     {
          public static string ToId(this int id, string entity)
          {
-             return string.Format("{0}/{1}", Inflector.Pluralize(entity), id);
+             return string.Format("{0}/{1}", Inflector.Pluralize(entity).ToLowerInvariant(), id);
          }
 
         public static int ToIdentifier(this string str)

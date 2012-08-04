@@ -50,6 +50,7 @@ namespace Teamworks.Core
 
         public IEnumerable<ActivityRelation> DependencyGraph()
         {
+            /*
             var parents = Global.Database.CurrentSession.Load<Activity>(Dependencies).ToList();
             return Dependencies.Select(p =>
             {
@@ -63,6 +64,8 @@ namespace Teamworks.Core
                     Duration = parent.Duration,
                 };
             }).ToList();
+             * */
+            return null;
         }
 
     }

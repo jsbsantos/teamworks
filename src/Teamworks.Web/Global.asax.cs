@@ -42,8 +42,8 @@ namespace Teamworks.Web
 
         public static void RegisterGlobalApiFilters(System.Web.Http.Filters.HttpFilterCollection filters)
         {
-            filters.Add(new ModelStateAttribute());
             filters.Add(new RavenSessionAttribute());
+            filters.Add(new BasicAuthenticationAttribute());
             filters.Add(new FormsAuthenticationFilter());
 
             var filter = new ExceptionAttribute();
@@ -52,12 +52,12 @@ namespace Teamworks.Web
             filter.Mappings.Add(typeof (ArgumentException),
                                 new ExceptionAttribute.Rule {HasBody = true, Status = HttpStatusCode.BadRequest});
             filters.Add(filter);
+
+            filters.Add(new ModelStateAttribute());
         }
 
         public  static void RegisterGlobalWebApiHandlers(Collection<DelegatingHandler> messageHandlers)
         {
-            messageHandlers.Add(new RavenSessionHandler());
-            messageHandlers.Add(new BasicAuthenticationHandler());
             messageHandlers.Add(new UnauthorizedHandler());
         }
 

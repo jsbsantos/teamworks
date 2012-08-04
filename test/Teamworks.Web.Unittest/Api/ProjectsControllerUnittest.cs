@@ -13,11 +13,15 @@ namespace Teamworks.Web.Uni.Api
         [Fact]
         public void GetProjects()
         {
-            var controller = new ProjectsController(Global.Database.OpenSession());
-            var size = controller.Get().Count();
-            Fixture.Store(Core.Project.Forge("proj 1", "proj 1 description"));
+            using (var session = Global.Database.OpenSession())
+            {
+                var controller = new ProjectsController(session);
+                var size = controller.Get().Count();
+                Fixture.Store(Core.Project.Forge("proj 1", "proj 1 description"));
 
-            Assert.Equal(size, controller.Get().Count());
+                Assert.Equal(size, controller.Get().Count());
+            }
+            
         }
 
         [Fact]
