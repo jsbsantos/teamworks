@@ -42,12 +42,12 @@ namespace Teamworks.Web.Helpers.Mvc
                          "~/content/js/libs/knockout.mapping.js",
                          "~/content/js/app/tw.base.js",
                          "~/content/js/app/tw.knockout.js",
-                         "~/content/js/app/tw.js",
-                         "~/content/js/app/tw.d3.js",
                          "~/content/js/app/tw.viewmodels.projects.js",
                          "~/content/js/app/tw.viewmodels.activities.js",
                          "~/content/js/app/tw.viewmodels.timelogs.js",
-                         "~/content/js/app/tw.viewmodels.discussions.js");
+                         "~/content/js/app/tw.viewmodels.discussions.js",
+                         "~/content/js/app/tw.runner.js",
+                         "~/content/js/app/tw.d3.js");
 #if !DEBUG            
             js.Include("~/content/js/gac.js");
 #endif

@@ -29,7 +29,7 @@ namespace Teamworks.Web.Controllers.Mvc
                 return View("Activities", activities);
             }
 
-            var tlController = new Api.TimelogsController(DbSession);
+            var tlController = new Api.TimeController(DbSession);
             ViewBag.Timelogs = tlController.Get(projectId, identifier.Value);
 
             return View("Activity", cactivities.Get(identifier.Value, projectId));

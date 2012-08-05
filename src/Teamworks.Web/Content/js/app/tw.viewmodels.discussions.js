@@ -30,7 +30,7 @@
                                 self.message.content("");
                             },
                             400: /*bad request*/function() {
-                                TW.page.alerts.push({ message: 'An error as ocurred.' });
+                                tw.page.alerts.push({ message: 'An error as ocurred.' });
                             }
                         }
                     }
@@ -49,4 +49,4 @@
         })
         ;
     };
-}(TW.viewmodels));
+}(tw.viewmodels));

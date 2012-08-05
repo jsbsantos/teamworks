@@ -1,0 +1,67 @@
+﻿@using Newtonsoft.Json
+@using Teamworks.Web.Helpers
+@model Teamworks.Web.Models.Mvc.Timelogs.TimeViewModel
+
+@{
+    ViewBag.Title = "Time";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-header">
+    <h1>What have you done</h1>    
+</div>
+<div class="row">
+    <div class="tabbable tabs-left">
+        <ul class="nav nav-tabs span" data-bind="foreach: tabs">
+            <li data-bind="css: {active: $parent.selected() === $data }">
+                <a href="#" data-bind="click: $parent._select, text: description">2 days ago</a>
+            </li>
+        </ul>
+        <div class="tab-content span6">
+            <p class="lead"> The registration will be made for day <strong class="alert alert-info" style="padding: 0 10px;" data-bind="text: timelog.date.formatted"></strong>. 
+                <a class="hide" data-bind="datepicker: timelog.date.formatted, css: { hide: selected().calendar === false }" data-date-autoclose="true" data-date-format="dd/MM/yyyy" data-date-enddate="@DateTime.Today.ToString("dd/MM/yyyy")"><i class="icon-calendar"></i></a>
+            </p>
+            <form class="form-horizontal" data-bind="submit: timelogs._create">
+                <div class="control-group" data-bind="css: { error: typeahead.has_error }">
+                    <label class="control-label" for="activity">Activity</label>
+                    <div class="controls">
+                        <input id="project_name" autofocus="true" name="project_name" placeholder="Project, Activity" data-bind="typeahead: typeahead" />
+                        <span class="help-inline" data-bind="text: typeahead.validation_message"></span>
+                    </div>
+                </div>
+                <div class="control-group" data-bind="css: { error: timelog.description.has_error }">
+                    <label class="control-label" for="description">Description</label>
+                    <div class="controls">
+                        <input name="description" placeholder="Description" data-bind="value: timelog.description, valueUpdate: 'afterkeyup'" />
+                        <span class="help-inline" data-bind="text: timelog.description.validation_message"></span>
+                    </div>
+                </div>
+                <div class="control-group" data-bind="css: { error: timelog.duration.has_error }">
+                    <label class="control-label" for="duration">Duration</label>
+                    <div class="controls">
+                        <input name="duration" placeholder="20min" data-bind="value: timelog.duration, valueUpdate: 'afterkeyup'" />
+                        <span class="help-inline" data-bind="text: timelog.duration.validation_message"></span>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn-large btn-success" type="submit">Register</button>
+                </div>
+           </form>
+        </div>
+    </div>
+</div>
+
+<div class="page-header">
+        <h1>Where you spent your time</h1>
+ </div>
+ <div>
+    
+ </div>
+
+
+<script>
+    var viewmodel = function () {
+        var source = @Html.Raw(JsonConvert.SerializeObject(@Model.Source, Utils.JsonSettings()));
+        return new tw.viewmodels.Timelogs(source);
+    };
+</script>

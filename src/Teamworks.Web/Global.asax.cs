@@ -1,15 +1,18 @@
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Filters;
 using System.Web.Http.ModelBinding;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using LowercaseRoutesMVC4;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Raven.Client;
 using Raven.Client.Document;
 using Raven.Client.Exceptions;
@@ -17,6 +20,7 @@ using Raven.Client.Indexes;
 using Teamworks.Core.Services;
 using Teamworks.Core.Services.RavenDb.Indexes;
 using Teamworks.Web.Attributes.Api;
+using Teamworks.Web.Attributes.Api.Ordered;
 using Teamworks.Web.Attributes.Mvc;
 using Teamworks.Web.Handlers;
 using Teamworks.Web.Helpers;
@@ -40,7 +44,7 @@ namespace Teamworks.Web
             filters.Add(new FormsAuthenticationAttribute(), 1);
         }
 
-        public static void RegisterGlobalApiFilters(System.Web.Http.Filters.HttpFilterCollection filters)
+        public static void RegisterGlobalApiFilters(HttpFilterCollection filters)
         {
             filters.Add(new RavenSessionAttribute());
             filters.Add(new BasicAuthenticationAttribute());
@@ -66,10 +70,15 @@ namespace Teamworks.Web
             configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
 
             var json = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
-            json.SerializerSettings.ContractResolver = new LowercaseContractResolver();
+            json.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             json.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
 
             configuration.Services.Add(typeof(ModelBinderProvider), new MailgunModelBinderProvider());
+
+            configuration.Services.Add(typeof(System.Web.Http.Filters.IFilterProvider), new OrderedFilterProvider());
+            var providers = configuration.Services.GetFilterProviders();
+            var defaultprovider = providers.First(i => i is ActionDescriptorFilterProvider);
+            configuration.Services.Remove(typeof(System.Web.Http.Filters.IFilterProvider), defaultprovider);
         }
 
         public static void RegisterRoutes(RouteCollection routes)

@@ -1,7 +1,4 @@
-﻿using System.Linq;
-using System.Web.Mvc;
-using Raven.Client.Linq;
-using Teamworks.Core.Services.RavenDb.Indexes;
+﻿using System.Web.Mvc;
 
 namespace Teamworks.Web.Controllers.Mvc
 {
@@ -19,6 +16,7 @@ namespace Teamworks.Web.Controllers.Mvc
             return View("Welcome");
         }
 
+        [HttpGet]
         public ActionResult Welcome()
         {
             return View();

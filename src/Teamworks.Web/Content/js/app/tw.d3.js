@@ -1,23 +1,23 @@
-﻿var TW = TW || { };
-TW.Gantt = function (jsonendpoint) {
+﻿var tw = tw || { };
+tw.Gantt = function (jsonendpoint) {
     //vertical_ticks - multiples of 5
-    var vertical_ticks = 20, horizontal_ticks = 0/*also used as element count*/,
-        chart_width = $("#chart").width() * 0.98/*width=100%*/, chart_height = 150,
-        chart_start_padx = 55, chart_start_pady = 20, headeroffset = 10,
+    var verticalTicks = 20, horizontalTicks = 0/*also used as element count*/,
+        chartWidth = $("#chart").width() * 0.98/*width=100%*/, chartHeight = 150,
+        chartStartPadx = 55, chartStartPady = 20, headeroffset = 10,
         padX = 0, padY = 2,
-        box_width = 0.1, box_height = 13, boxoffset = -box_height - 0.5,
-        total_duration = 0;
+        boxWidth = 0.1, boxHeight = 13, boxoffset = -boxHeight - 0.5,
+        totalDuration = 0;
 
     var x = undefined; /*d3.scale.linear()
         .domain([0, total_duration || (chart_width - chart_start_padx) / 10])
         .range([chart_start_padx, chart_width]);*/
 
     var bubble = d3.layout.pack()
-        .size(["100%", chart_height]);
+        .size(["100%", chartHeight]);
 
     var vis = d3.select("#chart").append("svg")
         .attr("width", "100%")
-        .attr("height", chart_height + chart_start_pady);
+        .attr("height", chartHeight + chartStartPady);
 
     //draw gantt chart bars
     d3.json(jsonendpoint, function (json) {
@@ -39,7 +39,7 @@ TW.Gantt = function (jsonendpoint) {
 
         //item estimated duration box
         node.append("rect").attr("x", function (d, i) {
-            return chart_start_padx + d.tw_x;
+            return chartStartPadx + d.tw_x;
         }).attr("y", function (d, i) {
             return d.tw_y + boxoffset + padY * i + padY / 2; //pady/2 -> ballance padding
         }).attr("width", function (d) {
@@ -54,7 +54,7 @@ TW.Gantt = function (jsonendpoint) {
             .style("stroke-opacity", 0.5);
 
         node.append("rect").attr("x", function (d, i) {
-            return chart_start_padx + d.tw_x + 1;
+            return chartStartPadx + d.tw_x + 1;
         }).attr("y", function (d, i) {
             return (d.tw_y + boxoffset + padY * i + padY / 2) + (d.tw_h - 4); //pady/2 -> ballance padding
         }).attr("width", function (d) {
@@ -72,7 +72,7 @@ TW.Gantt = function (jsonendpoint) {
         node.append("text").text(function (d) {
             return d.tw_element.duration + "h";
         }).attr("x", function (d, i) {
-            return chart_start_padx + d.tw_x + 5;
+            return chartStartPadx + d.tw_x + 5;
         }).attr("y", function (d, i) {
             return d.tw_y + padY * i - 3;
         }).attr("dx", function (d, i) {
@@ -90,39 +90,39 @@ TW.Gantt = function (jsonendpoint) {
     function drawlines() {
 
         vis.selectAll("linev")
-            .data(x.ticks(vertical_ticks))
+            .data(x.ticks(verticalTicks))
             .enter().insert("line", ":first-child")
-            .attr("x1", x).attr("y1", chart_start_pady)
-            .attr("x2", x).attr("y2", chart_height - chart_start_pady - padY - 1)
+            .attr("x1", x).attr("y1", chartStartPady)
+            .attr("x2", x).attr("y2", chartHeight - chartStartPady - padY - 1)
             .attr("width", 1)
             .style("stroke", "#ccc");
 
         vis.selectAll("header_text")
-            .data(x.ticks(vertical_ticks))
+            .data(x.ticks(verticalTicks))
             .enter().insert("text", ":first-child")
             .attr("x", x)
-            .attr("y", chart_start_pady)
+            .attr("y", chartStartPady)
             .attr("dy", -3)
             .attr("text-anchor", "middle")
             .text(function (d, i) { return d; })
             .attr("font-size", "0.8em");
 
         var y = d3.scale.linear()
-            .domain([0, horizontal_ticks * box_height])
-            .range([chart_start_pady, chart_height + chart_start_padx]);
+            .domain([0, horizontalTicks * boxHeight])
+            .range([chartStartPady, chartHeight + chartStartPadx]);
 
         vis.selectAll("lineh")
-            .data(y.ticks(horizontal_ticks))
+            .data(y.ticks(horizontalTicks))
             .enter().insert("line", ":first-child")
             .attr("x1", 0)
             .attr("y1", function (d, i) {
-                return chart_start_pady + headeroffset + ((box_height + padY) * i) + i;
+                return chartStartPady + headeroffset + ((boxHeight + padY) * i) + i;
             })
             .attr("x2", function (d, i) {
-                return chart_width;
+                return chartWidth;
             })
             .attr("y2", function (d, i) {
-                return chart_start_pady + headeroffset + ((box_height + padY) * i) + i;
+                return chartStartPady + headeroffset + ((boxHeight + padY) * i) + i;
             })
             .attr("width", 1)
             .style("stroke", "#ccc");
@@ -132,8 +132,8 @@ TW.Gantt = function (jsonendpoint) {
             .enter().insert("line", ":first-child")
             .attr("x1", 0)
             .attr("y1", padY)
-            .attr("x2", chart_start_padx + padX)
-            .attr("y2", chart_start_pady + headeroffset)
+            .attr("x2", chartStartPadx + padX)
+            .attr("y2", chartStartPady + headeroffset)
             .attr("width", 1)
             .style("stroke", "#ccc");
 
@@ -178,14 +178,14 @@ TW.Gantt = function (jsonendpoint) {
 
         var lasty = headeroffset;
         $.each(elements, function (index, element) {
-            horizontal_ticks += 1;
-            lasty = lasty + box_height;
+            horizontalTicks += 1;
+            lasty = lasty + boxHeight;
 
             var e = {
                 tw_x: getDurationOffset(element),
-                tw_y: lasty + horizontal_ticks + chart_start_pady,
+                tw_y: lasty + horizontalTicks + chartStartPady,
                 tw_w: element.duration,
-                tw_h: box_height,
+                tw_h: boxHeight,
                 tw_element: element,
                 tw_real_w: element.timeused
             };
@@ -199,19 +199,19 @@ TW.Gantt = function (jsonendpoint) {
             if (durations[elem.tw_x] == undefined
                 || durations[elem.tw_x] < elem.tw_element.duration) {
                 durations[elem.tw_x] = elem.tw_element.duration;
-                total_duration += elem.tw_element.duration;
+                totalDuration += elem.tw_element.duration;
             }
         });
 
         x = d3.scale.linear()
-            .domain([0, total_duration || (chart_width - chart_start_padx) / 10])
-            .range([chart_start_padx, chart_width]);
-        box_width = x(1) - chart_start_padx;
+            .domain([0, totalDuration || (chartWidth - chartStartPadx) / 10])
+            .range([chartStartPadx, chartWidth]);
+        boxWidth = x(1) - chartStartPadx;
 
         $.each(flattened, function (index, elem) {
-            elem.tw_w *= box_width;
-            elem.tw_real_w *= box_width;
-            elem.tw_x *= box_width;
+            elem.tw_w *= boxWidth;
+            elem.tw_real_w *= boxWidth;
+            elem.tw_x *= boxWidth;
         });
 
         function getDurationOffset(elem, acc) {
