@@ -6,27 +6,20 @@ using Raven.Client.Indexes;
 
 namespace Teamworks.Core.Services.RavenDb.Indexes
 {
-    public class Activities_Duration : AbstractIndexCreationTask<Activity, Activities_Duration.Result>
+    public class Activities_Duration_Result : Core.Activity
     {
-        public class Result
-        {
-            public string Activity { get; set; }
-            public string Name { get; set; }
-            public string Description { get; set; }
-            public int Duration { get; set; }
-            public DateTime StartDate { get; set; }
-            public string Project { get; set; }
-            public int TimeUsed { get; set; }
-            public List<string> Dependencies { get; set; }
-        }
+        public int TimeUsed { get; set; }
+    }
 
+    public class Activities_Duration : AbstractIndexCreationTask<Activity, Activities_Duration_Result>
+    {
         public Activities_Duration()
         {
             Map = activities => from act in activities
                                 select new
                                            {
                                                TimeUsed = act.Timelogs.Sum(x=>x.Duration),
-                                               Activity = act.Id,
+                                               Id = act.Id,
                                                Project = act.Project,
                                                Duration = act.Duration,
                                                StartDate = act.StartDate,
@@ -36,12 +29,12 @@ namespace Teamworks.Core.Services.RavenDb.Indexes
                                            };
 
             Reduce = activities => from act in activities
-                                   group act by act.Activity
+                                   group act by act.Id
                                    into g
                                    select new
                                               {
                                                   TimeUsed = g.Select(p => p.TimeUsed).First(),
-                                                  Activity = g.Key,
+                                                  Id = g.Key,
                                                   Project = g.Select(p => p.Project).First(),
                                                   Duration = g.Select(p => p.Duration).First(),
                                                   StartDate = g.Select(p => p.StartDate).First(),
@@ -49,8 +42,8 @@ namespace Teamworks.Core.Services.RavenDb.Indexes
                                                   Description = g.Select(p => p.Description).First(),
                                                   Dependencies = g.Select(p => p.Dependencies).FirstOrDefault()
                                               };
-
-            Index(x => x.Activity, FieldIndexing.Analyzed);
+           
+            Index(x => x.Id, FieldIndexing.Analyzed);
         }
     }
 }

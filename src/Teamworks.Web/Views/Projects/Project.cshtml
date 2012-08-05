@@ -2,6 +2,7 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <div id="chart"></div>
 
 <div class="row">
@@ -71,13 +72,13 @@
             <!-- ko template: { name: 'discussion-template', foreach: project.discussions } -->
             <!-- /ko -->
             <!--
-            <div class="more-options">To create a new discussion you can send an email to  
-                <a id="email_discussion" target="_blank" data-bind="attr: { href: 'mailto:' + project.token() }">
-                    an email created just for you
-                </a>
-                <i class="icon-copy"></i>
-            </div>
-            -->
+                <div class="more-options">To create a new discussion you can send an email to  
+                    <a id="email_discussion" target="_blank" data-bind="attr: { href: 'mailto:' + project.token() }">
+                        an email created just for you
+                    </a>
+                    <i class="icon-copy"></i>
+                </div>
+                -->
             <script type="text/html" id="discussion-template">
                 <div>
                     <button class="close" data-bind="click: $parent.project.discussions._remove">&times;</button>
@@ -97,7 +98,7 @@
             <div class="hide" data-bind="css: { hide: !project.person.editing() }">
                 <form class="form-horizontal" data-bind="submit: project.people._add">
                     <input autocomplete="off" placeholder="Who do you wanto to add" 
-                          data-items="4" class="span2" data-bind="value: project.person.text, valueUpdate: 'afterkeyup', typeahead: project.people.typeahead" />
+                           data-items="4" class="span2" data-bind="value: project.person.text, valueUpdate: 'afterkeyup', typeahead: project.people.typeahead" />
                     <a class="btn-mini" data-bind="click: function() { project.person.editing(false) }"><i class="icon-remove"></i></a> 
                 </form>
             </div>
@@ -127,5 +128,9 @@
 <script>
     var viewmodel = function() {
         return new tw.viewmodels.Project('@ViewBag.Endpoint');
+    };
+
+    var gantt = function () {
+        return new TW.graphics.Gantt(@Html.Raw(ViewBag.ChartData));
     };
 </script>

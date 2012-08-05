@@ -68,7 +68,9 @@
     <Compile Include="Projects\Todo.cs" />
     <Compile Include="Projects\TodoList.cs" />
     <Compile Include="Projects\Event.cs" />
+    <Compile Include="Services\Executor.cs" />
     <Compile Include="Services\EntityExtensions.cs" />
+    <Compile Include="Services\RavenDb\DocumentStoreListener.cs" />
     <Compile Include="Services\RavenDb\Indexes\Activities_ByProject.cs" />
     <Compile Include="Services\RavenDb\Indexes\Activities_Duration.cs" />
     <Compile Include="Services\RavenDb\Indexes\Activities_ByPerson.cs" />

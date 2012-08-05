@@ -4,6 +4,7 @@ namespace Teamworks.Core.Services
 {
     public static class Global
     {
+        public static Executor Executor { get; set; }
 
         public static IDocumentStore Database;
 

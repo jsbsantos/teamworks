@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
@@ -124,9 +121,10 @@ namespace Teamworks.Web.Controllers.Api
             if (parent == null)
                 return duration;
 
-            return parent.Dependencies.Count == 0
-                       ? parent.Duration
-                       : GetAccumulatedDuration(domain, parent, parent.Duration);
+            return /*parent.Dependencies.Count == 0
+                       ? duration
+                       : */
+                GetAccumulatedDuration(domain, parent, duration + parent.Duration);
         }
 
         private void OffsetDuration(List<Core.Activity> domain, Core.Activity parent, int offset)
@@ -152,8 +150,9 @@ namespace Teamworks.Web.Controllers.Api
                                      && a.Project == projectId.ToId("project"));
 
             Request.ThrowNotFoundIfNull(activity);
-            return activity.DependencyGraph();
-            ;
+            
+            var dependencies = DbSession.Load<Core.Activity>(activity.Dependencies).ToList();
+            return activity.DependencyGraph(dependencies);
         }
 
         [POST("{id}/precedences/{precedenceid}")]

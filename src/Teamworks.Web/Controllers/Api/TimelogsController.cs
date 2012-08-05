@@ -19,7 +19,7 @@ namespace Teamworks.Web.Controllers.Api
     [RoutePrefix("api/projects/{projectId}/activities/{activityId}/timelogs")]
     public class TimelogsController : RavenApiController
     {
-        public TimelogsController()
+        public TimelogsController() 
         {
             
         }
@@ -33,10 +33,14 @@ namespace Teamworks.Web.Controllers.Api
         [NonAction]
         public Core.Activity GetActivity(int projectId, int activityId)
         {
-            return DbSession
-               .Query<Core.Activity, Activities_ByProject>()
-               .FirstOrDefault(a => a.Project == projectId.ToId("projectId")
-                   && a.Id == activityId.ToId("activityId"));
+            var target = DbSession
+                .Include<Core.Activity>(a => a.Project)
+                .Load<Core.Activity>(activityId);
+
+            if (target.Project.ToIdentifier() != projectId)
+                Request.ThrowNotFoundIfNull(target);
+
+            return target;
         }
 
         public IEnumerable<Timelog> Get(int projectId, int activityId)
@@ -45,12 +49,11 @@ namespace Teamworks.Web.Controllers.Api
             Request.ThrowNotFoundIfNull(activity);
             return Mapper.Map<IList<Core.Timelog>, IEnumerable<Timelog>>(activity.Timelogs);
         }
-        
+
         public HttpResponseMessage Post(
-             int projectId, int activityId, Timelog model)
+            int projectId, int activityId, Timelog model)
         {
             var activity = GetActivity(projectId, activityId);
-
 
             DateTime date;
             if (!DateTime.TryParse(model.Date, out date))
@@ -65,6 +68,7 @@ namespace Teamworks.Web.Controllers.Api
             var value = Mapper.Map<Core.Timelog, Timelog>(timelog);
             return Request.CreateResponse(HttpStatusCode.Created, value);
         }
+
         public HttpResponseMessage Delete(int id, int projectId, int activityId)
         {
             var activity = GetActivity(projectId, activityId);

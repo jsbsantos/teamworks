@@ -48,10 +48,8 @@ namespace Teamworks.Core
                        };
         }
 
-        public IEnumerable<ActivityRelation> DependencyGraph()
+        public IEnumerable<ActivityRelation> DependencyGraph(IEnumerable<Activity> parents)
         {
-            /*
-            var parents = Global.Database.CurrentSession.Load<Activity>(Dependencies).ToList();
             return Dependencies.Select(p =>
             {
                 var parent = parents.Single(x => p.Equals(x.Id,
@@ -64,8 +62,6 @@ namespace Teamworks.Core
                     Duration = parent.Duration,
                 };
             }).ToList();
-             * */
-            return null;
         }
 
     }

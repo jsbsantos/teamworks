@@ -46,8 +46,8 @@ namespace Teamworks.Web.Controllers.Api
             message.Id = discussion.GenerateNewTimeEntryId();
 
             discussion.Messages.Add(message);
-            discussion.Notify(message, DbSession.Load<Core.Person>(discussion.Subscribers)
-                        .Select(x => x.Email).ToList());
+            //discussion.Notify(message, DbSession.Load<Core.Person>(discussion.Subscribers)
+            //            .Select(x => x.Email).ToList());
 
             var value = Mapper.Map<Core.Message, Message>(message);
             return Request.CreateResponse(HttpStatusCode.Created, value);
@@ -63,10 +63,9 @@ namespace Teamworks.Web.Controllers.Api
             messages.Remove(message);
             return Request.CreateResponse(HttpStatusCode.NoContent);
         }
-        
-/*
-        #region Activity
 
+        #region Activity
+/*
         private Core.Discussion LoadTaskDiscussion(int projectid, int activityid, int discussionid)
         {
             var project = DbSession
@@ -132,8 +131,8 @@ namespace Teamworks.Web.Controllers.Api
             discussion.Messages.Remove(message);
             return Request.CreateResponse(HttpStatusCode.NoContent);
         }
-
-        #endregion
         */
+        #endregion
+
     }
 }
