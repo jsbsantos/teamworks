@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Raven.Bundles.Authorization.Model;
@@ -39,13 +40,12 @@ namespace Teamworks.Core
                                 });
         }
 
-        public IEnumerable<ActivityRelation> DependencyGraph()
+        public IEnumerable<ActivityRelation> DependencyGraph(List<Activity> activities)
         {
-            var activities = Global.Database.CurrentSession.Load<Activity>(Activities);
             var relation = new List<ActivityRelation>();
 
             foreach (var activity in activities)
-                relation.AddRange(activity.DependencyGraph());
+                relation.AddRange(activity.DependencyGraph(activities));
 
             return relation.ToList();
         }

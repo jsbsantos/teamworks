@@ -25,11 +25,10 @@ namespace Teamworks.Web.Controllers.Api
     {
         public ActivitiesController()
         {
-            
         }
 
         public ActivitiesController(IDocumentSession session)
-            :base(session)
+            : base(session)
         {
         }
 
@@ -39,7 +38,7 @@ namespace Teamworks.Web.Controllers.Api
                 .Query<Core.Activity, Activities_ByProject>()
                 .Where(a => a.Project == projectId.ToId("project"));
 
-            return Mapper.Map<IEnumerable<Core.Activity>, 
+            return Mapper.Map<IEnumerable<Core.Activity>,
                 IEnumerable<Activity>>(activities.ToList());
         }
 
@@ -48,7 +47,7 @@ namespace Teamworks.Web.Controllers.Api
             var activity = DbSession
                 .Query<Core.Activity, Activities_ByProject>()
                 .FirstOrDefault(a => a.Project == projectId.ToId("project")
-                    && a.Id == id.ToId("activity"));
+                                     && a.Id == id.ToId("activity"));
 
             Request.ThrowNotFoundIfNull(activity);
             return Mapper.Map<Core.Activity, Activity>(activity);
@@ -112,7 +111,7 @@ namespace Teamworks.Web.Controllers.Api
                 .Query<Core.Activity, Activities_ByProject>()
                 .FirstOrDefault(a => a.Project == projectId.ToId("project")
                                      && a.Id == id.ToId("activity"));
-            
+
             Request.ThrowNotFoundIfNull(activity);
 
             DbSession.Delete(activity);
@@ -127,9 +126,10 @@ namespace Teamworks.Web.Controllers.Api
             if (parent == null)
                 return duration;
 
-            return parent.Dependencies.Count == 0
-                       ? parent.Duration
-                       : GetAccumulatedDuration(domain, parent, parent.Duration);
+            return /*parent.Dependencies.Count == 0
+                       ? duration
+                       : */
+                GetAccumulatedDuration(domain, parent, duration + parent.Duration);
         }
 
         private void OffsetDuration(List<Core.Activity> domain, Core.Activity parent, int offset)
@@ -152,10 +152,13 @@ namespace Teamworks.Web.Controllers.Api
             var activity = DbSession
                 .Query<Core.Activity, Activities_ByProject>()
                 .FirstOrDefault(a => a.Id == id.ToId("activity")
-                    && a.Project == projectId.ToId("project"));
+                                     && a.Project == projectId.ToId("project"));
 
             Request.ThrowNotFoundIfNull(activity);
-            return activity.DependencyGraph();;
+
+            var dependencies = DbSession.Load<Core.Activity>(activity.Dependencies).ToList();
+
+            return activity.DependencyGraph(dependencies);
         }
 
         [POST("{id}/precedences/{precedenceid}")]

@@ -1,247 +1,223 @@
-﻿var TW = TW || { };
-TW.Gantt = function (jsonendpoint) {
-    //vertical_ticks - multiples of 5
-    var vertical_ticks = 20, horizontal_ticks = 0/*also used as element count*/,
-        chart_width = $("#chart").width() * 0.98/*width=100%*/, chart_height = 150,
-        chart_start_padx = 55, chart_start_pady = 20, headeroffset = 10,
-        padX = 0, padY = 2,
-        box_width = 0.1, box_height = 13, boxoffset = -box_height - 0.5,
-        total_duration = 0;
+﻿
+TW.graphics.Gantt = function (data, options) {
+    var self = this;
 
-    var x = undefined; /*d3.scale.linear()
-        .domain([0, total_duration || (chart_width - chart_start_padx) / 10])
-        .range([chart_start_padx, chart_width]);*/
+    //privates
+    var total_duration = [];
+    var total = 0;
+    var width = 0;
 
-    var bubble = d3.layout.pack()
-        .size(["100%", chart_height]);
+    for (var e in data) {
+        var d = Math.max(data[e].Duration, data[e].TimeUsed);
+        if (total_duration[data[e].StartDate] == undefined) {
+            total_duration[data[e].StartDate] = d;
+            total += d;
+        } else if (d > total_duration[data[e].StartDate]) {
+            total += d - total_duration[data[e].StartDate];
+        }
+    }
 
-    var vis = d3.select("#chart").append("svg")
-        .attr("width", "100%")
-        .attr("height", chart_height + chart_start_pady);
+    var _default = {
+        //draw area default config
+        graphic_width: $("#chart").width(),
+        graphic_height: 150,
+        graphic_start_x: 0,
+        graphic_start_y: 15,
+        //item default config
+        item_unit_width: 10,
+        item_estimated_height: 15,
+        item_real_height: 4,
+        item_padding_x: 1,
+        item_padding_y: 3,
 
-    //draw gantt chart bars
-    d3.json(jsonendpoint, function (json) {
-        var node = vis.selectAll("rect")
-            .data(bubble.nodes(flatten(json))
-                    .filter(function (d) { return !d.children; }))
+        //item initial offset
+        item_offset_x: 50,
+        item_offset_y: 3,
+
+        //grid setup
+        grid_vertical_lines: 20,
+        grid_horizontal_lines: data.length + 1,
+        grid_header_offset: 13
+    };
+
+    //configuration
+    self.options = $.extend(true, _default, options);
+
+    self.graphic_width = self.options.graphic_width || self.graphic_width || 0;
+    self.graphic_height = self.options.graphic_height || self.graphic_height || 0;
+    self.graphic_start_x = self.options.graphic_start_x || self.graphic_start_x || 0;
+    self.graphic_start_y = self.options.graphic_start_y || self.graphic_start_y || 0;
+
+    self.item_unit_width = self.options.item_unit_width || self.graphic_width || 0;
+    self.item_estimated_height = self.options.item_estimated_height || self.item_estimated_height || 0;
+    self.item_real_height = self.options.item_real_height || self.item_real_height || 0;
+    self.item_padding_x = self.options.item_padding_x || self.item_padding_x || 0;
+    self.item_padding_y = self.options.item_padding_y || self.item_padding_y || 0;
+
+    self.item_offset_x = self.options.item_offset_x || self.item_offset_x || 0;
+    self.item_offset_y = self.options.item_offset_y || self.item_offset_y || 0;
+
+    self.grid_vertical_lines = self.options.grid_vertical_lines || self.grid_vertical_lines || 0;
+    self.grid_horizontal_lines = self.options.grid_horizontal_lines || self.grid_horizontal_lines || 0;
+    self.grid_header_offset = self.options.grid_header_offset || self.grid_header_offset || 0;
+
+    self.data = data;
+    width = self.graphic_width * .98;
+    self.item_unit_width = (width - self.item_offset_x - self.item_padding_x) / total;
+
+    //d3 initialization
+    var layout = d3.layout.pack()
+        .size([self.graphic_width, self.graphic_height]);
+
+    var graphic = d3.select("#chart").append("svg")
+        .attr("width", self.graphic_width)
+        .attr("height", self.graphic_height + self.graphic_start_y);
+
+    //drawing the boxes
+    DrawChart(graphic);
+
+    //drawing the chart axis
+    DrawGrid(graphic);
+
+    function DrawChart(g) {
+
+        var node = g.selectAll("rect")
+            .data(self.data)
             .enter();
 
         //item name
-        node.append("text").text(function (d) {
-            return d.tw_element.name;
-        }).attr("x", function (d, i) {
-            return 0;
-        }).attr("y", function (d, i) {
-            return d.tw_y + padY * i - 2; //2 -> line offset
-        })
+        node.append("text")
+            .text(function (d, i) {
+                return d.Name;
+            }).attr("x", function (d, i) {
+                return 0;
+            }).attr("y", function (d, i) {
+                return self.grid_header_offset + self.graphic_start_y + (self.item_padding_y + self.item_estimated_height) * i;
+            })
             .attr("fill", "black")
             .attr("font-size", "0.9em");
 
-        //item estimated duration box
-        node.append("rect").attr("x", function (d, i) {
-            return chart_start_padx + d.tw_x;
-        }).attr("y", function (d, i) {
-            return d.tw_y + boxoffset + padY * i + padY / 2; //pady/2 -> ballance padding
-        }).attr("width", function (d) {
-            return d.tw_w;
-        }).attr("height", function (d) {
-            return d.tw_h;
-        }).attr("rx", 4)
+        //item estimated duration bar
+        node.append("rect")
+            .attr("x", function (d, i) {
+                return (i && self.item_padding_x) + self.item_offset_x + (d.AccumulatedTime * self.item_unit_width);
+            }).attr("y", function (d, i) {
+                return self.grid_header_offset + self.item_offset_y + (i) * (self.item_padding_y + self.item_estimated_height);
+            }).attr("width", function (d, i) {
+                return d.Duration * self.item_unit_width;
+            }).attr("height", self.item_estimated_height)
+            .attr("rx", 4)
             .attr("ry", 4)
             .style("fill", "#08C")
             .style("stroke", "rgb(0,0,0)")
             .style("stroke-width", 1)
             .style("stroke-opacity", 0.5);
 
-        node.append("rect").attr("x", function (d, i) {
-            return chart_start_padx + d.tw_x + 1;
-        }).attr("y", function (d, i) {
-            return (d.tw_y + boxoffset + padY * i + padY / 2) + (d.tw_h - 4); //pady/2 -> ballance padding
-        }).attr("width", function (d) {
-            return d.tw_real_w;
-        }).attr("height", 4)
+        //item real duration bar
+        node.append("rect")
+            .attr("x", function (d, i) {
+                return (i && self.item_padding_x) + self.item_offset_x + (d.AccumulatedTime * self.item_unit_width);
+            }).attr("y", function (d, i) {
+                return self.grid_header_offset + self.item_offset_y + ((self.item_padding_y + self.item_estimated_height) * i) + (self.item_estimated_height - self.item_real_height - 1);
+            }).attr("width", function (d, i) {
+                return d.TimeUsed * self.item_unit_width;
+            }).attr("height", self.item_real_height)
             .attr("rx", 4)
             .attr("ry", 4)
-            .style("fill", function (d) {
-                if (d.tw_real_w >= d.tw_w * 0.95)
+            .style("fill", function (d, i) {
+                if (d.TimeUsed >= d.Duration * 0.95)
                     return "red";
-                return "aqua";
+                if (d.TimeUsed >= d.Duration * 0.65)
+                    return "yellow";
+                return "green";
             });
 
         //item duration text
-        node.append("text").text(function (d) {
-            return d.tw_element.duration + "h";
-        }).attr("x", function (d, i) {
-            return chart_start_padx + d.tw_x + 5;
-        }).attr("y", function (d, i) {
-            return d.tw_y + padY * i - 3;
-        }).attr("dx", function (d, i) {
-            return (d.tw_w / 2) - 5;
-        })
-            .attr("fill", "white")
+        node.append("text")
+            .text(function (d, i) {
+                return d.Duration + "h/" + d.TimeUsed + "h (" + (d.TimeUsed / d.Duration) * 100 + "%)";
+            }).attr("x", function (d, i) {
+                return (i && self.item_padding_x) + self.item_offset_x + (d.AccumulatedTime * self.item_unit_width);
+            }).attr("y", function (d, i) {
+                return self.grid_header_offset + self.graphic_start_y + (self.item_padding_y + self.item_estimated_height) * i - 2;
+            }).attr("dx", function (d, i) {
+                return (d.Duration * self.item_unit_width) / 2;
+            })
+            .attr("fill", "black")
             .attr("font-size", "0.8em")
             .attr("text-anchor", "middle");
+    }
 
-        drawlines();
-    });
+    function DrawGrid(g) {
 
-    //draw grid lines
+        var x = d3.scale.linear()
+            .domain([0, total])
+            .range([self.item_offset_x, width]);
 
-    function drawlines() {
-
-        vis.selectAll("linev")
-            .data(x.ticks(vertical_ticks))
+        g.selectAll("linev")
+            .data(x.ticks(self.grid_vertical_lines))
             .enter().insert("line", ":first-child")
-            .attr("x1", x).attr("y1", chart_start_pady)
-            .attr("x2", x).attr("y2", chart_height - chart_start_pady - padY - 1)
+            .attr("x1", x).attr("y1", Math.floor(self.grid_header_offset)+1)
+            .attr("x2", x).attr("y2", Math.floor(self.graphic_height + self.grid_header_offset / 2)+2)
             .attr("width", 1)
             .style("stroke", "#ccc");
 
-        vis.selectAll("header_text")
-            .data(x.ticks(vertical_ticks))
+        g.selectAll("header_text")
+            .data(x.ticks(self.grid_vertical_lines))
             .enter().insert("text", ":first-child")
             .attr("x", x)
-            .attr("y", chart_start_pady)
+            .attr("y", self.grid_header_offset)
             .attr("dy", -3)
             .attr("text-anchor", "middle")
             .text(function (d, i) { return d; })
             .attr("font-size", "0.8em");
 
-        var y = d3.scale.linear()
-            .domain([0, horizontal_ticks * box_height])
-            .range([chart_start_pady, chart_height + chart_start_padx]);
 
-        vis.selectAll("lineh")
-            .data(y.ticks(horizontal_ticks))
+        g.selectAll("lineh")
+            .data(d3.range(0,19))
             .enter().insert("line", ":first-child")
             .attr("x1", 0)
             .attr("y1", function (d, i) {
-                return chart_start_pady + headeroffset + ((box_height + padY) * i) + i;
+                return (self.graphic_start_y + (self.item_padding_y + self.item_estimated_height) * i)-0.5;
             })
             .attr("x2", function (d, i) {
-                return chart_width;
+                return self.graphic_width;
             })
             .attr("y2", function (d, i) {
-                return chart_start_pady + headeroffset + ((box_height + padY) * i) + i;
+                return (self.graphic_start_y + (self.item_padding_y + self.item_estimated_height) * i)-0.5;
             })
             .attr("width", 1)
             .style("stroke", "#ccc");
 
-        vis.selectAll("linex")
-            .data([1])
-            .enter().insert("line", ":first-child")
-            .attr("x1", 0)
-            .attr("y1", padY)
-            .attr("x2", chart_start_padx + padX)
-            .attr("y2", chart_start_pady + headeroffset)
-            .attr("width", 1)
-            .style("stroke", "#ccc");
+        /*g.selectAll("linex")
+        .data([1])
+        .enter().insert("line", ":first-child")
+        .attr("x1", 0)
+        .attr("y1", self.item_padding_y)
+        .attr("x2", self.graphic_start_x + self.item_padding_x)
+        .attr("y2", self.graphic_start_y + self.item_offset_y)
+        .attr("width", 1)
+        .style("stroke", "#ccc");
 
-        vis.selectAll("header_leg_bottom")
-            .data([1])
-            .enter().append("text")
-            .attr("x", 6)
-            .attr("y", 14)
-            .attr("dy", -3)
-            .attr("text-anchor", "start")
-            .text("Activity")
-            .attr("font-size", "0.7em")
-            .attr("transform", function (d) { return "rotate(28)" /*, " + padX + "," + chart_start_pady + headeroffset + ")"*/; });
-        ;
+        g.selectAll("header_leg_bottom")
+        .data([1])
+        .enter().append("text")
+        .attr("x", 6)
+        .attr("y", 14)
+        .attr("dy", -3)
+        .attr("text-anchor", "start")
+        .text("Activity")
+        .attr("font-size", "0.7em")
+        .attr("transform", function (d) { return "rotate(28)"; });
 
-        vis.selectAll("header_leg_top")
-            .data([1])
-            .enter().append("text")
-            .attr("x", 20)
-            .attr("y", 9)
-            .attr("text-anchor", "start")
-            .text("Hours")
-            .attr("font-size", "0.7em")
-            .attr("transform", function (d) { return "rotate(28, 20,9)"; });
-    }
-
-    // Returns a flattened hierarchy containing all leaf nodes under the root.
-
-    function flatten(root) {
-
-        var elements = root.elements;
-        var relations = root.relations;
-        var flattened = [];
-        var graph = [];
-
-        $.each(relations, function (index, element) {
-            graph.push({
-                parent: $.grep(elements, function (e, i) { return element.parent == stripEntityName(e.activity); })[0],
-                activity: $.grep(elements, function (e, i) { return element.activity == stripEntityName(e.activity); })[0]
-            });
-        });
-
-        var lasty = headeroffset;
-        $.each(elements, function (index, element) {
-            horizontal_ticks += 1;
-            lasty = lasty + box_height;
-
-            var e = {
-                tw_x: getDurationOffset(element),
-                tw_y: lasty + horizontal_ticks + chart_start_pady,
-                tw_w: element.duration,
-                tw_h: box_height,
-                tw_element: element,
-                tw_real_w: element.timeused
-            };
-
-            flattened.push(e);
-            return e;
-        });
-
-        var durations = Object();
-        $.each(flattened, function (index, elem) {
-            if (durations[elem.tw_x] == undefined
-                || durations[elem.tw_x] < elem.tw_element.duration) {
-                durations[elem.tw_x] = elem.tw_element.duration;
-                total_duration += elem.tw_element.duration;
-            }
-        });
-
-        x = d3.scale.linear()
-            .domain([0, total_duration || (chart_width - chart_start_padx) / 10])
-            .range([chart_start_padx, chart_width]);
-        box_width = x(1) - chart_start_padx;
-
-        $.each(flattened, function (index, elem) {
-            elem.tw_w *= box_width;
-            elem.tw_real_w *= box_width;
-            elem.tw_x *= box_width;
-        });
-
-        function getDurationOffset(elem, acc) {
-            var sum = acc || 0;
-
-            var parents = $.grep(relations, function (e, i) { return e.activity == stripEntityName(elem.activity); });
-            if (parents.length > 0) {
-                var par = maxParentDuration(parents);
-                return getDurationOffset(par, sum + par.duration);
-            } else
-                return sum;
-        }
-
-        function maxParentDuration(parents) {
-            var max = 0;
-            var parent = 0;
-            $.each(parents, function (index, value) {
-                if (value.duration > max) {
-                    max = value.duration;
-                    parent = value;
-                }
-            });
-            return $.grep(elements, function (e, i) { return stripEntityName(e.activity) == parent.parent; })[0];
-        }
-
-        function stripEntityName(entity) {
-            var splt = entity.toString().lastIndexOf("/") + 1;
-            return splt > 1 && entity.substr(splt);
-        }
-
-        return { children: flattened };
+        g.selectAll("header_leg_top")
+        .data([1])
+        .enter().append("text")
+        .attr("x", 20)
+        .attr("y", 9)
+        .attr("text-anchor", "start")
+        .text("Hours")
+        .attr("font-size", "0.7em")
+        .attr("transform", function (d) { return "rotate(28, 20,9)"; });*/
     }
 }

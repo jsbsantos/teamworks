@@ -15,6 +15,7 @@ using Raven.Client.Document;
 using Raven.Client.Exceptions;
 using Raven.Client.Indexes;
 using Teamworks.Core.Services;
+using Teamworks.Core.Services.RavenDb;
 using Teamworks.Core.Services.RavenDb.Indexes;
 using Teamworks.Web.Attributes.Api;
 using Teamworks.Web.Attributes.Mvc;
@@ -54,7 +55,7 @@ namespace Teamworks.Web
             filters.Add(filter);
         }
 
-        public  static void RegisterGlobalWebApiHandlers(Collection<DelegatingHandler> messageHandlers)
+        public static void RegisterGlobalWebApiHandlers(Collection<DelegatingHandler> messageHandlers)
         {
             messageHandlers.Add(new RavenSessionHandler());
             messageHandlers.Add(new BasicAuthenticationHandler());
@@ -69,7 +70,7 @@ namespace Teamworks.Web
             json.SerializerSettings.ContractResolver = new LowercaseContractResolver();
             json.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
 
-            configuration.Services.Add(typeof(ModelBinderProvider), new MailgunModelBinderProvider());
+            configuration.Services.Add(typeof (ModelBinderProvider), new MailgunModelBinderProvider());
         }
 
         public static void RegisterRoutes(RouteCollection routes)
@@ -112,12 +113,14 @@ namespace Teamworks.Web
             RegisterGlobalWebApiHandlers(GlobalConfiguration.Configuration.MessageHandlers);
 
             InitializeDocumentStore();
-            
+
             RegisterRoutes(RouteTable.Routes);
             AppGlobalConfiguration(GlobalConfiguration.Configuration);
 
             AutoMapperConfiguration.Configure();
             BundleTable.Bundles.EnableTeamworksBundle();
+
+            InitializeExecutor();
         }
 
         public static void InitializeDocumentStore()
@@ -126,16 +129,23 @@ namespace Teamworks.Web
 
             Global.Database =
                 new DocumentStore
-                {
-                    ConnectionStringName = "RavenDB"
-                }.Initialize();
+                    {
+                        ConnectionStringName = "RavenDB"
+                    }.RegisterListener(new DocumentStoreListener()).Initialize();
 
             TryCreatingIndexesOrRedirectToErrorPage(Global.Database);
         }
 
         public static void TryCreatingIndexesOrRedirectToErrorPage(IDocumentStore store)
         {
-            IndexCreation.CreateIndexes(typeof(Activities_ByProject).Assembly, store);
+            IndexCreation.CreateIndexes(typeof (Activities_ByProject).Assembly, store);
+        }
+
+        public static void InitializeExecutor()
+        {
+            Global.Executor = Executor.Instance;
+            Global.Executor.Timeout = 15000;
+            Global.Executor.Initialize();
         }
     }
 }

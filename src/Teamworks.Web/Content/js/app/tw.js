@@ -1,5 +1,6 @@
 ﻿var TW = TW || {};
 TW.viewmodels = TW.viewmodels || {};
+TW.graphics = TW.graphics || {};
 
 $(function () {
     'use strict';
@@ -43,11 +44,11 @@ $(function () {
 
     if (typeof viewmodel !== 'undefined') {
         TW.app.viewmodel = viewmodel();
+        TW.app.graphics = { };
+        TW.app.graphics.Gantt = gantt();
+
         /* apply bindings only if TW.app is setted */
         !$.isEmptyObject(TW.app) && ko.applyBindings(TW.app);
-
-        if (TW.app.viewmodel.Gantt)
-            viewmodel().Gantt();
     }
     TW.app.ready(true);
 });

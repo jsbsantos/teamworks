@@ -48,9 +48,8 @@ namespace Teamworks.Core
                        };
         }
 
-        public IEnumerable<ActivityRelation> DependencyGraph()
+        public IEnumerable<ActivityRelation> DependencyGraph(ICollection<Activity> parents)
         {
-            var parents = Global.Database.CurrentSession.Load<Activity>(Dependencies).ToList();
             return Dependencies.Select(p =>
             {
                 var parent = parents.Single(x => p.Equals(x.Id,

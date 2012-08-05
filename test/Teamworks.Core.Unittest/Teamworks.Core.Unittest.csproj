@@ -50,6 +50,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Executor\ExecutorUnittest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\PersonUnittest.cs" />
   </ItemGroup>
