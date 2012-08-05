@@ -32,7 +32,7 @@ namespace Teamworks.Web
 {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
-    public class App : HttpApplication
+    public class Application : HttpApplication
     {
         public static class Keys
         {
@@ -64,6 +64,7 @@ namespace Teamworks.Web
         public static void RegisterGlobalWebApiHandlers(Collection<DelegatingHandler> messageHandlers)
         {
             messageHandlers.Add(new UnauthorizedHandler());
+            messageHandlers.Add(new RavenSessionHandler());
         }
 
         public static void AppGlobalConfiguration(HttpConfiguration configuration)

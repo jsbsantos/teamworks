@@ -63,6 +63,5 @@ namespace Teamworks.Core
                 };
             }).ToList();
         }
-
     }
 }

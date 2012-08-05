@@ -19,7 +19,7 @@ namespace Teamworks.Web.Attributes.Api
             if (!string.IsNullOrEmpty(identity.Name) &&
                 identity.AuthenticationType.Equals("Forms", StringComparison.OrdinalIgnoreCase))
             {
-                var session = context.Request.Properties[App.Keys.RavenDbSessionKey] as IDocumentSession;
+                var session = context.Request.Properties[Application.Keys.RavenDbSessionKey] as IDocumentSession;
                 var person = session.Load<Person>(identity.Name);
                 if (person != null)
                 {

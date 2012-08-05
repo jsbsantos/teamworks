@@ -84,7 +84,7 @@ CryptoJS.lib.Cipher || (function (undefined) {
          *     var cipher = CryptoJS.algo.AES.create(CryptoJS.algo.AES._ENC_XFORM_MODE, keyWordArray, { iv: ivWordArray });
          */
         init: function (xformMode, key, cfg) {
-            // Apply config defaults
+            // Applicationly config defaults
             this.cfg = this.cfg.extend(cfg);
 
             // Database transform mode and key
@@ -123,7 +123,7 @@ CryptoJS.lib.Cipher || (function (undefined) {
          *     var encrypted = cipher.process(wordArray);
          */
         process: function (dataUpdate) {
-            // Append
+            // Applicationend
             this._append(dataUpdate);
 
             // Process available blocks
@@ -658,7 +658,7 @@ CryptoJS.lib.Cipher || (function (undefined) {
          *     var ciphertextParams = CryptoJS.lib.SerializableCipher.encrypt(CryptoJS.algo.AES, message, key, { iv: iv, format: CryptoJS.format.OpenSSL });
          */
         encrypt: function (cipher, message, key, cfg) {
-            // Apply config defaults
+            // Applicationly config defaults
             cfg = this.cfg.extend(cfg);
 
             // Encrypt
@@ -699,7 +699,7 @@ CryptoJS.lib.Cipher || (function (undefined) {
          *     var plaintext = CryptoJS.lib.SerializableCipher.decrypt(CryptoJS.algo.AES, ciphertextParams, key, { iv: iv, format: CryptoJS.format.OpenSSL });
          */
         decrypt: function (cipher, ciphertext, key, cfg) {
-            // Apply config defaults
+            // Applicationly config defaults
             cfg = this.cfg.extend(cfg);
 
             // Convert string to CipherParams
@@ -812,7 +812,7 @@ CryptoJS.lib.Cipher || (function (undefined) {
          *     var ciphertextParams = CryptoJS.lib.PasswordBasedCipher.encrypt(CryptoJS.algo.AES, message, 'password', { format: CryptoJS.format.OpenSSL });
          */
         encrypt: function (cipher, message, password, cfg) {
-            // Apply config defaults
+            // Applicationly config defaults
             cfg = this.cfg.extend(cfg);
 
             // Derive key and other params
@@ -848,7 +848,7 @@ CryptoJS.lib.Cipher || (function (undefined) {
          *     var plaintext = CryptoJS.lib.PasswordBasedCipher.decrypt(CryptoJS.algo.AES, ciphertextParams, 'password', { format: CryptoJS.format.OpenSSL });
          */
         decrypt: function (cipher, ciphertext, password, cfg) {
-            // Apply config defaults
+            // Applicationly config defaults
             cfg = this.cfg.extend(cfg);
 
             // Convert string to CipherParams

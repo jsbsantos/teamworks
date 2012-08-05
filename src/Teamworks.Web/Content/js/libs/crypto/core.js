@@ -483,7 +483,7 @@ var CryptoJS = CryptoJS || (function (Math, undefined) {
                 data = Utf8.parse(data);
             }
 
-            // Append
+            // Applicationend
             this._data.concat(data);
             this._nDataBytes += data.sigBytes;
         },
@@ -582,7 +582,7 @@ var CryptoJS = CryptoJS || (function (Math, undefined) {
          *     var hasher = CryptoJS.algo.SHA256.create();
          */
         init: function (cfg) {
-            // Apply config defaults
+            // Applicationly config defaults
             // this.cfg = this.cfg.extend(cfg);
 
             // Set initial values
@@ -617,7 +617,7 @@ var CryptoJS = CryptoJS || (function (Math, undefined) {
          *     hasher.update(wordArray);
          */
         update: function (messageUpdate) {
-            // Append
+            // Applicationend
             this._append(messageUpdate);
 
             // Update the hash

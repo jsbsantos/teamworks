@@ -11,5 +11,8 @@ namespace Teamworks.Web.Models.Api
         public string Date { get; set; }
         [Required]
         public int Duration { get; set; }
+
+        public Core.Activity Activity { get; set; }
+        public Core.Project Project;
     }
 }

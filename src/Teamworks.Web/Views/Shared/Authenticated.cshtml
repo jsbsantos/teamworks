@@ -1,11 +1,22 @@
-﻿<aside class="btn-group pull-right">
+﻿@model Teamworks.Core.Person
+
+<aside class="account btn-group pull-right">
     <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
         <i class="icon-user"></i>
         @User.Identity.Name
     </a>
-    <ul class="dropdown-menu">
-        <li><a href="#">Profile</a></li>
-        <li class="divider"></li>
-        <li><a href="@Url.Action("Logout", "Account")">Logout</a></li>
-    </ul>
+    <div class="dropdown-menu span3">
+           <div class="row-fluid well-small">
+                <div class="span3">
+                    <img class="pull-left" src="http://www.gravatar.com/avatar/add4bff95494eb688a8891832fd43c83?r=g&s=64" alt="Profile image"/>  
+                </div>
+                <div class="span9">
+                    <a href="@Url.RouteUrl("default", new {controller = "Profile", action = "View"})">Profile</a>
+                </div>
+            </div>
+        <div class="form-actions">
+            <a class="btn" href="@Url.RouteUrl("default", new {controller = "Account", action = "Logout"})">Logout</a>
+        </div>
+            
+    </div>
 </aside>

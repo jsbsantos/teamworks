@@ -1,4 +1,4 @@
-tw.graphics.Gantt = function (data, options) {
+tw.Gantt = function (data, options) {
     var self = this;
 
     //privates

@@ -27,7 +27,7 @@ namespace Teamworks.Web.Attributes.Api
             var id = context.Request.GetCurrentPersonId();
             if (!string.IsNullOrEmpty(id))
             {
-                var session = context.Request.Properties[App.Keys.RavenDbSessionKey] as IDocumentSession;
+                var session = context.Request.Properties[Application.Keys.RavenDbSessionKey] as IDocumentSession;
                 session.SecureFor(id, Operation);
             }
             base.OnAuthorization(context);

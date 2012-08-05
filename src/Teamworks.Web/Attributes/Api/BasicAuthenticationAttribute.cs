@@ -41,7 +41,7 @@ namespace Teamworks.Web.Attributes.Api
             if (header != null && header.Scheme.Equals("Basic", StringComparison.OrdinalIgnoreCase))
             {
                 var credentials = GetBase64Credentials(header.Parameter);
-                var session = context.Request.Properties[App.Keys.RavenDbSessionKey] as IDocumentSession;
+                var session = context.Request.Properties[Application.Keys.RavenDbSessionKey] as IDocumentSession;
                 var person = session.Query<Person>().FirstOrDefault(
                     p => p.Username.Equals(credentials.Username, StringComparison.InvariantCultureIgnoreCase));
 

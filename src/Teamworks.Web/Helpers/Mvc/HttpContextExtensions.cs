@@ -1,6 +1,8 @@
 using System.Web;
+using Raven.Client;
 using Teamworks.Core;
 using Teamworks.Core.Authentication;
+using Teamworks.Core.Services;
 
 namespace Teamworks.Web.Helpers.Mvc
 {
@@ -16,6 +18,17 @@ namespace Teamworks.Web.Helpers.Mvc
         {
             Person person = GetCurrentPerson(context);
             return person == null ? "" : person.Id;
+        }
+
+        public static IDocumentSession RavenSession(this HttpContextBase context)
+        {
+            var session = context.Items[Application.Keys.RavenDbSessionKey] as IDocumentSession;
+            if (session == null)
+            {
+                session = Global.Database.OpenSession();
+                context.Items[Application.Keys.RavenDbSessionKey] = session;
+            }
+            return session;
         }
     }
 }

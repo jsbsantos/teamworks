@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using System.Web.WebPages;
+using Teamworks.Core.Authentication;
 
 namespace Teamworks.Web.Views
 {
@@ -11,7 +11,7 @@ namespace Teamworks.Web.Views
     {
         public static HelperResult ActiveController(this HtmlHelper _this, string controller)
         {
-            string c = HttpContext.Current.Request.RequestContext.RouteData.GetRequiredString("controller");
+            var c = HttpContext.Current.Request.RequestContext.RouteData.GetRequiredString("controller");
             return new HelperResult(
                 writer => writer.Write(controller.Equals(c, StringComparison.OrdinalIgnoreCase) ? "active" : "")
                 );
@@ -19,11 +19,11 @@ namespace Teamworks.Web.Views
 
         public static HelperResult ActiveControllerAndAction(this HtmlHelper _this, string controller, string action)
         {
-            string c = HttpContext.Current.Request.RequestContext.RouteData.GetRequiredString("controller");
-            string a = HttpContext.Current.Request.RequestContext.RouteData.GetRequiredString("action");
+            var c = HttpContext.Current.Request.RequestContext.RouteData.GetRequiredString("controller");
+            var a = HttpContext.Current.Request.RequestContext.RouteData.GetRequiredString("action");
 
-            bool condition = controller.Equals(c, StringComparison.OrdinalIgnoreCase)
-                             && action.Equals(a, StringComparison.OrdinalIgnoreCase);
+            var condition = controller.Equals(c, StringComparison.OrdinalIgnoreCase)
+                            && action.Equals(a, StringComparison.OrdinalIgnoreCase);
 
             return new HelperResult(
                 writer => writer.Write(condition ? "active" : "")
@@ -32,11 +32,11 @@ namespace Teamworks.Web.Views
 
         public static HelperResult Identity(this HtmlHelper _this)
         {
-            IPrincipal user = HttpContext.Current.User;
-            return
-                new HelperResult(
-                    writer =>
-                    _this.RenderPartial(user.Identity.IsAuthenticated ? "Authenticated" : "Anonymous"));
+            var user = HttpContext.Current.User;
+            var identity = user.Identity as PersonIdentity;
+            return user.Identity.IsAuthenticated && identity != null
+                       ? new HelperResult(writer => _this.RenderPartial("Authenticated", (identity).Person))
+                       : new HelperResult(writer => _this.RenderPartial("Anonymous"));
         }
 
         public static bool IsDebugging(this HtmlHelper helper)

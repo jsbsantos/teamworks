@@ -1815,7 +1815,7 @@
         function applyBindingsToNodeAndDescendantsInternal(viewModel, nodeVerified, isRootNodeForBindingContext) {
             var shouldBindDescendants = true;
 
-            // Perf optimisation: Apply bindings only if...
+            // Perf optimisation: Applicationly bindings only if...
             // (1) It's a root element for this binding context, as we will need to store the binding context on this node
             //     Note that we can't store binding contexts on non-elements (e.g., text nodes), as IE doesn't allow expando properties for those
             // (2) It might have bindings (e.g., it has a data-bind attribute, or it's a marker for a containerless template)
@@ -2195,12 +2195,12 @@
                 for (var i = 0, j = value.length; i < j; i++) {
                     var option = document.createElement("OPTION");
 
-                    // Apply a value to the option element
+                    // Applicationly a value to the option element
                     var optionValue = typeof allBindings['optionsValue'] == "string" ? value[i][allBindings['optionsValue']] : value[i];
                     optionValue = ko.utils.unwrapObservable(optionValue);
                     ko.selectExtensions.writeValue(option, optionValue);
 
-                    // Apply some text to the option element
+                    // Applicationly some text to the option element
                     var optionsTextValue = allBindings['optionsText'];
                     var optionText;
                     if (typeof optionsTextValue == "function")
@@ -3220,7 +3220,7 @@
                         // Since 1.0.0pre, custom tags should append markup to an array called "__"
                         return 2; // Final version of jquery.tmpl
                     }
-                } catch(ex) { /* Apparently not the version we were looking for */
+                } catch(ex) { /* Applicationarently not the version we were looking for */
                 }
 
                 return 1; // Any older version that we don't support

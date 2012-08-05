@@ -1,0 +1,34 @@
+﻿@model Teamworks.Core.Person
+
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var me = ViewBag.Me;
+}
+
+
+<header class="page-header">
+    
+    <h1><span data-bind="text: name">@Model.Name</span>
+        @if(me)
+        {
+            <small><a class="btn btn-mini" href="#">Edit your profile</a></small>
+        } 
+    </h1>
+</header>
+<div class="row">
+    <div class="span3">
+        <div class="thumbnail">
+            <img  src="http://www.gravatar.com/avatar/add4bff95494eb688a8891832fd43c83?r=g&s=256" alt="Profile image"/>
+        </div>
+    </div>
+    <div class="span7">
+        <h2>Bio</h2>
+        <div class="span">
+            <h3>Name</h3> 
+            <div>@Model.Username</div>
+            <h3>Email</h3> 
+            <div>@Model.Email</div>
+        </div>
+    </div>
+</div>

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Linq;
-using System.Reflection;
 using System.Web.Http.Controllers;
 using Raven.Client;
-using Teamworks.Core.Services;
 using Teamworks.Web.Attributes.Api.Ordered;
 
 namespace Teamworks.Web.Attributes.Api
@@ -16,7 +14,7 @@ namespace Teamworks.Web.Attributes.Api
 
         private static Accessors CreateAccessorsForType(Type type)
         {
-            PropertyInfo prop = type.GetProperties().FirstOrDefault(
+            var prop = type.GetProperties().FirstOrDefault(
                 x => x.PropertyType == typeof (IDocumentSession) && x.CanRead && x.CanWrite);
 
             if (prop == null)
@@ -31,7 +29,7 @@ namespace Teamworks.Web.Attributes.Api
 
         public static void TrySetSession(object instance, IDocumentSession session)
         {
-            Accessors accessors = AccessorsCache.GetOrAdd(instance.GetType(), CreateAccessorsForType);
+            var accessors = AccessorsCache.GetOrAdd(instance.GetType(), CreateAccessorsForType);
 
             if (accessors == null)
                 return;
@@ -41,22 +39,9 @@ namespace Teamworks.Web.Attributes.Api
 
         public override void OnActionExecuting(HttpActionContext context)
         {
-            var session = Global.Database.OpenSession();
-            context.Request.Properties[App.Keys.RavenDbSessionKey] = session;
+            var session = context.Request.Properties[Application.Keys.RavenDbSessionKey] as IDocumentSession;
             TrySetSession(context.ControllerContext.Controller, session);
             base.OnActionExecuting(context);
-        }
-
-        public override void OnActionExecuted(System.Web.Http.Filters.HttpActionExecutedContext context)
-        {
-                                      using (var session = context.Request.Properties[App.Keys.RavenDbSessionKey] as IDocumentSession)
-                                      {
-                                          if (session != null && context.Response.IsSuccessStatusCode)
-                                          {
-                                              session.SaveChanges();
-                                          }
-                                      }
-            base.OnActionExecuted(context);
         }
 
         #region Nested type: Accessors

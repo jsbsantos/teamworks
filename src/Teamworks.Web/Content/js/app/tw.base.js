@@ -60,7 +60,9 @@
 } ());
 
 var tw = tw || {};
+tw.pages = tw.pages || {};
 tw.viewmodels = tw.viewmodels || {};
+
 
 (function (obj) {
     'use strict';

@@ -1,4 +1,4 @@
-(function(){if (!Date.now) Date.now = function() {
+﻿(function(){if (!Date.now) Date.now = function() {
   return +new Date;
 };
 try {
@@ -389,7 +389,7 @@ d3.nest = function() {
   };
 
   // Specifies the order for leaf values.
-  // Applies to both maps and entries array.
+  // Applicationlies to both maps and entries array.
   nest.sortValues = function(order) {
     sortValues = order;
     return nest;
@@ -658,7 +658,7 @@ d3.format = function(specifier) {
     // Convert negative to positive, and record the sign prefix.
     var negative = (value < 0) && (value = -value) ? "\u2212" : sign;
 
-    // Apply the scale, computing it from the value's exponent for si format.
+    // Applicationly the scale, computing it from the value's exponent for si format.
     if (scale < 0) {
       var prefix = d3.formatPrefix(value, precision);
       value = prefix.scale(value);
@@ -708,7 +708,7 @@ function d3_format_typeDefault(x) {
   return x + "";
 }
 
-// Apply comma grouping for thousands.
+// Applicationly comma grouping for thousands.
 function d3_format_group(value) {
   var i = value.lastIndexOf("."),
       f = i >= 0 ? value.substring(i) : (i = value.length, ""),

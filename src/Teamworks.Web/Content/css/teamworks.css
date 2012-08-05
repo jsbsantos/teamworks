@@ -31,3 +31,15 @@ span input.seamless, span input.seamless:focus { padding: 0; border: none; verti
 .typeahead img { padding-right: 4px; }
 
 .tc { text-align: center; }
+
+.account .form-actions { margin-bottom: -3px; }
+.highlight { padding: 0 4px; }
+.highlight.out { 
+    -ms-transition: background .5s, border .5s, color .5s, border-radius .5s;
+	-moz-transition: background .5s, border .5s, color .5s, border-radius .5s;
+	-webkit-transition: background .5s, border .5s, color .5s, border-radius .5s;
+	-o-transition: background .5s, border .5s, color .5s, border-radius .5s;
+	transition: background .5s, border .5s, color .5s, boborder-radius .5s;
+}
+	
+.highlight.alert { border: 1px solid #fff; padding: 0 3px; }

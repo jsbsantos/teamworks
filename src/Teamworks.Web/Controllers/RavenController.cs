@@ -1,6 +1,7 @@
 ﻿using Raven.Client;
 using System.Web.Mvc;
 using Teamworks.Core.Services;
+using Teamworks.Web.Helpers.Mvc;
 
 namespace Teamworks.Web.Controllers
 {
@@ -20,13 +21,7 @@ namespace Teamworks.Web.Controllers
 
         protected override void OnActionExecuting(ActionExecutingContext context)
         {
-            var session = context.HttpContext.Items[App.Keys.RavenDbSessionKey] as IDocumentSession;
-            if (session == null)
-            {
-                session = Global.Database.OpenSession();
-                context.HttpContext.Items[App.Keys.RavenDbSessionKey] = session;
-            }
-            DbSession = session;
+            DbSession = context.HttpContext.RavenSession();
             base.OnActionExecuting(context);
         }
 

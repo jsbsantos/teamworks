@@ -3,7 +3,7 @@
 
 (function () {
     /* validation */
-    tw.extenders = { };
+    tw.extenders = {};
     tw.extenders.validation = function (target, fn) {
         var changeMessage = function (msg) {
             target.has_error(msg.length ? true : false);
@@ -44,6 +44,26 @@
         target.formatted(target());
         return target;
     };
+    ko.bindingHandlers.highlight = {
+        init: function (element, valueAccessor, allBindingsAccessor) {
+            var $elem = $(element);
+            $elem.addClass('');
+        },
+        update: function (element, valueAccessor, allBindingsAccessor) {
+            var $elem = $(element);
+            var all = allBindingsAccessor();
+            var value = ko.utils.unwrapObservable(valueAccessor());
+            var name = value || 'highlight';
+            $elem.removeClass('out');
+            $elem.addClass(name);
+            var duration = all.duration || 250;
+
+            setTimeout(function () {
+                $elem.addClass('out');
+                $elem.removeClass(name);
+            }, duration);
+        }
+    }
     /* binders */
     ko.bindingHandlers.datepicker = {
         init: function (element, valueAccessor) {
