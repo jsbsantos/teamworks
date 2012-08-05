@@ -87,11 +87,10 @@ TW.graphics.Gantt = function (data, options) {
 
         //item name
         node.append("text")
-            .text(function (d, i) {
+            .text(function (d) {
                 return d.Name;
-            }).attr("x", function (d, i) {
-                return 0;
-            }).attr("y", function (d, i) {
+            }).attr("x", 0)
+            .attr("y", function (d, i) {
                 return self.grid_header_offset + self.graphic_start_y + (self.item_padding_y + self.item_estimated_height) * i;
             })
             .attr("fill", "black")
@@ -103,7 +102,7 @@ TW.graphics.Gantt = function (data, options) {
                 return (i && self.item_padding_x) + self.item_offset_x + (d.AccumulatedTime * self.item_unit_width);
             }).attr("y", function (d, i) {
                 return self.grid_header_offset + self.item_offset_y + (i) * (self.item_padding_y + self.item_estimated_height);
-            }).attr("width", function (d, i) {
+            }).attr("width", function (d) {
                 return d.Duration * self.item_unit_width;
             }).attr("height", self.item_estimated_height)
             .attr("rx", 4)
@@ -119,12 +118,12 @@ TW.graphics.Gantt = function (data, options) {
                 return (i && self.item_padding_x) + self.item_offset_x + (d.AccumulatedTime * self.item_unit_width);
             }).attr("y", function (d, i) {
                 return self.grid_header_offset + self.item_offset_y + ((self.item_padding_y + self.item_estimated_height) * i) + (self.item_estimated_height - self.item_real_height - 1);
-            }).attr("width", function (d, i) {
+            }).attr("width", function (d) {
                 return d.TimeUsed * self.item_unit_width;
             }).attr("height", self.item_real_height)
             .attr("rx", 4)
             .attr("ry", 4)
-            .style("fill", function (d, i) {
+            .style("fill", function (d) {
                 if (d.TimeUsed >= d.Duration * 0.95)
                     return "red";
                 if (d.TimeUsed >= d.Duration * 0.65)
@@ -134,13 +133,13 @@ TW.graphics.Gantt = function (data, options) {
 
         //item duration text
         node.append("text")
-            .text(function (d, i) {
+            .text(function (d) {
                 return d.Duration + "h/" + d.TimeUsed + "h (" + (d.TimeUsed / d.Duration) * 100 + "%)";
             }).attr("x", function (d, i) {
                 return (i && self.item_padding_x) + self.item_offset_x + (d.AccumulatedTime * self.item_unit_width);
             }).attr("y", function (d, i) {
                 return self.grid_header_offset + self.graphic_start_y + (self.item_padding_y + self.item_estimated_height) * i - 2;
-            }).attr("dx", function (d, i) {
+            }).attr("dx", function (d) {
                 return (d.Duration * self.item_unit_width) / 2;
             })
             .attr("fill", "black")

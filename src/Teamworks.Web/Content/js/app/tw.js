@@ -44,11 +44,16 @@ $(function () {
 
     if (typeof viewmodel !== 'undefined') {
         TW.app.viewmodel = viewmodel();
-        TW.app.graphics = { };
-        TW.app.graphics.Gantt = gantt();
+        
+        if (typeof gantt !== 'undefined') {
+            TW.app.graphics = {};
+            TW.app.graphics.Gantt = gantt();
+        }
 
         /* apply bindings only if TW.app is setted */
         !$.isEmptyObject(TW.app) && ko.applyBindings(TW.app);
     }
+
+
     TW.app.ready(true);
 });
