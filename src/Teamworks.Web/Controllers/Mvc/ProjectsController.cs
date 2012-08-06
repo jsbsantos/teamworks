@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Newtonsoft.Json;
 using Raven.Client.Linq;
 using Teamworks.Core;
 using Teamworks.Core.Services;
@@ -54,22 +55,63 @@ namespace Teamworks.Web.Controllers.Mvc
         public ActionResult Details(int id)
         {
             RavenQueryStatistics stats;
-            var results = DbSession
+            var query = DbSession
                 .Query<ProjectsEntitiesRelated.Result, ProjectsEntitiesRelated>()
                 .Statistics(out stats)
                 .Customize(c =>
-                           c.Include<ProjectsEntitiesRelated.Result>(r => r.Entity)
+                           c.Include<ProjectsEntitiesRelated.Result>(r => r.EntityId)
                                .Include<ProjectsEntitiesRelated.Result>(r => r.Project))
                 .Where(r => r.Project == id.ToId("project"));
 
             var project = DbSession.Load<Project>(id.ToId("project"));
-            return View(new ProjectViewModel
-                            {
-                                Summary = project.MapTo<ProjectViewModel.ProjectSummary>(),
-                                People = DbSession.Load<Person>(project.People).MapTo<PersonViewModel>(),
-                                Activities = results.OfType<Activity>().As<Activity>().MapTo<ProjectViewModel.Activity>(),
-                                Discussions = results.OfType<Discussion>().As<Discussion>().MapTo<ProjectViewModel.Discussion>()
-                            });
+            var ids = query.Select(r => r.EntityId).ToList();
+            var results = DbSession.Load<Entity>(ids).ToList();
+            var p1 = results.OfType<Activity>().Count();
+            var p2 = results.OfType<Discussion>().Count();
+
+            var result =
+            new ProjectViewModel
+                {
+                    Summary = project.MapTo<ProjectViewModel.ProjectSummary>(),
+                    People = DbSession.Load<Person>(project.People).MapTo<PersonViewModel>(),
+                    Activities = results.OfType<Activity>().ToList().MapTo<ProjectViewModel.Activity>(),
+                    Discussions =
+                        results.OfType<Discussion>().ToList().MapTo<ProjectViewModel.Discussion>()
+                };
+            return View(result);
+        }
+
+        [HttpGet]
+        public ActionResult Gantt(int id)
+        {
+
+            ViewBag.Endpoint = "api/projects/" + id.ToString();
+
+            var project = DbSession
+                .Load<Core.Project>(id);
+
+            var act = DbSession.Query
+                <Core.Services.RavenDb.Indexes.Activities_Duration_Result,
+                    Core.Services.RavenDb.Indexes.Activities_Duration>()
+                .Where(a => a.Project == project.Id)
+                .OrderBy(a => a.StartDate)
+                .ToList()
+                .Select(x => new
+                {
+                    x.Dependencies,
+                    x.Description,
+                    x.Duration,
+                    x.Id,
+                    x.Name,
+                    x.Project,
+                    x.StartDate,
+                    x.TimeUsed,
+                    AccumulatedTime = x.StartDate.Subtract(project.StartDate).TotalMinutes
+                });
+
+            ViewBag.ChartData = JsonConvert.SerializeObject(act);
+
+            return View(project);
         }
     }
 }

@@ -8,17 +8,18 @@ namespace Teamworks.Core.Services.RavenDb.Indexes
         public ProjectsEntitiesRelated()
         {
             AddMap<Activity>(activities => from a in activities
-                                           select new 
+                                           select new
                                                       {
-                                                          Entity = a.Id,
-                                                          Project = a.Project
-                                                          
+                                                          EntityId = a.Id,
+                                                          Project = a.Project,
+                                                          Name = a.Name
                                                       });
             AddMap<Discussion>(discussions => from d in discussions
-                                              select new 
+                                              select new
                                                          {
-                                                             Entity = d.Id,
-                                                             Project = d.Entity
+                                                             EntityId = d.Id,
+                                                             Project = d.Entity,
+                                                             Name = d.Name
                                                          });
         }
 
@@ -31,9 +32,9 @@ namespace Teamworks.Core.Services.RavenDb.Indexes
 
         public class Result
         {
-
-            public string Entity { get; set; }
+            public string EntityId { get; set; }
             public string Project { get; set; }
+            public string Name { get; set; }
         }
 
         #endregion

@@ -63,6 +63,7 @@ var tw = tw || {};
 tw.pages = tw.pages || {};
 tw.mappings = tw.mappings || {};
 tw.viewmodels = tw.viewmodels || {};
+tw.graphics = tw.graphics || {};
 
 (function (obj) {
     'use strict';

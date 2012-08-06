@@ -16,6 +16,10 @@ tw.Gantt = function (data, options) {
         }
     }
 
+    $.each(data, function (i, e) {
+        e.RealAcc = GetParentDuration(e, data);
+    });
+
     var _default = {
         //draw area default config
         graphic_width: $("#chart").width(),
@@ -25,12 +29,12 @@ tw.Gantt = function (data, options) {
         //item default config
         item_unit_width: 10,
         item_estimated_height: 15,
-        item_real_height: 4,
+        item_real_height: 3,
         item_padding_x: 1,
         item_padding_y: 3,
 
         //item initial offset
-        item_offset_x: 50,
+        item_offset_x: 75,
         item_offset_y: 3,
 
         //grid setup
@@ -88,62 +92,54 @@ tw.Gantt = function (data, options) {
         node.append("text")
             .text(function (d) {
                 return d.Name;
-            }).attr("x", 0)
+            }).attr("x", 5)
             .attr("y", function (d, i) {
                 return self.grid_header_offset + self.graphic_start_y + (self.item_padding_y + self.item_estimated_height) * i;
             })
-            .attr("fill", "black")
-            .attr("font-size", "0.9em");
+            .attr("class", "gantt_text");
+
 
         //item estimated duration bar
         node.append("rect")
             .attr("x", function (d, i) {
-                return (i && self.item_padding_x) + self.item_offset_x + (d.AccumulatedTime * self.item_unit_width);
+                return (i && self.item_padding_x) + self.item_offset_x + (Math.max(d.AccumulatedTime,d.RealAcc) * self.item_unit_width);
             }).attr("y", function (d, i) {
                 return self.grid_header_offset + self.item_offset_y + (i) * (self.item_padding_y + self.item_estimated_height);
             }).attr("width", function (d) {
                 return d.Duration * self.item_unit_width;
             }).attr("height", self.item_estimated_height)
-            .attr("rx", 4)
-            .attr("ry", 4)
-            .style("fill", "#08C")
-            .style("stroke", "rgb(0,0,0)")
-            .style("stroke-width", 1)
-            .style("stroke-opacity", 0.5);
+            .attr("class", "gantt_duration_rect");
+
 
         //item real duration bar
         node.append("rect")
             .attr("x", function (d, i) {
-                return (i && self.item_padding_x) + self.item_offset_x + (d.AccumulatedTime * self.item_unit_width);
+                return (i && self.item_padding_x) + self.item_offset_x + (Math.max(d.AccumulatedTime, d.RealAcc) * self.item_unit_width);
             }).attr("y", function (d, i) {
-                return self.grid_header_offset + self.item_offset_y + ((self.item_padding_y + self.item_estimated_height) * i) + (self.item_estimated_height - self.item_real_height - 1);
+                return self.grid_header_offset + self.item_offset_y + ((self.item_padding_y + self.item_estimated_height) * i) + (self.item_estimated_height - self.item_real_height);
             }).attr("width", function (d) {
                 return d.TimeUsed * self.item_unit_width;
             }).attr("height", self.item_real_height)
-            .attr("rx", 4)
-            .attr("ry", 4)
-            .style("fill", function (d) {
+            .attr("class", function (d) {
                 if (d.TimeUsed >= d.Duration * 0.95)
-                    return "red";
+                    return "gantt_duration_rect_red";
                 if (d.TimeUsed >= d.Duration * 0.65)
-                    return "yellow";
-                return "green";
+                    return "gantt_duration_rect_yellow";
+                return "gantt_duration_rect_green";
             });
 
         //item duration text
         node.append("text")
             .text(function (d) {
-                return d.Duration + "h/" + d.TimeUsed + "h (" + (d.TimeUsed / d.Duration) * 100 + "%)";
+                return d.Duration + "h/" + d.TimeUsed + "h (" + ((d.TimeUsed / d.Duration) * 100).toPrecision(3) + "%)";
             }).attr("x", function (d, i) {
-                return (i && self.item_padding_x) + self.item_offset_x + (d.AccumulatedTime * self.item_unit_width);
+                return (i && self.item_padding_x) + self.item_offset_x + (Math.max(d.AccumulatedTime, d.RealAcc) * self.item_unit_width);
             }).attr("y", function (d, i) {
                 return self.grid_header_offset + self.graphic_start_y + (self.item_padding_y + self.item_estimated_height) * i - 2;
             }).attr("dx", function (d) {
                 return (d.Duration * self.item_unit_width) / 2;
             })
-            .attr("fill", "black")
-            .attr("font-size", "0.8em")
-            .attr("text-anchor", "middle");
+            .attr("class", "gantt_rect_text");
     }
 
     function DrawGrid(g) {
@@ -172,7 +168,7 @@ tw.Gantt = function (data, options) {
 
 
         g.selectAll("lineh")
-            .data(d3.range(0, 19))
+            .data(d3.range(0, self.grid_horizontal_lines))
             .enter().insert("line", ":first-child")
             .attr("x1", 0)
             .attr("y1", function (d, i) {
@@ -187,35 +183,46 @@ tw.Gantt = function (data, options) {
             .attr("width", 1)
             .style("stroke", "#ccc");
 
-        /*g.selectAll("linex")
+        g.selectAll("linex")
         .data([1])
         .enter().insert("line", ":first-child")
-        .attr("x1", 0)
-        .attr("y1", self.item_padding_y)
-        .attr("x2", self.graphic_start_x + self.item_padding_x)
-        .attr("y2", self.graphic_start_y + self.item_offset_y)
+            .attr("x1", 1).attr("y1", Math.floor(self.grid_header_offset) + 1)
+            .attr("x2", 1).attr("y2", Math.floor(self.graphic_height + self.grid_header_offset / 2) + 2)
         .attr("width", 1)
         .style("stroke", "#ccc");
 
+
         g.selectAll("header_leg_bottom")
         .data([1])
-        .enter().append("text")
-        .attr("x", 6)
-        .attr("y", 14)
-        .attr("dy", -3)
-        .attr("text-anchor", "start")
-        .text("Activity")
-        .attr("font-size", "0.7em")
-        .attr("transform", function (d) { return "rotate(28)"; });
-
-        g.selectAll("header_leg_top")
-        .data([1])
-        .enter().append("text")
-        .attr("x", 20)
-        .attr("y", 9)
-        .attr("text-anchor", "start")
-        .text("Hours")
-        .attr("font-size", "0.7em")
-        .attr("transform", function (d) { return "rotate(28, 20,9)"; });*/
+            .enter().append("text")
+            .attr("x", 2)
+            .attr("y", 10)
+            .attr("dy", 0)
+            .attr("text-anchor", "start")
+            .text("Activity \\ Hours")
+            .attr("font-size", "0.7em");
     }
+
+    function GetParentDuration(a, _data, _acc) {
+        var acc = _acc || 0;
+
+        var max = 0;
+        var parents = $.grep(_data, function (element, index) {
+            return $.inArray(element.Id, a.Dependencies) > -1;
+        });
+
+        if (parents.length == 0)
+            return acc;
+
+        var parent = undefined;
+        var ref = max;
+        parents.forEach(function (e, i) {
+            max = Math.max(Math.max(e.Duration, e.TimeUsed), max);
+            if (max != ref)
+                parent = e;
+        });
+
+        return GetParentDuration(parent, _data, acc + max);
+    }
+
 }

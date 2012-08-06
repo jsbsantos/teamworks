@@ -87,7 +87,7 @@ namespace Teamworks.Web.Controllers.Api
             }
 
             var discussion = DbSession.Load<Core.Discussion>(discussionid);
-            if (discussion == null || !discussion.Entity.Equals(task.Id))
+            if (discussion == null || !discussion.EntityId.Equals(task.Id))
             {
                 throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
             }

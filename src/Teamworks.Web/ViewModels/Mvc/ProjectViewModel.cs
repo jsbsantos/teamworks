@@ -17,6 +17,7 @@ namespace Teamworks.Web.Controllers.Mvc
         public class Activity
         {
             public int Id { get; set; }
+            public string Name { get; set; }
         }
 
         #endregion
@@ -26,6 +27,7 @@ namespace Teamworks.Web.Controllers.Mvc
         public class Discussion
         {
             public int Id { get; set; }
+            public string Name { get; set; }
         }
 
         #endregion

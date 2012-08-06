@@ -240,6 +240,7 @@
     <Content Include="Content\css\bootstrap\datepicker.css" />
     <Content Include="Content\css\bootstrap\img\glyphicons-halflings-white.png" />
     <Content Include="Content\css\bootstrap\img\glyphicons-halflings.png" />
+    <Content Include="Content\css\teamworks.d3.css" />
     <Content Include="Content\css\font-awesome.css" />
     <Content Include="Content\css\teamworks.css" />
     <Content Include="Content\font\fontawesome-webfont.svg" />
@@ -370,6 +371,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Errors\500.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Projects\Gantt.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
