@@ -1,10 +1,13 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Raven.Client.Linq;
+using Teamworks.Core;
 using Teamworks.Core.Services;
 using Teamworks.Core.Services.RavenDb.Indexes;
+using Teamworks.Web.Helpers.AutoMapper;
+using Teamworks.Web.Helpers.Mvc;
+using Teamworks.Web.ViewModels.Mvc;
 
 namespace Teamworks.Web.Controllers.Mvc
 {
@@ -12,59 +15,61 @@ namespace Teamworks.Web.Controllers.Mvc
     {
         [HttpGet]
         [ActionName("View")]
-        public ActionResult Index(int? identifier)
+        public ActionResult Index()
         {
-            const string endpoint = "/api/projects/";
-            if (identifier != null)
+            var current = HttpContext.GetCurrentPersonId();
+            // DbSession.SecureFor(current, Global.Constants.Operation);
+
+            RavenQueryStatistics stats;
+            var results = DbSession
+                .Query<ProjectEntityCount.Result, ProjectEntityCount>()
+                .Statistics(out stats)
+                .Customize(c =>
+                           c.Include<ProjectEntityCount.Result>(r => r.People)
+                               .Include<ProjectEntityCount.Result>(r => r.Project))
+                .Where(r => r.People.Any(p => p == current))
+                .ToList();
+
+            var vm = new ProjectsViewModel
+                         {
+                             CurrentPage = 1,
+                             TotalCount = stats.TotalResults,
+                             Projects = new List<ProjectsViewModel.Project>()
+                         };
+
+            foreach (var result in results)
             {
-                ViewBag.Endpoint = endpoint + identifier;
+                var people = DbSession.Load<Person>(result.People);
+                var project = DbSession.Load<Project>(result.Project);
 
-                var project = DbSession
-                    .Load<Core.Project>(identifier);
-
-                var act = DbSession.Query
-                    <Core.Services.RavenDb.Indexes.Activities_Duration_Result,
-                        Core.Services.RavenDb.Indexes.Activities_Duration>()
-                    .Where(a => a.Project == project.Id)
-                    .OrderBy(a => a.StartDate)
-                    .Select(x => new
-                                     {
-                                         x.Dependencies,
-                                         x.Description,
-                                         x.Duration,
-                                         x.Id,
-                                         x.Name,
-                                         x.Project,
-                                         x.StartDate,
-                                         x.TimeUsed,
-                                         AccumulatedTime = x.StartDate.Subtract(project.StartDate).TotalMinutes
-                                     })
-                    .ToList();
-
-                ViewBag.ChartData = JsonConvert.SerializeObject(act);
-
-                return View("Project");
+                var p = result.MapTo<ProjectsViewModel.Project>();
+                p.People = people.MapTo<PersonViewModel>();
+                p.Description = project.Description;
+                vm.Projects.Add(p);
             }
-            ViewBag.Endpoint = endpoint;
-
-            return View("Projects");
+            return View(vm);
         }
 
         [HttpGet]
-        //[ActionName("View")]
-        public ActionResult IndexNew(int? identifier)
+        public ActionResult Details(int id)
         {
-            // todo change name
-            var pController = new Api.ProjectsController(DbSession);
-            if (identifier.HasValue)
-            {
-                var aController = new Api.ActivitiesController(DbSession);
-                ViewBag.Activities = aController.Get(identifier.Value);
+            RavenQueryStatistics stats;
+            var results = DbSession
+                .Query<ProjectsEntitiesRelated.Result, ProjectsEntitiesRelated>()
+                .Statistics(out stats)
+                .Customize(c =>
+                           c.Include<ProjectsEntitiesRelated.Result>(r => r.Entity)
+                               .Include<ProjectsEntitiesRelated.Result>(r => r.Project))
+                .Where(r => r.Project == id.ToId("project"));
 
-
-                return View("ProjectNew", pController.Get(identifier.Value));
-            }
-            return View("ProjectsNew", pController.Get());
+            var project = DbSession.Load<Project>(id.ToId("project"));
+            return View(new ProjectViewModel
+                            {
+                                Summary = project.MapTo<ProjectViewModel.ProjectSummary>(),
+                                People = DbSession.Load<Person>(project.People).MapTo<PersonViewModel>(),
+                                Activities = results.OfType<Activity>().As<Activity>().MapTo<ProjectViewModel.Activity>(),
+                                Discussions = results.OfType<Discussion>().As<Discussion>().MapTo<ProjectViewModel.Discussion>()
+                            });
         }
     }
 }

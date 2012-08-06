@@ -1,7 +1,7 @@
 ﻿@model Teamworks.Core.Person
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = @Model.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
     var me = ViewBag.Me;
 }

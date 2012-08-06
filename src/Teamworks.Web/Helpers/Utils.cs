@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using System.Security.Cryptography;
+using System.Text;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 namespace Teamworks.Web.Helpers
@@ -11,6 +13,19 @@ namespace Teamworks.Web.Helpers
                     ContractResolver = new CamelCasePropertyNamesContractResolver(),
                     NullValueHandling = NullValueHandling.Ignore
                 };
+        }
+
+        public static string Hash(string str)
+        {
+            var md5Hasher = MD5.Create();
+            var data = md5Hasher.ComputeHash(
+                Encoding.Default.GetBytes(str));
+            var sBuilder = new StringBuilder();
+            for (var i = 0; i < data.Length; i++)
+            {
+                sBuilder.Append(data[i].ToString("x2"));
+            }
+            return sBuilder.ToString();
         }
     }
 }

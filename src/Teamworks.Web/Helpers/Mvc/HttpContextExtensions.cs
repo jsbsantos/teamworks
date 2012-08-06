@@ -14,7 +14,7 @@ namespace Teamworks.Web.Helpers.Mvc
             return person == null ? null : person.Person;
         }
 
-        public static string GetUserPrincipalId(this HttpContextBase context)
+        public static string GetCurrentPersonId(this HttpContextBase context)
         {
             Person person = GetCurrentPerson(context);
             return person == null ? "" : person.Id;

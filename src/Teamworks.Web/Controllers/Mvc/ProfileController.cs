@@ -1,4 +1,6 @@
 ﻿using System.Web.Mvc;
+using Raven.Client.Linq;
+using Teamworks.Core;
 using Teamworks.Core.Authentication;
 
 namespace Teamworks.Web.Controllers.Mvc
@@ -7,7 +9,7 @@ namespace Teamworks.Web.Controllers.Mvc
     {
         [HttpGet]
         [ActionName("View")]
-        public ActionResult Index()
+        public ActionResult Index(int? identifier)
         {
             ViewBag.Me = true;
             return View(((PersonIdentity) User.Identity).Person);
@@ -20,7 +22,7 @@ namespace Teamworks.Web.Controllers.Mvc
         }
 
         [HttpPost]
-        public ActionResult Edit(string name)
+        public ActionResult Edit(object model)
         {
             return RedirectToAction("Edit");
         }

@@ -50,11 +50,9 @@
         self.timelogs = ko.mapping.fromJS(timelogs || [], mapping);
         self.timelogs._create = function () {
             var entity = ko.mapping.toJS(self.typeahead.entity);
-            var projectId = entity.projectId;
-            var activityId = entity.activityId;
-
             $.ajax(
-                '/api/projects/' + projectId + '/activities/' + activityId + '/timelogs/',
+                '/api/projects/' + entity.project.id
+                    + '/activities/' + entity.activity.id + '/timelogs/',
                 {
                     type: 'post',
                     data: ko.toJSON(self.timelog),
@@ -79,9 +77,9 @@
             typeahead.source = source;
             typeahead.matcher = function (item) {
                 var o = self.source()[item];
-                var composed = o.project() + ', ' + o.activity();
-                return ~o.activity().toLowerCase().indexOf(this.query.toLowerCase())
-                    || ~o.project().toLowerCase().indexOf(this.query.toLowerCase())
+                var composed = o.project.name + ', ' + o.activity.name;
+                return ~o.activity.name().toLowerCase().indexOf(this.query.toLowerCase())
+                    || ~o.project.name().toLowerCase().indexOf(this.query.toLowerCase())
                         || ~composed.toLowerCase().indexOf(this.query.toLowerCase());
             };
             typeahead.sorter = function (items) {
@@ -95,7 +93,7 @@
                 items = $(items).map(function (i, item) {
                     var o = self.source()[item];
                     i = $(that.options.item).attr('data-value', item);
-                    var composed = o.project() + ', ' + o.activity();
+                    var composed = o.project.name() + ', ' + o.activity.name();
                     i.find('a').html(that.highlighter(composed));
                     return i[0];
                 });
@@ -106,20 +104,22 @@
             };
             typeahead.updater = function (item) {
                 var o = self.source()[item];
-                ko.mapping.fromJS(o, self.typeahead.entity);
-                return o.project() + ', ' + o.activity();
+                self.typeahead.entity = o;
+                self.typeahead.has_error(false);
+                return o.project.name() + ', ' + o.activity.name();
             };
         };
 
-        self.typeahead.validation_message = ko.observable("");
-        self.typeahead.has_error = ko.computed(function () {
-            return self.typeahead.validation_message().length > 0;
+        self.typeahead.has_error = ko.observable(true);
+        self.typeahead.validation_message = ko.computed(function () {
+            return self.typeahead.has_error() ? "Empty" : "";
         });
 
-        self.typeahead.entity = ko.mapping.fromJS({});
+        self.typeahead.entity = {};
         self.typeahead.reset = function () {
             if (self.typeahead.has_error) return;
-            ko.mapping.fromJS({}, self.typeahead.entity);
+            self.typeahead.entity = {};
+            self.typeahead.has_error(true);
         };
     };
 } (tw.pages));

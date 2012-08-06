@@ -5,18 +5,17 @@
         <i class="icon-user"></i>
         @User.Identity.Name
     </a>
-    <div class="dropdown-menu span3">
-           <div class="row-fluid well-small">
-                <div class="span3">
-                    <img class="pull-left" src="http://www.gravatar.com/avatar/add4bff95494eb688a8891832fd43c83?r=g&s=64" alt="Profile image"/>  
-                </div>
-                <div class="span9">
-                    <a href="@Url.RouteUrl("default", new {controller = "Profile", action = "View"})">Profile</a>
-                </div>
+    <div class="dropdown-menu">
+        <div class="well-small overflow">
+            <div class="pull-left">
+                <img class="" src="http://www.gravatar.com/avatar/add4bff95494eb688a8891832fd43c83?r=g&s=64" alt="Profile image"/>  
             </div>
+            <div class="pull-right">
+                <a href="@Url.RouteUrl("default", new {controller = "Profile", action = "View"})">Profile</a>
+            </div>
+        </div>
         <div class="form-actions">
             <a class="btn" href="@Url.RouteUrl("default", new {controller = "Account", action = "Logout"})">Logout</a>
         </div>
-            
     </div>
 </aside>

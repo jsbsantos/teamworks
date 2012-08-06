@@ -3,7 +3,7 @@ using Teamworks.Core.Services;
 
 namespace Teamworks.Core
 {
-    public abstract class Entity
+    public class Entity
     {
         public string Id { get; set; }
 

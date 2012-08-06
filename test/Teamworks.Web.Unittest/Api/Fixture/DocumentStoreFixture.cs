@@ -5,6 +5,7 @@ using Teamworks.Core;
 using Teamworks.Core.Authentication;
 using Teamworks.Core.Services;
 using Teamworks.Web.Helpers;
+using Teamworks.Web.Helpers.AutoMapper;
 
 namespace Teamworks.Web.Uni.Api.Fixture
 {

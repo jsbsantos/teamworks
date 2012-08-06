@@ -1,12 +1,15 @@
 body {
-    padding-top: 90px;
+    padding-top: 60px;
     box-sizing: border-box;
 }
 
 a { cursor: pointer; }
-section { padding-top: 40px; }
 
+section { padding-top: 20px; }
+
+.overflow { overflow: hidden;}
 .pull-down { margin-top: 10px; }
+
 .well-mini { moz-border-radius: 3px; webkit-border-radius: 3px; border-radius: 3px; padding: 4px; }
 [class^="icon-"], [class*=" icon-"] { background-image: none; vertical-align: baseline; }
 

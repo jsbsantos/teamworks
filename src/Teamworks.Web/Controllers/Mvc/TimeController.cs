@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Web.Mvc;
-using AutoMapper;
-using Teamworks.Web.Models.Api;
-using Teamworks.Web.Models.Mvc.Timelogs;
 
 namespace Teamworks.Web.Controllers.Mvc
 {
@@ -17,36 +15,52 @@ namespace Teamworks.Web.Controllers.Mvc
                 .Customize(c => c.Include<Core.Activity>(a => a.Project))
                 .ToList();
 
-            
-            var source = new List<TimeTypeahead>();
-            var timelogs = new List<Timelog>();
-            foreach (var a in activities)
-            {
-                var project = DbSession.Load<Core.Project>(a.Project);
-                source.Add( new TimeTypeahead
-                                     {
-                                         Activity = a.Name,
-                                         ActivityId = a.Identifier,
-                                         Project = project.Name,
-                                         ProjectId = project.Identifier
-                                     });
 
-                foreach (var t in a.Timelogs)
+            var source = new List<object>();
+            var timelogs = new List<object>();
+            foreach (var activity in activities)
+            {
+                var project = DbSession.Load<Core.Project>(activity.Project);
+                source.Add(new
+                               {
+                                   Activity = new
+                                                  {
+                                                      Id = activity.Identifier,
+                                                      activity.Name
+                                                  },
+                                   Project = new
+                                                 {
+                                                     Id = project.Identifier,
+                                                     project.Name
+                                                 }
+                               });
+
+                foreach (var t in activity.Timelogs)
                 {
-                    var timelog =  Mapper.Map<Core.Timelog, Timelog>(t);
-                    timelog.Activity = a;
-                    timelog.Project = project;
-                    timelogs.Add(timelog);
+                    timelogs.Add(new
+                                     {
+                                         t.Duration,
+                                         Activity = new
+                                                        {
+                                                            Id = activity.Identifier,
+                                                            activity.Name
+                                                        },
+                                         Project = new
+                                                       {
+                                                           Id = project.Identifier,
+                                                           project.Name
+                                                       },
+                                         t.Description,
+                                         t.Date
+                                     });
                 }
             }
 
-            var model = new TimeViewModel {
-                                Source = source,
-                                Timelogs = timelogs
-                            };
+            dynamic model = new ExpandoObject();
+            model.Source = source;
+            model.Timelogs = timelogs;
 
             return View(model);
         }
     }
-
 }

@@ -25,8 +25,8 @@ using Teamworks.Web.Attributes.Api.Ordered;
 using Teamworks.Web.Attributes.Mvc;
 using Teamworks.Web.Handlers;
 using Teamworks.Web.Helpers;
+using Teamworks.Web.Helpers.AutoMapper;
 using Teamworks.Web.Helpers.Mvc;
-
 
 namespace Teamworks.Web
 {
@@ -34,11 +34,6 @@ namespace Teamworks.Web
     // visit http://go.microsoft.com/?LinkId=9394801
     public class Application : HttpApplication
     {
-        public static class Keys
-        {
-            public const string RavenDbSessionKey = "RAVENDB_SESSION_KEY";
-        }
-
         public void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
@@ -75,12 +70,12 @@ namespace Teamworks.Web
             json.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             json.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
 
-            configuration.Services.Add(typeof(ModelBinderProvider), new MailgunModelBinderProvider());
+            configuration.Services.Add(typeof (ModelBinderProvider), new MailgunModelBinderProvider());
 
-            configuration.Services.Add(typeof(System.Web.Http.Filters.IFilterProvider), new OrderedFilterProvider());
+            configuration.Services.Add(typeof (System.Web.Http.Filters.IFilterProvider), new OrderedFilterProvider());
             var providers = configuration.Services.GetFilterProviders();
             var defaultprovider = providers.First(i => i is ActionDescriptorFilterProvider);
-            configuration.Services.Remove(typeof(System.Web.Http.Filters.IFilterProvider), defaultprovider);
+            configuration.Services.Remove(typeof (System.Web.Http.Filters.IFilterProvider), defaultprovider);
 
             configuration.Services.Add(typeof (ModelBinderProvider), new MailgunModelBinderProvider());
         }
@@ -90,16 +85,14 @@ namespace Teamworks.Web
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRouteLowercase(
-                name: "",
-                url: "projects/{projectid}/{controller}/{identifier}",
-                defaults: new {action = "View", identifier = UrlParameter.Optional}
-                );
+               name: "discussions",
+               url: "projects/{project}/discussions/{action}/{id}",
+               defaults: new { controller = "Discussions", action = "View", id = UrlParameter.Optional });
 
             routes.MapRouteLowercase(
-                name: "",
-                url: "projects/{identifier}",
-                defaults: new {controller = "Projects", action = "View", identifier = UrlParameter.Optional}
-                );
+                name: "activities",
+                url: "projects/{project}/activities/{action}/{id}",
+                defaults: new {controller = "Activities", action = "View", id = UrlParameter.Optional});
 
             routes.MapRouteLowercase(
                 name: "default",
@@ -159,5 +152,14 @@ namespace Teamworks.Web
             Global.Executor.Timeout = 15000;
             Global.Executor.Initialize();
         }
+
+        #region Nested type: Keys
+
+        public static class Keys
+        {
+            public const string RavenDbSessionKey = "RAVENDB_SESSION_KEY";
+        }
+
+        #endregion
     }
 }

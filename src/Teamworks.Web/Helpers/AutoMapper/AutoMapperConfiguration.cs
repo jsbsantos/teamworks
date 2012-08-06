@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Teamworks.Core.Services;
-using Teamworks.Web.Helpers.App;
+using Teamworks.Web.Helpers.AutoMapper.Profiles.Mvc;
 using Teamworks.Web.Models.Api;
 
-namespace Teamworks.Web.Helpers
+namespace Teamworks.Web.Helpers.AutoMapper
 {
     public static class AutoMapperConfiguration
     {
@@ -14,6 +14,15 @@ namespace Teamworks.Web.Helpers
 
         public static void Configure()
         {
+            // todo would make sense to add all of those automatically with an IoC
+            Mapper.AddProfile(new ProjectViewModelMapperProfile());
+            Mapper.AddProfile(new ProjectsViewModelMapperProfile());
+            Mapper.AddProfile(new PersonViewModelMapperProfile());
+
+
+
+            // todo change all this for separated profiles
+
             #region Project Mappings
 
             Mapper.CreateMap<Project, Core.Project>();

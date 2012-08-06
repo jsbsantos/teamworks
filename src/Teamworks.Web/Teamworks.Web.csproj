@@ -169,6 +169,8 @@
     <Compile Include="Attributes\Api\BasicAuthenticationAttribute.cs" />
     <Compile Include="Attributes\Api\FormsAuthenticationFilter.cs" />
     <Compile Include="Controllers\Mvc\ProfileController.cs" />
+    <Compile Include="ViewModels\Mvc\PersonViewModel.cs" />
+    <Compile Include="ViewModels\Mvc\ProjectViewModel.cs" />
     <Compile Include="Handlers\RavenSessionHandler.cs" />
     <Compile Include="Handlers\UnauthorizedHandler.cs" />
     <Compile Include="Controllers\Api\MailgunController.cs">
@@ -180,6 +182,11 @@
     <Compile Include="Controllers\Api\PeopleController.cs" />
     <Compile Include="Controllers\Api\HomeController.cs" />
     <Compile Include="Controllers\Mvc\TimeController.cs" />
+    <Compile Include="Helpers\AutoMapper\AutoMapperExtensions.cs" />
+    <Compile Include="Helpers\AutoMapper\Profiles\Mvc\ProjectsViewModelMapperProfile.cs" />
+    <Compile Include="Helpers\AutoMapper\ValueResolvers\GravatarResolver.cs" />
+    <Compile Include="Helpers\AutoMapper\Profiles\Mvc\PersonViewModelMapperProfile.cs" />
+    <Compile Include="Helpers\AutoMapper\Profiles\Mvc\ProjectViewModelMapperProfile.cs" />
     <Compile Include="Helpers\LowercaseContractResolver.cs" />
     <Compile Include="Helpers\Utils.cs" />
     <Compile Include="Models\Api\Todo.cs" />
@@ -205,7 +212,7 @@
     <Compile Include="Helpers\Api\RestApiSupressAuthenticationRedirectModule.cs" />
     <Compile Include="Helpers\MailgunModelBinder.cs" />
     <Compile Include="Helpers\MailgunModelBinderProvider.cs" />
-    <Compile Include="Helpers\AutoMapperConfiguration.cs" />
+    <Compile Include="Helpers\AutoMapper\AutoMapperConfiguration.cs" />
     <Compile Include="Helpers\Mvc\BundleExtensions.cs" />
     <Compile Include="Helpers\Mvc\HttpContextExtensions.cs" />
     <Compile Include="Helpers\App\NameValueCollectionExtensions.cs" />
@@ -218,10 +225,12 @@
     <Compile Include="Models\Api\Project.cs" />
     <Compile Include="Models\Api\Timelog.cs" />
     <Compile Include="Models\Mvc\Login.cs" />
+    <Compile Include="ViewModels\Mvc\ProjectsViewModel.cs" />
     <Compile Include="Models\Mvc\Register.cs" />
     <Compile Include="Models\Mvc\Timelogs\TimeViewmodel.cs" />
+    <Compile Include="ViewModels\Mvc\TypeaheadViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\ViewsExtensions.cs" />
+    <Compile Include="Helpers\Mvc\ViewsExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\bootstrap\bootstrap-responsive.css" />
@@ -235,14 +244,16 @@
     <Content Include="Content\css\teamworks.css" />
     <Content Include="Content\font\fontawesome-webfont.svg" />
     <Content Include="Content\img\google.png" />
-    <Content Include="Content\js\app\tw.viewmodels.timelogs.js" />
-    <Content Include="Content\js\app\tw.viewmodels.discussions.js" />
-    <Content Include="Content\js\app\tw.viewmodels.activities.js" />
-    <Content Include="Content\js\app\tw.runner.js" />
-    <Content Include="Content\js\app\tw.viewmodels.projects.js" />
-    <Content Include="Content\js\app\tw.d3.js" />
-    <Content Include="Content\js\app\tw.base.js" />
-    <Content Include="Content\js\app\tw.knockout.js" />
+    <Content Include="Content\js\tw\tw.pages.projects.js" />
+    <Content Include="Content\js\tw\tw.pages.project.js" />
+    <Content Include="Content\js\tw\tw.viewmodels.timelogs.js" />
+    <Content Include="Content\js\tw\tw.viewmodels.discussions.js" />
+    <Content Include="Content\js\tw\tw.viewmodels.activities.js" />
+    <Content Include="Content\js\tw\tw.runner.js" />
+    <Content Include="Content\js\tw\tw.viewmodels.projects.js" />
+    <Content Include="Content\js\tw\tw.d3.js" />
+    <Content Include="Content\js\tw\tw.js" />
+    <Content Include="Content\js\tw\tw.knockout.js" />
     <Content Include="Content\js\gac.js" />
     <Content Include="Content\js\libs\bootstrap\alert.js" />
     <Content Include="Content\js\libs\bootstrap\button.js" />
@@ -303,11 +314,10 @@
     <Content Include="Views\Home\View.cshtml" />
     <Content Include="Views\People\Person.cshtml" />
     <Content Include="Views\People\View.cshtml" />
-    <Content Include="Views\Projects\Project.cshtml" />
-    <Content Include="Views\Projects\Projects.cshtml" />
+    <Content Include="Views\Projects\Details.cshtml" />
+    <Content Include="Views\Projects\View.cshtml" />
     <Content Include="Views\Shared\Anonymous.cshtml" />
     <Content Include="Views\Shared\Authenticated.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
@@ -346,13 +356,20 @@
     <Content Include="Views\Shared\_Root.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Projects\ProjectNew.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Projects\ProjectsNew.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Profile\View.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Helpers\AutoMapper\Profiles\Api\" />
+    <Folder Include="Models\Mvc\Projects\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Projects\Copy of Project.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Projects\Copy of Projects.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Errors\500.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

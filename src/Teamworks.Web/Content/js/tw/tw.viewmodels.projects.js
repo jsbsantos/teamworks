@@ -78,7 +78,7 @@
 
                     var block = $(document.createElement('div'))
                         .append('<div>' + that.highlighter(o.name) + '</div>')
-                        .append('<div>(@' + that.highlighter(o.username) + ')</div>');
+                        .append('<div>(@@' + that.highlighter(o.username) + ')</div>');
 
                     i.find('a')
                         .append('<img style="padding-right: 4px" class="pull-left" src=' + o.gravatar + '&s=36' + '/>')

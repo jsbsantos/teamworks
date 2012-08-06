@@ -1,0 +1,70 @@
+﻿@using Teamworks.Web.Helpers.Mvc
+@model Teamworks.Web.ViewModels.Mvc.ProjectsViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="span8">
+        <header class="page-header">
+            <h1>Projects
+                <small>Here are listed your projects</small>
+            </h1>
+        </header>
+        <div data-bind="template: { name: 'project-template', foreach: projects }"></div>
+    </div>
+    <div class="span4">
+        <div class="lead">
+            <h3>New project</h3>
+        </div>
+        <div>
+            <a href="#" data-bind="visible: !projects.editing(), click: function() { projects.editing(true); } ">
+                Create a new project
+            </a>
+        </div>
+        <div class="hide" data-bind="css: { hide: !projects.editing() }">
+            <form class="form-horizontal" data-bind="submit: projects._create">
+                <div class="control-group">
+                    <input name="name" autofocus="autofocus" class="span3" placeholder="Project name" data-bind="value: projects.input, valueUpdate: 'afterkeyup'" />
+                </div>
+                <div class="control-group">
+                    <button type="submit" class="btn" data-bind="disable: projects.input.has_error, css: { 'btn-success': !projects.input.has_error(), 'btn-danger': projects.input.has_error }">
+                        Start working
+                    </button>  
+                    <a type="submit" class="help-inline" data-bind="click: function() { projects.editing(false) }"><i class="icon-remove"></i></a>  
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="project-template">
+    <div class="row well-small">
+        <div class="span">
+            <h3>
+                <a data-bind="attr: { href: '@Url.RouteUrl("default", new {controller = "Projects", action = "Details"})/' + id() }">
+                    <span data-bind="text: name"></span>
+                    <small data-bind="text: description"></small>
+                </a>
+            </h3>
+            <div>
+                This project has 
+                <span data-bind="text: numberOfActivities"></span>
+                activities and
+                <span data-bind="text: numberOfDiscussions"></span>
+                discussions. 
+                <a data-bind="click: _remove">Delete project</a>
+            </div>
+        </div>
+        <div class="pull-right" data-bind="foreach: people">
+            <a class="well-small" data-bind="attr: { href: '@Url.RouteUrl("default", new {controller = "Profile", action = "View"})/' + id()  }">
+                <img data-bind="attr: { src: gravatar, alt: name }"/>
+            </a>
+        </div>
+    </div>
+</script>
+<script>
+    var viewmodel = function() {
+        return tw.pages.ProjectsViewModel("/api/projects/", @Html.ToJson(@Model));
+    };
+</script>
