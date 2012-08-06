@@ -8,27 +8,25 @@
 
 
 <header class="page-header">
-    
+     @if (me) {<a class="btn btn-mini pull-right" href="#">Edit your profile</a>}
     <h1><span data-bind="text: name">@Model.Name</span>
-        @if(me)
-        {
-            <small><a class="btn btn-mini" href="#">Edit your profile</a></small>
-        } 
+        @if(me) { <small>This is you</small> } 
     </h1>
+   
 </header>
 <div class="row">
     <div class="span3">
-        <div class="thumbnail">
-            <img  src="http://www.gravatar.com/avatar/add4bff95494eb688a8891832fd43c83?r=g&s=256" alt="Profile image"/>
+        <div>
+            <img data-bind="attr: { src: gravatar }" alt="Profile image"/>
         </div>
     </div>
-    <div class="span7">
+    <div class="span5">
         <h2>Bio</h2>
         <div class="span">
             <h3>Name</h3> 
-            <div>@Model.Username</div>
+            <div data-bind="text: username">@Model.Username</div>
             <h3>Email</h3> 
-            <div>@Model.Email</div>
+            <div data-bind="text: email">@Model.Email</div>
         </div>
     </div>
 </div>

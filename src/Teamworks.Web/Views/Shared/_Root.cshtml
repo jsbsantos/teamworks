@@ -39,6 +39,7 @@
             <nav class="container">
                 @Html.ActionLink("teamworks", "View", "Home", null, new { @class = "brand span2" })
                 @RenderSection("navigation", false)
+                @RenderSection("subnav", false);
             </nav>
         </div>
     </header>

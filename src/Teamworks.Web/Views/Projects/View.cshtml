@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="row">
+<div class="row" style="margin-top: 34px">
     <div class="span8">
         <header class="page-header">
             <h1>Projects
@@ -57,7 +57,7 @@
             </div>
         </div>
         <div class="pull-right" data-bind="foreach: people">
-            <a class="well-small" data-bind="attr: { href: '@Url.RouteUrl("default", new {controller = "Profile", action = "View"})/' + id()  }">
+            <a class="pull-left well-mini" data-bind="attr: { href: '@Url.RouteUrl("default", new {controller = "Profiles", action = "View"})/' + id()  }">
                 <img data-bind="attr: { src: gravatar, alt: name }"/>
             </a>
         </div>

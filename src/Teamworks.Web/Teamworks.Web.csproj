@@ -166,13 +166,12 @@
     <Compile Include="Controllers\Api\EventsController.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Attributes\Api\BasicAuthenticationAttribute.cs" />
     <Compile Include="Attributes\Api\FormsAuthenticationFilter.cs" />
-    <Compile Include="Controllers\Mvc\ProfileController.cs" />
+    <Compile Include="Controllers\Mvc\ProfilesController.cs" />
+    <Compile Include="Handlers\BasicAuthenticationAttribute.cs" />
     <Compile Include="ViewModels\Mvc\PersonViewModel.cs" />
     <Compile Include="ViewModels\Mvc\ProjectViewModel.cs" />
     <Compile Include="Handlers\RavenSessionHandler.cs" />
-    <Compile Include="Handlers\UnauthorizedHandler.cs" />
     <Compile Include="Controllers\Api\MailgunController.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -356,17 +355,11 @@
     <Content Include="Views\Shared\_Root.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Profile\View.cshtml" />
+    <Content Include="Views\Profiles\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Helpers\AutoMapper\Profiles\Api\" />
     <Folder Include="Models\Mvc\Projects\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Projects\Copy of Project.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Projects\Copy of Projects.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Errors\500.cshtml" />

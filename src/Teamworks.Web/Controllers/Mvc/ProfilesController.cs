@@ -1,16 +1,19 @@
 ﻿using System.Web.Mvc;
-using Raven.Client.Linq;
 using Teamworks.Core;
 using Teamworks.Core.Authentication;
 
 namespace Teamworks.Web.Controllers.Mvc
 {
-    public class ProfileController : RavenController
+    public class ProfilesController : RavenController
     {
         [HttpGet]
         [ActionName("View")]
-        public ActionResult Index(int? identifier)
+        public ActionResult Index(int? id)
         {
+            if (id.HasValue)
+            {
+                return View(DbSession.Load<Person>(id.Value));
+            }
             ViewBag.Me = true;
             return View(((PersonIdentity) User.Identity).Person);
         }

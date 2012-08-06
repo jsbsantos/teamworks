@@ -18,8 +18,7 @@ namespace Teamworks.Web.Controllers.Mvc
         public ActionResult Index()
         {
             var current = HttpContext.GetCurrentPersonId();
-            // DbSession.SecureFor(current, Global.Constants.Operation);
-
+            
             RavenQueryStatistics stats;
             var results = DbSession
                 .Query<ProjectEntityCount.Result, ProjectEntityCount>()
@@ -53,23 +52,31 @@ namespace Teamworks.Web.Controllers.Mvc
         [HttpGet]
         public ActionResult Details(int id)
         {
+            var projectId = id.ToId("project");
             RavenQueryStatistics stats;
-            var results = DbSession
-                .Query<ProjectsEntitiesRelated.Result, ProjectsEntitiesRelated>()
+            var activities = DbSession
+                .Query<Activity>()
                 .Statistics(out stats)
-                .Customize(c =>
-                           c.Include<ProjectsEntitiesRelated.Result>(r => r.Entity)
-                               .Include<ProjectsEntitiesRelated.Result>(r => r.Project))
-                .Where(r => r.Project == id.ToId("project"));
+                .Customize(c => c.Include<Activity>(r => r.Project)
+                                    .Include<Activity>(r => r.People))
+                .Where(r => r.Project == projectId);
 
-            var project = DbSession.Load<Project>(id.ToId("project"));
-            return View(new ProjectViewModel
-                            {
-                                Summary = project.MapTo<ProjectViewModel.ProjectSummary>(),
-                                People = DbSession.Load<Person>(project.People).MapTo<PersonViewModel>(),
-                                Activities = results.OfType<Activity>().As<Activity>().MapTo<ProjectViewModel.Activity>(),
-                                Discussions = results.OfType<Discussion>().As<Discussion>().MapTo<ProjectViewModel.Discussion>()
-                            });
+            var project = DbSession.Include<Project>(p => p.People)
+                .Load<Project>(projectId);
+            
+            var discussions = DbSession
+                .Query<Discussion>()
+                .Statistics(out stats)
+                .Customize(c => c.Include<Discussion>(r => r.Entity))
+                .Where(r => r.Entity == projectId);
+            
+            var vm = project.MapTo<ProjectViewModel>();
+            vm.Activities = activities.MapTo<ProjectViewModel.Activity>();
+            vm.Discussions = discussions.MapTo<ProjectViewModel.Discussion>();
+            vm.People = DbSession.Load<Person>(project.People)
+                .Where(p => p != null).MapTo<PersonViewModel>();
+
+            return View(vm);
         }
     }
 }
