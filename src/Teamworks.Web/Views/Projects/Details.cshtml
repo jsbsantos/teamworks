@@ -1,82 +1,99 @@
 ﻿@using Teamworks.Web.Helpers.Mvc
-@model Teamworks.Web.Controllers.Mvc.ProjectViewModel
+@model Teamworks.Web.ViewModels.Mvc.ProjectViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div>
-    <ul class="breadcrumb">
+<div class="row">
+    <ul class="breadcrumb span8">
         <li>
-            <a href="@Url.RouteUrl("default", new {controller = "Projects"})">Projects</a>
+            <a href="@Url.RouteUrl("default", new {controller = "Projects", action = "View", id = UrlParameter.Optional})">Projects</a>
             <span class="divider">/</span>
         </li>
         <li>
-            <span data-bind="text: summary.name">@Model.Summary.Name</span>
+            <span data-bind="text: name">@Model.Name</span>
         </li>
     </ul>
 </div>
 <div class="row">
-    <div class="span9">
+    <div class="span8">
+        
         <header class="page-header">
             <h1>
-                <span data-bind="text: summary.name">@Model.Summary.Name</span>
+                <span data-bind="text: name">@Model.Name</span>
                 <small>
-                    <span data-bind="text: summary.description, visible: summary.description">
-                        @Model.Summary.Description
+                    <span data-bind="text: description, visible: description">
+                        @Model.Description
                     </span>
                     <i class="icon-edit"></i> 
                 </small>
             </h1>
         </header>
-        <!-- Activities -->
-        <section>
-            <div class="page-header">
-                <h2>Activities 
-                    <small>
-                        <a class="hide btn-mini" data-bind="css: { hide: activities.editing()}, click: function() { activities.editing(true); }">
-                            One more activity
-                        </a>
-                    </small>
-                </h2>
-                <div class="hide" data-bind="css: { hide: !activities.editing() }">
-                    <form class="well form-inline" data-bind="submit: activities._create">
-                        <input id="activity_name" name="activity_name" class="span4" autofocus="autofocus" placeholder="Activity name" data-bind="value: activities.input, valueUpdate: 'afterkeyup'" />
-                        <button type="submit" class="btn btn-success">
-                            Create
-                        </button>  
-                        <a class="btn-mini" data-bind="click: function() { activities.editing(false) }"><i class="icon-remove"></i></a>                                     </form>
+       
+            <section>
+                <div class="lead">
+                    <h2>Activities 
+                        <small>
+                            <a class="hide btn-mini" data-bind="css: { hide: activities.editing()}, click: function() { activities.editing(true); }">
+                                One more activity
+                            </a>
+                        </small>
+                    </h2>
+                    <div class="hide" data-bind="css: { hide: !activities.editing() }">
+                        <form class="well form-inline" data-bind="submit: activities._create">
+                            <input id="activity_name" name="activity_name" class="span4" autofocus="autofocus" placeholder="Activity name" data-bind="value: activities.input, valueUpdate: 'afterkeyup'" />
+                            <button type="submit" class="btn btn-success">
+                                Create
+                            </button>  
+                            <a class="btn-mini" data-bind="click: function() { activities.editing(false) }"><i class="icon-remove"></i></a>                                     </form>
+                    </div>
                 </div>
-            </div>
-            <!-- ko template: { name: 'activities-template', foreach: activities } -->
-            <!-- /ko -->
+                <!-- ko template: { name: 'activities-template', foreach: activities } -->
+                <!-- /ko -->
             
-        </section>
-        <section>
-            <div class="page-header">
-                <h2>Discussion
-                    <small>
-                        <a class="hide btn-mini" data-bind="css: { hide: discussions.editing()}, click: function() { discussions.editing(true); }">One more discussion</a>
-                    </small>
-                </h2>
-                <div class="hide" data-bind="css: { hide: !discussions.editing() }">
-                    <form class="well form-inline" data-bind="submit: discussions._create">
-                        <input id="discussion_name" name="discussion_name" class="span4" autofocus="autofocus" placeholder="Discussion name" data-bind="value: discussions.input, valueUpdate: 'afterkeyup'" />
-                        <button type="submit" class="btn btn-success">Create</button>  
-                        <a class="btn-mini" data-bind="click: function() { discussions.editing(false) }"><i class="icon-remove"></i></a>                   
-                    </form>
+            </section>
+            <section>
+                <div class="lead">
+                    <h2>Discussion
+                        <small>
+                            <a class="hide btn-mini" data-bind="css: { hide: discussions.editing()}, click: function() { discussions.editing(true); }">One more discussion</a>
+                        </small>
+                    </h2>
+                    <div class="hide" data-bind="css: { hide: !discussions.editing() }">
+                        <form class="well form-inline" data-bind="submit: discussions._create">
+                            <input id="discussion_name" name="discussion_name" class="span4" autofocus="autofocus" placeholder="Discussion name" data-bind="value: discussions.input, valueUpdate: 'afterkeyup'" />
+                            <button type="submit" class="btn btn-success">Create</button>  
+                            <a class="btn-mini" data-bind="click: function() { discussions.editing(false) }"><i class="icon-remove"></i></a>                   
+                        </form>
+                    </div>
                 </div>
-            </div>
-            <!-- ko template: { name: 'discussion-template', foreach: discussions } -->
-            <!-- /ko -->
+                <!-- ko template: { name: 'discussion-template', foreach: discussions } -->
+                <!-- /ko -->
             
-        </section>
-    </div>
+            </section>
+        </div>
+    <section class="span4">
+        <h2>People</h2>
+        <div class="people">
+            <ul class="thumbnails" data-bind="template: { name: 'person-template', foreach: people }"></ul>
+            <a href="#" class="more-options" data-bind="visible: !people.editing(), click: function() { people.editing(true); }" >More members</a>
+            <div class="hide" data-bind="css: { hide: !people.editing() }">
+                <form class="form-horizontal" data-bind="submit: people._add">
+                    <input autocomplete="off" placeholder="Who do you wanto to add" 
+                           data-items="4" class="span2" data-bind="value: people.input, valueUpdate: 'afterkeyup', typeahead: people.typeahead" />
+                    <a class="btn-mini" data-bind="click: function() { people.editing(false) }"><i class="icon-remove"></i></a> 
+                </form>
+            </div>
+        </div>
+        <br/>
+        <h2>Actions</h2>
+    </section>
 </div>
 <script type="text/html" id="activities-template">
     <div>
         <button class="close" data-bind="click: _remove">&times;</button>
         <h3>
-            <a data-bind="attr: { href: '@Url.RouteUrl("activities", new {project = Model.Summary.Id})/' + id() }">
+            <a data-bind="attr: { href: '@Url.RouteUrl("activities", new {project = Model.Id, action = "Details", id = UrlParameter.Optional})/' + id() }">
                 <span data-bind="text: name"></span>
                 <small data-bind="text: description"></small>
             </a>
@@ -87,13 +104,31 @@
     <div>
         <button class="close" data-bind="click: _remove">&times;</button>
         <h3>
-            <a data-bind="text: name, attr: { href: '@Url.RouteUrl("discussions", new {project = Model.Summary.Id})/' + id() }"></a>
+            <a data-bind="text: name, attr: { href: '@Url.RouteUrl("discussions", new {project = Model.Id, action = "Details", id = UrlParameter.Optional})/' + id() }"></a>
         </h3>
-        <p data-bind="text: content"></p>
+        <p data-bind="text: content, visible: content().length"></p>
     </div>
+</script>
+<script type="text/html" id="person-template">
+    <li class="dropdown">
+        <a class="thumbnail dropdown-toggle" data-toggle="dropdown" rel="tooltip-top" data-bind="attr: { href: '#', 'title': name }">
+            <img data-bind="attr: { src: gravatar }" />
+        </a>               
+        <div class="dropdown-menu well-small">
+            <img class="pull-left" data-bind="attr: { alt: name, src: gravatar }" />
+            <div>
+                <h3 class="lead">
+                    <a data-bind="text: name, attr: { href: '@Url.RouteUrl("default", new {controller = "Profiles", action = "View", id = UrlParameter.Optional})/' + id() }" href="#"></a>
+                </h3>
+                <div data-bind="text: username"></div>
+                <div data-bind="text: email"></div>
+            </div>
+            <a class="btn pull-right pull-down clear" href="#" data-bind="click: _remove">Remove</a>
+        </div>
+    </li>
 </script>
 <script>
     var viewmodel = function() {
-        return tw.pages.ProjectViewModel("/api/projects/" + @Model.Summary.Id, @Html.ToJson(@Model));
+        return tw.pages.ProjectViewModel("/api/projects/" + @Model.Id, @Html.ToJson(@Model));
     };
 </script>

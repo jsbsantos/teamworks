@@ -27,7 +27,7 @@ namespace Teamworks.Core
             return new Discussion()
                        {
                            Name = name,
-                           Content = content,
+                           Content = content ?? "",
                            Date = DateTime.Now,
                            Messages = new List<Message>(),
                            Subscribers = new List<string>(){person},

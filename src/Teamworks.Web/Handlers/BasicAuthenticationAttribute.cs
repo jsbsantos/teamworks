@@ -1,17 +1,20 @@
 using System;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Security.Principal;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Web.Http.Controllers;
-using System.Web.Http.Filters;
 using Raven.Client;
 using Teamworks.Core;
 using Teamworks.Core.Authentication;
 
-namespace Teamworks.Web.Attributes.Api
+namespace Teamworks.Web.Handlers
 {
-    public class BasicAuthenticationAttribute : ActionFilterAttribute
+    public class BasicAuthenticationHandler : DelegatingHandler
     {
         public class Credentials
         {
@@ -35,13 +38,13 @@ namespace Teamworks.Web.Attributes.Api
             return new Credentials();
         }
 
-        public override void OnActionExecuting(HttpActionContext context)
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            var header = context.Request.Headers.Authorization;
+            var header = request.Headers.Authorization;
             if (header != null && header.Scheme.Equals("Basic", StringComparison.OrdinalIgnoreCase))
             {
                 var credentials = GetBase64Credentials(header.Parameter);
-                var session = context.Request.Properties[Application.Keys.RavenDbSessionKey] as IDocumentSession;
+                var session = request.Properties[Application.Keys.RavenDbSessionKey] as IDocumentSession;
                 var person = session.Query<Person>().FirstOrDefault(
                     p => p.Username.Equals(credentials.Username, StringComparison.InvariantCultureIgnoreCase));
 
@@ -52,7 +55,18 @@ namespace Teamworks.Web.Attributes.Api
                 }
             }
 
-            base.OnActionExecuting(context);
+            return base.SendAsync(request, cancellationToken).ContinueWith(
+                t =>
+                {
+                    if (t.Result.StatusCode == HttpStatusCode.Unauthorized)
+                    {
+                        t.Result.Headers.WwwAuthenticate.Add(
+                            new AuthenticationHeaderValue("Basic", "realm=\"Teamworks Api\""));
+                    }
+                    return t.Result;
+                }); ;
         }
+
+
     }
 }

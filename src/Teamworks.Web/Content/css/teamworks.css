@@ -7,8 +7,10 @@ a { cursor: pointer; }
 
 section { padding-top: 20px; }
 
+.clear { clear: both; }
 .overflow { overflow: hidden;}
 .pull-down { margin-top: 10px; }
+.breadcrumb { box-sizing: border-box; }
 
 .well-mini { moz-border-radius: 3px; webkit-border-radius: 3px; border-radius: 3px; padding: 4px; }
 [class^="icon-"], [class*=" icon-"] { background-image: none; vertical-align: baseline; }
@@ -25,9 +27,10 @@ span input.seamless, span input.seamless:focus { padding: 0; border: none; verti
 .people .dropdown { position: relative; }
 .people .dropdown-menu { position: absolute; top: 0; left: 0; }
 .people .dropdown-menu a { clear: none; }
-.people .dropdown-menu p { color: #333; display: block; font-weight: normal; line-height: 18px; padding: 3px 15px; white-space: nowrap; margin: 0;}
+.people .dropdown-menu p { color: #333; display: block; font-weight: normal; line-height: 18px; white-space: nowrap; margin: 0;}
 .people .dropdown-menu { position: absolute; top: 0; left: 0; }
-.people .dropdown-menu > div { padding-left: 64px; }
+.people .dropdown-menu img + div { padding-left: 72px; }
+.people .dropdown-menu .lead a { padding: 0 }
 .people .thumbnails { margin-left: -5px; }
 .people .thumbnails > li { margin-left: 5px; }
 

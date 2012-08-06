@@ -19,7 +19,6 @@ namespace Teamworks.Web.Controllers.Mvc
         public ActionResult Index()
         {
             var current = HttpContext.GetCurrentPersonId();
-            // DbSession.SecureFor(current, Global.Constants.Operation);
 
             RavenQueryStatistics stats;
             var results = DbSession
@@ -54,37 +53,36 @@ namespace Teamworks.Web.Controllers.Mvc
         [HttpGet]
         public ActionResult Details(int id)
         {
+            var projectId = id.ToId("project");
             RavenQueryStatistics stats;
-            var query = DbSession
-                .Query<ProjectsEntitiesRelated.Result, ProjectsEntitiesRelated>()
+            var activities = DbSession
+                .Query<Activity>()
                 .Statistics(out stats)
-                .Customize(c =>
-                           c.Include<ProjectsEntitiesRelated.Result>(r => r.EntityId)
-                               .Include<ProjectsEntitiesRelated.Result>(r => r.Project))
-                .Where(r => r.Project == id.ToId("project"));
+                .Customize(c => c.Include<Activity>(r => r.Project)
+                                    .Include<Activity>(r => r.People))
+                .Where(r => r.Project == projectId);
 
-            var project = DbSession.Load<Project>(id.ToId("project"));
-            var ids = query.Select(r => r.EntityId).ToList();
-            var results = DbSession.Load<Entity>(ids).ToList();
-            var p1 = results.OfType<Activity>().Count();
-            var p2 = results.OfType<Discussion>().Count();
+            var project = DbSession.Include<Project>(p => p.People)
+                .Load<Project>(projectId);
 
-            var result =
-            new ProjectViewModel
-                {
-                    Summary = project.MapTo<ProjectViewModel.ProjectSummary>(),
-                    People = DbSession.Load<Person>(project.People).MapTo<PersonViewModel>(),
-                    Activities = results.OfType<Activity>().ToList().MapTo<ProjectViewModel.Activity>(),
-                    Discussions =
-                        results.OfType<Discussion>().ToList().MapTo<ProjectViewModel.Discussion>()
-                };
-            return View(result);
+            var discussions = DbSession
+                .Query<Discussion>()
+                .Statistics(out stats)
+                .Customize(c => c.Include<Discussion>(r => r.Entity))
+                .Where(r => r.Entity == projectId);
+
+            var vm = project.MapTo<ProjectViewModel>();
+            vm.Activities = activities.MapTo<ProjectViewModel.Activity>();
+            vm.Discussions = discussions.MapTo<ProjectViewModel.Discussion>();
+            vm.People = DbSession.Load<Person>(project.People)
+                .Where(p => p != null).MapTo<PersonViewModel>();
+
+            return View(vm);
         }
 
         [HttpGet]
         public ActionResult Gantt(int id)
         {
-
             ViewBag.Endpoint = "api/projects/" + id.ToString();
 
             var project = DbSession
@@ -97,17 +95,17 @@ namespace Teamworks.Web.Controllers.Mvc
                 .OrderBy(a => a.StartDate)
                 .ToList()
                 .Select(x => new
-                {
-                    x.Dependencies,
-                    x.Description,
-                    x.Duration,
-                    x.Id,
-                    x.Name,
-                    x.Project,
-                    x.StartDate,
-                    x.TimeUsed,
-                    AccumulatedTime = x.StartDate.Subtract(project.StartDate).TotalMinutes
-                });
+                                 {
+                                     x.Dependencies,
+                                     x.Description,
+                                     x.Duration,
+                                     x.Id,
+                                     x.Name,
+                                     x.Project,
+                                     x.StartDate,
+                                     x.TimeUsed,
+                                     AccumulatedTime = x.StartDate.Subtract(project.StartDate).TotalMinutes
+                                 });
 
             ViewBag.ChartData = JsonConvert.SerializeObject(act);
 

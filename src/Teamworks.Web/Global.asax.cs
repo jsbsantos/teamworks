@@ -43,7 +43,6 @@ namespace Teamworks.Web
         public static void RegisterGlobalApiFilters(HttpFilterCollection filters)
         {
             filters.Add(new RavenSessionAttribute());
-            filters.Add(new BasicAuthenticationAttribute());
             filters.Add(new FormsAuthenticationFilter());
 
             var filter = new ExceptionAttribute();
@@ -58,7 +57,8 @@ namespace Teamworks.Web
 
         public static void RegisterGlobalWebApiHandlers(Collection<DelegatingHandler> messageHandlers)
         {
-            messageHandlers.Add(new UnauthorizedHandler());
+
+            messageHandlers.Add(new BasicAuthenticationHandler());
             messageHandlers.Add(new RavenSessionHandler());
         }
 
@@ -136,7 +136,7 @@ namespace Teamworks.Web
                 new DocumentStore
                     {
                         ConnectionStringName = "RavenDB"
-                    }.RegisterListener(new DocumentStoreListener()).Initialize();
+                    }.Initialize();
 
             TryCreatingIndexesOrRedirectToErrorPage(Global.Database);
         }

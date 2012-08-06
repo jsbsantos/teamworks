@@ -1,12 +1,12 @@
 using System.Collections.Generic;
-using Teamworks.Web.ViewModels.Mvc;
 
-namespace Teamworks.Web.Controllers.Mvc
+namespace Teamworks.Web.ViewModels.Mvc
 {
     public class ProjectViewModel
     {
-        public ProjectSummary Summary { get; set; }
-
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
 
         public List<PersonViewModel> People { get; set; }
         public IList<Activity> Activities { get; set; }
@@ -18,6 +18,7 @@ namespace Teamworks.Web.Controllers.Mvc
         {
             public int Id { get; set; }
             public string Name { get; set; }
+            public string Description { get; set; }
         }
 
         #endregion
@@ -28,17 +29,7 @@ namespace Teamworks.Web.Controllers.Mvc
         {
             public int Id { get; set; }
             public string Name { get; set; }
-        }
-
-        #endregion
-
-        #region Nested type: ProjectSummary
-
-        public class ProjectSummary
-        {
-            public int Id { get; set; }
-            public string Name { get; set; }
-            public string Description { get; set; }
+            public string Content { get; set; }
         }
 
         #endregion

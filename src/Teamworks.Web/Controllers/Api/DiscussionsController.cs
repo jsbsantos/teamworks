@@ -7,6 +7,7 @@ using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
 using Raven.Bundles.Authorization.Model;
+using Raven.Client;
 using Raven.Client.Authorization;
 using Raven.Client.Linq;
 using Teamworks.Core.Services;
@@ -20,6 +21,15 @@ namespace Teamworks.Web.Controllers.Api
     [RoutePrefix("api/projects/{projectId}")]
     public class DiscussionsController : RavenApiController
     {
+        public DiscussionsController()
+        {
+        }
+
+        public DiscussionsController(IDocumentSession session)
+            : base(session)
+        {
+        }
+
         #region Project Discussion
 
         [GET("discussions")]
@@ -27,8 +37,8 @@ namespace Teamworks.Web.Controllers.Api
         {
             var discussions = DbSession.Query<Core.Discussion>()
                 .Where(d => d.Entity == projectId.ToId("project"));
-            
-            return Mapper.Map<IEnumerable<Core.Discussion>, 
+
+            return Mapper.Map<IEnumerable<Core.Discussion>,
                 IEnumerable<Discussion>>(discussions.ToList());
         }
 
@@ -39,7 +49,7 @@ namespace Teamworks.Web.Controllers.Api
                 .Query<Core.Discussion>()
                 .FirstOrDefault(a => a.Entity == projectId.ToId("project")
                                      && a.Id == id.ToId("discussion"));
-            
+
             Request.ThrowNotFoundIfNull(discussion);
             return Mapper.Map<Core.Discussion, Discussion>(discussion);
         }
@@ -55,8 +65,6 @@ namespace Teamworks.Web.Controllers.Api
                                                           {
                                                               Tags = {project.Id}
                                                           });
-
-
             var response = Mapper.Map<Core.Discussion, Discussion>(discussion);
 
             // todo add header of location
@@ -79,14 +87,13 @@ namespace Teamworks.Web.Controllers.Api
                                      && a.Id == id.ToId("discussion"));
 
             Request.ThrowNotFoundIfNull(discussion);
-            
+
             DbSession.Delete(discussion);
             return Request.CreateResponse(HttpStatusCode.NoContent);
         }
 
         #endregion
 
-        // todo
         #region Activities Discussion
 
         [GET("activities/{activityId}/discussions")]
@@ -149,5 +156,7 @@ namespace Teamworks.Web.Controllers.Api
         #endregion
 
         #endregion Activities
+
+        // todo
     }
 }
