@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Security.Principal;
 using System.Threading;
+using Raven.Client;
 using Raven.Client.Embedded;
 using Teamworks.Core;
 using Teamworks.Core.Authentication;

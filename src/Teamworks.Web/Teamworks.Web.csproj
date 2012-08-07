@@ -254,7 +254,7 @@
     <Content Include="Content\js\tw\tw.pages.projects.js" />
     <Content Include="Content\js\tw\tw.pages.project.js" />
     <Content Include="Content\js\tw\tw.runner.js" />
-    <Content Include="Content\js\tw\charts\tw.chartes.gantt.js" />
+    <Content Include="Content\js\tw\charts\tw.charts.gantt.js" />
     <Content Include="Content\js\tw\tw.js" />
     <Content Include="Content\js\gac.js" />
     <Content Include="Content\js\libs\bootstrap\alert.js" />
