@@ -17,6 +17,7 @@ namespace Teamworks.Web.Helpers.AutoMapper
             // todo would make sense to add all of those automatically with an IoC
             Mapper.AddProfile(new ProjectViewModelMapperProfile());
             Mapper.AddProfile(new ProjectsViewModelMapperProfile());
+            Mapper.AddProfile(new ActivityViewModelMapperProfile());
             Mapper.AddProfile(new PersonViewModelMapperProfile());
 
 

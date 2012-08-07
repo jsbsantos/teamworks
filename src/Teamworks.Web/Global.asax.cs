@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Sockets;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Filters;
@@ -18,7 +19,6 @@ using Raven.Client.Document;
 using Raven.Client.Exceptions;
 using Raven.Client.Indexes;
 using Teamworks.Core.Services;
-using Teamworks.Core.Services.RavenDb;
 using Teamworks.Core.Services.RavenDb.Indexes;
 using Teamworks.Web.Attributes.Api;
 using Teamworks.Web.Attributes.Api.Ordered;
@@ -57,7 +57,6 @@ namespace Teamworks.Web
 
         public static void RegisterGlobalWebApiHandlers(Collection<DelegatingHandler> messageHandlers)
         {
-
             messageHandlers.Add(new BasicAuthenticationHandler());
             messageHandlers.Add(new RavenSessionHandler());
         }
@@ -85,14 +84,20 @@ namespace Teamworks.Web
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRouteLowercase(
-               name: "discussions",
-               url: "projects/{project}/discussions/{action}/{id}",
-               defaults: new { controller = "Discussions", action = "View", id = UrlParameter.Optional });
+                name: "discussions",
+                url: "projects/{projectId}/discussions/{action}/{discussionId}",
+                defaults: new {controller = "Discussions", action = "View", id = UrlParameter.Optional});
 
             routes.MapRouteLowercase(
                 name: "activities",
-                url: "projects/{project}/activities/{action}/{id}",
+                url: "projects/{projectId}/activities/{action}/{activityId}",
                 defaults: new {controller = "Activities", action = "View", id = UrlParameter.Optional});
+
+            routes.MapRouteLowercase(
+                name: "default_profiles",
+                url: "profiles/{id}",
+                defaults: new {controller = "Profiles", action = "View", id = UrlParameter.Optional}
+                );
 
             routes.MapRouteLowercase(
                 name: "default",
@@ -143,7 +148,34 @@ namespace Teamworks.Web
 
         public static void TryCreatingIndexesOrRedirectToErrorPage(IDocumentStore store)
         {
-            IndexCreation.CreateIndexes(typeof (Activities_ByProject).Assembly, store);
+            try
+            {
+                IndexCreation.CreateIndexes(typeof (Activities_ByProject).Assembly, store);
+            }
+            catch (Exception e)
+            {
+                var socketException = e.InnerException as SocketException;
+                if (socketException == null)
+                    throw;
+
+                switch (socketException.SocketErrorCode)
+                {
+                    case SocketError.AddressNotAvailable:
+                    case SocketError.NetworkDown:
+                    case SocketError.NetworkUnreachable:
+                    case SocketError.ConnectionAborted:
+                    case SocketError.ConnectionReset:
+                    case SocketError.TimedOut:
+                    case SocketError.ConnectionRefused:
+                    case SocketError.HostDown:
+                    case SocketError.HostUnreachable:
+                    case SocketError.HostNotFound:
+                        // todo redirect to pretty page    
+                        break;
+                    default:
+                        throw;
+                }
+            }
         }
 
         public static void InitializeExecutor()

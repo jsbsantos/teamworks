@@ -1,9 +1,10 @@
-﻿@model Teamworks.Core.Person
+﻿@using Teamworks.Web.Helpers.Mvc
+@model Teamworks.Web.ViewModels.Mvc.PersonViewModel
 
 @{
     ViewBag.Title = @Model.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var me = ViewBag.Me;
+    var me = ViewBag.Me ?? false;
 }
 
 
@@ -30,3 +31,10 @@
         </div>
     </div>
 </div>
+
+<script>
+    var viewmodel = function () {
+        return tw.pages.Profile('/api/people', @Html.ToJson(@Model));
+    }
+
+</script>

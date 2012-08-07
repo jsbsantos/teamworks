@@ -29,6 +29,9 @@ namespace Teamworks.Web.Controllers.Mvc
                 .Where(r => r.People.Any(p => p == current))
                 .ToList();
 
+            if (results.Count == 0)
+                return HttpNotFound();
+
             var vm = new ProjectsViewModel
                          {
                              CurrentPage = 1,
@@ -63,7 +66,10 @@ namespace Teamworks.Web.Controllers.Mvc
 
             var project = DbSession.Include<Project>(p => p.People)
                 .Load<Project>(projectId);
-            
+
+            if (project == null)
+                return HttpNotFound();
+
             var discussions = DbSession
                 .Query<Discussion>()
                 .Statistics(out stats)

@@ -1,6 +1,8 @@
 ﻿using System.Web.Mvc;
 using Teamworks.Core;
 using Teamworks.Core.Authentication;
+using Teamworks.Web.Helpers.AutoMapper;
+using Teamworks.Web.ViewModels.Mvc;
 
 namespace Teamworks.Web.Controllers.Mvc
 {
@@ -10,18 +12,26 @@ namespace Teamworks.Web.Controllers.Mvc
         [ActionName("View")]
         public ActionResult Index(int? id)
         {
+            PersonViewModel personViewModel;
             if (id.HasValue)
             {
-                return View(DbSession.Load<Person>(id.Value));
+                personViewModel = DbSession.Load<Person>(id.Value)
+                    .MapTo<PersonViewModel>();
             }
-            ViewBag.Me = true;
-            return View(((PersonIdentity) User.Identity).Person);
+            else
+            {
+                ViewBag.Me = true;
+                personViewModel = ((PersonIdentity) User.Identity).Person
+                    .MapTo<PersonViewModel>();
+            }
+            return View(personViewModel);
         }
 
+        /*
         [HttpGet]
         public ActionResult Edit()
         {
-            return View("View", ((PersonIdentity)User.Identity).Person);
+            return View("View", ((PersonIdentity) User.Identity).Person);
         }
 
         [HttpPost]
@@ -29,5 +39,6 @@ namespace Teamworks.Web.Controllers.Mvc
         {
             return RedirectToAction("Edit");
         }
+        */
     }
 }

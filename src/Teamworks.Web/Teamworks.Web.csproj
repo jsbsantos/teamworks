@@ -167,8 +167,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Attributes\Api\FormsAuthenticationFilter.cs" />
+    <Compile Include="ViewModels\Mvc\ActivityViewModel.cs" />
     <Compile Include="Controllers\Mvc\ProfilesController.cs" />
     <Compile Include="Handlers\BasicAuthenticationAttribute.cs" />
+    <Compile Include="Helpers\AutoMapper\Profiles\Mvc\ActivityViewModelMapperProfile.cs" />
     <Compile Include="ViewModels\Mvc\PersonViewModel.cs" />
     <Compile Include="ViewModels\Mvc\ProjectViewModel.cs" />
     <Compile Include="Handlers\RavenSessionHandler.cs" />
@@ -243,6 +245,8 @@
     <Content Include="Content\css\teamworks.css" />
     <Content Include="Content\font\fontawesome-webfont.svg" />
     <Content Include="Content\img\google.png" />
+    <Content Include="Content\js\tw\tw.pages.activity.js" />
+    <Content Include="Content\js\tw\tw.pages.profile.js" />
     <Content Include="Content\js\tw\tw.pages.projects.js" />
     <Content Include="Content\js\tw\tw.pages.project.js" />
     <Content Include="Content\js\tw\tw.viewmodels.timelogs.js" />
@@ -306,8 +310,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Account\View.cshtml" />
-    <Content Include="Views\Activities\Activities.cshtml" />
-    <Content Include="Views\Activities\Activity.cshtml" />
     <Content Include="Views\Discussions\Discussion.cshtml" />
     <Content Include="Views\Discussions\Discussions.cshtml" />
     <Content Include="Views\Home\View.cshtml" />
@@ -363,6 +365,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Errors\500.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Activities\View.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Activities\Details.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
