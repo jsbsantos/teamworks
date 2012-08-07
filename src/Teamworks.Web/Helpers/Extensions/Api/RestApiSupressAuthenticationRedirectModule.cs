@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web;
 
-namespace Teamworks.Web.Helpers.Api
+namespace Teamworks.Web.Helpers.Extensions.Api
 {
     /// <see cref="http://haacked.com/archive/2011/10/04/prevent-forms-authentication-login-page-redirect-when-you-donrsquot-want.aspx" />
     public class RestApiSupressAuthenticationRedirectModule : IHttpModule

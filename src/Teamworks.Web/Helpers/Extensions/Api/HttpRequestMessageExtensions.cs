@@ -6,7 +6,7 @@ using System.Web.Http;
 using Teamworks.Core;
 using Teamworks.Core.Authentication;
 
-namespace Teamworks.Web.Helpers.Api
+namespace Teamworks.Web.Helpers.Extensions.Api
 {
     public static class HttpRequestMessageExtensions
     {

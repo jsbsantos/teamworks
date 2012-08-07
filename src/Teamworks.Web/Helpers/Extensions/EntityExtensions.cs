@@ -2,7 +2,7 @@
 using System.Text;
 using Teamworks.Core;
 
-namespace Teamworks.Web.Helpers.App
+namespace Teamworks.Web.Helpers.Extensions
 {
     public static class EntityExtensions
     {

@@ -10,7 +10,7 @@ using AutoMapper;
 using Raven.Client;
 using Teamworks.Core;
 using Teamworks.Core.Services;
-using Teamworks.Web.Helpers.Api;
+using Teamworks.Web.Helpers.Extensions.Api;
 using Timelog = Teamworks.Web.Models.Api.Timelog;
 
 namespace Teamworks.Web.Controllers.Api

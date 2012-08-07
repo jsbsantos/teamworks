@@ -7,7 +7,7 @@ using AttributeRouting.Web.Http;
 using AutoMapper;
 using Teamworks.Core;
 using Teamworks.Core.Services;
-using Teamworks.Web.Helpers.Api;
+using Teamworks.Web.Helpers.Extensions.Api;
 using Message = Teamworks.Web.Models.Api.Message;
 
 namespace Teamworks.Web.Controllers.Api

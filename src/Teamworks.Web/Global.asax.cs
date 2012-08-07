@@ -28,7 +28,7 @@ using Teamworks.Web.Attributes.Mvc;
 using Teamworks.Web.Handlers;
 using Teamworks.Web.Helpers;
 using Teamworks.Web.Helpers.AutoMapper;
-using Teamworks.Web.Helpers.Mvc;
+using Teamworks.Web.Helpers.Extensions.Mvc;
 using IFilterProvider = System.Web.Http.Filters.IFilterProvider;
 
 namespace Teamworks.Web

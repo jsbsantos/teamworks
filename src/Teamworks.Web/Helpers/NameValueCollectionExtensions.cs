@@ -2,7 +2,7 @@
 using System.Collections.Specialized;
 using System.Linq;
 
-namespace Teamworks.Web.Helpers.App
+namespace Teamworks.Web.Helpers
 {
     public static class NameValueCollectionExtensions
     {

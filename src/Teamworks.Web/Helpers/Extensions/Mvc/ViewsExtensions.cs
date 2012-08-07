@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Teamworks.Core.Authentication;
 
-namespace Teamworks.Web.Helpers.Mvc
+namespace Teamworks.Web.Helpers.Extensions.Mvc
 {
     public static class ViewsExtensions
     {

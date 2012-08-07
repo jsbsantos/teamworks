@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 using Raven.Client;
-using Teamworks.Web.Helpers.Mvc;
+using Teamworks.Web.Helpers.Extensions.Mvc;
 
 namespace Teamworks.Web.Controllers
 {

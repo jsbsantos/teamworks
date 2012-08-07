@@ -1,6 +1,6 @@
 ﻿using System.Web.Optimization;
 
-namespace Teamworks.Web.Helpers.Mvc
+namespace Teamworks.Web.Helpers.Extensions.Mvc
 {
     public static class BundleExtensions
     {

@@ -13,7 +13,7 @@ using Raven.Client.Authorization;
 using Raven.Client.Linq;
 using Teamworks.Core.Services;
 using Teamworks.Web.Attributes.Api;
-using Teamworks.Web.Helpers.Api;
+using Teamworks.Web.Helpers.Extensions.Api;
 using Teamworks.Web.Models.Api;
 
 namespace Teamworks.Web.Controllers.Api
