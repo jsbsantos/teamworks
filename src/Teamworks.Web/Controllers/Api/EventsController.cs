@@ -7,6 +7,5 @@ namespace Teamworks.Web.Controllers.Api
     [RoutePrefix("api/events")]
     public class EventsController : RavenApiController
     {
-
     }
 }

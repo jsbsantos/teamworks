@@ -13,14 +13,14 @@ namespace Teamworks.Core
 
 
         public bool Archived { get; set; }
-        
+
         public IList<string> People { get; set; }
-        
+
         public DateTime StartDate { get; set; }
         public DateTime CreatedAt { get; set; }
-        
+
         public IList<OperationPermission> Permissions { get; set; }
-        
+
         public static Project Forge(string name, string description, DateTime? startdate = null)
         {
             return new Project
@@ -36,7 +36,7 @@ namespace Teamworks.Core
 
         public void AllowPersonAssociation()
         {
-            Permissions.Add(new OperationPermission()
+            Permissions.Add(new OperationPermission
                                 {
                                     Allow = true,
                                     Operation = Global.Constants.Operation,
@@ -48,7 +48,7 @@ namespace Teamworks.Core
         {
             var relation = new List<ActivityRelation>();
 
-            foreach (var activity in activities)
+            foreach (Activity activity in activities)
                 relation.AddRange(activity.DependencyGraph(activities));
 
             return relation.ToList();

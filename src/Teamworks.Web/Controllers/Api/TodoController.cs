@@ -1,13 +1,6 @@
-﻿using System.Linq;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
-using AttributeRouting;
+﻿using AttributeRouting;
 using AttributeRouting.Web.Http;
-using AutoMapper;
 using Teamworks.Web.Attributes.Api;
-using Teamworks.Web.Helpers.Api;
-using Teamworks.Web.Models.Api;
 
 namespace Teamworks.Web.Controllers.Api
 {

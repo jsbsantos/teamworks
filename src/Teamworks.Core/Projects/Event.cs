@@ -13,7 +13,7 @@ namespace Teamworks.Core
 
         public static Event Forge(string name, string description, string host, DateTime schedule)
         {
-            return new Event()
+            return new Event
                        {
                            Name = name,
                            Attendees = new List<string>(),

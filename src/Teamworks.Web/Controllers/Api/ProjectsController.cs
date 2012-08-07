@@ -1,6 +1,4 @@
-﻿
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -25,7 +23,7 @@ namespace Teamworks.Web.Controllers.Api
     public class ProjectsController : RavenApiController
     {
         public ProjectsController()
-        {   
+        {
         }
 
         public ProjectsController(IDocumentSession session)
@@ -37,7 +35,7 @@ namespace Teamworks.Web.Controllers.Api
         public IEnumerable<Project> Get()
         {
             RavenQueryStatistics stat;
-            var projects = DbSession
+            List<Core.Project> projects = DbSession
                 .Query<Core.Project>()
                 .Statistics(out stat)
                 .ToList();
@@ -56,7 +54,7 @@ namespace Teamworks.Web.Controllers.Api
 
         public HttpResponseMessage Post(Project model)
         {
-            var project = Core.Project.Forge(model.Name, model.Description, model.StartDate);
+            Core.Project project = Core.Project.Forge(model.Name, model.Description, model.StartDate);
 
             DbSession.Store(project);
 
@@ -65,16 +63,16 @@ namespace Teamworks.Web.Controllers.Api
                                                        {
                                                            Tags = {project.Id}
                                                        });
-            var person = Request.GetCurrentPerson();
+            Core.Person person = Request.GetCurrentPerson();
             project.People.Add(person.Id);
             person.Roles.Add(project.Id);
 
 
-            var value = Mapper.Map<Core.Project, Project>(project);
-            var response = Request.CreateResponse(HttpStatusCode.Created, value);
+            Project value = Mapper.Map<Core.Project, Project>(project);
+            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, value);
 
-            var uri = Uri.UriSchemeHttp + Uri.SchemeDelimiter + Request.RequestUri.Authority +
-                      Url.Route(null, new {id = project.Id});
+            string uri = Uri.UriSchemeHttp + Uri.SchemeDelimiter + Request.RequestUri.Authority +
+                         Url.Route(null, new {id = project.Id});
             response.Headers.Location = new Uri(uri);
             return response;
         }
@@ -100,7 +98,7 @@ namespace Teamworks.Web.Controllers.Api
                 .Include<Core.Project>(p => p.People)
                 .Load<Core.Project>(projectId);
 
-            var people = DbSession.Load<Core.Person>(project.People);
+            Core.Person[] people = DbSession.Load<Core.Person>(project.People);
             return Mapper.Map<IEnumerable<Core.Person>, IEnumerable<Person>>(people);
         }
 
@@ -111,11 +109,11 @@ namespace Teamworks.Web.Controllers.Api
             var project = DbSession
                 .Load<Core.Project>(projectId);
 
-            var people = DbSession
+            IEnumerable<Core.Person> people = DbSession
                 .Load<Core.Person>(model.Ids.Select(i => i.ToId("person")))
-                    .Where(p => p != null);
+                .Where(p => p != null);
 
-            foreach (var person in people)
+            foreach (Core.Person person in people)
             {
                 person.Roles.Add(project.Id);
                 project.People.Add(person.Id);
@@ -152,7 +150,7 @@ namespace Teamworks.Web.Controllers.Api
 
         #endregion
 
-        #region Task Dependencies
+        #region Task Related
 
         /*
         [GET("{projectId}/precedences")]
@@ -186,6 +184,7 @@ namespace Teamworks.Web.Controllers.Api
             return new DependencyGraph() {Elements = elements, Relations = relations};
         }
         */
+
         #endregion
     }
 }

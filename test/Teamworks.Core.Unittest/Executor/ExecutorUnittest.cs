@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Teamworks.Core.Services;
 using Xunit;
@@ -11,29 +10,29 @@ namespace Teamworks.Core.Unittest.Executor
         [Fact]
         public void ForgeTaskPriorityExecution()
         {
-            var executor = Teamworks.Core.Services.Executor.Instance;
+            Services.Executor executor = Services.Executor.Instance;
             executor.Timeout = 2000;
             int r = 0, o1 = 0, o2 = 0, o3 = 0;
 
-            var t1 = executor.Enqueue(() =>
-                                          {
-                                              var local = Interlocked.Increment(ref r);
-                                              o3 = local;
-                                          }, ExecutePriority.LOW).ContinueWith(
-                                              a => { Assert.False(a.IsFaulted); });
-            var t2 = executor.Enqueue(() =>
-                                          {
-                                              var local = Interlocked.Increment(ref r);
-                                              o2 = local;
-                                          }, ExecutePriority.MEDIUM).ContinueWith(
-                                              a => { Assert.False(a.IsFaulted); });
+            Task t1 = executor.Enqueue(() =>
+                                           {
+                                               int local = Interlocked.Increment(ref r);
+                                               o3 = local;
+                                           }, ExecutePriority.LOW).ContinueWith(
+                                               a => { Assert.False(a.IsFaulted); });
+            Task t2 = executor.Enqueue(() =>
+                                           {
+                                               int local = Interlocked.Increment(ref r);
+                                               o2 = local;
+                                           }, ExecutePriority.MEDIUM).ContinueWith(
+                                               a => { Assert.False(a.IsFaulted); });
 
-            var t3 = executor.Enqueue(() =>
-                                          {
-                                              var local = Interlocked.Increment(ref r);
-                                              o1 = local;
-                                          }, ExecutePriority.HIGH).ContinueWith(
-                                              a => { Assert.False(a.IsFaulted); });
+            Task t3 = executor.Enqueue(() =>
+                                           {
+                                               int local = Interlocked.Increment(ref r);
+                                               o1 = local;
+                                           }, ExecutePriority.HIGH).ContinueWith(
+                                               a => { Assert.False(a.IsFaulted); });
 
             executor.Initialize();
 
@@ -47,12 +46,12 @@ namespace Teamworks.Core.Unittest.Executor
         [Fact]
         public void ForgeTaskPriorityExecution_With_Sleep()
         {
-            var executor = Teamworks.Core.Services.Executor.Instance;
+            Services.Executor executor = Services.Executor.Instance;
             executor.Initialize();
             executor.Timeout = 2000;
             int r = 0, o1 = 0, o2 = 0, o3 = 0;
 
-            var t1 = executor.Enqueue(() => { Thread.Sleep(2000); }, ExecutePriority.LOW).ContinueWith(
+            Task t1 = executor.Enqueue(() => { Thread.Sleep(2000); }, ExecutePriority.LOW).ContinueWith(
                 a =>
                     {
                         Assert.False(a.IsFaulted);
@@ -61,7 +60,7 @@ namespace Teamworks.Core.Unittest.Executor
 
             Thread.Sleep(10000);
 
-            var t2 = executor.Enqueue(() => { Thread.Sleep(3000); }, ExecutePriority.MEDIUM).ContinueWith(
+            Task t2 = executor.Enqueue(() => { Thread.Sleep(3000); }, ExecutePriority.MEDIUM).ContinueWith(
                 a =>
                     {
                         Assert.False(a.IsFaulted);

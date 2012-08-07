@@ -15,7 +15,7 @@ namespace Teamworks.Web.Attributes.Api
     {
         public override void OnActionExecuting(HttpActionContext context)
         {
-            var identity = HttpContext.Current.User.Identity;
+            IIdentity identity = HttpContext.Current.User.Identity;
             if (!string.IsNullOrEmpty(identity.Name) &&
                 identity.AuthenticationType.Equals("Forms", StringComparison.OrdinalIgnoreCase))
             {

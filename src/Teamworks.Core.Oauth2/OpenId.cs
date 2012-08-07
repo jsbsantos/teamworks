@@ -27,9 +27,9 @@ namespace Teamworks.Core.Oauth2
         public OpenIdResult Authenticate(string provider)
         {
             //The Request
-            using (OpenIdRelyingParty openid = new OpenIdRelyingParty())
+            using (var openid = new OpenIdRelyingParty())
             {
-                var response = openid.GetResponse();
+                IAuthenticationResponse response = openid.GetResponse();
                 var obj = new OpenIdResult();
                 if (response == null)
                 {

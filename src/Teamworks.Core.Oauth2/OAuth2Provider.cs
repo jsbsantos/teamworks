@@ -33,19 +33,19 @@ namespace Teamworks.Core.Oauth2
                     .ToList()
                     .ForEach(i =>
                                  {
-                                     var split = i.Split(new[] {'='});
+                                     string[] split = i.Split(new[] {'='});
                                      param.Add(split[0], split[1]);
                                  });
 
                 var content = new FormUrlEncodedContent(param);
-                var response = client.PostAsync(client.BaseAddress, content).Result;
+                HttpResponseMessage response = client.PostAsync(client.BaseAddress, content).Result;
                 return response.Content.ReadAsStringAsync().Result;
             }
             if (method == "GET")
             {
-                foreach (var key in headers.AllKeys)
+                foreach (string key in headers.AllKeys)
                     client.DefaultRequestHeaders.Add(key, headers[key]);
-                var response = client.GetAsync(uri.Uri).Result;
+                HttpResponseMessage response = client.GetAsync(uri.Uri).Result;
                 return response.Content.ReadAsStringAsync().Result;
             }
 

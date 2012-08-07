@@ -13,7 +13,7 @@ namespace Teamworks.Core
 
         public static Timelog Forge(string description, int duration, DateTime date, string person)
         {
-            return new Timelog()
+            return new Timelog
                        {
                            Description = description,
                            Date = date,

@@ -5,12 +5,6 @@ namespace Teamworks.Core.Services.RavenDb.Indexes
 {
     public class Activities_ByPerson : AbstractIndexCreationTask<Activity, Activities_ByPerson.Result>
     {
-        public class Result
-        {
-            public string Person { get; set; }
-
-        }
-
         public Activities_ByPerson()
         {
             Map = activities => from act in activities
@@ -20,5 +14,14 @@ namespace Teamworks.Core.Services.RavenDb.Indexes
                                                Person = person
                                            };
         }
+
+        #region Nested type: Result
+
+        public class Result
+        {
+            public string Person { get; set; }
+        }
+
+        #endregion
     }
 }

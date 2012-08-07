@@ -7,8 +7,8 @@
     <div class="span9">
         <div>
             <ul class="breadcrumb">
-                <li><a href="@Url.RouteUrl("default", new { controller = "Projects" })">Projects</a> <span
-                                                                                                         class="divider">/</span> </li>
+                <li><a href="@Url.RouteUrl("default", new {controller = "Projects"})">Projects</a> <span
+                                                                                                       class="divider">/</span> </li>
                 <li><span data-bind="text: project.name">@Model.Name</span> </li>
             </ul>
         </div>
@@ -27,5 +27,5 @@
     var gantt = function() {
         return new tw.Gantt(@Html.Raw(ViewBag.ChartData));
     };
-    
+
 </script>

@@ -10,6 +10,7 @@ namespace Teamworks.Core
         public IList<Todo> Todos { get; set; }
 
         public int LastTodoId { get; private set; }
+
         public int GenerateNewTodoId()
         {
             return ++LastTodoId;
@@ -22,7 +23,7 @@ namespace Teamworks.Core
                            Name = name,
                            Description = description,
                            Todos = new List<Todo>(),
-                           LastTodoId=0
+                           LastTodoId = 0
                        };
         }
     }

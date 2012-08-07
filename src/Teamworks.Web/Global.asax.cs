@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Net.Sockets;
 using System.Web;
 using System.Web.Http;
@@ -27,6 +29,7 @@ using Teamworks.Web.Handlers;
 using Teamworks.Web.Helpers;
 using Teamworks.Web.Helpers.AutoMapper;
 using Teamworks.Web.Helpers.Mvc;
+using IFilterProvider = System.Web.Http.Filters.IFilterProvider;
 
 namespace Teamworks.Web
 {
@@ -65,16 +68,16 @@ namespace Teamworks.Web
         {
             configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
 
-            var json = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
+            JsonMediaTypeFormatter json = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
             json.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             json.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
 
             configuration.Services.Add(typeof (ModelBinderProvider), new MailgunModelBinderProvider());
 
-            configuration.Services.Add(typeof (System.Web.Http.Filters.IFilterProvider), new OrderedFilterProvider());
-            var providers = configuration.Services.GetFilterProviders();
-            var defaultprovider = providers.First(i => i is ActionDescriptorFilterProvider);
-            configuration.Services.Remove(typeof (System.Web.Http.Filters.IFilterProvider), defaultprovider);
+            configuration.Services.Add(typeof (IFilterProvider), new OrderedFilterProvider());
+            IEnumerable<IFilterProvider> providers = configuration.Services.GetFilterProviders();
+            IFilterProvider defaultprovider = providers.First(i => i is ActionDescriptorFilterProvider);
+            configuration.Services.Remove(typeof (IFilterProvider), defaultprovider);
 
             configuration.Services.Add(typeof (ModelBinderProvider), new MailgunModelBinderProvider());
         }

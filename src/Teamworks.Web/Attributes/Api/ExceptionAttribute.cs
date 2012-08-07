@@ -10,12 +10,6 @@ namespace Teamworks.Web.Attributes.Api
 {
     public class ExceptionAttribute : ExceptionFilterAttribute
     {
-        public struct Rule
-        {
-            public bool HasBody;
-            public HttpStatusCode Status;
-        }
-
         public ExceptionAttribute()
         {
             Mappings = new Dictionary<Type, Rule>();
@@ -27,7 +21,7 @@ namespace Teamworks.Web.Attributes.Api
         {
             if (context.Exception != null)
             {
-                var exception = context.Exception;
+                Exception exception = context.Exception;
                 if (exception is HttpException)
                 {
                     context.Response =
@@ -36,7 +30,7 @@ namespace Teamworks.Web.Attributes.Api
                 }
                 else if (Mappings.ContainsKey(exception.GetType()))
                 {
-                    var rule = Mappings[exception.GetType()];
+                    Rule rule = Mappings[exception.GetType()];
                     context.Response = rule.HasBody
                                            ? context.Request.CreateResponse(rule.Status, exception.Message)
                                            : context.Request.CreateResponse(rule.Status);
@@ -49,5 +43,15 @@ namespace Teamworks.Web.Attributes.Api
             }
             base.OnException(context);
         }
+
+        #region Nested type: Rule
+
+        public struct Rule
+        {
+            public bool HasBody;
+            public HttpStatusCode Status;
+        }
+
+        #endregion
     }
 }

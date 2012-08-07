@@ -1,4 +1,4 @@
-tw.Gantt = function (data, options) {
+tw.Gantt = function(data, options) {
     var self = this;
 
     //privates
@@ -16,12 +16,12 @@ tw.Gantt = function (data, options) {
         }
     }
 
-    $.each(data, function (i, e) {
+    $.each(data, function(i, e) {
         e.RealAcc = GetParentDuration(e, data);
     });
 
     var _default = {
-        //draw area default config
+    //draw area default config
         graphic_width: $("#chart").width(),
         graphic_height: 150,
         graphic_start_x: 0,
@@ -90,10 +90,10 @@ tw.Gantt = function (data, options) {
 
         //item name
         node.append("text")
-            .text(function (d) {
+            .text(function(d) {
                 return d.Name;
             }).attr("x", 5)
-            .attr("y", function (d, i) {
+            .attr("y", function(d, i) {
                 return self.grid_header_offset + self.graphic_start_y + (self.item_padding_y + self.item_estimated_height) * i;
             })
             .attr("class", "gantt_text");
@@ -101,11 +101,11 @@ tw.Gantt = function (data, options) {
 
         //item estimated duration bar
         node.append("rect")
-            .attr("x", function (d, i) {
-                return (i && self.item_padding_x) + self.item_offset_x + (Math.max(d.AccumulatedTime,d.RealAcc) * self.item_unit_width);
-            }).attr("y", function (d, i) {
+            .attr("x", function(d, i) {
+                return (i && self.item_padding_x) + self.item_offset_x + (Math.max(d.AccumulatedTime, d.RealAcc) * self.item_unit_width);
+            }).attr("y", function(d, i) {
                 return self.grid_header_offset + self.item_offset_y + (i) * (self.item_padding_y + self.item_estimated_height);
-            }).attr("width", function (d) {
+            }).attr("width", function(d) {
                 return d.Duration * self.item_unit_width;
             }).attr("height", self.item_estimated_height)
             .attr("class", "gantt_duration_rect");
@@ -113,14 +113,14 @@ tw.Gantt = function (data, options) {
 
         //item real duration bar
         node.append("rect")
-            .attr("x", function (d, i) {
+            .attr("x", function(d, i) {
                 return (i && self.item_padding_x) + self.item_offset_x + (Math.max(d.AccumulatedTime, d.RealAcc) * self.item_unit_width);
-            }).attr("y", function (d, i) {
+            }).attr("y", function(d, i) {
                 return self.grid_header_offset + self.item_offset_y + ((self.item_padding_y + self.item_estimated_height) * i) + (self.item_estimated_height - self.item_real_height);
-            }).attr("width", function (d) {
+            }).attr("width", function(d) {
                 return d.TimeUsed * self.item_unit_width;
             }).attr("height", self.item_real_height)
-            .attr("class", function (d) {
+            .attr("class", function(d) {
                 if (d.TimeUsed >= d.Duration * 0.95)
                     return "gantt_duration_rect_red";
                 if (d.TimeUsed >= d.Duration * 0.65)
@@ -130,13 +130,13 @@ tw.Gantt = function (data, options) {
 
         //item duration text
         node.append("text")
-            .text(function (d) {
+            .text(function(d) {
                 return d.Duration + "h/" + d.TimeUsed + "h (" + ((d.TimeUsed / d.Duration) * 100).toPrecision(3) + "%)";
-            }).attr("x", function (d, i) {
+            }).attr("x", function(d, i) {
                 return (i && self.item_padding_x) + self.item_offset_x + (Math.max(d.AccumulatedTime, d.RealAcc) * self.item_unit_width);
-            }).attr("y", function (d, i) {
+            }).attr("y", function(d, i) {
                 return self.grid_header_offset + self.graphic_start_y + (self.item_padding_y + self.item_estimated_height) * i - 2;
-            }).attr("dx", function (d) {
+            }).attr("dx", function(d) {
                 return (d.Duration * self.item_unit_width) / 2;
             })
             .attr("class", "gantt_rect_text");
@@ -163,7 +163,7 @@ tw.Gantt = function (data, options) {
             .attr("y", self.grid_header_offset)
             .attr("dy", -3)
             .attr("text-anchor", "middle")
-            .text(function (d, i) { return d; })
+            .text(function(d, i) { return d; })
             .attr("font-size", "0.8em");
 
 
@@ -171,29 +171,29 @@ tw.Gantt = function (data, options) {
             .data(d3.range(0, self.grid_horizontal_lines))
             .enter().insert("line", ":first-child")
             .attr("x1", 0)
-            .attr("y1", function (d, i) {
+            .attr("y1", function(d, i) {
                 return (self.graphic_start_y + (self.item_padding_y + self.item_estimated_height) * i) - 0.5;
             })
-            .attr("x2", function (d, i) {
+            .attr("x2", function(d, i) {
                 return self.graphic_width;
             })
-            .attr("y2", function (d, i) {
+            .attr("y2", function(d, i) {
                 return (self.graphic_start_y + (self.item_padding_y + self.item_estimated_height) * i) - 0.5;
             })
             .attr("width", 1)
             .style("stroke", "#ccc");
 
         g.selectAll("linex")
-        .data([1])
-        .enter().insert("line", ":first-child")
+            .data([1])
+            .enter().insert("line", ":first-child")
             .attr("x1", 1).attr("y1", Math.floor(self.grid_header_offset) + 1)
             .attr("x2", 1).attr("y2", Math.floor(self.graphic_height + self.grid_header_offset / 2) + 2)
-        .attr("width", 1)
-        .style("stroke", "#ccc");
+            .attr("width", 1)
+            .style("stroke", "#ccc");
 
 
         g.selectAll("header_leg_bottom")
-        .data([1])
+            .data([1])
             .enter().append("text")
             .attr("x", 2)
             .attr("y", 10)
@@ -207,7 +207,7 @@ tw.Gantt = function (data, options) {
         var acc = _acc || 0;
 
         var max = 0;
-        var parents = $.grep(_data, function (element, index) {
+        var parents = $.grep(_data, function(element, index) {
             return $.inArray(element.Id, a.Dependencies) > -1;
         });
 
@@ -216,7 +216,7 @@ tw.Gantt = function (data, options) {
 
         var parent = undefined;
         var ref = max;
-        parents.forEach(function (e, i) {
+        parents.forEach(function(e, i) {
             max = Math.max(Math.max(e.Duration, e.TimeUsed), max);
             if (max != ref)
                 parent = e;

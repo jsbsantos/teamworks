@@ -6,7 +6,7 @@ namespace Teamworks.Web.Helpers.Mvc
     {
         public static void EnableTeamworksBundle(this BundleCollection bundles)
         {
-            var css = new StyleBundle("~/css")
+            Bundle css = new StyleBundle("~/css")
                 .Include("~/content/css/bootstrap/bootstrap.css",
                          "~/content/css/bootstrap/datepicker.css",
                          "~/content/css/font-awesome.css",
@@ -16,7 +16,7 @@ namespace Teamworks.Web.Helpers.Mvc
 
             bundles.Add(css);
 
-            var js = new ScriptBundle("~/js")
+            Bundle js = new ScriptBundle("~/js")
                 // extra libs
                 .Include("~/content/js/libs/date.js",
                          "~/content/js/libs/crypto/core.js",
@@ -37,15 +37,13 @@ namespace Teamworks.Web.Helpers.Mvc
                          "~/content/js/libs/bootstrap/datepicker.js")
                 // d3
                 .Include("~/content/js/libs/d3/d3.v2.js")
-                // visual aids
-                .Include("~/content/js/libs/knockout-2.0.0.js",
-                         "~/content/js/libs/knockout.unobtrusive.js",
-                         "~/content/js/libs/knockout.mapping.js",
-                         "~/content/js/tw/tw.js",
-                         "~/content/js/tw/tw.knockout.js")
+                // knockout
+                .IncludeDirectory("~/content/js/libs/", "knockout*")
+                // tw
+                .Include("~/content/js/tw/tw.js")
+                .IncludeDirectory("~/content/js/tw/charts/", "*.charts.*")
                 .IncludeDirectory("~/content/js/tw/", "*.pages.*")
-                .Include("~/content/js/tw/tw.runner.js",
-                         "~/content/js/tw/tw.d3.js");
+                .Include("~/content/js/tw/tw.runner.js");
 #if !DEBUG            
             js.Include("~/content/js/gac.js");
 #endif

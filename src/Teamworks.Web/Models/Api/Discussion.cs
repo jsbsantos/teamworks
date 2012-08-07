@@ -10,6 +10,5 @@ namespace Teamworks.Web.Models.Api
         public string Content { get; set; }
         public DateTime Date { get; set; }
         public IList<Message> Messages { get; set; }
-       
     }
 }

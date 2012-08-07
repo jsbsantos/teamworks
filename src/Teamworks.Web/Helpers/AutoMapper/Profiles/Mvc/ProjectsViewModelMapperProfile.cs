@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Teamworks.Core;
 using Teamworks.Core.Services;
 using Teamworks.Core.Services.RavenDb.Indexes;
 using Teamworks.Web.ViewModels.Mvc;

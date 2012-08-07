@@ -1,9 +1,9 @@
 ﻿using Xunit;
 
-namespace Teamworks.Core.Unittest.Entities {
-
-    public class PersonUnittest {
-        
+namespace Teamworks.Core.Unittest.Entities
+{
+    public class PersonUnittest
+    {
         [Fact]
         public void ForgePerson()
         {
@@ -12,7 +12,7 @@ namespace Teamworks.Core.Unittest.Entities {
             const string password = "password";
             const string name = "name";
 
-            var person = Core.Person.Forge(email, username, password,name);
+            Person person = Person.Forge(email, username, password, name);
             Assert.Equal(email, person.Email);
             Assert.Equal(username, person.Username);
         }
@@ -25,7 +25,7 @@ namespace Teamworks.Core.Unittest.Entities {
             const string password = "password";
             const string name = "name";
 
-            var person = Core.Person.Forge(email, username, password, name);
+            Person person = Person.Forge(email, username, password, name);
             Assert.True(person.IsThePassword(password));
         }
     }

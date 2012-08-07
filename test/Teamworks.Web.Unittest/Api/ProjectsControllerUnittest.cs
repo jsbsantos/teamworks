@@ -1,8 +1,9 @@
-﻿using Teamworks.Web.Uni.Api.Fixture;
-using Xunit;
-using System.Linq;
+﻿using System.Linq;
+using Teamworks.Core;
 using Teamworks.Core.Services;
 using Teamworks.Web.Controllers.Api;
+using Teamworks.Web.Uni.Api.Fixture;
+using Xunit;
 
 namespace Teamworks.Web.Uni.Api
 {
@@ -10,30 +11,39 @@ namespace Teamworks.Web.Uni.Api
     {
         public DocumentStoreFixture Fixture { get; set; }
 
+        #region IUseFixture<DocumentStoreFixture> Members
+
+        public void SetFixture(DocumentStoreFixture data)
+        {
+            Fixture = data;
+            Fixture.Initialize();
+        }
+
+        #endregion
+
         [Fact]
         public void GetProjects()
         {
-            using (var session = Global.Database.OpenSession())
+            using (IDocumentSession session = Global.Database.OpenSession())
             {
                 var controller = new ProjectsController(session);
-                var size = controller.Get().Count();
-                Fixture.Store(Core.Project.Forge("proj 1", "proj 1 description"));
+                int size = controller.Get().Count();
+                Fixture.Store(Project.Forge("proj 1", "proj 1 description"));
 
                 Assert.Equal(size, controller.Get().Count());
             }
-            
         }
 
         [Fact]
         public void GetProjectById()
         {
-            var name = "proj 1";
-            var description = "description 1";
+            string name = "proj 1";
+            string description = "description 1";
             var controller = new ProjectsController();
-            var project = Core.Project.Forge(name, description);
+            Project project = Project.Forge(name, description);
             Fixture.Store(project);
 
-            var result = controller.Get(project.Identifier);
+            Models.Api.Project result = controller.Get(project.Identifier);
             Assert.NotNull(result);
             Assert.Equal(project.Name, result.Name);
             Assert.Equal(project.Description, result.Description);
@@ -59,12 +69,6 @@ namespace Teamworks.Web.Uni.Api
             Assert.Equal(project.Description, result.Description);
             Assert.False(result.Archived);
             */
-        }
-
-        public void SetFixture(DocumentStoreFixture data)
-        {
-            Fixture = data;
-            Fixture.Initialize();
         }
     }
 }

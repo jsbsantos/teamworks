@@ -6,10 +6,10 @@ namespace Teamworks.Web.Models.Api
 {
     public class Person
     {
+        private string _email;
         public string Id { get; set; }
         public string Name { get; set; }
         public string Username { get; set; }
-        private string _email;
 
         public string Email { get; set; }
         public string Gravatar { get; set; }
@@ -21,8 +21,8 @@ namespace Teamworks.Web.Models.Api
             if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(email.Trim()))
                 throw new ArgumentException("The email is empty.", "email");
 
-            var md5 = MD5.Create();
-            var data = md5.ComputeHash(Encoding.Default.GetBytes(email.ToLower()));
+            MD5 md5 = MD5.Create();
+            byte[] data = md5.ComputeHash(Encoding.Default.GetBytes(email.ToLower()));
             var sb = new StringBuilder(baseUrl);
             for (int i = 0; i < data.Length; i++)
             {

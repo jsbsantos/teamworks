@@ -2,13 +2,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web.Http;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
+using Teamworks.Core;
 using Teamworks.Core.Services;
 using Teamworks.Web.Helpers.Api;
-using Teamworks.Web.Models.Api;
+using Message = Teamworks.Web.Models.Api.Message;
 
 namespace Teamworks.Web.Controllers.Api
 {
@@ -16,48 +16,47 @@ namespace Teamworks.Web.Controllers.Api
     [RoutePrefix("api/projects/{projectId}")]
     public class MessagesController : RavenApiController
     {
-        
-        public Core.Discussion GetDiscussion(int discussionId, string entity)
+        public Discussion GetDiscussion(int discussionId, string entity)
         {
-            var discussion = DbSession.Query<Core.Discussion>()
+            Discussion discussion = DbSession.Query<Discussion>()
                 .FirstOrDefault(d => d.Entity == entity
-                    && d.Id == discussionId.ToId("discussion"));
+                                     && d.Id == discussionId.ToId("discussion"));
 
             Request.ThrowNotFoundIfNull(discussion);
             return discussion;
         }
-        
+
         [GET("discussions/{discussionId}/messages")]
         public IEnumerable<Message> GetMessageFromProjectDiscussion(int projectId, int discussionId)
         {
-            var messages = GetDiscussion(discussionId, projectId.ToId("project")).Messages;
+            IList<Core.Message> messages = GetDiscussion(discussionId, projectId.ToId("project")).Messages;
             return Mapper.Map<IEnumerable<Core.Message>, IEnumerable<Message>>(messages);
         }
-        
+
         [POST("discussions/{discussionId}/messages")]
         public HttpResponseMessage PostMessageOnProjectDiscussion(
-             int discussionId, int projectId, Message model)
+            int discussionId, int projectId, Message model)
         {
-            var discussion = GetDiscussion(discussionId, projectId.ToId("project"));
+            Discussion discussion = GetDiscussion(discussionId, projectId.ToId("project"));
 
-            var current = Request.GetCurrentPersonId();
-            var message = Core.Message.Forge(model.Content, current);
-            
+            string current = Request.GetCurrentPersonId();
+            Core.Message message = Core.Message.Forge(model.Content, current);
+
             message.Id = discussion.GenerateNewTimeEntryId();
 
             discussion.Messages.Add(message);
             //discussion.Notify(message, DbSession.Load<Core.Person>(discussion.Subscribers)
             //            .Select(x => x.Email).ToList());
 
-            var value = Mapper.Map<Core.Message, Message>(message);
+            Message value = Mapper.Map<Core.Message, Message>(message);
             return Request.CreateResponse(HttpStatusCode.Created, value);
         }
-        
+
         [DELETE("discussions/{discussionid}/messages/{id}")]
         public HttpResponseMessage DeleteMessageFromProjectDiscussion(int id, int projectId, int discussionId)
         {
-            var messages = GetDiscussion(discussionId, projectId.ToId("project")).Messages;
-            var message = messages.FirstOrDefault(m => m.Id == id);
+            IList<Core.Message> messages = GetDiscussion(discussionId, projectId.ToId("project")).Messages;
+            Core.Message message = messages.FirstOrDefault(m => m.Id == id);
             Request.ThrowNotFoundIfNull(message);
 
             messages.Remove(message);
@@ -65,6 +64,7 @@ namespace Teamworks.Web.Controllers.Api
         }
 
         #region Activity
+
 /*
         private Core.Discussion LoadTaskDiscussion(int projectid, int activityid, int discussionid)
         {
@@ -132,7 +132,7 @@ namespace Teamworks.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.NoContent);
         }
         */
-        #endregion
 
+        #endregion
     }
 }

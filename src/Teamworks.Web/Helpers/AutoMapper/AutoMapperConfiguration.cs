@@ -15,11 +15,12 @@ namespace Teamworks.Web.Helpers.AutoMapper
         public static void Configure()
         {
             // todo would make sense to add all of those automatically with an IoC
+            Mapper.AddProfile(new EntityViewModelMapperProfile());
             Mapper.AddProfile(new ProjectViewModelMapperProfile());
             Mapper.AddProfile(new ProjectsViewModelMapperProfile());
             Mapper.AddProfile(new ActivityViewModelMapperProfile());
             Mapper.AddProfile(new PersonViewModelMapperProfile());
-
+            Mapper.AddProfile(new RegisterTimelogsViewModelMapperProfile());
 
 
             // todo change all this for separated profiles

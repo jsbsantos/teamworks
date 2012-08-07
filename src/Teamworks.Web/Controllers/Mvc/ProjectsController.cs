@@ -18,10 +18,10 @@ namespace Teamworks.Web.Controllers.Mvc
         [ActionName("View")]
         public ActionResult Index()
         {
-            var current = HttpContext.GetCurrentPersonId();
+            string current = HttpContext.GetCurrentPersonId();
 
             RavenQueryStatistics stats;
-            var results = DbSession
+            List<ProjectEntityCount.Result> results = DbSession
                 .Query<ProjectEntityCount.Result, ProjectEntityCount>()
                 .Statistics(out stats)
                 .Customize(c =>
@@ -40,9 +40,9 @@ namespace Teamworks.Web.Controllers.Mvc
                              Projects = new List<ProjectsViewModel.Project>()
                          };
 
-            foreach (var result in results)
+            foreach (ProjectEntityCount.Result result in results)
             {
-                var people = DbSession.Load<Person>(result.People);
+                Person[] people = DbSession.Load<Person>(result.People);
                 var project = DbSession.Load<Project>(result.Project);
 
                 var p = result.MapTo<ProjectsViewModel.Project>();
@@ -56,9 +56,9 @@ namespace Teamworks.Web.Controllers.Mvc
         [HttpGet]
         public ActionResult Details(int id)
         {
-            var projectId = id.ToId("project");
+            string projectId = id.ToId("project");
             RavenQueryStatistics stats;
-            var activities = DbSession
+            IRavenQueryable<Activity> activities = DbSession
                 .Query<Activity>()
                 .Statistics(out stats)
                 .Customize(c => c.Include<Activity>(r => r.Project)
@@ -71,7 +71,7 @@ namespace Teamworks.Web.Controllers.Mvc
             if (project == null)
                 return HttpNotFound();
 
-            var discussions = DbSession
+            IRavenQueryable<Discussion> discussions = DbSession
                 .Query<Discussion>()
                 .Statistics(out stats)
                 .Customize(c => c.Include<Discussion>(r => r.Entity))
@@ -89,20 +89,20 @@ namespace Teamworks.Web.Controllers.Mvc
         [HttpGet]
         public ActionResult Gantt(int id)
         {
-            ViewBag.Endpoint = "api/projects/" + id.ToString();
+            ViewBag.Endpoint = "api/projects/" + id;
 
             var project = DbSession
-                .Load<Core.Project>(id);
+                .Load<Project>(id);
 
             var act = DbSession.Query
-                <Core.Services.RavenDb.Indexes.Activities_Duration_Result,
-                    Core.Services.RavenDb.Indexes.Activities_Duration>()
+                <ActivitiesDuration.Result,
+                    ActivitiesDuration>()
                 .Where(a => a.Project == project.Id)
                 .OrderBy(a => a.StartDate)
                 .ToList()
                 .Select(x => new
                                  {
-                                     x.Dependencies,
+                                     x.Related,
                                      x.Description,
                                      x.Duration,
                                      x.Id,

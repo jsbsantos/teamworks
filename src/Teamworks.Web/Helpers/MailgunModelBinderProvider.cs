@@ -11,8 +11,8 @@ namespace Teamworks.Web.Helpers
 
         public override IModelBinder GetBinder(HttpActionContext actionContext, ModelBindingContext bindingContext)
         {
-            if (bindingContext.ModelType == typeof(Mailgun) || 
-                bindingContext.ModelType.IsSubclassOf(typeof(Dictionary<string, string>)))
+            if (bindingContext.ModelType == typeof (Mailgun) ||
+                bindingContext.ModelType.IsSubclassOf(typeof (Dictionary<string, string>)))
             {
                 return _modelBinder;
             }

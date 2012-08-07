@@ -12,7 +12,7 @@ namespace Teamworks.Core
 
         public static Todo Forge(string name, string description, DateTime? dueDate)
         {
-            return new Todo()
+            return new Todo
                        {
                            Name = name,
                            Description = description,

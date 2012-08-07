@@ -4,6 +4,7 @@ using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
 using Raven.Client;
+using Raven.Client.Linq;
 using Teamworks.Web.Attributes.Api;
 using Teamworks.Web.Helpers.Api;
 using Teamworks.Web.Models.Api;
@@ -45,9 +46,9 @@ namespace Teamworks.Web.Controllers.Api
         [GET("activities")]
         public IEnumerable<Activity> GetActivities()
         {
-            var current = Request.GetCurrentPersonId();
+            string current = Request.GetCurrentPersonId();
             Request.ThrowNotFoundIfNull(current);
-            var activities = DbSession
+            IRavenQueryable<Core.Activity> activities = DbSession
                 .Query<Core.Activity>();
 
             return Mapper.Map<IList<Core.Activity>, IEnumerable<Activity>>(activities.ToList());

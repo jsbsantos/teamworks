@@ -20,7 +20,7 @@ namespace Teamworks.Web.Attributes.Api
                     dict.Add(entry.Key.Replace("model.", ""),
                              entry.Value.Errors.Select(e => e.ErrorMessage).ToArray());
                 }
-                var response = context.Request.CreateResponse(HttpStatusCode.BadRequest, dict);
+                HttpResponseMessage response = context.Request.CreateResponse(HttpStatusCode.BadRequest, dict);
                 throw new HttpResponseException(response);
             }
         }

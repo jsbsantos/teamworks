@@ -23,9 +23,9 @@ namespace Teamworks.Web.Attributes.Api.Ordered
                 throw new ArgumentNullException("actionDescriptor");
             }
 
-            var actionFilters =
+            IEnumerable<OrderedFilterInfo> actionFilters =
                 actionDescriptor.GetFilters().Select(i => new OrderedFilterInfo(i, FilterScope.Controller));
-            var controllerFilters =
+            IEnumerable<OrderedFilterInfo> controllerFilters =
                 actionDescriptor.ControllerDescriptor.GetFilters().Select(
                     i => new OrderedFilterInfo(i, FilterScope.Controller));
 

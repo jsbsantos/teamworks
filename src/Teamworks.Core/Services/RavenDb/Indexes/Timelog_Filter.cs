@@ -1,8 +1,4 @@
-﻿using System.Linq;
-using Raven.Abstractions.Indexing;
-using Raven.Client.Indexes;
-
-namespace Teamworks.Core.Services.RavenDb.Indexes
+﻿namespace Teamworks.Core.Services.RavenDb.Indexes
 {
     /*
     public class Timelog_Filter : AbstractIndexCreationTask<Activity, Activity>

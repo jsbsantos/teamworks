@@ -4,13 +4,16 @@ namespace Teamworks.Core.Services
 {
     public static class Global
     {
+        public static IDocumentStore Database;
         public static Executor Executor { get; set; }
 
-        public static IDocumentStore Database;
+        #region Nested type: Constants
 
         public static class Constants
         {
             public const string Operation = "GOD";
         }
+
+        #endregion
     }
 }

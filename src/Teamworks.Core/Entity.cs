@@ -12,6 +12,5 @@ namespace Teamworks.Core
         {
             get { return Id.ToIdentifier(); }
         }
-
     }
 }

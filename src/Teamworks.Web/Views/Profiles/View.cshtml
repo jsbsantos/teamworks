@@ -4,14 +4,20 @@
 @{
     ViewBag.Title = @Model.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var me = ViewBag.Me ?? false;
+    dynamic me = ViewBag.Me ?? false;
 }
 
 
 <header class="page-header">
-     @if (me) {<a class="btn btn-mini pull-right" href="#">Edit your profile</a>}
+    @if (me)
+    {
+        <a class="btn btn-mini pull-right" href="#">Edit your profile</a>
+    }
     <h1><span data-bind="text: name">@Model.Name</span>
-        @if(me) { <small>This is you</small> } 
+        @if (me)
+        {
+            <small>This is you</small>
+        } 
     </h1>
    
 </header>
@@ -33,7 +39,7 @@
 </div>
 
 <script>
-    var viewmodel = function () {
+    var viewmodel = function() {
         return tw.pages.Profile('/api/people', @Html.ToJson(@Model));
     }
 

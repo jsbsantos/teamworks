@@ -39,12 +39,19 @@
                 </small>
             </h1>
         </header>
-        </div>
+    </div>
 </div>
 
 
 <script>
-    var viewmodel = function () {
+    var viewmodel = function() {
         return tw.pages.ActivityViewModel('/api/projects/@Model.ProjectReference.Id/activities', @Html.ToJson(Model));
     }
 </script>
+
+<section>
+    <h1>Results</h1>
+    <pre>
+@ViewsExtensions.ToIndentedJson(Html, ViewBag.Results)
+</pre>
+</section>

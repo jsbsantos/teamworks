@@ -1,14 +1,6 @@
-﻿using System.Collections;
-using System.Linq;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
-using AttributeRouting;
+﻿using AttributeRouting;
 using AttributeRouting.Web.Http;
-using AutoMapper;
 using Teamworks.Web.Attributes.Api;
-using Teamworks.Web.Helpers.Api;
-using TodoList = Teamworks.Web.Models.Api.TodoList;
 
 namespace Teamworks.Web.Controllers.Api
 {

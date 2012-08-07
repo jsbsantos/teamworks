@@ -9,19 +9,20 @@ namespace Teamworks.Web.Helpers
     {
         public static JsonSerializerSettings JsonSettings()
         {
-            return new JsonSerializerSettings {
-                    ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                    NullValueHandling = NullValueHandling.Ignore
-                };
+            return new JsonSerializerSettings
+                       {
+                           ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                           NullValueHandling = NullValueHandling.Ignore
+                       };
         }
 
         public static string Hash(string str)
         {
-            var md5Hasher = MD5.Create();
-            var data = md5Hasher.ComputeHash(
+            MD5 md5Hasher = MD5.Create();
+            byte[] data = md5Hasher.ComputeHash(
                 Encoding.Default.GetBytes(str));
             var sBuilder = new StringBuilder();
-            for (var i = 0; i < data.Length; i++)
+            for (int i = 0; i < data.Length; i++)
             {
                 sBuilder.Append(data[i].ToString("x2"));
             }

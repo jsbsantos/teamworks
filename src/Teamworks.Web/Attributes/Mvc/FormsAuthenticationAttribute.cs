@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Security.Principal;
 using System.Web.Mvc;
+using Raven.Client;
 using Teamworks.Core;
 using Teamworks.Core.Authentication;
 using Teamworks.Web.Helpers.Mvc;
@@ -11,13 +12,13 @@ namespace Teamworks.Web.Attributes.Mvc
     {
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            var user = context.HttpContext.User;
+            IPrincipal user = context.HttpContext.User;
             if (user.Identity.IsAuthenticated)
             {
-                var id = user.Identity.Name;
+                string id = user.Identity.Name;
                 if (!string.IsNullOrEmpty(id))
                 {
-                    var session = context.HttpContext.RavenSession();
+                    IDocumentSession session = context.HttpContext.RavenSession();
                     var person = session.Load<Person>(id);
                     if (person != null)
                     {

@@ -9,7 +9,7 @@ namespace Teamworks.Doc
         public static IEnumerable<Group> Skip(this GroupCollection groups, int value)
         {
             var list = new List<Group>();
-            for (var i = 0; i < groups.Count; i++)
+            for (int i = 0; i < groups.Count; i++)
             {
                 if (i < value) continue;
                 list.Add(groups[i]);

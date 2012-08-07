@@ -12,7 +12,7 @@ namespace Teamworks.Core
 
         public static Message Forge(string text, string person)
         {
-            return new Message()
+            return new Message
                        {
                            Content = text,
                            Date = DateTime.Now,

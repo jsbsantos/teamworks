@@ -20,16 +20,16 @@ namespace Teamworks.Doc.Markdown
 
         public void CreateTexFileFromMarkdown(string name, string input, string output)
         {
-            var pre = Path.Combine(output, name + ".pre");
-            
+            string pre = Path.Combine(output, name + ".pre");
+
             File.WriteAllBytes(Path.Combine(output, "template.latex"), Resources.Template);
 
-            var c = 0;
-            var appendix = false;
+            int c = 0;
+            bool appendix = false;
             string content = null;
-            var index = Path.Combine(input, "index.md");
+            string index = Path.Combine(input, "index.md");
             File.WriteAllText(pre, @"<!--- automatic -->" + Environment.NewLine + Environment.NewLine, Encoding.UTF8);
-            using (var stream = File.OpenText(index))
+            using (StreamReader stream = File.OpenText(index))
             {
                 string line;
                 while ((line = stream.ReadLine()) != null)
@@ -44,8 +44,8 @@ namespace Teamworks.Doc.Markdown
                             continue;
                         }
 
-                        var file = Regex.Match(line, @"[^[]\[.*\]\([^)]*/(.*)\)",
-                                               RegexOptions.Multiline | RegexOptions.IgnoreCase)
+                        string file = Regex.Match(line, @"[^[]\[.*\]\([^)]*/(.*)\)",
+                                                  RegexOptions.Multiline | RegexOptions.IgnoreCase)
                             .Groups[1].Value;
 
                         content = File.ReadAllText(Path.Combine(input, file));
@@ -55,15 +55,16 @@ namespace Teamworks.Doc.Markdown
                         if (!appendix)
                         {
                             File.AppendAllText(pre, @"\appendix\def\thesection{\Alph{section}}" + Environment.NewLine);
-                            appendix = true;    
+                            appendix = true;
                         }
-                        
-                        var file = Regex.Match(line, @"[^[]\[.*\]\([^)]*/(.*)\)",
-                                               RegexOptions.Multiline | RegexOptions.IgnoreCase)
+
+                        string file = Regex.Match(line, @"[^[]\[.*\]\([^)]*/(.*)\)",
+                                                  RegexOptions.Multiline | RegexOptions.IgnoreCase)
                             .Groups[1].Value;
 
                         content = File.ReadAllText(Path.Combine(input, file));
-                    } else
+                    }
+                    else
                     {
                         Trace.WriteLine(String.Format("I[{0}]: {1}", c, line));
                         continue;
@@ -71,38 +72,38 @@ namespace Teamworks.Doc.Markdown
 
                     if (String.IsNullOrEmpty(content)) continue;
 
-                    var result = MarkdownHandlersPipeline(content, Handlers);
+                    string result = MarkdownHandlersPipeline(content, Handlers);
                     File.AppendAllText(pre, Environment.NewLine + result, Encoding.UTF8);
                 }
             }
 
-            var bib = string.Empty;
-            foreach (var f in Directory.GetFiles(input, "*.bib", SearchOption.TopDirectoryOnly))
+            string bib = string.Empty;
+            foreach (string f in Directory.GetFiles(input, "*.bib", SearchOption.TopDirectoryOnly))
             {
-                var file = Path.Combine(input, f);
+                string file = Path.Combine(input, f);
                 bib += " --bibliography=" + file;
             }
 
 
-
-            var front = Path.Combine(input, "front.tex");
-            var exists = File.Exists(front);
-            var args = String.Format(
-            @"--variable=lang:portuguese --variable=fontssize:11pt --variable=linkcolor:black --variable=tables:true --variable=graphics:true --from=markdown --to=latex --output={0} --listings --standalone --template={1}  --number-sections {2} --toc {3} {4}",
-            Path.Combine(output, name), Path.Combine(output, "template.latex"), bib, exists ? "--include-before=" + front: "", pre);
+            string front = Path.Combine(input, "front.tex");
+            bool exists = File.Exists(front);
+            string args = String.Format(
+                @"--variable=lang:portuguese --variable=fontssize:11pt --variable=linkcolor:black --variable=tables:true --variable=graphics:true --from=markdown --to=latex --output={0} --listings --standalone --template={1}  --number-sections {2} --toc {3} {4}",
+                Path.Combine(output, name), Path.Combine(output, "template.latex"), bib,
+                exists ? "--include-before=" + front : "", pre);
 
             Trace.WriteLine("pandoc " + args);
             var process = new Process
-            {
-                StartInfo =
-                {
-                    FileName = "pandoc",
-                    Arguments = args,
-                    UseShellExecute = false,
-                    RedirectStandardError = true,
-                    RedirectStandardOutput = true
-                }
-            };
+                              {
+                                  StartInfo =
+                                      {
+                                          FileName = "pandoc",
+                                          Arguments = args,
+                                          UseShellExecute = false,
+                                          RedirectStandardError = true,
+                                          RedirectStandardOutput = true
+                                      }
+                              };
             process.Start();
 
             process.ErrorDataReceived += (s, e) => Console.WriteLine(e.Data);

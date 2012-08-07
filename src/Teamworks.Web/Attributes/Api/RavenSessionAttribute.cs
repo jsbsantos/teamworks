@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Linq;
+using System.Reflection;
 using System.Web.Http.Controllers;
 using Raven.Client;
 using Teamworks.Web.Attributes.Api.Ordered;
@@ -14,7 +15,7 @@ namespace Teamworks.Web.Attributes.Api
 
         private static Accessors CreateAccessorsForType(Type type)
         {
-            var prop = type.GetProperties().FirstOrDefault(
+            PropertyInfo prop = type.GetProperties().FirstOrDefault(
                 x => x.PropertyType == typeof (IDocumentSession) && x.CanRead && x.CanWrite);
 
             if (prop == null)
@@ -29,7 +30,7 @@ namespace Teamworks.Web.Attributes.Api
 
         public static void TrySetSession(object instance, IDocumentSession session)
         {
-            var accessors = AccessorsCache.GetOrAdd(instance.GetType(), CreateAccessorsForType);
+            Accessors accessors = AccessorsCache.GetOrAdd(instance.GetType(), CreateAccessorsForType);
 
             if (accessors == null)
                 return;

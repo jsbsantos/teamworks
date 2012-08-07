@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
 using Newtonsoft.Json.Linq;
-using Raven.Json.Linq;
 using Raven.Client;
 using Raven.Client.Linq;
+using Raven.Json.Linq;
 using Teamworks.Core;
 using Teamworks.Core.Oauth2;
 using Teamworks.Web.Models.Mvc;
@@ -27,11 +28,11 @@ namespace Teamworks.Web.Controllers.Mvc
             Session[ReturnUrlKey] = returnUrl;
             return RedirectToAction("Login");
         }
-        
+
         [HttpGet]
         public ActionResult OpenId(string provider)
         {
-            var result = new OpenId().Authenticate(provider); // first request, set state to 0 (zero)
+            OpenIdResult result = new OpenId().Authenticate(provider); // first request, set state to 0 (zero)
 
             if (result.State < 0) // opendid auth response with error
             {
@@ -40,11 +41,12 @@ namespace Teamworks.Web.Controllers.Mvc
             }
             if (result.State > 0) // opendid auth response with success
             {
-                var username = result.First + result.Last;
-                var person = GetUser(username, result.Email);
+                string username = result.First + result.Last;
+                Person person = GetUser(username, result.Email);
                 if (person == null)
                 {
-                    person = Core.Person.Forge(result.Email, username, null, string.Format("{0} {1}", result.First, result.Last));
+                    person = Person.Forge(result.Email, username, null,
+                                          string.Format("{0} {1}", result.First, result.Last));
                     DbSession.Store(person);
                     SetOpenId(DbSession, person, provider, result.ClaimedIdentifier);
                 }
@@ -52,23 +54,23 @@ namespace Teamworks.Web.Controllers.Mvc
             }
             return new EmptyResult();
         }
-        
-        private static void SetOpenId(IDocumentSession session, Core.Person person, string provider, string claim)
+
+        private static void SetOpenId(IDocumentSession session, Person person, string provider, string claim)
         {
-            var metadata = session.Advanced.GetMetadataFor(person);
+            RavenJObject metadata = session.Advanced.GetMetadataFor(person);
             metadata[Core.Oauth2.OpenId.ProviderKey] = provider;
             metadata[Core.Oauth2.OpenId.ClaimKey] = claim;
         }
 
-        private static string GetOpenIdProvider(IDocumentSession session, Core.Person person)
+        private static string GetOpenIdProvider(IDocumentSession session, Person person)
         {
-            var metadata = session.Advanced.GetMetadataFor(person);
+            RavenJObject metadata = session.Advanced.GetMetadataFor(person);
             return metadata[Core.Oauth2.OpenId.ProviderKey].Value<string>();
         }
 
-        private static string GetOpenIdClaim(IDocumentSession session, Core.Person person)
+        private static string GetOpenIdClaim(IDocumentSession session, Person person)
         {
-            var metadata = session.Advanced.GetMetadataFor(person);
+            RavenJObject metadata = session.Advanced.GetMetadataFor(person);
             return metadata[Core.Oauth2.OpenId.ClaimKey].Value<string>();
         }
 
@@ -80,7 +82,7 @@ namespace Teamworks.Web.Controllers.Mvc
                 return View("View", model);
             }
 
-            var person = DbSession.Query<Person>().SingleOrDefault(
+            Person person = DbSession.Query<Person>().SingleOrDefault(
                 p => p.Username.Equals(model.Username, StringComparison.InvariantCultureIgnoreCase));
 
             if (person != null && person.IsThePassword(model.Password))
@@ -112,31 +114,31 @@ namespace Teamworks.Web.Controllers.Mvc
             {
                 return View("View");
             }
-            var user = GetUser(register.Username, register.Email);
+            Person user = GetUser(register.Username, register.Email);
             if (user != null)
             {
                 ModelState.AddModelError("model.unique",
                                          "The username or email you specified already exists in the system");
                 return RedirectToAction("Signup");
             }
-            var person = Core.Person.Forge(register.Email, register.Username, register.Password, register.Name);
+            Person person = Person.Forge(register.Email, register.Username, register.Password, register.Name);
             DbSession.Store(person);
 
             return RedirectToAction("View", "Home");
         }
 
-        private Core.Person GetUser(string username = "", string email = "")
+        private Person GetUser(string username = "", string email = "")
         {
-            var list = DbSession.Query<Core.Person>()
+            IRavenQueryable<Person> list = DbSession.Query<Person>()
                 .Where(p => p.Username.Equals(username, StringComparison.InvariantCultureIgnoreCase) ||
                             p.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase));
             return list.SingleOrDefault();
         }
 
-        private ActionResult SetUpAuthenticatedUser(Core.Person person, bool persist)
+        private ActionResult SetUpAuthenticatedUser(Person person, bool persist)
         {
-            var returnUrl = Session[ReturnUrlKey] as string
-                            ?? FormsAuthentication.DefaultUrl;
+            string returnUrl = Session[ReturnUrlKey] as string
+                               ?? FormsAuthentication.DefaultUrl;
 
             FormsAuthentication.SetAuthCookie(person.Id, persist);
             if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
@@ -152,7 +154,7 @@ namespace Teamworks.Web.Controllers.Mvc
         [HttpGet]
         public ActionResult SignupOAuth(string provider)
         {
-            var p = new Google()
+            var p = new Google
                         {
                             ClientId = @"937363753546.apps.googleusercontent.com",
                             Secret = "lcUNnsobBB5sl_1NHohHnhlh",
@@ -167,12 +169,12 @@ namespace Teamworks.Web.Controllers.Mvc
         {
             var provider = (Google) Session["teamworks.oauth.provider"];
 
-            var content = JObject.Parse(provider.GetProfile(Request.QueryString["code"]));
-            var person = Core.Person.Forge(content.Value<string>("email"),
-                                           content.Value<string>("name"), null, content.Value<string>("name"));
+            JObject content = JObject.Parse(provider.GetProfile(Request.QueryString["code"]));
+            Person person = Person.Forge(content.Value<string>("email"),
+                                         content.Value<string>("name"), null, content.Value<string>("name"));
 
-            var personExists =
-                DbSession.Query<Core.Person>().Where(
+            List<Person> personExists =
+                DbSession.Query<Person>().Where(
                     p => p.Username.Equals(person.Username, StringComparison.InvariantCultureIgnoreCase) ||
                          p.Email.Equals(person.Email, StringComparison.InvariantCultureIgnoreCase))
                     .ToList();
@@ -189,6 +191,5 @@ namespace Teamworks.Web.Controllers.Mvc
         }
 
         #endregion
-
     }
 }

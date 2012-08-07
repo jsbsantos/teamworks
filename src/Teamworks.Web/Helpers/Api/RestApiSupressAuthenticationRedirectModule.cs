@@ -9,7 +9,7 @@ namespace Teamworks.Web.Helpers.Api
         private const string SupressRedirectLoginKey = "WEBAPI_AUTHENTICATION";
 
         #region IHttpModule Members
-        
+
         public void Dispose()
         {
         }
@@ -53,6 +53,5 @@ namespace Teamworks.Web.Helpers.Api
                 context.Context.Items[SupressRedirectLoginKey] = true;
             }
         }
-        
     }
 }

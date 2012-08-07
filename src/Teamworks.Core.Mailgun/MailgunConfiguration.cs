@@ -5,20 +5,21 @@ namespace Teamworks.Core.Mailgun
 {
     public static class MailgunConfiguration
     {
+        private static string _user = "api";
+
+        private static string _pwd = "key-5opux2qii1iwgi-ityrwigh3g2zn31i5";
+        private static string _host = @"Teamworks <notifications@teamworks.mailgun.org>";
+
         public static string Uri
         {
             get { return "https://api.mailgun.net/v2/teamworks.mailgun.org"; }
         }
-
-        private static string _user = "api";
 
         public static string Username
         {
             get { return _user; }
             set { _user = value; }
         }
-
-        private static string _pwd = "key-5opux2qii1iwgi-ityrwigh3g2zn31i5";
 
         public static string Password
         {
@@ -37,7 +38,6 @@ namespace Teamworks.Core.Mailgun
             }
         }
 
-        private static string _host = @"Teamworks <notifications@teamworks.mailgun.org>";
         public static string Host
         {
             get { return _host; }

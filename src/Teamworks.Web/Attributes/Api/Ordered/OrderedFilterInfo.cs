@@ -10,10 +10,10 @@ namespace Teamworks.Web.Attributes.Api.Ordered
             Instance = instance;
             Scope = scope;
         }
-        
+
         public IFilter Instance { get; set; }
         public FilterScope Scope { get; set; }
-        
+
         #region IComparable Members
 
         public int CompareTo(object obj)
@@ -46,7 +46,7 @@ namespace Teamworks.Web.Attributes.Api.Ordered
             }
             // if the passed type is not of OrderedFilterInfo type they are
             // equal else the passed object precedes this.
-            return filter.Instance is IOrderedFilter? 1 : 0;
+            return filter.Instance is IOrderedFilter ? 1 : 0;
         }
     }
 }

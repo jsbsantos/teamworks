@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http;
+using System.Security.Principal;
 using System.Threading;
 using System.Web.Http;
 using Teamworks.Core;
@@ -11,7 +12,7 @@ namespace Teamworks.Web.Helpers.Api
     {
         public static Person GetCurrentPerson(this HttpRequestMessage request)
         {
-            var principal = Thread.CurrentPrincipal;
+            IPrincipal principal = Thread.CurrentPrincipal;
             if (principal == null)
             {
                 return null;
@@ -23,7 +24,7 @@ namespace Teamworks.Web.Helpers.Api
 
         public static string GetCurrentPersonId(this HttpRequestMessage request)
         {
-            var person = GetCurrentPerson(request);
+            Person person = GetCurrentPerson(request);
             return person == null ? "" : person.Id;
         }
 

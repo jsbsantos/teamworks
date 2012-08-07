@@ -15,7 +15,7 @@ namespace Teamworks.Core.Mailgun
 
         public static string Send(string from, string to, string subject, string text, string id)
         {
-            var message = new Dictionary<string, string>()
+            var message = new Dictionary<string, string>
                               {
                                   {"to", MailgunConfiguration.Host},
                                   {"bcc", to},
@@ -24,30 +24,30 @@ namespace Teamworks.Core.Mailgun
                                   {"text", text}
                               };
 
-            if(!string.IsNullOrEmpty(id))
+            if (!string.IsNullOrEmpty(id))
                 message.Add("h:message-id", id);
 
-            var client = CreateClient();
+            HttpClient client = CreateClient();
             var content = new FormUrlEncodedContent(message);
 
-            var result =
+            HttpResponseMessage result =
                 client.PostAsync(client.BaseAddress + "/messages", content).Result;
 
             //change content type to JSON so we can parse the response
             result.Content.Headers.ContentType.MediaType = "application/json";
-            
-            var json = result.Content.ReadAsStringAsync().
-                    Result;
+
+            string json = result.Content.ReadAsStringAsync().
+                Result;
 
             return JObject.Parse(json)["id"].Value<string>();
         }
 
         private static HttpClient CreateClient()
         {
-            var client = new HttpClient { BaseAddress = new Uri(MailgunConfiguration.Uri) };
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", MailgunConfiguration.Credentials);
+            var client = new HttpClient {BaseAddress = new Uri(MailgunConfiguration.Uri)};
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic",
+                                                                                       MailgunConfiguration.Credentials);
             return client;
         }
-        
     }
 }

@@ -19,7 +19,7 @@ namespace Teamworks.Web.Uni.Attributes.Api.Ordered
                 .Returns(2);
 
             var fi = new OrderedFilterInfo(mock1.Object, FilterScope.Global);
-            var result = fi.CompareTo(new OrderedFilterInfo(mock2.Object, FilterScope.Global));
+            int result = fi.CompareTo(new OrderedFilterInfo(mock2.Object, FilterScope.Global));
             Assert.Equal(-1, result);
         }
 
@@ -29,7 +29,7 @@ namespace Teamworks.Web.Uni.Attributes.Api.Ordered
             var mock1 = new Mock<IOrderedFilter>();
             mock1.Setup(o => o.Priority)
                 .Returns(1);
-            
+
             var mock2 = new Mock<IFilter>();
             var fi = new OrderedFilterInfo(mock1.Object, FilterScope.Global);
             // mock1 precedes mock2 in the sort order
@@ -57,6 +57,5 @@ namespace Teamworks.Web.Uni.Attributes.Api.Ordered
             var fi = new OrderedFilterInfo(mock1.Object, FilterScope.Global);
             Assert.Equal(1, fi.CompareTo(new OrderedFilterInfo(mock2.Object, FilterScope.Global)));
         }
-
     }
 }

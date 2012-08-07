@@ -14,22 +14,27 @@ namespace Teamworks.Doc.Markdown
         public string Template { get; protected set; }
         public string Pattern { get; private set; }
 
+        #region IMarkdownHandler Members
+
         public string Handle(string input)
         {
             return Regex.Replace(input, Pattern,
                                  match =>
                                      {
                                          Extra(match);
-                                         var matches = match.Groups.Skip(1).Select(g => g.Value).ToArray();
+                                         string[] matches = match.Groups.Skip(1).Select(g => g.Value).ToArray();
                                          return Replace(Template, matches);
                                      }, RegexOptions.Multiline | RegexOptions.IgnoreCase);
         }
 
+        #endregion
+
         protected abstract void Extra(Match match);
+
         protected static string Replace(string template, string[] matches)
         {
-            var local = template.Substring(0);
-            for (var i = 0; i < matches.Length; i++)
+            string local = template.Substring(0);
+            for (int i = 0; i < matches.Length; i++)
             {
                 local = local.Replace("{" + i + "}", matches[i].Trim());
             }

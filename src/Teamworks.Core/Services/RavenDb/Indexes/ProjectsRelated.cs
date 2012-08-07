@@ -11,15 +11,15 @@ namespace Teamworks.Core.Services.RavenDb.Indexes
                                            select new
                                                       {
                                                           EntityId = a.Id,
-                                                          Project = a.Project,
-                                                          Name = a.Name
+                                                          a.Project,
+                                                          a.Name
                                                       });
             AddMap<Discussion>(discussions => from d in discussions
                                               select new
                                                          {
                                                              EntityId = d.Id,
                                                              Project = d.Entity,
-                                                             Name = d.Name
+                                                             d.Name
                                                          });
         }
 

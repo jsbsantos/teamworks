@@ -9,8 +9,6 @@ namespace Teamworks.Web.Attributes.Api
 {
     public class SecureForAttribute : AuthorizeAttribute
     {
-        public string Operation { get; set; }
-
         public SecureForAttribute()
         {
             Operation = Global.Constants.Operation;
@@ -22,9 +20,11 @@ namespace Teamworks.Web.Attributes.Api
             Operation = operation;
         }
 
+        public string Operation { get; set; }
+
         public override void OnAuthorization(HttpActionContext context)
         {
-            var id = context.Request.GetCurrentPersonId();
+            string id = context.Request.GetCurrentPersonId();
             if (!string.IsNullOrEmpty(id))
             {
                 var session = context.Request.Properties[Application.Keys.RavenDbSessionKey] as IDocumentSession;

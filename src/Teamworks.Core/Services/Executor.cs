@@ -20,8 +20,8 @@ namespace Teamworks.Core.Services
 
         #region Private Properties 
 
-        private Stack<Task>[] queue;
-        private AutoResetEvent ARE;
+        private readonly AutoResetEvent ARE;
+        private readonly Stack<Task>[] queue;
         private volatile bool run;
 
         private Stack<Task> High
@@ -43,8 +43,6 @@ namespace Teamworks.Core.Services
         }
 
         #endregion
-
-        public int Timeout { get; set; }
 
         private Executor()
         {
@@ -81,10 +79,12 @@ namespace Teamworks.Core.Services
 
         #endregion
 
+        public int Timeout { get; set; }
+
         public Task Enqueue(Action action, ExecutePriority priority = ExecutePriority.MEDIUM)
         {
             var task = new Task(action);
-            queue[(int)priority].Push(task);
+            queue[(int) priority].Push(task);
             ARE.Set();
             return task;
         }

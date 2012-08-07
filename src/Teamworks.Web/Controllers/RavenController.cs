@@ -1,6 +1,5 @@
-﻿using Raven.Client;
-using System.Web.Mvc;
-using Teamworks.Core.Services;
+﻿using System.Web.Mvc;
+using Raven.Client;
 using Teamworks.Web.Helpers.Mvc;
 
 namespace Teamworks.Web.Controllers
@@ -29,7 +28,7 @@ namespace Teamworks.Web.Controllers
         {
             if ((context.Exception == null || context.ExceptionHandled) && DbSession != null)
             {
-                using (var session = DbSession)
+                using (IDocumentSession session = DbSession)
                 {
                     session.SaveChanges();
                 }

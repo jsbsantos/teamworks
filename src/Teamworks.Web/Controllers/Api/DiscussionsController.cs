@@ -14,6 +14,7 @@ using Teamworks.Core.Services;
 using Teamworks.Web.Attributes.Api;
 using Teamworks.Web.Helpers.Api;
 using Teamworks.Web.Models.Api;
+using Project = Teamworks.Core.Project;
 
 namespace Teamworks.Web.Controllers.Api
 {
@@ -35,7 +36,7 @@ namespace Teamworks.Web.Controllers.Api
         [GET("discussions")]
         public IEnumerable<Discussion> Get(int projectId)
         {
-            var discussions = DbSession.Query<Core.Discussion>()
+            IRavenQueryable<Core.Discussion> discussions = DbSession.Query<Core.Discussion>()
                 .Where(d => d.Entity == projectId.ToId("project"));
 
             return Mapper.Map<IEnumerable<Core.Discussion>,
@@ -45,7 +46,7 @@ namespace Teamworks.Web.Controllers.Api
         [GET("discussions/{id}")]
         public Discussion Get(int id, int projectId)
         {
-            var discussion = DbSession
+            Core.Discussion discussion = DbSession
                 .Query<Core.Discussion>()
                 .FirstOrDefault(a => a.Entity == projectId.ToId("project")
                                      && a.Id == id.ToId("discussion"));
@@ -57,15 +58,16 @@ namespace Teamworks.Web.Controllers.Api
         [POST("discussions")]
         public HttpResponseMessage Post(int projectId, Discussion model)
         {
-            var project = DbSession.Load<Core.Project>(projectId);
-            var discussion = Core.Discussion.Forge(model.Name, model.Content, project.Id, Request.GetCurrentPersonId());
+            var project = DbSession.Load<Project>(projectId);
+            Core.Discussion discussion = Core.Discussion.Forge(model.Name, model.Content, project.Id,
+                                                               Request.GetCurrentPersonId());
 
             DbSession.Store(discussion);
             DbSession.SetAuthorizationFor(discussion, new DocumentAuthorization
                                                           {
                                                               Tags = {project.Id}
                                                           });
-            var response = Mapper.Map<Core.Discussion, Discussion>(discussion);
+            Discussion response = Mapper.Map<Core.Discussion, Discussion>(discussion);
 
             // todo add header of location
 
@@ -81,7 +83,7 @@ namespace Teamworks.Web.Controllers.Api
         [DELETE("discussions/{id}")]
         public HttpResponseMessage Delete(int id, int projectId)
         {
-            var discussion = DbSession
+            Core.Discussion discussion = DbSession
                 .Query<Core.Discussion>()
                 .FirstOrDefault(a => a.Entity == projectId.ToId("project")
                                      && a.Id == id.ToId("discussion"));

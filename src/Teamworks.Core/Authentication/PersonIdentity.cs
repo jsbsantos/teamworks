@@ -34,6 +34,8 @@ namespace Teamworks.Core.Authentication
 
         #endregion
 
+        #region ISerializable Members
+
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             if (context.State != StreamingContextStates.CrossAppDomain)
@@ -46,10 +48,12 @@ namespace Teamworks.Core.Authentication
 
             MemberInfo[] members = FormatterServices.GetSerializableMembers(identity.GetType());
             object[] values = FormatterServices.GetObjectData(identity, members);
-            for (var i = 0; i < members.Length; i++)
+            for (int i = 0; i < members.Length; i++)
             {
                 info.AddValue(members[i].Name, values[i]);
             }
         }
+
+        #endregion
     }
 }

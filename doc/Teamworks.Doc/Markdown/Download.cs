@@ -8,14 +8,16 @@ namespace Teamworks.Doc.Markdown
 {
     public class Download : IMarkdownHandler
     {
-        private readonly string _folder;
         private const string Pattern = @"!\[(.*\\label{(?<imagename>.[^}]*)})\]\((?<imageuri>.*/[^.]*(.*))\)";
+        private readonly string _folder;
 
 
         public Download(string folder)
         {
             _folder = folder;
         }
+
+        #region IMarkdownHandler Members
 
         public string Handle(string input)
         {
@@ -25,22 +27,24 @@ namespace Teamworks.Doc.Markdown
             }
 
             return Regex.Replace(input, Pattern, match =>
-                                               {
-                                                   var url = match.Groups["imageuri"].Value;
-                                                   var i = url.LastIndexOf('.');
-                                                   var ext = i > 0 ? url.Substring(i, url.Length - i) : "";
+                                                     {
+                                                         string url = match.Groups["imageuri"].Value;
+                                                         int i = url.LastIndexOf('.');
+                                                         string ext = i > 0 ? url.Substring(i, url.Length - i) : "";
 
-                                                   var name = match.Groups["imagename"]
-                                                                  .Value.Replace(":", "") + ext;
+                                                         string name = match.Groups["imagename"]
+                                                                           .Value.Replace(":", "") + ext;
 
-                                                   var file = Path.Combine(_folder, name);
-                                                   DownloadImage(file, url);
+                                                         string file = Path.Combine(_folder, name);
+                                                         DownloadImage(file, url);
 
-                                                   return string.Format(@"![{0}]({1})", match.Groups[1].Value, 
-                                                       file.Replace("\\", "/"));
-                                               },
-                          RegexOptions.Multiline | RegexOptions.IgnoreCase);
+                                                         return string.Format(@"![{0}]({1})", match.Groups[1].Value,
+                                                                              file.Replace("\\", "/"));
+                                                     },
+                                 RegexOptions.Multiline | RegexOptions.IgnoreCase);
         }
+
+        #endregion
 
         private static void DownloadImage(string file, string url)
         {
@@ -49,7 +53,7 @@ namespace Teamworks.Doc.Markdown
 
 
             var client = new HttpClient();
-            var result = client.GetAsync(url).Result;
+            HttpResponseMessage result = client.GetAsync(url).Result;
 
             if (!result.IsSuccessStatusCode
                 || !result.Content.Headers.ContentType.MediaType.StartsWith("image", StringComparison.OrdinalIgnoreCase))
@@ -57,9 +61,9 @@ namespace Teamworks.Doc.Markdown
                 return;
             }
 
-            using (var input = result.Content.ReadAsStreamAsync().Result)
+            using (Stream input = result.Content.ReadAsStreamAsync().Result)
             {
-                using (var output = File.OpenWrite(file))
+                using (FileStream output = File.OpenWrite(file))
                 {
                     var buffer = new byte[4096];
                     int bytesRead;

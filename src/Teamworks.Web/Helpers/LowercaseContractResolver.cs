@@ -8,7 +8,7 @@ namespace Teamworks.Web.Helpers
         protected override string ResolvePropertyName(string propertyName)
         {
             var list = new List<char>();
-            for (var i = 0; i < propertyName.Length; i++)
+            for (int i = 0; i < propertyName.Length; i++)
             {
                 if (i > 0 && char.IsUpper(propertyName[i]))
                 {

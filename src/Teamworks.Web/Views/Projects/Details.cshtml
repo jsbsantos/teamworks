@@ -31,48 +31,48 @@
             </h1>
         </header>
        
-            <section>
-                <div class="lead">
-                    <h2>Activities 
-                        <small>
-                            <a class="hide btn-mini" data-bind="css: { hide: activities.editing()}, click: function() { activities.editing(true); }">
-                                One more activity
-                            </a>
-                        </small>
-                    </h2>
-                    <div class="hide" data-bind="css: { hide: !activities.editing() }">
-                        <form class="well form-inline" data-bind="submit: activities._create">
-                            <input id="activity_name" name="activity_name" class="span4" autofocus="autofocus" placeholder="Activity name" data-bind="value: activities.input, valueUpdate: 'afterkeyup'" />
-                            <button type="submit" class="btn btn-success">
-                                Create
-                            </button>  
-                            <a class="btn-mini" data-bind="click: function() { activities.editing(false) }"><i class="icon-remove"></i></a>                                     </form>
-                    </div>
+        <section>
+            <div class="lead">
+                <h2>Activities 
+                    <small>
+                        <a class="hide btn-mini" data-bind="css: { hide: activities.editing()}, click: function() { activities.editing(true); }">
+                            One more activity
+                        </a>
+                    </small>
+                </h2>
+                <div class="hide" data-bind="css: { hide: !activities.editing() }">
+                    <form class="well form-inline" data-bind="submit: activities._create">
+                        <input id="activity_name" name="activity_name" class="span4" autofocus="autofocus" placeholder="Activity name" data-bind="value: activities.input, valueUpdate: 'afterkeyup'" />
+                        <button type="submit" class="btn btn-success">
+                            Create
+                        </button>  
+                        <a class="btn-mini" data-bind="click: function() { activities.editing(false) }"><i class="icon-remove"></i></a>                                     </form>
                 </div>
-                <!-- ko template: { name: 'activities-template', foreach: activities } -->
-                <!-- /ko -->
+            </div>
+            <!-- ko template: { name: 'activities-template', foreach: activities } -->
+            <!-- /ko -->
             
-            </section>
-            <section>
-                <div class="lead">
-                    <h2>Discussion
-                        <small>
-                            <a class="hide btn-mini" data-bind="css: { hide: discussions.editing()}, click: function() { discussions.editing(true); }">One more discussion</a>
-                        </small>
-                    </h2>
-                    <div class="hide" data-bind="css: { hide: !discussions.editing() }">
-                        <form class="well form-inline" data-bind="submit: discussions._create">
-                            <input id="discussion_name" name="discussion_name" class="span4" autofocus="autofocus" placeholder="Discussion name" data-bind="value: discussions.input, valueUpdate: 'afterkeyup'" />
-                            <button type="submit" class="btn btn-success">Create</button>  
-                            <a class="btn-mini" data-bind="click: function() { discussions.editing(false) }"><i class="icon-remove"></i></a>                   
-                        </form>
-                    </div>
+        </section>
+        <section>
+            <div class="lead">
+                <h2>Discussion
+                    <small>
+                        <a class="hide btn-mini" data-bind="css: { hide: discussions.editing()}, click: function() { discussions.editing(true); }">One more discussion</a>
+                    </small>
+                </h2>
+                <div class="hide" data-bind="css: { hide: !discussions.editing() }">
+                    <form class="well form-inline" data-bind="submit: discussions._create">
+                        <input id="discussion_name" name="discussion_name" class="span4" autofocus="autofocus" placeholder="Discussion name" data-bind="value: discussions.input, valueUpdate: 'afterkeyup'" />
+                        <button type="submit" class="btn btn-success">Create</button>  
+                        <a class="btn-mini" data-bind="click: function() { discussions.editing(false) }"><i class="icon-remove"></i></a>                   
+                    </form>
                 </div>
-                <!-- ko template: { name: 'discussion-template', foreach: discussions } -->
-                <!-- /ko -->
+            </div>
+            <!-- ko template: { name: 'discussion-template', foreach: discussions } -->
+            <!-- /ko -->
             
-            </section>
-        </div>
+        </section>
+    </div>
     <section class="span4">
         <h2>People</h2>
         <div class="people">

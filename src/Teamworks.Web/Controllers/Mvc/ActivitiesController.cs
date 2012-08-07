@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using Raven.Client.Linq;
 using Teamworks.Core;
 using Teamworks.Core.Services;
+using Teamworks.Core.Services.RavenDb.Indexes;
 using Teamworks.Web.Helpers.AutoMapper;
 using Teamworks.Web.ViewModels.Mvc;
 
@@ -10,7 +11,6 @@ namespace Teamworks.Web.Controllers.Mvc
 {
     public class ActivitiesController : RavenController
     {
-        
         [HttpGet]
         [ActionName("View")]
         public ActionResult Index(int projectId)
@@ -22,9 +22,14 @@ namespace Teamworks.Web.Controllers.Mvc
         public ActionResult Details(int projectId, int activityId)
         {
             RavenQueryStatistics stats;
-            var activity = DbSession.Query<Activity>()
+            ViewBag.Results = DbSession.Query<ActivitiesTotalDuration.Result, ActivitiesTotalDuration>()
+                .Customize(c => c.Include<ActivitiesTotalDuration.Result>(r => r.ActivityId))
+                .Where(r => r.ActivityId == activityId.ToId("activity")).ToList();
+
+            Activity activity = DbSession.Query<Activity>()
                 .Statistics(out stats)
-                .Customize(c => c.Include<Activity>( a=> a.Project))
+                .Customize(c => c.Include<Activity>(a => a.Project)
+                                    .Include<Activity>(a => a.Related))
                 .Where(a => a.Id == activityId.ToId("activity")
                             && a.Project == projectId.ToId("project")).FirstOrDefault();
 
@@ -37,10 +42,8 @@ namespace Teamworks.Web.Controllers.Mvc
                 return HttpNotFound();
 
             var vm = activity.MapTo<ActivityViewModel>();
-            vm.ProjectReference = project.MapTo<ActivityViewModel.Project>();
+            vm.ProjectReference = project.MapTo<EntityViewModel>();
             return View(vm);
         }
-
-
     }
 }

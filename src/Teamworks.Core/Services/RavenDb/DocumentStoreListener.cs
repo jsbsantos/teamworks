@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Raven.Client;
 using Raven.Client.Listeners;
 using Raven.Json.Linq;
 
@@ -7,7 +8,7 @@ namespace Teamworks.Core.Services.RavenDb
 {
     public class DocumentStoreListener : IDocumentStoreListener
     {
-        private Dictionary<string, dynamic> changes;
+        private readonly Dictionary<string, dynamic> changes;
 
         public DocumentStoreListener()
         {
@@ -15,11 +16,13 @@ namespace Teamworks.Core.Services.RavenDb
             ;
         }
 
+        #region IDocumentStoreListener Members
+
         public bool BeforeStore(string key, object entityInstance, RavenJObject metadata, RavenJObject original)
         {
-            if (entityInstance is Core.Discussion)
+            if (entityInstance is Discussion)
             {
-                var instance = entityInstance as Core.Discussion;
+                var instance = entityInstance as Discussion;
 
                 changes[key] = new
                                    {
@@ -32,7 +35,7 @@ namespace Teamworks.Core.Services.RavenDb
 
         public void AfterStore(string key, object entityInstance, RavenJObject metadata)
         {
-            var instance = entityInstance as Core.Discussion;
+            var instance = entityInstance as Discussion;
 
             if (instance != null)
             {
@@ -40,10 +43,10 @@ namespace Teamworks.Core.Services.RavenDb
                 {
                     Global.Executor.Enqueue(() =>
                                                 {
-                                                    using (var session = Global.Database.OpenSession())
+                                                    using (IDocumentSession session = Global.Database.OpenSession())
                                                     {
-                                                        var people =
-                                                            session.Load<Core.Person>(instance.Subscribers).Select(
+                                                        List<string> people =
+                                                            session.Load<Person>(instance.Subscribers).Select(
                                                                 x => x.Email).ToList();
                                                         instance.Notify(instance.Messages.Last(), people);
                                                     }
@@ -52,6 +55,8 @@ namespace Teamworks.Core.Services.RavenDb
                 }
             }
         }
+
+        #endregion
     }
 }
 

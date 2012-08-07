@@ -7,7 +7,7 @@ namespace Teamworks.Web.Helpers.AutoMapper.ValueResolvers
         protected override string ResolveCore(string source)
         {
             const string url = "http://www.gravatar.com/avatar/";
-            return url + Utils.Hash(source) +"?r=g";
+            return url + Utils.Hash(source) + "?r=g";
         }
     }
 }

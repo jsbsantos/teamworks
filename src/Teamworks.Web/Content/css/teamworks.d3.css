@@ -3,32 +3,27 @@ Teamwork d3 graphics styling
 */
 
 /* Gantt Chart */
-svg rect.gantt_duration_rect
-{
+
+svg rect.gantt_duration_rect {
     fill: #08C;
     stroke: rgb(0, 0, 0);
+    stroke-opacity: 0.5;
     stroke-width: 1;
-    stroke-opacity:0.5;
 }
 
 svg text.gantt_text {
     fill: black;
-    font-size:0.9em;
+    font-size: 0.9em;
 }
 
-svg rect.gantt_duration_rect_red {
-    fill: red;
-    
-}
-svg rect.gantt_duration_rect_yellow {
-    fill: yellow;
-    
-}
-svg rect.gantt_duration_rect_green {
-    fill: green;  
-}
+svg rect.gantt_duration_rect_red { fill: red; }
+
+svg rect.gantt_duration_rect_yellow { fill: yellow; }
+
+svg rect.gantt_duration_rect_green { fill: green; }
+
 svg text.gantt_rect_text {
     fill: black;
-    font-size:0.8em;
-    text-anchor:middle;
+    font-size: 0.8em;
+    text-anchor: middle;
 }

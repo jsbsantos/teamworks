@@ -6,7 +6,8 @@ namespace Teamworks.Core.Oauth2
 {
     public class Google : OAuth2Provider
     {
-        private const string _AuthorizeParams = "code={0}&client_id={1}&client_secret={2}&redirect_uri={3}&grant_type={4}";
+        private const string _AuthorizeParams =
+            "code={0}&client_id={1}&client_secret={2}&redirect_uri={3}&grant_type={4}";
 
         private const string _host = "https://accounts.google.com/o/oauth2/";
 
@@ -23,11 +24,11 @@ namespace Teamworks.Core.Oauth2
 
         public void Authorize(string _params, string code, string grant)
         {
-            var param = string.Format(_params, code, ClientId, Secret, Callback, grant);
-            var host = _host + "token";
+            string param = string.Format(_params, code, ClientId, Secret, Callback, grant);
+            string host = _host + "token";
 
-            var response = Request("POST", host, param, null);
-            var json = JObject.Parse(response);
+            string response = Request("POST", host, param, null);
+            JObject json = JObject.Parse(response);
 
             AccessToken = json["access_token"].Value<string>();
             ExpiresIn = DateTime.Now.AddSeconds(int.Parse(json["expires_in"].Value<string>()));

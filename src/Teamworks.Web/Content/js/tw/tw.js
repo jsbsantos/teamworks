@@ -57,31 +57,128 @@
         contentType: 'application/json; charset=utf-8',
         cache: false
     });
-} ());
+}());
 
-var tw = tw || {};
-tw.pages = tw.pages || {};
-tw.mappings = tw.mappings || {};
-tw.viewmodels = tw.viewmodels || {};
-tw.graphics = tw.graphics || {};
+var tw = tw || { };
+tw.pages = tw.pages || { };
+tw.mappings = tw.mappings || { };
+tw.viewmodels = tw.viewmodels || { };
+tw.graphics = tw.graphics || { };
 
-(function (obj) {
+(function(obj) {
     'use strict';
     /* page */
     obj.page = {
         ready: ko.observable(false),
         alerts: ko.observableArray([])
     };
-    obj.page.alerts._remove = function (item) {
+    obj.page.alerts._remove = function(item) {
         tw.page.alerts.remove(item);
     };
-    
-    $(function () {
-        $('body').on('focus.datepicker.data-api', '[data-provide="datepicker"]', function (e) {
+
+    $(function() {
+        $('body').on('focus.datepicker.data-api', '[data-provide="datepicker"]', function(e) {
             var $this = $(this);
             if ($this.data('datepicker')) return;
             e.preventDefault();
             $this.datepicker($this.data());
         });
     });
-} (tw));
+}(tw));
+
+// knockout extensions
+(function() {
+    /* validation */
+    tw.extenders = { };
+    tw.extenders.validation = function(target, fn) {
+        var changeMessage = function(msg) {
+            target.has_error(msg.length ? true : false);
+        };
+
+        target.has_error = ko.observable();
+        target.validation_message = ko.observable();
+
+        target.subscribe(fn);
+        target.validation_message.subscribe(changeMessage);
+        fn(target());
+        return target;
+    };
+    /* extenders */
+    ko.extenders.required = function(target, message) {
+        var fn = function(value) {
+            var valid = value && value.length > 0;
+            target.validation_message(valid ? "" : message);
+        };
+
+        return tw.extenders.validation(target, fn);
+    };
+    ko.extenders.isoDate = function(target, pattern) {
+        target.formatted = ko.computed({
+            read: function() {
+                if (!target()) {
+                    return;
+                }
+                var dt = new Date(Date.parseISOString(target()));
+                return dt.toString(pattern);
+            },
+            write: function(value) {
+                if (value) {
+                    target(new Date(Date.parseExact(value, pattern)).toISOString());
+                }
+            }
+        });
+        target.formatted(target());
+        return target;
+    };
+    ko.bindingHandlers.highlight = {
+        init: function(element, valueAccessor, allBindingsAccessor) {
+            var $elem = $(element);
+            $elem.addClass('');
+        },
+        update: function(element, valueAccessor, allBindingsAccessor) {
+            var $elem = $(element);
+            var all = allBindingsAccessor();
+            var value = ko.utils.unwrapObservable(valueAccessor());
+            var name = value || 'highlight';
+            $elem.removeClass('out');
+            $elem.addClass(name);
+            var duration = all.duration || 250;
+
+            setTimeout(function() {
+                $elem.addClass('out');
+                $elem.removeClass(name);
+            }, duration);
+        }
+    }; /* binders */
+    ko.bindingHandlers.datepicker = {
+        init: function(element, valueAccessor) {
+            var elem = $(element);
+            var value = valueAccessor();
+            var datepicker = elem.datepicker(elem.data());
+            datepicker.on('changeDate', function(e) {
+                value(e.date.toString(datepicker.data().dateFormat));
+            });
+        }
+    };
+    ko.bindingHandlers.typeahead = {
+        init: function(element, valueAccessor) {
+            var isFunction = function(fn) {
+                var getType = { };
+                return fn && getType.toString.call(fn) == '[object Function]';
+            };
+
+            var $elem = $(element);
+            if ($elem.data('typeahead')) return;
+
+            var data = $elem.data();
+            $elem.typeahead(data);
+            var typeahead = $elem.data('typeahead');
+
+            var value = ko.utils.unwrapObservable(valueAccessor());
+            if (isFunction(value)) {
+                value(typeahead);
+            }
+        }
+    };
+
+}());

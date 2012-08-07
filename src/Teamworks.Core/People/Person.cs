@@ -14,7 +14,7 @@ namespace Teamworks.Core
         public string Password { get; set; }
         public IList<string> Roles { get; set; }
         public IList<IPermission> Permissions { get; set; }
-        
+
 
         public static Person Forge(string email, string username, string password, string name)
         {
@@ -51,7 +51,5 @@ namespace Teamworks.Core
             random.GetBytes(salt);
             return Encoding.UTF8.GetString(salt);
         }
-
-       
     }
 }

@@ -10,7 +10,7 @@ namespace Teamworks.Core.Services.RavenDb.Indexes
             Map = activities => from act in activities
                                 select new
                                            {
-                                               Project = act.Project
+                                               act.Project
                                            };
         }
     }

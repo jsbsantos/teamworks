@@ -8,7 +8,7 @@ namespace Teamworks.Web.Helpers.App
     {
         public static string Token(this Entity entity, string user)
         {
-            var text = string.Format("{0}:{1}", user, entity.Id);
+            string text = string.Format("{0}:{1}", user, entity.Id);
             return Convert.ToBase64String(Encoding.UTF8.GetBytes(text));
         }
     }

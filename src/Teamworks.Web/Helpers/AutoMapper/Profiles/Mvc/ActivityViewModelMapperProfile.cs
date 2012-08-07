@@ -10,9 +10,6 @@ namespace Teamworks.Web.Helpers.AutoMapper.Profiles.Mvc
         {
             Mapper.CreateMap<Activity, ActivityViewModel>()
                 .ForMember(s => s.Id, o => o.MapFrom(d => d.Identifier));
-
-            Mapper.CreateMap<Project, ActivityViewModel.Project>()
-                .ForMember(s => s.Id, o => o.MapFrom(d => d.Identifier));
         }
     }
 }
