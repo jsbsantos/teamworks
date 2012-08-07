@@ -29,7 +29,7 @@ namespace Teamworks.Web.Controllers.Mvc
             Activity activity = DbSession.Query<Activity>()
                 .Statistics(out stats)
                 .Customize(c => c.Include<Activity>(a => a.Project)
-                                    .Include<Activity>(a => a.Related))
+                                    .Include<Activity>(a => a.Dependencies))
                 .Where(a => a.Id == activityId.ToId("activity")
                             && a.Project == projectId.ToId("project")).FirstOrDefault();
 

@@ -11,7 +11,7 @@ namespace Teamworks.Core
         public string Description { get; set; }
         public int Duration { get; set; }
         public IList<Timelog> Timelogs { get; set; }
-        public IList<string> Related { get; set; }
+        public IList<string> Dependencies { get; set; }
         public IList<string> Discussions { get; set; }
         public IList<string> People { get; set; }
         public IList<TodoList> Todos { get; set; }
@@ -39,7 +39,7 @@ namespace Teamworks.Core
                            Project = project,
                            Description = description ?? "",
                            Duration = duration,
-                           Related = new List<string>(),
+                           Dependencies = new List<string>(),
                            Discussions = new List<string>(),
                            People = new List<string>(),
                            Timelogs = new List<Timelog>(),
@@ -50,7 +50,7 @@ namespace Teamworks.Core
 
         public IEnumerable<ActivityRelation> DependencyGraph(IEnumerable<Activity> parents)
         {
-            return Related.Select(p =>
+            return Dependencies.Select(p =>
                                       {
                                           Activity parent = parents.Single(x => p.Equals(x.Id,
                                                                                          StringComparison.

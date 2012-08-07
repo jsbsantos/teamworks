@@ -68,7 +68,7 @@ namespace Teamworks.Web.Controllers.Api
 
             // calculate dependency graph 
             if (model.Dependencies != null)
-                activity.Related = model.Dependencies;
+                activity.Dependencies = model.Dependencies;
 
             List<Core.Activity> domain = DbSession.Query<Core.Activity>()
                 .Where(a => a.Project == project.Id).ToList();
@@ -120,13 +120,13 @@ namespace Teamworks.Web.Controllers.Api
 
         private double GetAccumulatedDuration(List<Core.Activity> domain, Core.Activity activity, int duration = 0)
         {
-            Core.Activity parent = domain.Where(a => activity.Related.Contains(a.Id))
+            Core.Activity parent = domain.Where(a => activity.Dependencies.Contains(a.Id))
                 .OrderByDescending(a => a.Duration).FirstOrDefault();
 
             if (parent == null)
                 return duration;
 
-            return /*parent.Related.Count == 0
+            return /*parent.Dependencies.Count == 0
                        ? duration
                        : */
                 GetAccumulatedDuration(domain, parent, duration + parent.Duration);
@@ -134,7 +134,7 @@ namespace Teamworks.Web.Controllers.Api
 
         private void OffsetDuration(List<Core.Activity> domain, Core.Activity parent, int offset)
         {
-            List<Core.Activity> children = domain.Where(a => a.Related.Contains(parent.Id)).ToList();
+            List<Core.Activity> children = domain.Where(a => a.Dependencies.Contains(parent.Id)).ToList();
             foreach (Core.Activity child in children)
             {
                 child.StartDate = child.StartDate.AddMinutes(offset);
@@ -156,7 +156,7 @@ namespace Teamworks.Web.Controllers.Api
 
             Request.ThrowNotFoundIfNull(activity);
 
-            List<Core.Activity> dependencies = DbSession.Load<Core.Activity>(activity.Related).ToList();
+            List<Core.Activity> dependencies = DbSession.Load<Core.Activity>(activity.Dependencies).ToList();
             return activity.DependencyGraph(dependencies);
         }
 
@@ -173,10 +173,10 @@ namespace Teamworks.Web.Controllers.Api
                 Request.ThrowNotFoundIfNull();
 
             var depid = "activities/" + precedenceid;
-            if (activity.Related.Contains(depid))
+            if (activity.Dependencies.Contains(depid))
                 Request.CreateResponse(HttpStatusCode.NotModified); //todo is valid response code?
 
-            activity.Related.Add(depid);
+            activity.Dependencies.Add(depid);
             return Request.CreateResponse(HttpStatusCode.Created);
             */
             return null;
@@ -194,10 +194,10 @@ namespace Teamworks.Web.Controllers.Api
                 Request.ThrowNotFoundIfNull();
 
             var depid = "activities/" + precedenceid;
-            if (!activity.Related.Contains(depid))
+            if (!activity.Dependencies.Contains(depid))
                 Request.CreateResponse(HttpStatusCode.NotModified); //todo is valid response code?
 
-            activity.Related.Remove(depid);
+            activity.Dependencies.Remove(depid);
             return Request.CreateResponse(HttpStatusCode.Created);
         
              */

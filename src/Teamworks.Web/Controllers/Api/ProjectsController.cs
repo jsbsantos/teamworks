@@ -150,7 +150,7 @@ namespace Teamworks.Web.Controllers.Api
 
         #endregion
 
-        #region Task Related
+        #region Task Dependencies
 
         /*
         [GET("{projectId}/precedences")]

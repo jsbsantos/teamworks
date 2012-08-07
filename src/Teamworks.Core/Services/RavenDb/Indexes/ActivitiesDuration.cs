@@ -17,8 +17,7 @@ namespace Teamworks.Core.Services.RavenDb.Indexes
                                                act.Duration,
                                                act.StartDate,
                                                act.Name,
-                                               act.Description,
-                                               act.Related
+                                               act.Description, Dependencies = act.Dependencies
                                            };
 
             Reduce = activities => from act in activities
@@ -33,7 +32,7 @@ namespace Teamworks.Core.Services.RavenDb.Indexes
                                                   StartDate = g.Select(p => p.StartDate).First(),
                                                   Name = g.Select(p => p.Name).First(),
                                                   Description = g.Select(p => p.Description).First(),
-                                                  Related = g.Select(p => p.Related).FirstOrDefault()
+                                                  Dependencies = g.Select(p => p.Dependencies).FirstOrDefault()
                                               };
 
             Index(x => x.Id, FieldIndexing.Analyzed);
