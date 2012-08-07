@@ -5,7 +5,7 @@ namespace Teamworks.Web.ViewModels.Mvc
         public Entity Activity { get; set; }
         public Entity Project { get; set; }
 
-        #region Nested type: Entity
+        #region Nested type: EntityId
 
         public class Entity
         {

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Newtonsoft.Json;
 using Raven.Client.Linq;
 using Teamworks.Core;
 using Teamworks.Core.Services;
@@ -18,7 +19,7 @@ namespace Teamworks.Web.Controllers.Mvc
         public ActionResult Index()
         {
             var current = HttpContext.GetCurrentPersonId();
-            
+
             RavenQueryStatistics stats;
             var results = DbSession
                 .Query<ProjectEntityCount.Result, ProjectEntityCount>()
@@ -75,7 +76,7 @@ namespace Teamworks.Web.Controllers.Mvc
                 .Statistics(out stats)
                 .Customize(c => c.Include<Discussion>(r => r.Entity))
                 .Where(r => r.Entity == projectId);
-            
+
             var vm = project.MapTo<ProjectViewModel>();
             vm.Activities = activities.MapTo<ProjectViewModel.Activity>();
             vm.Discussions = discussions.MapTo<ProjectViewModel.Discussion>();
@@ -83,6 +84,38 @@ namespace Teamworks.Web.Controllers.Mvc
                 .Where(p => p != null).MapTo<PersonViewModel>();
 
             return View(vm);
+        }
+
+        [HttpGet]
+        public ActionResult Gantt(int id)
+        {
+            ViewBag.Endpoint = "api/projects/" + id.ToString();
+
+            var project = DbSession
+                .Load<Core.Project>(id);
+
+            var act = DbSession.Query
+                <Core.Services.RavenDb.Indexes.Activities_Duration_Result,
+                    Core.Services.RavenDb.Indexes.Activities_Duration>()
+                .Where(a => a.Project == project.Id)
+                .OrderBy(a => a.StartDate)
+                .ToList()
+                .Select(x => new
+                                 {
+                                     x.Dependencies,
+                                     x.Description,
+                                     x.Duration,
+                                     x.Id,
+                                     x.Name,
+                                     x.Project,
+                                     x.StartDate,
+                                     x.TimeUsed,
+                                     AccumulatedTime = x.StartDate.Subtract(project.StartDate).TotalMinutes
+                                 });
+
+            ViewBag.ChartData = JsonConvert.SerializeObject(act);
+
+            return View(project);
         }
     }
 }

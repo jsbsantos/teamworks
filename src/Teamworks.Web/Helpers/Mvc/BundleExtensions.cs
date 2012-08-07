@@ -10,6 +10,7 @@ namespace Teamworks.Web.Helpers.Mvc
                 .Include("~/content/css/bootstrap/bootstrap.css",
                          "~/content/css/bootstrap/datepicker.css",
                          "~/content/css/font-awesome.css",
+                         "~/content/css/teamworks.d3.css",
                          "~/content/css/teamworks.css",
                          "~/content/css/bootstrap/bootstrap-responsive.css");
 
