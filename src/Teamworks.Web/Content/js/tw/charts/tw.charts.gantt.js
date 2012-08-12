@@ -13,6 +13,7 @@ tw.Gantt = function(data, options) {
             total += d;
         } else if (d > total_duration[data[e].StartDate]) {
             total += d - total_duration[data[e].StartDate];
+            total_duration[data[e].StartDate] = d;
         }
     }
 
@@ -98,18 +99,20 @@ tw.Gantt = function(data, options) {
             })
             .attr("class", "gantt_text");
 
-
         //item estimated duration bar
         node.append("rect")
             .attr("x", function(d, i) {
                 return (i && self.item_padding_x) + self.item_offset_x + (Math.max(d.AccumulatedTime, d.RealAcc) * self.item_unit_width);
             }).attr("y", function(d, i) {
                 return self.grid_header_offset + self.item_offset_y + (i) * (self.item_padding_y + self.item_estimated_height);
-            }).attr("width", function(d) {
-                return d.Duration * self.item_unit_width;
+            }).attr("width", function(d, i) {
+                var noDuration = (total * self.item_unit_width) - ((i && self.item_padding_x) + self.item_offset_x + (Math.max(d.AccumulatedTime, d.RealAcc) * self.item_unit_width));
+                return (d.Duration || (total - Math.max(d.AccumulatedTime, d.RealAcc))) * self.item_unit_width;
             }).attr("height", self.item_estimated_height)
-            .attr("class", "gantt_duration_rect");
-
+            .attr("class", "gantt_duration_rect")
+            .on("mouseover", function(d, i) { tooltip_mousover(d); })
+            .on("mousemove", function(d, i) { tooltip_mousemove(d); })
+            .on("mouseout", function(d, i) { tooltip_mouseout(d); });
 
         //item real duration bar
         node.append("rect")
@@ -126,20 +129,53 @@ tw.Gantt = function(data, options) {
                 if (d.TimeUsed >= d.Duration * 0.65)
                     return "gantt_duration_rect_yellow";
                 return "gantt_duration_rect_green";
-            });
+            })
+            .on("mouseover", function(d, i) { tooltip_mousover(d); })
+            .on("mousemove", function(d, i) { tooltip_mousemove(d); })
+            .on("mouseout", function(d, i) { tooltip_mouseout(d); });
 
         //item duration text
         node.append("text")
             .text(function(d) {
-                return d.Duration + "h/" + d.TimeUsed + "h (" + ((d.TimeUsed / d.Duration) * 100).toPrecision(3) + "%)";
+                return (d.Duration || "\u221E") + "h/" + d.TimeUsed + "h (" + (d.Duration && ((d.TimeUsed / d.Duration) * 100).toPrecision(3)) + "%)";
             }).attr("x", function(d, i) {
                 return (i && self.item_padding_x) + self.item_offset_x + (Math.max(d.AccumulatedTime, d.RealAcc) * self.item_unit_width);
             }).attr("y", function(d, i) {
                 return self.grid_header_offset + self.graphic_start_y + (self.item_padding_y + self.item_estimated_height) * i - 2;
             }).attr("dx", function(d) {
-                return (d.Duration * self.item_unit_width) / 2;
+                return ((d.Duration || (total - Math.max(d.AccumulatedTime, d.RealAcc))) * self.item_unit_width) / 2;
             })
-            .attr("class", "gantt_rect_text");
+            .attr("class", "gantt_rect_text")
+            .on("mouseover", function(d, i) {
+                tooltip_mousover(d);
+                $("#chart svg rect:eq(" + i + ")").css("fill", "#08F");
+            })
+            .on("mouseout", function(d, i) {
+                tooltip_mouseout(d);
+                $("#chart svg rect:eq(" + i + ")").css("fill", "");
+            })
+            .on("mousemove", function(d, i) { tooltip_mousemove(d); });
+
+        //tooltip
+        var tooltip = $("#gantt_tooltip");
+
+        function tooltip_mousemove(item) {
+            tooltip.css("left", (event.pageX + 5) + "px")
+                .css("top", (event.pageY + 5) + "px");
+        }
+
+        function tooltip_mousover(item) {
+            tw.page.viewmodel.map(item);
+            tooltip
+                .css("left", (event.pageX + 5) + "px")
+                .css("top", (event.pageY + 5) + "px")
+                .css("visibility", "visible");
+        }
+
+        function tooltip_mouseout(item) {
+            tooltip
+                .css("visibility", "hidden");
+        }
     }
 
     function DrawGrid(g) {

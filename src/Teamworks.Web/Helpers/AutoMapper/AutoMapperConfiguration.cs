@@ -21,6 +21,7 @@ namespace Teamworks.Web.Helpers.AutoMapper
             Mapper.AddProfile(new ActivityViewModelMapperProfile());
             Mapper.AddProfile(new PersonViewModelMapperProfile());
             Mapper.AddProfile(new RegisterTimelogsViewModelMapperProfile());
+            Mapper.AddProfile(new TimelogViewModelMapperProfile());
 
 
             // todo change all this for separated profiles

@@ -77,9 +77,9 @@
     <Compile Include="Projects\DependencyGraph.cs" />
     <Compile Include="Projects\Message.cs" />
     <Compile Include="Services\RavenDb\Indexes\ActivitiesTotalDuration.cs" />
+    <Compile Include="Services\RavenDb\Indexes\Timelog_Filter.cs" />
     <Compile Include="Services\RavenDb\Indexes\ProjectEntityCount.cs" />
     <Compile Include="Services\RavenDb\Indexes\ProjectsRelated.cs" />
-    <Compile Include="Services\RavenDb\Indexes\Timelog_Filter.cs" />
     <Compile Include="Projects\Timelog.cs" />
     <Compile Include="Services\Global.cs" />
     <Compile Include="Entity.cs" />
