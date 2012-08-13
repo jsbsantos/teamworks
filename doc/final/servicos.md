@@ -10,19 +10,15 @@ Acesso a Dados
 
 \label{acesso-a-dados}
 
-É comum para acesso a dados a utilização do padrão *Repository* \cite[pp.~322-327]{patterns}. Este padrão encapsula a lógica de persistência dos objectos de domínio de forma a desacoplar o modelo de domínio da lógica de acesso a dados. 
+É comum para acesso a dados a utilização do padrão *Repository* \cite[pp.~322-327]{patterns}. Este padrão encapsula a lógica de persistência dos objectos de domínio de forma a desacoplar o modelo de domínio da lógica de acesso a dados. Na solução *Teamworks* a implementação do padrão *Repository* é feita pelo cliente *RavenDB*
 
-O cliente RavenDB implementa este padrão para comunicação com o servidor o que torna desnecessário a implementação deste padrão na solução da plataforma.
+A inicialização e configuração do cliente (`IDocumentStore`) está presente na propriedade `Database` da classe `Global` e a sua inicialização deve ser feita no ínicio da aplicação.
 
-A inicialização e configuração do cliente é feita pela classe `Raven`, uma implementação do padrão *Singleton*, para garantir que todas as sessões são criadas a partir do mesmo cliente.
-A cargo desta classe está também a criação de sessões que permitem a obtenção de dados da base de dados.
-
-Os dados podem ser obtidos através do identificador do documento (utilizando o método `Load<T>`), da utilização de um índice ou fazendo uma *query* (método `Query`).
-
-O código da plataforma obtém sessões do cliente através da propriedade `Global.Raven.CurrentSession` que abstrai a forma como é obtida e guardada a sessão actual. 
 
 Segurança
 - 
+
+\label{seguranca}
 
 A plataforma impõe as políticas de acesso em conjunto com o *Authorization bundle*.
 A autorização é feita quando se tenta aceder a um documento. Se um utilizador tentar aceder a um documento e não tiver permissões para o fazer é lançada uma excepção.

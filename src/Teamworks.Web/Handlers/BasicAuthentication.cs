@@ -13,7 +13,7 @@ using Teamworks.Core.Authentication;
 
 namespace Teamworks.Web.Handlers
 {
-    public class BasicAuthenticationHandler : DelegatingHandler
+    public class BasicAuthentication : DelegatingHandler
     {
         public static Credentials GetBase64Credentials(string base64)
         {

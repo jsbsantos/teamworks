@@ -155,7 +155,7 @@
     <Compile Include="Attributes\Api\Ordered\IOrderedFilter.cs" />
     <Compile Include="Attributes\Api\RavenSessionAttribute.cs" />
     <Compile Include="Controllers\Api\ActivitiesController.cs" />
-    <Compile Include="Attributes\Api\ExceptionAttribute.cs" />
+    <Compile Include="Attributes\Api\MappingExceptionFilterAttribute.cs" />
     <Compile Include="Attributes\Api\ModelStateAttribute.cs" />
     <Compile Include="Attributes\Api\SecureForAttribute.cs" />
     <Compile Include="Controllers\Api\TodoController.cs" />
@@ -166,7 +166,7 @@
     <Compile Include="Controllers\Api\EventsController.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Attributes\Api\FormsAuthenticationFilter.cs" />
+    <Compile Include="Attributes\Api\FormsAuthenticationAttribute.cs" />
     <Compile Include="Helpers\AutoMapper\Profiles\Mvc\TimelogViewModelMapperProfile.cs" />
     <Compile Include="Helpers\AutoMapper\Profiles\Mvc\RegisterTimelogsViewModelMapperProfile.cs" />
     <Compile Include="Helpers\AutoMapper\Profiles\Mvc\EntityViewModelMapperProfile.cs" />
@@ -174,11 +174,11 @@
     <Compile Include="ViewModels\Mvc\RegisterTimelogsViewModel.cs" />
     <Compile Include="ViewModels\Mvc\ActivityViewModel.cs" />
     <Compile Include="Controllers\Mvc\ProfilesController.cs" />
-    <Compile Include="Handlers\BasicAuthenticationAttribute.cs" />
+    <Compile Include="Handlers\BasicAuthentication.cs" />
     <Compile Include="Helpers\AutoMapper\Profiles\Mvc\ActivityViewModelMapperProfile.cs" />
     <Compile Include="ViewModels\Mvc\PersonViewModel.cs" />
     <Compile Include="ViewModels\Mvc\ProjectViewModel.cs" />
-    <Compile Include="Handlers\RavenSessionHandler.cs" />
+    <Compile Include="Handlers\RavenSession.cs" />
     <Compile Include="Controllers\Api\MailgunController.cs">
       <SubType>Code</SubType>
     </Compile>
