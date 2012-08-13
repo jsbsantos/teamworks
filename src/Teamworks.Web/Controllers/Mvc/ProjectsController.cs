@@ -102,7 +102,7 @@ namespace Teamworks.Web.Controllers.Mvc
                 .ToList()
                 .Select(x => new
                                  {
-                                     Related = x.Dependencies,
+                                     x.Dependencies,
                                      x.Description,
                                      x.Duration,
                                      x.Id,

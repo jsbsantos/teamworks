@@ -23,6 +23,8 @@ namespace Teamworks.Web.Controllers.Api
     [RoutePrefix("api/projects/{projectId}/activities")]
     public class ActivitiesController : RavenApiController
     {
+        #region General
+
         public ActivitiesController()
         {
         }
@@ -118,31 +120,7 @@ namespace Teamworks.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.NoContent);
         }
 
-        private double GetAccumulatedDuration(List<Core.Activity> domain, Core.Activity activity, int duration = 0)
-        {
-            Core.Activity parent = domain.Where(a => activity.Dependencies.Contains(a.Id))
-                .OrderByDescending(a => a.Duration).FirstOrDefault();
-
-            if (parent == null)
-                return duration;
-
-            return /*parent.Dependencies.Count == 0
-                       ? duration
-                       : */
-                GetAccumulatedDuration(domain, parent, duration + parent.Duration);
-        }
-
-        private void OffsetDuration(List<Core.Activity> domain, Core.Activity parent, int offset)
-        {
-            List<Core.Activity> children = domain.Where(a => a.Dependencies.Contains(parent.Id)).ToList();
-            foreach (Core.Activity child in children)
-            {
-                child.StartDate = child.StartDate.AddMinutes(offset);
-                child.Name += offset;
-                domain.Remove(child);
-                OffsetDuration(domain, child, offset);
-            }
-        }
+        #endregion
 
         #region Precedence
 
@@ -203,6 +181,36 @@ namespace Teamworks.Web.Controllers.Api
              */
             return null;
         }
+
+        #region Private
+
+        private double GetAccumulatedDuration(List<Core.Activity> domain, Core.Activity activity, int duration = 0)
+        {
+            Core.Activity parent = domain.Where(a => activity.Dependencies.Contains(a.Id))
+                .OrderByDescending(a => a.Duration).FirstOrDefault();
+
+            if (parent == null)
+                return duration;
+
+            return /*parent.Dependencies.Count == 0
+                       ? duration
+                       : */
+                GetAccumulatedDuration(domain, parent, duration + parent.Duration);
+        }
+
+        private void OffsetDuration(List<Core.Activity> domain, Core.Activity parent, int offset)
+        {
+            List<Core.Activity> children = domain.Where(a => a.Dependencies.Contains(parent.Id)).ToList();
+            foreach (Core.Activity child in children)
+            {
+                child.StartDate = child.StartDate.AddMinutes(offset);
+                child.Name += offset;
+                domain.Remove(child);
+                OffsetDuration(domain, child, offset);
+            }
+        }
+
+        #endregion
 
         #endregion
 

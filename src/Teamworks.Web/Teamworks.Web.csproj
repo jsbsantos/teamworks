@@ -167,6 +167,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Attributes\Api\FormsAuthenticationFilter.cs" />
+    <Compile Include="Helpers\AutoMapper\Profiles\Mvc\TimelogViewModelMapperProfile.cs" />
     <Compile Include="Helpers\AutoMapper\Profiles\Mvc\RegisterTimelogsViewModelMapperProfile.cs" />
     <Compile Include="Helpers\AutoMapper\Profiles\Mvc\EntityViewModelMapperProfile.cs" />
     <Compile Include="ViewModels\Mvc\EntityViewModel.cs" />
@@ -248,6 +249,7 @@
     <Content Include="Content\css\teamworks.css" />
     <Content Include="Content\font\fontawesome-webfont.svg" />
     <Content Include="Content\img\google.png" />
+    <Content Include="Content\js\tw\charts\tw.charts.pages.gantt.js" />
     <Content Include="Content\js\tw\tw.pages.timelogs.js" />
     <Content Include="Content\js\tw\tw.pages.activity.js" />
     <Content Include="Content\js\tw\tw.pages.profile.js" />

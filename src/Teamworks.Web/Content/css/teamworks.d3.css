@@ -5,10 +5,28 @@ Teamwork d3 graphics styling
 /* Gantt Chart */
 
 svg rect.gantt_duration_rect {
-    fill: #08C;
+    fill: #08A;
     stroke: rgb(0, 0, 0);
     stroke-opacity: 0.5;
     stroke-width: 1;
+}
+
+svg rect.gantt_duration_rect:hover {
+    fill: #08F;
+    stroke: rgb(0, 0, 0);
+    stroke-opacity: 0.5;
+    stroke-width: 1;
+}
+
+div.gantt_tooltip {
+    border: black 1px solid;
+    background-color: #ccc;
+    min-width: 175px !important;
+    min-height: 20px !important;
+    z-index: 1500 !important;
+    display: block;
+    position: absolute;
+    visibility: hidden;    
 }
 
 svg text.gantt_text {
