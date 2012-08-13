@@ -235,6 +235,7 @@
     <Compile Include="Models\Mvc\Register.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\Extensions\Mvc\ViewsExtensions.cs" />
+    <Compile Include="ViewModels\Mvc\TimelogViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\bootstrap\bootstrap-responsive.css" />

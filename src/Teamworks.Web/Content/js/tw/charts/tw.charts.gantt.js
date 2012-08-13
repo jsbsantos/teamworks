@@ -1,4 +1,4 @@
-tw.Gantt = function(data, options) {
+tw.Gantt = function (data, options) {
     var self = this;
 
     //privates
@@ -17,12 +17,12 @@ tw.Gantt = function(data, options) {
         }
     }
 
-    $.each(data, function(i, e) {
+    $.each(data, function (i, e) {
         e.RealAcc = GetParentDuration(e, data);
     });
 
     var _default = {
-    //draw area default config
+        //draw area default config
         graphic_width: $("#chart").width(),
         graphic_height: 150,
         graphic_start_x: 0,
@@ -47,23 +47,23 @@ tw.Gantt = function(data, options) {
     //configuration
     self.options = $.extend(true, _default, options);
 
-    self.graphic_width = self.options.graphic_width || self.graphic_width || 0;
-    self.graphic_height = self.options.graphic_height || self.graphic_height || 0;
-    self.graphic_start_x = self.options.graphic_start_x || self.graphic_start_x || 0;
-    self.graphic_start_y = self.options.graphic_start_y || self.graphic_start_y || 0;
+    self.graphic_width = self.options.graphic_width;
+    self.graphic_height = self.options.graphic_height;
+    self.graphic_start_x = self.options.graphic_start_x;
+    self.graphic_start_y = self.options.graphic_start_y;
 
-    self.item_unit_width = self.options.item_unit_width || self.graphic_width || 0;
-    self.item_estimated_height = self.options.item_estimated_height || self.item_estimated_height || 0;
-    self.item_real_height = self.options.item_real_height || self.item_real_height || 0;
-    self.item_padding_x = self.options.item_padding_x || self.item_padding_x || 0;
-    self.item_padding_y = self.options.item_padding_y || self.item_padding_y || 0;
+    self.item_unit_width = self.options.item_unit_width;
+    self.item_estimated_height = self.options.item_estimated_height;
+    self.item_real_height = self.options.item_real_height;
+    self.item_padding_x = self.options.item_padding_x;
+    self.item_padding_y = self.options.item_padding_y;
 
-    self.item_offset_x = self.options.item_offset_x || self.item_offset_x || 0;
-    self.item_offset_y = self.options.item_offset_y || self.item_offset_y || 0;
+    self.item_offset_x = self.options.item_offset_x;
+    self.item_offset_y = self.options.item_offset_y;
 
-    self.grid_vertical_lines = self.options.grid_vertical_lines || self.grid_vertical_lines || 0;
-    self.grid_horizontal_lines = self.options.grid_horizontal_lines || self.grid_horizontal_lines || 0;
-    self.grid_header_offset = self.options.grid_header_offset || self.grid_header_offset || 0;
+    self.grid_vertical_lines = self.options.grid_vertical_lines;
+    self.grid_horizontal_lines = self.options.grid_horizontal_lines;
+    self.grid_header_offset = self.options.grid_header_offset;
 
     self.data = data;
     width = self.graphic_width * .98;
@@ -91,90 +91,86 @@ tw.Gantt = function(data, options) {
 
         //item name
         node.append("text")
-            .text(function(d) {
+            .text(function (d) {
                 return d.Name;
             }).attr("x", 5)
-            .attr("y", function(d, i) {
+            .attr("y", function (d, i) {
                 return self.grid_header_offset + self.graphic_start_y + (self.item_padding_y + self.item_estimated_height) * i;
             })
             .attr("class", "gantt_text");
 
         //item estimated duration bar
         node.append("rect")
-            .attr("x", function(d, i) {
+            .attr("x", function (d, i) {
                 return (i && self.item_padding_x) + self.item_offset_x + (Math.max(d.AccumulatedTime, d.RealAcc) * self.item_unit_width);
-            }).attr("y", function(d, i) {
+            }).attr("y", function (d, i) {
                 return self.grid_header_offset + self.item_offset_y + (i) * (self.item_padding_y + self.item_estimated_height);
-            }).attr("width", function(d, i) {
+            }).attr("width", function (d, i) {
                 var noDuration = (total * self.item_unit_width) - ((i && self.item_padding_x) + self.item_offset_x + (Math.max(d.AccumulatedTime, d.RealAcc) * self.item_unit_width));
                 return (d.Duration || (total - Math.max(d.AccumulatedTime, d.RealAcc))) * self.item_unit_width;
             }).attr("height", self.item_estimated_height)
             .attr("class", "gantt_duration_rect")
-            .on("mouseover", function(d, i) { tooltip_mousover(d); })
-            .on("mousemove", function(d, i) { tooltip_mousemove(d); })
-            .on("mouseout", function(d, i) { tooltip_mouseout(d); });
+            .on("mouseover", function (d, i) { tooltip_mousover(d, i); })
+            .on("mousemove", function (d, i) { tooltip_mousemove(d, i); })
+            .on("mouseout", function (d, i) { tooltip_mouseout(d, i); });
 
         //item real duration bar
         node.append("rect")
-            .attr("x", function(d, i) {
+            .attr("x", function (d, i) {
                 return (i && self.item_padding_x) + self.item_offset_x + (Math.max(d.AccumulatedTime, d.RealAcc) * self.item_unit_width);
-            }).attr("y", function(d, i) {
+            }).attr("y", function (d, i) {
                 return self.grid_header_offset + self.item_offset_y + ((self.item_padding_y + self.item_estimated_height) * i) + (self.item_estimated_height - self.item_real_height);
-            }).attr("width", function(d) {
+            }).attr("width", function (d) {
                 return d.TimeUsed * self.item_unit_width;
             }).attr("height", self.item_real_height)
-            .attr("class", function(d) {
+            .attr("class", function (d) {
                 if (d.TimeUsed >= d.Duration * 0.95)
                     return "gantt_duration_rect_red";
                 if (d.TimeUsed >= d.Duration * 0.65)
                     return "gantt_duration_rect_yellow";
                 return "gantt_duration_rect_green";
             })
-            .on("mouseover", function(d, i) { tooltip_mousover(d); })
-            .on("mousemove", function(d, i) { tooltip_mousemove(d); })
-            .on("mouseout", function(d, i) { tooltip_mouseout(d); });
+            .on("mouseover", function (d, i) { tooltip_mousover(d, i); })
+            .on("mousemove", function (d, i) { tooltip_mousemove(d, i); })
+            .on("mouseout", function (d, i) { tooltip_mouseout(d, i); });
 
         //item duration text
         node.append("text")
-            .text(function(d) {
+            .text(function (d) {
                 return (d.Duration || "\u221E") + "h/" + d.TimeUsed + "h (" + (d.Duration && ((d.TimeUsed / d.Duration) * 100).toPrecision(3)) + "%)";
-            }).attr("x", function(d, i) {
+            }).attr("x", function (d, i) {
                 return (i && self.item_padding_x) + self.item_offset_x + (Math.max(d.AccumulatedTime, d.RealAcc) * self.item_unit_width);
-            }).attr("y", function(d, i) {
+            }).attr("y", function (d, i) {
                 return self.grid_header_offset + self.graphic_start_y + (self.item_padding_y + self.item_estimated_height) * i - 2;
-            }).attr("dx", function(d) {
+            }).attr("dx", function (d) {
                 return ((d.Duration || (total - Math.max(d.AccumulatedTime, d.RealAcc))) * self.item_unit_width) / 2;
             })
-            .attr("class", "gantt_rect_text")
-            .on("mouseover", function(d, i) {
-                tooltip_mousover(d);
-                $("#chart svg rect:eq(" + i + ")").css("fill", "#08F");
-            })
-            .on("mouseout", function(d, i) {
-                tooltip_mouseout(d);
-                $("#chart svg rect:eq(" + i + ")").css("fill", "");
-            })
-            .on("mousemove", function(d, i) { tooltip_mousemove(d); });
+            .attr("class", "gantt_rect_text");
 
         //tooltip
         var tooltip = $("#gantt_tooltip");
+        tooltip.popover();
 
-        function tooltip_mousemove(item) {
-            tooltip.css("left", (event.pageX + 5) + "px")
-                .css("top", (event.pageY + 5) + "px");
+        function tooltip_mousemove(item, index) {
+
         }
 
-        function tooltip_mousover(item) {
+        function tooltip_mousover(item, index) {
             tw.page.viewmodel.map(item);
-            tooltip
-                .css("left", (event.pageX + 5) + "px")
-                .css("top", (event.pageY + 5) + "px")
-                .css("visibility", "visible");
+            if ($(item).data('popover') == undefined)
+                $(item).popover({ trigger: "hover", content: tooltip.html(), title: "TITALU" });
+            $(item).popover("show");
+            var elem = $("#chart svg rect.gantt_duration_rect:eq(" + index + ")"),
+                position = elem.position(),
+                popover = $(".popover");
+            position.left += parseFloat(elem.attr("width"));
+            position.top -= $(".popover-inner").height() / 2;
+            popover.offset(position);
+
         }
 
-        function tooltip_mouseout(item) {
-            tooltip
-                .css("visibility", "hidden");
+        function tooltip_mouseout(item, index) {
+            $(item).popover("hide");
         }
     }
 
@@ -199,7 +195,7 @@ tw.Gantt = function(data, options) {
             .attr("y", self.grid_header_offset)
             .attr("dy", -3)
             .attr("text-anchor", "middle")
-            .text(function(d, i) { return d; })
+            .text(function (d, i) { return d; })
             .attr("font-size", "0.8em");
 
 
@@ -207,13 +203,13 @@ tw.Gantt = function(data, options) {
             .data(d3.range(0, self.grid_horizontal_lines))
             .enter().insert("line", ":first-child")
             .attr("x1", 0)
-            .attr("y1", function(d, i) {
+            .attr("y1", function (d, i) {
                 return (self.graphic_start_y + (self.item_padding_y + self.item_estimated_height) * i) - 0.5;
             })
-            .attr("x2", function(d, i) {
+            .attr("x2", function (d, i) {
                 return self.graphic_width;
             })
-            .attr("y2", function(d, i) {
+            .attr("y2", function (d, i) {
                 return (self.graphic_start_y + (self.item_padding_y + self.item_estimated_height) * i) - 0.5;
             })
             .attr("width", 1)
@@ -243,7 +239,7 @@ tw.Gantt = function(data, options) {
         var acc = _acc || 0;
 
         var max = 0;
-        var parents = $.grep(_data, function(element, index) {
+        var parents = $.grep(_data, function (element, index) {
             return $.inArray(element.Id, a.Dependencies) > -1;
         });
 
@@ -252,7 +248,7 @@ tw.Gantt = function(data, options) {
 
         var parent = undefined;
         var ref = max;
-        parents.forEach(function(e, i) {
+        parents.forEach(function (e, i) {
             max = Math.max(Math.max(e.Duration, e.TimeUsed), max);
             if (max != ref)
                 parent = e;

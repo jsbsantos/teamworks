@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using Newtonsoft.Json;
+using Raven.Client.Authorization;
 using Raven.Client.Linq;
 using Teamworks.Core;
 using Teamworks.Core.Services;
@@ -29,9 +30,6 @@ namespace Teamworks.Web.Controllers.Mvc
                                .Include<ProjectEntityCount.Result>(r => r.Project))
                 .Where(r => r.People.Any(p => p == current))
                 .ToList();
-
-            if (results.Count == 0)
-                return HttpNotFound();
 
             var vm = new ProjectsViewModel
                          {
@@ -90,6 +88,8 @@ namespace Teamworks.Web.Controllers.Mvc
         public ActionResult Gantt(int id)
         {
             ViewBag.Endpoint = "api/projects/" + id;
+
+            DbSession.SecureFor(ControllerContext.HttpContext.GetCurrentPersonId(), "GOD");
 
             var project = DbSession
                 .Load<Project>(id);

@@ -44,4 +44,5 @@ svg text.gantt_rect_text {
     fill: black;
     font-size: 0.8em;
     text-anchor: middle;
+    pointer-events: none;
 }
