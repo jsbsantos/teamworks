@@ -158,7 +158,7 @@ tw.Gantt = function (data, options) {
         function tooltip_mousover(item, index) {
             tw.page.viewmodel.map(item);
             if ($(item).data('popover') == undefined)
-                $(item).popover({ trigger: "hover", content: tooltip.html(), title: "TITALU" });
+                $(item).popover({ trigger: "hover", content: $(tooltip).children("#tooltip_body").html(), title: $(tooltip).children("#tooltip_title").text() });
             $(item).popover("show");
             var elem = $("#chart svg rect.gantt_duration_rect:eq(" + index + ")"),
                 position = elem.position(),

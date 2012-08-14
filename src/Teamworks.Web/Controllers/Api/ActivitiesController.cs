@@ -179,7 +179,7 @@ namespace Teamworks.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.Created);
         
              */
-            return null;
+            return Request.CreateResponse(HttpStatusCode.Created);
         }
 
         #region Private

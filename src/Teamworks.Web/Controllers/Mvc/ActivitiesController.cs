@@ -56,8 +56,8 @@ namespace Teamworks.Web.Controllers.Mvc
 
             vm.TotalTimeLogged = query.Sum(r => r.Duration);
             
-            vm.Dependencies =
-                DbSession.Load<Activity>(activity.Dependencies).Select(a => a.MapTo<ActivityViewModel>()).ToList();
+            //vm.Dependencies =
+            //    DbSession.Load<Activity>(activity.Dependencies).Select(a => a.MapTo<ActivityViewModel>()).ToList();
 
             vm.AssignedPeople =
                 DbSession.Load<Person>(activity.People.Distinct()).Select(
@@ -71,6 +71,14 @@ namespace Teamworks.Web.Controllers.Mvc
                                            }).ToList();
             ViewBag.Results = vm;
 
+           var list = DbSession.Query<Activity>().Where(r => r.Project == projectId.ToId("project")).ToList();
+           vm.Dependencies = list.Select(r =>
+                                             {
+                                                 var result = r.MapTo<DependencyActivityViewModel>();
+                                                 result.Dependency = r.Id.In(activity.Dependencies);
+                                                 return result;
+                                             })
+                .ToList();
             return View(vm);
         }
     }

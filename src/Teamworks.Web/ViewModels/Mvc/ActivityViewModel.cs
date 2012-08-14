@@ -17,11 +17,15 @@ namespace Teamworks.Web.ViewModels.Mvc
         public DateTime StartDate { get; set; }
     }
 
+    public class DependencyActivityViewModel : ActivityViewModel
+    {
+        public bool Dependency { get; set; }
+    }
 
     public class ActivityViewModelComplete : ActivityViewModel
     {
         public IEnumerable<TimelogViewModel> Timelogs { get; set; }
-        public IEnumerable<ActivityViewModel> Dependencies { get; set; }
+        public IEnumerable<DependencyActivityViewModel> Dependencies { get; set; }
         public IEnumerable<PersonViewModel> AssignedPeople { get; set; }
     }
 }

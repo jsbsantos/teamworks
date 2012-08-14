@@ -114,3 +114,9 @@ span input.seamless, span input.seamless:focus {
     border: 1px solid #fff;
     padding: 0 3px;
 }
+
+
+.show_inline
+{
+    display: inline-block;
+}

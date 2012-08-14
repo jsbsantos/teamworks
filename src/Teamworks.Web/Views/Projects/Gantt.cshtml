@@ -32,15 +32,15 @@
 
 </script>
 
-<section>
-    <div id="gantt_tooltip" class="gantt_tooltip">
-        <div><strong>Name:</strong><span data-bind="text: name"></span></div>
+<div hidden="true" id="gantt_tooltip">
+    <div id="tooltip_title"><span data-bind="text: name"></span></div>
+    <div id="tooltip_body">
         <div><strong>Description:</strong><span data-bind="text: description"></span></div>
-        <div><strong>StartDate:</strong><span data-bind="text: startDate"></span></div>
+        <div><strong>StartDate:</strong><span data-bind="text: startDate.formatted"></span></div>
         <div><strong>Duration:</strong><span data-bind="text: duration"></span></div>
         <div><strong>Used:</strong><span data-bind="text: timeUsed"></span></div>
     </div>
-</section>
+</div>
 
 <section>
     <pre>@Html.Raw(ViewBag.ChartData)</pre>
