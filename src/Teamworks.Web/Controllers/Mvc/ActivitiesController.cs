@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web.Mvc;
 using Raven.Client.Linq;
 using Teamworks.Core;
+using Teamworks.Core.Business;
 using Teamworks.Core.Services;
 using Teamworks.Core.Services.RavenDb.Indexes;
 using Teamworks.Web.Helpers.AutoMapper;
@@ -12,6 +15,12 @@ namespace Teamworks.Web.Controllers.Mvc
 {
     public class ActivitiesController : RavenController
     {
+        private ActivityServices ActivityServices { get; set; }
+        public ActivitiesController()
+        {
+            ActivityServices = new Lazy<ActivityServices>(() => new ActivityServices(){DbSession = DbSession}).Value;
+        }
+
         [HttpGet]
         [ActionName("View")]
         public ActionResult Index(int projectId)
@@ -24,13 +33,13 @@ namespace Teamworks.Web.Controllers.Mvc
         {
             var query = DbSession.Query<Timelog_Filter.Result, Timelog_Filter>()
                 .Customize(c =>
-                               {
-                                   c.WaitForNonStaleResults();
-                                   c.Include<Timelog_Filter.Result>(r => r.Activity);
-                                   c.Include<Timelog_Filter.Result>(r => r.ActivityDependencies);
-                                   c.Include<Timelog_Filter.Result>(r => r.Person);
-                                   c.Include<Timelog_Filter.Result>(r => r.Project);
-                               })
+                    {
+                        c.WaitForNonStaleResults();
+                        c.Include<Timelog_Filter.Result>(r => r.Activity);
+                        c.Include<Timelog_Filter.Result>(r => r.ActivityDependencies);
+                        c.Include<Timelog_Filter.Result>(r => r.Person);
+                        c.Include<Timelog_Filter.Result>(r => r.Project);
+                    })
                 .Where(a => a.Project == projectId.ToId("project") && a.Activity == activityId.ToId("activity"))
                 .OrderByDescending(r => r.Date)
                 .AsProjection<Timelog_Filter.Result>()
@@ -55,31 +64,45 @@ namespace Teamworks.Web.Controllers.Mvc
             vm.ProjectReference = project.MapTo<EntityViewModel>();
 
             vm.TotalTimeLogged = query.Sum(r => r.Duration);
-            
-            //vm.Dependencies =
-            //    DbSession.Load<Activity>(activity.Dependencies).Select(a => a.MapTo<ActivityViewModel>()).ToList();
 
             vm.AssignedPeople =
                 DbSession.Load<Person>(activity.People.Distinct()).Select(
                     r => r.MapTo<PersonViewModel>()).ToList();
 
             vm.Timelogs = query.Select(r =>
-                                           {
-                                               var result = r.MapTo<TimelogViewModel>();
-                                               result.Person = DbSession.Load<Person>(r.Person).MapTo<EntityViewModel>();
-                                               return result;
-                                           }).ToList();
+                {
+                    var result = r.MapTo<TimelogViewModel>();
+                    result.Person = DbSession.Load<Person>(r.Person).MapTo<EntityViewModel>();
+                    return result;
+                }).ToList();
             ViewBag.Results = vm;
 
-           var list = DbSession.Query<Activity>().Where(r => r.Project == projectId.ToId("project")).ToList();
-           vm.Dependencies = list.Select(r =>
-                                             {
-                                                 var result = r.MapTo<DependencyActivityViewModel>();
-                                                 result.Dependency = r.Id.In(activity.Dependencies);
-                                                 return result;
-                                             })
+            var list = DbSession.Query<Activity>().Where(r => r.Project == projectId.ToId("project")).ToList();
+            vm.Dependencies = list.Select(r =>
+                {
+                    var result = r.MapTo<DependencyActivityViewModel>();
+                    result.Dependency = r.Id.In(activity.Dependencies);
+                    return result;
+                })
                 .ToList();
             return View(vm);
         }
+
+        [HttpPost]
+        public ActionResult Precedences(int projectId, int activityId, int[] precedences)
+        {
+            return ActivityServices.SetPrecedence(activityId, projectId,precedences) ?
+                new HttpStatusCodeResult(HttpStatusCode.Created) :
+                HttpNotFound();
+        }
+
+        [HttpPost]
+        public ActionResult Update(int projectId, int activityId, ActivityViewModel model)
+        {
+            return ActivityServices.Update(model) ?
+                new HttpStatusCodeResult(HttpStatusCode.Created) :
+                HttpNotFound();
+        }
+
     }
 }

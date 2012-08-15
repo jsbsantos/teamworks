@@ -47,21 +47,5 @@ namespace Teamworks.Core
                            LastTimeEntryId = 0
                        };
         }
-
-        public IEnumerable<ActivityRelation> DependencyGraph(IEnumerable<Activity> parents)
-        {
-            return Dependencies.Select(p =>
-                                      {
-                                          Activity parent = parents.Single(x => p.Equals(x.Id,
-                                                                                         StringComparison.
-                                                                                             InvariantCultureIgnoreCase));
-                                          return new ActivityRelation
-                                                     {
-                                                         Parent = parent.Identifier,
-                                                         Activity = Identifier,
-                                                         Duration = parent.Duration,
-                                                     };
-                                      }).ToList();
-        }
     }
 }

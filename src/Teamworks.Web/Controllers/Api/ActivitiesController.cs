@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web.Mvc;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
@@ -10,6 +12,7 @@ using Raven.Client;
 using Raven.Client.Authorization;
 using Raven.Client.Linq;
 using Teamworks.Core;
+using Teamworks.Core.Business;
 using Teamworks.Core.Services;
 using Teamworks.Core.Services.RavenDb.Indexes;
 using Teamworks.Web.Attributes.Api;
@@ -25,13 +28,17 @@ namespace Teamworks.Web.Controllers.Api
     {
         #region General
 
+        private ActivityServices ActivityServices { get; set; }
+
         public ActivitiesController()
         {
+            ActivityServices = new Lazy<ActivityServices>(() => new ActivityServices() {DbSession = DbSession}).Value;
         }
 
         public ActivitiesController(IDocumentSession session)
             : base(session)
         {
+            ActivityServices = new Lazy<ActivityServices>(() => new ActivityServices() {DbSession = session}).Value;
         }
 
         public IEnumerable<Activity> Get(int projectId)
@@ -64,9 +71,9 @@ namespace Teamworks.Web.Controllers.Api
 
             DbSession.Store(activity);
             DbSession.SetAuthorizationFor(activity, new DocumentAuthorization
-                                                        {
-                                                            Tags = {project.Id}
-                                                        });
+                {
+                    Tags = {project.Id}
+                });
 
             // calculate dependency graph 
             if (model.Dependencies != null)
@@ -124,61 +131,20 @@ namespace Teamworks.Web.Controllers.Api
 
         #region Precedence
 
-        [GET("{id}/precedences")]
-        public IEnumerable<ActivityRelation> GetPre(int id, int projectId)
-        {
-            Core.Activity activity = DbSession
-                .Query<Core.Activity, Activities_ByProject>()
-                .FirstOrDefault(a => a.Id == id.ToId("activity")
-                                     && a.Project == projectId.ToId("project"));
-
-            Request.ThrowNotFoundIfNull(activity);
-
-            List<Core.Activity> dependencies = DbSession.Load<Core.Activity>(activity.Dependencies).ToList();
-            return activity.DependencyGraph(dependencies);
-        }
-
-        [POST("{id}/precedences/{precedenceid}")]
+        [POST("{id}/precedences")]
         public HttpResponseMessage PostPre(int id, int projectId,
-                                           int precedenceid)
+                                           int[] precedences)
         {
-            /*
-            var project = DbSession
-                .Load<Core.Project>(projectId);
-            var activity = DbSession.Load<Core.Activity>(id);
-
-            if (project == null || activity == null || !project.Activities.Any(t => t.ToIdentifier() == id))
-                Request.ThrowNotFoundIfNull();
-
-            var depid = "activities/" + precedenceid;
-            if (activity.Dependencies.Contains(depid))
-                Request.CreateResponse(HttpStatusCode.NotModified); //todo is valid response code?
-
-            activity.Dependencies.Add(depid);
+            if (!ActivityServices.AddPrecedence(id, projectId, precedences))
+                Request.ThrowNotFound();
             return Request.CreateResponse(HttpStatusCode.Created);
-            */
-            return null;
         }
 
-        [DELETE("{id}/precedences/{precedenceid}")]
-        public HttpResponseMessage Delete(int id, int projectId, int precedenceid)
+        [DELETE("{id}/precedences")]
+        public HttpResponseMessage Delete(int id, int projectId, int[] precedences)
         {
-            /*
-            var project = DbSession
-                .Load<Core.Project>(projectId);
-            var activity = DbSession.Load<Core.Activity>(id);
-
-            if (project == null || activity == null || !project.Activities.Any(t => t.ToIdentifier() == id))
-                Request.ThrowNotFoundIfNull();
-
-            var depid = "activities/" + precedenceid;
-            if (!activity.Dependencies.Contains(depid))
-                Request.CreateResponse(HttpStatusCode.NotModified); //todo is valid response code?
-
-            activity.Dependencies.Remove(depid);
-            return Request.CreateResponse(HttpStatusCode.Created);
-        
-             */
+            if (!ActivityServices.RemovePrecedence(id, projectId, precedences))
+                Request.ThrowNotFound();
             return Request.CreateResponse(HttpStatusCode.Created);
         }
 

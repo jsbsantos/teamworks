@@ -149,42 +149,5 @@ namespace Teamworks.Web.Controllers.Api
         }
 
         #endregion
-
-        #region Task Dependencies
-
-        /*
-        [GET("{projectId}/precedences")]
-        [SecureFor]
-        public DependencyGraph GetPre(int projectId)
-        {
-            var project = DbSession
-                .Include<Core.Project>(p => p.Activities)
-                .Load<Core.Project>(projectId);
-
-            if (project == null)
-            {
-                throw new HttpResponseException(
-                    Request.CreateResponse(HttpStatusCode.NotFound));
-            }
-
-<<<<<<< HEAD
-            //var relations = project.DependencyGraph();
-            List<ActivityRelation> relations = null;
-            var elements = DbSession.Load<Core.Activity>(project.Activities)
-                .Select(Mapper.Map<Core.Activity, DryActivity>)
-=======
-            var relations = project.DependencyGraph();
-            var proj = "projects/" + projectid;
-            var elements = DbSession.Query<ActivityWithDuration, ActivityWithDurationIndex>()
-                .Where(a => a.Project == proj)
-                .OrderBy(a => a.StartDate)
->>>>>>> 98d101c70948e9055c931929dc0edca8e51742c3
-                .ToList();
-
-            return new DependencyGraph() {Elements = elements, Relations = relations};
-        }
-        */
-
-        #endregion
     }
 }

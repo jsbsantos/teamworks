@@ -80,14 +80,15 @@
             <div id="depends" class="btn-group">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     <span>Dependencies <i class="icon-caret-down"></i></span></a>
-                <ul class="dropdown-menu" data-bind="template: { name:'activity-list-template', foreach: dependencies }">
+                <ul class="dropdown-menu well-small" data-bind="template: { name:'activity-list-template', foreach: dependencies }">
                 </ul>
             </div>
             <script type="text/html" id="activity-list-template">
                 <li>
-                    <div>
-                        <strong data-bind="text: name"></strong>
-                        <input type="checkbox" data-bind="attr: {id: 'chk'+id(), name:'chk'+id()}">
+                    <div class="row">
+                        <strong class="span1" data-bind="text: name"></strong>
+                        <input style="float: right" type="checkbox"
+                               data-bind="attr: {id: 'chk'+id(), name:'chk'+id()}, checked: dependency, click: function(e){ $parent.dependenciesChanged(true); return true; } " >
                     </div>
                 </li>
             </script>
@@ -134,7 +135,7 @@
             <td data-bind="text: duration"></td>
             <td data-bind="text: description"></td>
             <td data-bind="text: date.formatted"></td>
-            <td><a data-bind="text: person.name(), href: '@Url.RouteUrl("default", new {controller = "Profiles", action = "View"})/' + id()"></a></td>
+            <td><a data-bind="text: person.name(), attr: { href: '@Url.RouteUrl("default", new {controller = "Profiles", action = "View"})/' + id() } "></a></td>
         </tr>
     </script>
 </div>

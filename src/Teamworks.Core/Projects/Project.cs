@@ -43,15 +43,5 @@ namespace Teamworks.Core
                                     Tags = {Id}
                                 });
         }
-
-        public IEnumerable<ActivityRelation> DependencyGraph(List<Activity> activities)
-        {
-            var relation = new List<ActivityRelation>();
-
-            foreach (Activity activity in activities)
-                relation.AddRange(activity.DependencyGraph(activities));
-
-            return relation.ToList();
-        }
     }
 }
