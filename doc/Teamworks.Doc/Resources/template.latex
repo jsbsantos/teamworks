@@ -146,7 +146,8 @@ $if(listings)$
 	captionpos=b,
 	frame=single,
 	aboveskip=2em,
-	belowskip=1em
+	belowskip=1em,
+    morekeywords={var}
 }
 $endif$
 

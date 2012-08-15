@@ -11,7 +11,7 @@ using Teamworks.Core.Authentication;
 
 namespace Teamworks.Web.Attributes.Api
 {
-    public class FormsAuthenticationFilter : ActionFilterAttribute
+    public class FormsAuthenticationAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuting(HttpActionContext context)
         {

@@ -6,12 +6,12 @@ using Teamworks.Core.Services;
 
 namespace Teamworks.Web.Handlers
 {
-    public class RavenSessionHandler : DelegatingHandler
+    public class RavenSession : DelegatingHandler
     {
         protected override Task<HttpResponseMessage> SendAsync(
             HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            IDocumentSession session = Global.Database.OpenSession();
+            var session = Global.Database.OpenSession();
             request.Properties[Application.Keys.RavenDbSessionKey] = session;
             return base.SendAsync(request, cancellationToken)
                 .ContinueWith(t =>

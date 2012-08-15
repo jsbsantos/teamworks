@@ -3,13 +3,13 @@ Dados
 
 \label{sec:dados}
 
-Para a realização deste projecto foi usada a base de dados de documentos RavenDB, que é uma base de dados transaccional, *open-source* e implementada sobre a *framework* .NET. Esta base de dados é composta por um servidor e um cliente e os dados são guardados sem *schema* rígido em documentos no formato JSON.
+Para a realização deste projecto foi usada a base de dados de documentos RavenDB, uma base de dados transaccional, *open-source* e implementada sobre a *framework* .NET. Esta base de dados é composta por um servidor e um cliente e os dados são guardados sem *schema* rígido em documentos no formato JSON.
 
 Na figura \ref{fig:interacaoraven} pode observar-se a interacção da plataforma com o cliente RavenDB.
 
 ![Interacção da plataforma Teamworks com a base de dados.\label{fig:interacaoraven}](http://www.lucidchart.com/publicSegments/view/4fd76e6a-3ef0-4875-99c1-4ac60a78da40/image.png)
 
-O acesso ao servidor é feito através de uma Api ReSTful e este tem a responsabilidade de persistir os dados.
+A responsabilidade de persistir os dados é do servidor que diponibiliza uma Api ReSTful para todas as comunicações de acesso aos dados.
 
 O cliente expõe as funcionalidades do servidor e permite a interacção através de código .NET . Os dados enviados e recebidos do cliente são instâncias de classes *POCO*s (*Plain Old CLR Object*) o que simplifica a sua utilização.
 
@@ -48,7 +48,7 @@ Uma característica a ter em conta neste tipo de base de dados é a impossibilid
 A abordagem aconselhada para a modelação de dados neste tipo de base de dados é o uso do padrão *Aggregate* \cite[pp.~126-127]{domaindrivendesign} para a escolha de que informação fica em cada documento. O padrão define um agregado como um grupo de objectos tratados como um só, tendo em conta alterações no seu conteúdo. 
 As referências externas estão limitadas à raiz do agregado, que controla todas as alterações aos objectos contidos nos seus limites.
 Como na definição do modelo de domínio foi usada uma abordagem *Domain Driven Design* os agregados identificados são guardados como documentos independentes.
-A única excepção a esta regra é a entidade tarefa que tem um documento próprio. Esta decisão deve-se à possibilidade de um projecto ter várias tarefas associadas e para evitar que o documento atinja dimensões elevadas.
+A única excepção a esta regra é a entidade actividade que tem um documento próprio. Esta decisão deve-se à possibilidade de um projecto ter várias actividades associadas e para evitar que o documento atinja dimensões elevadas.
 
 A figura \ref{fig:diagramadeclassesmodelo} representa o modelo de dados da solução, através de um diagrama de classes UML.
 

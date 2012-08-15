@@ -37,8 +37,8 @@ packages
 *.toc
 *.docx
 
-doc/[rRpP]*/*/
-doc/[rRpP]*/*.bat
-doc/[rRpP]*/*.pdf
-
+doc/[rR]*/*/
+doc/[rR]*/*.bat
+doc/[rR]*/*.pdf
+doc/[rR]*/*.dll
 

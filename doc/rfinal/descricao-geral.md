@@ -20,13 +20,13 @@ Para além das funcionalidades enunciadas o acesso à informação dos utilizado
 Casos de Utilização
 -
 
-A autenticação na plataforma é obrigatória para a sua utilização, sendo que as únicas acções possíveis a um utilizador anónimo são o registo e a autenticação, como indicado na figura \ref{fig:usecase-anonimo}
+A autenticação na plataforma é obrigatória para a sua utilização, sendo que as únicas acções possíveis a um utilizador anónimo são o registo e a autenticação, como indicado na figura \ref{fig:usecase-anonimo}.
 
 ![Caso de utilização de utilizador não autenticado.\label{fig:usecase-anonimo}](http://www.lucidchart.com/publicSegments/view/4fd71023-3b68-497b-b199-60a50a443549/image.png)
 
-Depois de autenticado o utilizador tem a opção de criar um projecto ou alterar um projecto já existente. A um projecto já existente é possível adicionar e remover utilizadores, adicionar tarefas ou apagar o projecto. Ao criar um projecto o utilizador fica associado a ele e pode fazer todas as acções enunciadas. 
+Depois de autenticado o utilizador tem a opção de criar um projecto ou alterar um projecto já existente. A um projecto já existente é possível adicionar e remover pessoas, adicionar actividades ou apagar o projecto. Ao criar um projecto o utilizador fica associado a este e tem a possibilidade de fazer todas as acções enunciadas
 
-Ao criar uma tarefa são disponibilizadas novas acções ao utilizador. O utilizador pode, sobre a tarefa criada, criar novas entradas de registo do tempo despendido na sua realização, adicionar e remover utilizadores e apagá-la. 
+Ao criar uma actividade são disponibilizadas novas acções ao utilizador. O utilizador pode, sobre a actividade criada, criar novas entradas de registo do tempo despendido na sua realização, adicionar e remover pessoas e apagá-la. 
 
 De forma a promover a troca e partilha de informação é possível aos utilizadores criar e aceder aos debates relacionados com os projectos e/ou tarefas em que estão envolvidos.
 
@@ -43,7 +43,7 @@ Na arquitectura da solução destacam-se quatro componentes, a aplicação web, 
 A aplicação web utiliza processamento do lado do cliente para complementar a implementação do servidor.
 
 A aplicação web e a Api são implementadas utilizando a *framework* ASP.NET \cite{aspnet} e expõem as funcionalidades da plataforma através do protocolo HTTP. 
-A camada de serviços é responsável por toda a lógica aplicacional e a camada de dados tem como responsabilidade persistir os dados e disponibilizá-los quando pedidos. Para a persistência dos dados é usada a base de dados de documentos RavenDB \cite{ravendb}.
+A camada de serviços é responsável por toda a lógica aplicacional e a camada de dados tem como responsabilidade persistir os dados e disponibilizá-los quando pedidos. Para a persistência dos dados é usada a camada de dados.
 
 A interacção dos componentes é a seguinte: a aplicação web e a Api usam a camada de serviços para responder aos pedidos que lhes são feitos; a camada de serviços envia e obtém dados da camada de dados para implementar a sua lógica; e a camada de dados é responsável pela comunicação com a base de dados. A figura \ref{fig:arquitectura} demonstra esta interacção.
 

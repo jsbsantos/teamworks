@@ -14,7 +14,7 @@ namespace Teamworks.Web.Attributes.Api
         {
             if (!context.ModelState.IsValid)
             {
-                IDictionary<string, object> dict = new Dictionary<string, object>();
+                IDictionary<string, string[]> dict = new Dictionary<string, string[]>();
                 foreach (var entry in context.ModelState)
                 {
                     dict.Add(entry.Key.Replace("model.", ""),

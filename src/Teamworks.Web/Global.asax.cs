@@ -24,12 +24,10 @@ using Teamworks.Core.Services;
 using Teamworks.Core.Services.RavenDb.Indexes;
 using Teamworks.Web.Attributes.Api;
 using Teamworks.Web.Attributes.Api.Ordered;
-using Teamworks.Web.Attributes.Mvc;
 using Teamworks.Web.Handlers;
 using Teamworks.Web.Helpers;
 using Teamworks.Web.Helpers.AutoMapper;
 using Teamworks.Web.Helpers.Extensions.Mvc;
-using IFilterProvider = System.Web.Http.Filters.IFilterProvider;
 
 namespace Teamworks.Web
 {
@@ -40,19 +38,19 @@ namespace Teamworks.Web
         public void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
-            filters.Add(new FormsAuthenticationAttribute(), 1);
+            filters.Add(new Attributes.Mvc.FormsAuthenticationAttribute(), 1);
         }
 
         public static void RegisterGlobalApiFilters(HttpFilterCollection filters)
         {
             filters.Add(new RavenSessionAttribute());
-            filters.Add(new FormsAuthenticationFilter());
+            filters.Add(new FormsAuthenticationAttribute());
 
-            var filter = new ExceptionAttribute();
+            var filter = new MappingExceptionFilterAttribute();
             filter.Mappings.Add(typeof (ReadVetoException),
-                                new ExceptionAttribute.Rule {Status = HttpStatusCode.NotFound});
+                                new MappingExceptionFilterAttribute.Rule {Status = HttpStatusCode.NotFound});
             filter.Mappings.Add(typeof (ArgumentException),
-                                new ExceptionAttribute.Rule {HasBody = true, Status = HttpStatusCode.BadRequest});
+                                new MappingExceptionFilterAttribute.Rule {HasBody = true, Status = HttpStatusCode.BadRequest});
             filters.Add(filter);
 
             filters.Add(new ModelStateAttribute());
@@ -60,24 +58,26 @@ namespace Teamworks.Web
 
         public static void RegisterGlobalWebApiHandlers(Collection<DelegatingHandler> messageHandlers)
         {
-            messageHandlers.Add(new BasicAuthenticationHandler());
-            messageHandlers.Add(new RavenSessionHandler());
+            messageHandlers.Add(new BasicAuthentication());
+            messageHandlers.Add(new RavenSession());
         }
 
         public static void AppGlobalConfiguration(HttpConfiguration configuration)
         {
-            configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
+
+            configuration.Formatters.Remove(configuration.Formatters.XmlFormatter);
 
             JsonMediaTypeFormatter json = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
             json.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            json.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
             json.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
 
             configuration.Services.Add(typeof (ModelBinderProvider), new MailgunModelBinderProvider());
 
-            configuration.Services.Add(typeof (IFilterProvider), new OrderedFilterProvider());
-            IEnumerable<IFilterProvider> providers = configuration.Services.GetFilterProviders();
-            IFilterProvider defaultprovider = providers.First(i => i is ActionDescriptorFilterProvider);
-            configuration.Services.Remove(typeof (IFilterProvider), defaultprovider);
+            configuration.Services.Add(typeof(System.Web.Http.Filters.IFilterProvider), new OrderedFilterProvider());
+            IEnumerable<System.Web.Http.Filters.IFilterProvider> providers = configuration.Services.GetFilterProviders();
+            System.Web.Http.Filters.IFilterProvider defaultprovider = providers.First(i => i is ActionDescriptorFilterProvider);
+            configuration.Services.Remove(typeof(System.Web.Http.Filters.IFilterProvider), defaultprovider);
 
             configuration.Services.Add(typeof (ModelBinderProvider), new MailgunModelBinderProvider());
         }
