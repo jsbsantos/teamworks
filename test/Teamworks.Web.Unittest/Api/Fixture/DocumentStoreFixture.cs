@@ -1,6 +1,11 @@
 using System.Linq;
+using System.Net.Http;
 using System.Security.Principal;
 using System.Threading;
+using System.Web.Http;
+using System.Web.Http.Controllers;
+using System.Web.Http.Hosting;
+using System.Web.Http.Routing;
 using Raven.Client;
 using Raven.Client.Embedded;
 using Teamworks.Core;
@@ -21,10 +26,9 @@ namespace Teamworks.Web.Uni.Api.Fixture
                         RunInMemory = true
                     }.Initialize();
             AutoMapperConfiguration.Configure();
-            PopulateDatabase();
         }
 
-        private void PopulateDatabase()
+        public void Populate()
         {
             using (IDocumentSession session = Global.Database.OpenSession())
             {
@@ -36,8 +40,8 @@ namespace Teamworks.Web.Uni.Api.Fixture
                     session.Store(project);
                     foreach (int e in Enumerable.Range(1, 3))
                     {
-                        Activity activity = Activity.Forge(project.Id, "Act " + e, "Desc " + e, 20*e);
-                        Discussion discussion = Discussion.Forge("Disc " + e, "Content " + e, project.Id, person.Id);
+                        var activity = Activity.Forge(project.Id, "Act " + e, "Desc " + e, 20*e);
+                        var discussion = Discussion.Forge("Disc " + e, "Content " + e, project.Id, person.Id);
                         session.Store(activity);
                         session.Store(discussion);
                     }
@@ -55,7 +59,7 @@ namespace Teamworks.Web.Uni.Api.Fixture
             }
         }
 
-        public T Load<T>(string id)
+        public T Load<T>(int id)
         {
             using (IDocumentSession session = Global.Database.OpenSession())
             {

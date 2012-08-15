@@ -10,11 +10,10 @@ using Raven.Bundles.Authorization.Model;
 using Raven.Client;
 using Raven.Client.Authorization;
 using Raven.Client.Linq;
+using Teamworks.Core;
 using Teamworks.Core.Services;
 using Teamworks.Web.Attributes.Api;
 using Teamworks.Web.Helpers.Extensions.Api;
-using Teamworks.Web.Models.Api;
-using Project = Teamworks.Core.Project;
 
 namespace Teamworks.Web.Controllers.Api
 {
@@ -31,7 +30,7 @@ namespace Teamworks.Web.Controllers.Api
         {
         }
 
-        #region Project Discussion
+        #region ProjectViewModel Discussion
 
         [GET("discussions")]
         public IEnumerable<Discussion> Get(int projectId)
@@ -59,7 +58,7 @@ namespace Teamworks.Web.Controllers.Api
         public HttpResponseMessage Post(int projectId, Discussion model)
         {
             var project = DbSession.Load<Project>(projectId);
-            Core.Discussion discussion = Core.Discussion.Forge(model.Name, model.Content, project.Id,
+            Discussion discussion = Discussion.Forge(model.Name, model.Content, project.Id,
                                                                Request.GetCurrentPersonId());
 
             DbSession.Store(discussion);
@@ -95,8 +94,6 @@ namespace Teamworks.Web.Controllers.Api
         }
 
         #endregion
-
-        #region Activities Discussion
 
         [GET("activities/{activityId}/discussions")]
         public IEnumerable<Discussion> GetTaskDiscussions(int projectId, int activityId)
@@ -134,31 +131,5 @@ namespace Teamworks.Web.Controllers.Api
         {
             throw new NotImplementedException();
         }
-
-        #region Person
-
-        [GET("activities/{activityId}/discussions/{id}/people")]
-        public IEnumerable<Person> GetPeople_Activity(int id, int projectId)
-        {
-            throw new NotImplementedException();
-        }
-
-        [POST("activities/{activityId}/discussions/{id}/people")]
-        public HttpResponseMessage PostPerson_Activity(int id, int projectId, Permissions model)
-        {
-            throw new NotImplementedException();
-        }
-
-        [DELETE("activities/{activityId}/discussions/{id}/people")]
-        public HttpResponseMessage DeletePerson_Activity(int id, int projectId)
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion
-
-        #endregion Activities
-
-        // todo
     }
 }

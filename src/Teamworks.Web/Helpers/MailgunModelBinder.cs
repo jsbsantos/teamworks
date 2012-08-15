@@ -3,7 +3,7 @@ using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Http.ModelBinding;
 using Raven.Abstractions.Extensions;
-using Teamworks.Web.Models.Api;
+using Teamworks.Web.ViewModels.Api;
 
 namespace Teamworks.Web.Helpers
 {

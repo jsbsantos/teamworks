@@ -11,25 +11,30 @@ namespace Teamworks.Core
         public string Name { get; set; }
         public string Description { get; set; }
 
-
         public bool Archived { get; set; }
 
         public IList<string> People { get; set; }
 
-        public DateTime StartDate { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public DateTimeOffset StartDate { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
 
         public IList<OperationPermission> Permissions { get; set; }
 
-        public static Project Forge(string name, string description, DateTime? startdate = null)
+        public static Project Forge(string name, string description, DateTimeOffset? startdate = null)
         {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException("name");
+            }
+
             return new Project
                        {
-                           Name = name ?? "",
+                           Name = name,
                            Description = description ?? "",
                            People = new List<string>(),
                            Permissions = new List<OperationPermission>(),
-                           StartDate = startdate ?? DateTime.Now,
+                           StartDate = startdate ?? DateTimeOffset.UtcNow,
+                           CreatedAt = DateTimeOffset.UtcNow
                        };
         }
 

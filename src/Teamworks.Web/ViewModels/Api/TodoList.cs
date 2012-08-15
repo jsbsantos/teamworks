@@ -1,9 +1,9 @@
-using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Teamworks.Web.Models.Api
+namespace Teamworks.Web.ViewModels.Api
 {
-    public class Todo
+    public class TodoList
     {
         public int Id { get; set; }
 
@@ -13,7 +13,6 @@ namespace Teamworks.Web.Models.Api
         [Required]
         public string Description { get; set; }
 
-        public bool Completed { get; set; }
-        public DateTime? DueDate { get; set; }
+        public IList<Todo> Todos { get; set; }
     }
 }

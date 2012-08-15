@@ -1,10 +1,12 @@
 ﻿using System.Web.Mvc;
 using Raven.Client;
+using Teamworks.Web.Attributes.Mvc;
 using Teamworks.Web.Helpers.Extensions.Mvc;
 
 namespace Teamworks.Web.Controllers
 {
     [Authorize]
+    [NoDbException]
     public class RavenController : Controller
     {
         public RavenController()

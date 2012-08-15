@@ -15,7 +15,7 @@ namespace Teamworks.Core
         public IList<string> Discussions { get; set; }
         public IList<string> People { get; set; }
         public IList<TodoList> Todos { get; set; }
-        public DateTime StartDate { get; set; }
+        public DateTimeOffset StartDate { get; set; }
 
         public int LastTimeEntryId { get; private set; }
 

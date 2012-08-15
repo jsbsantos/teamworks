@@ -8,7 +8,7 @@ using AutoMapper;
 using Teamworks.Core;
 using Teamworks.Core.Services;
 using Teamworks.Web.Helpers.Extensions.Api;
-using Message = Teamworks.Web.Models.Api.Message;
+using Message = Teamworks.Web.ViewModels.Api.Message;
 
 namespace Teamworks.Web.Controllers.Api
 {
@@ -63,14 +63,14 @@ namespace Teamworks.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.NoContent);
         }
 
-        #region Activity
+        #region ActivityViewModel
 
 /*
         private Core.Discussion LoadTaskDiscussion(int projectid, int activityid, int discussionid)
         {
             var project = DbSession
-                .Include<Core.Project>(p => p.Activities)
-                .Load<Core.Project>(projectid);
+                .Include<Core.ProjectViewModel>(p => p.Activities)
+                .Load<Core.ProjectViewModel>(projectid);
 
             if (project == null)
             {
@@ -78,10 +78,10 @@ namespace Teamworks.Web.Controllers.Api
             }
 
             var task = DbSession
-                .Include<Core.Activity>(t => t.Messages)
-                .Load<Core.Activity>(activityid);
+                .Include<Core.ActivityViewModel>(t => t.Messages)
+                .Load<Core.ActivityViewModel>(activityid);
 
-            if (task == null || !task.Project.Equals(project.Id))
+            if (task == null || !task.ProjectViewModel.Equals(project.Id))
             {
                 throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
             }

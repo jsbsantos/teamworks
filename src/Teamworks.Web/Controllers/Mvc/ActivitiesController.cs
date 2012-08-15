@@ -75,17 +75,17 @@ namespace Teamworks.Web.Controllers.Mvc
                 .Customize(c => c.Include<ActivitiesTotalDuration.Result>(r => r.ActivityId))
                 .Where(r => r.ActivityId == activityId.ToId("activity")).ToList();
 
-            Activity activity = DbSession.Query<Activity>()
+            ActivityViewModel activity = DbSession.Query<ActivityViewModel>()
                 .Statistics(out stats)
-                .Customize(c => c.Include<Activity>(a => a.Project)
-                                    .Include<Activity>(a => a.Dependencies))
+                .Customize(c => c.Include<ActivityViewModel>(a => a.ProjectViewModel)
+                                    .Include<ActivityViewModel>(a => a.Dependencies))
                 .Where(a => a.Id == activityId.ToId("activity")
-                            && a.Project == projectId.ToId("project")).FirstOrDefault();
+                            && a.ProjectViewModel == projectId.ToId("project")).FirstOrDefault();
 
             if (activity == null)
                 return HttpNotFound();
 
-            var project = DbSession.Load<Project>(projectId.ToId("project"));
+            var project = DbSession.Load<ProjectViewModel>(projectId.ToId("project"));
 
             if (project == null)
                 return HttpNotFound();
@@ -94,12 +94,12 @@ namespace Teamworks.Web.Controllers.Mvc
                 .Customize(c =>
                 {
                     c.WaitForNonStaleResults();
-                    c.Include<Timelog_Filter.Result>(r => r.Activity);
+                    c.Include<Timelog_Filter.Result>(r => r.ActivityViewModel);
                     c.Include<Timelog_Filter.Result>(r => r.ActivityDependencies);
                     c.Include<Timelog_Filter.Result>(r => r.Person);
-                    c.Include<Timelog_Filter.Result>(r => r.Project);
+                    c.Include<Timelog_Filter.Result>(r => r.ProjectViewModel);
                 })
-                .Where(a => a.Project == projectId.ToId("project") && a.Activity == activityId.ToId("activity"))
+                .Where(a => a.ProjectViewModel == projectId.ToId("project") && a.ActivityViewModel == activityId.ToId("activity"))
                 .AsProjection<Timelog_Filter.Result>()
                 .ToList();
 
@@ -107,7 +107,7 @@ namespace Teamworks.Web.Controllers.Mvc
             vm.ProjectReference = project.MapTo<EntityViewModel>();
 
             vm.PrecedentActivities =
-                DbSession.Load<Activity>(activity.Dependencies).Select(
+                DbSession.Load<ActivityViewModel>(activity.Dependencies).Select(
                     a => a.MapTo<ActivityViewModel.DependentActivity>()).ToList();
             
             vm.AssignedPeople = DbSession.Load<Person>(activity.People).Select(

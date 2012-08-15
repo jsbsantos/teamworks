@@ -11,7 +11,7 @@ using Raven.Client;
 using Teamworks.Core;
 using Teamworks.Core.Services;
 using Teamworks.Web.Helpers.Extensions.Api;
-using Timelog = Teamworks.Web.Models.Api.Timelog;
+using Teamworks.Web.ViewModels.Api;
 
 namespace Teamworks.Web.Controllers.Api
 {
@@ -41,15 +41,15 @@ namespace Teamworks.Web.Controllers.Api
             return target;
         }
 
-        public IEnumerable<Timelog> Get(int projectId, int activityId)
+        public IEnumerable<TimelogViewModel> Get(int projectId, int activityId)
         {
             Activity activity = GetActivity(projectId, activityId);
             Request.ThrowNotFoundIfNull(activity);
-            return Mapper.Map<IList<Core.Timelog>, IEnumerable<Timelog>>(activity.Timelogs);
+            return Mapper.Map<IList<Core.Timelog>, IEnumerable<TimelogViewModel>>(activity.Timelogs);
         }
 
         public HttpResponseMessage Post(
-            int projectId, int activityId, Timelog model)
+            int projectId, int activityId, TimelogViewModel model)
         {
             Activity activity = GetActivity(projectId, activityId);
 
@@ -64,7 +64,7 @@ namespace Teamworks.Web.Controllers.Api
             timelog.Id = activity.GenerateNewTimeEntryId();
             activity.Timelogs.Add(timelog);
 
-            Timelog value = Mapper.Map<Core.Timelog, Timelog>(timelog);
+            TimelogViewModel value = Mapper.Map<Core.Timelog, TimelogViewModel>(timelog);
             return Request.CreateResponse(HttpStatusCode.Created, value);
         }
 

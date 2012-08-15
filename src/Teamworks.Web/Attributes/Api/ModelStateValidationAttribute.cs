@@ -8,7 +8,7 @@ using System.Web.Http.Filters;
 
 namespace Teamworks.Web.Attributes.Api
 {
-    public class ModelStateAttribute : ActionFilterAttribute
+    public class ModelStateValidationAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuting(HttpActionContext context)
         {

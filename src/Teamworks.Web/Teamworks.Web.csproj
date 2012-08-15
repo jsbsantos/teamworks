@@ -154,9 +154,10 @@
     <Compile Include="Attributes\Api\Ordered\OrderedFilterProvider.cs" />
     <Compile Include="Attributes\Api\Ordered\IOrderedFilter.cs" />
     <Compile Include="Attributes\Api\RavenSessionAttribute.cs" />
+    <Compile Include="Attributes\Mvc\NoDbExceptionAttribute.cs" />
     <Compile Include="Controllers\Api\ActivitiesController.cs" />
-    <Compile Include="Attributes\Api\MappingExceptionFilterAttribute.cs" />
-    <Compile Include="Attributes\Api\ModelStateAttribute.cs" />
+    <Compile Include="Attributes\Api\ExceptionAttribute.cs" />
+    <Compile Include="Attributes\Api\ModelStateValidationAttribute.cs" />
     <Compile Include="Attributes\Api\SecureForAttribute.cs" />
     <Compile Include="Controllers\Api\TodoController.cs" />
     <Compile Include="Controllers\Api\TodoListController.cs" />
@@ -167,9 +168,13 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Attributes\Api\FormsAuthenticationAttribute.cs" />
+    <Compile Include="Controllers\Mvc\ErrorsController.cs" />
+    <Compile Include="Helpers\AutoMapper\Profiles\Api\ProjectViewModelMapperProfile.cs" />
     <Compile Include="Helpers\AutoMapper\Profiles\Mvc\TimelogViewModelMapperProfile.cs" />
     <Compile Include="Helpers\AutoMapper\Profiles\Mvc\RegisterTimelogsViewModelMapperProfile.cs" />
     <Compile Include="Helpers\AutoMapper\Profiles\Mvc\EntityViewModelMapperProfile.cs" />
+    <Compile Include="Helpers\AutoMapper\ValueResolvers\IdentifierResolver.cs" />
+    <Compile Include="ViewModels\Api\ProjectViewModel.cs" />
     <Compile Include="ViewModels\Mvc\EntityViewModel.cs" />
     <Compile Include="ViewModels\Mvc\RegisterTimelogsViewModel.cs" />
     <Compile Include="ViewModels\Mvc\ActivityViewModel.cs" />
@@ -195,9 +200,9 @@
     <Compile Include="Helpers\AutoMapper\Profiles\Mvc\ProjectViewModelMapperProfile.cs" />
     <Compile Include="Helpers\Extensions\LowercaseContractResolver.cs" />
     <Compile Include="Helpers\Utils.cs" />
-    <Compile Include="Models\Api\Todo.cs" />
-    <Compile Include="Models\Api\TodoList.cs" />
-    <Compile Include="Models\Api\Permissions.cs" />
+    <Compile Include="ViewModels\Api\Todo.cs" />
+    <Compile Include="ViewModels\Api\TodoList.cs" />
+    <Compile Include="ViewModels\Api\Permissions.cs" />
     <Compile Include="Controllers\Api\ProjectsController.cs" />
     <Compile Include="Controllers\Api\TimelogsController.cs">
       <SubType>Code</SubType>
@@ -223,16 +228,15 @@
     <Compile Include="Helpers\Extensions\Mvc\HttpContextExtensions.cs" />
     <Compile Include="Helpers\NameValueCollectionExtensions.cs" />
     <Compile Include="Helpers\Extensions\EntityExtensions.cs" />
-    <Compile Include="Models\Api\Activity.cs" />
-    <Compile Include="Models\Api\Discussion.cs" />
-    <Compile Include="Models\Api\Mailgun.cs" />
-    <Compile Include="Models\Api\Message.cs" />
-    <Compile Include="Models\Api\Person.cs" />
-    <Compile Include="Models\Api\Project.cs" />
-    <Compile Include="Models\Api\Timelog.cs" />
-    <Compile Include="Models\Mvc\Login.cs" />
+    <Compile Include="ViewModels\Api\ActivityViewModel.cs" />
+    <Compile Include="ViewModels\Api\Discussion.cs" />
+    <Compile Include="ViewModels\Api\Mailgun.cs" />
+    <Compile Include="ViewModels\Api\Message.cs" />
+    <Compile Include="ViewModels\Api\PersonViewModel.cs" />
+    <Compile Include="ViewModels\Api\TimelogViewModel.cs" />
+    <Compile Include="ViewModels\Mvc\LoginViewModel.cs" />
     <Compile Include="ViewModels\Mvc\ProjectsViewModel.cs" />
-    <Compile Include="Models\Mvc\Register.cs" />
+    <Compile Include="ViewModels\Mvc\RegisterPersonViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\Extensions\Mvc\ViewsExtensions.cs" />
   </ItemGroup>
@@ -361,9 +365,7 @@
     <Content Include="Views\Profiles\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Helpers\AutoMapper\Profiles\Api\" />
-    <Folder Include="Models\Mvc\Projects\" />
-    <Folder Include="Models\Mvc\Timelogs\" />
+    <Content Include="Views\Errors\NoDb.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Errors\500.cshtml" />

@@ -14,7 +14,8 @@ using Teamworks.Core.Services;
 using Teamworks.Core.Services.RavenDb.Indexes;
 using Teamworks.Web.Attributes.Api;
 using Teamworks.Web.Helpers.Extensions.Api;
-using Activity = Teamworks.Web.Models.Api.Activity;
+using Teamworks.Web.ViewModels.Api;
+using Project = Teamworks.Core.Project;
 
 namespace Teamworks.Web.Controllers.Api
 {
@@ -34,17 +35,17 @@ namespace Teamworks.Web.Controllers.Api
         {
         }
 
-        public IEnumerable<Activity> Get(int projectId)
+        public IEnumerable<ActivityViewModel> Get(int projectId)
         {
             IRavenQueryable<Core.Activity> activities = DbSession
                 .Query<Core.Activity, Activities_ByProject>()
                 .Where(a => a.Project == projectId.ToId("project"));
 
             return Mapper.Map<IEnumerable<Core.Activity>,
-                IEnumerable<Activity>>(activities.ToList());
+                IEnumerable<ActivityViewModel>>(activities.ToList());
         }
 
-        public Activity Get(int id, int projectId)
+        public ActivityViewModel Get(int id, int projectId)
         {
             Core.Activity activity = DbSession
                 .Query<Core.Activity, Activities_ByProject>()
@@ -52,10 +53,10 @@ namespace Teamworks.Web.Controllers.Api
                                      && a.Id == id.ToId("activity"));
 
             Request.ThrowNotFoundIfNull(activity);
-            return Mapper.Map<Core.Activity, Activity>(activity);
+            return Mapper.Map<Core.Activity, ActivityViewModel>(activity);
         }
 
-        public HttpResponseMessage Post(int projectId, Activity model)
+        public HttpResponseMessage Post(int projectId, ActivityViewModel model)
         {
             var project = DbSession
                 .Load<Project>(projectId);
@@ -77,16 +78,16 @@ namespace Teamworks.Web.Controllers.Api
 
             activity.StartDate = project.StartDate.AddMinutes(GetAccumulatedDuration(domain, activity));
 
-            Activity activities = Mapper.Map<Core.Activity, Activity>(activity);
+            ActivityViewModel activitiesViewModel = Mapper.Map<Core.Activity, ActivityViewModel>(activity);
 
             // todo add header of location
 
-            return Request.CreateResponse(HttpStatusCode.Created, activities);
+            return Request.CreateResponse(HttpStatusCode.Created, activitiesViewModel);
         }
 
         [PUT("")]
         public HttpResponseMessage Put(int projectId,
-                                       Activity model)
+                                       ActivityViewModel model)
         {
             var activity = DbSession
                 .Load<Core.Activity>(model.Id);
@@ -103,8 +104,8 @@ namespace Teamworks.Web.Controllers.Api
             }
 
             activity.Duration = model.Duration;
-            Activity activities = Mapper.Map<Core.Activity, Activity>(activity);
-            return Request.CreateResponse(HttpStatusCode.Created, activities);
+            ActivityViewModel activitiesViewModel = Mapper.Map<Core.Activity, ActivityViewModel>(activity);
+            return Request.CreateResponse(HttpStatusCode.Created, activitiesViewModel);
         }
 
         public HttpResponseMessage Delete(int id, int projectId)
@@ -144,8 +145,8 @@ namespace Teamworks.Web.Controllers.Api
         {
             /*
             var project = DbSession
-                .Load<Core.Project>(projectId);
-            var activity = DbSession.Load<Core.Activity>(id);
+                .Load<Core.ProjectViewModel>(projectId);
+            var activity = DbSession.Load<Core.ActivityViewModel>(id);
 
             if (project == null || activity == null || !project.Activities.Any(t => t.ToIdentifier() == id))
                 Request.ThrowNotFoundIfNull();
@@ -165,8 +166,8 @@ namespace Teamworks.Web.Controllers.Api
         {
             /*
             var project = DbSession
-                .Load<Core.Project>(projectId);
-            var activity = DbSession.Load<Core.Activity>(id);
+                .Load<Core.ProjectViewModel>(projectId);
+            var activity = DbSession.Load<Core.ActivityViewModel>(id);
 
             if (project == null || activity == null || !project.Activities.Any(t => t.ToIdentifier() == id))
                 Request.ThrowNotFoundIfNull();

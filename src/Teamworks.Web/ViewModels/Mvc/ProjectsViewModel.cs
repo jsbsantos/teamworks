@@ -9,7 +9,7 @@ namespace Teamworks.Web.ViewModels.Mvc
 
         public IList<Project> Projects { get; set; }
 
-        #region Nested type: Project
+        #region Nested type: ProjectViewModel
 
         public class Project
         {

@@ -3,12 +3,12 @@ Introdução
 
 \label{sec:introducao}
 
-Actualmente é frequente qualquer pessoa estar envolvida em projectos, num contexto profissional e/ou pessoal, em que o aproveitamento do tempo despendido em cada um é uma preocupação constante. Esta preocupação pode ser atenuada com uma gestão eficaz desses projectos. 
+Nos dias de hoje é frequente uma pessoa estar envolvida em vários projectos, quer no contexto pessoal e/ou profissional, onde o tempo utilizado é uma preocupação constante. Esta preocupação pode ser atenuada com uma gestão eficaz desses projectos. 
 A gestão de um projecto não se resume à organização de tempo, é também necessário, para uma gestão eficaz, planeamento, organização, controlo de recursos e monitorização. 
 
 Este projecto tem como objectivo resolver esse problema através de uma plataforma de apoio à gestão de projectos. A motivação para a sua realização surgiu porque as soluções de *software* existentes ou não oferecem todas as funcionalidades necessárias ou são demasiado complexas.
 
-Para além da gestão do projecto é também importante gerir as pessoas que dele fazem parte. A comunicação entre membros de um projecto pode ter um grande impacto na qualidade e velocidade com que o produto final é entregue. Desta forma a plataforma desenvolvida, para além da gestão de projectos, também é capaz de gerir os seus membros, facilitando a comunicação e partilha de informação entre eles.
+Para além da gestão do projecto é também importante gerir as pessoas que dele fazem parte. A comunicação entre membros de um projecto pode ter um grande impacto na qualidade e velocidade com que o produto final é entregue. Desta forma a plataforma desenvolvida, para além da gestão de projectos, também possibilita a gestão dos seus membros, facilitando a comunicação e partilha de informação entre eles.
 
 Soluções Existentes
 -

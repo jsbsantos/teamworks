@@ -46,14 +46,14 @@ namespace Teamworks.Web
             filters.Add(new RavenSessionAttribute());
             filters.Add(new FormsAuthenticationAttribute());
 
-            var filter = new MappingExceptionFilterAttribute();
+            var filter = new ExceptionAttribute();
             filter.Mappings.Add(typeof (ReadVetoException),
-                                new MappingExceptionFilterAttribute.Rule {Status = HttpStatusCode.NotFound});
+                                new ExceptionAttribute.Rule {Status = HttpStatusCode.NotFound});
             filter.Mappings.Add(typeof (ArgumentException),
-                                new MappingExceptionFilterAttribute.Rule {HasBody = true, Status = HttpStatusCode.BadRequest});
+                                new ExceptionAttribute.Rule {HasBody = true, Status = HttpStatusCode.BadRequest});
             filters.Add(filter);
 
-            filters.Add(new ModelStateAttribute());
+            filters.Add(new ModelStateValidationAttribute());
         }
 
         public static void RegisterGlobalWebApiHandlers(Collection<DelegatingHandler> messageHandlers)

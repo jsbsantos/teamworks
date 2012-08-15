@@ -12,7 +12,7 @@ namespace Teamworks.Web.ViewModels.Mvc
         public IList<Activity> Activities { get; set; }
         public IList<Discussion> Discussions { get; set; }
 
-        #region Nested type: Activity
+        #region Nested type: ActivityViewModel
 
         public class Activity
         {

@@ -16,7 +16,7 @@
 
         var mapping = {
             'date': {
-                update: function(options) {
+                create: function(options) {
                     options.observable.extend({
                         isoDate: 'dd/MM/yyyy'
                     });

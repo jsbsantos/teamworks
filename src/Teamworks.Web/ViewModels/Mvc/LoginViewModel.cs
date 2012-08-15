@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Teamworks.Web.Models.Mvc
+namespace Teamworks.Web.ViewModels.Mvc
 {
     public class Login
     {

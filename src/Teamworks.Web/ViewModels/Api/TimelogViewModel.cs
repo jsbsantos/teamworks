@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Teamworks.Web.Models.Api
+namespace Teamworks.Web.ViewModels.Api
 {
-    public class Timelog
+    public class TimelogViewModel
     {
         public Core.Project Project;
         public int Id { get; set; }

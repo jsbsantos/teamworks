@@ -9,7 +9,7 @@ using Raven.Client.Linq;
 using Raven.Json.Linq;
 using Teamworks.Core;
 using Teamworks.Core.Oauth2;
-using Teamworks.Web.Models.Mvc;
+using Teamworks.Web.ViewModels.Mvc;
 
 namespace Teamworks.Web.Controllers.Mvc
 {

@@ -8,9 +8,9 @@ using System.Web.Http.Filters;
 
 namespace Teamworks.Web.Attributes.Api
 {
-    public class MappingExceptionFilterAttribute : ExceptionFilterAttribute
+    public class ExceptionAttribute : ExceptionFilterAttribute
     {
-        public MappingExceptionFilterAttribute()
+        public ExceptionAttribute()
         {
             Mappings = new Dictionary<Type, Rule>();
         }

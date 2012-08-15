@@ -5,9 +5,11 @@ using AttributeRouting.Web.Http;
 using AutoMapper;
 using Raven.Client;
 using Raven.Client.Linq;
+using Teamworks.Core;
 using Teamworks.Web.Attributes.Api;
+using Teamworks.Web.Helpers.AutoMapper;
 using Teamworks.Web.Helpers.Extensions.Api;
-using Teamworks.Web.Models.Api;
+using Teamworks.Web.ViewModels.Api;
 
 namespace Teamworks.Web.Controllers.Api
 {
@@ -24,41 +26,24 @@ namespace Teamworks.Web.Controllers.Api
         }
 
         [GET("people")]
-        public IEnumerable<Person> Get(string q)
+        public IEnumerable<PersonViewModel> Get(string q)
         {
-            IList<Core.Person> people;
+            IList<Person> people;
             if (string.IsNullOrEmpty(q))
             {
-                people = DbSession.Query<Core.Person>()
+                people = DbSession.Query<Person>()
                     .Take(5).ToList();
             }
             else
             {
-                people = DbSession.Advanced.LuceneQuery<Core.Person>()
+                people = DbSession.Advanced.LuceneQuery<Person>()
                     .Search("Name", q + "*").Search("Username", q + "*")
                     .Search("Email", q + "*").Take(5)
                     .ToList();
             }
-            return Mapper.Map<IEnumerable<Core.Person>, IEnumerable<Person>>(people.ToList());
+            return people.MapTo<PersonViewModel>();
         }
 
-        [SecureFor]
-        [GET("activities")]
-        public IEnumerable<Activity> GetActivities()
-        {
-            string current = Request.GetCurrentPersonId();
-            Request.ThrowNotFoundIfNull(current);
-            IRavenQueryable<Core.Activity> activities = DbSession
-                .Query<Core.Activity>();
 
-            return Mapper.Map<IList<Core.Activity>, IEnumerable<Activity>>(activities.ToList());
-        }
-
-        [SecureFor]
-        [GET("time")]
-        public IEnumerable<Timelog> GetTime()
-        {
-            return null;
-        }
     }
 }

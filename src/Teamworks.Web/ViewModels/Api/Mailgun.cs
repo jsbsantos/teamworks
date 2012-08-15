@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Teamworks.Web.Models.Api
+namespace Teamworks.Web.ViewModels.Api
 {
     public class Mailgun : Dictionary<string, string>
     {

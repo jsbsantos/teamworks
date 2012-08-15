@@ -18,7 +18,7 @@ tw.Gantt = function(data, options) {
     }
 
     $.each(data, function(i, e) {
-        e.RealAcc = GetParentDuration(e, data);
+        e.RealAcc = getParentDuration(e, data);
     });
 
     var _default = {
@@ -78,12 +78,12 @@ tw.Gantt = function(data, options) {
         .attr("height", self.graphic_height + self.graphic_start_y);
 
     //drawing the boxes
-    DrawChart(graphic);
+    drawChart(graphic);
 
     //drawing the chart axis
-    DrawGrid(graphic);
+    drawGrid(graphic);
 
-    function DrawChart(g) {
+    function drawChart(g) {
 
         var node = g.selectAll("rect")
             .data(self.data)
@@ -110,9 +110,9 @@ tw.Gantt = function(data, options) {
                 return (d.Duration || (total - Math.max(d.AccumulatedTime, d.RealAcc))) * self.item_unit_width;
             }).attr("height", self.item_estimated_height)
             .attr("class", "gantt_duration_rect")
-            .on("mouseover", function(d, i) { tooltip_mousover(d); })
-            .on("mousemove", function(d, i) { tooltip_mousemove(d); })
-            .on("mouseout", function(d, i) { tooltip_mouseout(d); });
+            .on("mouseover", function(d, i) { tooltipMousover(d); })
+            .on("mousemove", function(d, i) { tooltipMousemove(d); })
+            .on("mouseout", function(d, i) { tooltipMouseout(d); });
 
         //item real duration bar
         node.append("rect")
@@ -130,9 +130,9 @@ tw.Gantt = function(data, options) {
                     return "gantt_duration_rect_yellow";
                 return "gantt_duration_rect_green";
             })
-            .on("mouseover", function(d, i) { tooltip_mousover(d); })
-            .on("mousemove", function(d, i) { tooltip_mousemove(d); })
-            .on("mouseout", function(d, i) { tooltip_mouseout(d); });
+            .on("mouseover", function(d, i) { tooltipMousover(d); })
+            .on("mousemove", function(d, i) { tooltipMousemove(d); })
+            .on("mouseout", function(d, i) { tooltipMouseout(d); });
 
         //item duration text
         node.append("text")
@@ -147,24 +147,24 @@ tw.Gantt = function(data, options) {
             })
             .attr("class", "gantt_rect_text")
             .on("mouseover", function(d, i) {
-                tooltip_mousover(d);
+                tooltipMousover(d);
                 $("#chart svg rect:eq(" + i + ")").css("fill", "#08F");
             })
             .on("mouseout", function(d, i) {
-                tooltip_mouseout(d);
+                tooltipMouseout(d);
                 $("#chart svg rect:eq(" + i + ")").css("fill", "");
             })
-            .on("mousemove", function(d, i) { tooltip_mousemove(d); });
+            .on("mousemove", function(d, i) { tooltipMousemove(d); });
 
         //tooltip
         var tooltip = $("#gantt_tooltip");
 
-        function tooltip_mousemove(item) {
+        function tooltipMousemove(item) {
             tooltip.css("left", (event.pageX + 5) + "px")
                 .css("top", (event.pageY + 5) + "px");
         }
 
-        function tooltip_mousover(item) {
+        function tooltipMousover(item) {
             tw.page.viewmodel.map(item);
             tooltip
                 .css("left", (event.pageX + 5) + "px")
@@ -172,13 +172,13 @@ tw.Gantt = function(data, options) {
                 .css("visibility", "visible");
         }
 
-        function tooltip_mouseout(item) {
+        function tooltipMouseout(item) {
             tooltip
                 .css("visibility", "hidden");
         }
     }
 
-    function DrawGrid(g) {
+    function drawGrid(g) {
 
         var x = d3.scale.linear()
             .domain([0, total])
@@ -235,11 +235,11 @@ tw.Gantt = function(data, options) {
             .attr("y", 10)
             .attr("dy", 0)
             .attr("text-anchor", "start")
-            .text("Activity \\ Hours")
+            .text("ActivityViewModel \\ Hours")
             .attr("font-size", "0.7em");
     }
 
-    function GetParentDuration(a, _data, _acc) {
+    function getParentDuration(a, _data, _acc) {
         var acc = _acc || 0;
 
         var max = 0;
@@ -258,7 +258,7 @@ tw.Gantt = function(data, options) {
                 parent = e;
         });
 
-        return GetParentDuration(parent, _data, acc + max);
+        return getParentDuration(parent, _data, acc + max);
     }
 
 }

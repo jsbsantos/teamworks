@@ -1,11 +1,5 @@
-﻿using System.Collections.Generic;
-using Raven.Client;
-using Teamworks.Core;
-using Teamworks.Core.Services;
-using Teamworks.Web.Controllers.Api;
-using Teamworks.Web.Uni.Api.Fixture;
+﻿using Teamworks.Web.Uni.Api.Fixture;
 using Xunit;
-using Activity = Teamworks.Web.Models.Api.Activity;
 
 namespace Teamworks.Web.Uni.Api
 {
@@ -26,17 +20,7 @@ namespace Teamworks.Web.Uni.Api
         [Fact]
         public void GetActivitiesForCurrentUser()
         {
-            Fixture.InjectPersonAsCurrentIdentity(new Person
-                                                      {
-                                                          Id = "people/1",
-                                                          Name = "Something",
-                                                          Username = "somthing"
-                                                      });
-            using (IDocumentSession session = Global.Database.OpenSession())
-            {
-                var home = new HomeController(session);
-                IEnumerable<Activity> result = home.GetActivities();
-            }
+           
         }
     }
 }

@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Teamworks.Web.Models.Api
+namespace Teamworks.Web.ViewModels.Api
 {
     public class Message
     {

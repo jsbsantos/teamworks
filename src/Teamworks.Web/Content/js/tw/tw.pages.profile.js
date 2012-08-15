@@ -1,5 +1,5 @@
 ﻿(function(pages) {
-    pages.ProjectViewModel = function(endpoint, json) {
+    pages.ProfileViewModel = function(endpoint, json) {
 
         var mapping = {
             'gravatar': {

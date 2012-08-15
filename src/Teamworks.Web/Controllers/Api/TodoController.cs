@@ -13,14 +13,14 @@ namespace Teamworks.Web.Controllers.Api
         public IEnumerable<Todo> Get(int id, int projectid, int activityid)
         {
             var project = DbSession
-                            .Include<Core.Project>(p => p.Activities)
-                            .Load<Core.Project>(Request.GetCurrentPersonId());
+                            .Include<Core.ProjectViewModel>(p => p.Activities)
+                            .Load<Core.ProjectViewModel>(Request.GetCurrentPersonId());
 
             if (project.Activities.Contains(activityid.ToString()))
             {
                 Request.ThrowNotFoundIfNull();
             }
-            var activity = DbSession.Load<Core.Activity>(activityid);
+            var activity = DbSession.Load<Core.ActivityViewModel>(activityid);
 
             var list = activity.Todos.SingleOrDefault(p => p.Id == id);
             if (list == null)
@@ -32,14 +32,14 @@ namespace Teamworks.Web.Controllers.Api
         public Todo Get(int id, int projectid, int activityid, int listid)
         {
             var project = DbSession
-                            .Include<Core.Project>(p => p.Activities)
-                            .Load<Core.Project>(Request.GetCurrentPersonId());
+                            .Include<Core.ProjectViewModel>(p => p.Activities)
+                            .Load<Core.ProjectViewModel>(Request.GetCurrentPersonId());
 
             if (project.Activities.Contains(activityid.ToString()))
             {
                 Request.ThrowNotFoundIfNull();
             }
-            var activity = DbSession.Load<Core.Activity>(activityid);
+            var activity = DbSession.Load<Core.ActivityViewModel>(activityid);
 
             var list = activity.Todos.Single(p => p.Id == listid);
             return Mapper.Map<Core.Todo, Todo>(list.Todos.Single(t => t.Id == id));
@@ -48,14 +48,14 @@ namespace Teamworks.Web.Controllers.Api
         public HttpResponseMessage Post(int projectid, int activityid, int listid, Todo model)
         {
             var project = DbSession
-                            .Include<Core.Project>(p => p.Activities)
-                            .Load<Core.Project>(Request.GetCurrentPersonId());
+                            .Include<Core.ProjectViewModel>(p => p.Activities)
+                            .Load<Core.ProjectViewModel>(Request.GetCurrentPersonId());
 
             if (project.Activities.Contains(activityid.ToString()))
             {
                 Request.ThrowNotFoundIfNull();
             }
-            var activity = DbSession.Load<Core.Activity>(activityid);
+            var activity = DbSession.Load<Core.ActivityViewModel>(activityid);
 
             var list = activity.Todos.Single(p => p.Id == listid);
 
@@ -71,14 +71,14 @@ namespace Teamworks.Web.Controllers.Api
         public HttpResponseMessage Put(int projectid, int activityid, int listid, Todo model)
         {
             var project = DbSession
-                            .Include<Core.Project>(p => p.Activities)
-                            .Load<Core.Project>(Request.GetCurrentPersonId());
+                            .Include<Core.ProjectViewModel>(p => p.Activities)
+                            .Load<Core.ProjectViewModel>(Request.GetCurrentPersonId());
 
             if (project.Activities.Contains(activityid.ToString()))
             {
                 Request.ThrowNotFoundIfNull();
             }
-            var activity = DbSession.Load<Core.Activity>(activityid);
+            var activity = DbSession.Load<Core.ActivityViewModel>(activityid);
             var list = activity.Todos.Single(p => p.Id == listid);
             var todo = list.Todos.Single(t => t.Id == model.Id);
 
@@ -94,14 +94,14 @@ namespace Teamworks.Web.Controllers.Api
         public HttpResponseMessage Delete(int id, int projectid, int activityid, int listid)
         {
             var project = DbSession
-                                        .Include<Core.Project>(p => p.Activities)
-                                        .Load<Core.Project>(Request.GetCurrentPersonId());
+                                        .Include<Core.ProjectViewModel>(p => p.Activities)
+                                        .Load<Core.ProjectViewModel>(Request.GetCurrentPersonId());
 
             if (project.Activities.Contains(activityid.ToString()))
             {
                 Request.ThrowNotFoundIfNull();
             }
-            var activity = DbSession.Load<Core.Activity>(activityid);
+            var activity = DbSession.Load<Core.ActivityViewModel>(activityid);
             var list = activity.Todos.Single(p => p.Id == listid);
             var todo = list.Todos.Single(t => t.Id == id);
 

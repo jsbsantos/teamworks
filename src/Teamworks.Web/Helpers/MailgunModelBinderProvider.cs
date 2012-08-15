@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http.Controllers;
 using System.Web.Http.ModelBinding;
-using Teamworks.Web.Models.Api;
+using Teamworks.Web.ViewModels.Api;
 
 namespace Teamworks.Web.Helpers
 {

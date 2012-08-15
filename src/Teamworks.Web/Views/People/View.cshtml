@@ -1,11 +1,11 @@
-﻿@using Teamworks.Web.Models.Api
-@model IEnumerable<Teamworks.Web.Models.Api.Person>
+﻿@using Teamworks.Web.ViewModels.Api
+@model IEnumerable<PersonViewModel>
 @{
     ViewBag.Title = "People";
     Layout = "../Shared/_Layout.cshtml";
 }
 <ul class="unstyled">
-    @foreach (Person person in Model)
+    @foreach (var person in Model)
     {
         <li><a href="/@person.Id">@person.Name</a></li>
     }

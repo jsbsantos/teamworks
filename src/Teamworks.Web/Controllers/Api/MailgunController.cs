@@ -9,7 +9,7 @@ using AttributeRouting;
 using AttributeRouting.Web.Http;
 using Teamworks.Core;
 using Teamworks.Web.Helpers;
-using Teamworks.Web.Models.Api;
+using Teamworks.Web.ViewModels.Api;
 using Discussion = Teamworks.Core.Discussion;
 using Message = Teamworks.Core.Message;
 using Person = Teamworks.Core.Person;

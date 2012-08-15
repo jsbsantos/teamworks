@@ -13,8 +13,10 @@ namespace Teamworks.Web.Controllers.Mvc
         public ActionResult Index(string id)
         {
             if (string.IsNullOrEmpty(id))
+            {
                 return View(DbSession.Query<Person>().Select(
-                    Mapper.Map<Person, Models.Api.Person>));
+                    Mapper.Map<Person, ViewModels.Api.PersonViewModel>));
+            }
 
             var person = DbSession.Load<Person>("people/" + id);
             if (person == null)
@@ -22,7 +24,7 @@ namespace Teamworks.Web.Controllers.Mvc
                 throw new HttpException(404, "Not Found");
             }
 
-            return View("Person", Mapper.Map<Person, Models.Api.Person>(person));
+            return View("Person", Mapper.Map<Person, ViewModels.Api.PersonViewModel>(person));
         }
     }
 }
