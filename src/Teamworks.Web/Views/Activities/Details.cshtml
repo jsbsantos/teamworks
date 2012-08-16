@@ -26,7 +26,7 @@
     </ul>
 </div>
 <div class="row">
-    <div class="span12">
+    <div class="span8">
         <header class="page-header">
             <h1>
                 <span data-bind="text: name">@Model.Name</span>
@@ -48,97 +48,128 @@
                 </form>
             </div>
         </header>
-    </div>
-</div>
-<div>
-    <div class="row">
-        <header class="lead">Status</header>
-        <div class="span4">
-            <div><strong>Start:</strong> <span data-bind="text: startDate.formatted"></span>
-                <i class="icon-edit"></i> 
-            </div>
-            <div><strong>Duration:</strong> <span data-bind="text: duration"></span>
-                <a class="hide" data-bind="css: { hide: editing_duration()}, click: function() { editing_duration(true); }">
-                    <i class="icon-edit"></i> 
-                </a>
-                <div class="hide"  data-bind="css: { hide: !editing_duration(), show_inline: editing_duration() }">
-                    <form class="form-inline modal-form" data-bind="submit: _update">
-                        <input id="activity_duration" name="activity_duration" class="input-small" autofocus="autofocus" placeholder="Activity duration" data-bind="value: duration, valueUpdate: 'afterkeyup'" />
-                        <button type="submit" class="btn btn-success btn-small">
-                            Create
-                        </button>  
-                        <a data-bind="click: function() { editing_duration(false); }"><i class="icon-remove"></i></a> 
-                    </form>
+        
+        <div>
+            <header class="lead">Status</header>
+            <div class="row">
+                
+                <div class="span4">
+                    <div><strong>Start:</strong> <span data-bind="text: startDate.formatted"></span>
+                        <i class="icon-edit"></i> 
+                    </div>
+                    <div><strong>Duration:</strong> <span data-bind="text: duration"></span>
+                        <a class="hide" data-bind="css: { hide: editing_duration()}, click: function() { editing_duration(true); }">
+                            <i class="icon-edit"></i> 
+                        </a>
+                        <div class="hide"  data-bind="css: { hide: !editing_duration(), show_inline: editing_duration() }">
+                            <form class="form-inline modal-form" data-bind="submit: _update">
+                                <input id="activity_duration" name="activity_duration" class="input-xxsmall" autofocus="autofocus" placeholder="Activity duration" data-bind="value: duration, valueUpdate: 'afterkeyup'" />
+                                <button type="submit" class="btn btn-success btn-mini">
+                                    Update
+                                </button>  
+                                <a data-bind="click: function() { editing_duration(false); }"><i class="icon-remove"></i></a> 
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="span4">
+                    <div><strong>Total logged time:</strong> <span data-bind="text: totalTimeLogged"></span> <span data-bind="text: '(' + completionPercent() +'%)'"></span></div>
+                </div>
+    
+                <div class="span12 pull-down">
+                    <div id="depends" class="btn-group">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <span>Dependencies <i class="icon-caret-down"></i></span></a>
+                        <ul class="dropdown-menu well-small" data-bind="template: { name:'activity-list-template', foreach: dependencies }">
+                        </ul>
+                    </div>
+                    <script type="text/html" id="activity-list-template">
+                        <li>
+                            <div class="row">
+                                <strong class="span1" data-bind="text: name"></strong>
+                                <input style="float: right" type="checkbox"
+                                       data-bind="attr: {id: 'chk'+id(), name:'chk'+id()}, checked: dependency, click: function(e){ $parent.dependenciesChanged(true); return true; } " >
+                            </div>
+                        </li>
+                    </script>
+
+                    <!-- ko if: dependencies.length -->
+                    <div class="span12" >No dependencies.</div>
+                    <!-- /ko -->
+
+                    <!-- ko if: !dependencies.length -->
+                    <ul class="unstyled" data-bind="template: { name: 'depedency-template', foreach: dependencies }"></ul>
+                    <!-- /ko -->
+
+                    <script type="text/html" id="depedency-template">
+                        <!-- ko if: dependency -->
+                        <li class="span6">
+                            <strong data-bind="text: name"></strong>, <small data-bind="text: description"></small>
+                            (Start: <small data-bind="text: startDate.formatted"></small>, Duration: <small data-bind="text: duration"></small>)
+                            <button class="close" data-bind="click: _remove">&times;</button>
+                        </li>
+                        <!-- /ko -->
+                    </script>
                 </div>
             </div>
-        </div>
-        <div class="span4">
-            <div><strong>Total logged time:</strong> <span data-bind="text: totalTimeLogged"></span> <span data-bind="text: '(' + completionPercent() +'%)'"></span></div>
-        </div>
+            <div class="row">
+                <header class="lead">Time log for this activity.</header>
     
-        <div class="span12 pull-down">
-            <div id="depends" class="btn-group">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <span>Dependencies <i class="icon-caret-down"></i></span></a>
-                <ul class="dropdown-menu well-small" data-bind="template: { name:'activity-list-template', foreach: dependencies }">
-                </ul>
+                <table class="table table-striped table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Duration</th>
+                            <th>Description</th>
+                            <th>Date</th>
+                            <th>Person</th>
+                            <th class="input-small">Edit</th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="template: { name: 'timelog-template', foreach: timelogs }">
+                    </tbody>
+                </table>
+                <script type="text/html" id="timelog-template">
+                    <tr>
+                        <td data-bind="text: duration"></td>
+                        <td data-bind="text: description"></td>
+                        <td data-bind="text: date.formatted"></td>
+                        <td><a data-bind="text: person.name(), attr: { href: '@Url.RouteUrl("default", new {controller = "Profiles", action = "View"})/' + id() } "></a></td>
+                        <td class="input-small"><i class="icon-edit"></i></td>
+           
+                        //          <a class="hide" data-bind="css: { hide: editing_duration()}, click: function() { editing_duration(true); }">
+                                        //                    <i class="icon-edit"></i> 
+                                        //          </a>
+                        //          <div class="hide"  data-bind="css: { hide: !editing_duration(), show_inline: editing_duration() }">
+                                        //              <form class="form-inline modal-form" data-bind="submit: _update">
+                                                            //                  <input id="activity_duration" name="activity_duration" class="input-xxsmall" autofocus="autofocus" placeholder="Activity duration" data-bind="value: duration, valueUpdate: 'afterkeyup'" />
+                                                            //                  <button type="submit" class="btn btn-success btn-mini">
+                                                                                    //                      Update
+                                                                                    //                  </button>  
+                                                            //                  <a data-bind="click: function() { editing_duration(false); }"><i class="icon-remove"></i></a> 
+                                                            //              </form>
+                                        //          </div>
+            
+
+                    </tr>
+                </script>
             </div>
-            <script type="text/html" id="activity-list-template">
-                <li>
-                    <div class="row">
-                        <strong class="span1" data-bind="text: name"></strong>
-                        <input style="float: right" type="checkbox"
-                               data-bind="attr: {id: 'chk'+id(), name:'chk'+id()}, checked: dependency, click: function(e){ $parent.dependenciesChanged(true); return true; } " >
-                    </div>
-                </li>
-            </script>
-
-            <!-- ko if: dependencies.length -->
-            <div class="span12" >No dependencies.</div>
-            <!-- /ko -->
-
-            <!-- ko if: !dependencies.length -->
-            <ul class="unstyled" data-bind="template: { name: 'depedency-template', foreach: dependencies }"></ul>
-            <!-- /ko -->
-
-            <script type="text/html" id="depedency-template">
-                <!-- ko if: dependency -->
-                <li class="span6">
-                    <strong data-bind="text: name"></strong>, <small data-bind="text: description"></small>
-                    (Start: <small data-bind="text: startDate.formatted"></small>, Duration: <small data-bind="text: duration"></small>)
-                    <button class="close" data-bind="click: _remove">&times;</button>
-                </li>
-                <!-- /ko -->
-            </script>
         </div>
+    </div>
+    <div class="span4">
+        <h2>People</h2>
+        <br/>
+
+        <br/>
+        <h2>Related Activities</h2>
+        <br/>
+        <ul class="unstyled" data-bind="template: { name:'activity-list-template', foreach: dependencies }"></ul>
+                
     </div>
 </div>
 
 
-<div class="row">
-    <header class="lead">Time log for this activity.</header>
-    
-    <table class="table table-striped table-bordered table-condensed">
-        <thead>
-            <tr>
-                <th>Duration</th>
-                <th>Description</th>
-                <th>Date</th>
-                <th>Person</th>
-            </tr>
-        </thead>
-        <tbody data-bind="template: { name: 'timelog-template', foreach: timelogs }">
-        </tbody>
-    </table>
-    <script type="text/html" id="timelog-template">
-        <tr>
-            <td data-bind="text: duration"></td>
-            <td data-bind="text: description"></td>
-            <td data-bind="text: date.formatted"></td>
-            <td><a data-bind="text: person.name(), attr: { href: '@Url.RouteUrl("default", new {controller = "Profiles", action = "View"})/' + id() } "></a></td>
-        </tr>
-    </script>
-</div>
+
+
 
 <script>
     var viewmodel = function() {

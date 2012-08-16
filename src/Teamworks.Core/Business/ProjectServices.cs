@@ -1,7 +1,9 @@
 ﻿namespace Teamworks.Core.Business
 {
-    public class ProjectServices : BusinessService
+    public class DiscussionServices : BusinessService
     {
-         
+        /*
+         * SendNotifications
+         */
     }
 }

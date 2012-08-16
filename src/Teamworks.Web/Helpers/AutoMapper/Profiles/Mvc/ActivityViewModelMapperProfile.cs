@@ -15,6 +15,7 @@ namespace Teamworks.Web.Helpers.AutoMapper.Profiles.Mvc
 
             Mapper.CreateMap<Activity, ActivityViewModel>()
                 .ForMember(s => s.Id, o => o.MapFrom(d => d.Identifier));
+            Mapper.CreateMap<ActivityViewModel, Activity>();
 
             Mapper.CreateMap<Activity, DependencyActivityViewModel>()
                 .ForMember(s => s.Id, o => o.MapFrom(d => d.Identifier))

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Teamworks.Core.Services;
@@ -7,23 +6,26 @@ namespace Teamworks.Core.Business
 {
     public class ActivityServices : BusinessService
     {
-        public bool AddPrecedence(int activity, int project, int[] precedences)
+/*        public Activity AddPrecedence(int activity, int project, int[] precedences)
         {
             var query = DbSession
-            .Query<Activity>()
-            .Where(a => a.Project == project.ToId("project"))
-            .ToList();
+                .Query<Activity>()
+                .Customize(c => c.Include<Activity>(a => a.Project))
+                .Where(a => a.Project == project.ToId("project"))
+                .ToList();
+
+            DbSession.Load<Project>(project); 
 
             var target = query.FirstOrDefault(a => a.Identifier == activity);
 
             if (query.Count == 0 || target == null)
-                return false;
+                return null;
 
             target.Dependencies = target.Dependencies.Union(precedences
-                .Select(p => p.ToId("activity"))
-                .Intersect(query.Select(a => a.Id)))
+                                                                .Select(p => p.ToId("activity"))
+                                                                .Intersect(query.Select(a => a.Id)))
                 .ToList();
-            return true;
+            return target;
         }
 
         public bool RemovePrecedence(int activity, int project, int[] precedences)
@@ -39,8 +41,8 @@ namespace Teamworks.Core.Business
                 return false;
 
             target.Dependencies = target.Dependencies.Except(precedences
-                .Select(p => p.ToId("activity"))
-                .Intersect(query.Select(a => a.Id)))
+                                                                 .Select(p => p.ToId("activity"))
+                                                                 .Intersect(query.Select(a => a.Id)))
                 .ToList();
             return true;
         }
@@ -63,46 +65,52 @@ namespace Teamworks.Core.Business
                 .ToList();
             return true;
         }
-
-        public bool Update(Activity activity)//o que receber aqui? todos os campos editavies? viewmodel?
+        */
+        //todo adicionar alteração de precedencias
+        public Activity Update(Activity activity) //o que receber aqui? todos os campos editavies? viewmodel?
         {
-            var activity = DbSession
-                .Load<Core.Activity>(model.Id);
+            var target = DbSession
+                .Load<Activity>(activity.Id);
 
-            if(activity==null)
-                return false;
+            if (target == null)
+                return null;
 
-            activity.Name = model.Name ?? activity.Name;
-            activity.Description = model.Description ?? activity.Description;
-            if (activity.Duration != model.Duration)
+            target.Name = activity.Name ?? target.Name;
+            target.Description = activity.Description ?? target.Description;
+            if (target.Duration != activity.Duration)
             {
-                List<Core.Activity> domain = DbSession.Query<Core.Activity>()
-                    .Where(a => a.Project == activity.Project).ToList();
-                OffsetDuration(domain, activity, model.Duration - activity.Duration);
+                var domain = DbSession.Query<Activity>()
+                    .Where(a => a.Project == target.Project).ToList();
+                OffsetDuration(domain, target, activity.Duration - target.Duration);
             }
 
-            activity.Duration = model.Duration;
-            return true;
+            target.Duration = activity.Duration;
+            return target;
         }
 
-        private double GetAccumulatedDuration(List<Core.Activity> domain, Core.Activity activity, int duration = 0)
+        //todo test
+        public Timelog UpdateTimelog(int activity, Timelog timelog)
         {
-            Core.Activity parent = domain.Where(a => activity.Dependencies.Contains(a.Id))
-                .OrderByDescending(a => a.Duration).FirstOrDefault();
+            var dummy = DbSession
+                .Load<Activity>(activity);
+            if (dummy == null)
+                return null;
 
-            if (parent == null)
-                return duration;
+            var target = dummy.Timelogs.Where(t => t.Id == timelog.Id).FirstOrDefault();
+            if (target == null)
+                return null;
 
-            return /*parent.Dependencies.Count == 0
-                       ? duration
-                       : */
-                GetAccumulatedDuration(domain, parent, duration + parent.Duration);
+            target.Duration = timelog.Duration;
+            target.Description = timelog.Description;
+            target.Date = timelog.Date;
+
+            return target;
         }
 
-        private void OffsetDuration(List<Core.Activity> domain, Core.Activity parent, int offset)
+        private static void OffsetDuration(ICollection<Activity> domain, Activity parent, int offset)
         {
-            List<Core.Activity> children = domain.Where(a => a.Dependencies.Contains(parent.Id)).ToList();
-            foreach (Core.Activity child in children)
+            var children = domain.Where(a => a.Dependencies.Contains(parent.Id)).ToList();
+            foreach (var child in children)
             {
                 child.StartDate = child.StartDate.AddMinutes(offset);
                 child.Name += offset;
@@ -110,35 +118,5 @@ namespace Teamworks.Core.Business
                 OffsetDuration(domain, child, offset);
             }
         }
-
-        public void AddTimelog(int activity, Timelog timelog)
-        {
-            
-        }
-
-        public void RemoveTimelog(int activity, int timelog)
-        {
-
-        }
-
-        public void AddPerson(int activity, Person person)
-        {
-
-        }
-
-        public void RemovePerson(int activity, int person)
-        {
-
-        }
-
-        public void AddDiscussion(int activity, Discussion discussion)
-        {
-
-        }
-        public void RemoveDiscussion(int activity, Discussion discussion)
-        {
-
-        }
-
     }
 }

@@ -135,7 +135,7 @@ namespace Teamworks.Web.Controllers.Api
         public HttpResponseMessage PostPre(int id, int projectId,
                                            int[] precedences)
         {
-            if (!ActivityServices.AddPrecedence(id, projectId, precedences))
+            if (ActivityServices.AddPrecedence(id, projectId, precedences) == null)
                 Request.ThrowNotFound();
             return Request.CreateResponse(HttpStatusCode.Created);
         }

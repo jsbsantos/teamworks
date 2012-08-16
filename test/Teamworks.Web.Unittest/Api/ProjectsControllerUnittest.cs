@@ -27,7 +27,8 @@ namespace Teamworks.Web.Uni.Api
         {
             using (IDocumentSession session = Global.Database.OpenSession())
             {
-                var controller = new ProjectsController(session);
+                var controller = new ProjectsController();
+                controller.DbSession = session;
                 int size = controller.Get().Count();
                 Fixture.Store(Project.Forge("proj 1", "proj 1 description"));
 

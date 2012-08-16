@@ -46,3 +46,13 @@ svg text.gantt_rect_text {
     text-anchor: middle;
     pointer-events: none;
 }
+
+.input-xsmall {
+    height: 13px !important;
+    width: 60px !important; 
+}
+
+.input-xxsmall {
+    height: 11px !important;
+    width: 30px !important;
+}

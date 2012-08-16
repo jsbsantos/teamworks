@@ -149,14 +149,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\AttributeRoutingHttp.cs" />
+    <Compile Include="Attributes\Api\ModelStateValidation.cs" />
     <Compile Include="Attributes\Api\Ordered\OrderedActionFilterAttribute.cs" />
     <Compile Include="Attributes\Api\Ordered\OrderedFilterInfo.cs" />
     <Compile Include="Attributes\Api\Ordered\OrderedFilterProvider.cs" />
     <Compile Include="Attributes\Api\Ordered\IOrderedFilter.cs" />
     <Compile Include="Attributes\Api\RavenSessionAttribute.cs" />
+    <Compile Include="Attributes\Api\VetoAttribute.cs" />
     <Compile Include="Controllers\Api\ActivitiesController.cs" />
     <Compile Include="Attributes\Api\MappingExceptionFilterAttribute.cs" />
-    <Compile Include="Attributes\Api\ModelStateAttribute.cs" />
     <Compile Include="Attributes\Api\SecureForAttribute.cs" />
     <Compile Include="Controllers\Api\TodoController.cs" />
     <Compile Include="Controllers\Api\TodoListController.cs" />

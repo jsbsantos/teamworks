@@ -53,7 +53,7 @@
         self.dependenciesChanged = ko.observable(false);
 
         self._update = function() {
-            $.ajax(endpoint,
+            $.ajax(endpoint.replace("api/","") + "/update/" + self.id(),
                 {
                     type: 'put',
                     data: ko.toJSON({

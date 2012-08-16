@@ -18,19 +18,10 @@ using Teamworks.Web.Models.Api;
 
 namespace Teamworks.Web.Controllers.Api
 {
-    [DefaultHttpRouteConvention]
     [RoutePrefix("api/projects")]
     public class ProjectsController : RavenApiController
     {
-        public ProjectsController()
-        {
-        }
-
-        public ProjectsController(IDocumentSession session)
-            : base(session)
-        {
-        }
-
+        [GET("")]
         [SecureFor]
         public IEnumerable<Project> Get()
         {
@@ -43,15 +34,18 @@ namespace Teamworks.Web.Controllers.Api
             return Mapper.Map<IEnumerable<Core.Project>, IEnumerable<Project>>(projects);
         }
 
+        [GET("{projectId}")]
+        [Veto]
         [SecureFor]
-        public Project Get(int id)
+        public Project Get(int projectId)
         {
             var project = DbSession
-                .Load<Core.Project>(id);
+                .Load<Core.Project>(projectId);
 
             return Mapper.Map<Core.Project, Project>(project);
         }
 
+        [POST("")]
         public HttpResponseMessage Post(Project model)
         {
             Core.Project project = Core.Project.Forge(model.Name, model.Description, model.StartDate);
@@ -77,10 +71,11 @@ namespace Teamworks.Web.Controllers.Api
             return response;
         }
 
+        [DELETE("{projectId}")]
         [SecureFor]
-        public HttpResponseMessage Delete(int id)
+        public HttpResponseMessage Delete(int projectId)
         {
-            var project = DbSession.Load<Core.Project>(id);
+            var project = DbSession.Load<Core.Project>(projectId);
             DbSession.Delete(project);
 
             // todo cascade remove

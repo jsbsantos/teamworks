@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -18,7 +17,7 @@ namespace Teamworks.Web.Controllers.Mvc
         private ActivityServices ActivityServices { get; set; }
         public ActivitiesController()
         {
-            ActivityServices = new Lazy<ActivityServices>(() => new ActivityServices(){DbSession = DbSession}).Value;
+            ActivityServices = new Lazy<ActivityServices>(() => new ActivityServices {DbSession = DbSession}).Value;
         }
 
         [HttpGet]
@@ -31,25 +30,12 @@ namespace Teamworks.Web.Controllers.Mvc
         [HttpGet]
         public ActionResult Details(int projectId, int activityId)
         {
-            var query = DbSession.Query<Timelog_Filter.Result, Timelog_Filter>()
-                .Customize(c =>
-                    {
-                        c.WaitForNonStaleResults();
-                        c.Include<Timelog_Filter.Result>(r => r.Activity);
-                        c.Include<Timelog_Filter.Result>(r => r.ActivityDependencies);
-                        c.Include<Timelog_Filter.Result>(r => r.Person);
-                        c.Include<Timelog_Filter.Result>(r => r.Project);
-                    })
-                .Where(a => a.Project == projectId.ToId("project") && a.Activity == activityId.ToId("activity"))
-                .OrderByDescending(r => r.Date)
-                .AsProjection<Timelog_Filter.Result>()
-                .ToList();
-
-            RavenQueryStatistics stats;
-            var activity = DbSession.Query<Activity>()
+            var list = DbSession.Query<Activity>()
                 .Include(a => a.Project)
-                .Statistics(out stats)
-                .FirstOrDefault(a => a.Id == activityId.ToId("activity") && a.Project == projectId.ToId("project"));
+                .Include(a => a.People)
+                .Where(r => r.Project == projectId.ToId("project")).ToList();
+
+            var activity = list.FirstOrDefault(a => a.Id == activityId.ToId("activity"));
 
             if (activity == null)
                 return HttpNotFound();
@@ -63,13 +49,12 @@ namespace Teamworks.Web.Controllers.Mvc
 
             vm.ProjectReference = project.MapTo<EntityViewModel>();
 
-            vm.TotalTimeLogged = query.Sum(r => r.Duration);
-
             vm.AssignedPeople =
                 DbSession.Load<Person>(activity.People.Distinct()).Select(
                     r => r.MapTo<PersonViewModel>()).ToList();
 
-            vm.Timelogs = query.Select(r =>
+            vm.TotalTimeLogged = activity.Timelogs.Sum(r => r.Duration);
+            vm.Timelogs = activity.Timelogs.Select(r =>
                 {
                     var result = r.MapTo<TimelogViewModel>();
                     result.Person = DbSession.Load<Person>(r.Person).MapTo<EntityViewModel>();
@@ -77,7 +62,6 @@ namespace Teamworks.Web.Controllers.Mvc
                 }).ToList();
             ViewBag.Results = vm;
 
-            var list = DbSession.Query<Activity>().Where(r => r.Project == projectId.ToId("project")).ToList();
             vm.Dependencies = list.Select(r =>
                 {
                     var result = r.MapTo<DependencyActivityViewModel>();
@@ -99,9 +83,17 @@ namespace Teamworks.Web.Controllers.Mvc
         [HttpPost]
         public ActionResult Update(int projectId, int activityId, ActivityViewModel model)
         {
-            return ActivityServices.Update(model) ?
-                new HttpStatusCodeResult(HttpStatusCode.Created) :
+            var activity = ActivityServices.Update(model.MapTo<Activity>());
+            if (activity == null)
                 HttpNotFound();
+
+            Response.StatusCode = (int)HttpStatusCode.Created;
+            return new JsonResult()
+                {
+                    Data = activity.MapTo<ActivityViewModel>(),
+                    ContentEncoding = System.Text.Encoding.UTF8
+                };
+
         }
 
     }

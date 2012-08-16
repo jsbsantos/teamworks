@@ -9,9 +9,8 @@ namespace Teamworks.Web.Helpers.AutoMapper.Profiles.Mvc
     {
         protected override void Configure()
         {
-            Mapper.CreateMap<Timelog_Filter.Result, TimelogViewModel>()
-                .ForMember(r => r.Person, o=> o.Ignore())
-                .ForMember(r => r.Id, o=> o.MapFrom(t => t.Timelog));
+            Mapper.CreateMap<Timelog, TimelogViewModel>()
+                .ForMember(r => r.Person, o => o.Ignore());
         }
     }
 }
