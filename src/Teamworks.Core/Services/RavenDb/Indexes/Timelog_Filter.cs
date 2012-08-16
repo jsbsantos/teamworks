@@ -17,19 +17,16 @@ namespace Teamworks.Core.Services.RavenDb.Indexes
                                                act.Project,
                                                Activity = act.Id,
                                                timelog.Person,
-                                               Timelog=timelog.Id,
+                                               Timelog = timelog.Id,
                                                timelog.Date,
                                                timelog.Description,
                                                timelog.Duration,
-                                               ActivityDependencies=act.Dependencies
+                                               ActivityDependencies = act.Dependencies,
+                                               TotalTimeLogged = timelog.Duration
                                            };
 
             TransformResults = (database, results) =>
                                from result in results
-                               /*let _pe = database.Include(result.Person)
-                               let _ac = database.Include(result.Activity)
-                               let _ad = database.Include(result.ActivityDependencies)
-                               let _pr = database.Include(result.Project)*/
                                select new
                                           {
                                               result.Project,
@@ -40,14 +37,15 @@ namespace Teamworks.Core.Services.RavenDb.Indexes
                                               result.Description,
                                               result.Duration,
                                               result.ActivityDependencies
-
                                           };
-            Store(r => r.Timelog,FieldStorage.Yes);
-            Store(r => r.Date,FieldStorage.Yes);
-            Store(r => r.Description,FieldStorage.Yes);
-            Store(r => r.Project,FieldStorage.Yes);
-            Store(r => r.Activity,FieldStorage.Yes);
-            Store(r => r.Person,FieldStorage.Yes);
+
+            Store(r => r.Timelog, FieldStorage.Yes);
+            Store(r => r.Duration, FieldStorage.Yes);
+            Store(r => r.Date, FieldStorage.Yes);
+            Store(r => r.Description, FieldStorage.Yes);
+            Store(r => r.Project, FieldStorage.Yes);
+            Store(r => r.Activity, FieldStorage.Yes);
+            Store(r => r.Person, FieldStorage.Yes);
             Store(r => r.ActivityDependencies, FieldStorage.Yes);
 
             Index(x => x.Activity, FieldIndexing.NotAnalyzed);

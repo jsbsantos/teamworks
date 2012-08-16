@@ -158,9 +158,10 @@
     <Compile Include="Attributes\Api\RavenSessionAttribute.cs" />
     <Compile Include="Attributes\Mvc\AjaxOnlyAttribute.cs" />
     <Compile Include="Attributes\Mvc\NoDbExceptionAttribute.cs" />
-    <Compile Include="Controllers\Api\ActivitiesController.cs" />
     <Compile Include="Attributes\Api\ExceptionAttribute.cs" />
     <Compile Include="Attributes\Api\ModelStateValidationAttribute.cs" />
+    <Compile Include="Attributes\Api\VetoAttribute.cs" />
+    <Compile Include="Controllers\Api\ActivitiesController.cs" />
     <Compile Include="Attributes\Api\SecureForAttribute.cs" />
     <Compile Include="Controllers\Api\TodoController.cs" />
     <Compile Include="Controllers\Api\TodoListController.cs" />
@@ -247,6 +248,8 @@
     <Compile Include="ViewModels\Mvc\RegisterPersonViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\ViewsExtensions.cs" />
+    <Compile Include="Helpers\Extensions\Mvc\ViewsExtensions.cs" />
+    <Compile Include="ViewModels\Mvc\TimelogViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\bootstrap\bootstrap-responsive.css" />

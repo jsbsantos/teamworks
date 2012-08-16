@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 using AttributeRouting.Web.Mvc;
 using Newtonsoft.Json;
+using Raven.Client.Authorization;
 using Raven.Client.Linq;
 using Teamworks.Core;
 using Teamworks.Core.Services;
@@ -159,7 +160,6 @@ namespace Teamworks.Web.Controllers.Mvc
         public ActionResult Delete(int id)
         {
             var project = DbSession.Load<Project>(id);
-            DbSession.
             return new EmptyResult();
         }
 
@@ -167,6 +167,8 @@ namespace Teamworks.Web.Controllers.Mvc
         public ActionResult Gantt(int projectId)
         {
             ViewBag.Endpoint = "api/projects/" + projectId;
+
+            DbSession.SecureFor(ControllerContext.HttpContext.GetCurrentPersonId(), "GOD");
 
             var project = DbSession
                 .Load<Project>(projectId);

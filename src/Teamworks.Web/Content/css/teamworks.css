@@ -140,3 +140,9 @@ input.simple {
 }
 
 .show-input .raw { display: none; }
+
+.show_inline
+{
+    display: inline-block;
+}
+

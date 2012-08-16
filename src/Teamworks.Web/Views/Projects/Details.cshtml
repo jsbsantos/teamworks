@@ -9,7 +9,7 @@
 <div class="row">
     <ul class="breadcrumb span12">
         <li>
-            <a href="@Url.RouteUrl("default", new { controller = "projects", action ="view" })">Projects</a>
+            <a href="@Url.RouteUrl("default", new { controller = "projects", action ="index" })">Projects</a>
             <span class="divider">/</span>
         </li>
         <li>
@@ -37,7 +37,7 @@
                 <h2>Activities 
                     <small>
                         <a class="hide btn-mini" data-bind="css: { hide: activities.editing()}, click: function() { activities.editing(true); }">
-                            One more activity
+                            Add a new activity
                         </a>
                     </small>
                 </h2>

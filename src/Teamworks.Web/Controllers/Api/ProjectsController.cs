@@ -6,68 +6,76 @@ using System.Net.Http;
 using System.Web.Http;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
+using AutoMapper;
 using Raven.Bundles.Authorization.Model;
-using Raven.Client;
 using Raven.Client.Authorization;
+using Raven.Client.Linq;
 using Teamworks.Core;
 using Teamworks.Core.Services;
 using Teamworks.Web.Attributes.Api;
-using Teamworks.Web.Helpers.AutoMapper;
 using Teamworks.Web.Helpers.Extensions.Api;
 using Teamworks.Web.ViewModels.Api;
 
 namespace Teamworks.Web.Controllers.Api
 {
-    [DefaultHttpRouteConvention]
     [RoutePrefix("api/projects")]
     public class ProjectsController : RavenApiController
     {
+        [GET("")]
         [SecureFor]
-        public IEnumerable<ProjectViewModel> Get()
+        public IEnumerable<Project> Get()
         {
-            var projects = DbSession.Query<Project>()
-                .OrderByDescending(p => p.CreatedAt)
+            RavenQueryStatistics stat;
+            List<Core.Project> projects = DbSession
+                .Query<Core.Project>()
+                .Statistics(out stat)
                 .ToList();
 
-            return projects.MapTo<ProjectViewModel>();
+            return Mapper.Map<IEnumerable<Core.Project>, IEnumerable<Project>>(projects);
         }
 
+        [GET("{projectId}")]
+        [Veto]
         [SecureFor]
-        public ProjectViewModel GetById(int id)
+        public Project Get(int projectId)
         {
-            var project = DbSession.Load<Project>(id);
-            return project.MapTo<ProjectViewModel>();
+            var project = DbSession
+                .Load<Core.Project>(projectId);
+
+            return Mapper.Map<Core.Project, Project>(project);
         }
 
-        public HttpResponseMessage Post(ProjectViewModel model)
+        [POST("")]
+        public HttpResponseMessage Post(Project model)
         {
-            var project = Project.Forge(model.Name,
-                                        model.Description,
-                                        model.StartDate);
+            Core.Project project = Core.Project.Forge(model.Name, model.Description, model.StartDate);
+
             DbSession.Store(project);
 
             project.AllowPersonAssociation();
             DbSession.SetAuthorizationFor(project, new DocumentAuthorization
-                                                       {
-                                                           Tags = {project.Id}
-                                                       });
-            var person = Request.GetCurrentPerson();
-
+            {
+                Tags = { project.Id }
+            });
+            Core.Person person = Request.GetCurrentPerson();
             project.People.Add(person.Id);
             person.Roles.Add(project.Id);
 
-            var response = Request.CreateResponse(HttpStatusCode.Created,
-                                                  project.MapTo<ProjectViewModel>());
 
-            var uri = Url.Link("Projects_GetById", new {id = project.Id.ToIdentifier()});
+            Project value = Mapper.Map<Core.Project, Project>(project);
+            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, value);
+
+            string uri = Uri.UriSchemeHttp + Uri.SchemeDelimiter + Request.RequestUri.Authority +
+                         Url.Route(null, new { id = project.Id });
             response.Headers.Location = new Uri(uri);
             return response;
         }
 
+        [DELETE("{projectId}")]
         [SecureFor]
-        public HttpResponseMessage Delete(int id)
+        public HttpResponseMessage Delete(int projectId)
         {
-            var project = DbSession.Load<Project>(id);
+            var project = DbSession.Load<Core.Project>(projectId);
             DbSession.Delete(project);
 
             // todo cascade remove
@@ -78,29 +86,29 @@ namespace Teamworks.Web.Controllers.Api
         #region People
 
         [SecureFor]
-        [GET("{id}/people")]
-        public IEnumerable<PersonViewModel> GetPeopleByProjectId(int id)
+        [GET("{projectId}/people")]
+        public IEnumerable<Person> GetPeople(int projectId)
         {
             var project = DbSession
-                .Include<Project>(p => p.People)
-                .Load<Project>(id);
+                .Include<Core.Project>(p => p.People)
+                .Load<Core.Project>(projectId);
 
-            var people = DbSession.Load<Person>(project.People);
-            return people.MapTo<PersonViewModel>();
+            Core.Person[] people = DbSession.Load<Core.Person>(project.People);
+            return Mapper.Map<IEnumerable<Core.Person>, IEnumerable<Person>>(people);
         }
 
         [SecureFor]
-        [POST("{id}/people")]
-        public HttpResponseMessage PostPermission(int id, Permissions model)
+        [POST("{projectId}/people")]
+        public HttpResponseMessage Post(int projectId, Permissions model)
         {
             var project = DbSession
-                .Load<Project>(id);
+                .Load<Core.Project>(projectId);
 
-            var people = DbSession
-                .Load<Person>(model.Ids.Select(i => i.ToId("person")))
+            IEnumerable<Core.Person> people = DbSession
+                .Load<Core.Person>(model.Ids.Select(i => i.ToId("person")))
                 .Where(p => p != null);
 
-            foreach (var person in people)
+            foreach (Core.Person person in people)
             {
                 person.Roles.Add(project.Id);
                 project.People.Add(person.Id);
@@ -110,11 +118,11 @@ namespace Teamworks.Web.Controllers.Api
 
         [SecureFor]
         [DELETE("{id}/people/{personId}")]
-        public HttpResponseMessage DeletePermission(int id, string personId)
+        public HttpResponseMessage Delete(int id, string personId)
         {
             var project = DbSession
                 .Include(id.ToId("project"))
-                .Load<Project>(id);
+                .Load<Core.Project>(id);
 
             if (project == null)
             {
@@ -122,7 +130,7 @@ namespace Teamworks.Web.Controllers.Api
                     Request.CreateResponse(HttpStatusCode.NotFound));
             }
 
-            var person = DbSession.Load<Person>(personId);
+            var person = DbSession.Load<Core.Person>(personId);
             if (!project.People.Remove(person.Id))
             {
                 throw new HttpResponseException(

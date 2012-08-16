@@ -14,6 +14,7 @@ using Xunit;
 
 namespace Teamworks.Web.Unittest.Api
 {
+    /*
     public class ActivitiesControllerUnittest : BaseControllerUnittest
     {
         protected override string Url
@@ -229,5 +230,5 @@ namespace Teamworks.Web.Unittest.Api
             }
         }
 
-    }
+    }*/
 }

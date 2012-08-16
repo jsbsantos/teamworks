@@ -1,4 +1,4 @@
-﻿$(function() {
+﻿$(function () {
     'use strict';
 
     if (typeof viewmodel !== 'undefined') {
@@ -12,3 +12,4 @@
     if (typeof gantt !== 'undefined')
         tw.graphics.gantt = gantt();
 });
+
