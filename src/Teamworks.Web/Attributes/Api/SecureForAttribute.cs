@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using System;
+using System.Web.Http;
 using System.Web.Http.Controllers;
 using Raven.Client;
 using Raven.Client.Authorization;
@@ -7,6 +8,7 @@ using Teamworks.Web.Helpers.Extensions.Api;
 
 namespace Teamworks.Web.Attributes.Api
 {
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     public class SecureForAttribute : AuthorizeAttribute
     {
         public SecureForAttribute()

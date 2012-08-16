@@ -1,10 +1,6 @@
-﻿@using Teamworks.Web.Helpers.Extensions.Mvc
-<<<<<<< HEAD
-@using Teamworks.Web.Views
+﻿@using Teamworks.Web.Views
 @model Teamworks.Web.ViewModels.Mvc.ActivityViewModelComplete
-=======
-@model Teamworks.Web.ViewModels.Mvc.ActivityViewModel
->>>>>>> 871dfa4ed5cef6812243efe6460c3d44b0b432dd
+
 
 @{
     ViewBag.Title = Model.Name;
@@ -14,7 +10,7 @@
 <div class="row">
     <ul class="breadcrumb span12">
         <li>
-            <a href="@Url.RouteUrl("default", new {controller = "Projects", action = "Index", id = UrlParameter.Optional})">Projects</a>
+            <a href="@Url.RouteUrl("default", new {controller = "Projects", action = "Index", id = UrlParameter.Optional})">VetoProjects</a>
             <span class="divider">/</span>
         </li>
         <li>

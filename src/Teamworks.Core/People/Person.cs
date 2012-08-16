@@ -2,6 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 using Raven.Bundles.Authorization.Model;
+using Teamworks.Core.Services;
 
 namespace Teamworks.Core
 {

@@ -18,18 +18,13 @@ namespace Teamworks.Web.Unittest.Api
 {
     public abstract class BaseControllerUnittest : IUseFixture<RavenDbFixture>
     {
-        public RavenDbFixture Fixture { get; set; }
+        public RavenDbFixture Configure { get; set; }
 
         #region IUseFixture<RavenDbFixture> Members
 
         public void SetFixture(RavenDbFixture raven)
         {
-            Fixture = raven;
-        }
-
-        public virtual void Initialize()
-        {
-            
+            Configure = raven;
         }
 
         #endregion

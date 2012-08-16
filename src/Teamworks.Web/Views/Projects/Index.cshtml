@@ -9,7 +9,7 @@
 <div class="row" style="margin-top: 34px">
     <div class="span8">
         <header class="page-header">
-            <h1>Projects
+            <h1>VetoProjects
                 <small>Here are listed your projects</small>
             </h1>
         </header>
@@ -27,7 +27,7 @@
         <div class="hide" data-bind="css: { hide: !projects.editing() }">
             <form class="form-horizontal" data-bind="submit: projects._create">
                 <div class="control-group">
-                    <input name="name" autofocus="autofocus" class="span3" placeholder="ProjectViewModel name" data-bind="value: projects.input, valueUpdate: 'afterkeyup'" />
+                    <input name="name" autofocus="autofocus" class="span3" placeholder="VetoProjectViewModel name" data-bind="value: projects.input, valueUpdate: 'afterkeyup'" />
                 </div>
                 <div class="control-group">
                     <button type="submit" class="btn" data-bind="disable: projects.input.has_error, css: { 'btn-success': !projects.input.has_error(), 'btn-danger': projects.input.has_error }">

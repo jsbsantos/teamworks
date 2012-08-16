@@ -1,4 +1,7 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Linq;
+using System.Reflection;
+using AutoMapper;
 using Teamworks.Web.Helpers.AutoMapper.Profiles.Mvc;
 
 namespace Teamworks.Web.Helpers.AutoMapper
@@ -14,7 +17,7 @@ namespace Teamworks.Web.Helpers.AutoMapper
         {
             // mvc
             // todo would make sense to add all of those automatically with an IoC
-            Mapper.AddProfile(new EntityViewModelMapperProfile());
+            /*Mapper.AddProfile(new EntityViewModelMapperProfile());
             Mapper.AddProfile(new ProjectViewModelMapperProfile());
             Mapper.AddProfile(new ProjectsViewModelMapperProfile());
             Mapper.AddProfile(new ActivityViewModelMapperProfile());
@@ -22,14 +25,24 @@ namespace Teamworks.Web.Helpers.AutoMapper
             Mapper.AddProfile(new ProfileViewModelMapperProfile());
             Mapper.AddProfile(new RegisterTimelogsViewModelMapperProfile());
             Mapper.AddProfile(new TimelogViewModelMapperProfile());
-
+            */
             // api
+
+            var targetAssembly = Assembly.GetExecutingAssembly(); // or whichever
+            var subtypes = targetAssembly.GetTypes().Where(t => t.IsSubclassOf(typeof(Profile)));
+
+            foreach (var subtype in subtypes)
+            {
+                Mapper.AddProfile(Activator.CreateInstance(subtype) as Profile);
+            }
+
+            /*
             Mapper.AddProfile(new Profiles.Api.ProjectViewModelMapperProfile());
             Mapper.AddProfile(new Profiles.Api.ActivityViewModelMapperProfile());
-            
+            */
             /*
-            Mapper.CreateMap<ProjectViewModel, Project>();
-            Mapper.CreateMap<Project, ProjectViewModel>()
+            Mapper.CreateMap<ProjectViewModel, VetoProject>();
+            Mapper.CreateMap<VetoProject, ProjectViewModel>()
                 .ForMember(s => s.Id, o => o.MapFrom(d => d.Id.ToIdentifier()));
 
             Mapper.CreateMap<ActivityViewModel, Activity>();

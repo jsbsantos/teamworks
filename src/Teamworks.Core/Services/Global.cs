@@ -11,7 +11,7 @@ namespace Teamworks.Core.Services
 
         public static class Constants
         {
-            public const string Operation = "GOD";
+            public const string Operation = "god";
         }
 
         #endregion

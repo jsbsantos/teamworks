@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Raven.Client;
 using Raven.Client.Listeners;
 using Raven.Json.Linq;
 
@@ -43,9 +42,9 @@ namespace Teamworks.Core.Services.RavenDb
                 {
                     Global.Executor.Enqueue(() =>
                                                 {
-                                                    using (IDocumentSession session = Global.Database.OpenSession())
+                                                    using (var session = Global.Database.OpenSession())
                                                     {
-                                                        List<string> people =
+                                                        var people =
                                                             session.Load<Person>(instance.Subscribers).Select(
                                                                 x => x.Email).ToList();
                                                         instance.Notify(instance.Messages.Last(), people);

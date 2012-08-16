@@ -3,6 +3,7 @@ using Raven.Client;
 using Raven.Client.Embedded;
 using Raven.Client.Indexes;
 using Raven.Client.Listeners;
+using Teamworks.Core;
 using Teamworks.Core.Services.RavenDb.Indexes;
 using Teamworks.Web.Helpers.AutoMapper;
 

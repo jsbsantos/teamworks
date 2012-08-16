@@ -20,9 +20,9 @@ namespace Teamworks.Web.App_Start
             routes.MapHttpAttributeRoutes(c =>
                                               {
                                                   //c.ScanAssembly(Assembly.GetExecutingAssembly());
-                                                  c.AddRoutesFromController<HomeController>();
+                                                  //c.AddRoutesFromController<HomeController>();
                                                   c.AddRoutesFromController<ProjectsController>();
-                                                  c.AddRoutesFromController<ActivitiesController>();
+                                                  //c.AddRoutesFromController<ActivitiesController>();
                                                   
                                                   //c.AddRoutesFromController<MessagesController>();
                                                   c.AutoGenerateRouteNames = true;

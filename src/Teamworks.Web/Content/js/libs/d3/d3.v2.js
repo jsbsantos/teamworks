@@ -7193,7 +7193,7 @@
     };
 // Derived from Tom Carden's Albers implementation for Protovis.
 // http://gist.github.com/476238
-// http://mathworld.wolfram.com/AlbersEqual-AreaConicProjectViewModelion.html
+// http://mathworld.wolfram.com/AlbersEqual-AreaConicVetoProjectViewModelion.html
 
     d3.geo.albers = function() {
         var origin = [-98, 38],
@@ -7268,7 +7268,7 @@
 
 // A composite projection for the United States, 960x500. The set of standard
 // parallels for each region comes from USGS, which is published here:
-// http://egsc.usgs.gov/isb/pubs/MapProjectViewModelions/projections.html#albers
+// http://egsc.usgs.gov/isb/pubs/MapVetoProjectViewModelions/projections.html#albers
 // TODO allow the composite projection to be rescaled?
     d3.geo.albersUsa = function() {
         var lower48 = d3.geo.albers();

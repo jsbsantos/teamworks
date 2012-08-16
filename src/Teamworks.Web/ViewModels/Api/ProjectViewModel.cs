@@ -7,7 +7,7 @@ namespace Teamworks.Web.ViewModels.Api
     {
         public int Id { get; set; }
 
-        [Required]
+        [Required(AllowEmptyStrings = false)]
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTimeOffset? StartDate { get; set; }

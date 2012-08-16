@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Web.Http;
 using System.Web.Http.Routing;
 using Raven.Client;
@@ -14,7 +15,6 @@ using Xunit;
 
 namespace Teamworks.Web.Unittest.Api
 {
-    /*
     public class ProjectsControllerUnittest : BaseControllerUnittest
     {
         protected override string Url
@@ -25,18 +25,15 @@ namespace Teamworks.Web.Unittest.Api
         protected override IHttpRouteData RouteData(HttpConfiguration config)
         {
             var route = config.Routes.MapHttpRoute("Projects_GetById",
-                                                   "api/{controller}/{id}");
+                                                   "api/{controller}/{projectId}");
             return new HttpRouteData(route, new HttpRouteValueDictionary {{"controller", "projects"}});
         }
 
         [Fact]
         public void GetProjects()
         {
-            var size = 0;
-            using (var session = RavenDbFixture.DocumentStore.OpenSession())
-            {
-                size = session.Query<Project>().Count();
-            }
+            const int expectedSize = 3;
+            Configure.Populate(Reset);
 
             List<ProjectViewModel> result;
             using (var session = RavenDbFixture.DocumentStore.OpenSession())
@@ -45,34 +42,29 @@ namespace Teamworks.Web.Unittest.Api
                 result = controller.Get().ToList();
             }
 
-            Assert.Equal(size, result.Count());
-            Assert.Equal(0, result.Count(s => s == null));
+            Assert.Equal(expectedSize, result.Count());
         }
 
         [Fact]
         public void GetProjectById()
         {
-            Project expected;
-            int projectId = 4;
-            Fixture.Populate(PopulateAProject);
-            using (var session = RavenDbFixture.DocumentStore.OpenSession())
-            {
-                expected = session.Load<Project>(projectId);
-            }
-
+            const int expectedProjectId = 1;
+            const string expectedName = "proj 1";
+            const string expectedDescription = "description 1";
+            
+            Configure.Populate(Reset);
             ProjectViewModel result;
             using (var session = RavenDbFixture.DocumentStore.OpenSession())
             {
                 var controller = ControllerForTests<ProjectsController>(session, HttpMethod.Get);
-                result = controller.Get(projectId);
+                result = controller.GetById(expectedProjectId);
             }
 
             Assert.NotNull(result);
-            Assert.Equal(expected.Name, result.Name);
-            Assert.Equal(expected.Description, result.Description);
+            Assert.Equal(expectedName, result.Name);
+            Assert.Equal(expectedDescription, result.Description);
         }
-
-
+        
         [Fact]
         public void PostProjectReturnsCreatedStatusCode()
         {
@@ -87,37 +79,35 @@ namespace Teamworks.Web.Unittest.Api
                                                });
                 session.SaveChanges();
             }
-
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
         }
 
         [Fact]
         public void PostProjectIsPersistedInDb()
         {
-            const string name = "post project";
-            const string description = "description post project";
-
+            const string expectedName = "post project";
+            const string expectedDescription = "description post project";
+            
             HttpResponseMessage response;
             using (var session = RavenDbFixture.DocumentStore.OpenSession())
             {
                 var controller = ControllerForTests<ProjectsController>(session, HttpMethod.Post);
                 response = controller.Post(new ProjectViewModel
                                                {
-                                                   Name = name,
-                                                   Description = description
+                                                   Name = expectedName,
+                                                   Description = expectedDescription
                                                });
                 session.SaveChanges();
             }
 
             var result = response.Content.ReadAsAsync<ProjectViewModel>().Result;
-
             using (var session = RavenDbFixture.DocumentStore.OpenSession())
             {
                 var project = session.Load<Project>(result.Id);
 
                 Assert.NotNull(project);
-                Assert.Equal(name, project.Name);
-                Assert.Equal(description, project.Description);
+                Assert.Equal(expectedName, project.Name);
+                Assert.Equal(expectedDescription, project.Description);
 
                 Assert.False(project.Archived);
             }
@@ -138,72 +128,67 @@ namespace Teamworks.Web.Unittest.Api
                 session.SaveChanges();
             }
 
-            var resuilt = response.Content.ReadAsAsync<ProjectViewModel>().Result;
-            Assert.Equal("http://localhost/api/projects/" + resuilt.Id, response.Headers.Location.ToString());
+            var result = response.Content.ReadAsAsync<ProjectViewModel>().Result;
+            Assert.Equal("http://localhost/api/projects/" + result.Id, response.Headers.Location.ToString());
         }
 
         [Fact]
         public void DeleteProjectReturnsNoContentStatusCode()
         {
-
-            const int projectId = 4;
-            Fixture.Populate(PopulateAProject);
-
+            const HttpStatusCode expectedStatusCode = HttpStatusCode.NoContent;
+            
+            Configure.Populate(Reset);
             HttpResponseMessage response;
             using (var session = RavenDbFixture.DocumentStore.OpenSession())
             {
                 var controller = ControllerForTests<ProjectsController>(session, HttpMethod.Delete);
-                response = controller.Delete(projectId);
+                response = controller.Delete(1);
 
                 session.SaveChanges();
             }
-            Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
-         
+            
+            Assert.Equal(expectedStatusCode, response.StatusCode);
         }
 
         [Fact]
         public void DeleteProjectPersistedInDb()
         {
-            const int projectId = 4;
-            Fixture.Populate(PopulateAProject);
-
+            
+            Configure.Populate(Reset);
             using (var session = RavenDbFixture.DocumentStore.OpenSession())
             {
                 var controller = ControllerForTests<ProjectsController>(session, HttpMethod.Delete);
-                controller.Delete(4);
+                controller.Delete(1);
 
                 session.SaveChanges();
             }
 
             using (var session = RavenDbFixture.DocumentStore.OpenSession())
             {
-                Assert.Null(session.Load<Project>(projectId));
+                Assert.Null(session.Load<Project>(1));
             }
         }
 
-        public void Populate(IDocumentSession session)
+        public static void Clear(IDocumentSession session)
         {
+            var projects = session.Query<Project>().ToList();
+            foreach (var project in projects)
+                session.Delete(project);
+        }
+        
+        public static void Reset(IDocumentSession session)
+        {
+            Clear(session);
+            session.SaveChanges();
             foreach (var p in Enumerable.Range(1, 3))
             {
                 session.Store(new Project
-                                  {
-                                      Id = p.ToId("project"),
-                                      Name = "proj " + p,
-                                      Description = "description " + p
-                                  });
+                {
+                    Id = p.ToId("project"),
+                    Name = "proj " + p,
+                    Description = "description " + p
+                });
             }
         }
-
-        public void PopulateAProject(IDocumentSession session)
-        {
-            session.Store(new Project
-                              {
-                                  Id = 4.ToId("project"),
-                                  Name = "proj 4",
-                                  Description = "description 4"
-                              });
-        }
     }
-
-     */
 }

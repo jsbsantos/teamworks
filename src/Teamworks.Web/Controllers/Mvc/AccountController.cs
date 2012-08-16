@@ -18,11 +18,9 @@ namespace Teamworks.Web.Controllers.Mvc
         [HttpGet]
         public ActionResult Index(string returnUrl)
         {
-            if (Request.IsAuthenticated)
-            {
-                return RedirectFromLoginPage();
-            }
-            return View(new LoginModel { ReturnUrl = returnUrl });
+            return Request.IsAuthenticated ?
+                RedirectFromLoginPage() :
+                View(new LoginModel { ReturnUrl = returnUrl });
         }
 
         [HttpPost]
@@ -75,6 +73,7 @@ namespace Teamworks.Web.Controllers.Mvc
                 var person = Person.Forge(model.Email, model.Username, model.Password, model.Name);
                 DbSession.Store(person);
                 
+                DbSession.InitializePerson(person);
                 FormsAuthentication.SetAuthCookie(person.Id, false);
                 return RedirectFromLoginPage(model.ReturnUrl);
             }

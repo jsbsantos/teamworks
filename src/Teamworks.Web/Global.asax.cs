@@ -17,6 +17,7 @@ using Raven.Client.Document;
 using Raven.Client.Exceptions;
 using Raven.Client.Indexes;
 using Teamworks.Core.Services;
+using Teamworks.Core.Services.RavenDb;
 using Teamworks.Core.Services.RavenDb.Indexes;
 using Teamworks.Web.Attributes.Api;
 using Teamworks.Web.Attributes.Api.Ordered;
@@ -130,7 +131,8 @@ namespace Teamworks.Web
                 new DocumentStore
                     {
                         ConnectionStringName = "RavenDB"
-                    }.Initialize();
+                    }.RegisterListener(new PersonConversionListener())
+            .Initialize();
 
             IndexCreation.CreateIndexes(typeof (Activities_ByProject).Assembly, Global.Database);
         }

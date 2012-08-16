@@ -31,7 +31,7 @@ namespace Teamworks.Web.Unittest.Api
 
         public override void Initialize()
         {
-            Fixture.Populate(Populate);
+            Configure.Populate(Populate);
         }
 
         [Fact]
@@ -68,7 +68,7 @@ namespace Teamworks.Web.Unittest.Api
 
             Assert.NotNull(result);
             Assert.Equal(activityId, result.Id);
-            Assert.Equal(projectId, result.Project);
+            Assert.Equal(projectId, result.VetoProject);
 
             Assert.Equal(name, result.Name);
             Assert.Equal(description, result.Description);
@@ -154,7 +154,7 @@ namespace Teamworks.Web.Unittest.Api
             const int projectId = 1;
             const int activityId = 100;
             
-            Fixture.Populate(PopulateAnActivity);
+            Configure.Populate(PopulateAnActivity);
             HttpResponseMessage response;
             using (var session = RavenDbFixture.DocumentStore.OpenSession())
             {
@@ -172,7 +172,7 @@ namespace Teamworks.Web.Unittest.Api
             const int projectId = 1;
             const int activityId = 100;
 
-            Fixture.Populate(PopulateAnActivity);
+            Configure.Populate(PopulateAnActivity);
             using (var session = RavenDbFixture.DocumentStore.OpenSession())
             {
                 var controller = ControllerForTests<ActivitiesController>(session, HttpMethod.Delete);
@@ -193,7 +193,7 @@ namespace Teamworks.Web.Unittest.Api
             {
                 Id = 100.ToId("activity"),
                 Name = "proj 100",
-                Project = projectId.ToId("Project"),
+                VetoProject = projectId.ToId("VetoProject"),
                 Description = "description 100"
             });
         }
@@ -202,7 +202,7 @@ namespace Teamworks.Web.Unittest.Api
         {
             // used for posts
             var id = 1.ToId("project");
-            session.Store(new Project
+            session.Store(new VetoProject
             {
                 Id = id,
                 Name = "proj 1",
@@ -211,7 +211,7 @@ namespace Teamworks.Web.Unittest.Api
 
             // used for gets
             id = 2.ToId("project");
-            session.Store(new Project
+            session.Store(new VetoProject
             {
                 Id = id,
                 Name = "proj 2",
@@ -224,7 +224,7 @@ namespace Teamworks.Web.Unittest.Api
                 {
                     Id = i.ToId("activity"),
                     Name = "act " + i,
-                    Project = id,
+                    VetoProject = id,
                     Description = "description 1" + i
                 });
             }

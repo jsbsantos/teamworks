@@ -12,7 +12,7 @@ namespace Teamworks.Web.Helpers.AutoMapper.Profiles.Api
             /*
             Mapper.CreateMap<Activity, ActivityViewModel>()
                 .ForMember(s => s.Id, o => o.MapFrom(d => d.Id.ToIdentifier()))
-                .ForMember(s => s.Project, o => o.MapFrom(d => d.Project.ToIdentifier()));
+                .ForMember(s => s.VetoProject, o => o.MapFrom(d => d.VetoProject.ToIdentifier()));
              */
         }
     }
