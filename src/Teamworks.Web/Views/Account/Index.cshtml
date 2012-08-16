@@ -1,0 +1,54 @@
+﻿@model Teamworks.Web.Controllers.Mvc.LoginModel
+
+@{
+    ViewBag.Title = "Sign In";
+    Layout = "~/Views/Shared/_Root.cshtml";
+}
+
+<div class="row">
+    <div class="offset1 span10">
+        <header class="page-header">
+            <h1>
+                Sign In
+            </h1>
+            <p>Sign into your Teamworks account with the username or email and a previously chosen password.</p>
+        </header>
+        <div class="row">
+            <div class="span6">
+                @Html.ValidationSummary()
+                <form  method="post" class="form-horizontal" action="@Url.Action("Index", "Account")">
+                    <div class="control-group">
+                        <input name="login" placeholder="Username" value="@Model.Login"/>
+                        
+                            @Html;
+                        
+                    </div>
+                    <div class="control-group">
+                        <input  name="password" placeholder="Insert your password here" type="password" />
+                    </div>
+                    <div>
+                        @Html.HiddenFor(m => m.ReturnUrl)
+                        <button class="btn btn-success" type="submit" value="signup">Sign In</button>
+                        <span class="help-inline"><label class="span2 checkbox">Remember me?<input type="checkbox" name="persist" value="true"></label></span>
+                    </div>
+                    
+                </form>
+            </div>
+            <div class="span4">
+                <h3>No Account Yet?</h3>
+                <div>@Html.ActionLink("Register", "Register", "Account") today.</div>
+                <br>
+                <h3>External services</h3>
+                <div>Do you already have an account on one of these sites? Click the logo to log in with it here:</div>
+                <br>
+                <ul class="thumbnails">
+                    <li class="span1">
+                        <a class="thumbnail" href="@Url.Action("OpenId", "Account", new { provider = "https://www.google.com/accounts/o8/id" })">
+                            <img src="~/Content/img/google.png" alt="google openid"/>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

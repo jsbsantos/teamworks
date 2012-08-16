@@ -1,44 +1,46 @@
 ﻿using System.Web.Mvc;
 using Teamworks.Core;
-using Teamworks.Core.Authentication;
 using Teamworks.Web.Helpers.AutoMapper;
+using Teamworks.Web.Helpers.Extensions.Mvc;
 using Teamworks.Web.ViewModels.Mvc;
+using Teamworks.Web.Views;
 
 namespace Teamworks.Web.Controllers.Mvc
 {
     public class ProfilesController : RavenController
     {
-        [HttpGet]
-        [ActionName("View")]
         public ActionResult Index(int? id)
         {
-            PersonViewModel personViewModel;
-            if (id.HasValue)
-            {
-                personViewModel = DbSession.Load<Person>(id.Value)
-                    .MapTo<PersonViewModel>();
-            }
-            else
-            {
-                ViewBag.Me = true;
-                personViewModel = ((PersonIdentity) User.Identity).Person
-                    .MapTo<PersonViewModel>();
-            }
+            var personViewModel = new ProfileViewModel();
+
+            var person = id.HasValue
+                             ? DbSession.Load<Person>(id)
+                             : HttpContext.GetCurrentPerson();
+
+            if (person.Id == HttpContext.GetCurrentPersonId())
+                personViewModel.IsMyProfile = true;
+
+            personViewModel.PersonDetails = person.MapTo<PersonViewModel>();
             return View(personViewModel);
         }
 
-        /*
-        [HttpGet]
-        public ActionResult Edit()
+        public ActionResult Edit(ProfileViewModel.Input model)
         {
-            return View("View", ((PersonIdentity) User.Identity).Person);
-        }
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Index");
+            }
 
-        [HttpPost]
-        public ActionResult Edit(object model)
-        {
-            return RedirectToAction("Edit");
+            var person = HttpContext.GetCurrentPerson();
+            model.MapPropertiesToInstance(person);
+
+            if (Request.IsAjaxRequest())
+            {
+                return new JsonNetResult {
+                               Data = person.MapTo<PersonViewModel>()
+                           };
+            }
+            return RedirectToAction("Index");
         }
-        */
     }
 }

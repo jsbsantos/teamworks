@@ -1,17 +1,23 @@
 ﻿using System.Web.Mvc;
+using AttributeRouting;
+using AttributeRouting.Web.Mvc;
 
 namespace Teamworks.Web.Controllers.Mvc
 {
+    [RoutePrefix("projects/{projectId}")]
     public class DiscussionsController : RavenController
     {
-        [HttpGet]
+        [GET("discussions")]
         [ActionName("View")]
-        public ActionResult Index(int? identifier, int projectid)
+        public ActionResult Index(int projectid)
         {
-            string model = string.Format("/api/projects/{0}/discussions/", projectid);
-            return identifier != null
-                       ? View("Discussion", (object) (model + identifier.Value))
-                       : View("Discussions", (object) model);
+            return View("Discussion");
+        }
+
+        [GET("discussions/{discussionId}")]
+        public ActionResult Details(int discussionId ,int projectId)
+        {
+            return View("Discussion");
         }
     }
 }

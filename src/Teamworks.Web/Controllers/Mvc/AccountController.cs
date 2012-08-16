@@ -1,152 +1,129 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
 using Newtonsoft.Json.Linq;
-using Raven.Client;
 using Raven.Client.Linq;
-using Raven.Json.Linq;
 using Teamworks.Core;
 using Teamworks.Core.Oauth2;
-using Teamworks.Web.ViewModels.Mvc;
+using Teamworks.Web.Helpers.Extensions;
 
 namespace Teamworks.Web.Controllers.Mvc
 {
     [AllowAnonymous]
     public class AccountController : RavenController
     {
-        private const string ReturnUrlKey = "RETURN_URL_KEY";
-
         [HttpGet]
-        public ActionResult Login(string returnUrl)
+        public ActionResult Index(string returnUrl)
         {
-            if (string.IsNullOrEmpty(returnUrl))
+            if (Request.IsAuthenticated)
             {
-                return View("View");
+                return RedirectFromLoginPage();
             }
-            Session[ReturnUrlKey] = returnUrl;
-            return RedirectToAction("Login");
+            return View(new LoginModel { ReturnUrl = returnUrl });
+        }
+
+        [HttpPost]
+        public ActionResult Index(LoginModel input)
+        {
+            var person = DbSession.GetPersonByLogin(input.Login);
+
+            if (person == null || !person.IsThePassword(input.Password))
+            {
+                ModelState.AddModelError("UserNotExistOrPasswordNotMatch",
+                    "Username/Email and password do not match any known user.");  
+            } 
+
+            if (ModelState.IsValid)
+            {
+                var persist = input.Persist.HasValue && input.Persist.Value;
+                FormsAuthentication.SetAuthCookie(person.Id, persist);
+                return RedirectFromLoginPage(input.ReturnUrl);
+            }
+
+            return View(new LoginModel { Login = input.Login, ReturnUrl = input.ReturnUrl });
+        }
+
+        
+        [HttpGet]
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+        public ActionResult Register(RegisterModel model)
+        {
+            var email = DbSession.GetPersonByEmail(model.Email);
+            var username = DbSession.GetPersonByUsername(model.Username);
+
+            if (email != null)
+            {
+                ModelState.AddModelError("EmailAlreadyInUse",
+                    "The email must be unique.");
+            }
+
+            if (username != null)
+            {
+                ModelState.AddModelError("UsernameAlreadyInUse",
+                    "The username must be unique.");
+            }
+
+            if (ModelState.IsValid)
+            {
+                var person = Person.Forge(model.Email, model.Username, model.Password, model.Name);
+                DbSession.Store(person);
+                
+                FormsAuthentication.SetAuthCookie(person.Id, false);
+                return RedirectFromLoginPage(model.ReturnUrl);
+            }
+            return View(model);
         }
 
         [HttpGet]
-        public ActionResult OpenId(string provider)
+        public ActionResult Logout(string returnUrl)
         {
-            OpenIdResult result = new OpenId().Authenticate(provider); // first request, set state to 0 (zero)
+            FormsAuthentication.SignOut();
+            return RedirectFromLoginPage(returnUrl);
+        }
+
+        [HttpGet]
+        public ActionResult OpenId(string provider, string returnUrl)
+        {
+            var result = new OpenId()
+                .Authenticate(provider); // first request, set state to 0 (zero)
 
             if (result.State < 0) // opendid auth response with error
             {
                 ModelState.AddModelError("", "Authentication failed. Correct errors and try again.");
-                return View("View");
+                return View("Index", new LoginModel { ReturnUrl = returnUrl });
             }
             if (result.State > 0) // opendid auth response with success
             {
-                string username = result.First + result.Last;
-                Person person = GetUser(username, result.Email);
+                var person = DbSession.GetPersonByEmail(result.Email);
                 if (person == null)
                 {
-                    person = Person.Forge(result.Email, username, null,
-                                          string.Format("{0} {1}", result.First, result.Last));
+                    var username = result.First + result.Last;
+                    var name = string.Format("{0} {1}", result.First, result.Last);
+                    person = Person.Forge(result.Email, username, "", name);
                     DbSession.Store(person);
-                    SetOpenId(DbSession, person, provider, result.ClaimedIdentifier);
+
+                    var metadata = DbSession.Advanced.GetMetadataFor(person);
+                    metadata[Core.Oauth2.OpenId.ProviderKey] = provider;
+                    metadata[Core.Oauth2.OpenId.ClaimKey] = result.ClaimedIdentifier;
                 }
-                return SetUpAuthenticatedUser(person, true);
+                FormsAuthentication.SetAuthCookie(person.Id, false);
+                return RedirectFromLoginPage(returnUrl);
             }
             return new EmptyResult();
         }
 
-        private static void SetOpenId(IDocumentSession session, Person person, string provider, string claim)
+        private ActionResult RedirectFromLoginPage(string returnUrl = null)
         {
-            RavenJObject metadata = session.Advanced.GetMetadataFor(person);
-            metadata[Core.Oauth2.OpenId.ProviderKey] = provider;
-            metadata[Core.Oauth2.OpenId.ClaimKey] = claim;
-        }
-
-        private static string GetOpenIdProvider(IDocumentSession session, Person person)
-        {
-            RavenJObject metadata = session.Advanced.GetMetadataFor(person);
-            return metadata[Core.Oauth2.OpenId.ProviderKey].Value<string>();
-        }
-
-        private static string GetOpenIdClaim(IDocumentSession session, Person person)
-        {
-            RavenJObject metadata = session.Advanced.GetMetadataFor(person);
-            return metadata[Core.Oauth2.OpenId.ClaimKey].Value<string>();
-        }
-
-        [HttpPost]
-        public ActionResult Login(Login model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View("View", model);
-            }
-
-            Person person = DbSession.Query<Person>().SingleOrDefault(
-                p => p.Username.Equals(model.Username, StringComparison.InvariantCultureIgnoreCase));
-
-            if (person != null && person.IsThePassword(model.Password))
-            {
-                return SetUpAuthenticatedUser(person, model.Persist);
-            }
-
-            ModelState.AddModelError("", "The username or password you entered is incorrect.");
-            return View("View", model);
-        }
-
-        [HttpGet]
-        public ActionResult Logout()
-        {
-            FormsAuthentication.SignOut();
-            return RedirectToAction("View", "Home");
-        }
-
-        [HttpGet]
-        public ActionResult Signup()
-        {
-            return View("View");
-        }
-
-        [HttpPost]
-        public ActionResult Signup(Register register)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View("View");
-            }
-            Person user = GetUser(register.Username, register.Email);
-            if (user != null)
-            {
-                ModelState.AddModelError("model.unique",
-                                         "The username or email you specified already exists in the system");
-                return RedirectToAction("Signup");
-            }
-            Person person = Person.Forge(register.Email, register.Username, register.Password, register.Name);
-            DbSession.Store(person);
-
-            return RedirectToAction("View", "Home");
-        }
-
-        private Person GetUser(string username = "", string email = "")
-        {
-            IRavenQueryable<Person> list = DbSession.Query<Person>()
-                .Where(p => p.Username.Equals(username, StringComparison.InvariantCultureIgnoreCase) ||
-                            p.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase));
-            return list.SingleOrDefault();
-        }
-
-        private ActionResult SetUpAuthenticatedUser(Person person, bool persist)
-        {
-            string returnUrl = Session[ReturnUrlKey] as string
-                               ?? FormsAuthentication.DefaultUrl;
-
-            FormsAuthentication.SetAuthCookie(person.Id, persist);
-            if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
-                && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
-            {
-                return Redirect(returnUrl);
-            }
-            return RedirectToAction("View", "Home");
+            if (string.IsNullOrEmpty(returnUrl))
+                return RedirectToRoute("homepage");
+            return Redirect(returnUrl);
         }
 
         #region OAuth
@@ -155,11 +132,11 @@ namespace Teamworks.Web.Controllers.Mvc
         public ActionResult SignupOAuth(string provider)
         {
             var p = new Google
-                        {
-                            ClientId = @"937363753546.apps.googleusercontent.com",
-                            Secret = "lcUNnsobBB5sl_1NHohHnhlh",
-                            Callback = "http://alkalined.dyndns.org/account/GoogleOAuth"
-                        };
+            {
+                ClientId = @"937363753546.apps.googleusercontent.com",
+                Secret = "lcUNnsobBB5sl_1NHohHnhlh",
+                Callback = "http://alkalined.dyndns.org/account/GoogleOAuth"
+            };
             Session["teamworks.oauth.provider"] = p;
             return Redirect(p.Url);
         }
@@ -167,7 +144,7 @@ namespace Teamworks.Web.Controllers.Mvc
         [HttpGet]
         public ActionResult GoogleOAuth(string code)
         {
-            var provider = (Google) Session["teamworks.oauth.provider"];
+            var provider = (Google)Session["teamworks.oauth.provider"];
 
             JObject content = JObject.Parse(provider.GetProfile(Request.QueryString["code"]));
             Person person = Person.Forge(content.Value<string>("email"),
@@ -183,13 +160,45 @@ namespace Teamworks.Web.Controllers.Mvc
             {
                 ModelState.AddModelError("model.unique",
                                          "The username or email you specified already exists in the system");
-                return RedirectToAction("Signup");
+                return RedirectToAction("Register");
             }
 
             DbSession.Store(person);
-            return RedirectToAction("View", "Home");
+            return RedirectToAction("Index", "Home");
         }
 
         #endregion
+    }
+
+    public class RegisterModel
+    {
+        [Required]
+        public string Email { get; set; }
+
+        [Required]
+        [StringLength(256, MinimumLength = 6)]
+        public string Username { get; set; }
+
+        [Required(AllowEmptyStrings = false)]
+        public string Name { get; set; }
+        
+        [Required]
+        [StringLength(256, MinimumLength = 8, ErrorMessage = "The password must have more than 8 characters.")]
+        public string Password { get; set; }
+
+        public string ReturnUrl { get; set; }
+    }
+
+    public class LoginModel
+    {
+        
+        [Required]
+        public string Login { get; set; }
+        [Required]
+        [StringLength(256, MinimumLength = 8, ErrorMessage = "The password must have more than 8 characters.")]
+        public string Password { get; set; }
+        
+        public bool? Persist { get; set; }
+        public string ReturnUrl { get; set; }
     }
 }

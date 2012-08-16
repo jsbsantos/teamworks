@@ -3,7 +3,7 @@ using Moq;
 using Teamworks.Web.Attributes.Api.Ordered;
 using Xunit;
 
-namespace Teamworks.Web.Uni.Attributes.Api.Ordered
+namespace Teamworks.Web.Unittest.Attributes.Api.Ordered
 {
     public class OrderedFilterUnittest
     {

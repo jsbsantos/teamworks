@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Teamworks.Core.Services;
 
 namespace Teamworks.Core
 {
@@ -31,12 +32,12 @@ namespace Teamworks.Core
             return ++LastTodoListId;
         }
 
-        public static Activity Forge(string project, string name, string description, int duration)
+        public static Activity Forge(int project, string name, string description, int duration)
         {
             return new Activity
                        {
                            Name = name,
-                           Project = project,
+                           Project = project.ToId("project"),
                            Description = description ?? "",
                            Duration = duration,
                            Dependencies = new List<string>(),
@@ -57,8 +58,8 @@ namespace Teamworks.Core
                                                                                              InvariantCultureIgnoreCase));
                                           return new ActivityRelation
                                                      {
-                                                         Parent = parent.Identifier,
-                                                         Activity = Identifier,
+                                                         Parent = parent.Id.ToIdentifier(),
+                                                         Activity = Id.ToIdentifier(),
                                                          Duration = parent.Duration,
                                                      };
                                       }).ToList();

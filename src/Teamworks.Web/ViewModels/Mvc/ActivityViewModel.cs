@@ -31,6 +31,6 @@ namespace Teamworks.Web.ViewModels.Mvc
         public DateTime Date { get; set; }
         public int Duration { get; set; }
 
-        public PersonViewModel Person { get; set; }
+        public PersonViewModel Profile { get; set; }
     }
 }

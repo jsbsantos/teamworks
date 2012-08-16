@@ -19,9 +19,13 @@ namespace Teamworks.Web.App_Start
             // ASP.NET Web API
             routes.MapHttpAttributeRoutes(c =>
                                               {
-                                                  c.ScanAssembly(Assembly.GetExecutingAssembly());
+                                                  //c.ScanAssembly(Assembly.GetExecutingAssembly());
+                                                  c.AddRoutesFromController<HomeController>();
                                                   c.AddRoutesFromController<ProjectsController>();
-                                                  c.AddRoutesFromController<MessagesController>();
+                                                  c.AddRoutesFromController<ActivitiesController>();
+                                                  
+                                                  //c.AddRoutesFromController<MessagesController>();
+                                                  c.AutoGenerateRouteNames = true;
                                                   c.UseLowercaseRoutes = true;
                                               });
         }

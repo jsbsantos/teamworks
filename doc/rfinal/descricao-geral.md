@@ -4,17 +4,20 @@ Descrição Geral
 \label{sec:descricao-geral}
 
 
-Como indicado anteriormente, a solução *Teamworks*, tem como objectivo disponibilizar funcionalidades para a gestão de projectos e pessoas. Para isso a cada projecto estão associadas as seguintes funcionalidades:
+Como indicado anteriormente, a infraestrutura *Teamworks*, tem como objectivo disponibilizar funcionalidades para a gestão de projectos e pessoas. Para isso a cada projecto estão associadas as seguintes funcionalidades:
 
-+ Possibilidade de criar actividades, gerir o tempo estimado da sua execução, atribuir responsáveis pela sua realização e disponibilizar uma lista a cada utilizador para que possa decidir a que actividades dar prioridade e organizar o seu tempo. 
++ Possibilidade de criar actividades, gerir o tempo estimado para a sua execução, atribuir responsáveis pela sua realização 
+
++ Disponibilizar uma lista a cada utilizador para que possa decidir a que actividades dar prioridade e organizar o seu tempo. 
 
 + Possibilidade de cada utilizador registar o tempo que despendeu em determinada actividade. Esta funcionalidade é importante para controlar se as estimativas estão correctas e se o desenvolvimento do projecto está a correr como esperado.
 
 + Ferramentas para monitorização do estado do projecto.
 
-Para promover a colaboração existe ainda a possibilidade dos utilizadores terem uma área de "debate" onde partilham informação, trocam ideias e debatem soluções relacionadas com o projecto ou com tarefas.
+Para promover a colaboração existe ainda a possibilidade dos utilizadores terem uma área de discussão onde partilham informação, trocam ideias e debatem soluções relacionadas com o projecto ou com as actividades do projecto.
 
-Para além das funcionalidades enunciadas o acesso à informação dos utilizadores e projectos deve estar disponível aos utilizadores com quem tenha sido partilhada.
+Para além das funcionalidades enunciadas só os utilizadores associados devem ter acesso á informação dos projectos, actividades e discussões.
+
 
 
 Casos de Utilização

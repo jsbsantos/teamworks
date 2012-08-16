@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web.Http;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
@@ -13,55 +14,47 @@ using Teamworks.Core;
 using Teamworks.Core.Services;
 using Teamworks.Core.Services.RavenDb.Indexes;
 using Teamworks.Web.Attributes.Api;
+using Teamworks.Web.Helpers.AutoMapper;
 using Teamworks.Web.Helpers.Extensions.Api;
 using Teamworks.Web.ViewModels.Api;
-using Project = Teamworks.Core.Project;
 
 namespace Teamworks.Web.Controllers.Api
 {
     [SecureFor]
-    [DefaultHttpRouteConvention]
     [RoutePrefix("api/projects/{projectId}/activities")]
     public class ActivitiesController : RavenApiController
     {
-        #region General
-
-        public ActivitiesController()
-        {
-        }
-
-        public ActivitiesController(IDocumentSession session)
-            : base(session)
-        {
-        }
-
+        [GET("")]
         public IEnumerable<ActivityViewModel> Get(int projectId)
         {
-            IRavenQueryable<Core.Activity> activities = DbSession
-                .Query<Core.Activity, Activities_ByProject>()
-                .Where(a => a.Project == projectId.ToId("project"));
+            var activities = DbSession
+                .Query<Activity, Activities_ByProject>()
+                .Where(a => a.Project == projectId.ToId("project"))
+                .ToList();
 
-            return Mapper.Map<IEnumerable<Core.Activity>,
-                IEnumerable<ActivityViewModel>>(activities.ToList());
+            return activities.MapTo<ActivityViewModel>();
         }
 
-        public ActivityViewModel Get(int id, int projectId)
+        [GET("{activityId}")]
+        public ActivityViewModel GetById(int projectId, int activityId)
         {
-            Core.Activity activity = DbSession
-                .Query<Core.Activity, Activities_ByProject>()
-                .FirstOrDefault(a => a.Project == projectId.ToId("project")
-                                     && a.Id == id.ToId("activity"));
+            var project = projectId.ToId("project");
+            var activity = DbSession.Include(projectId.ToId(""))
+                .Load<Activity>(activityId);
 
-            Request.ThrowNotFoundIfNull(activity);
-            return Mapper.Map<Core.Activity, ActivityViewModel>(activity);
+            if (activity == null || activity.Project != project)
+                Request.ThrowNotFound();
+            
+            return activity.MapTo<ActivityViewModel>();
         }
 
+        [POST("")]
         public HttpResponseMessage Post(int projectId, ActivityViewModel model)
         {
             var project = DbSession
                 .Load<Project>(projectId);
 
-            Core.Activity activity = Core.Activity.Forge(project.Id, model.Name, model.Description, model.Duration);
+            var activity = Core.Activity.Forge(projectId, model.Name, model.Description, model.Duration);
 
             DbSession.Store(activity);
             DbSession.SetAuthorizationFor(activity, new DocumentAuthorization
@@ -73,24 +66,24 @@ namespace Teamworks.Web.Controllers.Api
             if (model.Dependencies != null)
                 activity.Dependencies = model.Dependencies;
 
-            List<Core.Activity> domain = DbSession.Query<Core.Activity>()
+            List<Activity> domain = DbSession.Query<Activity>()
                 .Where(a => a.Project == project.Id).ToList();
 
-            activity.StartDate = project.StartDate.AddMinutes(GetAccumulatedDuration(domain, activity));
+            //activity.StartDate = project.StartDate.AddMinutes(GetAccumulatedDuration(domain, activity));
 
-            ActivityViewModel activitiesViewModel = Mapper.Map<Core.Activity, ActivityViewModel>(activity);
+            var activitiesViewModel = activity.MapTo<ActivityViewModel>();
 
             // todo add header of location
 
             return Request.CreateResponse(HttpStatusCode.Created, activitiesViewModel);
         }
 
-        [PUT("")]
-        public HttpResponseMessage Put(int projectId,
+        [PUT("{activityId}")]
+        public HttpResponseMessage Put(int projectId, int activityId,
                                        ActivityViewModel model)
         {
             var activity = DbSession
-                .Load<Core.Activity>(model.Id);
+                .Load<Activity>(model.Id);
 
             Request.ThrowNotFoundIfNull(activity);
 
@@ -98,9 +91,9 @@ namespace Teamworks.Web.Controllers.Api
             activity.Description = model.Description ?? activity.Description;
             if (activity.Duration != model.Duration)
             {
-                List<Core.Activity> domain = DbSession.Query<Core.Activity>()
+                List<Activity> domain = DbSession.Query<Core.Activity>()
                     .Where(a => a.Project == projectId.ToId("project")).ToList();
-                OffsetDuration(domain, activity, model.Duration - activity.Duration);
+               // OffsetDuration(domain, activity, model.Duration - activity.Duration);
             }
 
             activity.Duration = model.Duration;
@@ -108,115 +101,19 @@ namespace Teamworks.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.Created, activitiesViewModel);
         }
 
-        public HttpResponseMessage Delete(int id, int projectId)
+        [DELETE("{activityId}")]
+        public HttpResponseMessage Delete(int projectId, int activityId)
         {
-            Core.Activity activity = DbSession
-                .Query<Core.Activity, Activities_ByProject>()
-                .FirstOrDefault(a => a.Project == projectId.ToId("project")
-                                     && a.Id == id.ToId("activity"));
+            var project = projectId.ToId("project");
+            var activity = DbSession.Include(projectId.ToId(""))
+                .Load<Activity>(activityId);
 
-            Request.ThrowNotFoundIfNull(activity);
-
+            if (activity == null || activity.Project != project)
+                Request.ThrowNotFound();
+            
             DbSession.Delete(activity);
             return Request.CreateResponse(HttpStatusCode.NoContent);
         }
 
-        #endregion
-
-        #region Precedence
-
-        [GET("{id}/precedences")]
-        public IEnumerable<ActivityRelation> GetPre(int id, int projectId)
-        {
-            Core.Activity activity = DbSession
-                .Query<Core.Activity, Activities_ByProject>()
-                .FirstOrDefault(a => a.Id == id.ToId("activity")
-                                     && a.Project == projectId.ToId("project"));
-
-            Request.ThrowNotFoundIfNull(activity);
-
-            List<Core.Activity> dependencies = DbSession.Load<Core.Activity>(activity.Dependencies).ToList();
-            return activity.DependencyGraph(dependencies);
-        }
-
-        [POST("{id}/precedences/{precedenceid}")]
-        public HttpResponseMessage PostPre(int id, int projectId,
-                                           int precedenceid)
-        {
-            /*
-            var project = DbSession
-                .Load<Core.ProjectViewModel>(projectId);
-            var activity = DbSession.Load<Core.ActivityViewModel>(id);
-
-            if (project == null || activity == null || !project.Activities.Any(t => t.ToIdentifier() == id))
-                Request.ThrowNotFoundIfNull();
-
-            var depid = "activities/" + precedenceid;
-            if (activity.Dependencies.Contains(depid))
-                Request.CreateResponse(HttpStatusCode.NotModified); //todo is valid response code?
-
-            activity.Dependencies.Add(depid);
-            return Request.CreateResponse(HttpStatusCode.Created);
-            */
-            return null;
-        }
-
-        [DELETE("{id}/precedences/{precedenceid}")]
-        public HttpResponseMessage Delete(int id, int projectId, int precedenceid)
-        {
-            /*
-            var project = DbSession
-                .Load<Core.ProjectViewModel>(projectId);
-            var activity = DbSession.Load<Core.ActivityViewModel>(id);
-
-            if (project == null || activity == null || !project.Activities.Any(t => t.ToIdentifier() == id))
-                Request.ThrowNotFoundIfNull();
-
-            var depid = "activities/" + precedenceid;
-            if (!activity.Dependencies.Contains(depid))
-                Request.CreateResponse(HttpStatusCode.NotModified); //todo is valid response code?
-
-            activity.Dependencies.Remove(depid);
-            return Request.CreateResponse(HttpStatusCode.Created);
-        
-             */
-            return null;
-        }
-
-        #region Private
-
-        private double GetAccumulatedDuration(List<Core.Activity> domain, Core.Activity activity, int duration = 0)
-        {
-            Core.Activity parent = domain.Where(a => activity.Dependencies.Contains(a.Id))
-                .OrderByDescending(a => a.Duration).FirstOrDefault();
-
-            if (parent == null)
-                return duration;
-
-            return /*parent.Dependencies.Count == 0
-                       ? duration
-                       : */
-                GetAccumulatedDuration(domain, parent, duration + parent.Duration);
-        }
-
-        private void OffsetDuration(List<Core.Activity> domain, Core.Activity parent, int offset)
-        {
-            List<Core.Activity> children = domain.Where(a => a.Dependencies.Contains(parent.Id)).ToList();
-            foreach (Core.Activity child in children)
-            {
-                child.StartDate = child.StartDate.AddMinutes(offset);
-                child.Name += offset;
-                domain.Remove(child);
-                OffsetDuration(domain, child, offset);
-            }
-        }
-
-        #endregion
-
-        #endregion
-
-        #region People
-
-        #endregion
     }
 }

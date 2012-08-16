@@ -6,7 +6,7 @@ Esta é a página de entrada do projecto `teamworks` realizado no âmbito da cad
 
 ## Proposta de Projecto
 
-Na fase inicial do projecto foi nentregue um [documento](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/pp/index.md) com a descriçao do projecto e os seus objectivos.
+Na fase inicial do projecto foi nentregue um [documento](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rproposta/index.md) com a descriçao do projecto e os seus objectivos.
 
 ## Relatório de Progresso
 
@@ -14,7 +14,7 @@ Na fase inicial do projecto foi nentregue um [documento](https://github.com/isel
 
 ## Relatório (Beta)
 
-A versão beta do relatório pode ser consultada nesta [página](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/index.md).
+A versão beta do relatório pode ser consultada nesta [página](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rbeta/index.md).
 
 ## Cartaz
 
@@ -22,4 +22,4 @@ O cartaz do projecto está disponível para download em [pdf](http://www.lucidch
 
 ## Relatório
 
-`work in progress`
+O relatório final pode ser consultado nesta [página](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rfinal/index.md).

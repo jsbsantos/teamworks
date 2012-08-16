@@ -10,5 +10,12 @@ namespace Teamworks.Web.Controllers.Mvc
             return View();
         }
 
+        [HttpGet]
+        [ActionName("404")]
+        public ActionResult NotFound()
+        {
+            return View();
+        }
+
     }
 }

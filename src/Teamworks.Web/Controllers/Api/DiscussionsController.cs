@@ -21,15 +21,6 @@ namespace Teamworks.Web.Controllers.Api
     [RoutePrefix("api/projects/{projectId}")]
     public class DiscussionsController : RavenApiController
     {
-        public DiscussionsController()
-        {
-        }
-
-        public DiscussionsController(IDocumentSession session)
-            : base(session)
-        {
-        }
-
         #region ProjectViewModel Discussion
 
         [GET("discussions")]

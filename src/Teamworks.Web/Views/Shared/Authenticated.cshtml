@@ -1,17 +1,17 @@
-﻿@model Teamworks.Core.Person
+﻿@model Teamworks.Web.ViewModels.Mvc.PersonViewModel
 
 <aside class="account btn-group pull-right">
     <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
         <i class="icon-user"></i>
-        @User.Identity.Name
+        @Model.Name
     </a>
     <div class="dropdown-menu">
         <div class="well-small overflow">
             <div class="pull-left">
-                <img class="" src="http://www.gravatar.com/avatar/add4bff95494eb688a8891832fd43c83?r=g&s=64" alt="Profile image"/>  
+                <img class="" src="@(Model.Gravatar + "&s=64")" alt="Profile image"/>  
             </div>
             <div class="pull-right">
-                <a href="@Url.RouteUrl("default", new {controller = "Profiles", action = "View"})">Profile</a>
+                <a href="@Url.RouteUrl("default", new {controller = "Profiles", action = "Index"})">Profile</a>
             </div>
         </div>
         <div class="form-actions">

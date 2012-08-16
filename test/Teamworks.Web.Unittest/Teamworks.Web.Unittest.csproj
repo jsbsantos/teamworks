@@ -8,7 +8,7 @@
     <ProjectGuid>{587A2160-142B-4C1E-BBDF-97D8E8DB43A4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Teamworks.Web.Uni</RootNamespace>
+    <RootNamespace>Teamworks.Web.Unittest</RootNamespace>
     <AssemblyName>Teamworks.Web.Unittest</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -117,8 +117,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\HomeControllerUnittest.cs" />
-    <Compile Include="Api\Fixture\DocumentStoreFixture.cs" />
+    <Compile Include="Api\ActivitiesControllerUnittest.cs" />
+    <Compile Include="Api\BaseControllerUnittest.cs" />
+    <Compile Include="Api\Fixture\RavenDbFixture.cs" />
     <Compile Include="Api\ProjectsControllerUnittest.cs" />
     <Compile Include="Attributes\Api\Ordered\OrderedFilterUnittest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

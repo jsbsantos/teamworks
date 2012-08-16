@@ -1,11 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Formatting;
-using System.Net.Sockets;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Filters;
@@ -16,7 +13,6 @@ using System.Web.Routing;
 using LowercaseRoutesMVC4;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Raven.Client;
 using Raven.Client.Document;
 using Raven.Client.Exceptions;
 using Raven.Client.Indexes;
@@ -38,6 +34,7 @@ namespace Teamworks.Web
         public void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
+            filters.Add(new Attributes.Mvc.NoDbExceptionAttribute());
             filters.Add(new Attributes.Mvc.FormsAuthenticationAttribute(), 1);
         }
 
@@ -64,20 +61,19 @@ namespace Teamworks.Web
 
         public static void AppGlobalConfiguration(HttpConfiguration configuration)
         {
-
             configuration.Formatters.Remove(configuration.Formatters.XmlFormatter);
 
-            JsonMediaTypeFormatter json = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
+            var json = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
             json.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             json.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
             json.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
 
             configuration.Services.Add(typeof (ModelBinderProvider), new MailgunModelBinderProvider());
 
-            configuration.Services.Add(typeof(System.Web.Http.Filters.IFilterProvider), new OrderedFilterProvider());
-            IEnumerable<System.Web.Http.Filters.IFilterProvider> providers = configuration.Services.GetFilterProviders();
-            System.Web.Http.Filters.IFilterProvider defaultprovider = providers.First(i => i is ActionDescriptorFilterProvider);
-            configuration.Services.Remove(typeof(System.Web.Http.Filters.IFilterProvider), defaultprovider);
+            configuration.Services.Add(typeof (System.Web.Http.Filters.IFilterProvider), new OrderedFilterProvider());
+            var providers = configuration.Services.GetFilterProviders();
+            var defaultprovider = providers.First(i => i is ActionDescriptorFilterProvider);
+            configuration.Services.Remove(typeof (System.Web.Http.Filters.IFilterProvider), defaultprovider);
 
             configuration.Services.Add(typeof (ModelBinderProvider), new MailgunModelBinderProvider());
         }
@@ -87,26 +83,16 @@ namespace Teamworks.Web
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRouteLowercase(
-                name: "discussions",
-                url: "projects/{projectId}/discussions/{action}/{discussionId}",
-                defaults: new {controller = "Discussions", action = "View", id = UrlParameter.Optional});
-
-            routes.MapRouteLowercase(
-                name: "activities",
-                url: "projects/{projectId}/activities/{action}/{activityId}",
-                defaults: new {controller = "Activities", action = "View", id = UrlParameter.Optional});
-
-            routes.MapRouteLowercase(
-                name: "default_profiles",
-                url: "profiles/{id}",
-                defaults: new {controller = "Profiles", action = "View", id = UrlParameter.Optional}
-                );
-
-            routes.MapRouteLowercase(
                 name: "default",
                 url: "{controller}/{action}/{id}",
-                defaults: new {controller = "Home", action = "View", id = UrlParameter.Optional}
+                defaults: new {controller = "Home", action = "Index", id = UrlParameter.Optional}
                 );
+
+            routes.MapRouteLowercase(
+               "homepage",
+               "",
+               new { controller = "Home", action = "Index" }
+               );
         }
 
         protected void Application_Start()
@@ -146,39 +132,7 @@ namespace Teamworks.Web
                         ConnectionStringName = "RavenDB"
                     }.Initialize();
 
-            TryCreatingIndexesOrRedirectToErrorPage(Global.Database);
-        }
-
-        public static void TryCreatingIndexesOrRedirectToErrorPage(IDocumentStore store)
-        {
-            try
-            {
-                IndexCreation.CreateIndexes(typeof (Activities_ByProject).Assembly, store);
-            }
-            catch (Exception e)
-            {
-                var socketException = e.InnerException as SocketException;
-                if (socketException == null)
-                    throw;
-
-                switch (socketException.SocketErrorCode)
-                {
-                    case SocketError.AddressNotAvailable:
-                    case SocketError.NetworkDown:
-                    case SocketError.NetworkUnreachable:
-                    case SocketError.ConnectionAborted:
-                    case SocketError.ConnectionReset:
-                    case SocketError.TimedOut:
-                    case SocketError.ConnectionRefused:
-                    case SocketError.HostDown:
-                    case SocketError.HostUnreachable:
-                    case SocketError.HostNotFound:
-                        // todo redirect to pretty page    
-                        break;
-                    default:
-                        throw;
-                }
-            }
+            IndexCreation.CreateIndexes(typeof (Activities_ByProject).Assembly, Global.Database);
         }
 
         public static void InitializeExecutor()

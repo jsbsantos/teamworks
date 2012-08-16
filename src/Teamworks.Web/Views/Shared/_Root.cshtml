@@ -1,5 +1,5 @@
 @using System.Web.Optimization
-@using Teamworks.Web.Helpers.Extensions.Mvc
+@using Teamworks.Web.Views
 <!doctype html>
 <!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
 <!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
@@ -33,32 +33,31 @@
     <script src="@Url.Content("~/content/js/libs/modernizr-2.5.3-respond-1.1.0.min.js")"> </script>
 </head>
 <body>
-    <!--[if lt IE 9]><p class="chrome-frame alert alert-error">Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site correctly.</p><![endif]-->
-    <header class="navbar navbar-fixed-top">
-        <div class="navbar-inner">
-            <nav class="container">
-                @Html.ActionLink("teamworks", "View", "Home", null, new {@class = "brand span2"})
-                @RenderSection("navigation", false)
-                @RenderSection("subnav", false)
-            </nav>
+    <div class="main-wrapper">
+        <!--[if lt IE 9]><p class="chrome-frame alert alert-error">Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site correctly.</p><![endif]-->
+        <header class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <nav class="container">
+                    @Html.ActionLink("teamworks", "Index", "Home", null, new {@class = "brand span2"})
+                    @RenderSection("navigation", false)
+                    @RenderSection("subnav", false)
+                </nav>
+            </div>
+        </header>
+        <div class="main container" role="main">
+            <!-- ko with: tw.page.viewmodel -->
+            @RenderBody()
+            <!-- /ko -->
+            @if (Html.IsDebugging())
+            {
+                <section>
+                    <h1>View Model</h1>
+                    <pre>@ViewsExtensions.ToIndentedJson(Html, Model)</pre>
+                </section>
+            }   
         </div>
-    </header>
-    <div class="main container" role="main">
-        <!-- ko with: tw.page.viewmodel -->
-        @RenderBody()
-        <!-- /ko -->
-        @if (Html.IsDebugging())
-        {
-            <section>
-                <h1>View Model</h1>
-                <pre>
-@ViewsExtensions.ToIndentedJson(Html, Model)
-</pre>
-            </section>
-        }   
     </div>
-   
-    <footer>
+    <footer class="main-footer">
         @RenderSection("footer", false)
         <div class="well-large tc">
             <p>© Copyright 2012 <a href="http://www.linkedin.com/in/fampinheiro">Filipe Pinheiro</a> e <a href="http://www.linkedin.com/pub/jo%C3%A3o-santos/18/482/97">João Santos</a>.</p>

@@ -37,21 +37,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AttributeRouting, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\AttributeRouting.WebApi.2.4.0.0\lib\net40\AttributeRouting.dll</HintPath>
+    <Reference Include="AttributeRouting, Version=2.4.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AttributeRouting.WebApi.2.4.3.0\lib\net40\AttributeRouting.dll</HintPath>
     </Reference>
-    <Reference Include="AttributeRouting.Web, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\AttributeRouting.WebApi.2.4.0.0\lib\net40\AttributeRouting.Web.dll</HintPath>
+    <Reference Include="AttributeRouting.Web, Version=2.4.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AttributeRouting.WebApi.2.4.3.0\lib\net40\AttributeRouting.Web.dll</HintPath>
     </Reference>
-    <Reference Include="AttributeRouting.Web.Http, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="AttributeRouting.Web.Http, Version=2.4.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\AttributeRouting.WebApi.2.4.0.0\lib\net40\AttributeRouting.Web.Http.dll</HintPath>
+      <HintPath>..\..\packages\AttributeRouting.WebApi.2.4.3.0\lib\net40\AttributeRouting.Web.Http.dll</HintPath>
     </Reference>
-    <Reference Include="AttributeRouting.Web.Http.WebHost, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="AttributeRouting.Web.Http.WebHost, Version=2.4.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\AttributeRouting.WebApi.2.4.0.0\lib\net40\AttributeRouting.Web.Http.WebHost.dll</HintPath>
+      <HintPath>..\..\packages\AttributeRouting.WebApi.2.4.3.0\lib\net40\AttributeRouting.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="AttributeRouting.Web.Mvc">
+      <HintPath>..\..\packages\AttributeRouting.2.4.3.0\lib\net40\AttributeRouting.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="AutoMapper">
       <HintPath>..\..\packages\AutoMapper.2.1.267\lib\net40\AutoMapper.dll</HintPath>
@@ -148,12 +149,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\AttributeRouting.cs" />
     <Compile Include="App_Start\AttributeRoutingHttp.cs" />
     <Compile Include="Attributes\Api\Ordered\OrderedActionFilterAttribute.cs" />
     <Compile Include="Attributes\Api\Ordered\OrderedFilterInfo.cs" />
     <Compile Include="Attributes\Api\Ordered\OrderedFilterProvider.cs" />
     <Compile Include="Attributes\Api\Ordered\IOrderedFilter.cs" />
     <Compile Include="Attributes\Api\RavenSessionAttribute.cs" />
+    <Compile Include="Attributes\Mvc\AjaxOnlyAttribute.cs" />
     <Compile Include="Attributes\Mvc\NoDbExceptionAttribute.cs" />
     <Compile Include="Controllers\Api\ActivitiesController.cs" />
     <Compile Include="Attributes\Api\ExceptionAttribute.cs" />
@@ -169,19 +172,24 @@
     </Compile>
     <Compile Include="Attributes\Api\FormsAuthenticationAttribute.cs" />
     <Compile Include="Controllers\Mvc\ErrorsController.cs" />
+    <Compile Include="Helpers\Extensions\DocumentSessionExtensions.cs" />
+    <Compile Include="Views\JsonNetResult.cs" />
+    <Compile Include="ViewModels\Mvc\InputProfileViewModel.cs" />
+    <Compile Include="Helpers\AutoMapper\Profiles\Api\ActivityViewModelMapperProfile.cs" />
     <Compile Include="Helpers\AutoMapper\Profiles\Api\ProjectViewModelMapperProfile.cs" />
+    <Compile Include="Helpers\AutoMapper\Profiles\Mvc\ProfileViewModelMapperProfile.cs" />
     <Compile Include="Helpers\AutoMapper\Profiles\Mvc\TimelogViewModelMapperProfile.cs" />
     <Compile Include="Helpers\AutoMapper\Profiles\Mvc\RegisterTimelogsViewModelMapperProfile.cs" />
     <Compile Include="Helpers\AutoMapper\Profiles\Mvc\EntityViewModelMapperProfile.cs" />
-    <Compile Include="Helpers\AutoMapper\ValueResolvers\IdentifierResolver.cs" />
     <Compile Include="ViewModels\Api\ProjectViewModel.cs" />
     <Compile Include="ViewModels\Mvc\EntityViewModel.cs" />
+    <Compile Include="ViewModels\Mvc\PersonViewModel.cs" />
+    <Compile Include="ViewModels\Mvc\ProfileViewModel.cs" />
     <Compile Include="ViewModels\Mvc\RegisterTimelogsViewModel.cs" />
     <Compile Include="ViewModels\Mvc\ActivityViewModel.cs" />
     <Compile Include="Controllers\Mvc\ProfilesController.cs" />
     <Compile Include="Handlers\BasicAuthentication.cs" />
     <Compile Include="Helpers\AutoMapper\Profiles\Mvc\ActivityViewModelMapperProfile.cs" />
-    <Compile Include="ViewModels\Mvc\PersonViewModel.cs" />
     <Compile Include="ViewModels\Mvc\ProjectViewModel.cs" />
     <Compile Include="Handlers\RavenSession.cs" />
     <Compile Include="Controllers\Api\MailgunController.cs">
@@ -238,7 +246,7 @@
     <Compile Include="ViewModels\Mvc\ProjectsViewModel.cs" />
     <Compile Include="ViewModels\Mvc\RegisterPersonViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Helpers\Extensions\Mvc\ViewsExtensions.cs" />
+    <Compile Include="Views\ViewsExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\bootstrap\bootstrap-responsive.css" />
@@ -302,7 +310,6 @@
     <Content Include="Content\js\libs\_references.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="NoDb.htm" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -314,14 +321,11 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Account\View.cshtml" />
     <Content Include="Views\Discussions\Discussion.cshtml" />
     <Content Include="Views\Discussions\Discussions.cshtml" />
-    <Content Include="Views\Home\View.cshtml" />
     <Content Include="Views\People\Person.cshtml" />
     <Content Include="Views\People\View.cshtml" />
     <Content Include="Views\Projects\Details.cshtml" />
-    <Content Include="Views\Projects\View.cshtml" />
     <Content Include="Views\Shared\Anonymous.cshtml" />
     <Content Include="Views\Shared\Authenticated.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -356,13 +360,7 @@
     <Content Include="Views\Home\Welcome.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Timelogs\View.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Shared\_Root.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Profiles\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Errors\NoDb.cshtml" />
@@ -376,6 +374,30 @@
   <ItemGroup>
     <Content Include="Views\Activities\Details.cshtml" />
     <Content Include="Views\Projects\Gantt.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Errors\404.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Projects\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Timelogs\View.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Profiles\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Helpers\Validation\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Account\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Account\Register.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

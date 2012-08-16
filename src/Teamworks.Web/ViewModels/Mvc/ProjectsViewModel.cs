@@ -1,9 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Teamworks.Web.ViewModels.Mvc
 {
     public class ProjectsViewModel
     {
+        public ProjectsViewModel()
+        {
+            Projects = new List<Project>();
+        }
+
         public int CurrentPage { get; set; }
         public int TotalCount { get; set; }
 
@@ -22,5 +28,12 @@ namespace Teamworks.Web.ViewModels.Mvc
         }
 
         #endregion
+
+        public class Input
+        {
+            [Required(AllowEmptyStrings = false)]
+            public string Name { get; set; }
+            public string Description { get; set; }
+        }
     }
 }

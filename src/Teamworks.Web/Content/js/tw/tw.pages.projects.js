@@ -1,5 +1,5 @@
 ﻿(function(pages) {
-    pages.ProjectsViewModel = function(endpoint, json) {
+    pages.ProjectsViewModel = function(json) {
         var mapping = {
             'projects': {
                 key: function(data) {
@@ -11,7 +11,7 @@
                             var project = this;
                             var message = 'You are about to delete ' + project.name() + '.';
                             if (confirm(message)) {
-                                $.ajax(endpoint + project.id(),
+                                $.ajax(project.id(),
                                     {
                                         type: 'delete',
                                         statusCode: {
@@ -43,12 +43,12 @@
         self.projects.editing = ko.observable();
 
         self.projects._create = function() {
-            $.ajax(endpoint,
+            $.ajax("",
                 {
                     type: 'post',
                     data: ko.toJSON({ 'name': self.projects.input() }),
                     statusCode: {
-                        201: /*created*/function(data) {
+                        200: /*ok*/function(data) {
                             self.projects.mappedCreate(data);
                             self.projects.input("");
                         },

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Teamworks.Web.ViewModels.Mvc
 {
@@ -33,5 +34,7 @@ namespace Teamworks.Web.ViewModels.Mvc
         }
 
         #endregion
+
+        
     }
 }

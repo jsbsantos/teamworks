@@ -16,15 +16,6 @@ namespace Teamworks.Web.Controllers.Api
     [RoutePrefix("api")]
     public class HomeController : RavenApiController
     {
-        public HomeController()
-        {
-        }
-
-        public HomeController(IDocumentSession session)
-            : base(session)
-        {
-        }
-
         [GET("people")]
         public IEnumerable<PersonViewModel> Get(string q)
         {

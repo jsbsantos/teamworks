@@ -4,27 +4,27 @@ Realizado pelos alunos Filipe Pinheiro e João Santos e orientado pelo docente J
 Índice
 -
 
-### [Introdução](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/introducao.md)
+### [Introdução](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rbeta/introducao.md)
 
-### [Descrição Geral](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/descricao-geral.md)
+### [Descrição Geral](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rbeta/descricao-geral.md)
 
-### [Domínio](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/dominio.md)
+### [Domínio](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rbeta/dominio.md)
 
-### [Dados](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/dados.md)
+### [Dados](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rbeta/dados.md)
 
-### [Serviços](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/servicos.md)
+### [Serviços](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rbeta/servicos.md)
 
-### [Web Api](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/web-api.md)
+### [Web Api](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rbeta/web-api.md)
 
-### [Aplicação Web](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/aplicacao-web.md)
+### [Aplicação Web](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rbeta/aplicacao-web.md)
   
-### [Conclusão](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/conclusao.md)
+### [Conclusão](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rbeta/conclusao.md)
 
-### [Bibliografia](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/referencias.md)
+### [Bibliografia](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rbeta/referencias.md)
 
 Anexos
 -
 
-#### [Domain Driven Desing](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/domain-driven-design.md)
+#### [Domain Driven Desing](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rbeta/domain-driven-design.md)
 
-#### [NoSQL](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rb/nosql.md)
+#### [NoSQL](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rbeta/nosql.md)

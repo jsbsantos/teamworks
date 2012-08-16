@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Teamworks.Core.Mailgun;
+using Teamworks.Core.Services;
 
 namespace Teamworks.Core
 {
@@ -48,7 +49,7 @@ namespace Teamworks.Core
             }
 
             string id = String.Format("{0}.{1}.{2}@teamworks.mailgun.org",
-                                      Identifier, message.Id, DateTime.Now.ToString("yyyymmddhhMMss"));
+                                      Id.ToIdentifier(), message.Id, DateTime.Now.ToString("yyyymmddhhMMss"));
 
             message.Reply = MailHub.Send(MailgunConfiguration.Host,
                                          notifications.ToString().TrimEnd(new[] {';'}),

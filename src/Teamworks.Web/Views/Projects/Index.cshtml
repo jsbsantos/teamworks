@@ -1,8 +1,9 @@
-﻿@using Teamworks.Web.Helpers.Extensions.Mvc
+﻿@using Teamworks.Web.Views
 @model Teamworks.Web.ViewModels.Mvc.ProjectsViewModel
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var projectUrl = Request.Url;
 }
 
 <div class="row" style="margin-top: 34px">
@@ -42,7 +43,7 @@
     <div class="row well-small">
         <div class="span">
             <h3>
-                <a data-bind="attr: { href: '@Url.RouteUrl("default", new {controller = "Projects", action = "Details"})/' + id() }">
+                <a data-bind="attr: { href: '@projectUrl/' + id() }">
                     <span data-bind="text: name"></span>
                     <small data-bind="text: description"></small>
                 </a>
@@ -57,7 +58,7 @@
             </div>
         </div>
         <div class="pull-right" data-bind="foreach: people">
-            <a class="pull-left well-mini" data-bind="attr: { href: '@Url.RouteUrl("default", new {controller = "Profiles", action = "View"})/' + id()  }">
+            <a class="pull-left well-mini" data-bind="attr: { href: '@Url.RouteUrl("default", new {controller = "Profiles", action = "Index"})/' + id()  }">
                 <img data-bind="attr: { src: gravatar, alt: name }"/>
             </a>
         </div>
@@ -65,6 +66,6 @@
 </script>
 <script>
     var viewmodel = function() {
-        return tw.pages.ProjectsViewModel("/api/projects/", @Html.ToJson(@Model));
+        return tw.pages.ProjectsViewModel(@Html.ToJson(Model));
     };
 </script>

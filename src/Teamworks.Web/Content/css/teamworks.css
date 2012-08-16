@@ -1,6 +1,18 @@
+html, body {
+    height: 100%; margin: 0;
+}
+
 body {
     box-sizing: border-box;
     padding-top: 60px;
+}
+
+.main-wrapper {
+    min-height: 100%;
+}
+
+.main-footer {
+    height: 75px; margin-top:-75px; display:block;
 }
 
 a { cursor: pointer; }
@@ -114,3 +126,17 @@ span input.seamless, span input.seamless:focus {
     border: 1px solid #fff;
     padding: 0 3px;
 }
+
+.hide-input input.simple { display: none; }
+
+input.simple {
+    border: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    -o-box-shadow: none;
+    box-shadow: none;
+    padding: 0;
+    margin-bottom: 0;
+}
+
+.show-input .raw { display: none; }

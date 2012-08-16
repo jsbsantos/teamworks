@@ -19,15 +19,6 @@ namespace Teamworks.Web.Controllers.Api
     [RoutePrefix("api/projects/{projectId}/activities/{activityId}/timelogs")]
     public class TimelogsController : RavenApiController
     {
-        public TimelogsController()
-        {
-        }
-
-        public TimelogsController(IDocumentSession session)
-            : base(session)
-        {
-        }
-
         [NonAction]
         public Activity GetActivity(int projectId, int activityId)
         {

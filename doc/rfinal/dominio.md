@@ -3,7 +3,7 @@ Domínio
 
 \label{sec:dominio}
 
-Para descrever o modelo de domínio foi utilizada uma abordagem *Domain-Driven Design* \cite{domaindrivendesign} (descrita no anexo \ref{app:domaindrivendesign}). Como base para a elaboração do modelo de domínio foram usadas as características e funcionalidades apresentadas na  descrição geral (ver secção \ref{sec:descricao-geral}).
+Para descrever o modelo de domínio é utilizada uma abordagem *Domain-Driven Design* \cite{domaindrivendesign} (descrita no anexo \ref{app:domaindrivendesign}). Como base para a elaboração do modelo de domínio foram usadas as características e funcionalidades apresentadas na  descrição geral (ver secção \ref{sec:descricao-geral}).
 
 Modelo de Domínio
 -
@@ -15,9 +15,9 @@ As entidades raiz identificadas são **pessoa** (`Person`) e **projecto** (`Proj
 A entidade **pessoa** é representada pelo nome de utilizador, *email* e *password*.
 O *email* é usado para comunicar com a pessoa e os outros dois atributos para autenticar o utilizador. A entidade **projecto** agrega as pessoas que lhe estão associadas sendo possível definir **actividades** que, como **pessoa** e **projecto**, são entidades do domínio.
 
-Uma **actividade** (`Activity`) tem nome e descrição e pode também ter várias pessoas associadas. Para além destes atributos, tem ainda o tempo estimado para a sua realização (e.g. número de horas), a data prevista de conclusão e **registos de tempo** (`Timelog`) despendido na sua realização, que podem ser adicionados pelas **pessoas** associadas.
+Uma **actividade** (`Activity`) tem nome e descrição e, pode também, ter várias pessoas associadas. Para além destes atributos, tem ainda o tempo estimado para a sua realização (e.g. número de horas), a data prevista de conclusão e **registos de tempo** (`Timelog`) despendido na sua realização, que podem ser adicionados pelas **pessoas** associadas.
 
-Sobre os projectos e tarefas é ainda possível criar **debates** (`Discussion`), visíveis apenas a **pessoas** que lhes estão associadas, onde é possível criar **mensagens** (`Message`).
+Sobre os projectos e tarefas é ainda possível criar **discussões** (`Discussion`), visíveis apenas a **pessoas** que lhes estão associadas, onde é possível criar **mensagens** (`Message`).
 
 As entidades e as suas relações estão representadas no diagrama de classes da figura \ref{fig:diagramadedominio}.
 

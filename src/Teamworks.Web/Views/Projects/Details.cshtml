@@ -1,4 +1,5 @@
 ﻿@using Teamworks.Web.Helpers.Extensions.Mvc
+@using Teamworks.Web.Views
 @model Teamworks.Web.ViewModels.Mvc.ProjectViewModel
 @{
     ViewBag.Title = Model.Name;
@@ -8,7 +9,7 @@
 <div class="row">
     <ul class="breadcrumb span12">
         <li>
-            <a href="@Url.RouteUrl("default", new {controller = "Projects", action = "View", id = UrlParameter.Optional})">Projects</a>
+            <a href="@Url.RouteUrl("default", new { controller = "projects", action ="view" })">Projects</a>
             <span class="divider">/</span>
         </li>
         <li>
@@ -94,7 +95,7 @@
     <div>
         <button class="close" data-bind="click: _remove">&times;</button>
         <h3>
-            <a data-bind="attr: { href: '@Url.RouteUrl("activities", new {projectId = Model.Id, action = "Details", activityId = UrlParameter.Optional})' + id() }">
+            <a data-bind="attr: { href: '@Url.RouteUrl("Activities_Index")' + id() }">
                 <span data-bind="text: name"></span>
                 <small data-bind="text: description"></small>
             </a>
@@ -105,7 +106,7 @@
     <div>
         <button class="close" data-bind="click: _remove">&times;</button>
         <h3>
-            <a data-bind="text: name, attr: { href: '@Url.RouteUrl("discussions", new {projectId = Model.Id, action = "Details", discussionId = UrlParameter.Optional})' + id() }"></a>
+            <a data-bind="text: name, attr: { href: '@Url.RouteUrl("Discussions_Index")' + id() }"></a>
         </h3>
         <p data-bind="text: content, visible: content().length"></p>
     </div>
@@ -119,7 +120,7 @@
             <img class="pull-left" data-bind="attr: { alt: name, src: gravatar }" />
             <div>
                 <h3 class="lead">
-                    <a data-bind="text: name, attr: { href: '@Url.RouteUrl("default", new {controller = "Profiles", action = "View", id = UrlParameter.Optional})' + id() }" href="#"></a>
+                    <a data-bind="text: name, attr: { href: '@Url.RouteUrl("default", new {controller = "profiles"})' + id() }" href="#"></a>
                 </h3>
                 <div data-bind="text: username"></div>
                 <div data-bind="text: email"></div>
@@ -130,7 +131,7 @@
 </script>
 <script>
     var viewmodel = function() {
-        return tw.pages.ProjectViewModel("/api/projects/" + @Model.Id, @Html.ToJson(@Model));
+        return tw.pages.ProjectViewModel("/api/projects/" + @Model.Id, @Html.ToJson(Model));
     };
 </script>
 

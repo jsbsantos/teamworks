@@ -1,0 +1,61 @@
+﻿@using Teamworks.Web.Views
+@model Teamworks.Web.ViewModels.Mvc.ProfileViewModel
+
+@{
+    ViewBag.Title = @Model.PersonDetails.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<header class="page-header">
+    @if (Model.IsMyProfile)
+    {
+        <a class="btn pull-right" href="#" data-bind="click: function() { editing(true); }, css: { 'hide': editing() }">Edit your profile</a>
+        <div class="hide pull-right" data-bind="css: { 'hide': !editing() }">
+            <a class="btn btn-mini btn-info" href="#" data-bind="click: update">Save</a>
+            <a href="#" data-bind="click: function() { editing(false); }"><i class="icon-remove"></i></a>
+        </div>
+    }
+    <h1>
+        <span data-bind="text: name, css: { 'hide': editing() }" >@Model.PersonDetails.Name</span>
+        @if (Model.IsMyProfile)
+        {
+            <input class="hide" type="text" data-bind="value: name, css: { 'hide': !editing() }" />
+            <small>This is you</small>
+        } 
+    </h1>
+   
+</header>
+<div class="row">
+    <div class="span3">
+        <div>
+            <img data-bind="attr: { src: gravatar }" alt="Profile image"/>
+        </div>
+    </div>
+    <div class="span5">
+        <h2>Bio</h2>
+        <div class="span" data-bind="css: { 'hide': editing() }">
+            <h3>Name</h3> 
+            <div class="raw"data-bind="text: username">@Model.PersonDetails.Username</div>
+            <h3>Email</h3> 
+            <div class="raw" data-bind="text: email">@Model.PersonDetails.Email</div>
+        </div>
+        @if (Model.IsMyProfile)
+        {
+            <div class="span hide" data-bind="css: { 'hide': !editing() }">
+                <form>
+                    <h3>Name</h3> 
+                    <input type="text" data-bind="value: username"/>
+                    <h3>Email</h3> 
+                    <input type="text" data-bind="value: email"/>
+                </form>
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+    var viewmodel = function() {
+        return tw.pages.ProfileViewModel('/api/people', @Html.ToJson(Model.PersonDetails));
+    }
+</script>

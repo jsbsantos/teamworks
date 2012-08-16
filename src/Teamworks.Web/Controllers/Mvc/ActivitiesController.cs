@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
+using AttributeRouting;
+using AttributeRouting.Web.Mvc;
 using Raven.Client.Linq;
 using Teamworks.Core;
 using Teamworks.Core.Services;
@@ -10,16 +11,17 @@ using Teamworks.Web.ViewModels.Mvc;
 
 namespace Teamworks.Web.Controllers.Mvc
 {
+    [RoutePrefix("projects/{projectId}")]
     public class ActivitiesController : RavenController
     {
-        [HttpGet]
+        [GET("activities")]
         [ActionName("View")]
         public ActionResult Index(int projectId)
         {
             return View();
         }
 
-        [HttpGet]
+        [GET("activities/{activityId}")]
         public ActionResult Details(int projectId, int activityId)
         {
             var query = DbSession.Query<Timelog_Filter.Result, Timelog_Filter>()
@@ -64,7 +66,7 @@ namespace Teamworks.Web.Controllers.Mvc
             vm.Timelogs = query.Select(r =>
                                            {
                                                var result = r.MapTo<TimelogViewModel>();
-                                               result.Person = DbSession.Load<Person>(r.Person).MapTo<PersonViewModel>();
+                                               result.Profile = DbSession.Load<Person>(r.Person).MapTo<PersonViewModel>();
                                                return result;
                                            }).ToList();
             ViewBag.Results = query;

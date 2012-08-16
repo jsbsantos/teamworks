@@ -14,7 +14,7 @@ namespace Teamworks.Web.ViewModels.Api
         public string Description { get; set; }
 
         public int Duration { get; set; }
-        public DateTime StartDate { get; set; }
+        public DateTimeOffset StartDate { get; set; }
 
         public IList<string> Dependencies { get; set; }
     }

@@ -1,9 +1,5 @@
 ﻿using AutoMapper;
-using Teamworks.Core;
-using Teamworks.Core.Services;
 using Teamworks.Web.Helpers.AutoMapper.Profiles.Mvc;
-using Teamworks.Web.ViewModels.Api;
-using Message = Teamworks.Web.ViewModels.Api.Message;
 
 namespace Teamworks.Web.Helpers.AutoMapper
 {
@@ -16,18 +12,22 @@ namespace Teamworks.Web.Helpers.AutoMapper
 
         public static void Configure()
         {
+            // mvc
             // todo would make sense to add all of those automatically with an IoC
             Mapper.AddProfile(new EntityViewModelMapperProfile());
             Mapper.AddProfile(new ProjectViewModelMapperProfile());
             Mapper.AddProfile(new ProjectsViewModelMapperProfile());
             Mapper.AddProfile(new ActivityViewModelMapperProfile());
             Mapper.AddProfile(new PersonViewModelMapperProfile());
+            Mapper.AddProfile(new ProfileViewModelMapperProfile());
             Mapper.AddProfile(new RegisterTimelogsViewModelMapperProfile());
             Mapper.AddProfile(new TimelogViewModelMapperProfile());
 
-
-            // todo change all this for separated profiles
-
+            // api
+            Mapper.AddProfile(new Profiles.Api.ProjectViewModelMapperProfile());
+            Mapper.AddProfile(new Profiles.Api.ActivityViewModelMapperProfile());
+            
+            /*
             Mapper.CreateMap<ProjectViewModel, Project>();
             Mapper.CreateMap<Project, ProjectViewModel>()
                 .ForMember(s => s.Id, o => o.MapFrom(d => d.Id.ToIdentifier()));
@@ -50,6 +50,7 @@ namespace Teamworks.Web.Helpers.AutoMapper
             Mapper.CreateMap<PersonViewModel, Person>();
             Mapper.CreateMap<Person, PersonViewModel>()
                 .ForMember(s => s.Id, o => o.MapFrom(d => d.Id.ToIdentifier()));
+             */
         }
     }
 }
