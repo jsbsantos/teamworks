@@ -16,10 +16,10 @@ using Teamworks.Web.ViewModels.Api;
 
 namespace Teamworks.Web.Controllers.Api
 {
-    [DefaultHttpRouteConvention]
     [RoutePrefix("api/projects")]
     public class ProjectsController : RavenApiController
     {
+        [GET("")]
         [SecureFor]
         public IEnumerable<ProjectViewModel> Get()
         {
@@ -27,14 +27,16 @@ namespace Teamworks.Web.Controllers.Api
             return projects.MapTo<ProjectViewModel>();
         }
 
+        [GET("{projectId}")]
         [SecureFor(Priority = 1)]
-        [VetoProject(RouteValue = "id", Priority = 2)]
-        public ProjectViewModel GetById(int id)
+        [VetoProject(RouteValue = "projectId", Priority = 2)]
+        public ProjectViewModel GetById(int projectId)
         {
-            var project = DbSession.Load<Project>(id);
+            var project = DbSession.Load<Project>(projectId);
             return project.MapTo<ProjectViewModel>();
         }
 
+        [POST("")]    
         public HttpResponseMessage Post(ProjectViewModel model)
         {
             var person = Request.GetCurrentPerson();
@@ -46,13 +48,26 @@ namespace Teamworks.Web.Controllers.Api
             var value = project.MapTo<ProjectViewModel>();
             var response = Request.CreateResponse(HttpStatusCode.Created, value);
 
-            var uri = Url.Link("Projects_GetById",
-                               new {projectId = project.Id.ToIdentifier()});
+            var values = new Dictionary<string, object>
+                             {
+                                 {"controller", "projects"},
+                                 {"projectId", project.Id.ToIdentifier()}
+                             };
 
+            var uri = Url.Link("Projects_GetById", values);
             response.Headers.Location = new Uri(uri);
             return response;
         }
 
+        /*
+         * todo
+         * 
+         * According to the HTTP specification, the DELETE method must be idempotent,
+         * meaning that several DELETE requests to the same URI must have the same effect
+         * as a single DELETE request. Therefore, the method should not return an error
+         * code if the product was already deleted.
+         */
+        [DELETE("{id}")]
         [SecureFor(Priority = 1)]
         [VetoProject(RouteValue = "id", Priority = 2)]
         public HttpResponseMessage Delete(int id)

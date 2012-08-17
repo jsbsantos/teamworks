@@ -58,8 +58,8 @@ namespace Teamworks.Web
 
         public static void RegisterGlobalWebApiHandlers(Collection<DelegatingHandler> messageHandlers)
         {
-            messageHandlers.Add(new BasicAuthentication());
             messageHandlers.Add(new RavenSession());
+            messageHandlers.Add(new BasicAuthentication());
         }
 
         public static void AppGlobalConfiguration(HttpConfiguration configuration)

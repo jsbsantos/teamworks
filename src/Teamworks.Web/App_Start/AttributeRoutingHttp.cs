@@ -1,11 +1,7 @@
-using System.Reflection;
 using System.Web.Routing;
-using AttributeRouting.Web.Http.WebHost;
 using Teamworks.Web.App_Start;
-using Teamworks.Web.Controllers.Api;
-using WebActivator;
 
-[assembly: PreApplicationStartMethod(typeof (AttributeRoutingHttp), "Start")]
+[assembly: WebActivator.PreApplicationStartMethod(typeof(AttributeRoutingHttp), "Start")]
 
 namespace Teamworks.Web.App_Start
 {

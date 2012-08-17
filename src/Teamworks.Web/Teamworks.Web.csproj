@@ -293,24 +293,19 @@
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\..\packages\WebGrease.1.1.0\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="AttributeRouting, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\AttributeRouting.WebApi.2.4.0.0\lib\net40\AttributeRouting.dll</HintPath>
+    <Reference Include="AttributeRouting">
+      <HintPath>..\..\packages\AttributeRouting.Core.2.5.1.0\lib\net40\AttributeRouting.dll</HintPath>
     </Reference>
-    <Reference Include="AttributeRouting.Web, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\AttributeRouting.WebApi.2.4.0.0\lib\net40\AttributeRouting.Web.dll</HintPath>
+    <Reference Include="AttributeRouting.Web">
+      <HintPath>..\..\packages\AttributeRouting.Core.Web.2.5.1.0\lib\net40\AttributeRouting.Web.dll</HintPath>
     </Reference>
-    <Reference Include="AttributeRouting.Web.Http, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\AttributeRouting.WebApi.2.4.0.0\lib\net40\AttributeRouting.Web.Http.dll</HintPath>
+    <Reference Include="AttributeRouting.Web.Http">
+      <HintPath>..\..\packages\AttributeRouting.Core.Http.2.5.1.0\lib\net40\AttributeRouting.Web.Http.dll</HintPath>
     </Reference>
-    <Reference Include="AttributeRouting.Web.Http.WebHost, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\AttributeRouting.WebApi.2.4.0.0\lib\net40\AttributeRouting.Web.Http.WebHost.dll</HintPath>
+    <Reference Include="AttributeRouting.Web.Http.WebHost">
+      <HintPath>..\..\packages\AttributeRouting.WebApi.2.5.1.0\lib\net40\AttributeRouting.Web.Http.WebHost.dll</HintPath>
     </Reference>
-    <Reference Include="AttributeRouting.Web.Mvc, Version=2.5.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="AttributeRouting.Web.Mvc">
       <HintPath>..\..\packages\AttributeRouting.2.5.1.0\lib\net40\AttributeRouting.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="AutoMapper, Version=2.1.267.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
@@ -336,6 +331,9 @@
     </Reference>
     <Reference Include="Raven.Client.Lightweight, Version=1.2.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <HintPath>..\..\packages\RavenDB.Client.1.2.2065-Unstable\lib\net40\Raven.Client.Lightweight.dll</HintPath>
+    </Reference>
+    <Reference Include="RouteDebugger">
+      <HintPath>..\..\packages\routedebugger.2.1.4.0\lib\net40\RouteDebugger.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
