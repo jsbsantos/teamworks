@@ -20,10 +20,12 @@ namespace Teamworks.Web.Controllers.Mvc
     public class ProjectsController : RavenController
     {
         [HttpGet]
+        [SecureFor(Order = 1)]
         public ActionResult Index(int page = 1)
         {
             var projects = DbSession.Query<Project>()
                 .Customize(c => c.Include<Project>( p => p.People))
+                .OrderByDescending(p=> p.CreatedAt)
                 .ToList();
 
             RavenQueryStatistics stats;
@@ -45,7 +47,7 @@ namespace Teamworks.Web.Controllers.Mvc
                 var project = DbSession.Load<Project>(result.Project);
 
                 var projectViewModel = result.MapTo<ProjectsViewModel.Project>();
-                projectViewModel.People = DbSession.Load<Person>(result.People)
+                projectViewModel.People = DbSession.Load<Person>(project.People)
                     .Where(p => p != null).MapTo<PersonViewModel>();
 
                 projectViewModel.Name = project.Name;
@@ -79,20 +81,23 @@ namespace Teamworks.Web.Controllers.Mvc
             return View();
         }
 
-        [GET("projects/{id}")]
-        public ActionResult Details(int id)
+        [SecureFor(Order = 1)]
+        [VetoProject(Order = 2)]
+        [GET("projects/{projectId}")]
+        public ActionResult Details(int projectId)
         {
-            var projectId = id.ToId("project");
+            var id = projectId.ToId("project");
+
             RavenQueryStatistics stats;
             var activities = DbSession
                 .Query<Activity>()
                 .Statistics(out stats)
                 .Customize(c => c.Include<Activity>(r => r.Project)
                                     .Include<Activity>(r => r.People))
-                .Where(r => r.Project == projectId);
+                .Where(r => r.Project == id);
 
             var project = DbSession.Include<Project>(p => p.People)
-                .Load<Project>(projectId);
+                .Load<Project>(id);
 
             if (project == null)
                 return HttpNotFound();
@@ -101,7 +106,7 @@ namespace Teamworks.Web.Controllers.Mvc
                 .Query<Discussion>()
                 .Statistics(out stats)
                 .Customize(c => c.Include<Discussion>(r => r.Entity))
-                .Where(r => r.Entity == projectId);
+                .Where(r => r.Entity == id);
 
             var vm = project.MapTo<ProjectViewModel>();
             vm.Activities = activities.MapTo<ProjectViewModel.Activity>();

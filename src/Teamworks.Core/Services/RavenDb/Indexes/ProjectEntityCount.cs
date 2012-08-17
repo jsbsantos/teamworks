@@ -13,7 +13,6 @@ namespace Teamworks.Core.Services.RavenDb.Indexes
                                                    {
                                                        Project = project.Id,
                                                        project.Name,
-                                                       project.People,
                                                        NumberOfActivities = 0,
                                                        NumberOfDiscussions = 0
                                                    });
@@ -21,7 +20,6 @@ namespace Teamworks.Core.Services.RavenDb.Indexes
                                            select new
                                                       {
                                                           Name = (string) null,
-                                                          People = new List<string>(),
                                                           activity.Project,
                                                           NumberOfActivities = 1,
                                                           NumberOfDiscussions = 0
@@ -31,7 +29,6 @@ namespace Teamworks.Core.Services.RavenDb.Indexes
                                               select new
                                                          {
                                                              Name = (string) null,
-                                                             People = new List<string>(),
                                                              Project = discussion.Entity,
                                                              NumberOfActivities = 0,
                                                              NumberOfDiscussions = 1
@@ -42,7 +39,6 @@ namespace Teamworks.Core.Services.RavenDb.Indexes
                                 select new
                                            {
                                                Name = grouping.Select(s => s.Name).FirstOrDefault(s => s != null),
-                                               People = grouping.Select(s => s.People).FirstOrDefault(s => s.Count > 0),
                                                Project = grouping.Key,
                                                NumberOfActivities = grouping.Sum(s => s.NumberOfActivities),
                                                NumberOfDiscussions = grouping.Sum(s => s.NumberOfDiscussions)
@@ -59,7 +55,6 @@ namespace Teamworks.Core.Services.RavenDb.Indexes
         public class Result
         {
             public string Name { get; set; }
-            public IList<string> People { get; set; }
             public string Project { get; set; }
             public int NumberOfActivities { get; set; }
             public int NumberOfDiscussions { get; set; }

@@ -68,7 +68,7 @@ namespace Teamworks.Web.Unittest.Api
 
             Assert.NotNull(result);
             Assert.Equal(activityId, result.Id);
-            Assert.Equal(projectId, result.VetoProject);
+            Assert.Equal(projectId, result.VetoProjectAttribute);
 
             Assert.Equal(name, result.Name);
             Assert.Equal(description, result.Description);
@@ -193,7 +193,7 @@ namespace Teamworks.Web.Unittest.Api
             {
                 Id = 100.ToId("activity"),
                 Name = "proj 100",
-                VetoProject = projectId.ToId("VetoProject"),
+                VetoProjectAttribute = projectId.ToId("VetoProjectAttribute"),
                 Description = "description 100"
             });
         }
@@ -202,7 +202,7 @@ namespace Teamworks.Web.Unittest.Api
         {
             // used for posts
             var id = 1.ToId("project");
-            session.Store(new VetoProject
+            session.Store(new VetoProjectAttribute
             {
                 Id = id,
                 Name = "proj 1",
@@ -211,7 +211,7 @@ namespace Teamworks.Web.Unittest.Api
 
             // used for gets
             id = 2.ToId("project");
-            session.Store(new VetoProject
+            session.Store(new VetoProjectAttribute
             {
                 Id = id,
                 Name = "proj 2",
@@ -224,7 +224,7 @@ namespace Teamworks.Web.Unittest.Api
                 {
                     Id = i.ToId("activity"),
                     Name = "act " + i,
-                    VetoProject = id,
+                    VetoProjectAttribute = id,
                     Description = "description 1" + i
                 });
             }

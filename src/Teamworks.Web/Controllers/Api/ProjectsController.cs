@@ -27,8 +27,8 @@ namespace Teamworks.Web.Controllers.Api
             return projects.MapTo<ProjectViewModel>();
         }
 
-        [SecureFor(Priority = 1)]
-        [VetoProject(RouteValue = "id", Priority = 2)]
+        [SecureFor(Order = 1)]
+        [VetoProject(RouteValue = "id", Order = 2)]
         public ProjectViewModel GetById(int id)
         {
             var project = DbSession.Load<Project>(id);
@@ -59,8 +59,8 @@ namespace Teamworks.Web.Controllers.Api
          * as a single DELETE request. Therefore, the method should not return an error
          * code if the product was already deleted.
          */
-        [SecureFor(Priority = 1)]
-        [VetoProject(RouteValue = "id", Priority = 2)]
+        [SecureFor(Order = 1)]
+        [VetoProject(RouteValue = "id", Order = 2)]
         public HttpResponseMessage Delete(int id)
         {
             var project = DbSession.Load<Project>(id);
@@ -72,8 +72,8 @@ namespace Teamworks.Web.Controllers.Api
         }
 
         [GET("{id}/accesses")]
-        [SecureFor(Priority = 1)]
-        [VetoProject(RouteValue = "id", Priority = 2)]
+        [SecureFor(Order = 1)]
+        [VetoProject(RouteValue = "id", Order = 2)]
         public IEnumerable<PersonViewModel> GetAccesses(int projectId)
         {
             var project = DbSession
@@ -85,8 +85,8 @@ namespace Teamworks.Web.Controllers.Api
         }
 
         [POST("{id}/accesses")]
-        [SecureFor(Priority = 1)]
-        [VetoProject(RouteValue = "id", Priority = 2)]
+        [SecureFor(Order = 1)]
+        [VetoProject(RouteValue = "id", Order = 2)]
         public HttpResponseMessage PostAccesses(int id, IEnumerable<int> ids)
         {
             var people = DbSession
@@ -101,8 +101,8 @@ namespace Teamworks.Web.Controllers.Api
         }
 
         [DELETE("{id}/accesses/{personId}")]
-        [SecureFor(Priority = 1)]
-        [VetoProject(RouteValue = "id", Priority = 2)]
+        [SecureFor(Order = 1)]
+        [VetoProject(RouteValue = "id", Order = 2)]
         public HttpResponseMessage DeleteAccess(int id, int personId)
         {
             var personRavenId = personId.ToId("person");

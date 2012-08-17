@@ -6,17 +6,17 @@ namespace Teamworks.Web.Attributes.Api.Ordered
     {
         public OrderedActionFilterAttribute()
         {
-            Priority = 0;
+            Order = 0;
         }
 
         public OrderedActionFilterAttribute(int priority)
         {
-            Priority = priority;
+            Order = priority;
         }
 
         #region IOrderedFilter Members
 
-        public int Priority { get; set; }
+        public int Order { get; set; }
 
         #endregion
     }

@@ -27,12 +27,13 @@ namespace Teamworks.Web.Attributes.Mvc
                         case SocketError.HostDown:
                         case SocketError.HostUnreachable:
                         case SocketError.HostNotFound:
-                            context.Result = new RedirectToRouteResult("default",
-                                                                       new RouteValueDictionary
-                                                                           {
-                                                                               {"controller", "Errors"},
-                                                                               {"action", "NoDb"}
-                                                                           });
+                            context.Result = new ViewResult()
+                                                 {
+                                                     ViewData = new ViewDataDictionary(),
+                                                     TempData = new TempDataDictionary(),
+                                                     ViewName = "NoDb",
+                                                     ViewEngineCollection = ViewEngines.Engines
+                                                 };
                             context.ExceptionHandled = true;
                             break;
                     }

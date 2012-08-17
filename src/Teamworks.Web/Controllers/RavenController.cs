@@ -20,7 +20,7 @@ namespace Teamworks.Web.Controllers
 
         protected override void OnActionExecuting(ActionExecutingContext context)
         {
-            DbSession = context.HttpContext.RavenSession();
+            DbSession = context.HttpContext.GetCurrentRavenSession();
             base.OnActionExecuting(context);
         }
 

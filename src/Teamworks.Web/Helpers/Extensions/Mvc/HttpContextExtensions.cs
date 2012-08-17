@@ -20,7 +20,7 @@ namespace Teamworks.Web.Helpers.Extensions.Mvc
             return person == null ? "" : person.Id;
         }
 
-        public static IDocumentSession RavenSession(this HttpContextBase context)
+        public static IDocumentSession GetCurrentRavenSession(this HttpContextBase context)
         {
             var session = context.Items[Application.Keys.RavenDbSessionKey] as IDocumentSession;
             if (session == null)

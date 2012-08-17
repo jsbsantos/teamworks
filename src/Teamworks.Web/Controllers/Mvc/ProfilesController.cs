@@ -1,4 +1,6 @@
 ﻿using System.Web.Mvc;
+using AttributeRouting;
+using AttributeRouting.Web.Mvc;
 using Teamworks.Core;
 using Teamworks.Web.Helpers.AutoMapper;
 using Teamworks.Web.Helpers.Extensions.Mvc;
@@ -7,12 +9,13 @@ using Teamworks.Web.Views;
 
 namespace Teamworks.Web.Controllers.Mvc
 {
+    [RoutePrefix("profiles")]
     public class ProfilesController : RavenController
     {
+        [GET("{id?}")]
         public ActionResult Index(int? id)
         {
             var personViewModel = new ProfileViewModel();
-
             var person = id.HasValue
                              ? DbSession.Load<Person>(id)
                              : HttpContext.GetCurrentPerson();
@@ -24,6 +27,7 @@ namespace Teamworks.Web.Controllers.Mvc
             return View(personViewModel);
         }
 
+        [POST("")]
         public ActionResult Edit(ProfileViewModel.Input model)
         {
             if (!ModelState.IsValid)

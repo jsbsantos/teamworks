@@ -41,8 +41,8 @@ namespace Teamworks.Web.Helpers.AutoMapper
             Mapper.AddProfile(new Profiles.Api.ActivityViewModelMapperProfile());
             */
             /*
-            Mapper.CreateMap<ProjectViewModel, VetoProject>();
-            Mapper.CreateMap<VetoProject, ProjectViewModel>()
+            Mapper.CreateMap<ProjectViewModel, VetoProjectAttribute>();
+            Mapper.CreateMap<VetoProjectAttribute, ProjectViewModel>()
                 .ForMember(s => s.Id, o => o.MapFrom(d => d.Id.ToIdentifier()));
 
             Mapper.CreateMap<ActivityViewModel, Activity>();

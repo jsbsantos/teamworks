@@ -18,7 +18,7 @@ namespace Teamworks.Web.Attributes.Mvc
                 string id = user.Identity.Name;
                 if (!string.IsNullOrEmpty(id))
                 {
-                    IDocumentSession session = context.HttpContext.RavenSession();
+                    IDocumentSession session = context.HttpContext.GetCurrentRavenSession();
                     var person = session.Load<Person>(id);
                     if (person != null)
                     {

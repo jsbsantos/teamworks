@@ -11,11 +11,11 @@ namespace Teamworks.Web.Unittest.Attributes.Api.Ordered
         public void CompareTo()
         {
             var mock1 = new Mock<IOrderedFilter>();
-            mock1.Setup(o => o.Priority)
+            mock1.Setup(o => o.Order)
                 .Returns(1);
 
             var mock2 = new Mock<IOrderedFilter>();
-            mock2.Setup(o => o.Priority)
+            mock2.Setup(o => o.Order)
                 .Returns(2);
 
             var fi = new OrderedFilterInfo(mock1.Object, FilterScope.Global);
@@ -27,7 +27,7 @@ namespace Teamworks.Web.Unittest.Attributes.Api.Ordered
         public void CompareIOrderedFilterToIFilter()
         {
             var mock1 = new Mock<IOrderedFilter>();
-            mock1.Setup(o => o.Priority)
+            mock1.Setup(o => o.Order)
                 .Returns(1);
 
             var mock2 = new Mock<IFilter>();
@@ -51,7 +51,7 @@ namespace Teamworks.Web.Unittest.Attributes.Api.Ordered
         {
             var mock1 = new Mock<IFilter>();
             var mock2 = new Mock<IOrderedFilter>();
-            mock2.Setup(o => o.Priority)
+            mock2.Setup(o => o.Order)
                 .Returns(1);
 
             var fi = new OrderedFilterInfo(mock1.Object, FilterScope.Global);
