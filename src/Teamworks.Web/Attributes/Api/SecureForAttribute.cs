@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Web.Http;
 using System.Web.Http.Controllers;
+using System.Web.Http.Filters;
 using Raven.Client;
 using Raven.Client.Authorization;
 using Teamworks.Core.Services;
+using Teamworks.Web.Attributes.Api.Ordered;
 using Teamworks.Web.Helpers.Extensions.Api;
 
 namespace Teamworks.Web.Attributes.Api
 {
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
-    public class SecureForAttribute : AuthorizeAttribute
+    public class SecureForAttribute : OrderedActionFilterAttribute
     {
         public SecureForAttribute()
         {
@@ -24,7 +26,7 @@ namespace Teamworks.Web.Attributes.Api
 
         public string Operation { get; set; }
 
-        public override void OnAuthorization(HttpActionContext context)
+        public override void OnActionExecuting(HttpActionContext context)
         {
             string id = context.Request.GetCurrentPersonId();
             if (!string.IsNullOrEmpty(id))
@@ -32,7 +34,6 @@ namespace Teamworks.Web.Attributes.Api
                 var session = context.Request.Properties[Application.Keys.RavenDbSessionKey] as IDocumentSession;
                 session.SecureFor(id, Operation);
             }
-            base.OnAuthorization(context);
         }
     }
 }

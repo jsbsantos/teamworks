@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
-using System.Web.Http.Filters;
 using Raven.Client;
+using Teamworks.Web.Attributes.Api.Ordered;
 
 namespace Teamworks.Web.Attributes.Api
 {
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
-    public class VetoProject : ActionFilterAttribute
+    public class VetoProject : OrderedActionFilterAttribute
     {
         public VetoProject()
         {

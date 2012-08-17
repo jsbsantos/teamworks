@@ -20,7 +20,6 @@ namespace Teamworks.Web.Controllers.Api
     [RoutePrefix("api/projects")]
     public class ProjectsController : RavenApiController
     {
-        [GET("")]
         [SecureFor]
         public IEnumerable<ProjectViewModel> Get()
         {
@@ -28,8 +27,8 @@ namespace Teamworks.Web.Controllers.Api
             return projects.MapTo<ProjectViewModel>();
         }
 
-        [SecureFor]
-        [VetoProject(RouteValue = "id")]
+        [SecureFor(Priority = 1)]
+        [VetoProject(RouteValue = "id", Priority = 2)]
         public ProjectViewModel GetById(int id)
         {
             var project = DbSession.Load<Project>(id);
@@ -54,8 +53,8 @@ namespace Teamworks.Web.Controllers.Api
             return response;
         }
 
-        [SecureFor]
-        [VetoProject(RouteValue = "id")]
+        [SecureFor(Priority = 1)]
+        [VetoProject(RouteValue = "id", Priority = 2)]
         public HttpResponseMessage Delete(int id)
         {
             var project = DbSession.Load<Project>(id);
@@ -66,9 +65,9 @@ namespace Teamworks.Web.Controllers.Api
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
 
-        [SecureFor]
-        [VetoProject(RouteValue = "id")]
         [GET("{id}/accesses")]
+        [SecureFor(Priority = 1)]
+        [VetoProject(RouteValue = "id", Priority = 2)]
         public IEnumerable<PersonViewModel> GetAccesses(int projectId)
         {
             var project = DbSession
@@ -79,9 +78,9 @@ namespace Teamworks.Web.Controllers.Api
             return people.MapTo<PersonViewModel>();
         }
 
-        [SecureFor]
-        [VetoProject(RouteValue = "id")]
         [POST("{id}/accesses")]
+        [SecureFor(Priority = 1)]
+        [VetoProject(RouteValue = "id", Priority = 2)]
         public HttpResponseMessage PostAccesses(int id, IEnumerable<int> ids)
         {
             var people = DbSession
@@ -95,9 +94,9 @@ namespace Teamworks.Web.Controllers.Api
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
 
-        [SecureFor]
-        [VetoProject(RouteValue = "id")]
         [DELETE("{id}/accesses/{personId}")]
+        [SecureFor(Priority = 1)]
+        [VetoProject(RouteValue = "id", Priority = 2)]
         public HttpResponseMessage DeleteAccess(int id, int personId)
         {
             var personRavenId = personId.ToId("person");
