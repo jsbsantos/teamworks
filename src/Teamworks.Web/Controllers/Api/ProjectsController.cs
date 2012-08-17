@@ -16,10 +16,10 @@ using Teamworks.Web.ViewModels.Api;
 
 namespace Teamworks.Web.Controllers.Api
 {
+    [DefaultHttpRouteConvention]
     [RoutePrefix("api/projects")]
     public class ProjectsController : RavenApiController
     {
-        [GET("")]
         [SecureFor]
         public IEnumerable<ProjectViewModel> Get()
         {
@@ -27,16 +27,14 @@ namespace Teamworks.Web.Controllers.Api
             return projects.MapTo<ProjectViewModel>();
         }
 
-        [GET("{projectId}")]
         [SecureFor(Priority = 1)]
-        [VetoProject(RouteValue = "projectId", Priority = 2)]
-        public ProjectViewModel GetById(int projectId)
+        [VetoProject(RouteValue = "id", Priority = 2)]
+        public ProjectViewModel GetById(int id)
         {
-            var project = DbSession.Load<Project>(projectId);
+            var project = DbSession.Load<Project>(id);
             return project.MapTo<ProjectViewModel>();
         }
 
-        [POST("")]    
         public HttpResponseMessage Post(ProjectViewModel model)
         {
             var person = Request.GetCurrentPerson();
@@ -61,7 +59,6 @@ namespace Teamworks.Web.Controllers.Api
          * as a single DELETE request. Therefore, the method should not return an error
          * code if the product was already deleted.
          */
-        [DELETE("{id}")]
         [SecureFor(Priority = 1)]
         [VetoProject(RouteValue = "id", Priority = 2)]
         public HttpResponseMessage Delete(int id)

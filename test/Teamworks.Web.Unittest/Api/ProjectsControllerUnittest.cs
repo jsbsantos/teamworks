@@ -155,7 +155,6 @@ namespace Teamworks.Web.Unittest.Api
         [Fact]
         public void DeleteProjectPersistedInDb()
         {
-            
             Configure.Populate(Reset);
             using (var session = RavenDbFixture.DocumentStore.OpenSession())
             {
