@@ -4,7 +4,7 @@ using Teamworks.Web.Attributes.Api;
 
 namespace Teamworks.Web.Controllers.Api
 {
-    [SecureFor("/projects")]
+    [Secure("/projects")]
     [DefaultHttpRouteConvention]
     [RoutePrefix("api/projects/{projectid}/activities/{activityid}/todolist/{listid}/todo")]
     public class TodoController : RavenApiController
@@ -18,13 +18,13 @@ namespace Teamworks.Web.Controllers.Api
 
             if (project.Activities.Contains(activityid.ToString()))
             {
-                Request.ThrowNotFoundIfNull();
+                Request.NotFound();
             }
             var activity = DbSession.Load<Core.ActivityViewModel>(activityid);
 
             var list = activity.Todos.SingleOrDefault(p => p.Id == id);
             if (list == null)
-                Request.ThrowNotFoundIfNull();
+                Request.NotFound();
 
             return Mapper.Map<IEnumerable<Core.Todo>, IEnumerable<Todo>>(list.Todos);
         }
@@ -37,7 +37,7 @@ namespace Teamworks.Web.Controllers.Api
 
             if (project.Activities.Contains(activityid.ToString()))
             {
-                Request.ThrowNotFoundIfNull();
+                Request.NotFound();
             }
             var activity = DbSession.Load<Core.ActivityViewModel>(activityid);
 
@@ -53,7 +53,7 @@ namespace Teamworks.Web.Controllers.Api
 
             if (project.Activities.Contains(activityid.ToString()))
             {
-                Request.ThrowNotFoundIfNull();
+                Request.NotFound();
             }
             var activity = DbSession.Load<Core.ActivityViewModel>(activityid);
 
@@ -76,7 +76,7 @@ namespace Teamworks.Web.Controllers.Api
 
             if (project.Activities.Contains(activityid.ToString()))
             {
-                Request.ThrowNotFoundIfNull();
+                Request.NotFound();
             }
             var activity = DbSession.Load<Core.ActivityViewModel>(activityid);
             var list = activity.Todos.Single(p => p.Id == listid);
@@ -99,7 +99,7 @@ namespace Teamworks.Web.Controllers.Api
 
             if (project.Activities.Contains(activityid.ToString()))
             {
-                Request.ThrowNotFoundIfNull();
+                Request.NotFound();
             }
             var activity = DbSession.Load<Core.ActivityViewModel>(activityid);
             var list = activity.Todos.Single(p => p.Id == listid);

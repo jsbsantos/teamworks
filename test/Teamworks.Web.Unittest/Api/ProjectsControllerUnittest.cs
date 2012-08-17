@@ -23,8 +23,8 @@ namespace Teamworks.Web.Unittest.Api
 
         protected override IHttpRouteData RouteData(HttpConfiguration config)
         {
-            var route = config.Routes.MapHttpRoute("Projects_GetById",
-                                                   "api/{controller}/{projectId}");
+            var route = config.Routes.MapHttpRoute("api_projects_getbyid",
+                                                   "api/{controller}/{id}");
             return new HttpRouteData(route, new HttpRouteValueDictionary { { "controller", "projects" } });
         }
 

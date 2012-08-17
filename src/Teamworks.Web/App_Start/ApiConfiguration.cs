@@ -25,7 +25,6 @@ namespace Teamworks.Web.App_Start
         {
             Registerhandlers(configuration.MessageHandlers);
             RegisterFilters(configuration.Filters);
-            RegisterRoutes(RouteTable.Routes);
 
             FormattersConfiguration(configuration);
             ServicesConfiguration(configuration);
@@ -72,17 +71,6 @@ namespace Teamworks.Web.App_Start
             var providers = configuration.Services.GetFilterProviders();
             var defaultprovider = providers.First(i => i is ActionDescriptorFilterProvider);
             configuration.Services.Remove(typeof(IFilterProvider), defaultprovider);
-        }
-
-        public static void RegisterRoutes(RouteCollection routes)
-        {
-            routes.MapHttpAttributeRoutes(c =>
-            {
-                c.AddRoutesFromController<ProjectsController>();
-
-                c.AutoGenerateRouteNames = true;
-                c.UseLowercaseRoutes = true;
-            });
         }
     }
 }

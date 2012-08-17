@@ -33,11 +33,11 @@ namespace Teamworks.Web.Helpers.Extensions.Api
             throw new HttpResponseException(request.CreateResponse(HttpStatusCode.NotFound));
         }
 
-        public static void ThrowNotFoundIfNull(this HttpRequestMessage request, object obj)
+        public static void NotFound(this HttpRequestMessage request, object obj)
         {
             if (obj == null)
             {
-                throw new HttpResponseException(request.CreateResponse(HttpStatusCode.NotFound));
+                throw new HttpResponseException(HttpStatusCode.NotFound);
             }
         }
     }

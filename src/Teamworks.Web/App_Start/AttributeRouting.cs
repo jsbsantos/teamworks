@@ -10,15 +10,8 @@ namespace Teamworks.Web.App_Start
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
-            // See http://github.com/mccalltd/AttributeRouting/wiki for more options.
-            // To debug routes locally using the built in ASP.NET development server, go to /routes.axd
-
-            routes.MapAttributeRoutes(config =>
-                                          {
-                                              config.ScanAssembly(Assembly.GetExecutingAssembly());
-                                              config.AutoGenerateRouteNames = true;
-                                              config.UseLowercaseRoutes = true;
-                                          });
+            // this method does nothing but it's here so restore pacakage from nuget don't
+            // change it, see RouteConfiguration.Register
         }
 
         public static void Start()

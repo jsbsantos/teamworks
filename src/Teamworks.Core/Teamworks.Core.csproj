@@ -67,6 +67,7 @@
     <Compile Include="Business\ActivityServices.cs" />
     <Compile Include="Business\BusinessService.cs" />
     <Compile Include="Business\ProjectServices.cs" />
+    <Compile Include="Extensions\ProjectExtensions.cs" />
     <Compile Include="Projects\Todo.cs" />
     <Compile Include="Projects\TodoList.cs" />
     <Compile Include="Projects\Event.cs" />

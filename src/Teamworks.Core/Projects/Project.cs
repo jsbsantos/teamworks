@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Raven.Bundles.Authorization.Model;
-using Raven.Imports.Newtonsoft.Json;
-using Teamworks.Core.Services;
 
 namespace Teamworks.Core
 {
@@ -12,8 +9,6 @@ namespace Teamworks.Core
         public string Description { get; set; }
 
         public bool Archived { get; set; }
-
-        [JsonIgnore]
         public IList<string> People { get; set; }
 
         public DateTimeOffset StartDate { get; set; }

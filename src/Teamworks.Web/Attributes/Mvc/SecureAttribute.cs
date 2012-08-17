@@ -1,36 +1,29 @@
 ﻿using System;
 using System.Web.Mvc;
 using Raven.Client.Authorization;
-using Teamworks.Core.Services;
 using Teamworks.Web.Helpers.Extensions.Mvc;
 
 namespace Teamworks.Web.Attributes.Mvc
 {
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
-    public class SecureForAttribute : ActionFilterAttribute
+    public class SecureAttribute : ActionFilterAttribute
     {
-        public SecureForAttribute()
-        {
-            Operation = Global.Constants.Operation;
-        }
-
-
-        public SecureForAttribute(string operation)
+        public SecureAttribute(string operation)
         {
             Operation = operation;
         }
 
         public string Operation { get; set; }
 
-        public override void OnActionExecuting(ActionExecutingContext context)
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            string id = context.HttpContext.GetCurrentPersonId();
+            string id = filterContext.HttpContext.GetCurrentPersonId();
             if (!string.IsNullOrEmpty(id))
             {
-                var session = context.HttpContext.GetCurrentRavenSession();
+                var session = filterContext.HttpContext.GetCurrentRavenSession();
                 session.SecureFor(id, Operation);
             }
-            base.OnActionExecuting(context);
+            base.OnActionExecuting(filterContext);
         }
     }
 }

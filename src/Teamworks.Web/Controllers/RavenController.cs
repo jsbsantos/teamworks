@@ -7,15 +7,6 @@ namespace Teamworks.Web.Controllers
     [Authorize]
     public class RavenController : Controller
     {
-        public RavenController()
-        {
-        }
-
-        public RavenController(IDocumentSession session)
-        {
-            DbSession = session;
-        }
-
         public IDocumentSession DbSession { get; set; }
 
         protected override void OnActionExecuting(ActionExecutingContext context)

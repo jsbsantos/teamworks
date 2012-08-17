@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using AttributeRouting;
 using AttributeRouting.Web.Mvc;
 using Newtonsoft.Json;
 using Raven.Client.Authorization;
@@ -17,22 +18,18 @@ using Teamworks.Web.Views;
 
 namespace Teamworks.Web.Controllers.Mvc
 {
+    [RoutePrefix("projects")]
     public class ProjectsController : RavenController
     {
-        [HttpGet]
-        [SecureFor(Order = 1)]
-        public ActionResult Index(int page = 1)
+        [GET("")]
+        [Secure("projects/view")]
+        public ActionResult Get(int page = 1)
         {
-            var projects = DbSession.Query<Project>()
-                .Customize(c => c.Include<Project>( p => p.People))
-                .OrderByDescending(p=> p.CreatedAt)
-                .ToList();
-
             RavenQueryStatistics stats;
-            var results = DbSession
-                .Query<ProjectEntityCount.Result, ProjectEntityCount>()
+            var projects = DbSession.Query<Project>()
                 .Statistics(out stats)
-                .Where(r => r.Project.In(projects.Select(p => p.Id)))
+                .Customize(c => c.Include<Project>(p => p.People))
+                .OrderByDescending(p => p.CreatedAt)
                 .ToList();
 
             var vm = new ProjectsViewModel
@@ -42,23 +39,31 @@ namespace Teamworks.Web.Controllers.Mvc
                              Projects = new List<ProjectsViewModel.Project>()
                          };
 
-            foreach (var result in results)
+            if (projects.Count > 0)
             {
-                var project = DbSession.Load<Project>(result.Project);
+                var results = DbSession
+                    .Query<ProjectEntityCount.Result, ProjectEntityCount>()
+                    .Where(r => r.Project.In(projects.Select(p => p.Id)))
+                    .ToList();
 
-                var projectViewModel = result.MapTo<ProjectsViewModel.Project>();
-                projectViewModel.People = DbSession.Load<Person>(project.People)
-                    .Where(p => p != null).MapTo<PersonViewModel>();
+                foreach (var result in results)
+                {
+                    var project = DbSession.Load<Project>(result.Project);
 
-                projectViewModel.Name = project.Name;
-                projectViewModel.Description = project.Description;
-                vm.Projects.Add(projectViewModel);
+                    var projectViewModel = result.MapTo<ProjectsViewModel.Project>();
+                    projectViewModel.People = DbSession.Load<Person>(project.People)
+                        .Where(p => p != null).MapTo<PersonViewModel>();
+
+                    projectViewModel.Name = project.Name;
+                    projectViewModel.Description = project.Description;
+                    vm.Projects.Add(projectViewModel);
+                }
             }
-            return View(vm);
+            return View("Index", vm);
         }
 
-        [HttpPost]
-        public ActionResult Index(ProjectsViewModel.Input model)
+        [POST("")]
+        public ActionResult Post(ProjectsViewModel.Input model)
         {
             if (ModelState.IsValid)
             {
@@ -76,14 +81,13 @@ namespace Teamworks.Web.Controllers.Mvc
                                {
                                    Data = projectViewModel
                                };
-                return RedirectToAction("Index");
+                return RedirectToRoute("projects_get");
             }
-            return View();
+            return View("Index");
         }
 
-        [SecureFor(Order = 1)]
-        [VetoProject(Order = 2)]
-        [GET("projects/{projectId}")]
+        [GET("{projectId}")]
+        [SecureProject("projects/view")]
         public ActionResult Details(int projectId)
         {
             var id = projectId.ToId("project");
@@ -118,19 +122,19 @@ namespace Teamworks.Web.Controllers.Mvc
         }
 
         [AjaxOnly]
-        [POST("projects/{id}/people/{personIdOrEmail}")]
-        public ActionResult AddPerson(int id, string personIdOrEmail)
+        [POST("{projectId}/people/{personIdOrEmail}")]
+        public ActionResult AddPerson(int projectId, string personIdOrEmail)
         {
-            var projectId = id.ToId("project");
+            var id = projectId.ToId("project");
 
             var person = DbSession.Query<Person>()
-                .Customize(c => c.Include(projectId))
+                .Customize(c => c.Include(id))
                 .Where(p => p.Email == personIdOrEmail).FirstOrDefault();
 
             if (person == null)
                 return new HttpNotFoundResult();
 
-            var project = DbSession.Load<Project>(id);
+            var project = DbSession.Load<Project>(projectId);
             if (project == null)
                 return new HttpNotFoundResult();
 
@@ -141,17 +145,17 @@ namespace Teamworks.Web.Controllers.Mvc
         }
 
         [AjaxOnly]
-        [DELETE("projects/{id}/people/{personIdOrEmail}")]
-        public ActionResult RemovePerson(int id, string personIdOrEmail)
+        [DELETE("{projectId}/people/{personIdOrEmail}")]
+        public ActionResult RemovePerson(int projectId, string personIdOrEmail)
         {
             var person = DbSession.Query<Person>()
-                .Customize(c => c.Include(id.ToId("project")))
+                .Customize(c => c.Include(projectId.ToId("project")))
                 .Where(p => p.Email == personIdOrEmail).FirstOrDefault();
 
             if (person == null)
                 return new HttpNotFoundResult();
 
-            var project = DbSession.Load<Project>(id);
+            var project = DbSession.Load<Project>(projectId);
             if (project == null)
                 return new HttpNotFoundResult();
 
@@ -167,7 +171,7 @@ namespace Teamworks.Web.Controllers.Mvc
             return new EmptyResult();
         }
 
-        [GET("projects/{id}/gantt")]
+        [GET("{projectId}/gantt")]
         public ActionResult Gantt(int projectId)
         {
             ViewBag.Endpoint = "api/projects/" + projectId;

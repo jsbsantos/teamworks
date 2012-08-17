@@ -27,7 +27,7 @@ namespace Teamworks.Web.Controllers.Api
                 .Load<Activity>(activityId);
 
             if (target.Project.ToIdentifier() != projectId)
-                Request.ThrowNotFoundIfNull(target);
+                Request.NotFound(target);
 
             return target;
         }
@@ -35,7 +35,7 @@ namespace Teamworks.Web.Controllers.Api
         public IEnumerable<TimelogViewModel> Get(int projectId, int activityId)
         {
             Activity activity = GetActivity(projectId, activityId);
-            Request.ThrowNotFoundIfNull(activity);
+            Request.NotFound(activity);
             return Mapper.Map<IList<Core.Timelog>, IEnumerable<TimelogViewModel>>(activity.Timelogs);
         }
 
@@ -64,7 +64,7 @@ namespace Teamworks.Web.Controllers.Api
             Activity activity = GetActivity(projectId, activityId);
 
             Core.Timelog timelog = activity.Timelogs.FirstOrDefault(t => t.Id == id);
-            Request.ThrowNotFoundIfNull(timelog);
+            Request.NotFound(timelog);
             activity.Timelogs.Remove(timelog);
 
             return new HttpResponseMessage(HttpStatusCode.NoContent);
