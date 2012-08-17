@@ -14,7 +14,7 @@ namespace Teamworks.Web.ViewModels.Mvc
         public string Description { get; set; }
         public int Duration { get; set; }
         public int TotalTimeLogged { get; set; }
-        public DateTime StartDate { get; set; }
+        public DateTimeOffset StartDate { get; set; }
 
         public class TimelogViewModel
         {
@@ -24,6 +24,14 @@ namespace Teamworks.Web.ViewModels.Mvc
             public int Duration { get; set; }
 
             public PersonViewModel Profile { get; set; }
+        }
+
+        public class Input
+        {
+            public string Name { get; set; }
+            public string Description { get; set; }
+            public int Duration { get; set; }
+            public DateTimeOffset StartDate { get; set; }
         }
     }
 

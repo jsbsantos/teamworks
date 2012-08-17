@@ -6,71 +6,15 @@ namespace Teamworks.Core.Business
 {
     public class ActivityServices : BusinessService
     {
-/*        public Activity AddPrecedence(int activity, int project, int[] precedences)
+
+        public Activity Update(Activity activity)
         {
-            var query = DbSession
+            var query= DbSession
                 .Query<Activity>()
-                .Customize(c => c.Include<Activity>(a => a.Project))
-                .Where(a => a.Project == project.ToId("project"))
+                .Where(a => a.Project == activity.Project)
                 .ToList();
 
-            DbSession.Load<Project>(project); 
-
-            var target = query.FirstOrDefault(a => a.Identifier == activity);
-
-            if (query.Count == 0 || target == null)
-                return null;
-
-            target.Dependencies = target.Dependencies.Union(precedences
-                                                                .Select(p => p.ToId("activity"))
-                                                                .Intersect(query.Select(a => a.Id)))
-                .ToList();
-            return target;
-        }
-
-        public bool RemovePrecedence(int activity, int project, int[] precedences)
-        {
-            var query = DbSession
-                .Query<Activity>()
-                .Where(a => a.Project == project.ToId("project"))
-                .ToList();
-
-            var target = query.FirstOrDefault(a => a.Identifier == activity);
-
-            if (query.Count == 0 || target == null)
-                return false;
-
-            target.Dependencies = target.Dependencies.Except(precedences
-                                                                 .Select(p => p.ToId("activity"))
-                                                                 .Intersect(query.Select(a => a.Id)))
-                .ToList();
-            return true;
-        }
-
-        public bool SetPrecedence(int activity, int project, int[] precedences)
-        {
-            var query = DbSession
-                .Query<Activity>()
-                .Where(a => a.Project == project.ToId("project"))
-                .ToList();
-
-            var target = query.FirstOrDefault(a => a.Identifier == activity);
-
-            if (query.Count == 0 || target == null)
-                return false;
-
-            target.Dependencies = precedences
-                .Select(p => p.ToId("activity"))
-                .Intersect(query.Select(a => a.Id))
-                .ToList();
-            return true;
-        }
-        */
-        //todo adicionar alteração de precedencias
-        public Activity Update(Activity activity) //o que receber aqui? todos os campos editavies? viewmodel?
-        {
-            var target = DbSession
-                .Load<Activity>(activity.Id);
+            var target = query.FirstOrDefault(a => a.Id == activity.Id);
 
             if (target == null)
                 return null;
@@ -82,6 +26,13 @@ namespace Teamworks.Core.Business
                 var domain = DbSession.Query<Activity>()
                     .Where(a => a.Project == target.Project).ToList();
                 OffsetDuration(domain, target, activity.Duration - target.Duration);
+            }
+
+            if (target.Dependencies != null)
+            {
+                target.Dependencies = activity.Dependencies
+               .Intersect(query.Select(a => a.Id))
+               .ToList();
             }
 
             target.Duration = activity.Duration;
@@ -105,6 +56,17 @@ namespace Teamworks.Core.Business
             target.Date = timelog.Date;
 
             return target;
+        }
+
+        public double GetAccumulatedDuration(IEnumerable<Activity> domain, Core.Activity activity, int duration = 0)
+        {
+            Core.Activity parent = domain.Where(a => activity.Dependencies.Contains(a.Id))
+                .OrderByDescending(a => a.Duration).FirstOrDefault();
+
+            if (parent == null)
+                return duration;
+
+            return GetAccumulatedDuration(domain, parent, duration + parent.Duration);
         }
 
         private static void OffsetDuration(ICollection<Activity> domain, Activity parent, int offset)

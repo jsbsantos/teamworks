@@ -13,7 +13,6 @@ namespace Teamworks.Core
 
         public bool Archived { get; set; }
 
-        [JsonIgnore]
         public IList<string> People { get; set; }
 
         public DateTimeOffset StartDate { get; set; }

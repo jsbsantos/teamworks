@@ -9,7 +9,7 @@
 <div class="row">
     <ul class="breadcrumb span12">
         <li>
-            <a href="@Url.RouteUrl("default", new { controller = "projects", action ="index" })">VetoProjects</a>
+            <a href="@Url.RouteUrl("default", new { controller = "projects", action ="index" })">Projects</a>
             <span class="divider">/</span>
         </li>
         <li>
@@ -95,7 +95,7 @@
     <div>
         <button class="close" data-bind="click: _remove">&times;</button>
         <h3>
-            <a data-bind="attr: { href: '@Url.RouteUrl("Activities_Index")' + id() }">
+            <a data-bind="attr: { href: '@Url.RouteUrl("default", new {controller = "Activities"})' + id() }">
                 <span data-bind="text: name"></span>
                 <small data-bind="text: description"></small>
             </a>
@@ -106,7 +106,7 @@
     <div>
         <button class="close" data-bind="click: _remove">&times;</button>
         <h3>
-            <a data-bind="text: name, attr: { href: '@Url.RouteUrl("Discussions_Index")' + id() }"></a>
+            <a data-bind="text: name, attr: { href: '@Url.RouteUrl("default", new {controller = "Discussions"})' + id() }"></a>
         </h3>
         <p data-bind="text: content, visible: content().length"></p>
     </div>
@@ -131,7 +131,7 @@
 </script>
 <script>
     var viewmodel = function() {
-        return tw.pages.ProjectViewModel("/api/projects/" + @Model.Id, @Html.ToJson(Model));
+        return tw.pages.ProjectViewModel("/projects/" + @Model.Id, @Html.ToJson(Model));
     };
 </script>
 

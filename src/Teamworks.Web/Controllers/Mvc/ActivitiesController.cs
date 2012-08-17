@@ -1,12 +1,19 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using AttributeRouting.Web.Http;
+using AutoMapper;
+using Raven.Bundles.Authorization.Model;
+using Raven.Client.Authorization;
 using Raven.Client.Linq;
 using Teamworks.Core;
 using Teamworks.Core.Business;
 using Teamworks.Core.Services;
 using Teamworks.Core.Services.RavenDb.Indexes;
+using Teamworks.Web.Attributes.Mvc;
+using Teamworks.Web.Helpers;
 using Teamworks.Web.Helpers.AutoMapper;
 using Teamworks.Web.ViewModels.Mvc;
 
@@ -97,6 +104,29 @@ namespace Teamworks.Web.Controllers.Mvc
             };
 
         }
+        
+        [AjaxOnly]
+        [POST("projects/{id}/activities")]
+        public ActionResult Add(int id, ActivityViewModel.Input model)
+        {
+            var project = DbSession
+                 .Load<Project>(id);
 
+            var activity = Activity.Forge(project.Id.ToIdentifier(), model.Name, model.Description, model.Duration, model.StartDate);
+
+            DbSession.Store(activity);
+            DbSession.SetAuthorizationFor(activity, new DocumentAuthorization
+            {
+                Tags = { project.Id }
+            });
+            
+            if(model.StartDate != DateTimeOffset.MinValue)
+                activity.StartDate = model.StartDate;
+
+            return new ContentResult
+            {
+                Content = Utils.ToJson(activity.MapTo<ActivityViewModelComplete>())
+            };
+        }
     }
 }
