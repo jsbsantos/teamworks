@@ -67,11 +67,14 @@ namespace Teamworks.Web
             configuration.Formatters.Remove(configuration.Formatters.XmlFormatter);
 
             var json = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
-            json.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-            json.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
-            json.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+            json.SerializerSettings = new JsonSerializerSettings()
+                                          {
+                                              ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                                              DateTimeZoneHandling = DateTimeZoneHandling.Utc,
+                                              NullValueHandling = NullValueHandling.Ignore
+                                          };
 
-            configuration.Services.Add(typeof (ModelBinderProvider), new MailgunModelBinderProvider());
+        configuration.Services.Add(typeof (ModelBinderProvider), new MailgunModelBinderProvider());
 
             configuration.Services.Add(typeof (System.Web.Http.Filters.IFilterProvider), new OrderedFilterProvider());
             var providers = configuration.Services.GetFilterProviders();
