@@ -22,16 +22,15 @@ namespace Teamworks.Web.Controllers.Mvc
         [HttpGet]
         public ActionResult Index(int page = 1)
         {
-            var current = HttpContext.GetCurrentPersonId();
+            var projects = DbSession.Query<Project>()
+                .Customize(c => c.Include<Project>( p => p.People))
+                .ToList();
 
             RavenQueryStatistics stats;
             var results = DbSession
                 .Query<ProjectEntityCount.Result, ProjectEntityCount>()
                 .Statistics(out stats)
-                .Customize(c => c
-                                    .Include<ProjectEntityCount.Result>(r => r.People)
-                                    .Include<ProjectEntityCount.Result>(r => r.Project))
-                .Where(r => r.People.Any(p => p == current))
+                .Where(r => r.Project.In(projects.Select(p => p.Id)))
                 .ToList();
 
             var vm = new ProjectsViewModel
