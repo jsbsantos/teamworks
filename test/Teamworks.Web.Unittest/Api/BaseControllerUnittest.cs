@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Security.Principal;
 using System.Threading;
@@ -45,6 +46,8 @@ namespace Teamworks.Web.Unittest.Api
             controller.ControllerContext = new HttpControllerContext(config, routeData, request);
             controller.Request = request;
             controller.Request.Properties[HttpPropertyKeys.HttpConfigurationKey] = config;
+            controller.Request.Properties[HttpPropertyKeys.HttpRouteDataKey] = routeData;
+
             return controller;
         }
 

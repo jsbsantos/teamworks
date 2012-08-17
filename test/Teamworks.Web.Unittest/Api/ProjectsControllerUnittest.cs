@@ -25,7 +25,7 @@ namespace Teamworks.Web.Unittest.Api
         {
             var route = config.Routes.MapHttpRoute("Projects_GetById",
                                                    "api/{controller}/{projectId}");
-            return new HttpRouteData(route, new HttpRouteValueDictionary {{"controller", "projects"}});
+            return new HttpRouteData(route, new HttpRouteValueDictionary { { "controller", "projects" } });
         }
 
         [Fact]
@@ -70,6 +70,7 @@ namespace Teamworks.Web.Unittest.Api
             HttpResponseMessage response;
             using (var session = RavenDbFixture.DocumentStore.OpenSession())
             {
+                session.Advanced.UseOptimisticConcurrency = true;
                 var controller = ControllerForTests<ProjectsController>(session, HttpMethod.Post);
                 response = controller.Post(new ProjectViewModel
                                                {
@@ -90,6 +91,7 @@ namespace Teamworks.Web.Unittest.Api
             HttpResponseMessage response;
             using (var session = RavenDbFixture.DocumentStore.OpenSession())
             {
+                session.Advanced.UseOptimisticConcurrency = true;
                 var controller = ControllerForTests<ProjectsController>(session, HttpMethod.Post);
                 response = controller.Post(new ProjectViewModel
                                                {
@@ -102,6 +104,7 @@ namespace Teamworks.Web.Unittest.Api
             var result = response.Content.ReadAsAsync<ProjectViewModel>().Result;
             using (var session = RavenDbFixture.DocumentStore.OpenSession())
             {
+                session.Advanced.UseOptimisticConcurrency = true;
                 var project = session.Load<Project>(result.Id);
 
                 Assert.NotNull(project);

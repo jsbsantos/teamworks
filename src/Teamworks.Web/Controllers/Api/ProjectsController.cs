@@ -48,13 +48,7 @@ namespace Teamworks.Web.Controllers.Api
             var value = project.MapTo<ProjectViewModel>();
             var response = Request.CreateResponse(HttpStatusCode.Created, value);
 
-            var values = new Dictionary<string, object>
-                             {
-                                 {"controller", "projects"},
-                                 {"projectId", project.Id.ToIdentifier()}
-                             };
-
-            var uri = Url.Link("Projects_GetById", values);
+            var uri = Url.Link("Projects_GetById", new { projectId = project.Id.ToIdentifier() });
             response.Headers.Location = new Uri(uri);
             return response;
         }

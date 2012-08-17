@@ -19,7 +19,7 @@ namespace Teamworks.Web.Unittest.Api.Fixture
             DocumentStore =
                 new EmbeddableDocumentStore
                 {
-                    RunInMemory = true
+                    RunInMemory = true,
                 }.RegisterListener(new NoStaleQueriesAllowed())
                 .Initialize();
 
