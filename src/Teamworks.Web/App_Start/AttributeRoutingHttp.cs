@@ -13,26 +13,16 @@ namespace Teamworks.Web.App_Start
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
-            // See http://github.com/mccalltd/AttributeRouting/wiki for more options.
-            // To debug routes locally using the built in ASP.NET development server, go to /routes.axd
-
-            // ASP.NET Web API
-            routes.MapHttpAttributeRoutes(c =>
-                                              {
-                                                  //c.ScanAssembly(Assembly.GetExecutingAssembly());
-                                                  //c.AddRoutesFromController<HomeController>();
-                                                  c.AddRoutesFromController<ProjectsController>();
-                                                  //c.AddRoutesFromController<ActivitiesController>();
-                                                  
-                                                  //c.AddRoutesFromController<MessagesController>();
-                                                  c.AutoGenerateRouteNames = true;
-                                                  c.UseLowercaseRoutes = true;
-                                              });
+            // because of this issue https://github.com/mccalltd/AttributeRouting/issues/112
+            // this method does nothing but it's here so restore pacakage from nuget don't
+            // mess with the workaround
         }
 
         public static void Start()
         {
             RegisterRoutes(RouteTable.Routes);
         }
+
+        
     }
 }

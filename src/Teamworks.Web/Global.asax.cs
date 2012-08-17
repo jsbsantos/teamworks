@@ -10,6 +10,7 @@ using System.Web.Http.ModelBinding;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using AttributeRouting.Web.Http.WebHost;
 using LowercaseRoutesMVC4;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -21,6 +22,7 @@ using Teamworks.Core.Services.RavenDb;
 using Teamworks.Core.Services.RavenDb.Indexes;
 using Teamworks.Web.Attributes.Api;
 using Teamworks.Web.Attributes.Api.Ordered;
+using Teamworks.Web.Controllers.Api;
 using Teamworks.Web.Handlers;
 using Teamworks.Web.Helpers;
 using Teamworks.Web.Helpers.AutoMapper;
@@ -83,6 +85,17 @@ namespace Teamworks.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.MapHttpAttributeRoutes(c =>
+                                              {
+                                                  //c.ScanAssembly(Assembly.GetExecutingAssembly());
+                                                  //c.AddRoutesFromController<HomeController>();
+                                                  c.AddRoutesFromController<ProjectsController>();
+                                                  //c.AddRoutesFromController<ActivitiesController>();
+
+                                                  c.AutoGenerateRouteNames = true;
+                                                  c.UseLowercaseRoutes = true;
+                                              });
+
             routes.MapRouteLowercase(
                 name: "default",
                 url: "{controller}/{action}/{id}",
@@ -90,10 +103,10 @@ namespace Teamworks.Web
                 );
 
             routes.MapRouteLowercase(
-               "homepage",
-               "",
-               new { controller = "Home", action = "Index" }
-               );
+                "homepage",
+                "",
+                new {controller = "Home", action = "Index"}
+                );
         }
 
         protected void Application_Start()
@@ -132,7 +145,7 @@ namespace Teamworks.Web
                     {
                         ConnectionStringName = "RavenDB"
                     }.RegisterListener(new PersonConversionListener())
-            .Initialize();
+                    .Initialize();
 
             IndexCreation.CreateIndexes(typeof (Activities_ByProject).Assembly, Global.Database);
         }

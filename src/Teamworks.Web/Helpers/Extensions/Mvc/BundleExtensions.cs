@@ -41,8 +41,8 @@ namespace Teamworks.Web.Helpers.Extensions.Mvc
                 .IncludeDirectory("~/content/js/libs/", "knockout*")
                 // tw
                 .Include("~/content/js/tw/tw.js")
-                .IncludeDirectory("~/content/js/tw/charts/", "*.charts.*")
-                .IncludeDirectory("~/content/js/tw/", "*.pages.*")
+                .IncludeDirectory("~/content/js/tw/charts/", "tw.charts.*")
+                .IncludeDirectory("~/content/js/tw/", "tw.pages.*")
                 .Include("~/content/js/tw/tw.runner.js");
 #if !DEBUG            
             js.Include("~/content/js/gac.js");
