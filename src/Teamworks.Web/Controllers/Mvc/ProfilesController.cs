@@ -18,12 +18,12 @@ namespace Teamworks.Web.Controllers.Mvc
             var personViewModel = new ProfileViewModel();
             var person = id.HasValue
                              ? DbSession.Load<Person>(id)
-                             : HttpContext.GetCurrentPerson();
+                             : DbSession.GetCurrentPerson();
 
             if (person == null)
                 return HttpNotFound();
                 
-            if (person.Id == HttpContext.GetCurrentPersonId())
+            if (person.Id == DbSession.GetCurrentPersonId())
                 personViewModel.IsMyProfile = true;
 
             personViewModel.PersonDetails = person.MapTo<PersonViewModel>();
@@ -38,7 +38,7 @@ namespace Teamworks.Web.Controllers.Mvc
                 return RedirectToRoute("profiles_get");
             }
 
-            var person = HttpContext.GetCurrentPerson();
+            var person = DbSession.GetCurrentPerson();
             model.MapPropertiesToInstance(person);
 
             if (Request.IsAjaxRequest())

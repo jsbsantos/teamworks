@@ -30,15 +30,15 @@
 <script type="text/html" id="message-template">
     <div class="row">
         <div class="span6">
-            <div class="">
+            <div class="well">
                 <div class="pull-right"><span data-bind="text: date"></span></div>
-                <a data-bind="attr: { href: '@Url.RouteUrl("profiles_get")' + id() }">
+                <a data-bind="attr: { href: '@Url.RouteUrl("profiles_get")' + id }">
                     <h2 class="lead">
                         <span data-bind="text: person.name"></span>
                         <small data-bind="text: '@@' + person.username()"></small>
                     </h2>
                 </a>
-                <div class="well">
+                <div>
                     <p data-bind="text: content"></p>
                 </div>
             </div>

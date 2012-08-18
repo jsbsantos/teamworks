@@ -39,7 +39,7 @@ namespace Teamworks.Web.Controllers.Mvc
             foreach (var message in discussion.Messages)
             {
                 var messageViewModel = message.MapTo<DiscussionViewModel.Message>();
-                messageViewModel.Person = DbSession.Load<Person>(message.Id)
+                messageViewModel.Person = DbSession.Load<Person>(message.Person)
                     .MapTo<PersonViewModel>();
 
                 discussionViewModel.Messages.Add(messageViewModel);
@@ -54,7 +54,7 @@ namespace Teamworks.Web.Controllers.Mvc
             if (!ModelState.IsValid)
                 return View("View");
 
-            var personId = HttpContext.GetCurrentPersonId();
+            var personId = DbSession.GetCurrentPersonId();
             var project = DbSession.Load<Project>(projectId);
             var discussion = Discussion.Forge(model.Name, model.Content, project.Id, personId);
 
@@ -84,11 +84,14 @@ namespace Teamworks.Web.Controllers.Mvc
             if (discussion == null || discussion.Entity != project.Id)
                 return new HttpNotFoundResult();
 
-            var message = Discussion.Message.Forge(content, HttpContext.GetCurrentPersonId());
+            var message = Discussion.Message.Forge(content, DbSession.GetCurrentPersonId());
             message.Id = discussion.GenerateNewMessageId();
             discussion.Messages.Add(message);
 
-            return new JsonNetResult() {Data = message};
+            var messageViewModel = message.MapTo<DiscussionViewModel.Message>();
+            messageViewModel.Person = DbSession.GetCurrentPerson().MapTo<PersonViewModel>();
+
+            return new JsonNetResult() {Data = messageViewModel};
         }
 
         [AjaxOnly]

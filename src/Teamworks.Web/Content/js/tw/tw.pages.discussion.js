@@ -4,7 +4,7 @@
             tw.page.alerts.push({ message: 'An error as ocurred.' });
         };
 
-        var self = ko.mapping.fromJS(json);
+        var self = ko.mapping.fromJS(json, {});
         self.messages.input = ko.observable().extend({ required: "" });
         self.messages.input("");
 

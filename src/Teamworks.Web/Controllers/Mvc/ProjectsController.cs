@@ -100,7 +100,7 @@ namespace Teamworks.Web.Controllers.Mvc
             if (!ModelState.IsValid)
                 return View("View");
 
-            var person = HttpContext.GetCurrentPerson();
+            var person = DbSession.GetCurrentPerson();
 
             var project = Project.Forge(model.Name, model.Description);
             DbSession.Store(project);
@@ -175,7 +175,7 @@ namespace Teamworks.Web.Controllers.Mvc
         {
             ViewBag.Endpoint = "api/projects/" + projectId;
 
-            DbSession.SecureFor(ControllerContext.HttpContext.GetCurrentPersonId(), "GOD");
+            DbSession.SecureFor(DbSession.GetCurrentPersonId(), "god");
 
             var project = DbSession
                 .Load<Project>(projectId);

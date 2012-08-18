@@ -17,7 +17,7 @@ namespace Teamworks.Web.Attributes.Mvc
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            string id = filterContext.HttpContext.GetCurrentPersonId() ?? string.Empty;
+            string id = filterContext.HttpContext.GetCurrentRavenSession().GetCurrentPersonId() ?? string.Empty;
             var session = filterContext.HttpContext.GetCurrentRavenSession();
             session.SecureFor(id, Operation);
         }

@@ -8,13 +8,13 @@ namespace Teamworks.Web.Helpers.Extensions.Mvc
 {
     public static class HttpContextExtensions
     {
-        public static Person GetCurrentPerson(this HttpContextBase context)
+        public static Person GetCurrentPerson(this IDocumentSession context)
         {
-            var person = context.User.Identity as PersonIdentity;
+            var person = HttpContext.Current.User.Identity as PersonIdentity;
             return person == null ? null : person.Person;
         }
 
-        public static string GetCurrentPersonId(this HttpContextBase context)
+        public static string GetCurrentPersonId(this IDocumentSession context)
         {
             Person person = GetCurrentPerson(context);
             return person == null ? null : person.Id;
