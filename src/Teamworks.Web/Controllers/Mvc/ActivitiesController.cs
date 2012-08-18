@@ -27,15 +27,15 @@ namespace Teamworks.Web.Controllers.Mvc
             ActivityServices = new Lazy<ActivityServices>(() => new ActivityServices { DbSession = DbSession }).Value;
         }
 
-        [GET("projects/{projectId}/activities/{activityid}")]
-        public ActionResult Details(int projectId, int activityid)
+        [GET("projects/{projectId}/activities/{activityId}")]
+        public ActionResult Details(int projectId, int activityId)
         {
             var list = DbSession.Query<Activity>()
                 .Include(a => a.Project)
                 .Include(a => a.People)
                 .Where(r => r.Project == projectId.ToId("project")).ToList();
 
-            var activity = list.FirstOrDefault(a => a.Id == activityid.ToId("activity"));
+            var activity = list.FirstOrDefault(a => a.Id == activityId.ToId("activity"));
 
             if (activity == null)
                 return HttpNotFound();
@@ -108,22 +108,22 @@ namespace Teamworks.Web.Controllers.Mvc
             };
         }
 
-        [DELETE("projects/{projectId}/activities/{activityid}")]
-        public ActionResult Remove(int projectId, int activityid)
+        [DELETE("projects/{projectId}/activities/{activityId}")]
+        public ActionResult Remove(int projectId, int activityId)
         {
             var activity = DbSession
                 .Query<Activity, Activities_ByProject>()
                 .FirstOrDefault(a => a.Project == projectId.ToId("project")
-                                     && a.Id == activityid.ToId("activity"));
+                                     && a.Id == activityId.ToId("activity"));
             DbSession.Delete(activity);
             return new HttpStatusCodeResult(HttpStatusCode.NoContent);
         }
 
-        [POST("projects/{projectId}/activities/{activityid}/people")]
-        public ActionResult AddPerson(int projectId, int activityid, string personIdOrEmail)
+        [POST("projects/{projectId}/activities/{activityId}/people")]
+        public ActionResult AddPerson(int projectId, int activityId, string personIdOrEmail)
         {
             var _projectId = projectId.ToId("project");
-            var _activityId = activityid.ToId("activity");
+            var _activityId = activityId.ToId("activity");
 
             var person = DbSession.Query<Person>()
                 .Customize(c => c.Include(_projectId))
@@ -145,11 +145,11 @@ namespace Teamworks.Web.Controllers.Mvc
             return new HttpStatusCodeResult(HttpStatusCode.Created);
         } 
 
-        [DELETE("projects/{projectId}/activities/{activityid}/people")]
-        public ActionResult RemovePerson(int projectId, int activityid, string personIdOrEmail)
+        [DELETE("projects/{projectId}/activities/{activityId}/people")]
+        public ActionResult RemovePerson(int projectId, int activityId, string personIdOrEmail)
         {
             var _projectId = projectId.ToId("project");
-            var _activityId = activityid.ToId("activity");
+            var _activityId = activityId.ToId("activity");
 
             var person = DbSession.Query<Person>()
                 .Customize(c => c.Include(_projectId))

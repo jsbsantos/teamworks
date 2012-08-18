@@ -8,7 +8,7 @@
 <div class="row">
     <ul class="breadcrumb span12">
         <li>
-            <a href="@Url.RouteUrl("projecs_get")">Projects</a>
+            <a href="@Url.RouteUrl("projects_get")">Projects</a>
             <span class="divider">/</span>
         </li>
         <li>
@@ -94,7 +94,7 @@
     <div>
         <button class="close" data-bind="click: _remove">&times;</button>
         <h3>
-            <a data-bind="attr: { href: '@Url.RouteUrl("activities_details", new {projectId = Model.Id, activityid = UrlParameter.Optional })' + id() }">
+            <a data-bind="attr: { href: '@Url.RouteUrl("activities_details", new {projectId = Model.Id, activityId = UrlParameter.Optional })' + id() }">
                 <span data-bind="text: name"></span>
                 <small data-bind="text: description"></small>
             </a>
@@ -119,7 +119,7 @@
             <img class="pull-left" data-bind="attr: { alt: name, src: gravatar }" />
             <div>
                 <h3 class="lead">
-                    <a data-bind="text: name, attr: { href: '@Url.RouteUrl("default", new {controller = "profiles"})' + id() }" href="#"></a>
+                    <a data-bind="text: name, attr: { href: '@Url.RouteUrl("profiles_get")' + id() }" href="#"></a>
                 </h3>
                 <div data-bind="text: username"></div>
                 <div data-bind="text: email"></div>
@@ -130,6 +130,6 @@
 </script>
 <script>
     var viewmodel = function() {
-        return tw.pages.ProjectViewModel("/projects/" + @Model.Id, @Html.ToJson(Model));
+        return tw.pages.ProjectViewModel("/projects/" + @Model.Id, Html.ToJson(Model));
     };
 </script>
