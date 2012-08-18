@@ -2,13 +2,8 @@
 using System.Linq;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
-using AutoMapper;
-using Raven.Client;
-using Raven.Client.Linq;
 using Teamworks.Core;
-using Teamworks.Web.Attributes.Api;
 using Teamworks.Web.Helpers.AutoMapper;
-using Teamworks.Web.Helpers.Extensions.Api;
 using Teamworks.Web.ViewModels.Api;
 
 namespace Teamworks.Web.Controllers.Api

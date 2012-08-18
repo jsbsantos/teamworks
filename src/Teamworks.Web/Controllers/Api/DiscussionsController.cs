@@ -33,7 +33,7 @@ namespace Teamworks.Web.Controllers.Api
         }
 
         [GET("discussions/{id}")]
-        public Discussion Get(int id, int projectId)
+        public Discussion GetById(int id, int projectId)
         {
             Core.Discussion discussion = DbSession
                 .Query<Core.Discussion>()
@@ -86,19 +86,19 @@ namespace Teamworks.Web.Controllers.Api
         #endregion
 
         [GET("activities/{activityId}/discussions")]
-        public IEnumerable<Discussion> GetTaskDiscussions(int projectId, int activityId)
+        public IEnumerable<Discussion> GetActivityDiscussions(int projectId, int activityId)
         {
             throw new NotImplementedException();
         }
 
         [GET("activities/{activityId}/discussions/{id}")]
-        public Discussion GetTaskDiscussion(int id, int projectId, int activityId)
+        public Discussion GetActivityDiscussionById(int id, int projectId, int activityId)
         {
             throw new NotImplementedException();
         }
 
         [POST("activities/{activityId}/discussions/")]
-        public HttpResponseMessage PostTaskDiscussion(
+        public HttpResponseMessage PostActivityDiscussion(
             int projectId,
             int activityId,
             Discussion model)
@@ -108,7 +108,7 @@ namespace Teamworks.Web.Controllers.Api
 
         /// <see cref="http://forums.asp.net/post/4855634.aspx" />
         [PUT("activities/{activityId}/discussions/{id}")]
-        public HttpResponseMessage PutTaskDiscussion(int id,
+        public HttpResponseMessage PutActivityDiscussion(int id,
                                                      int projectId,
                                                      int activityId,
                                                      Message model)
@@ -117,7 +117,7 @@ namespace Teamworks.Web.Controllers.Api
         }
 
         [DELETE("activities/{activityId}/discussions/{id}")]
-        public HttpResponseMessage DeleteTaskDiscussion(int id, int projectId, int activityId)
+        public HttpResponseMessage DeleteActivityDiscussion(int id, int projectId, int activityId)
         {
             throw new NotImplementedException();
         }

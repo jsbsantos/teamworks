@@ -9,6 +9,6 @@ namespace Teamworks.Web.ViewModels.Api
         public string Name { get; set; }
         public string Content { get; set; }
         public DateTimeOffset Date { get; set; }
-        public IList<Message> Messages { get; set; }
+        public IList<MessageViewModel> Messages { get; set; }
     }
 }

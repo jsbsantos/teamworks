@@ -93,7 +93,6 @@
     <Compile Include="Controllers\Api\MessagesController.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controllers\Api\PeopleController.cs" />
     <Compile Include="Controllers\Api\HomeController.cs" />
     <Compile Include="Controllers\Mvc\TimelogsController.cs" />
     <Compile Include="Helpers\AutoMapper\AutoMapperExtensions.cs" />
@@ -105,7 +104,6 @@
     <Compile Include="Helpers\Utils.cs" />
     <Compile Include="ViewModels\Api\Todo.cs" />
     <Compile Include="ViewModels\Api\TodoList.cs" />
-    <Compile Include="ViewModels\Api\Permissions.cs" />
     <Compile Include="Controllers\Api\ProjectsController.cs" />
     <Compile Include="Controllers\Api\TimelogsController.cs">
       <SubType>Code</SubType>
@@ -132,9 +130,9 @@
     <Compile Include="Helpers\NameValueCollectionExtensions.cs" />
     <Compile Include="Helpers\Extensions\EntityExtensions.cs" />
     <Compile Include="ViewModels\Api\ActivityViewModel.cs" />
-    <Compile Include="ViewModels\Api\Discussion.cs" />
+    <Compile Include="ViewModels\Api\DiscussionViewModel.cs" />
     <Compile Include="ViewModels\Api\Mailgun.cs" />
-    <Compile Include="ViewModels\Api\Message.cs" />
+    <Compile Include="ViewModels\Api\MessageViewModel.cs" />
     <Compile Include="ViewModels\Api\PersonViewModel.cs" />
     <Compile Include="ViewModels\Api\TimelogViewModel.cs" />
     <Compile Include="ViewModels\Mvc\LoginViewModel.cs" />
@@ -144,7 +142,6 @@
     <Compile Include="Views\ViewsExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Readme\glimpse.readme.txt" />
     <Content Include="Content\css\bootstrap\bootstrap-responsive.css" />
     <Content Include="Content\css\bootstrap\bootstrap-responsive.min.css" />
     <Content Include="Content\css\bootstrap\bootstrap.css" />
@@ -309,9 +306,6 @@
     <Reference Include="AutoMapper, Version=2.1.267.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\..\packages\AutoMapper.2.1.267\lib\net40\AutoMapper.dll</HintPath>
     </Reference>
-    <Reference Include="Glimpse.Core">
-      <HintPath>..\..\packages\Glimpse.0.87\lib\net40\Glimpse.Core.dll</HintPath>
-    </Reference>
     <Reference Include="LowercaseRoutesMVC4, Version=0.4.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\LowercaseRoutesMVC4.0.4.1\lib\LowercaseRoutesMVC4.dll</HintPath>
     </Reference>
@@ -332,6 +326,9 @@
     </Reference>
     <Reference Include="Raven.Client.Lightweight, Version=1.2.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <HintPath>..\..\packages\RavenDB.Client.1.2.2065-Unstable\lib\net40\Raven.Client.Lightweight.dll</HintPath>
+    </Reference>
+    <Reference Include="RouteDebugger">
+      <HintPath>..\..\packages\routedebugger.2.1.4.0\lib\net40\RouteDebugger.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />

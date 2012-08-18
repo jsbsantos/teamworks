@@ -1,10 +1,11 @@
-﻿using System.Reflection;
+﻿using System.Linq;
+using System.Reflection;
 using System.Web.Mvc;
 using System.Web.Routing;
 using AttributeRouting.Web.Http.WebHost;
 using AttributeRouting.Web.Mvc;
 using LowercaseRoutesMVC4;
-using Teamworks.Web.Controllers.Api;
+using Teamworks.Web.Controllers;
 
 namespace Teamworks.Web.App_Start
 {
@@ -12,12 +13,12 @@ namespace Teamworks.Web.App_Start
     {
         public static void Register(RouteCollection routes)
         {
+            routes.Clear();
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-
+            
             routes.MapHttpAttributeRoutes(c =>
                                               {
-                                                  c.AddRoutesFromController<ProjectsController>();
-
+                                                  c.ScanAssembly(Assembly.GetExecutingAssembly());
                                                   c.AutoGenerateRouteNames = true;
                                                   c.UseLowercaseRoutes = true;
                                                   c.AppendTrailingSlash = true;
@@ -29,21 +30,19 @@ namespace Teamworks.Web.App_Start
                                                                        specification.ActionName.
                                                                            ToLowerInvariant();
                                               });
-
-            routes.MapAttributeRoutes(configuration =>
+            routes.MapAttributeRoutes(c =>
                                           {
-                                              configuration.ScanAssembly(Assembly.GetExecutingAssembly());
-                                              configuration.AutoGenerateRouteNames = true;
-                                              configuration.UseLowercaseRoutes = true;
-                                              configuration.AppendTrailingSlash = true;
-                                              configuration.RouteNameBuilder = specification =>
-                                                                               specification.ControllerName.
-                                                                                   ToLowerInvariant() +
-                                                                               "_" +
-                                                                               specification.ActionName.ToLowerInvariant
-                                                                                   ();
+                                              c.ScanAssembly(Assembly.GetExecutingAssembly());
+                                              c.AutoGenerateRouteNames = true;
+                                              c.UseLowercaseRoutes = true;
+                                              c.AppendTrailingSlash = true;
+                                              c.RouteNameBuilder = specification =>
+                                                                   specification.ControllerName.
+                                                                       ToLowerInvariant() +
+                                                                   "_" +
+                                                                   specification.ActionName.ToLowerInvariant();
                                           });
-
+            
             routes.MapRouteLowercase(
                 name: "default",
                 url: "{controller}/{action}/{id}",

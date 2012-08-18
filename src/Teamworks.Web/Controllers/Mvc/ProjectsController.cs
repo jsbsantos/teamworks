@@ -23,6 +23,7 @@ namespace Teamworks.Web.Controllers.Mvc
     public class ProjectsController : RavenController
     {
         [GET("")]
+        [Secure("projects/view")]
         public ActionResult Get(int page = 1)
         {
             RavenQueryStatistics stats;

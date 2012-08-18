@@ -32,7 +32,7 @@ namespace Teamworks.Web.Controllers.Api
             ActivityServices = new Lazy<ActivityServices>(() => new ActivityServices() { DbSession = DbSession }).Value;
         }
 
-        public IEnumerable<Activity> Get(int projectId)
+        public IEnumerable<Activity> GetById(int projectId)
         {
             IRavenQueryable<Core.Activity> activities = DbSession
                 .Query<Core.Activity, Activities_ByProject>()

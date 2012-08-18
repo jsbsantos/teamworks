@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Teamworks.Web.ViewModels.Api
 {
-    public class Message
+    public class MessageViewModel
     {
         public int Id { get; set; }
 

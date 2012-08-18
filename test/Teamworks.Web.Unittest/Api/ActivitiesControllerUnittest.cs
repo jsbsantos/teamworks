@@ -43,8 +43,8 @@ namespace Teamworks.Web.Unittest.Api
             List<ActivityViewModel> result;
             using (var session = RavenDbFixture.DocumentStore.OpenSession())
             {
-                var controller = ControllerForTests<ActivitiesController>(session, HttpMethod.Get);
-                result = controller.Get(projectId).ToList();
+                var controller = ControllerForTests<ActivitiesController>(session, HttpMethod.GetById);
+                result = controller.GetById(projectId).ToList();
             }
 
             Assert.Equal(size, result.Count());
@@ -62,7 +62,7 @@ namespace Teamworks.Web.Unittest.Api
             ActivityViewModel result;
             using (var session = RavenDbFixture.DocumentStore.OpenSession())
             {
-                var controller = ControllerForTests<ActivitiesController>(session, HttpMethod.Get);
+                var controller = ControllerForTests<ActivitiesController>(session, HttpMethod.GetById);
                 result = controller.GetById(projectId, activityId);
             }
 

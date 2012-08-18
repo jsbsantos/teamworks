@@ -17,7 +17,7 @@
 else
 {
     <div class="row">
-        <div class="span4">
+        <div class="span12">
             <div class="tabbable tabs-left">
                 <ul class="nav nav-tabs" data-bind="foreach: tabs">
                     <li data-bind="css: {active: $parent.selected() === $data }">
@@ -32,13 +32,13 @@ else
                             <a class="hide" data-bind="datepicker: timelogs.input.date.formatted, css: { hide: selected().calendar === false }" data-date-autoclose="true" data-date-format="dd/MM/yyyy" data-date-enddate="@DateTime.Today.ToString("dd/MM/yyyy")"><i class="icon-calendar"></i></a>
                         </p>
                         <div class="control-group" >
-                            <input id="project_name" autofocus="autofocus" name="project_name" placeholder="Project name, Activity name" data-bind="typeahead: typeahead" />
+                            <input id="project_name" autofocus="autofocus" class="span4" name="project_name" placeholder="Project name, Activity name" data-bind="typeahead: typeahead" />
                         </div>
                         <div class="control-group">
-                            <input name="description" placeholder="Description" data-bind="value: timelogs.input.description, valueUpdate: 'afterkeyup'" />
+                            <input name="description" placeholder="Description" class="span4" data-bind="value: timelogs.input.description, valueUpdate: 'afterkeyup'" />
                         </div>
                         <div class="control-group">
-                            <input name="duration" placeholder="20min" data-bind="value: timelogs.input.duration, valueUpdate: 'afterkeyup'" />
+                            <input name="duration" placeholder="20min" class="span4" data-bind="value: timelogs.input.duration, valueUpdate: 'afterkeyup'" />
                         </div>
                         <div>
                             <button class="btn btn-large btn-success" type="submit">Register</button>
@@ -48,7 +48,7 @@ else
                 </div>
             </div>
         </div>
-        <div class="span8">
+        <div class="span12">
             <header class="lead">
                 <h2>Your time <small>Where you spent your days</small></h2>
             </header>

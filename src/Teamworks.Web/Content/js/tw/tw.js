@@ -59,11 +59,13 @@
     });
 }());
 
-var tw = tw || { };
-tw.pages = tw.pages || { };
-tw.mappings = tw.mappings || { };
-tw.viewmodels = tw.viewmodels || { };
-tw.graphics = tw.graphics || { };
+var tw = {
+    utils: { },
+    pages: { },
+    mappings: { },
+    viewmodels: { },
+    graphics: { }
+};
 
 (function(obj) {
     'use strict';
@@ -75,6 +77,13 @@ tw.graphics = tw.graphics || { };
     obj.page.alerts._remove = function(item) {
         tw.page.alerts.remove(item);
     };
+
+    var raw = window.location.href;
+    var i = raw.length - 1;
+    if (raw.charAt(i) == '/') {
+        raw = raw.substring(0, i);
+    }
+    obj.utils.location = raw;
 
     $(function() {
         $('body').on('focus.datepicker.data-api', '[data-provide="datepicker"]', function(e) {

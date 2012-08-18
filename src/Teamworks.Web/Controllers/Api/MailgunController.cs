@@ -10,13 +10,9 @@ using AttributeRouting.Web.Http;
 using Teamworks.Core;
 using Teamworks.Web.Helpers;
 using Teamworks.Web.ViewModels.Api;
-using Discussion = Teamworks.Core.Discussion;
-using Message = Teamworks.Core.Message;
-using Person = Teamworks.Core.Person;
 
 namespace Teamworks.Web.Controllers.Api
 {
-    [DefaultHttpRouteConvention]
     [RoutePrefix("api/mailgun")]
     public class MailgunController : RavenApiController
     {
@@ -25,7 +21,7 @@ namespace Teamworks.Web.Controllers.Api
         {
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
-
+        
         [POST("create")]
         public HttpResponseMessage PostCreate([ModelBinder(typeof (MailgunModelBinderProvider))] Mailgun model)
         {
@@ -46,7 +42,7 @@ namespace Teamworks.Web.Controllers.Api
         }
 
         [POST("reply")]
-        public HttpResponseMessage PostReply([ModelBinder(typeof (MailgunModelBinderProvider))] Mailgun model)
+        public HttpResponseMessage PostReply([ModelBinder(typeof(MailgunModelBinderProvider))] Mailgun model)
         {
             Person person = DbSession.Query<Person>().FirstOrDefault(p => p.Email == model.Sender);
 

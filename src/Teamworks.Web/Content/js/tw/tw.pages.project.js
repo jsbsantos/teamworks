@@ -1,5 +1,27 @@
 ﻿(function (pages) {
-    pages.ProjectViewModel = function (endpoint, json) {
+    pages.ProjectViewModel = function (json) {
+        var remove = function (name, endpoint) {
+            var _name = name;
+            var _endpoint = endpoint;
+
+            return function () {
+                var obj = this;
+                var message = 'You are about to delete ' + obj.name() + '.';
+                if (confirm(message)) {
+                    var collection = self[_name];
+                    $.ajax(_endpoint + obj.id(),
+                        {
+                            type: 'post',
+                            statusCode: {
+                                204: /*no content*/function () {
+                                    collection.mappedRemove(obj);
+                                }
+                            }
+                        });
+                }
+            };
+        };
+
         var mapping = {
             'activities': {
                 key: function (data) {
@@ -7,21 +29,7 @@
                 },
                 create: function (options) {
                     return (new (function () {
-                        this._remove = function () {
-                            var activity = this;
-                            var message = 'You are about to delete ' + activity.name() + '.';
-                            if (confirm(message)) {
-                                $.ajax(endpoint + '/activities/' + activity.id(),
-                                    {
-                                        type: 'delete',
-                                        statusCode: {
-                                            204: /*no content*/function () {
-                                                self.activities.mappedRemove(activity);
-                                            }
-                                        }
-                                    });
-                            }
-                        };
+                        this._remove = remove('activities', tw.utils.location + '/activities/remove/');
                         ko.mapping.fromJS(options.data, {}, this);
                     })());
                 }
@@ -32,21 +40,7 @@
                 },
                 create: function (options) {
                     return (new (function () {
-                        this._remove = function () {
-                            var discussion = this;
-                            var message = 'You are about to delete ' + discussion.name() + '.';
-                            if (confirm(message)) {
-                                $.ajax(endpoint + '/discussions/' + discussion.id(),
-                                    {
-                                        type: 'delete',
-                                        statusCode: {
-                                            204: /*no content*/function () {
-                                                self.discussions.mappedRemove(discussion);
-                                            }
-                                        }
-                                    });
-                            }
-                        };
+                        this._remove = remove('discussions', tw.utils.location + '/discussions/remove/');
                         ko.mapping.fromJS(options.data, {}, this);
                     })());
                 }
@@ -57,31 +51,15 @@
                 },
                 create: function (options) {
                     return (new (function () {
-                        this._remove = function () {
-                            var person = this;
-                            var message = 'You are about to delete ' + person.name() + '.';
-                            if (confirm(message)) {
-                                $.ajax('people/remove/' + person.id(),
-                                    {
-                                        type: 'delete',
-                                        statusCode: {
-                                            204: /*no content*/function () {
-                                                self.people.mappedRemove(person);
-                                            }
-                                        }
-                                    });
-                            }
-                        };
-
-                        var mapping = {
+                        this._remove = remove('people', tw.utils.location + '/people/remove/');
+                        var m = {
                             'gravatar': {
-                                create: function (options) {
-                                    return options.data + '&s=64';
+                                create: function (opt) {
+                                    return opt.data + '&s=64';
                                 }
                             }
                         };
-
-                        ko.mapping.fromJS(options.data, mapping, this);
+                        ko.mapping.fromJS(options.data, m, this);
                     })());
                 }
             }
@@ -93,7 +71,7 @@
         self.activities.editing = ko.observable();
 
         self.activities._create = function () {
-            $.ajax(endpoint + '/activities/',
+            $.ajax(tw.utils.location + '/activities/',
                 {
                     type: 'post',
                     data: ko.toJSON({ 'name': self.activities.input() }),
@@ -114,7 +92,7 @@
         self.discussions.editing = ko.observable();
 
         self.discussions._create = function () {
-            $.ajax(endpoint + '/discussions/',
+            $.ajax(tw.utils.location + '/discussions/',
                 {
                     type: 'post',
                     data: ko.toJSON({ 'name': self.discussions.input() }),
@@ -133,11 +111,11 @@
 
         self.people._add = function () {
             var personIdOrEmail = self.people.input();
-            
-            $.ajax('people/add',
+
+            $.ajax(tw.utils.location + 'people',
                 {
                     type: 'post',
-                    data: ko.toJSON(personIdOrEmail),
+                    data: ko.toJSON({ 'personIdOrEmail': personIdOrEmail }),
                     statusCode: {
                         201: /*created*/function (data) {
                             self.people.mappedCreate(data);
@@ -206,7 +184,8 @@
                     if (!query) {
                         typeahead.source = filter([]);
                         return;
-                    };
+                    }
+                    ;
                     $.get(endpoint, { q: query }, function (data) {
                         if (query !== typeahead.query) return;
                         typeahead.source = filter(data);
