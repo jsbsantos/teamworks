@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using AttributeRouting;
 using AttributeRouting.Web.Mvc;
 using Newtonsoft.Json;
 using Raven.Client.Authorization;
@@ -17,21 +18,17 @@ using Teamworks.Web.Views;
 
 namespace Teamworks.Web.Controllers.Mvc
 {
+    [RoutePrefix("projects")]
     public class ProjectsController : RavenController
     {
-        [HttpGet]
-        public ActionResult Index(int page = 1)
+        [GET("")]
+        public ActionResult Get(int page = 1)
         {
-            var current = HttpContext.GetCurrentPersonId();
-
             RavenQueryStatistics stats;
-            var results = DbSession
-                .Query<ProjectEntityCount.Result, ProjectEntityCount>()
+            var projects = DbSession.Query<Project>()
                 .Statistics(out stats)
-                .Customize(c => c
-                                    .Include<ProjectEntityCount.Result>(r => r.People)
-                                    .Include<ProjectEntityCount.Result>(r => r.Project))
-                .Where(r => r.People.Any(p => p == current))
+                .Customize(c => c.Include<Project>(p => p.People))
+                .OrderByDescending(p => p.CreatedAt)
                 .ToList();
 
             var vm = new ProjectsViewModel
@@ -41,23 +38,31 @@ namespace Teamworks.Web.Controllers.Mvc
                              Projects = new List<ProjectsViewModel.Project>()
                          };
 
-            foreach (var result in results)
+            if (projects.Count > 0)
             {
-                var project = DbSession.Load<Project>(result.Project);
+                var results = DbSession
+                    .Query<ProjectEntityCount.Result, ProjectEntityCount>()
+                    .Where(r => r.Project.In(projects.Select(p => p.Id)))
+                    .ToList();
 
-                var projectViewModel = result.MapTo<ProjectsViewModel.Project>();
-                projectViewModel.People = DbSession.Load<Person>(result.People)
-                    .Where(p => p != null).MapTo<PersonViewModel>();
+                foreach (var result in results)
+                {
+                    var project = DbSession.Load<Project>(result.Project);
 
-                projectViewModel.Name = project.Name;
-                projectViewModel.Description = project.Description;
-                vm.Projects.Add(projectViewModel);
+                    var projectViewModel = result.MapTo<ProjectsViewModel.Project>();
+                    projectViewModel.People = DbSession.Load<Person>(project.People)
+                        .Where(p => p != null).MapTo<PersonViewModel>();
+
+                    projectViewModel.Name = project.Name;
+                    projectViewModel.Description = project.Description;
+                    vm.Projects.Add(projectViewModel);
+                }
             }
-            return View(vm);
+            return View("Index", vm);
         }
 
-        [HttpPost]
-        public ActionResult Index(ProjectsViewModel.Input model)
+        [POST("")]
+        public ActionResult Post(ProjectsViewModel.Input model)
         {
             if (ModelState.IsValid)
             {
@@ -75,25 +80,27 @@ namespace Teamworks.Web.Controllers.Mvc
                                {
                                    Data = projectViewModel
                                };
-                return RedirectToAction("Index");
+                return RedirectToRoute("projects_get");
             }
-            return View();
+            return View("Index");
         }
 
-        [GET("projects/{id}")]
-        public ActionResult Details(int id)
+        [GET("{projectId}")]
+        [SecureProject("projects/view")]
+        public ActionResult Details(int projectId)
         {
-            var projectId = id.ToId("project");
+            var id = projectId.ToId("project");
+
             RavenQueryStatistics stats;
             var activities = DbSession
                 .Query<Activity>()
                 .Statistics(out stats)
                 .Customize(c => c.Include<Activity>(r => r.Project)
                                     .Include<Activity>(r => r.People))
-                .Where(r => r.Project == projectId);
+                .Where(r => r.Project == id);
 
             var project = DbSession.Include<Project>(p => p.People)
-                .Load<Project>(projectId);
+                .Load<Project>(id);
 
             if (project == null)
                 return HttpNotFound();
@@ -102,7 +109,7 @@ namespace Teamworks.Web.Controllers.Mvc
                 .Query<Discussion>()
                 .Statistics(out stats)
                 .Customize(c => c.Include<Discussion>(r => r.Entity))
-                .Where(r => r.Entity == projectId);
+                .Where(r => r.Entity == id);
 
             var vm = project.MapTo<ProjectViewModel>();
             vm.Activities = activities.MapTo<ProjectViewModel.Activity>();
@@ -114,46 +121,46 @@ namespace Teamworks.Web.Controllers.Mvc
         }
 
         [AjaxOnly]
-        [POST("projects/{id}/people/{personIdOrEmail}")]
-        public ActionResult AddPerson(int id, string personIdOrEmail)
+        [POST("{projectId}/people/{personIdOrEmail}")]
+        public ActionResult AddPerson(int projectId, string personIdOrEmail)
         {
-            var projectId = id.ToId("project");
+            var id = projectId.ToId("project");
 
             var person = DbSession.Query<Person>()
-                .Customize(c => c.Include(projectId))
+                .Customize(c => c.Include(id))
                 .Where(p => p.Email == personIdOrEmail).FirstOrDefault();
 
             if (person == null)
                 return new HttpNotFoundResult();
 
-            var project = DbSession.Load<Project>(id);
+            var project = DbSession.Load<Project>(projectId);
             if (project == null)
                 return new HttpNotFoundResult();
 
-            return new ContentResult
+            return new JsonNetResult
                        {
-                           Content = Utils.ToJson(person.MapTo<PersonViewModel>())
+                           Data = person.MapTo<PersonViewModel>()
                        };
         }
 
         [AjaxOnly]
-        [DELETE("projects/{id}/people/{personIdOrEmail}")]
-        public ActionResult RemovePerson(int id, string personIdOrEmail)
+        [DELETE("{projectId}/people/{personIdOrEmail}")]
+        public ActionResult RemovePerson(int projectId, string personIdOrEmail)
         {
             var person = DbSession.Query<Person>()
-                .Customize(c => c.Include(id.ToId("project")))
+                .Customize(c => c.Include(projectId.ToId("project")))
                 .Where(p => p.Email == personIdOrEmail).FirstOrDefault();
 
             if (person == null)
                 return new HttpNotFoundResult();
 
-            var project = DbSession.Load<Project>(id);
+            var project = DbSession.Load<Project>(projectId);
             if (project == null)
                 return new HttpNotFoundResult();
 
-            return new ContentResult
+            return new JsonNetResult
                        {
-                           Content = Utils.ToJson(person.MapTo<PersonViewModel>())
+                           Data = person.MapTo<PersonViewModel>()
                        };
         }
 
@@ -163,7 +170,7 @@ namespace Teamworks.Web.Controllers.Mvc
             return new EmptyResult();
         }
 
-        [GET("projects/{id}/gantt")]
+        [GET("{projectId}/gantt")]
         public ActionResult Gantt(int projectId)
         {
             ViewBag.Endpoint = "api/projects/" + projectId;

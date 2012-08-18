@@ -3,52 +3,53 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web.Http;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
 using Raven.Client.Linq;
 using Teamworks.Core;
+using Teamworks.Core.Extensions;
 using Teamworks.Core.Services;
 using Teamworks.Web.Attributes.Api;
 using Teamworks.Web.Helpers.AutoMapper;
-using Teamworks.Web.Helpers.Extensions;
 using Teamworks.Web.Helpers.Extensions.Api;
 using Teamworks.Web.ViewModels.Api;
 
 namespace Teamworks.Web.Controllers.Api
 {
+    [DefaultHttpRouteConvention]
     [RoutePrefix("api/projects")]
     public class ProjectsController : RavenApiController
     {
-        [GET("")]
-        [SecureFor]
+        [Secure("projects/view")]
         public IEnumerable<ProjectViewModel> Get()
         {
             var projects = DbSession.Query<Project>();
             return projects.MapTo<ProjectViewModel>();
         }
 
-        [GET("{projectId}")]
-        [SecureFor(Priority = 1)]
-        [VetoProject(RouteValue = "projectId", Priority = 2)]
-        public ProjectViewModel GetById(int projectId)
+        [SecureProject("projects/view", "id")]
+        public ProjectViewModel GetById(int id)
         {
-            var project = DbSession.Load<Project>(projectId);
+            var project = DbSession.Load<Project>(id);
+            if (project == null)
+                throw new HttpResponseException(HttpStatusCode.NotFound);
             return project.MapTo<ProjectViewModel>();
         }
 
-        [POST("")]    
         public HttpResponseMessage Post(ProjectViewModel model)
         {
             var person = Request.GetCurrentPerson();
             var project = Project.Forge(model.Name, model.Description, model.StartDate);
 
             DbSession.Store(project);
-            DbSession.GrantAccessToProject(project, person);
-
+            project.Grant(string.Empty, person);
+            project.Initialize(DbSession);
+            
             var value = project.MapTo<ProjectViewModel>();
             var response = Request.CreateResponse(HttpStatusCode.Created, value);
 
-            var uri = Url.Link("Projects_GetById", new { projectId = project.Id.ToIdentifier() });
+            var uri = Url.Link("api_projects_getbyid", new { id = project.Id.ToIdentifier() });
             response.Headers.Location = new Uri(uri);
             return response;
         }
@@ -61,9 +62,7 @@ namespace Teamworks.Web.Controllers.Api
          * as a single DELETE request. Therefore, the method should not return an error
          * code if the product was already deleted.
          */
-        [DELETE("{id}")]
-        [SecureFor(Priority = 1)]
-        [VetoProject(RouteValue = "id", Priority = 2)]
+        [SecureProject("projects/delete", "id")]
         public HttpResponseMessage Delete(int id)
         {
             var project = DbSession.Load<Project>(id);
@@ -74,9 +73,8 @@ namespace Teamworks.Web.Controllers.Api
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
 
-        [GET("{id}/accesses")]
-        [SecureFor(Priority = 1)]
-        [VetoProject(RouteValue = "id", Priority = 2)]
+        [GET("{projectId}/accesses")]
+        [SecureProject("projects/accesses/view")]
         public IEnumerable<PersonViewModel> GetAccesses(int projectId)
         {
             var project = DbSession
@@ -87,37 +85,35 @@ namespace Teamworks.Web.Controllers.Api
             return people.MapTo<PersonViewModel>();
         }
 
-        [POST("{id}/accesses")]
-        [SecureFor(Priority = 1)]
-        [VetoProject(RouteValue = "id", Priority = 2)]
-        public HttpResponseMessage PostAccesses(int id, IEnumerable<int> ids)
+        [POST("{projectId}/accesses")]
+        [SecureProject("projects/accesses/create")]
+        public HttpResponseMessage PostAccesses(int projectId, IEnumerable<int> ids)
         {
             var people = DbSession
                 .Query<Person>()
                 .Where(p => p.Id.In(ids.Select(i => i.ToId("person"))));
 
-            var project = DbSession.Load<Project>(id);
+            var project = DbSession.Load<Project>(projectId);
             foreach (var person in people)
-                DbSession.GrantAccessToProject(project, person);
+                project.Grant(string.Empty, person);
 
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
 
-        [DELETE("{id}/accesses/{personId}")]
-        [SecureFor(Priority = 1)]
-        [VetoProject(RouteValue = "id", Priority = 2)]
-        public HttpResponseMessage DeleteAccess(int id, int personId)
+        [DELETE("{projectId}/accesses/{personId}")]
+        [SecureProject("projects/accesses/delete")]
+        public HttpResponseMessage DeleteAccess(int projectId, int personId)
         {
             var personRavenId = personId.ToId("person");
             var project = DbSession
                 .Include(personRavenId)
-                .Load<Project>(id);
+                .Load<Project>(projectId);
 
             if (!project.People.Contains(personRavenId))
                 Request.ThrowNotFound();
 
             var person = DbSession.Load<Person>(personId);
-            DbSession.RevokeAccessToProject(project, person);
+            project.Revoke(string.Empty, person);
             
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }

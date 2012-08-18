@@ -22,7 +22,7 @@ namespace Teamworks.Web.Controllers.Api
                 .FirstOrDefault(d => d.Entity == entity
                                      && d.Id == discussionId.ToId("discussion"));
 
-            Request.ThrowNotFoundIfNull(discussion);
+            Request.NotFound(discussion);
             return discussion;
         }
 
@@ -57,7 +57,7 @@ namespace Teamworks.Web.Controllers.Api
         {
             IList<Core.Message> messages = GetDiscussion(discussionId, projectId.ToId("project")).Messages;
             Core.Message message = messages.FirstOrDefault(m => m.Id == id);
-            Request.ThrowNotFoundIfNull(message);
+            Request.NotFound(message);
 
             messages.Remove(message);
             return Request.CreateResponse(HttpStatusCode.NoContent);

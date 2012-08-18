@@ -39,8 +39,8 @@ namespace Teamworks.Web.Views
             IPrincipal user = HttpContext.Current.User;
             var identity = user.Identity as PersonIdentity;
             return user.Identity.IsAuthenticated && identity != null
-                       ? new HelperResult(writer => _this.RenderPartial("Authenticated", (identity).Person.MapTo<PersonViewModel>()))
-                       : new HelperResult(writer => _this.RenderPartial("Anonymous"));
+                       ? new HelperResult(writer => _this.RenderPartial("Partial/Authenticated", (identity).Person.MapTo<PersonViewModel>()))
+                       : new HelperResult(writer => _this.RenderPartial("Partial/Anonymous"));
         }
 
         public static HelperResult ToJson(this HtmlHelper helper, object model)

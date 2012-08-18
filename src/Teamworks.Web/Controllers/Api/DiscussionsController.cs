@@ -7,18 +7,16 @@ using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
 using Raven.Bundles.Authorization.Model;
-using Raven.Client;
 using Raven.Client.Authorization;
 using Raven.Client.Linq;
 using Teamworks.Core;
 using Teamworks.Core.Services;
 using Teamworks.Web.Attributes.Api;
 using Teamworks.Web.Helpers.Extensions.Api;
-using Project = Teamworks.Core.Project;
 
 namespace Teamworks.Web.Controllers.Api
 {
-    [SecureFor]
+    [SecureProject("projects/view")]
     [RoutePrefix("api/projects/{projectId}")]
     public class DiscussionsController : RavenApiController
     {
@@ -42,7 +40,7 @@ namespace Teamworks.Web.Controllers.Api
                 .FirstOrDefault(a => a.Entity == projectId.ToId("project")
                                      && a.Id == id.ToId("discussion"));
 
-            Request.ThrowNotFoundIfNull(discussion);
+            Request.NotFound(discussion);
             return Mapper.Map<Core.Discussion, Discussion>(discussion);
         }
 
@@ -79,7 +77,7 @@ namespace Teamworks.Web.Controllers.Api
                 .FirstOrDefault(a => a.Entity == projectId.ToId("project")
                                      && a.Id == id.ToId("discussion"));
 
-            Request.ThrowNotFoundIfNull(discussion);
+            Request.NotFound(discussion);
 
             DbSession.Delete(discussion);
             return Request.CreateResponse(HttpStatusCode.NoContent);

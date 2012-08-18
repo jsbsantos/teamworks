@@ -27,22 +27,15 @@ namespace Teamworks.Web.Controllers.Mvc
             ActivityServices = new Lazy<ActivityServices>(() => new ActivityServices { DbSession = DbSession }).Value;
         }
 
-        [HttpGet]
-        [ActionName("View")]
-        public ActionResult Index(int projectId)
-        {
-            return View();
-        }
-
-        [HttpGet]
-        public ActionResult Details(int projectId, int activityId)
+        [GET("projects/{projectId}/activities/{activityid}")]
+        public ActionResult Details(int projectId, int activityid)
         {
             var list = DbSession.Query<Activity>()
                 .Include(a => a.Project)
                 .Include(a => a.People)
                 .Where(r => r.Project == projectId.ToId("project")).ToList();
 
-            var activity = list.FirstOrDefault(a => a.Id == activityId.ToId("activity"));
+            var activity = list.FirstOrDefault(a => a.Id == activityid.ToId("activity"));
 
             if (activity == null)
                 return HttpNotFound();
@@ -63,8 +56,7 @@ namespace Teamworks.Web.Controllers.Mvc
             vm.TotalTimeLogged = activity.Timelogs.Sum(r => r.Duration);
             vm.Timelogs = activity.Timelogs.Select(r =>
             {
-                var result = r.MapTo<ActivityViewModel.TimelogViewModel>();
-                //result.Person = DbSession.Load<Person>(r.Person).MapTo<EntityViewModel>();
+                var result = r.MapTo<TimelogViewModel>();
                 return result;
             }).ToList();
             ViewBag.Results = vm;
@@ -79,18 +71,8 @@ namespace Teamworks.Web.Controllers.Mvc
             return View(vm);
         }
 
-        /*
-        [HttpPost]
-        public ActionResult Precedences(int projectId, int activityId, int[] precedences)
-        {
-            return ActivityServices.SetPrecedence(activityId, projectId, precedences) ?
-                new HttpStatusCodeResult(HttpStatusCode.Created) :
-                HttpNotFound();
-        }
-        */
-
-        [HttpPost]
-        public ActionResult Update(int projectId, int activityId, ActivityViewModel model)
+        [PUT("projects/{projectId}/activities")]
+        public ActionResult Update(int projectId, ActivityViewModel model)
         {
             var activity = ActivityServices.Update(model.MapTo<Activity>());
             if (activity == null)
@@ -99,18 +81,15 @@ namespace Teamworks.Web.Controllers.Mvc
             Response.StatusCode = (int)HttpStatusCode.Created;
             return new JsonResult()
             {
-                Data = activity.MapTo<ActivityViewModel>(),
-                ContentEncoding = System.Text.Encoding.UTF8
+                Data = activity.MapTo<ActivityViewModel>()
             };
-
         }
         
-        [AjaxOnly]
-        [POST("projects/{id}/activities")]
-        public ActionResult Add(int id, ActivityViewModel.Input model)
+        [POST("projects/{projectId}/activities")]
+        public ActionResult Add(int projectId, ActivityViewModel.Input model)
         {
             var project = DbSession
-                 .Load<Project>(id);
+                 .Load<Project>(projectId);
 
             var activity = Activity.Forge(project.Id.ToIdentifier(), model.Name, model.Description, model.Duration, model.StartDate);
 
@@ -128,5 +107,68 @@ namespace Teamworks.Web.Controllers.Mvc
                 Content = Utils.ToJson(activity.MapTo<ActivityViewModelComplete>())
             };
         }
+
+        [DELETE("projects/{projectId}/activities/{activityid}")]
+        public ActionResult Remove(int projectId, int activityid)
+        {
+            var activity = DbSession
+                .Query<Activity, Activities_ByProject>()
+                .FirstOrDefault(a => a.Project == projectId.ToId("project")
+                                     && a.Id == activityid.ToId("activity"));
+            DbSession.Delete(activity);
+            return new HttpStatusCodeResult(HttpStatusCode.NoContent);
+        }
+
+        [POST("projects/{projectId}/activities/{activityid}/people")]
+        public ActionResult AddPerson(int projectId, int activityid, string personIdOrEmail)
+        {
+            var _projectId = projectId.ToId("project");
+            var _activityId = activityid.ToId("activity");
+
+            var person = DbSession.Query<Person>()
+                .Customize(c => c.Include(_projectId))
+                .Customize(c => c.Include(_activityId))
+                .Where(p => p.Email == personIdOrEmail || p.Id == personIdOrEmail).FirstOrDefault();
+
+            if (person == null)
+                return new HttpNotFoundResult();
+
+            var project = DbSession.Load<Project>(projectId);
+            if (project == null)
+                return new HttpNotFoundResult();
+            
+            var activity = DbSession.Load<Project>(projectId);
+            if (activity == null)
+                return new HttpNotFoundResult();
+            
+            activity.People.Add(person.Id);
+            return new HttpStatusCodeResult(HttpStatusCode.Created);
+        } 
+
+        [DELETE("projects/{projectId}/activities/{activityid}/people")]
+        public ActionResult RemovePerson(int projectId, int activityid, string personIdOrEmail)
+        {
+            var _projectId = projectId.ToId("project");
+            var _activityId = activityid.ToId("activity");
+
+            var person = DbSession.Query<Person>()
+                .Customize(c => c.Include(_projectId))
+                .Customize(c => c.Include(_activityId))
+                .Where(p => p.Email == personIdOrEmail || p.Id == personIdOrEmail).FirstOrDefault();
+
+            if (person == null)
+                return new HttpNotFoundResult();
+
+            var project = DbSession.Load<Project>(projectId);
+            if (project == null)
+                return new HttpNotFoundResult();
+
+            var activity = DbSession.Load<Project>(projectId);
+            if (activity == null)
+                return new HttpNotFoundResult();
+
+            activity.People.Remove(person.Id);
+            return new HttpStatusCodeResult(HttpStatusCode.Created);
+        } 
     }
 }

@@ -40,7 +40,7 @@ namespace Teamworks.Web.Attributes.Api.Ordered
                 if (filter.Instance is IOrderedFilter)
                 {
                     var attr = filter.Instance as IOrderedFilter;
-                    return instance.Priority.CompareTo(attr.Priority);
+                    return instance.Order.CompareTo(attr.Order);
                 }
                 return -1;
             }

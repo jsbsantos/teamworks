@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web.Mvc;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
 using Raven.Bundles.Authorization.Model;
-using Raven.Client;
 using Raven.Client.Authorization;
 using Raven.Client.Linq;
 using Teamworks.Core;
@@ -20,8 +18,8 @@ using Teamworks.Web.Helpers.Extensions.Api;
 
 namespace Teamworks.Web.Controllers.Api
 {
-    [SecureFor]
     [DefaultHttpRouteConvention]
+    [SecureProject("projects/view")]
     [RoutePrefix("api/projects/{projectId}/activities")]
     public class ActivitiesController : RavenApiController
     {
@@ -51,7 +49,7 @@ namespace Teamworks.Web.Controllers.Api
                 .FirstOrDefault(a => a.Project == projectId.ToId("project")
                                      && a.Id == id.ToId("activity"));
 
-            Request.ThrowNotFoundIfNull(activity);
+            Request.NotFound(activity);
             return Mapper.Map<Core.Activity, Activity>(activity);
         }
 
@@ -91,7 +89,7 @@ namespace Teamworks.Web.Controllers.Api
             var activity = DbSession
                 .Load<Core.Activity>(model.Id);
 
-            Request.ThrowNotFoundIfNull(activity);
+            Request.NotFound(activity);
 
             activity.Name = model.Name ?? activity.Name;
             activity.Description = model.Description ?? activity.Description;
@@ -114,7 +112,7 @@ namespace Teamworks.Web.Controllers.Api
                 .FirstOrDefault(a => a.Project == projectId.ToId("project")
                                      && a.Id == id.ToId("activity"));
 
-            Request.ThrowNotFoundIfNull(activity);
+            Request.NotFound(activity);
 
             DbSession.Delete(activity);
             return Request.CreateResponse(HttpStatusCode.NoContent);

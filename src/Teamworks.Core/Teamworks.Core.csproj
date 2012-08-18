@@ -67,6 +67,7 @@
     <Compile Include="Business\ActivityServices.cs" />
     <Compile Include="Business\BusinessService.cs" />
     <Compile Include="Business\ProjectServices.cs" />
+    <Compile Include="Extensions\ProjectExtensions.cs" />
     <Compile Include="Projects\Todo.cs" />
     <Compile Include="Projects\TodoList.cs" />
     <Compile Include="Projects\Event.cs" />
@@ -94,15 +95,14 @@
     <Compile Include="Services\RavenDb\PersonConversionListener.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Teamworks.Core.Mailgun\Teamworks.Core.Mailgun.csproj">
       <Project>{0A3B8E1C-38D0-4996-91D7-CE9EF96D5275}</Project>
       <Name>Teamworks.Core.Mailgun</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

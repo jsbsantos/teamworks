@@ -4,6 +4,6 @@ namespace Teamworks.Web.Attributes.Api.Ordered
 {
     public interface IOrderedFilter : IFilter
     {
-        int Priority { get; set; }
+        int Order { get; set; }
     }
 }
