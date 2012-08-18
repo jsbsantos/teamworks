@@ -1,5 +1,5 @@
 ﻿(function(pages) {
-    pages.RegisterTimelogsViewModel = function(options, json) {
+    pages.RegisterTimelogsViewModel = function(data, json) {
         var self = this;
 
         self._select = function(i) {
@@ -17,10 +17,9 @@
         var mapping = {
             'date': {
                 create: function(options) {
-                    options.observable.extend({
+                    return ko.observable(options.data).extend({
                         isoDate: 'dd/MM/yyyy'
                     });
-                    return options.data;
                 }
             }
         };
@@ -53,7 +52,7 @@
             duration: ko.observable().extend({ required: "How much time do you used." })
         };
 
-        self.source = options;
+        self.source = data;
         self.typeahead = function(typeahead) {
             var source = [];
             for (var i = 0; i < self.source.length; i++) {
