@@ -2,6 +2,7 @@ using System.Net.Sockets;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using Raven.Client.Exceptions;
+using Teamworks.Web.Attributes.Mvc;
 using Teamworks.Web.Helpers.Extensions.Mvc;
 
 namespace Teamworks.Web.App_Start
@@ -21,7 +22,7 @@ namespace Teamworks.Web.App_Start
             filters.Add(new HandleErrorAttribute {ExceptionType = typeof (SocketException), View = "Erros/NoDb"});
             filters.Add(new HandleErrorAttribute {ExceptionType = typeof (ReadVetoException), View = "Errors/404"});
 
-            filters.Add(new Attributes.Mvc.FormsAuthenticationAttribute(), 1);
+            filters.Add(new FormsAuthenticationAttribute(), -2);
         }
     }
 }

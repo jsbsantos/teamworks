@@ -13,18 +13,21 @@ namespace Teamworks.Web.Controllers.Mvc
     public class ProfilesController : RavenController
     {
         [GET("{id?}")]
-        public ActionResult Index(int? id)
+        public ActionResult Get(int? id)
         {
             var personViewModel = new ProfileViewModel();
             var person = id.HasValue
                              ? DbSession.Load<Person>(id)
                              : HttpContext.GetCurrentPerson();
 
+            if (person == null)
+                return HttpNotFound();
+                
             if (person.Id == HttpContext.GetCurrentPersonId())
                 personViewModel.IsMyProfile = true;
 
             personViewModel.PersonDetails = person.MapTo<PersonViewModel>();
-            return View(personViewModel);
+            return View("View", personViewModel);
         }
 
         [POST("")]
@@ -32,7 +35,7 @@ namespace Teamworks.Web.Controllers.Mvc
         {
             if (!ModelState.IsValid)
             {
-                return RedirectToAction("Index");
+                return RedirectToRoute("profiles_get");
             }
 
             var person = HttpContext.GetCurrentPerson();
@@ -44,7 +47,7 @@ namespace Teamworks.Web.Controllers.Mvc
                                Data = person.MapTo<PersonViewModel>()
                            };
             }
-            return RedirectToAction("Index");
+            return RedirectToRoute("profiles_get");
         }
     }
 }

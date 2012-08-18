@@ -1,17 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using AttributeRouting;
+using AttributeRouting.Web.Mvc;
 using Teamworks.Core;
 using Teamworks.Web.Helpers.AutoMapper;
 using Teamworks.Web.ViewModels.Mvc;
 
 namespace Teamworks.Web.Controllers.Mvc
 {
+    [RoutePrefix("timelogs")]
     public class TimelogsController : RavenController
     {
-        [HttpGet]
-        [ActionName("View")]
-        public ActionResult Index()
+        [GET("")]
+        public ActionResult Get()
         {
             List<Activity> activities = DbSession.Query<Activity>()
                 .Customize(c => c.Include<Activity>(a => a.Project))
@@ -37,7 +39,7 @@ namespace Teamworks.Web.Controllers.Mvc
                                                                      return a;
                                                                  })).ToList();
             }
-            return View(vm);
+            return View("View", vm);
         }
     }
 }

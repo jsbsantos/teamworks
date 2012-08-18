@@ -15,12 +15,21 @@ namespace Teamworks.Web.Controllers.Mvc
     [AllowAnonymous]
     public class AccountController : RavenController
     {
+        private const string ReturnUrlKey = "RETURN_URL_KEY";
+
         [HttpGet]
         public ActionResult Index(string returnUrl)
         {
-            return Request.IsAuthenticated ?
-                RedirectFromLoginPage() :
-                View(new LoginModel { ReturnUrl = returnUrl });
+            if (Request.IsAuthenticated)
+                RedirectFromLoginPage();
+
+            if (!string.IsNullOrEmpty(returnUrl))
+            {
+                Session[ReturnUrlKey] = returnUrl;
+                return RedirectToAction("Index");
+            }
+
+            return View(new LoginModel());
         }
 
         [HttpPost]
@@ -38,7 +47,7 @@ namespace Teamworks.Web.Controllers.Mvc
             {
                 var persist = input.Persist.HasValue && input.Persist.Value;
                 FormsAuthentication.SetAuthCookie(person.Id, persist);
-                return RedirectFromLoginPage(input.ReturnUrl);
+                return RedirectFromLoginPage();
             }
 
             return View(new LoginModel { Login = input.Login, ReturnUrl = input.ReturnUrl });
@@ -74,7 +83,7 @@ namespace Teamworks.Web.Controllers.Mvc
                 DbSession.Store(person);
                 
                 FormsAuthentication.SetAuthCookie(person.Id, false);
-                return RedirectFromLoginPage(model.ReturnUrl);
+                return RedirectFromLoginPage();
             }
             return View(model);
         }
@@ -83,7 +92,7 @@ namespace Teamworks.Web.Controllers.Mvc
         public ActionResult Logout(string returnUrl)
         {
             FormsAuthentication.SignOut();
-            return RedirectFromLoginPage(returnUrl);
+            return RedirectFromLoginPage();
         }
 
         [HttpGet]
@@ -120,7 +129,12 @@ namespace Teamworks.Web.Controllers.Mvc
         private ActionResult RedirectFromLoginPage(string returnUrl = null)
         {
             if (string.IsNullOrEmpty(returnUrl))
+                returnUrl = Session[ReturnUrlKey] as string;
+
+            Session.Remove(ReturnUrlKey);
+            if (string.IsNullOrEmpty(returnUrl))
                 return RedirectToRoute("homepage");
+                
             return Redirect(returnUrl);
         }
 

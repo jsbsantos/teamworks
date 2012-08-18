@@ -19,12 +19,9 @@ namespace Teamworks.Web.Attributes.Api
 
         public override void OnActionExecuting(HttpActionContext context)
         {
-            string id = context.Request.GetCurrentPersonId();
-            if (!string.IsNullOrEmpty(id))
-            {
-                var session = context.Request.Properties[Application.Keys.RavenDbSessionKey] as IDocumentSession;
-                session.SecureFor(id, Operation);
-            }
+            string id = context.Request.GetCurrentPersonId() ?? string.Empty;
+            var session = context.Request.Properties[Application.Keys.RavenDbSessionKey] as IDocumentSession;
+            session.SecureFor(id, Operation);
         }
     }
 }

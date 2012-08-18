@@ -92,7 +92,6 @@
     <Compile Include="Projects\Activity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Projects\Discussion.cs" />
-    <Compile Include="Services\RavenDb\PersonConversionListener.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Teamworks.Core.Mailgun\Teamworks.Core.Mailgun.csproj">

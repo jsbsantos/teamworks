@@ -17,13 +17,9 @@ namespace Teamworks.Web.Attributes.Mvc
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            string id = filterContext.HttpContext.GetCurrentPersonId();
-            if (!string.IsNullOrEmpty(id))
-            {
-                var session = filterContext.HttpContext.GetCurrentRavenSession();
-                session.SecureFor(id, Operation);
-            }
-            base.OnActionExecuting(filterContext);
+            string id = filterContext.HttpContext.GetCurrentPersonId() ?? string.Empty;
+            var session = filterContext.HttpContext.GetCurrentRavenSession();
+            session.SecureFor(id, Operation);
         }
     }
 }

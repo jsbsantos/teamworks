@@ -45,8 +45,7 @@ namespace Teamworks.Web.App_Start
                 new DocumentStore
                     {
                         ConnectionStringName = "RavenDB"
-                    }.RegisterListener(new PersonConversionListener())
-                    .Initialize();
+                    }.Initialize();
 
             IndexCreation.CreateIndexes(Assembly.GetExecutingAssembly(), Global.Database);
         }

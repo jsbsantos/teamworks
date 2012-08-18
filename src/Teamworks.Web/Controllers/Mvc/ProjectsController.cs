@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using Raven.Client.Authorization;
 using Raven.Client.Linq;
 using Teamworks.Core;
+using Teamworks.Core.Extensions;
 using Teamworks.Core.Services;
 using Teamworks.Core.Services.RavenDb.Indexes;
 using Teamworks.Web.Attributes.Mvc;
@@ -59,31 +60,7 @@ namespace Teamworks.Web.Controllers.Mvc
                     vm.Projects.Add(projectViewModel);
                 }
             }
-            return View("Index", vm);
-        }
-
-        [POST("")]
-        public ActionResult Post(ProjectsViewModel.Input model)
-        {
-            if (ModelState.IsValid)
-            {
-                var project = Project.Forge(model.Name, model.Description);
-                DbSession.Store(project);
-
-                var current = HttpContext.GetCurrentPerson();
-                project.People.Add(current.Id);
-
-                var projectViewModel = project.MapTo<ProjectsViewModel.Project>();
-                projectViewModel.People = new List<PersonViewModel> {current.MapTo<PersonViewModel>()};
-
-                if (Request.IsAjaxRequest())
-                    return new JsonNetResult
-                               {
-                                   Data = projectViewModel
-                               };
-                return RedirectToRoute("projects_get");
-            }
-            return View("Index");
+            return View("View", vm);
         }
 
         [GET("{projectId}")]
@@ -91,25 +68,19 @@ namespace Teamworks.Web.Controllers.Mvc
         public ActionResult Details(int projectId)
         {
             var id = projectId.ToId("project");
+            var project = DbSession.Load<Project>(projectId);
 
+            if (project == null)
+                return HttpNotFound();
+            
             RavenQueryStatistics stats;
             var activities = DbSession
                 .Query<Activity>()
                 .Statistics(out stats)
-                .Customize(c => c.Include<Activity>(r => r.Project)
-                                    .Include<Activity>(r => r.People))
                 .Where(r => r.Project == id);
-
-            var project = DbSession.Include<Project>(p => p.People)
-                .Load<Project>(id);
-
-            if (project == null)
-                return HttpNotFound();
-
             var discussions = DbSession
                 .Query<Discussion>()
                 .Statistics(out stats)
-                .Customize(c => c.Include<Discussion>(r => r.Entity))
                 .Where(r => r.Entity == id);
 
             var vm = project.MapTo<ProjectViewModel>();
@@ -121,6 +92,33 @@ namespace Teamworks.Web.Controllers.Mvc
             return View(vm);
         }
 
+
+        [POST("")]
+        public ActionResult Post(ProjectsViewModel.Input model)
+        {
+            if (ModelState.IsValid)
+            {
+                var person = HttpContext.GetCurrentPerson();
+
+                var project = Project.Forge(model.Name, model.Description);
+                DbSession.Store(project);
+                project.Grant(string.Empty, person);
+                project.Initialize(DbSession);
+
+                var projectViewModel = project.MapTo<ProjectsViewModel.Project>();
+                projectViewModel.People = new List<PersonViewModel> { person.MapTo<PersonViewModel>()};
+
+                if (Request.IsAjaxRequest())
+                    return new JsonNetResult {
+                                   Data = projectViewModel
+                               };
+
+                return RedirectToRoute("projects_get");
+            }
+            return View("View");
+        }
+
+        
         [AjaxOnly]
         [POST("{projectId}/people/{personIdOrEmail}")]
         public ActionResult AddPerson(int projectId, string personIdOrEmail)

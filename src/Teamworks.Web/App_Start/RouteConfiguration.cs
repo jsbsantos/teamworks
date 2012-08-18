@@ -20,6 +20,7 @@ namespace Teamworks.Web.App_Start
 
                                                   c.AutoGenerateRouteNames = true;
                                                   c.UseLowercaseRoutes = true;
+                                                  c.AppendTrailingSlash = true;
                                                   c.RouteNameBuilder = specification =>
                                                                        "api_" +
                                                                        specification.ControllerName.
@@ -34,6 +35,7 @@ namespace Teamworks.Web.App_Start
                                               configuration.ScanAssembly(Assembly.GetExecutingAssembly());
                                               configuration.AutoGenerateRouteNames = true;
                                               configuration.UseLowercaseRoutes = true;
+                                              configuration.AppendTrailingSlash = true;
                                               configuration.RouteNameBuilder = specification =>
                                                                                specification.ControllerName.
                                                                                    ToLowerInvariant() +

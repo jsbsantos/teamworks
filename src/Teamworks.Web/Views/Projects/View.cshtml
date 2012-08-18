@@ -3,10 +3,9 @@
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var projectUrl = Request.Url;
 }
 
-<div class="row" style="margin-top: 34px">
+<div class="row">
     <div class="span8">
         <header class="page-header">
             <h1>Projects
@@ -43,7 +42,7 @@
     <div class="row well-small">
         <div class="span">
             <h3>
-                <a data-bind="attr: { href: '@projectUrl/' + id() }">
+                <a data-bind="attr: { href: '@Url.RouteUrl("projects_get")' + id() }">
                     <span data-bind="text: name"></span>
                     <small data-bind="text: description"></small>
                 </a>
@@ -58,7 +57,7 @@
             </div>
         </div>
         <div class="pull-right" data-bind="foreach: people">
-            <a class="pull-left well-mini" data-bind="attr: { href: '@Url.RouteUrl("default", new {controller = "Profiles", action = "Index"})/' + id()  }">
+            <a class="pull-left well-mini" data-bind="attr: { href: '@Url.RouteUrl("profiles_get")' + id()  }">
                 <img data-bind="attr: { src: gravatar, alt: name }"/>
             </a>
         </div>

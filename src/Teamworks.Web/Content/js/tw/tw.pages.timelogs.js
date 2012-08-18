@@ -24,7 +24,7 @@
                 }
             }
         };
-
+        
         var now = Date.today().toString('dd/MM/yyyy');
         self.timelogs = ko.mapping.fromJS(json || [], mapping);
         self.timelogs._create = function () {

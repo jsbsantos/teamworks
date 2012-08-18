@@ -25,7 +25,7 @@ namespace Teamworks.Web.Helpers.Extensions.Api
         public static string GetCurrentPersonId(this HttpRequestMessage request)
         {
             Person person = GetCurrentPerson(request);
-            return person == null ? "" : person.Id;
+            return person == null ? null : person.Id;
         }
 
         public static void ThrowNotFound(this HttpRequestMessage request)

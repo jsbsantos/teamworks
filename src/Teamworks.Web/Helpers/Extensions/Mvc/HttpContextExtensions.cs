@@ -17,7 +17,7 @@ namespace Teamworks.Web.Helpers.Extensions.Mvc
         public static string GetCurrentPersonId(this HttpContextBase context)
         {
             Person person = GetCurrentPerson(context);
-            return person == null ? "" : person.Id;
+            return person == null ? null : person.Id;
         }
 
         public static IDocumentSession GetCurrentRavenSession(this HttpContextBase context)
