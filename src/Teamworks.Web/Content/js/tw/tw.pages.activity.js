@@ -74,32 +74,6 @@
                 }
             );
         };
-
-        $('body').ready(function() {
-            $('#depends').parent().bind('close', function() {
-                if (self.dependenciesChanged()) {
-
-                    $.ajax(endpoint.replace("api/", "") + "/precedences/" + self.id(),
-                        {
-                            type: 'post',
-                            data: ko.toJSON($.map($.grep(self.dependencies(), function(e, i) { return e.dependency(); }), function(e, i) { return e.id(); })),
-                            statusCode: {
-                                201: /*created*/function() {
-                                    self.dependenciesChanged(false);
-                                }
-                            },
-                            error: function(xhr, textStatus, errorThrown) {
-                                self.dependenciesChanged(false);
-                            }
-                        });
-                }
-            });
-
-            $('.dropdown-menu *').click(function(e) {
-                e.stopPropagation();
-            });
-        });
-
         return self;
     };
 }(tw.pages));

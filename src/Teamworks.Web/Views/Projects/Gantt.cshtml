@@ -6,15 +6,18 @@
     <div class="span9">
         <div>
             <ul class="breadcrumb">
-                <li><a href="@Url.RouteUrl("default", new {controller = "Projects"})">VetoProjectAttributeViewModels</a> <span
-                                                                                                       class="divider">/</span> </li>
+                <li><a href="@Url.RouteUrl("projects_get")">Projects</a> 
+                    <span class="divider">/</span> </li>
                 <li><span>@Model.Name</span> </li>
             </ul>
         </div>
         <header class="lead">
             <h1>
-                <span>@Model.Name</span> <small><i class="icon-edit">
-                                                </i><span>@Model.Description</span></small>
+                <span>@Model.Name</span> 
+                <small>
+                    <i class="icon-edit">
+                    </i><span>@Model.Description</span>
+                </small>
             </h1>
         </header>
     </div>

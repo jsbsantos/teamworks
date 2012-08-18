@@ -23,7 +23,6 @@ namespace Teamworks.Web.Controllers.Mvc
     public class ProjectsController : RavenController
     {
         [GET("")]
-        [Secure("projects/view")]
         public ActionResult Get(int page = 1)
         {
             RavenQueryStatistics stats;
@@ -136,9 +135,9 @@ namespace Teamworks.Web.Controllers.Mvc
             if (project == null)
                 return new HttpNotFoundResult();
 
-            return new ContentResult
+            return new JsonNetResult
                        {
-                           Content = Utils.ToJson(person.MapTo<PersonViewModel>())
+                           Data = person.MapTo<PersonViewModel>()
                        };
         }
 
@@ -157,9 +156,9 @@ namespace Teamworks.Web.Controllers.Mvc
             if (project == null)
                 return new HttpNotFoundResult();
 
-            return new ContentResult
+            return new JsonNetResult
                        {
-                           Content = Utils.ToJson(person.MapTo<PersonViewModel>())
+                           Data = person.MapTo<PersonViewModel>()
                        };
         }
 

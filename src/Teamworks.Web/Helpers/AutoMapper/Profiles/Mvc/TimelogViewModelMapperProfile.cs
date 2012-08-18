@@ -10,7 +10,7 @@ namespace Teamworks.Web.Helpers.AutoMapper.Profiles.Mvc
         protected override void Configure()
         {
 
-            Mapper.CreateMap<Timelog_Filter.Result, ActivityViewModel.TimelogViewModel>()
+            Mapper.CreateMap<Timelog_Filter.Result, TimelogViewModel>()
                 .ForMember(r => r.Profile, o=> o.Ignore());
             /*
             Mapper.CreateMap<Timelog, ActivityViewModel.TimelogViewModel>()

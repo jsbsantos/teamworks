@@ -73,7 +73,7 @@ namespace Teamworks.Web.Controllers.Api
             List<Core.Activity> domain = DbSession.Query<Core.Activity>()
                 .Where(a => a.Project == project.Id).ToList();
 
-            activity.StartDate = project.StartDate.AddMinutes(GetAccumulatedDuration(domain, activity));
+            activity.StartDate = project.StartDate.AddMinutes(ActivityServices.GetAccumulatedDuration(domain, activity));
 
             Activity activities = Mapper.Map<Core.Activity, Activity>(activity);
 
@@ -141,20 +141,6 @@ namespace Teamworks.Web.Controllers.Api
         */
          
         #region Private
-
-        private double GetAccumulatedDuration(List<Core.Activity> domain, Core.Activity activity, int duration = 0)
-        {
-            Core.Activity parent = domain.Where(a => activity.Dependencies.Contains(a.Id))
-                .OrderByDescending(a => a.Duration).FirstOrDefault();
-
-            if (parent == null)
-                return duration;
-
-            return /*parent.Dependencies.Count == 0
-                       ? duration
-                       : */
-                GetAccumulatedDuration(domain, parent, duration + parent.Duration);
-        }
 
         private void OffsetDuration(List<Core.Activity> domain, Core.Activity parent, int offset)
         {

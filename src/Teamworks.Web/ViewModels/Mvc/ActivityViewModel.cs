@@ -14,17 +14,18 @@ namespace Teamworks.Web.ViewModels.Mvc
         public string Description { get; set; }
         public int Duration { get; set; }
         public int TotalTimeLogged { get; set; }
-        public DateTime StartDate { get; set; }
+        public DateTimeOffset StartDate { get; set; }
 
-        public class TimelogViewModel
+        #region Nested Type: Input
+
+        public class Input
         {
-            public int Id { get; set; }
+            public string Name { get; set; }
             public string Description { get; set; }
-            public DateTime Date { get; set; }
             public int Duration { get; set; }
-
-            public PersonViewModel Profile { get; set; }
-        }
+            public DateTimeOffset StartDate { get; set; }
+        } 
+        #endregion
     }
 
     public class DependencyActivityViewModel : ActivityViewModel
@@ -39,6 +40,14 @@ namespace Teamworks.Web.ViewModels.Mvc
         public IEnumerable<PersonViewModel> AssignedPeople { get; set; }
     }
 
+    public class TimelogViewModel
+    {
+        public int Id { get; set; }
+        public string Description { get; set; }
+        public DateTime Date { get; set; }
+        public int Duration { get; set; }
 
+        public PersonViewModel Profile { get; set; }
+    }
 
 }

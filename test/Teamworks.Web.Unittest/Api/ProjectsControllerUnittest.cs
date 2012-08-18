@@ -91,20 +91,18 @@ namespace Teamworks.Web.Unittest.Api
             HttpResponseMessage response;
             using (var session = RavenDbFixture.DocumentStore.OpenSession())
             {
-                session.Advanced.UseOptimisticConcurrency = true;
                 var controller = ControllerForTests<ProjectsController>(session, HttpMethod.Post);
                 response = controller.Post(new ProjectViewModel
                                                {
                                                    Name = expectedName,
                                                    Description = expectedDescription
-                                               });
+                                               });  
                 session.SaveChanges();
             }
 
             var result = response.Content.ReadAsAsync<ProjectViewModel>().Result;
             using (var session = RavenDbFixture.DocumentStore.OpenSession())
             {
-                session.Advanced.UseOptimisticConcurrency = true;
                 var project = session.Load<Project>(result.Id);
 
                 Assert.NotNull(project);
@@ -119,6 +117,7 @@ namespace Teamworks.Web.Unittest.Api
         public void PostProjectReturnsTheCorrectLocationInResponse()
         {
             HttpResponseMessage response;
+            ProjectViewModel result;
             using (var session = RavenDbFixture.DocumentStore.OpenSession())
             {
                 var controller = ControllerForTests<ProjectsController>(session, HttpMethod.Post);
@@ -128,9 +127,9 @@ namespace Teamworks.Web.Unittest.Api
                                                    Description = "description post project"
                                                });
                 session.SaveChanges();
+                result = response.Content.ReadAsAsync<ProjectViewModel>().Result;
             }
 
-            var result = response.Content.ReadAsAsync<ProjectViewModel>().Result;
             Assert.Equal("http://localhost/api/projects/" + result.Id, response.Headers.Location.ToString());
         }
 

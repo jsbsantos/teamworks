@@ -32,7 +32,7 @@ namespace Teamworks.Core
             return ++LastTodoListId;
         }
 
-        public static Activity Forge(int project, string name, string description, int duration)
+        public static Activity Forge(int project, string name, string description, int duration, DateTimeOffset startDate = new DateTimeOffset())
         {
             return new Activity
                        {
