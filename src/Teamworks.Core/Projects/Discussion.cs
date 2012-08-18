@@ -9,7 +9,7 @@ namespace Teamworks.Core
     public class Discussion : Entity
     {
         public string Content { get; set; }
-        public DateTime Date { get; set; }
+        public DateTimeOffset Date { get; set; }
         public string Person { get; set; }
         public string Entity { get; set; }
         public IList<Message> Messages { get; set; }
@@ -56,6 +56,26 @@ namespace Teamworks.Core
                                          Name,
                                          message.Content,
                                          id);
+        }
+
+        public class Message
+        {
+            public int Id { get; set; }
+            public string Content { get; set; }
+            public DateTime Date { get; set; }
+            public string Person { get; set; }
+            public string Reply { get; set; }
+
+            public static Message Forge(string text, string person)
+            {
+                return new Message
+                {
+                    Content = text,
+                    Date = DateTime.Now,
+                    Person = person,
+                    Reply = null
+                };
+            }
         }
     }
 }

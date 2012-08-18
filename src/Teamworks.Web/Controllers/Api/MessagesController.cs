@@ -7,6 +7,7 @@ using AttributeRouting.Web.Http;
 using AutoMapper;
 using Teamworks.Core;
 using Teamworks.Core.Services;
+using Teamworks.Web.Helpers.AutoMapper;
 using Teamworks.Web.Helpers.Extensions.Api;
 using Teamworks.Web.ViewModels.Api;
 
@@ -28,8 +29,8 @@ namespace Teamworks.Web.Controllers.Api
         [GET("messages")]
         public IEnumerable<MessageViewModel> GetProjectMessages(int projectId, int discussionId)
         {
-            IList<Core.Message> messages = GetDiscussion(discussionId, projectId.ToId("project")).Messages;
-            return Mapper.Map<IEnumerable<Core.Message>, IEnumerable<MessageViewModel>>(messages);
+            IList<Discussion.Message> messages = GetDiscussion(discussionId, projectId.ToId("project")).Messages;
+            return messages.MapTo<MessageViewModel>();
         }
 
         [POST("messages")]
@@ -38,7 +39,7 @@ namespace Teamworks.Web.Controllers.Api
             Discussion discussion = GetDiscussion(discussionId, projectId.ToId("project"));
 
             string current = Request.GetCurrentPersonId();
-            Core.Message message = Core.Message.Forge(model.Content, current);
+            var message = Discussion.Message.Forge(model.Content, current);
 
             message.Id = discussion.GenerateNewTimeEntryId();
 
@@ -46,15 +47,15 @@ namespace Teamworks.Web.Controllers.Api
             //discussion.Notify(message, DbSession.Load<Core.Person>(discussion.Subscribers)
             //            .Select(x => x.Email).ToList());
 
-            MessageViewModel value = Mapper.Map<Core.Message, MessageViewModel>(message);
+            var value = message.MapTo<MessageViewModel>();
             return Request.CreateResponse(HttpStatusCode.Created, value);
         }
 
         [DELETE("messages/{messageId}")]
         public HttpResponseMessage DeleteProjectMessages(int projectId, int discussionId, int messageId)
         {
-            IList<Core.Message> messages = GetDiscussion(discussionId, projectId.ToId("project")).Messages;
-            Core.Message message = messages.FirstOrDefault(m => m.Id == messageId);
+            IList<Discussion.Message> messages = GetDiscussion(discussionId, projectId.ToId("project")).Messages;
+            Discussion.Message message = messages.FirstOrDefault(m => m.Id == messageId);
             Request.NotFound(message);
 
             messages.Remove(message);

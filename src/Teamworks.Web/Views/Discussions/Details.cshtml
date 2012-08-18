@@ -1,13 +1,14 @@
-﻿@model string
+﻿@using Teamworks.Web.Views
+@model Teamworks.Web.ViewModels.Api.DiscussionViewModel
 
 @{
     Layout = "../Shared/_Layout.cshtml";
 }
 
-<div data-bind="visible: discussion.name">
+<div>
     <header class="page-header">
-        <h1 data-bind="text: discussion.name"></h1>
-        <p data-bind="text: discussion.content"></p>
+        <h1>@Model.Name</h1>
+        <p>@Model.Content</p>
     </header>
     <div data-bind="template: { name: 'message-template', foreach: discussion.messages }">
     </div>
@@ -16,8 +17,7 @@
         <div class="span6">
             <form class="form-horizontal" data-bind="submit: discussion.message._create">
                 <div class="control-group">
-                    <textarea class="span6" data-bind="value: discussion.message.content, valueUpdate: 'afterkeyup'">
-                </textarea>
+                    <textarea class="span6" data-bind="value: discussion.message.content, valueUpdate: 'afterkeyup'"></textarea>
                 </div>
                 <div class="control-group">
                     <button type="submit" class="btn btn-success">Reply</button>                 
@@ -40,6 +40,6 @@
     
 <script>
     var viewmodel = function() {
-        return new tw.viewmodels.Discussion('@Model');
+        return new tw.viewmodels.DiscussionViewModel(@Html.ToJson(Model));
     }
 </script>

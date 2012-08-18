@@ -13,7 +13,7 @@
                             if (confirm(message)) {
                                 $.ajax(project.id(),
                                     {
-                                        type: 'delete',
+                                        type: 'post',
                                         statusCode: {
                                             204: /*no content*/function() {
                                                 self.projects.mappedRemove(project);

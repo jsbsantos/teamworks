@@ -1,5 +1,6 @@
 html, body {
-    height: 100%; margin: 0;
+    height: 100%;
+    margin: 0;
 }
 
 body {
@@ -7,12 +8,12 @@ body {
     padding-top: 80px;
 }
 
-.main-wrapper {
-    min-height: 100%;
-}
+.main-wrapper { min-height: 100%; }
 
 .main-footer {
-    height: 75px; margin-top:-75px; display:block;
+    height: 75px;
+    margin-top: -75px;
+    display: block;
 }
 
 a { cursor: pointer; }
@@ -93,9 +94,10 @@ span input.seamless, span input.seamless:focus {
 }
 
 .people .dropdown-menu {
-    left: 0;
+    left: auto;
     position: absolute;
     top: 0;
+    right: 0;
 }
 
 .people .dropdown-menu img + div { padding-left: 72px; }
@@ -141,8 +143,13 @@ input.simple {
 
 .show-input .raw { display: none; }
 
-.show_inline
-{
-    display: inline-block;
-}
+.show_inline { display: inline-block; }
 
+@media (max-width: 767px) {
+    .people .dropdown-menu {
+        left: 0;
+        position: absolute;
+        top: 0;
+        right: auto;
+    }
+}

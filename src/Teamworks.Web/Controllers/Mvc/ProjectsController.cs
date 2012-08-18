@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web.Mvc;
 using AttributeRouting;
 using AttributeRouting.Web.Mvc;
@@ -11,8 +12,8 @@ using Teamworks.Core.Extensions;
 using Teamworks.Core.Services;
 using Teamworks.Core.Services.RavenDb.Indexes;
 using Teamworks.Web.Attributes.Mvc;
-using Teamworks.Web.Helpers;
 using Teamworks.Web.Helpers.AutoMapper;
+using Teamworks.Web.Helpers.Extensions;
 using Teamworks.Web.Helpers.Extensions.Mvc;
 using Teamworks.Web.ViewModels.Mvc;
 using Teamworks.Web.Views;
@@ -72,7 +73,7 @@ namespace Teamworks.Web.Controllers.Mvc
 
             if (project == null)
                 return HttpNotFound();
-            
+
             RavenQueryStatistics stats;
             var activities = DbSession
                 .Query<Activity>()
@@ -96,38 +97,49 @@ namespace Teamworks.Web.Controllers.Mvc
         [POST("")]
         public ActionResult Post(ProjectsViewModel.Input model)
         {
-            if (ModelState.IsValid)
-            {
-                var person = HttpContext.GetCurrentPerson();
+            if (!ModelState.IsValid)
+                return View("View");
 
-                var project = Project.Forge(model.Name, model.Description);
-                DbSession.Store(project);
-                project.Grant(string.Empty, person);
-                project.Initialize(DbSession);
+            var person = HttpContext.GetCurrentPerson();
 
-                var projectViewModel = project.MapTo<ProjectsViewModel.Project>();
-                projectViewModel.People = new List<PersonViewModel> { person.MapTo<PersonViewModel>()};
+            var project = Project.Forge(model.Name, model.Description);
+            DbSession.Store(project);
+            project.Grant(string.Empty, person);
+            project.Initialize(DbSession);
 
-                if (Request.IsAjaxRequest())
-                    return new JsonNetResult {
-                                   Data = projectViewModel
-                               };
+            var projectViewModel = project.MapTo<ProjectsViewModel.Project>();
+            projectViewModel.People = new List<PersonViewModel> {person.MapTo<PersonViewModel>()};
 
-                return RedirectToRoute("projects_get");
-            }
+            if (Request.IsAjaxRequest())
+                return new JsonNetResult {Data = projectViewModel};
+
+            return RedirectToRoute("projects_get");
+        }
+
+        [POST("{projectId}")]
+        [SecureProject("projects/delete")]
+        public ActionResult Delete(int projectId)
+        {
+            var project = DbSession.Load<Project>(projectId);
+            if (project == null)
+                return HttpNotFound();
+
+            DbSession.Delete(project);
+
+            if (Request.IsAjaxRequest())
+                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
+
             return View("View");
         }
 
-        
         [AjaxOnly]
-        [POST("{projectId}/people/{personIdOrEmail}")]
-        public ActionResult AddPerson(int projectId, string personIdOrEmail)
+        [SecureProject("projects/view")]
+        [POST("{projectId}/people/add")]
+        public ActionResult AddPerson(int projectId, string email)
         {
             var id = projectId.ToId("project");
 
-            var person = DbSession.Query<Person>()
-                .Customize(c => c.Include(id))
-                .Where(p => p.Email == personIdOrEmail).FirstOrDefault();
+            var person = DbSession.GetPersonByEmail(email);
 
             if (person == null)
                 return new HttpNotFoundResult();
@@ -136,19 +148,16 @@ namespace Teamworks.Web.Controllers.Mvc
             if (project == null)
                 return new HttpNotFoundResult();
 
-            return new JsonNetResult
-                       {
-                           Data = person.MapTo<PersonViewModel>()
-                       };
+            project.Grant(string.Empty, person);
+            return new JsonNetResult { Data = person.MapTo<PersonViewModel>() };
         }
 
         [AjaxOnly]
-        [DELETE("{projectId}/people/{personIdOrEmail}")]
-        public ActionResult RemovePerson(int projectId, string personIdOrEmail)
+        [SecureProject("projects/view")]
+        [POST("{projectId}/people/remove/{personId}")]
+        public ActionResult RemovePerson(int projectId, int personId)
         {
-            var person = DbSession.Query<Person>()
-                .Customize(c => c.Include(projectId.ToId("project")))
-                .Where(p => p.Email == personIdOrEmail).FirstOrDefault();
+            var person = DbSession.Load<Person>(personId);
 
             if (person == null)
                 return new HttpNotFoundResult();
@@ -157,16 +166,8 @@ namespace Teamworks.Web.Controllers.Mvc
             if (project == null)
                 return new HttpNotFoundResult();
 
-            return new JsonNetResult
-                       {
-                           Data = person.MapTo<PersonViewModel>()
-                       };
-        }
-
-        public ActionResult Delete(int id)
-        {
-            var project = DbSession.Load<Project>(id);
-            return new EmptyResult();
+            project.Revoke(string.Empty, person);
+            return new JsonNetResult { Data = person.MapTo<PersonViewModel>() };
         }
 
         [GET("{projectId}/gantt")]

@@ -111,7 +111,7 @@ namespace Teamworks.Web.Controllers.Api
         public HttpResponseMessage PutActivityDiscussion(int id,
                                                      int projectId,
                                                      int activityId,
-                                                     Message model)
+                                                     Discussion.Message model)
         {
             throw new NotImplementedException();
         }

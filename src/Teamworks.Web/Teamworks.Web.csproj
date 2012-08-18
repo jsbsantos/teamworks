@@ -57,6 +57,7 @@
     <Compile Include="Attributes\Mvc\SecureProjectAttribute.cs" />
     <Compile Include="Controllers\Api\ActivitiesController.cs" />
     <Compile Include="Attributes\Api\SecureAttribute.cs" />
+    <Compile Include="Controllers\Mvc\PeopleController.cs" />
     <Compile Include="Controllers\Api\TodoController.cs" />
     <Compile Include="Controllers\Api\TodoListController.cs" />
     <Compile Include="Controllers\Api\DiscussionsController.cs">
@@ -67,6 +68,7 @@
     </Compile>
     <Compile Include="Attributes\Api\FormsAuthenticationAttribute.cs" />
     <Compile Include="Helpers\AutoMapper\Profiles\Api\PersonViewModelMapperProfile.cs" />
+    <Compile Include="Helpers\AutoMapper\Profiles\Mvc\DiscussionViewModelMapperProfile.cs" />
     <Compile Include="Helpers\Extensions\DocumentSessionExtensions.cs" />
     <Compile Include="Views\JsonNetResult.cs" />
     <Compile Include="ViewModels\Mvc\InputProfileViewModel.cs" />
@@ -113,7 +115,6 @@
     <Compile Include="Attributes\Mvc\FormsAuthenticationAttribute.cs" />
     <Compile Include="Controllers\Mvc\DiscussionsController.cs" />
     <Compile Include="Controllers\Mvc\HomeController.cs" />
-    <Compile Include="Controllers\Mvc\PeopleController.cs" />
     <Compile Include="Controllers\Mvc\ProjectsController.cs" />
     <Compile Include="Controllers\RavenApiController.cs" />
     <Compile Include="Controllers\RavenController.cs" />
@@ -155,6 +156,7 @@
     <Content Include="Content\font\fontawesome-webfont.svg" />
     <Content Include="Content\img\google.png" />
     <Content Include="Content\js\tw\charts\tw.charts.pages.gantt.js" />
+    <Content Include="Content\js\tw\tw.pages.discussion.js" />
     <Content Include="Content\js\tw\tw.pages.timelogs.js" />
     <Content Include="Content\js\tw\tw.pages.activity.js" />
     <Content Include="Content\js\tw\tw.pages.profile.js" />
@@ -214,10 +216,8 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Discussions\Discussion.cshtml" />
-    <Content Include="Views\Discussions\Discussions.cshtml" />
-    <Content Include="Views\People\Person.cshtml" />
-    <Content Include="Views\People\View.cshtml" />
+    <Content Include="Views\Discussions\Details.cshtml" />
+    <Content Include="Views\Discussions\View.cshtml" />
     <Content Include="Views\Projects\Details.cshtml" />
     <Content Include="Views\Shared\Partial\Anonymous.cshtml" />
     <Content Include="Views\Shared\Partial\Authenticated.cshtml" />

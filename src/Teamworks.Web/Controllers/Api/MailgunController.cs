@@ -57,7 +57,7 @@ namespace Teamworks.Web.Controllers.Api
 
                 if (discussion != null)
                 {
-                    Message message = Message.Forge(model.Message, person.Id);
+                    var message = Discussion.Message.Forge(model.Message, person.Id);
                     message.Reply = messageId[1];
                     message.Id = discussion.GenerateNewTimeEntryId();
                     discussion.Messages.Add(message);

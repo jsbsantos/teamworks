@@ -1,30 +1,35 @@
-﻿using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Linq;
+using AttributeRouting;
+using AttributeRouting.Web.Http;
 using Teamworks.Core;
+using Teamworks.Web.Helpers.AutoMapper;
+using Teamworks.Web.ViewModels.Mvc;
 
 namespace Teamworks.Web.Controllers.Mvc
 {
-    public class PeopleController : RavenController
+    [RoutePrefix("people")]
+    public class PeopleController : RavenApiController
     {
-        [HttpGet]
-        [ActionName("View")]
-        public ActionResult Index(string id)
+        [GET("")]
+        public IEnumerable<PersonViewModel> Get(string q)
         {
-            if (string.IsNullOrEmpty(id))
+            IList<Person> people;
+            if (string.IsNullOrEmpty(q))
             {
-                return View(DbSession.Query<Person>().Select(
-                    Mapper.Map<Person, ViewModels.Api.PersonViewModel>));
+                people = DbSession.Query<Person>()
+                    .Take(5).ToList();
             }
-
-            var person = DbSession.Load<Person>("people/" + id);
-            if (person == null)
+            else
             {
-                throw new HttpException(404, "Not Found");
+                people = DbSession.Advanced.LuceneQuery<Person>()
+                    .Search("Name", q + "*").Search("Username", q + "*")
+                    .Search("Email", q + "*").Take(5)
+                    .ToList();
             }
-
-            return View("Person", Mapper.Map<Person, ViewModels.Api.PersonViewModel>(person));
+            return people.MapTo<PersonViewModel>();
         }
+
+
     }
 }

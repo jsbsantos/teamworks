@@ -32,7 +32,7 @@ else
                             <a class="hide" data-bind="datepicker: timelogs.input.date.formatted, css: { hide: selected().calendar === false }" data-date-autoclose="true" data-date-format="dd/MM/yyyy" data-date-enddate="@DateTime.Today.ToString("dd/MM/yyyy")"><i class="icon-calendar"></i></a>
                         </p>
                         <div class="control-group" >
-                            <input id="project_name" autofocus="autofocus" class="span4" name="project_name" placeholder="Project name, Activity name" data-bind="typeahead: typeahead" />
+                            <input id="project_name" autofocus="autofocus" class="span4" name="project_name" placeholder="Project name, Activity name" autocomplete="off" data-bind="typeahead: typeahead" />
                         </div>
                         <div class="control-group">
                             <input name="description" placeholder="Description" class="span4" data-bind="value: timelogs.input.description, valueUpdate: 'afterkeyup'" />
@@ -52,10 +52,9 @@ else
             <header class="lead">
                 <h2>Your time <small>Where you spent your days</small></h2>
             </header>
-            <div class="hide" data-bind="css: { 'hide': timelogs.length }">
-                <p class="alert">Register your first hours and they will appear here.</p>
-
-            </div>
+            <p class="tc well hide" data-bind="css: { 'hide': timelogs.length }">
+                Register your first hours and they will appear here.
+            </p>
             <table class="table table-striped table-bordered table-condensed hide" data-bind="css: { 'hide': !timelogs.length }">
                 <thead>
                     <tr>

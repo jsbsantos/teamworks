@@ -101,7 +101,7 @@
     <div>
         <button class="close" data-bind="click: _remove">&times;</button>
         <h3>
-            <a data-bind="text: name, attr: { href: '@Url.RouteUrl("default", new {controller = "Discussions"})'+'/' + id() }"></a>
+            <a data-bind="text: name, attr: { href: '@Url.RouteUrl("discussions_details", new {projectId = Model.Id, discussionId = UrlParameter.Optional})' + id() }"></a>
         </h3>
         <p data-bind="text: content, visible: content().length"></p>
     </div>
@@ -118,7 +118,6 @@
                     <a data-bind="text: name, attr: { href: '@Url.RouteUrl("profiles_get")' + id() }" href="#"></a>
                 </h3>
                 <div data-bind="text: username"></div>
-                <div data-bind="text: email"></div>
             </div>
             <a class="btn pull-right pull-down clear" href="#" data-bind="click: _remove">Remove</a>
         </div>
