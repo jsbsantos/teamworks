@@ -10,12 +10,14 @@ namespace Teamworks.Web.Helpers.AutoMapper.Profiles.Mvc
         protected override void Configure()
         {
             Mapper.CreateMap<Person, EntityViewModel>()
-                .ForMember(s => s.Id, o => o.MapFrom(d => d.Id.ToIdentifier()))
-                .ForAllMembers(a => a.Condition(s => !s.IsSourceValueNull));
+                .ForMember(s => s.Id, o => o.MapFrom(d => d.Id.ToIdentifier()));
+
             Mapper.CreateMap<Project, EntityViewModel>()
                 .ForMember(s => s.Id, o => o.MapFrom(d => d.Id.ToIdentifier()));
+            
             Mapper.CreateMap<Activity, EntityViewModel>()
                 .ForMember(s => s.Id, o => o.MapFrom(d => d.Id.ToIdentifier()));
+            
             Mapper.CreateMap<Discussion, EntityViewModel>()
                 .ForMember(s => s.Id, o => o.MapFrom(d => d.Id.ToIdentifier()));
         }

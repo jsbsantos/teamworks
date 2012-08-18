@@ -50,7 +50,7 @@ namespace Teamworks.Web.Controllers.Api
                 date = DateTime.Now;
             }
 
-            Core.Timelog timelog = Core.Timelog.Forge(model.Description, model.Duration, date,
+            Timelog timelog = Core.Timelog.Forge(model.Description, model.Duration, date,
                                                       Request.GetCurrentPersonId());
             timelog.Id = activity.GenerateNewTimeEntryId();
             activity.Timelogs.Add(timelog);

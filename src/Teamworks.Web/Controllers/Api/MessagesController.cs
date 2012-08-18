@@ -41,7 +41,7 @@ namespace Teamworks.Web.Controllers.Api
             string current = Request.GetCurrentPersonId();
             var message = Discussion.Message.Forge(model.Content, current);
 
-            message.Id = discussion.GenerateNewTimeEntryId();
+            message.Id = discussion.GenerateNewMessageId();
 
             discussion.Messages.Add(message);
             //discussion.Notify(message, DbSession.Load<Core.Person>(discussion.Subscribers)

@@ -18,7 +18,7 @@ namespace Teamworks.Core
         public int LastMessageId { get; set; }
         public string Name { get; set; }
 
-        public int GenerateNewTimeEntryId()
+        public int GenerateNewMessageId()
         {
             return ++LastMessageId;
         }

@@ -59,7 +59,7 @@ namespace Teamworks.Web.Controllers.Api
                 {
                     var message = Discussion.Message.Forge(model.Message, person.Id);
                     message.Reply = messageId[1];
-                    message.Id = discussion.GenerateNewTimeEntryId();
+                    message.Id = discussion.GenerateNewMessageId();
                     discussion.Messages.Add(message);
 
                     List<string> emails = DbSession.Load<Person>(discussion.Subscribers)

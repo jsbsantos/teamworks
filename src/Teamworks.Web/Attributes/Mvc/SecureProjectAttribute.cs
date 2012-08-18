@@ -28,12 +28,14 @@ namespace Teamworks.Web.Attributes.Mvc
             }
             catch (Exception e)
             {
-                // todo better error handling
-                throw new HttpException((int)HttpStatusCode.NotFound, "Not Found");
+                filterContext.Result = new HttpNotFoundResult();
+                return;
             }
 
             var session = filterContext.HttpContext.GetCurrentRavenSession();
-            session.Load<Core.Project>(id);
+            var project = session.Load<Core.Project>(id);
+            if (project == null)
+                filterContext.Result = new HttpNotFoundResult();
         }
     }
 }

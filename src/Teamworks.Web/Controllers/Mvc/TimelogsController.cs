@@ -20,9 +20,9 @@ namespace Teamworks.Web.Controllers.Mvc
                 .ToList();
 
             var vm = new RegisterTimelogsViewModel();
-            foreach (Activity act in activities)
+            foreach (var act in activities)
             {
-                Activity activity = act;
+                var activity = act;
                 var project = DbSession.Load<Project>(activity.Project);
                 var option = new RegisterTimelogsViewModel.Typeahead
                                  {

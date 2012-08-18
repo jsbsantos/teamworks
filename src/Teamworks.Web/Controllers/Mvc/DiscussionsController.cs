@@ -1,8 +1,10 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
 using AttributeRouting;
 using AttributeRouting.Web.Mvc;
 using Teamworks.Core;
-using Teamworks.Core.Services;
 using Teamworks.Web.Attributes.Mvc;
 using Teamworks.Web.Helpers.AutoMapper;
 using Teamworks.Web.Helpers.Extensions.Mvc;
@@ -25,13 +27,23 @@ namespace Teamworks.Web.Controllers.Mvc
         [SecureProject("projects/view/discussions/view")]
         public ActionResult Details(int projectId, int discussionId)
         {
-            var discussion = DbSession.Load<Discussion>(discussionId);
-            if (discussion == null || discussion.Entity.Equals(projectId.ToId("person")))
+            var project = DbSession.Load<Project>(projectId);
+            var discussion = DbSession
+                .Include<Discussion>(d => d.Messages.SelectMany(m => m.Person))
+                .Load<Discussion>(discussionId);
+            
+            if (discussion == null || !discussion.Entity.Equals(project.Id))
                 return HttpNotFound();
 
-            var project = DbSession.Load<Project>(projectId);
             var discussionViewModel = discussion.MapTo<DiscussionViewModel>();
-            
+            foreach (var message in discussion.Messages)
+            {
+                var messageViewModel = message.MapTo<DiscussionViewModel.Message>();
+                messageViewModel.Person = DbSession.Load<Person>(message.Id)
+                    .MapTo<PersonViewModel>();
+
+                discussionViewModel.Messages.Add(messageViewModel);
+            }
             return View(discussionViewModel);
         }
 
@@ -53,5 +65,49 @@ namespace Teamworks.Web.Controllers.Mvc
                 return new JsonNetResult {Data = discussionViewModel};
             return RedirectToRoute("discussions_get");
         }
+
+        [AjaxOnly]
+        [POST("{discussionId}/messages/create")]
+        [SecureProject("projects/view/discussions/view")]
+        public ActionResult PostMessage(int projectId, int discussionId, string content = "")
+        {
+            content = content.Trim();
+            if(string.IsNullOrEmpty(content))
+                ModelState.AddModelError("model.message", "Your message cannot be empty.");
+
+            if (!ModelState.IsValid)
+                throw new HttpException((int) HttpStatusCode.BadRequest, ModelState.Values.First().ToString());
+
+            var project = DbSession.Load<Project>(projectId);
+            var discussion = DbSession.Load<Discussion>(discussionId);
+
+            if (discussion == null || discussion.Entity != project.Id)
+                return new HttpNotFoundResult();
+
+            var message = Discussion.Message.Forge(content, HttpContext.GetCurrentPersonId());
+            message.Id = discussion.GenerateNewMessageId();
+            discussion.Messages.Add(message);
+
+            return new JsonNetResult() {Data = message};
+        }
+
+        [AjaxOnly]
+        [POST("{discussionId}/messages/delete/{messageId}")]
+        [SecureProject("projects/view/discussions/view")]
+        public ActionResult DeleteMessage(int projectId, int discussionId, int messageId)
+        {
+            var project = DbSession.Load<Project>(projectId);
+            var discussion = DbSession.Load<Discussion>(discussionId);
+
+            if (discussion == null || discussion.Entity != project.Id)
+                return new HttpNotFoundResult();
+
+            var message = discussion.Messages.Where(m => m.Id == messageId).FirstOrDefault();
+            if (message != null)
+                discussion.Messages.Remove(message);
+
+            return new HttpStatusCodeResult(HttpStatusCode.NoContent);
+        }
+
     }
 }

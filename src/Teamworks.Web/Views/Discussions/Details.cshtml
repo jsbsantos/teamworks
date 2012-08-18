@@ -10,14 +10,14 @@
         <h1>@Model.Name</h1>
         <p>@Model.Content</p>
     </header>
-    <div data-bind="template: { name: 'message-template', foreach: discussion.messages }">
+    <div data-bind="template: { name: 'message-template', foreach: messages }">
     </div>
     
     <div class="row">
         <div class="span6">
-            <form class="form-horizontal" data-bind="submit: discussion.message._create">
+            <form class="form-horizontal" data-bind="submit: messages._create">
                 <div class="control-group">
-                    <textarea class="span6" data-bind="value: discussion.message.content, valueUpdate: 'afterkeyup'"></textarea>
+                    <textarea class="span6" data-bind="value: messages.input, valueUpdate: 'afterkeyup'"></textarea>
                 </div>
                 <div class="control-group">
                     <button type="submit" class="btn btn-success">Reply</button>                 
@@ -30,9 +30,17 @@
 <script type="text/html" id="message-template">
     <div class="row">
         <div class="span6">
-            <div class="well">
-                <small> @@ <span data-bind="text: date"></span></small>
-                <p data-bind="text: content"></p>
+            <div class="">
+                <div class="pull-right"><span data-bind="text: date"></span></div>
+                <a data-bind="attr: { href: '@Url.RouteUrl("profiles_get")' + id() }">
+                    <h2 class="lead">
+                        <span data-bind="text: person.name"></span>
+                        <small data-bind="text: '@@' + person.username()"></small>
+                    </h2>
+                </a>
+                <div class="well">
+                    <p data-bind="text: content"></p>
+                </div>
             </div>
         </div>
     </div>
@@ -40,6 +48,6 @@
     
 <script>
     var viewmodel = function() {
-        return new tw.viewmodels.DiscussionViewModel(@Html.ToJson(Model));
-    }
+        return new tw.pages.DiscussionViewModel(@Html.ToJson(Model));
+    };
 </script>

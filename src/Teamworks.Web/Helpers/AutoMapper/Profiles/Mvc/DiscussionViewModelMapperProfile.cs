@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using Teamworks.Core;
 using Teamworks.Core.Services;
 using Teamworks.Web.ViewModels.Api;
@@ -11,9 +12,10 @@ namespace Teamworks.Web.Helpers.AutoMapper.Profiles.Mvc
         {
             Mapper.CreateMap<Discussion, DiscussionViewModel>()
                 .ForMember(s => s.Id, o => o.MapFrom(d => d.Id.ToIdentifier()))
-                .ForMember(s => s.Messages, o => o.MapFrom(d => d.Messages.MapTo<DiscussionViewModel.Message>()));
+                .ForMember(s => s.Messages, o => o.UseValue(new List<DiscussionViewModel.Message>()));
 
-            Mapper.CreateMap<Discussion.Message, DiscussionViewModel.Message>();
+            Mapper.CreateMap<Discussion.Message, DiscussionViewModel.Message>()
+                .ForMember(s => s.Person, o => o.Ignore());
         }
     }
 }

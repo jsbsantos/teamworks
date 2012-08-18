@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using System.Text;
 using System.Web.Mvc;
 using Newtonsoft.Json;
@@ -19,7 +20,11 @@ namespace Teamworks.Web.Views
                                      };
             ContentEncoding = Encoding.UTF8;
             ContentType = "application/json";
+            HttpStatusCode = HttpStatusCode.OK;
+            HttpStatusDescription = "OK";
         }
+
+        public string HttpStatusDescription { get; set; }
 
         public object Data { get; set; }
         public string ContentType { get; set; }
@@ -28,12 +33,18 @@ namespace Teamworks.Web.Views
         public JsonSerializerSettings SerializerSettings { get; set; }
         public Formatting Formatting { get; set; }
 
+        public HttpStatusCode HttpStatusCode { get; set; }
+
         public override void ExecuteResult(ControllerContext context)
         {
             if (context == null)
                 throw new ArgumentNullException("context");
 
             var response = context.HttpContext.Response;
+
+            response.StatusCode = (int) HttpStatusCode;
+            response.StatusDescription = HttpStatusDescription;
+
 
             response.ContentType = !string.IsNullOrEmpty(ContentType)
                                        ? ContentType
@@ -44,7 +55,7 @@ namespace Teamworks.Web.Views
 
             if (Data != null)
             {
-                var writer = new JsonTextWriter(response.Output) { Formatting = Formatting };
+                var writer = new JsonTextWriter(response.Output) {Formatting = Formatting};
 
                 var serializer = JsonSerializer.Create(SerializerSettings);
                 serializer.Serialize(writer, Data);
