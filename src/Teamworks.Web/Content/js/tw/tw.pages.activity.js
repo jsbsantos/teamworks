@@ -1,26 +1,49 @@
-﻿(function(pages) {
-    pages.ActivityViewModel = function(endpoint, json) {
+﻿(function (pages) {
+    pages.ActivityViewModel = function (endpoint, json) {
         var mapping = {
             'startDate': {
-                update: function(options) {
+                update: function (options) {
                     options.observable.extend({
                         isoDate: 'dd/MM/yyyy'
                     });
                     return options.data;
                 }
             },
-            'date': {
-                update: function(options) {
-                    options.observable.extend({
-                        isoDate: 'dd/MM/yyyy'
-                    });
-                    return options.data;
+            'timelogs': {
+                create: function (options) {
+                    return (new (function () {
+                        this.editing = ko.observable(false);
+                        this._remove = function () {
+                            var timelog = this;
+                            var message = 'You are about to remove the time log for activity ' + self.name() + '.';
+                            if (confirm(message)) {
+                                alert("todo: remove timelog id:" + timelog.id());
+                            }
+                        };
+                        this._update = function () {
+                            var timelog = this;
+                            alert("todo: update timelog id:" + timelog.id());
+                        };
+
+                        var m = {
+                            'date': {
+                                update: function (o) {
+                                    o.observable.extend({
+                                        isoDate: 'dd/MM/yyyy'
+                                    });
+                                    return o.data;
+                                }
+                            }  
+                        };
+
+                        ko.mapping.fromJS(options.data, m, this);
+                    })());
                 }
             },
             'dependencies': {
-                create: function(options) {
-                    return (new (function() {
-                        this._remove = function() {
+                create: function (options) {
+                    return (new (function () {
+                        this._remove = function () {
                             var activity = this;
                             var message = 'You are about to remove the dependency on ' + activity.name() + '.';
                             if (confirm(message)) {
@@ -28,14 +51,14 @@
                                     {
                                         type: 'delete',
                                         statusCode: {
-                                            204: /*no content*/function() {
+                                            204: /*no content*/function () {
                                                 self.activities.mappedRemove(activity);
                                             }
                                         }
                                     });
                             }
                         };
-                        ko.mapping.fromJS(options.data, { }, this);
+                        ko.mapping.fromJS(options.data, {}, this);
                     })());
                 }
             }
@@ -43,37 +66,42 @@
 
         var self = ko.mapping.fromJS(json || [], mapping);
 
-        self.completionPercent = ko.computed(function() {
+        self.completionPercent = ko.computed(function () {
             return ((self.totalTimeLogged() / self.duration()) * 100).toPrecision(3);
         });
 
-        self.editing_description = ko.observable(false);
-        self.editing_duration = ko.observable(false);
+        self.editing_timelog = ko.observable(false);
+        self.editing_state = ko.observable(false);
         self.editing_dependencies = ko.observable(false);
+
+        self.discardChanges = function () {
+            ko.mapping.fromJS(json.dependencies, self);
+        };
+
         self.dependenciesChanged = ko.observable(false);
 
-        self._update = function() {
-            $.ajax(endpoint.replace("api/","") + "/update/" + self.id(),
+        self._update = function () {
+            $.ajax(endpoint + '/edit/',
                 {
-                    type: 'put',
+                    type: 'post',
                     data: ko.toJSON({
                         id: self.id(),
                         name: self.name(),
+                        StartDate: self.startDate(),
                         duration: self.duration(),
-                        description: self.description()
-                    }),
-                    statusCode: {
-                        201: /*created*/function() {
-                            self.editing_description(false);
-                        },
-                        400: /*bad request*/function() {
-                            tw.page.alerts.push({ message: 'An error as ocurred.' });
-                            self.editing_description(false);
-                        }
-                    }
+                        description: self.description(),
+                        project: self.projectReference.id(),
+                        dependencies: $.map($.grep(self.dependencies(), function (e, i) { return e.dependency(); }), function (e) { return e.id(); })
+                    })
                 }
-            );
+            ).success(function (d) {
+                self.editing_description(false);
+                json = d;
+            }).error(function () {
+                tw.page.alerts.push({ message: 'An error as ocurred.' });
+                self.editing_description(false);
+            });
         };
         return self;
     };
-}(tw.pages));
+} (tw.pages));

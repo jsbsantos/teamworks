@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Teamworks.Core.Services;
@@ -19,6 +20,9 @@ namespace Teamworks.Core.Business
             if (target == null)
                 return null;
 
+            if (activity.StartDate > DateTimeOffset.MinValue)
+                target.StartDate =  activity.StartDate;
+
             target.Name = activity.Name ?? target.Name;
             target.Description = activity.Description ?? target.Description;
             if (target.Duration != activity.Duration)
@@ -30,8 +34,8 @@ namespace Teamworks.Core.Business
 
             if (target.Dependencies != null)
             {
-                target.Dependencies = activity.Dependencies
-               .Intersect(query.Select(a => a.Id))
+                target.Dependencies = query.Select(a => a.Id)
+                .Intersect(activity.Dependencies)
                .ToList();
             }
 

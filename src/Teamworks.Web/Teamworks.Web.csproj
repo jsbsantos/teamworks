@@ -71,6 +71,8 @@
     <Compile Include="Helpers\Extensions\DocumentSessionExtensions.cs" />
     <Compile Include="ViewModels\Mvc\DiscussionViewModel.cs" />
     <Compile Include="Helpers\JsonNetResult.cs" />
+    <Compile Include="Helpers\AutoMapper\Profiles\Api\TimelogViewModelMapperProfile.cs" />
+    <Compile Include="ViewModels\Mvc\TimelogViewModel.cs" />
     <Compile Include="ViewModels\Mvc\InputProfileViewModel.cs" />
     <Compile Include="Helpers\AutoMapper\Profiles\ProfileViewModelMapperProfile.cs" />
     <Compile Include="Helpers\AutoMapper\Profiles\TimelogViewModelMapperProfile.cs" />
@@ -276,7 +278,9 @@
   <ItemGroup>
     <Content Include="Views\Profiles\View.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Helpers\AutoMapper\Profiles\Mvc\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Account\Index.cshtml" />
   </ItemGroup>
@@ -338,6 +342,7 @@
     <Reference Include="System.Net.Http.WebRequest, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>

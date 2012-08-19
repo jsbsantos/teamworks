@@ -10,17 +10,19 @@ using AutoMapper;
 using Raven.Client;
 using Teamworks.Core;
 using Teamworks.Core.Services;
+using Teamworks.Web.Attributes.Api;
 using Teamworks.Web.Helpers.Extensions.Api;
 using Teamworks.Web.ViewModels.Api;
 
 namespace Teamworks.Web.Controllers.Api
 {
     [DefaultHttpRouteConvention]
+    [SecureProject("projects/view")]
     [RoutePrefix("api/projects/{projectId}/activities/{activityId}/timelogs")]
     public class TimelogsController : RavenApiController
     {
         [NonAction]
-        public Activity GetActivity(int projectId, int activityId)
+        private Activity GetActivity(int projectId, int activityId)
         {
             var target = DbSession
                 .Include<Activity>(a => a.Project)
@@ -56,6 +58,7 @@ namespace Teamworks.Web.Controllers.Api
             activity.Timelogs.Add(timelog);
 
             TimelogViewModel value = Mapper.Map<Core.Timelog, TimelogViewModel>(timelog);
+            value.Activity = activityId;
             return Request.CreateResponse(HttpStatusCode.Created, value);
         }
 
