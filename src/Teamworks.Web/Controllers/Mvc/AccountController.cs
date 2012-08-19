@@ -4,11 +4,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
+using AttributeRouting.Web.Mvc;
 using Newtonsoft.Json.Linq;
 using Raven.Client.Linq;
 using Teamworks.Core;
 using Teamworks.Core.Oauth2;
 using Teamworks.Web.Helpers.Extensions;
+using Teamworks.Web.ViewModels.Mvc;
 
 namespace Teamworks.Web.Controllers.Mvc
 {
@@ -29,13 +31,13 @@ namespace Teamworks.Web.Controllers.Mvc
                 return RedirectToAction("Index");
             }
 
-            return View(new LoginModel());
+            return View(new AccountViewModel());
         }
 
         [HttpPost]
-        public ActionResult Index(LoginModel input)
+        public ActionResult Index(AccountViewModel input)
         {
-            var person = DbSession.GetPersonByLogin(input.Login);
+            var person = DbSession.GetPersonByLogin(input.Username);
 
             if (person == null || !person.IsThePassword(input.Password))
             {
@@ -45,22 +47,21 @@ namespace Teamworks.Web.Controllers.Mvc
 
             if (ModelState.IsValid)
             {
-                var persist = input.Persist.HasValue && input.Persist.Value;
+                var persist = input.Persist && input.Persist;
                 FormsAuthentication.SetAuthCookie(person.Id, persist);
                 return RedirectFromLoginPage();
             }
 
-            return View(new LoginModel { Login = input.Login, ReturnUrl = input.ReturnUrl });
+            return View(new AccountViewModel() { Username = input.Username });
         }
 
-        
         [HttpGet]
         public ActionResult Register()
         {
             return View();
         }
 
-        public ActionResult Register(RegisterModel model)
+        public ActionResult Register(AccountViewModel.Register model)
         {
             var email = DbSession.GetPersonByEmail(model.Email);
             var username = DbSession.GetPersonByUsername(model.Username);
@@ -104,7 +105,7 @@ namespace Teamworks.Web.Controllers.Mvc
             if (result.State < 0) // opendid auth response with error
             {
                 ModelState.AddModelError("", "Authentication failed. Correct errors and try again.");
-                return View("Index", new LoginModel { ReturnUrl = returnUrl });
+                return View("Index", new AccountViewModel());
             }
             if (result.State > 0) // opendid auth response with success
             {
@@ -182,35 +183,5 @@ namespace Teamworks.Web.Controllers.Mvc
         #endregion
     }
 
-    public class RegisterModel
-    {
-        [Required]
-        public string Email { get; set; }
-
-        [Required]
-        [StringLength(256, MinimumLength = 6)]
-        public string Username { get; set; }
-
-        [Required(AllowEmptyStrings = false)]
-        public string Name { get; set; }
-        
-        [Required]
-        [StringLength(256, MinimumLength = 8, ErrorMessage = "The password must have more than 8 characters.")]
-        public string Password { get; set; }
-
-        public string ReturnUrl { get; set; }
-    }
-
-    public class LoginModel
-    {
-        
-        [Required]
-        public string Login { get; set; }
-        [Required]
-        [StringLength(256, MinimumLength = 8, ErrorMessage = "The password must have more than 8 characters.")]
-        public string Password { get; set; }
-        
-        public bool? Persist { get; set; }
-        public string ReturnUrl { get; set; }
-    }
+    
 }

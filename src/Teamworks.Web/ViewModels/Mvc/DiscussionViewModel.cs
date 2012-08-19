@@ -10,6 +10,7 @@ namespace Teamworks.Web.ViewModels.Mvc
         public string Content { get; set; }
         public DateTimeOffset Date { get; set; }
         public IList<Message> Messages { get; set; }
+        public EntityViewModel Project { get; set; }
 
         public class Message
         {

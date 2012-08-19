@@ -60,22 +60,19 @@
 }());
 
 var tw = {
-    utils: { },
     pages: { },
-    mappings: { },
-    viewmodels: { },
+    utils: { },
+    bindings: { },
     graphics: { }
 };
 
 (function(obj) {
     'use strict';
-    /* page */
-    obj.page = {
-        ready: ko.observable(false),
-        alerts: ko.observableArray([])
-    };
-    obj.page.alerts._remove = function(item) {
-        tw.page.alerts.remove(item);
+    
+    obj.ready = ko.observable(false);
+    obj.bindings.alerts = ko.observableArray([]);
+    obj.bindings.alerts._remove = function(item) {
+        tw.bindings.alerts.remove(item);
     };
 
     var raw = window.location.href;
@@ -84,7 +81,12 @@ var tw = {
         raw = raw.substring(0, i);
     }
     obj.utils.location = raw;
-
+    obj.utils.applyBindings = function(model) {
+        tw.bindings.vm = model;
+        ko.applyBindings(model);
+        tw.ready(true);
+    };
+    
     $(function() {
         $('body').on('focus.datepicker.data-api', '[data-provide="datepicker"]', function(e) {
             var $this = $(this);
@@ -139,6 +141,7 @@ var tw = {
         target.formatted(target());
         return target;
     };
+    /* binders */
     ko.bindingHandlers.highlight = {
         init: function(element, valueAccessor, allBindingsAccessor) {
             var $elem = $(element);
@@ -158,7 +161,7 @@ var tw = {
                 $elem.removeClass(name);
             }, duration);
         }
-    }; /* binders */
+    };
     ko.bindingHandlers.datepicker = {
         init: function(element, valueAccessor) {
             var elem = $(element);
@@ -167,6 +170,12 @@ var tw = {
             datepicker.on('changeDate', function(e) {
                 value(e.date.toString(datepicker.data().dateFormat));
             });
+        }
+    };
+     ko.bindingHandlers.timeago = {
+        update: function(element) {
+            var $elem = $(element);
+            $elem.timeago();
         }
     };
     ko.bindingHandlers.typeahead = {

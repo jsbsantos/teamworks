@@ -43,7 +43,7 @@ namespace Teamworks.Web.Unittest.Api
 
             Assert.Equal(expectedSize, result.Count());
         }
-
+        
         [Fact]
         public void GetProjectById()
         {
