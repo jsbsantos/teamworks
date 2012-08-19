@@ -1,6 +1,4 @@
-﻿
-
-using DotNetOpenAuth.OpenId.Extensions.AttributeExchange;
+﻿using DotNetOpenAuth.OpenId.Extensions.AttributeExchange;
 using DotNetOpenAuth.OpenId.RelyingParty;
 
 namespace Teamworks.Core.Oauth2

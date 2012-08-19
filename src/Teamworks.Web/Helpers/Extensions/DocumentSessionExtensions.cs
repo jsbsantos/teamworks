@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Raven.Bundles.Authorization.Model;
+﻿using System.Linq;
 using Raven.Client;
-using Raven.Client.Authorization;
 using Teamworks.Core;
-using Teamworks.Core.Services;
 
 namespace Teamworks.Web.Helpers.Extensions
 {

@@ -80,6 +80,7 @@ var tw = {
     if (raw.charAt(i) == '/') {
         raw = raw.substring(0, i);
     }
+    raw = raw.replace("#", "");
     obj.utils.location = raw;
     obj.utils.applyBindings = function(model) {
         tw.bindings.vm = model;

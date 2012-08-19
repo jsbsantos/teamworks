@@ -1,4 +1,4 @@
-﻿(function (pages) {
+(function (pages) {
     pages.ProjectViewModel = function (json) {
         var errorCallback = function () {
             tw.page.alerts.push({ message: 'An error as ocurred.' });
@@ -11,11 +11,11 @@
                 if (confirm(message)) {
                     var collection = self[name];
                     $.ajax({
-                            type: 'post',
-                            url: endpoint + obj.id()
-                        }).success(function () {
-                            collection.mappedRemove(obj);
-                        }).error(errorCallback);
+                        type: 'post',
+                        url: endpoint + obj.id()
+                    }).success(function () {
+                        collection.mappedRemove(obj);
+                    }).error(errorCallback);
                 }
             };
         };
@@ -113,10 +113,10 @@
                 url: tw.utils.location + '/people/add',
                 type: 'post',
                 data: ko.toJSON({ 'email': email })
-            }).success(function(data) {
-                    self.people.mappedCreate(data);
-                    self.people.input("");
-                }).error(errorCallback);
+            }).success(function (data) {
+                self.people.mappedCreate(data);
+                self.people.input("");
+            }).error(errorCallback);
         };
 
         self.people.input = ko.observable();

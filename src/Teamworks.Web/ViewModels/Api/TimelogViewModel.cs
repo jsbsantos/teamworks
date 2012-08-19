@@ -1,21 +1,22 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace Teamworks.Web.ViewModels.Api
 {
     public class TimelogViewModel
     {
-        public Core.Project Project;
         public int Id { get; set; }
 
-        [Required]
+        [JsonProperty(Required = Required.Always)]
         public string Description { get; set; }
 
-        [Required]
+        [JsonProperty(Required = Required.Always)]
         public string Date { get; set; }
 
-        [Required]
+        [JsonProperty(Required=Required.Always)]
         public int Duration { get; set; }
 
-        public Core.Activity Activity { get; set; }
+        public int Activity { get; set; }
     }
 }
