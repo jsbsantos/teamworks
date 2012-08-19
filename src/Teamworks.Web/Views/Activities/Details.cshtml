@@ -8,26 +8,24 @@
 }
 
 <div class="row">
-    <ul class="breadcrumb span12">
-        <li>
-            <a href="@Url.RouteUrl("projects_get")">Projects</a>
-            <span class="divider">/</span>
-        </li>
-        <li>
-            <a href="@Url.RouteUrl("projects_details", new {projectId = Model.ProjectReference.Id})">@Model.ProjectReference.Name</a>
-            <span class="divider">/</span>
-        </li>
-        <li>
-            <a href="@Url.RouteUrl("projects_details", new {projectId = Model.ProjectReference.Id})">Activities</a>
-            <span class="divider">/</span>
-        </li>
-        <li>
-            <span>@Model.Name</span>
-        </li>
-    </ul>
-</div>
-<div class="row">
     <div class="span8">
+        <ul class="breadcrumb">
+            <li>
+                <a href="@Url.RouteUrl("projects_get")">Projects</a>
+                <span class="divider">/</span>
+            </li>
+            <li>
+                <a href="@Url.RouteUrl("projects_details", new {projectId = Model.ProjectReference.Id})">@Model.ProjectReference.Name</a>
+                <span class="divider">/</span>
+            </li>
+            <li>
+                <a href="@Url.RouteUrl("projects_details", new {projectId = Model.ProjectReference.Id})">Activities</a>
+                <span class="divider">/</span>
+            </li>
+            <li>
+                <span>@Model.Name</span>
+            </li>
+        </ul>
         <header class="page-header">
             <h1 class="well well-mini" data-bind="css: { well: editing_state(), 'well-mini': editing_state()}">
                 <span class="hide" data-bind="text: name, css: { hide: editing_state() }">@Model.Name</span>
@@ -176,7 +174,7 @@
         <script type="text/html" id="depedency-template">
             <li class="hide" data-bind="{ css: { hide: (!($parent.editing_dependencies()) && !dependency()) } }" >
                 <input class="clear pull-right" type="checkbox"
-                       data-bind="enable: ($parent.editing_dependencies()), ttr: {id: 'chk'+id(), name:'chk'+id()}, checked: dependency, click: function(e){ $parent.dependenciesChanged(true); return true; } " >
+                       data-bind="enable: ($parent.editing_dependencies()), attr: {id: 'chk'+id(), name:'chk'+id()}, checked: dependency, click: function(e){ $parent.dependenciesChanged(true); return true; } " >
                 <strong data-bind="text: name"></strong>, <small data-bind="text: description"></small>
                 <span>(Start: <small data-bind="text: startDate.formatted"></small>, Duration: <small data-bind="text: duration"></small>)</span>
             </li>

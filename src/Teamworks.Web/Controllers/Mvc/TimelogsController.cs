@@ -13,10 +13,10 @@ using Teamworks.Web.ViewModels.Mvc;
 
 namespace Teamworks.Web.Controllers.Mvc
 {
-    [RoutePrefix("timelogs")]
+    [RoutePrefix("projects/{projectId}/activities/{activityId}/timelogs")]
     public class TimelogsController : RavenController
     {
-        [GET("")]
+        [GET("timelogs", IsAbsoluteUrl = true)]
         public ActionResult Get()
         {
             List<Activity> activities = DbSession.Query<Activity>()
@@ -46,7 +46,7 @@ namespace Teamworks.Web.Controllers.Mvc
             return View("View", vm);
         }
 
-        [POST("projects/{projectId}/activities/{activityId}/timelogs/edit/")]
+        [POST("edit")]
         public ActionResult Edit(int projectId, int activityId, TimelogViewModel model)
         {
             var activity = DbSession
@@ -67,7 +67,7 @@ namespace Teamworks.Web.Controllers.Mvc
             };
         }
 
-        [POST("projects/{projectId}/activities/{activityId}/timelogs/create/")]
+        [POST("create")]
         public ActionResult Create(int projectId, int activityId, TimelogViewModel model)
         {
             var activity = DbSession
@@ -87,8 +87,8 @@ namespace Teamworks.Web.Controllers.Mvc
             };
         }
 
-        [POST("projects/{projectId}/activities/{activityId}/timelogs/delete/")]
-        public ActionResult Delete(int projectId, int activityId, int timelog)
+        [POST("{timelogId}/delete")]
+        public ActionResult Delete(int projectId, int activityId, int timelogId)
         {
             var activity = DbSession
                 .Load<Activity>(activityId);
@@ -96,8 +96,8 @@ namespace Teamworks.Web.Controllers.Mvc
             if (activity == null || activity.Project.ToIdentifier() != projectId)
                 return new HttpNotFoundResult();
 
-            var target = activity.Timelogs.Where(t => t.Id == timelog).FirstOrDefault();
-            activity.Timelogs.Add(target);
+            var target = activity.Timelogs.Where(t => t.Id == timelogId).FirstOrDefault();
+            activity.Timelogs.Remove(target);
 
             return new HttpStatusCodeResult(HttpStatusCode.NoContent);
         }

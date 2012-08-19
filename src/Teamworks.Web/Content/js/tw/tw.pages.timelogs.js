@@ -1,4 +1,4 @@
-﻿(function(pages) {
+﻿    (function(pages) {
     pages.RegisterTimelogsViewModel = function(data, json) {
         var self = this;
 

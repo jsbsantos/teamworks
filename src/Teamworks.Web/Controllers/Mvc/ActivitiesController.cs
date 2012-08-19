@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using AttributeRouting;
 using AttributeRouting.Web.Http;
 using Raven.Bundles.Authorization.Model;
 using Raven.Client.Authorization;
@@ -10,15 +11,18 @@ using Teamworks.Core;
 using Teamworks.Core.Extensions;
 using Teamworks.Core.Services;
 using Teamworks.Core.Services.RavenDb.Indexes;
+using Teamworks.Web.Attributes.Mvc;
 using Teamworks.Web.Helpers;
 using Teamworks.Web.Helpers.AutoMapper;
 using Teamworks.Web.ViewModels.Mvc;
 
 namespace Teamworks.Web.Controllers.Mvc
 {
+    //[SecureProject("projects/view/activities/view")]
+    [RoutePrefix("projects/{projectId}/activities")]
     public class ActivitiesController : RavenController
     {
-        [GET("projects/{projectId}/activities/{activityId}")]
+        [GET("{activityId}")]
         public ActionResult Details(int projectId, int activityId)
         {
             var list = DbSession.Query<Activity>()
@@ -58,7 +62,9 @@ namespace Teamworks.Web.Controllers.Mvc
                     return result;
                 }).ToList();
 
-            vm.Dependencies = list.Select(r =>
+            vm.Dependencies = list
+                .Where(r => r.Id.ToIdentifier() != activityId)
+                .Select(r =>
                 {
                     var result = r.MapTo<DependencyActivityViewModel>();
                     result.Dependency = r.Id.In(activity.Dependencies);
@@ -68,11 +74,11 @@ namespace Teamworks.Web.Controllers.Mvc
             return View(vm);
         }
 
-        [POST("projects/{projectId}/activities/edit")]
+        [POST("edit")]
         public ActionResult Update(int projectId, ActivityViewModel.Input model)
         {
             var activity = DbSession.Load<Activity>(model.Id);
-            if (activity == null)
+            if (activity == null || activity.Project.ToIdentifier() == projectId)
                 HttpNotFound();
 
             activity.Update(model.MapTo<Activity>(), DbSession);
@@ -80,7 +86,7 @@ namespace Teamworks.Web.Controllers.Mvc
             return new JsonNetResult { Data = activity.MapTo<ActivityViewModel>() };
         }
 
-        [POST("projects/{projectId}/activities")]
+        [POST("")]
         public ActionResult Add(int projectId, ActivityViewModel model)
         {
             var project = DbSession
@@ -101,7 +107,7 @@ namespace Teamworks.Web.Controllers.Mvc
             return new JsonNetResult { Data = activity.MapTo<ActivityViewModelComplete>() };
         }
 
-        [POST("projects/{projectId}/activities/delete/{activityId}")]
+        [POST("{activityId}/delete")]
         public ActionResult Remove(int projectId, int activityId)
         {
             var activity = DbSession
@@ -112,7 +118,7 @@ namespace Teamworks.Web.Controllers.Mvc
             return new HttpStatusCodeResult(HttpStatusCode.NoContent);
         }
 
-        [POST("projects/{projectId}/activities/{activityId}/people/{email}")]
+        [POST("{activityId}/people/{email}")]
         public ActionResult AddPerson(int projectId, int activityId, string email)
         {
             var _projectId = projectId.ToId("project");
@@ -136,7 +142,7 @@ namespace Teamworks.Web.Controllers.Mvc
             return new JsonNetResult { Data = result };
         }
 
-        [POST("projects/{projectId}/activities/{activityId}/people/delete/{personId}")]
+        [POST("{activityId}/people/{personId}/delete")]
         public ActionResult RemovePerson(int projectId, int activityId, int personId)
         {
             var _projectId = projectId.ToId("project");

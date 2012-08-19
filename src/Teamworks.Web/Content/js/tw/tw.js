@@ -88,6 +88,21 @@ var tw = {
         tw.ready(true);
     };
     
+    obj.utils.remove = function (collection, endpoint, message, errorCallback) {
+            return function () {
+                var _obj = this;
+                if (confirm(message)) {
+                    $.ajax({
+                        type: 'post',
+                        url: endpoint
+                    }).success(function (data) {
+                        collection.mappedRemove(_obj);
+                    }).error(errorCallback);
+                }
+            };
+        };
+
+
     $(function() {
         $('body').on('focus.datepicker.data-api', '[data-provide="datepicker"]', function(e) {
             var $this = $(this);
