@@ -117,11 +117,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\ActivitiesControllerUnittest.cs" />
-    <Compile Include="Api\BaseControllerUnittest.cs" />
-    <Compile Include="Api\Fixture\RavenDbFixture.cs" />
-    <Compile Include="Api\ProjectsControllerUnittest.cs" />
+    <Compile Include="Api\ActivitiesControllerTester.cs" />
+    <Compile Include="Api\BaseControllerTester.cs" />
+    <Compile Include="Api\Fixture\ApplicationHelper.cs" />
+    <Compile Include="Api\ProjectsControllerTester.cs" />
     <Compile Include="Attributes\Api\Ordered\OrderedFilterUnittest.cs" />
+    <Compile Include="AutoMapperTester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +137,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <Content Include="App.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App.Debug.config">
+      <DependentUpon>App.config</DependentUpon>
+    </Content>
+    <Content Include="App.Release.config">
+      <DependentUpon>App.config</DependentUpon>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

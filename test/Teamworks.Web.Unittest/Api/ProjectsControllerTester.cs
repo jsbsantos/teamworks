@@ -8,13 +8,12 @@ using Raven.Client;
 using Teamworks.Core;
 using Teamworks.Core.Services;
 using Teamworks.Web.Controllers.Api;
-using Teamworks.Web.Unittest.Api.Fixture;
 using Teamworks.Web.ViewModels.Api;
 using Xunit;
 
 namespace Teamworks.Web.Unittest.Api
 {
-    public class ProjectsControllerUnittest : BaseControllerUnittest
+    public class ProjectsControllerTester : BaseControllerTester
     {
         protected override string Url
         {
@@ -31,11 +30,12 @@ namespace Teamworks.Web.Unittest.Api
         [Fact]
         public void GetProjects()
         {
+            var store = Configure.OpenStore();
+            Configure.Populate(store, Reset);
+            
             const int expectedSize = 3;
-            Configure.Populate(Reset);
-
             List<ProjectViewModel> result;
-            using (var session = RavenDbFixture.DocumentStore.OpenSession())
+            using (var session = store.OpenSession())
             {
                 var controller = ControllerForTests<ProjectsController>(session, HttpMethod.Get);
                 result = controller.Get().ToList();
@@ -47,13 +47,15 @@ namespace Teamworks.Web.Unittest.Api
         [Fact]
         public void GetProjectById()
         {
+            var store = Configure.OpenStore();
+            Configure.Populate(store, Reset);
+
             const int expectedProjectId = 1;
             const string expectedName = "proj 1";
             const string expectedDescription = "description 1";
-            
-            Configure.Populate(Reset);
+
             ProjectViewModel result;
-            using (var session = RavenDbFixture.DocumentStore.OpenSession())
+            using (var session = store.OpenSession())
             {
                 var controller = ControllerForTests<ProjectsController>(session, HttpMethod.Get);
                 result = controller.GetById(expectedProjectId);
@@ -67,8 +69,10 @@ namespace Teamworks.Web.Unittest.Api
         [Fact]
         public void PostProjectReturnsCreatedStatusCode()
         {
+            var store = Configure.OpenStore();
+
             HttpResponseMessage response;
-            using (var session = RavenDbFixture.DocumentStore.OpenSession())
+            using (var session = store.OpenSession())
             {
                 session.Advanced.UseOptimisticConcurrency = true;
                 var controller = ControllerForTests<ProjectsController>(session, HttpMethod.Post);
@@ -85,11 +89,13 @@ namespace Teamworks.Web.Unittest.Api
         [Fact]
         public void PostProjectIsPersistedInDb()
         {
+            var store = Configure.OpenStore();
+
             const string expectedName = "post project";
             const string expectedDescription = "description post project";
             
             HttpResponseMessage response;
-            using (var session = RavenDbFixture.DocumentStore.OpenSession())
+            using (var session = store.OpenSession())
             {
                 var controller = ControllerForTests<ProjectsController>(session, HttpMethod.Post);
                 response = controller.Post(new ProjectViewModel
@@ -101,7 +107,7 @@ namespace Teamworks.Web.Unittest.Api
             }
 
             var result = response.Content.ReadAsAsync<ProjectViewModel>().Result;
-            using (var session = RavenDbFixture.DocumentStore.OpenSession())
+            using (var session = store.OpenSession())
             {
                 var project = session.Load<Project>(result.Id);
 
@@ -116,9 +122,11 @@ namespace Teamworks.Web.Unittest.Api
         [Fact]
         public void PostProjectReturnsTheCorrectLocationInResponse()
         {
+            var store = Configure.OpenStore();
+
             HttpResponseMessage response;
             ProjectViewModel result;
-            using (var session = RavenDbFixture.DocumentStore.OpenSession())
+            using (var session = store.OpenSession())
             {
                 var controller = ControllerForTests<ProjectsController>(session, HttpMethod.Post);
                 response = controller.Post(new ProjectViewModel
@@ -126,8 +134,8 @@ namespace Teamworks.Web.Unittest.Api
                                                    Name = "post project",
                                                    Description = "description post project"
                                                });
-                session.SaveChanges();
                 result = response.Content.ReadAsAsync<ProjectViewModel>().Result;
+                session.SaveChanges();
             }
 
             Assert.Equal("http://localhost/api/projects/" + result.Id, response.Headers.Location.ToString());
@@ -136,11 +144,13 @@ namespace Teamworks.Web.Unittest.Api
         [Fact]
         public void DeleteProjectReturnsNoContentStatusCode()
         {
+            var store = Configure.OpenStore();
+            Configure.Populate(store, Reset);
+
             const HttpStatusCode expectedStatusCode = HttpStatusCode.NoContent;
             
-            Configure.Populate(Reset);
             HttpResponseMessage response;
-            using (var session = RavenDbFixture.DocumentStore.OpenSession())
+            using (var session = store.OpenSession())
             {
                 var controller = ControllerForTests<ProjectsController>(session, HttpMethod.Delete);
                 response = controller.Delete(1);
@@ -154,8 +164,10 @@ namespace Teamworks.Web.Unittest.Api
         [Fact]
         public void DeleteProjectPersistedInDb()
         {
-            Configure.Populate(Reset);
-            using (var session = RavenDbFixture.DocumentStore.OpenSession())
+            var store = Configure.OpenStore();
+            Configure.Populate(store, Reset);
+
+            using (var session = store.OpenSession())
             {
                 var controller = ControllerForTests<ProjectsController>(session, HttpMethod.Delete);
                 controller.Delete(1);
@@ -163,24 +175,15 @@ namespace Teamworks.Web.Unittest.Api
                 session.SaveChanges();
             }
 
-            using (var session = RavenDbFixture.DocumentStore.OpenSession())
+            using (var session = store.OpenSession())
             {
                 Assert.Null(session.Load<Project>(1));
             }
         }
 
-        public static void Clear(IDocumentSession session)
-        {
-            var projects = session.Query<Project>().ToList();
-            foreach (var project in projects)
-                session.Delete(project);
-        }
-        
         public static void Reset(IDocumentSession session)
         {
-            Clear(session);
-            session.SaveChanges();
-            foreach (var p in Enumerable.Range(1, 3))
+           foreach (var p in Enumerable.Range(1, 3))
             {
                 session.Store(new Project
                 {

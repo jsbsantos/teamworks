@@ -17,13 +17,13 @@ using Xunit.Sdk;
 
 namespace Teamworks.Web.Unittest.Api
 {
-    public abstract class BaseControllerUnittest : IUseFixture<RavenDbFixture>
+    public abstract class BaseControllerTester : IUseFixture<ApplicationHelper>
     {
-        public RavenDbFixture Configure { get; set; }
+        public ApplicationHelper Configure { get; set; }
 
-        #region IUseFixture<RavenDbFixture> Members
+        #region IUseFixture<ApplicationHelper> Members
 
-        public void SetFixture(RavenDbFixture raven)
+        public void SetFixture(ApplicationHelper raven)
         {
             Configure = raven;
         }

@@ -1,21 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
+﻿using System.Web.Http;
 using System.Web.Http.Routing;
-using Raven.Client;
-using Teamworks.Core;
-using Teamworks.Core.Services;
-using Teamworks.Web.Controllers.Api;
-using Teamworks.Web.Unittest.Api.Fixture;
-using Teamworks.Web.ViewModels.Api;
-using Xunit;
 
 namespace Teamworks.Web.Unittest.Api
 {
-    /*
-    public class ActivitiesControllerUnittest : BaseControllerUnittest
+    
+    public class ActivitiesControllerTester : BaseControllerTester
     {
         protected override string Url
             {
@@ -24,11 +13,11 @@ namespace Teamworks.Web.Unittest.Api
 
         protected override IHttpRouteData RouteData(HttpConfiguration config)
         {
-            var route = config.Routes.MapHttpRoute("Activities_GetById",
+            var route = config.Routes.MapHttpRoute("api_activities_getbyid",
                                                    "api/projects/{projectId}/{controller}/{id}");
             return new HttpRouteData(route, new HttpRouteValueDictionary {{"controller", "activities"}});
         }
-
+        /*
         public override void Initialize()
         {
             Configure.Populate(Populate);
@@ -41,7 +30,7 @@ namespace Teamworks.Web.Unittest.Api
             const int projectId = 2;
 
             List<ActivityViewModel> result;
-            using (var session = RavenDbFixture.DocumentStore.OpenSession())
+            using (var session = ApplicationHelper.DocumentStore.OpenSession())
             {
                 var controller = ControllerForTests<ActivitiesController>(session, HttpMethod.GetById);
                 result = controller.GetById(projectId).ToList();
@@ -60,7 +49,7 @@ namespace Teamworks.Web.Unittest.Api
             const string description = "description 1";
 
             ActivityViewModel result;
-            using (var session = RavenDbFixture.DocumentStore.OpenSession())
+            using (var session = ApplicationHelper.DocumentStore.OpenSession())
             {
                 var controller = ControllerForTests<ActivitiesController>(session, HttpMethod.GetById);
                 result = controller.GetById(projectId, activityId);
@@ -80,7 +69,7 @@ namespace Teamworks.Web.Unittest.Api
             const int projectId = 2;
             const string name = "post activity";
             const string description = "post activity description";
-            using (var session = RavenDbFixture.DocumentStore.OpenSession())
+            using (var session = ApplicationHelper.DocumentStore.OpenSession())
             {
                 var controller = ControllerForTests<ActivitiesController>(session, HttpMethod.Post);
                 var response = controller.Post(projectId, new ActivityViewModel
@@ -102,7 +91,7 @@ namespace Teamworks.Web.Unittest.Api
             const string description = "post activity description";
 
             ActivityViewModel result;
-            using (var session = RavenDbFixture.DocumentStore.OpenSession())
+            using (var session = ApplicationHelper.DocumentStore.OpenSession())
             {
                 var controller = ControllerForTests<ActivitiesController>(session, HttpMethod.Post);
                 var response = controller.Post(projectId, new ActivityViewModel
@@ -114,7 +103,7 @@ namespace Teamworks.Web.Unittest.Api
                 result = response.Content.ReadAsAsync<ActivityViewModel>().Result;
             }
 
-            using (var session = RavenDbFixture.DocumentStore.OpenSession())
+            using (var session = ApplicationHelper.DocumentStore.OpenSession())
             {
                 var activity = session.Load<Activity>(result.Id);
 
@@ -133,7 +122,7 @@ namespace Teamworks.Web.Unittest.Api
             const string description = "post activity description";
 
             HttpResponseMessage response;
-            using (var session = RavenDbFixture.DocumentStore.OpenSession())
+            using (var session = ApplicationHelper.DocumentStore.OpenSession())
             {
                 var controller = ControllerForTests<ActivitiesController>(session, HttpMethod.Post);
                 response = controller.Post(projectId, new ActivityViewModel
@@ -156,7 +145,7 @@ namespace Teamworks.Web.Unittest.Api
             
             Configure.Populate(PopulateAnActivity);
             HttpResponseMessage response;
-            using (var session = RavenDbFixture.DocumentStore.OpenSession())
+            using (var session = ApplicationHelper.DocumentStore.OpenSession())
             {
                 var controller = ControllerForTests<ActivitiesController>(session, HttpMethod.Delete);
                 response = controller.Delete(projectId, activityId);
@@ -173,14 +162,14 @@ namespace Teamworks.Web.Unittest.Api
             const int activityId = 100;
 
             Configure.Populate(PopulateAnActivity);
-            using (var session = RavenDbFixture.DocumentStore.OpenSession())
+            using (var session = ApplicationHelper.DocumentStore.OpenSession())
             {
                 var controller = ControllerForTests<ActivitiesController>(session, HttpMethod.Delete);
                 controller.Delete(projectId, activityId);
                 session.SaveChanges();
             }
 
-            using (var session = RavenDbFixture.DocumentStore.OpenSession())
+            using (var session = ApplicationHelper.DocumentStore.OpenSession())
             {
                 Assert.Null(session.Load<Activity>(activityId));
             }
@@ -229,6 +218,6 @@ namespace Teamworks.Web.Unittest.Api
                 });
             }
         }
-
-    }*/
+        */
+    }
 }
