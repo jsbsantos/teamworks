@@ -6,5 +6,18 @@
 }
 
 <header class="page-header">
-    <h1>Reset Password</h1>    
+    <h1>Reset password
+        <small>Use the form below to  reset your password.</small></h1>    
 </header>
+<div class="row">
+    <div class="offset3 span6">
+        <form  method="post" class="form-horizontal" action="@Url.RouteUrl("password_change")">
+            <div class="control-group">
+                <input class="span6"  name="login" placeholder="Email or username" />
+            </div>
+            <div>
+            <button class="btn btn-success pull-right" type="submit" value="signup">Send email</button>
+        </div>
+        </form>
+    </div>
+</div>

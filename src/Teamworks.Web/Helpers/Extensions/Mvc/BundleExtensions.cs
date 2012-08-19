@@ -19,8 +19,7 @@ namespace Teamworks.Web.Helpers.Extensions.Mvc
             Bundle js = new ScriptBundle("~/js")
                 // extra libs
                 .Include("~/content/js/libs/date.js",
-                         "~/content/js/libs/crypto/core.js",
-                         "~/content/js/libs/crypto/md5.js")
+                         "~/content/js/libs/juration.js")
                 // bootstrap in the correct order
                 .Include("~/content/js/libs/jquery.timeago.js",
                         "~/content/js/libs/bootstrap/transaction.js",

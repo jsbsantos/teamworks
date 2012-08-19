@@ -1,18 +1,18 @@
 ﻿(function (pages) {
-    pages.ProfileViewModel = function (endpoint, json) {
+    pages.ProfileViewModel = function (json) {
 
         var mapping = {
             'ignore': ['editing'],
             'gravatar': {
-                update: function (options) {
-                    return options.data + '&s=256';
+                create: function (options) {
+                    return ko.observable(options.data + '&s=256');
                 }
             }
         };
 
         var self = ko.mapping.fromJS(json, mapping);
         self.editing = ko.observable();
-        self.update = function () {
+        self._update = function () {
             $.ajax('edit',
                         {
                             data: ko.mapping.toJSON(self),

@@ -8,6 +8,13 @@ body {
     padding-top: 80px;
 }
 
+.page-progress {
+    position: absolute;
+    top: 20%;
+    width: 20%;
+    left: 40%;
+}
+
 .main-wrapper { min-height: 100%; }
 
 .main-footer {

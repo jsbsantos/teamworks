@@ -5,7 +5,7 @@ namespace Teamworks.Web.ViewModels.Mvc
     public class ProfileViewModel
     {
         public bool IsMyProfile { get; set; }
-        public PersonViewModel PersonDetails { get; set; }
+        public PersonViewModel Person { get; set; }
 
         public class Input
         {

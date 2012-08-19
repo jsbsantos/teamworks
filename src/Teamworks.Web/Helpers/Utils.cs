@@ -1,4 +1,6 @@
-﻿using System.Security.Cryptography;
+﻿using System;
+using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -15,6 +17,12 @@ namespace Teamworks.Web.Helpers
                            NullValueHandling = NullValueHandling.Ignore,
                            DateTimeZoneHandling = DateTimeZoneHandling.Utc
                        };
+        }
+
+        public static string Token()
+        {
+            long i = Guid.NewGuid().ToByteArray().Aggregate<byte, long>(1, (current, b) => current*((int) b + 1));
+            return Hash(string.Format("{0:x}", i - DateTime.Now.Ticks));
         }
 
         public static string Hash(string str)

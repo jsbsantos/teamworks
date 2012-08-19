@@ -49,7 +49,7 @@
                 isoDate: 'dd/MM/yyyy'
             }),
             description: ko.observable().extend({ required: "Describe what have you done." }),
-            duration: ko.observable().extend({ required: "How much time do you used." })
+            duration: ko.observable().extend({ required: "How much time do you used.", duration: "" })
         };
 
         self.source = data;

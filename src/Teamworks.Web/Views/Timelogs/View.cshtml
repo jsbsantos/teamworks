@@ -9,7 +9,6 @@
 <div class="page-header">
     <h1>Timelogs <small>On this page you can register where you spent or time and see your past entries for all projects and activities.</small></h1>    
 </div>
-
 @if (Model.Options.Count == 0)
 {
     <p class="tc well">To register time you need to have a project. You can start in the <a href="@Url.RouteUrl("projects_get")">projects</a> page.</p>
@@ -24,10 +23,8 @@ else
                         <a href="#" data-bind="click: $parent._select, text: description">Today</a>
                     </li>
                 </ul>
-        
                 <div class="tab-content">
                     <form class="form-horizontal" data-bind="submit: timelogs._create">
-              
                         <p> The registration will be made for day <strong class="highlight" data-bind="text: timelogs.input.date.formatted, highlight: 'alert alert-info'"></strong>. 
                             <a class="hide" data-bind="datepicker: timelogs.input.date.formatted, css: { hide: selected().calendar === false }" data-date-autoclose="true" data-date-format="dd/MM/yyyy" data-date-enddate="@DateTime.Today.ToString("dd/MM/yyyy")"><i class="icon-calendar"></i></a>
                         </p>
@@ -35,15 +32,14 @@ else
                             <input id="project_name" autofocus="autofocus" class="span4" name="project_name" placeholder="Project name, Activity name" autocomplete="off" data-bind="typeahead: typeahead" />
                         </div>
                         <div class="control-group">
-                            <input name="description" placeholder="Description" class="span4" data-bind="value: timelogs.input.description, valueUpdate: 'afterkeyup'" />
+                            <input name="project_description" placeholder="Description" class="span4" data-bind="value: timelogs.input.description, valueUpdate: 'afterkeyup'" />
                         </div>
                         <div class="control-group">
-                            <input name="duration" placeholder="20min" class="span4" data-bind="value: timelogs.input.duration, valueUpdate: 'afterkeyup'" />
+                            <input name="project_duration" placeholder="ie: 5 hours, 2h 30 minutes, 120m" class="span4" data-bind="value: timelogs.input.duration.duration" />
                         </div>
                         <div>
                             <button class="btn btn-large btn-success" type="submit">Register</button>
                         </div>
-         
                     </form>
                 </div>
             </div>

@@ -2,7 +2,7 @@
 @model Teamworks.Web.ViewModels.Mvc.ProfileViewModel
 
 @{
-    ViewBag.Title = @Model.PersonDetails.Name;
+    ViewBag.Title = @Model.Person.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -12,19 +12,18 @@
     {
         <a class="btn pull-right" href="#" data-bind="click: function() { editing(true); }, css: { 'hide': editing() }">Edit your profile</a>
         <div class="hide pull-right" data-bind="css: { 'hide': !editing() }">
-            <a class="btn btn-mini btn-info" href="#" data-bind="click: update">Save</a>
+            <a class="btn btn-mini btn-info" href="#" data-bind="click: _update">Save</a>
             <a href="#" data-bind="click: function() { editing(false); }"><i class="icon-remove"></i></a>
         </div>
     }
     <h1>
-        <span data-bind="text: name, css: { 'hide': editing() }" >@Model.PersonDetails.Name</span>
+        <span data-bind="text: name, css: { 'hide': editing() }" >@Model.Person.Name</span>
         @if (Model.IsMyProfile)
         {
             <input class="hide" type="text" data-bind="value: name, css: { 'hide': !editing() }" />
             <small>This is you</small>
         } 
     </h1>
-   
 </header>
 <div class="row">
     <div class="span3">
@@ -36,26 +35,27 @@
         <h2>Bio</h2>
         <div class="span" data-bind="css: { 'hide': editing() }">
             <h3>Name</h3> 
-            <div class="raw"data-bind="text: username">@Model.PersonDetails.Username</div>
+            <div class="raw"data-bind="text: username">@Model.Person.Username</div>
             <h3>Email</h3> 
-            <div class="raw" data-bind="text: email">@Model.PersonDetails.Email</div>
+            <div class="raw" data-bind="text: email">@Model.Person.Email</div>
         </div>
         @if (Model.IsMyProfile)
         {
             <div class="span hide" data-bind="css: { 'hide': !editing() }">
-                <form>
-                    <h3>Name</h3> 
-                    <input type="text" data-bind="value: username"/>
-                    <h3>Email</h3> 
-                    <input type="text" data-bind="value: email"/>
-                </form>
+                <h3>Name</h3> 
+                <input type="text" data-bind="value: username"/>
+                <h3>Email</h3> 
+                <input type="text" data-bind="value: email"/>
             </div>
+            <h2>Change Password</h2>
         }
+        
+
     </div>
 </div>
 
 <script>
     var viewmodel = function() {
-        return tw.pages.ProfileViewModel('/api/people', @Html.ToJson(Model.PersonDetails));
+        return tw.pages.ProfileViewModel(@Html.ToJson(Model.Person));
     }
 </script>

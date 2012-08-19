@@ -153,6 +153,7 @@
     <Content Include="Content\css\teamworks.css" />
     <Content Include="Content\font\fontawesome-webfont.svg" />
     <Content Include="Content\img\google.png" />
+    <Content Include="Content\js\libs\juration.js" />
     <Content Include="Content\js\libs\jquery.timeago.js" />
     <Content Include="Content\js\tw\charts\tw.charts.pages.gantt.js" />
     <Content Include="Content\js\tw\tw.pages.discussion.js" />
@@ -178,28 +179,13 @@
     <Content Include="Content\js\libs\bootstrap\tooltip.js" />
     <Content Include="Content\js\libs\bootstrap\transition.js" />
     <Content Include="Content\js\libs\bootstrap\typeahead.js" />
-    <Content Include="Content\js\libs\crypto\cipher-core-min.js" />
-    <Content Include="Content\js\libs\crypto\cipher-core.js" />
-    <Content Include="Content\js\libs\crypto\core-min.js" />
-    <Content Include="Content\js\libs\crypto\core.js" />
-    <Content Include="Content\js\libs\crypto\md5-min.js" />
-    <Content Include="Content\js\libs\crypto\md5.js" />
     <Content Include="Content\js\libs\d3\d3.v2.js" />
     <Content Include="Content\js\libs\date.js" />
     <Content Include="Content\js\libs\jquery-1.7.2.min.js" />
-    <Content Include="Content\js\libs\jquery.unobtrusive-ajax.js" />
-    <Content Include="Content\js\libs\jquery.unobtrusive-ajax.min.js" />
-    <Content Include="Content\js\libs\jquery.validate-vsdoc.js" />
-    <Content Include="Content\js\libs\jquery.validate.js" />
-    <Content Include="Content\js\libs\jquery.validate.min.js" />
-    <Content Include="Content\js\libs\jquery.validate.unobtrusive.js" />
-    <Content Include="Content\js\libs\jquery.validate.unobtrusive.min.js" />
     <Content Include="Content\js\libs\knockout-2.0.0.debug.js" />
     <Content Include="Content\js\libs\knockout-2.0.0.js" />
     <Content Include="Content\js\libs\knockout.mapping.debug.js" />
     <Content Include="Content\js\libs\knockout.mapping.js" />
-    <Content Include="Content\js\libs\knockout.unobtrusive.js" />
-    <Content Include="Content\js\libs\knockout.unobtrusive.min.js" />
     <Content Include="Content\js\libs\modernizr-2.5.3-respond-1.1.0.min.js" />
     <Content Include="Content\js\libs\_references.js" />
     <Content Include="favicon.ico" />
@@ -390,6 +376,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Helpers\AutoMapper\Profiles\Mvc\" />
+    <Content Include="Views\Password\Expired.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

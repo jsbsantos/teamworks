@@ -32,7 +32,7 @@
                         var m = {
                             'date': {
                                 create: function (dateOptions) {
-                                    var pattern = 'dd/MM/yyyy hh:mm:ss';
+                                    var pattern = 'dd/MM/yyyy HH:mm:ss';
                                     var date = new Date(dateOptions.data).toString(pattern);
                                     return ko.observable(date).extend({
                                         isoDate: pattern

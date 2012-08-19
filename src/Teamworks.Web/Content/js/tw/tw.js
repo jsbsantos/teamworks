@@ -68,7 +68,7 @@ var tw = {
 
 (function(obj) {
     'use strict';
-    
+
     obj.ready = ko.observable(false);
     obj.bindings.alerts = ko.observableArray([]);
     obj.bindings.alerts._remove = function(item) {
@@ -157,9 +157,30 @@ var tw = {
         target.formatted(target());
         return target;
     };
+    ko.extenders.duration = function(target, message) {
+        target.duration = ko.computed({
+            read: function() {
+                var val = parseInt(target());
+                if (isNaN(val))
+                    return message;
+                return juration.stringify(val, { format: 'long' });
+            },
+            write: function(value) {
+                if (value) {
+                    try {
+                        target(juration.parse(value));    
+                    } catch(e) {
+                        target(message);
+                    } 
+                }
+            }
+        });
+        target.duration(target());
+        return target;
+    };
     /* binders */
     ko.bindingHandlers.highlight = {
-        init: function(element, valueAccessor, allBindingsAccessor) {
+        init: function(element) {
             var $elem = $(element);
             $elem.addClass('');
         },
@@ -188,7 +209,7 @@ var tw = {
             });
         }
     };
-     ko.bindingHandlers.timeago = {
+    ko.bindingHandlers.timeago = {
         update: function(element) {
             var $elem = $(element);
             $elem.timeago();

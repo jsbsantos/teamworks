@@ -8,12 +8,33 @@ namespace Teamworks.Core.Mailgun
 {
     public class MailHub
     {
-        public static string Send(string from, string to, string subject, string text)
+        public static void NoReply(string to, string subject, string text)
         {
-            return Send(from, to, subject, text, null);
+            var message = new Dictionary<string, string>
+                              {
+                                  {"to", to},
+                                  {"from", "no-reply@teamworks.mailgun.org"},
+                                  {"subject", subject},
+                                  {"text", text}
+                              };
+
+            HttpClient client = CreateClient();
+            var content = new FormUrlEncodedContent(message);
+
+            HttpResponseMessage result =
+                client.PostAsync(client.BaseAddress + "/messages", content).Result;
+
+            if (!result.IsSuccessStatusCode)
+                throw new HttpRequestException(result.ReasonPhrase);
+
+            //change content type to JSON so we can parse the response
+            result.Content.Headers.ContentType.MediaType = "application/json";
+
+            string json = result.Content.ReadAsStringAsync().
+                Result;
         }
 
-        public static string Send(string from, string to, string subject, string text, string id)
+        public static string Send(string from, string to, string subject, string text, string id = null)
         {
             var message = new Dictionary<string, string>
                               {
@@ -33,6 +54,9 @@ namespace Teamworks.Core.Mailgun
             HttpResponseMessage result =
                 client.PostAsync(client.BaseAddress + "/messages", content).Result;
 
+            if (!result.IsSuccessStatusCode)
+                throw new HttpRequestException(result.ReasonPhrase);
+            
             //change content type to JSON so we can parse the response
             result.Content.Headers.ContentType.MediaType = "application/json";
 
