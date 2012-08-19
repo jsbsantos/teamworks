@@ -5,8 +5,6 @@
     Layout = "../Shared/_Layout.cshtml";
 }
 
-
-    
 <div class="row">
     <div class="span6">
         <div class="discussions">
@@ -16,7 +14,7 @@
                     <span class="divider">/</span>
                 </li>
                 <li>
-                    <a href="@Url.RouteUrl("projects_details")">Projects</a>
+                    <a href="@Url.RouteUrl("projects_details")">@Model.Project.Name</a>
                     <span class="divider">/</span>
                 </li>
                 <li>
@@ -57,17 +55,17 @@
             <div>
                 <p data-bind="text: content"></p>
             </div>
-            <div class="pull-left"><p data-bind="text: date"></p></div>
+            <div class="pull-left"><p data-bind="text: date.formatted, attr: { title: date }, timeago: ''"></p></div>
             <div class="pull-right" data-bind="visible: editable">
-                <a><i class="icon-edit"></i></a>
-                <a><i class="icon-trash"></i></a>
+                <a href='#'><i class="icon-edit"></i></a>
+                <a href='#' data-bind="click: _remove"><i class="icon-trash"></i></a>
             </div>
         </div>
     </div>
 </script>
     
 <script>
-    var viewmodel = function() {
-        return new tw.pages.DiscussionViewModel(@Html.ToJson(Model));
+    var viewmodel = function () {
+        return tw.pages.DiscussionViewModel(@Html.ToJson(Model));
     };
 </script>

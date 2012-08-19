@@ -80,6 +80,7 @@
     <Compile Include="Helpers\AutoMapper\Profiles\EntityViewModelMapperProfile.cs" />
     <Compile Include="ViewModels\Api\ProjectViewModel.cs" />
     <Compile Include="ViewModels\Mvc\EntityViewModel.cs" />
+    <Compile Include="Controllers\Mvc\PasswordController.cs" />
     <Compile Include="ViewModels\Mvc\PersonViewModel.cs" />
     <Compile Include="ViewModels\Mvc\ProfileViewModel.cs" />
     <Compile Include="ViewModels\Mvc\RegisterTimelogsViewModel.cs" />
@@ -134,7 +135,7 @@
     <Compile Include="ViewModels\Api\MessageViewModel.cs" />
     <Compile Include="ViewModels\Api\PersonViewModel.cs" />
     <Compile Include="ViewModels\Api\TimelogViewModel.cs" />
-    <Compile Include="ViewModels\Mvc\LoginViewModel.cs" />
+    <Compile Include="ViewModels\Mvc\AccountViewModel.cs" />
     <Compile Include="ViewModels\Mvc\ProjectsViewModel.cs" />
     <Compile Include="ViewModels\Mvc\RegisterPersonViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -153,6 +154,7 @@
     <Content Include="Content\css\teamworks.css" />
     <Content Include="Content\font\fontawesome-webfont.svg" />
     <Content Include="Content\img\google.png" />
+    <Content Include="Content\js\libs\jquery.timeago.js" />
     <Content Include="Content\js\tw\charts\tw.charts.pages.gantt.js" />
     <Content Include="Content\js\tw\tw.pages.discussion.js" />
     <Content Include="Content\js\tw\tw.pages.timelogs.js" />
@@ -160,7 +162,7 @@
     <Content Include="Content\js\tw\tw.pages.profile.js" />
     <Content Include="Content\js\tw\tw.pages.projects.js" />
     <Content Include="Content\js\tw\tw.pages.project.js" />
-    <Content Include="Content\js\tw\tw.runner.js" />
+    <Content Include="Content\js\tw\tw.run.js" />
     <Content Include="Content\js\tw\charts\tw.charts.gantt.js" />
     <Content Include="Content\js\tw\tw.js" />
     <Content Include="Content\js\gac.js" />
@@ -280,6 +282,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Helpers\AutoMapper\Profiles\Mvc\" />
+    <Content Include="Views\Password\Reset.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Account\Index.cshtml" />
@@ -383,6 +386,9 @@
     <Reference Include="WebGrease">
       <HintPath>..\..\packages\WebGrease.1.1.0\lib\WebGrease.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Password\Change.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

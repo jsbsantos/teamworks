@@ -26,6 +26,9 @@
     <!-- Custom font from google -->
     <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>
     @Styles.Render("~/css")
+    <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"> </script>
+    <script> window.jQuery || document.write('<script src="@Url.Content("~/content/js/libs/jquery-1.7.2.min.js")"><\/script>') </script>
     <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
     <!-- All JavaScript at the bottom, except this Modernizr build.
         Modernizr enables HTML5 elements & feature detects for optimal performance.
@@ -44,17 +47,26 @@
                 </nav>
             </div>
         </header>
+        
         <div class="main container" role="main">
-            <!-- ko with: tw.page.viewmodel -->
-            @RenderBody()
-            <!-- /ko -->
-            @if (Html.IsDebugging())
-            {
-                <section>
-                    <h1>View Model</h1>
-                    <pre>@ViewsExtensions.ToIndentedJson(Html, Model)</pre>
-                </section>
-            }   
+            <div class="row well-large" data-bind="css: { 'hide': tw.ready() }">
+                <div class="offset5 span2 progress progress-striped active">
+                    <div class="bar"
+                         style="width: 100%;"></div>
+                </div>
+            </div>
+            <div class="hide" data-bind="css: { 'hide': !tw.ready() }">
+                <!-- ko with: tw.bindings.vm -->
+                @RenderBody()
+                <!-- /ko -->
+                @if (Html.IsDebugging())
+                {
+                    <section>
+                        <h1>View Model</h1>
+                        <pre>@ViewsExtensions.ToIndentedJson(Html, Model)</pre>
+                    </section>
+                }
+            </div>   
         </div>
     </div>
     <footer class="main-footer">
@@ -64,9 +76,6 @@
         </div>
     </footer>
     <!-- JavaScript at the bottom for fast page loading -->
-    <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"> </script>
-    <script> window.jQuery || document.write('<script src="@Url.Content("~/content/js/libs/jquery-1.7.2.min.js")"><\/script>') </script>
     <!-- Placed at the end of the document so the layout load faster -->
     @Scripts.Render("~/js")
 </body>

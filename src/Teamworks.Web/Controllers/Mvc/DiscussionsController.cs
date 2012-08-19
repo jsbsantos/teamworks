@@ -31,17 +31,18 @@ namespace Teamworks.Web.Controllers.Mvc
             var discussion = DbSession
                 .Include<Discussion>(d => d.Messages.SelectMany(m => m.Person))
                 .Load<Discussion>(discussionId);
-            
+
             if (discussion == null || !discussion.Entity.Equals(project.Id))
                 return HttpNotFound();
 
             var discussionViewModel = discussion.MapTo<DiscussionViewModel>();
-            foreach (var message in discussion.Messages)
+            discussionViewModel.Project = project.MapTo<EntityViewModel>();
+            foreach (var message in discussion.Messages.OrderByDescending(m => m.Date))
             {
                 var person = DbSession.Load<Person>(message.Person);
                 var messageViewModel = message.MapTo<DiscussionViewModel.Message>();
                 messageViewModel.Person = person.MapTo<PersonViewModel>();
-                    messageViewModel.Editable = person.Id == DbSession.GetCurrentPersonId();
+                messageViewModel.Editable = person.Id == DbSession.GetCurrentPersonId();
 
                 discussionViewModel.Messages.Add(messageViewModel);
             }
@@ -68,12 +69,12 @@ namespace Teamworks.Web.Controllers.Mvc
         }
 
         [AjaxOnly]
-        [POST("{discussionId}/messages/create")]
+        [POST("{discussionId}/messages")]
         [SecureProject("projects/view/discussions/view")]
         public ActionResult PostMessage(int projectId, int discussionId, string content = "")
         {
             content = content.Trim();
-            if(string.IsNullOrEmpty(content))
+            if (string.IsNullOrEmpty(content))
                 ModelState.AddModelError("model.message", "Your message cannot be empty.");
 
             if (!ModelState.IsValid)
@@ -92,11 +93,11 @@ namespace Teamworks.Web.Controllers.Mvc
             var messageViewModel = message.MapTo<DiscussionViewModel.Message>();
             messageViewModel.Person = DbSession.GetCurrentPerson().MapTo<PersonViewModel>();
 
-            return new JsonNetResult() {Data = messageViewModel};
+            return new JsonNetResult {Data = messageViewModel};
         }
 
         [AjaxOnly]
-        [POST("{discussionId}/messages/delete/{messageId}")]
+        [POST("{discussionId}/messages/{messageId}/delete")]
         [SecureProject("projects/view/discussions/view")]
         public ActionResult DeleteMessage(int projectId, int discussionId, int messageId)
         {
@@ -106,12 +107,16 @@ namespace Teamworks.Web.Controllers.Mvc
             if (discussion == null || discussion.Entity != project.Id)
                 return new HttpNotFoundResult();
 
-            var message = discussion.Messages.Where(m => m.Id == messageId).FirstOrDefault();
+            var message = discussion.Messages.FirstOrDefault(m => m.Id == messageId);
             if (message != null)
-                discussion.Messages.Remove(message);
+            {
+                if (message.Person == DbSession.GetCurrentPersonId())
+                    discussion.Messages.Remove(message);
+                else
+                    return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
 
             return new HttpStatusCodeResult(HttpStatusCode.NoContent);
         }
-
     }
 }

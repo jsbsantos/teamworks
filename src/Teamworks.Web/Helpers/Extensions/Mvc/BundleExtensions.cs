@@ -22,7 +22,8 @@ namespace Teamworks.Web.Helpers.Extensions.Mvc
                          "~/content/js/libs/crypto/core.js",
                          "~/content/js/libs/crypto/md5.js")
                 // bootstrap in the correct order
-                .Include("~/content/js/libs/bootstrap/transaction.js",
+                .Include("~/content/js/libs/jquery.timeago.js",
+                        "~/content/js/libs/bootstrap/transaction.js",
                          "~/content/js/libs/bootstrap/alert.js",
                          "~/content/js/libs/bootstrap/button.js",
                          "~/content/js/libs/bootstrap/carousel.js",
@@ -43,7 +44,7 @@ namespace Teamworks.Web.Helpers.Extensions.Mvc
                 .Include("~/content/js/tw/tw.js")
                 .IncludeDirectory("~/content/js/tw/charts/", "tw.charts.*")
                 .IncludeDirectory("~/content/js/tw/", "tw.pages.*")
-                .Include("~/content/js/tw/tw.runner.js");
+                .Include("~/content/js/tw/tw.run.js");
 #if !DEBUG            
             js.Include("~/content/js/gac.js");
 #endif

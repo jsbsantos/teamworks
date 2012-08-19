@@ -1,4 +1,4 @@
-﻿@model Teamworks.Web.Controllers.Mvc.LoginModel
+﻿@model Teamworks.Web.ViewModels.Mvc.AccountViewModel
 
 @{
     ViewBag.Title = "Sign In";
@@ -18,17 +18,16 @@
                 @Html.ValidationSummary()
                 <form  method="post" class="form-horizontal" action="@Url.Action("Index", "Account")">
                     <div class="control-group">
-                        <input name="login" placeholder="Username" value="@Model.Login"/>
+                        <input name="login" placeholder="Username" value="@Model.Username"/>
                     </div>
                     <div class="control-group">
                         <input  name="password" placeholder="Insert your password here" type="password" />
                     </div>
                     <div>
-                        @Html.HiddenFor(m => m.ReturnUrl)
                         <button class="btn btn-success" type="submit" value="signup">Sign In</button>
-                        <span class="help-inline"><label class="span2 checkbox">Remember me?<input type="checkbox" name="persist" value="true"></label></span>
+                        <span class="row help-inline"><label class="span3 checkbox">Remember me?<input type="checkbox" name="persist" value="true"></label></span>
                     </div>
-                    
+                    <a href="@Url.RouteUrl("default", new { controller = "Password", action = "Reset" })">Reset password</a>
                 </form>
             </div>
             <div class="span4">
