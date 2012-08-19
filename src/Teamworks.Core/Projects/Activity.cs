@@ -48,5 +48,18 @@ namespace Teamworks.Core
                            LastTimeEntryId = 0
                        };
         }
+
+
+        public static double GetAccumulatedDuration(ICollection<Activity> domain, Activity activity, int duration = 0)
+        {
+            var parent = domain.Where(a => activity.Dependencies.Contains(a.Id))
+                .OrderByDescending(a => a.Duration).FirstOrDefault();
+
+            if (parent == null)
+                return duration;
+
+            return GetAccumulatedDuration(domain, parent, duration + parent.Duration);
+        }
+
     }
 }

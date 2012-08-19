@@ -42,6 +42,11 @@ namespace Teamworks.Web.ViewModels.Mvc
     {
         public IEnumerable<TimelogViewModel> Timelogs { get; set; }
         public IEnumerable<DependencyActivityViewModel> Dependencies { get; set; }
-        public IEnumerable<PersonViewModel> People { get; set; }
+        public IEnumerable<AssignedPersonViewModel> People { get; set; }
+
+        public class AssignedPersonViewModel : PersonViewModel
+        {
+            public bool Assigned { get; set; }
+        }
     }
 }

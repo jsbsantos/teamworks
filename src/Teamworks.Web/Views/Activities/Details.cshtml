@@ -98,21 +98,21 @@
                     </td>
                     <td>
                         <span class="hide" data-bind="text: description, css: {hide: editing()}"></span>
-                        <input name="timelog_duration" class="hide" data-bind="css: { hide: !editing() }, value: description, valueUpdate: 'afterkeyup'" />
+                        <input name="timelog_description" class="hide" data-bind="css: { hide: !editing() }, value: description, valueUpdate: 'afterkeyup'" />
                     </td>
                     <td>
                         <span class="hide" data-bind="text: date.formatted, css: { hide: editing() }"></span>
-                        <input name="timelog_duration" class="hide input-small" data-bind="css: { hide: !editing() }, value: date.formatted, valueUpdate: 'afterkeyup'" />
+                        <input name="timelog_date" class="hide input-small" data-bind="css: { hide: !editing() }, value: date.formatted, valueUpdate: 'afterkeyup'" />
                         <a class="hide" data-bind="datepicker: date.formatted, css: { hide: !editing() }" data-date-autoclose="true" data-date-format="dd/MM/yyyy" data-date-enddate="@DateTime.Today.ToString("dd/MM/yyyy")"><i class="icon-calendar"></i></a>
                     </td>
-                    <td><a data-bind="text: person.name(), attr: { href: '@Url.RouteUrl("profiles_get")' + id() } "></a></td>
+                    <td><a data-bind="text: person.name(), attr: { href: '@Url.RouteUrl("profiles_get")' + person.id() } "></a></td>
                     <td class="input-small">
                         <a class="hide" data-bind="css: { hide: editing()}, click: function() { editing(true); }">
                             <i class="icon-edit"></i> 
                         </a> 
                         &nbsp;
                         <a class="hide" data-bind="css: { hide: editing()}, click: function() { _remove(); }">
-                            <i class="icon-remove"></i> 
+                            <i class="icon-trash"></i> 
                         </a>
                         <a class="hide" data-bind="css: { hide: !editing() }, click: function() { editing(false); _update(); }">
                             <i class="icon-save"></i> 
@@ -128,7 +128,36 @@
     </div>
     <div class="span4">
         <h2>People</h2>
-        <br/>
+        <div class="people">
+            <ul class="thumbnails" data-bind="template: { name: 'person-template', foreach: people.assigned }"></ul>
+            <a href="#" class="more-options" data-bind="visible: !people.editing(), click: function() { people.editing(true); }" >More members</a>
+            <div class="hide" data-bind="css: { hide: !people.editing() }">
+                <form class="form-horizontal" data-bind="submit: people._add">
+                    <input autocomplete="off" placeholder="Who do you wanto to add" autofocus="autofocus"
+                           data-items="4" class="span2" data-bind="value: people.input, valueUpdate: 'afterkeyup', typeahead: people.typeahead" />
+                    <a class="btn-mini" data-bind="click: function() { people.editing(false) }"><i class="icon-remove"></i></a> 
+                </form>
+            </div>
+        </div>
+        
+        <script type="text/html" id="person-template">
+            <li class="dropdown">
+                <a class="thumbnail dropdown-toggle" data-toggle="dropdown" rel="tooltip-top" data-bind="attr: { href: '#', 'title': name }">
+                    <img data-bind="attr: { src: gravatar }" />
+                </a>               
+                <div class="dropdown-menu well-small">
+                    <img class="pull-left" data-bind="attr: { alt: name, src: gravatar }" />
+                    <div>
+                        <h3 class="lead">
+                            <a data-bind="text: name, attr: { href: '@Url.RouteUrl("profiles_get")' + id() }" href="#"></a>
+                        </h3>
+                        <div data-bind="text: username"></div>
+                    </div>
+                    <a class="btn pull-right pull-down clear" href="#" data-bind="click: _remove">Remove</a>
+                </div>
+            </li>
+        </script>
+
         <h2>Related Activities
             <a class="hide" data-bind="css: { hide:  editing_dependencies() }, click: function() { editing_dependencies(true); }">
                 <i class="icon-edit"></i> 

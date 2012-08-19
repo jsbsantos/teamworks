@@ -1,18 +1,15 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using AttributeRouting.Web.Http;
-using AutoMapper;
 using Raven.Bundles.Authorization.Model;
 using Raven.Client.Authorization;
 using Raven.Client.Linq;
 using Teamworks.Core;
-using Teamworks.Core.Business;
+using Teamworks.Core.Extensions;
 using Teamworks.Core.Services;
 using Teamworks.Core.Services.RavenDb.Indexes;
-using Teamworks.Web.Attributes.Mvc;
 using Teamworks.Web.Helpers;
 using Teamworks.Web.Helpers.AutoMapper;
 using Teamworks.Web.ViewModels.Mvc;
@@ -21,18 +18,6 @@ namespace Teamworks.Web.Controllers.Mvc
 {
     public class ActivitiesController : RavenController
     {
-        private Lazy<ActivityServices> _activityServices;
-
-        private ActivityServices ActivityServices
-        {
-            get { return _activityServices.Value; }
-        }
-
-        public ActivitiesController()
-        {
-            _activityServices = new Lazy<ActivityServices>(() => new ActivityServices {DbSession = DbSession} );
-        }
-
         [GET("projects/{projectId}/activities/{activityId}")]
         public ActionResult Details(int projectId, int activityId)
         {
@@ -58,9 +43,12 @@ namespace Teamworks.Web.Controllers.Mvc
             vm.ProjectReference = project.MapTo<EntityViewModel>();
 
             vm.People = DbSession.Load<Person>(project.People).Select(
-                    r => r.MapTo<PersonViewModel>()).ToList();
-                /*DbSession.Load<Person>(activity.People.Distinct()).Select(
-                    r => r.MapTo<PersonViewModel>()).ToList();*/
+                r =>
+                    {
+                        var result = r.MapTo<ActivityViewModelComplete.AssignedPersonViewModel>();
+                        result.Assigned = r.Id.In(activity.People);
+                        return result;
+                    }).ToList();
 
             vm.TotalTimeLogged = activity.Timelogs.Sum(r => r.Duration);
             vm.Timelogs = activity.Timelogs.Select(r =>
@@ -69,7 +57,6 @@ namespace Teamworks.Web.Controllers.Mvc
                     result.Person = DbSession.Load<Person>(r.Person).MapTo<EntityViewModel>();
                     return result;
                 }).ToList();
-            ViewBag.Results = vm;
 
             vm.Dependencies = list.Select(r =>
                 {
@@ -84,15 +71,13 @@ namespace Teamworks.Web.Controllers.Mvc
         [POST("projects/{projectId}/activities/edit")]
         public ActionResult Update(int projectId, ActivityViewModel.Input model)
         {
-            var activity = ActivityServices.Update(model.MapTo<Activity>());
+            var activity = DbSession.Load<Activity>(model.Id);
             if (activity == null)
                 HttpNotFound();
 
-            Response.StatusCode = (int) HttpStatusCode.Created;
-            return new JsonResult()
-                {
-                    Data = activity.MapTo<ActivityViewModel>()
-                };
+            activity.Update(model.MapTo<Activity>(), DbSession);
+
+            return new JsonNetResult { Data = activity.MapTo<ActivityViewModel>() };
         }
 
         [POST("projects/{projectId}/activities")]
@@ -113,14 +98,10 @@ namespace Teamworks.Web.Controllers.Mvc
             if (model.StartDate != DateTimeOffset.MinValue)
                 activity.StartDate = model.StartDate;
 
-            return new ContentResult
-                {
-                    Content = Utils.ToJson(activity.MapTo<ActivityViewModelComplete>()),
-                    ContentType = "application/json"
-                };
+            return new JsonNetResult { Data = activity.MapTo<ActivityViewModelComplete>() };
         }
 
-        [POST("projects/{projectId}/activities/remove/{activityId}")]
+        [POST("projects/{projectId}/activities/delete/{activityId}")]
         public ActionResult Remove(int projectId, int activityId)
         {
             var activity = DbSession
@@ -145,42 +126,36 @@ namespace Teamworks.Web.Controllers.Mvc
             if (person == null)
                 return new HttpNotFoundResult();
 
-            var project = DbSession.Load<Project>(projectId);
-            if (project == null)
-                return new HttpNotFoundResult();
-
-            var activity = DbSession.Load<Project>(projectId);
-            if (activity == null)
+            var activity = DbSession.Load<Activity>(activityId);
+            if (activity == null || activity.Project.ToIdentifier() != projectId)
                 return new HttpNotFoundResult();
 
             activity.People.Add(person.Id);
-            return new HttpStatusCodeResult(HttpStatusCode.Created);
+            var result = person.MapTo<ActivityViewModelComplete.AssignedPersonViewModel>();
+            result.Assigned = true;
+            return new JsonNetResult { Data = result };
         }
 
-        [POST("projects/{projectId}/activities/{activityId}/people/remove/{personId}")]
-        public ActionResult RemovePerson(int projectId, int activityId, string personId)
+        [POST("projects/{projectId}/activities/{activityId}/people/delete/{personId}")]
+        public ActionResult RemovePerson(int projectId, int activityId, int personId)
         {
             var _projectId = projectId.ToId("project");
             var _activityId = activityId.ToId("activity");
 
-            var person = DbSession.Query<Person>()
-                .Customize(c => c.Include(_projectId))
-                .Customize(c => c.Include(_activityId))
-                .Where(p => p.Id == personId).FirstOrDefault();
+            var person = DbSession
+                .Include(_activityId)
+                .Include(_projectId)
+                .Load<Person>(personId);
 
             if (person == null)
                 return new HttpNotFoundResult();
 
-            var project = DbSession.Load<Project>(projectId);
-            if (project == null)
-                return new HttpNotFoundResult();
-
-            var activity = DbSession.Load<Project>(projectId);
-            if (activity == null)
+            var activity = DbSession.Load<Activity>(activityId);
+            if (activity == null || activity.Project.ToIdentifier() != projectId)
                 return new HttpNotFoundResult();
 
             activity.People.Remove(person.Id);
-            return new HttpStatusCodeResult(HttpStatusCode.Created);
+            return new HttpStatusCodeResult(HttpStatusCode.NoContent);
         }
     }
 }

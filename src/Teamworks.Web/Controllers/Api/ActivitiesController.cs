@@ -10,7 +10,6 @@ using Raven.Bundles.Authorization.Model;
 using Raven.Client.Authorization;
 using Raven.Client.Linq;
 using Teamworks.Core;
-using Teamworks.Core.Business;
 using Teamworks.Core.Services;
 using Teamworks.Core.Services.RavenDb.Indexes;
 using Teamworks.Web.Attributes.Api;
@@ -24,13 +23,6 @@ namespace Teamworks.Web.Controllers.Api
     public class ActivitiesController : RavenApiController
     {
         #region General
-
-        private ActivityServices ActivityServices { get; set; }
-
-        public ActivitiesController()
-        {
-            ActivityServices = new Lazy<ActivityServices>(() => new ActivityServices() { DbSession = DbSession }).Value;
-        }
 
         public IEnumerable<Activity> GetById(int projectId)
         {
@@ -73,7 +65,7 @@ namespace Teamworks.Web.Controllers.Api
             List<Core.Activity> domain = DbSession.Query<Core.Activity>()
                 .Where(a => a.Project == project.Id).ToList();
 
-            activity.StartDate = project.StartDate.AddMinutes(ActivityServices.GetAccumulatedDuration(domain, activity));
+            activity.StartDate = project.StartDate.AddMinutes(Activity.GetAccumulatedDuration(domain, activity));
 
             Activity activities = Mapper.Map<Core.Activity, Activity>(activity);
 
