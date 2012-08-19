@@ -11,7 +11,7 @@
                 <img class="" src="@(Model.Gravatar + "&s=64")" alt="Profile image"/>  
             </div>
             <div class="pull-right">
-                <a href="@Url.RouteUrl("profiles_get")">Profile</a>
+                <a href="@Url.RouteUrl("profiles_get", new { id = UrlParameter.Optional })">Profile</a>
             </div>
         </div>
         <div class="form-actions">

@@ -67,17 +67,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Attributes\Api\FormsAuthenticationAttribute.cs" />
-    <Compile Include="Helpers\AutoMapper\Profiles\Api\PersonViewModelMapperProfile.cs" />
-    <Compile Include="Helpers\AutoMapper\Profiles\Mvc\DiscussionViewModelMapperProfile.cs" />
+    <Compile Include="Helpers\AutoMapper\Profiles\DiscussionViewModelMapperProfile.cs" />
     <Compile Include="Helpers\Extensions\DocumentSessionExtensions.cs" />
-    <Compile Include="Views\JsonNetResult.cs" />
+    <Compile Include="ViewModels\Mvc\DiscussionViewModel.cs" />
+    <Compile Include="Helpers\JsonNetResult.cs" />
     <Compile Include="ViewModels\Mvc\InputProfileViewModel.cs" />
-    <Compile Include="Helpers\AutoMapper\Profiles\Api\ActivityViewModelMapperProfile.cs" />
-    <Compile Include="Helpers\AutoMapper\Profiles\Api\ProjectViewModelMapperProfile.cs" />
-    <Compile Include="Helpers\AutoMapper\Profiles\Mvc\ProfileViewModelMapperProfile.cs" />
-    <Compile Include="Helpers\AutoMapper\Profiles\Mvc\TimelogViewModelMapperProfile.cs" />
-    <Compile Include="Helpers\AutoMapper\Profiles\Mvc\RegisterTimelogsViewModelMapperProfile.cs" />
-    <Compile Include="Helpers\AutoMapper\Profiles\Mvc\EntityViewModelMapperProfile.cs" />
+    <Compile Include="Helpers\AutoMapper\Profiles\ProfileViewModelMapperProfile.cs" />
+    <Compile Include="Helpers\AutoMapper\Profiles\TimelogViewModelMapperProfile.cs" />
+    <Compile Include="Helpers\AutoMapper\Profiles\RegisterTimelogsViewModelMapperProfile.cs" />
+    <Compile Include="Helpers\AutoMapper\Profiles\EntityViewModelMapperProfile.cs" />
     <Compile Include="ViewModels\Api\ProjectViewModel.cs" />
     <Compile Include="ViewModels\Mvc\EntityViewModel.cs" />
     <Compile Include="ViewModels\Mvc\PersonViewModel.cs" />
@@ -86,7 +84,7 @@
     <Compile Include="ViewModels\Mvc\ActivityViewModel.cs" />
     <Compile Include="Controllers\Mvc\ProfilesController.cs" />
     <Compile Include="Handlers\BasicAuthentication.cs" />
-    <Compile Include="Helpers\AutoMapper\Profiles\Mvc\ActivityViewModelMapperProfile.cs" />
+    <Compile Include="Helpers\AutoMapper\Profiles\ActivityViewModelMapperProfile.cs" />
     <Compile Include="ViewModels\Mvc\ProjectViewModel.cs" />
     <Compile Include="Handlers\RavenSession.cs" />
     <Compile Include="Controllers\Api\MailgunController.cs">
@@ -98,11 +96,10 @@
     <Compile Include="Controllers\Api\HomeController.cs" />
     <Compile Include="Controllers\Mvc\TimelogsController.cs" />
     <Compile Include="Helpers\AutoMapper\AutoMapperExtensions.cs" />
-    <Compile Include="Helpers\AutoMapper\Profiles\Mvc\ProjectsViewModelMapperProfile.cs" />
+    <Compile Include="Helpers\AutoMapper\Profiles\ProjectsViewModelMapperProfile.cs" />
     <Compile Include="Helpers\AutoMapper\ValueResolvers\GravatarResolver.cs" />
-    <Compile Include="Helpers\AutoMapper\Profiles\Mvc\PersonViewModelMapperProfile.cs" />
-    <Compile Include="Helpers\AutoMapper\Profiles\Mvc\ProjectViewModelMapperProfile.cs" />
-    <Compile Include="Helpers\Extensions\LowercaseContractResolver.cs" />
+    <Compile Include="Helpers\AutoMapper\Profiles\PersonViewModelMapperProfile.cs" />
+    <Compile Include="Helpers\AutoMapper\Profiles\ProjectViewModelMapperProfile.cs" />
     <Compile Include="Helpers\Utils.cs" />
     <Compile Include="ViewModels\Api\Todo.cs" />
     <Compile Include="ViewModels\Api\TodoList.cs" />
@@ -129,7 +126,6 @@
     <Compile Include="Helpers\Extensions\Mvc\BundleExtensions.cs" />
     <Compile Include="Helpers\Extensions\Mvc\HttpContextExtensions.cs" />
     <Compile Include="Helpers\NameValueCollectionExtensions.cs" />
-    <Compile Include="Helpers\Extensions\EntityExtensions.cs" />
     <Compile Include="ViewModels\Api\ActivityViewModel.cs" />
     <Compile Include="ViewModels\Api\DiscussionViewModel.cs" />
     <Compile Include="ViewModels\Api\Mailgun.cs" />
@@ -140,7 +136,7 @@
     <Compile Include="ViewModels\Mvc\ProjectsViewModel.cs" />
     <Compile Include="ViewModels\Mvc\RegisterPersonViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\ViewsExtensions.cs" />
+    <Compile Include="Helpers\Extensions\ViewsExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\bootstrap\bootstrap-responsive.css" />

@@ -5,11 +5,10 @@ using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using System.Web.WebPages;
 using Teamworks.Core.Authentication;
-using Teamworks.Web.Helpers;
 using Teamworks.Web.Helpers.AutoMapper;
 using Teamworks.Web.ViewModels.Mvc;
 
-namespace Teamworks.Web.Views
+namespace Teamworks.Web.Helpers.Extensions
 {
     public static class ViewsExtensions
     {

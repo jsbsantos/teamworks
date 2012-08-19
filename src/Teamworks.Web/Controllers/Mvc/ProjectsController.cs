@@ -12,11 +12,11 @@ using Teamworks.Core.Extensions;
 using Teamworks.Core.Services;
 using Teamworks.Core.Services.RavenDb.Indexes;
 using Teamworks.Web.Attributes.Mvc;
+using Teamworks.Web.Helpers;
 using Teamworks.Web.Helpers.AutoMapper;
 using Teamworks.Web.Helpers.Extensions;
 using Teamworks.Web.Helpers.Extensions.Mvc;
 using Teamworks.Web.ViewModels.Mvc;
-using Teamworks.Web.Views;
 
 namespace Teamworks.Web.Controllers.Mvc
 {

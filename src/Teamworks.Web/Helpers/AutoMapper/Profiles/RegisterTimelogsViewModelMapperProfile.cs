@@ -2,7 +2,7 @@
 using Teamworks.Core;
 using Teamworks.Web.ViewModels.Mvc;
 
-namespace Teamworks.Web.Helpers.AutoMapper.Profiles.Mvc
+namespace Teamworks.Web.Helpers.AutoMapper.Profiles
 {
     public class RegisterTimelogsViewModelMapperProfile : Profile
     {

@@ -3,7 +3,7 @@ using Teamworks.Core;
 using Teamworks.Core.Services;
 using Teamworks.Web.ViewModels.Mvc;
 
-namespace Teamworks.Web.Helpers.AutoMapper.Profiles.Mvc
+namespace Teamworks.Web.Helpers.AutoMapper.Profiles
 {
     public class ProjectViewModelMapperProfile : Profile
     {
@@ -18,6 +18,11 @@ namespace Teamworks.Web.Helpers.AutoMapper.Profiles.Mvc
 
             Mapper.CreateMap<Discussion, ProjectViewModel.Discussion>()
                 .ForMember(s => s.Id, o => o.MapFrom(d => d.Id.ToIdentifier()));
+
+            // Api
+            Mapper.CreateMap<Project, ViewModels.Api.ProjectViewModel>()
+              .ForMember(s => s.Id, o => o.MapFrom(d => d.Id.ToIdentifier()));
+
         }
     }
 }

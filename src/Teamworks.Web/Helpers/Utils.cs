@@ -12,7 +12,8 @@ namespace Teamworks.Web.Helpers
             return new JsonSerializerSettings
                        {
                            ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                           NullValueHandling = NullValueHandling.Ignore
+                           NullValueHandling = NullValueHandling.Ignore,
+                           DateTimeZoneHandling = DateTimeZoneHandling.Utc
                        };
         }
 
@@ -31,26 +32,12 @@ namespace Teamworks.Web.Helpers
 
         public static string ToJson(object model)
         {
-            return JsonConvert.SerializeObject(model,
-                                               new JsonSerializerSettings
-                                                   {
-                                                       ContractResolver =
-                                                           new CamelCasePropertyNamesContractResolver(),
-                                                       NullValueHandling = NullValueHandling.Ignore,
-                                                       DateTimeZoneHandling = DateTimeZoneHandling.Utc
-                                                   });
+            return JsonConvert.SerializeObject(model, JsonSettings());
         }
 
         public static string ToIndentedJson(object model)
         {
-            return JsonConvert.SerializeObject(model, Formatting.Indented,
-                                               new JsonSerializerSettings
-                                                   {
-                                                       ContractResolver =
-                                                           new CamelCasePropertyNamesContractResolver(),
-                                                       NullValueHandling = NullValueHandling.Ignore,
-                                                       DateTimeZoneHandling = DateTimeZoneHandling.Utc
-                                                   });
+            return JsonConvert.SerializeObject(model, Formatting.Indented, JsonSettings());
         }
     }
 }

@@ -4,7 +4,7 @@ using Teamworks.Core.Services;
 using Teamworks.Web.Helpers.AutoMapper.ValueResolvers;
 using Teamworks.Web.ViewModels.Mvc;
 
-namespace Teamworks.Web.Helpers.AutoMapper.Profiles.Mvc
+namespace Teamworks.Web.Helpers.AutoMapper.Profiles
 {
     public class ProfileViewModelMapperProfile : Profile
     {

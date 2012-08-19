@@ -3,7 +3,7 @@ using Teamworks.Core;
 using Teamworks.Core.Services;
 using Teamworks.Web.ViewModels.Mvc;
 
-namespace Teamworks.Web.Helpers.AutoMapper.Profiles.Mvc
+namespace Teamworks.Web.Helpers.AutoMapper.Profiles
 {
     public class ActivityViewModelMapperProfile : Profile
     {

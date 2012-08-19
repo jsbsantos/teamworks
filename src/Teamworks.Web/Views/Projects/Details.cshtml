@@ -1,4 +1,5 @@
-﻿@using Teamworks.Web.Views
+﻿@using Teamworks.Web.Helpers.Extensions
+@using Teamworks.Web.Views
 @model Teamworks.Web.ViewModels.Mvc.ProjectViewModel
 @{
     ViewBag.Title = Model.Name;
@@ -8,14 +9,14 @@
 <div class="row">
     <div class="span8">
         <ul class="breadcrumb">
-        <li>
-            <a href="@Url.RouteUrl("projects_get")">Projects</a>
-            <span class="divider">/</span>
-        </li>
-        <li>
-            <span data-bind="text: name">@Model.Name</span>
-        </li>
-    </ul>
+            <li>
+                <a href="@Url.RouteUrl("projects_get")">Projects</a>
+                <span class="divider">/</span>
+            </li>
+            <li>
+                <span data-bind="text: name">@Model.Name</span>
+            </li>
+        </ul>
         <header class="page-header">
             <h1>
                 <span data-bind="text: name">@Model.Name</span>
@@ -90,7 +91,7 @@
     <div>
         <button class="close" data-bind="click: _remove">&times;</button>
         <h3>
-            <a data-bind="attr: { href: '@Url.RouteUrl("activities_details", new {projectId = Model.Id, activityId = UrlParameter.Optional })' + id() }">
+            <a data-bind="attr: { href: '@Url.RouteUrl("activities_details", new {projectId = Model.Id, activityId = UrlParameter.Optional})' + id() }">
                 <span data-bind="text: name"></span>
                 <small data-bind="text: description"></small>
             </a>

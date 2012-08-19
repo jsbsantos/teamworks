@@ -141,9 +141,9 @@ input.simple {
     margin-bottom: 0;
 }
 
-.show-input .raw { display: none; }
-
 .show_inline { display: inline-block; }
+
+.discussions .message { margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #ececec; }
 
 @media (max-width: 767px) {
     .people .dropdown-menu {

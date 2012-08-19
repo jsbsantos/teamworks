@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Teamworks.Web.ViewModels.Api
+namespace Teamworks.Web.ViewModels.Mvc
 {
     public class DiscussionViewModel
     {

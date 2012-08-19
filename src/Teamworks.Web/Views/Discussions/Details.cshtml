@@ -1,20 +1,39 @@
-﻿@using Teamworks.Web.Views
-@model Teamworks.Web.ViewModels.Api.DiscussionViewModel
+﻿@using Teamworks.Web.Helpers.Extensions
+@using Teamworks.Web.Views
+@model Teamworks.Web.ViewModels.Mvc.DiscussionViewModel
 
 @{
     Layout = "../Shared/_Layout.cshtml";
 }
 
-<div>
-    <header class="page-header">
-        <h1>@Model.Name</h1>
-        <p>@Model.Content</p>
-    </header>
-    <div data-bind="template: { name: 'message-template', foreach: messages }">
-    </div>
+
     
-    <div class="row">
-        <div class="span6">
+<div class="row">
+    <div class="span6">
+        <div class="discussions">
+            <ul class="breadcrumb">
+                <li>
+                    <a href="@Url.RouteUrl("projects_get")">Projects</a>
+                    <span class="divider">/</span>
+                </li>
+                <li>
+                    <a href="@Url.RouteUrl("projects_details")">Projects</a>
+                    <span class="divider">/</span>
+                </li>
+                <li>
+                    <a href="@Url.RouteUrl("discussions_get")">Discussions</a>
+                    <span class="divider">/</span>
+                </li>
+                <li>
+                    <span data-bind="text: name"></span>
+                </li>
+            </ul>
+            <header class="page-header">
+                <h1 data-bind="text: name"></h1>
+                <p data-bind="text: content"></p>
+            </header>
+            <div data-bind="template: { name: 'message-template', foreach: messages }">
+            </div>
             <form class="form-horizontal" data-bind="submit: messages._create">
                 <div class="control-group">
                     <textarea class="span6" data-bind="value: messages.input, valueUpdate: 'afterkeyup'"></textarea>
@@ -29,18 +48,20 @@
 
 <script type="text/html" id="message-template">
     <div class="row">
-        <div class="span6">
-            <div class="well">
-                <div class="pull-right"><span data-bind="text: date"></span></div>
-                <a data-bind="attr: { href: '@Url.RouteUrl("profiles_get")' + id }">
-                    <h2 class="lead">
-                        <span data-bind="text: person.name"></span>
-                        <small data-bind="text: '@@' + person.username()"></small>
-                    </h2>
+        <div class="span6 message">
+            <h3>
+                <a data-bind="attr: { href: '@Url.RouteUrl("profiles_get")' + id() }">
+                    <span data-bind="text: person.name"></span>
+                    <small data-bind="text: '@@' + person.username()"></small>
                 </a>
-                <div>
-                    <p data-bind="text: content"></p>
-                </div>
+            </h3>
+            <div>
+                <p data-bind="text: content"></p>
+            </div>
+            <div class="pull-left"><p data-bind="text: date"></p></div>
+            <div class="pull-right" data-bind="visible: editable">
+                <a><i class="icon-edit"></i></a>
+                <a><i class="icon-trash"></i></a>
             </div>
         </div>
     </div>

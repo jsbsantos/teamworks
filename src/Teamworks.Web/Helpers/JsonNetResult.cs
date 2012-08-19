@@ -5,7 +5,7 @@ using System.Web.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace Teamworks.Web.Views
+namespace Teamworks.Web.Helpers
 {
     public class JsonNetResult : ActionResult
     {

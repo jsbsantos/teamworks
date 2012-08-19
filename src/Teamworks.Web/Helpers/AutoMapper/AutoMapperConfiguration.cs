@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Reflection;
 using AutoMapper;
-using Teamworks.Web.Helpers.AutoMapper.Profiles.Mvc;
 
 namespace Teamworks.Web.Helpers.AutoMapper
 {
@@ -19,9 +18,7 @@ namespace Teamworks.Web.Helpers.AutoMapper
             var subtypes = targetAssembly.GetTypes().Where(t => t.IsSubclassOf(typeof(Profile)));
 
             foreach (var subtype in subtypes)
-            {
                 Mapper.AddProfile(Activator.CreateInstance(subtype) as Profile);
-            }
         }
     }
 }

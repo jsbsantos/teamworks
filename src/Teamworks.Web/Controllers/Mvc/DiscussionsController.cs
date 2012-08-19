@@ -6,10 +6,10 @@ using AttributeRouting;
 using AttributeRouting.Web.Mvc;
 using Teamworks.Core;
 using Teamworks.Web.Attributes.Mvc;
+using Teamworks.Web.Helpers;
 using Teamworks.Web.Helpers.AutoMapper;
 using Teamworks.Web.Helpers.Extensions.Mvc;
-using Teamworks.Web.ViewModels.Api;
-using Teamworks.Web.Views;
+using Teamworks.Web.ViewModels.Mvc;
 
 namespace Teamworks.Web.Controllers.Mvc
 {
@@ -38,9 +38,10 @@ namespace Teamworks.Web.Controllers.Mvc
             var discussionViewModel = discussion.MapTo<DiscussionViewModel>();
             foreach (var message in discussion.Messages)
             {
+                var person = DbSession.Load<Person>(message.Person);
                 var messageViewModel = message.MapTo<DiscussionViewModel.Message>();
-                messageViewModel.Person = DbSession.Load<Person>(message.Person)
-                    .MapTo<PersonViewModel>();
+                messageViewModel.Person = person.MapTo<PersonViewModel>();
+                    messageViewModel.Editable = person.Id == DbSession.GetCurrentPersonId();
 
                 discussionViewModel.Messages.Add(messageViewModel);
             }

@@ -5,7 +5,7 @@ using Teamworks.Core.Services;
 using Teamworks.Core.Services.RavenDb.Indexes;
 using Teamworks.Web.ViewModels.Mvc;
 
-namespace Teamworks.Web.Helpers.AutoMapper.Profiles.Mvc
+namespace Teamworks.Web.Helpers.AutoMapper.Profiles
 {
     public class ProjectsViewModelMapperProfile : Profile
     {

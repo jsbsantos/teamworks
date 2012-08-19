@@ -2,10 +2,10 @@
 using AttributeRouting;
 using AttributeRouting.Web.Mvc;
 using Teamworks.Core;
+using Teamworks.Web.Helpers;
 using Teamworks.Web.Helpers.AutoMapper;
 using Teamworks.Web.Helpers.Extensions.Mvc;
 using Teamworks.Web.ViewModels.Mvc;
-using Teamworks.Web.Views;
 
 namespace Teamworks.Web.Controllers.Mvc
 {
