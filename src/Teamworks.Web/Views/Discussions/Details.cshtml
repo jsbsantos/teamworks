@@ -29,7 +29,7 @@
                 <h1 data-bind="text: name"></h1>
                 <p data-bind="text: content"></p>
             </header>
-            <div data-bind="template: { name: 'message-template', foreach: sort(messages) }">
+            <div data-bind="template: { name: 'message-template', foreach: messages }">
             </div>
             <form class="form-horizontal" data-bind="submit: messages._create">
                 <div class="control-group">
