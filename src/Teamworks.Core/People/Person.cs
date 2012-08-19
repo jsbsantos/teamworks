@@ -2,24 +2,25 @@
 using System.Security.Cryptography;
 using System.Text;
 using Raven.Bundles.Authorization.Model;
-using Teamworks.Core.Services;
 
 namespace Teamworks.Core
 {
     public class Person : Entity
     {
         public string Name { get; set; }
+
         public string Salt { get; private set; }
+        public string Password { get; private set; }
+
         public string Email { get; set; }
         public string Username { get; set; }
-        public string Password { get; set; }
         public IList<string> Roles { get; set; }
         public IList<IPermission> Permissions { get; set; }
 
 
         public static Person Forge(string email, string username, string password, string name)
         {
-            string salt = GenSalt();
+            var salt = GenSalt();
             return new Person
                        {
                            Salt = salt,
@@ -32,16 +33,21 @@ namespace Teamworks.Core
                        };
         }
 
+        public void ChangePassword(string password)
+        {
+            Password = EncodePassword(password, Salt);
+        }
+
         public bool IsThePassword(string password)
         {
-            string other = EncodePassword(password, Salt);
+            var other = EncodePassword(password, Salt);
             return string.CompareOrdinal(Password, other) == 0;
         }
 
         public static string EncodePassword(string password, string salt)
         {
             HashAlgorithm algorithm = new SHA256Managed();
-            byte[] plain = Encoding.UTF8.GetBytes(password + salt);
+            var plain = Encoding.UTF8.GetBytes(password + salt);
             return Encoding.UTF8.GetString(algorithm.ComputeHash(plain));
         }
 

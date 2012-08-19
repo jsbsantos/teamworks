@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Raven.Bundles.Authorization.Model;
 using Raven.Client;
@@ -38,9 +37,9 @@ namespace Teamworks.Core.Extensions
                 project.People.Remove(person.Id);
         }
 
-        public static void Initialize(this Project project, IDocumentSession session)
+        public static void Initialize(this Entity entity, IDocumentSession session)
         {
-            if (string.IsNullOrWhiteSpace(project.Id))
+            if (string.IsNullOrWhiteSpace(entity.Id))
                 throw new NullReferenceException("project.Id");
             
             var permission = new DocumentPermission
@@ -52,9 +51,9 @@ namespace Teamworks.Core.Extensions
             var authorization = new DocumentAuthorization
                                     {
                                         Permissions = {permission},
-                                        Tags = { project.Id }
+                                        Tags = { entity.Id }
                                     };
-            session.SetAuthorizationFor(project, authorization);
+            session.SetAuthorizationFor(entity, authorization);
         }
     }
 }

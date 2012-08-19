@@ -26,7 +26,7 @@ namespace Teamworks.Web.Controllers.Mvc
             if (person.Id == DbSession.GetCurrentPersonId())
                 personViewModel.IsMyProfile = true;
 
-            personViewModel.PersonDetails = person.MapTo<PersonViewModel>();
+            personViewModel.Person = person.MapTo<PersonViewModel>();
             return View("View", personViewModel);
         }
 

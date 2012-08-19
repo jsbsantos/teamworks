@@ -2,7 +2,7 @@
 @model Teamworks.Web.ViewModels.Mvc.ProfileViewModel
 
 @{
-    ViewBag.Title = @Model.PersonDetails.Name;
+    ViewBag.Title = @Model.Person.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -17,7 +17,7 @@
         </div>
     }
     <h1>
-        <span data-bind="text: name, css: { 'hide': editing() }" >@Model.PersonDetails.Name</span>
+        <span data-bind="text: name, css: { 'hide': editing() }" >@Model.Person.Name</span>
         @if (Model.IsMyProfile)
         {
             <input class="hide" type="text" data-bind="value: name, css: { 'hide': !editing() }" />
@@ -36,9 +36,9 @@
         <h2>Bio</h2>
         <div class="span" data-bind="css: { 'hide': editing() }">
             <h3>Name</h3> 
-            <div class="raw"data-bind="text: username">@Model.PersonDetails.Username</div>
+            <div class="raw"data-bind="text: username">@Model.Person.Username</div>
             <h3>Email</h3> 
-            <div class="raw" data-bind="text: email">@Model.PersonDetails.Email</div>
+            <div class="raw" data-bind="text: email">@Model.Person.Email</div>
         </div>
         @if (Model.IsMyProfile)
         {
@@ -56,6 +56,6 @@
 
 <script>
     var viewmodel = function() {
-        return tw.pages.ProfileViewModel('/api/people', @Html.ToJson(Model.PersonDetails));
+        return tw.pages.ProfileViewModel(@Html.ToJson(Model.Person));
     }
 </script>

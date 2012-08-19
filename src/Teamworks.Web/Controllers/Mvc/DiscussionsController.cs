@@ -92,6 +92,7 @@ namespace Teamworks.Web.Controllers.Mvc
 
             var messageViewModel = message.MapTo<DiscussionViewModel.Message>();
             messageViewModel.Person = DbSession.GetCurrentPerson().MapTo<PersonViewModel>();
+            messageViewModel.Editable = true;
 
             return new JsonNetResult {Data = messageViewModel};
         }
