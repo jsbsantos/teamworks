@@ -1,58 +1,60 @@
-(function (pages) {
-    pages.ProjectViewModel = function (json) {
-        var errorCallback = function () {
+(function(pages) {
+    pages.ProjectViewModel = function(json) {
+        var errorCallback = function() {
             tw.page.alerts.push({ message: 'An error as ocurred.' });
         };
-
-        var remove = function (name, endpoint) {
-            return function () {
-                var obj = this;
-                var message = 'You are about to delete ' + obj.name() + '.';
-                if (confirm(message)) {
-                    var collection = self[name];
-                    $.ajax({
-                        type: 'post',
-                        url: endpoint + obj.id()
-                    }).success(function () {
-                        collection.mappedRemove(obj);
-                    }).error(errorCallback);
-                }
-            };
-        };
-
+        var self = { };
         var mapping = {
             'activities': {
-                key: function (data) {
+                key: function(data) {
                     return ko.utils.unwrapObservable(data.id);
                 },
-                create: function (options) {
-                    return (new (function () {
-                        this._remove = remove('activities', tw.utils.location + '/activities/remove/');
-                        ko.mapping.fromJS(options.data, {}, this);
+                create: function(options) {
+                    return (new (function() {
+                        this._remove = function() {
+                            var activity = this;
+                            tw.utils.remove(self.activities,
+                                tw.utils.location + '/activities/' + activity.id() + '/delete',
+                                'You are about to delete ' + activity.name() + '.',
+                                errorCallback).call(activity);
+                        };
+                        ko.mapping.fromJS(options.data, { }, this);
                     })());
                 }
             },
             'discussions': {
-                key: function (data) {
+                key: function(data) {
                     return ko.utils.unwrapObservable(data.id);
                 },
-                create: function (options) {
-                    return (new (function () {
-                        this._remove = remove('discussions', tw.utils.location + '/discussions/remove/');
-                        ko.mapping.fromJS(options.data, {}, this);
+                create: function(options) {
+                    return (new (function() {
+                        this._remove = function() {
+                            var discussion = this;
+                            tw.utils.remove(self.discussions,
+                                tw.utils.location + '/discussions/' + discussion.id() + '/delete',
+                                'You are about to delete ' + discussion.name() + '.',
+                                errorCallback).call(discussion);
+                        };
+                        ko.mapping.fromJS(options.data, { }, this);
                     })());
                 }
             },
             'people': {
-                key: function (data) {
+                key: function(data) {
                     return ko.utils.unwrapObservable(data.id);
                 },
-                create: function (options) {
-                    return (new (function () {
-                        this._remove = remove('people', tw.utils.location + '/people/remove/');
+                create: function(options) {
+                    return (new (function() {
+                        this._remove = function() {
+                            var discussion = this;
+                            tw.utils.remove(self.people,
+                                tw.utils.location + '/people/' + this.id() + '/delete',
+                                'You are about to delete ' + this.name() + '.',
+                                errorCallback).call(discussion);
+                        };
                         var m = {
                             'gravatar': {
-                                create: function (opt) {
+                                create: function(opt) {
                                     return opt.data + '&s=64';
                                 }
                             }
@@ -63,57 +65,45 @@
             }
         };
 
-        var self = ko.mapping.fromJS(json, mapping);
+        self = ko.mapping.fromJS(json || [], mapping);
 
         self.activities.input = ko.observable();
         self.activities.editing = ko.observable();
 
-        self.activities._create = function () {
+        self.activities._create = function() {
             $.ajax(tw.utils.location + '/activities/',
                 {
                     type: 'post',
                     data: ko.toJSON({ 'name': self.activities.input() }),
-                    statusCode: {
-                        201: /*created*/function (data) {
-                            self.activities.mappedCreate(data);
-                            self.activities.input("");
-                        },
-                        400: /*bad request*/function () {
-                            tw.page.alerts.push({ message: 'An error as ocurred.' });
-                        }
-                    }
                 }
-            );
+            ).done(function(data) {
+                self.activities.mappedCreate(data);
+                self.activities.input("");
+            }).fail(errorCallback);
         };
 
         self.discussions.input = ko.observable();
         self.discussions.editing = ko.observable();
 
-        self.discussions._create = function () {
+        self.discussions._create = function() {
             $.ajax(tw.utils.location + '/discussions/',
                 {
                     type: 'post',
                     data: ko.toJSON({ 'name': self.discussions.input() }),
-                    statusCode: {
-                        201: /*created*/function (data) {
-                            self.discussions.mappedCreate(data);
-                            self.discussions.input("");
-                        },
-                        400: /*bad request*/function () {
-                            tw.page.alerts.push({ message: 'An error as ocurred.' });
-                        }
-                    }
                 }
-            );
+            ).done(function(data) {
+                self.discussions.mappedCreate(data);
+                self.discussions.input("");
+            }).fail(errorCallback);
         };
 
-        self.people._add = function () {
+        self.people._add = function() {
             var email = self.people.input();
             $.ajax({
                 url: tw.utils.location + '/people/add',
                 type: 'post',
                 data: ko.toJSON({ 'email': email })
-            }).success(function (data) {
+            }).success(function(data) {
                 self.people.mappedCreate(data);
                 self.people.input("");
             }).error(errorCallback);
@@ -122,12 +112,12 @@
         self.people.input = ko.observable();
         self.people.editing = ko.observable();
 
-        self.people.typeahead = function (typeahead) {
-            var data = {};
+        self.people.typeahead = function(typeahead) {
+            var data = { };
             var endpoint = '/people';
-            var filter = function (items) {
-                data = {};
-                var labels = $(items).map(function (i, item) {
+            var filter = function(items) {
+                data = { };
+                var labels = $(items).map(function(i, item) {
                     data[item.id] = item;
                     return item.id.toString();
                 });
@@ -135,18 +125,18 @@
             };
 
             typeahead.options.item = '<li class="row"><a class="span2" href="#"></a></li>';
-            typeahead.matcher = function () {
+            typeahead.matcher = function() {
                 return true;
             };
-            typeahead.updater = function (item) {
+            typeahead.updater = function(item) {
                 self.people.input(data[item].email);
                 self.people._add();
                 return "";
             };
-            typeahead.render = function (items) {
+            typeahead.render = function(items) {
                 var that = this;
 
-                items = $(items).map(function (i, item) {
+                items = $(items).map(function(i, item) {
                     var o = data[item];
                     i = $(that.options.item).attr('data-value', item);
                     var block = $(document.createElement('div'))
@@ -167,8 +157,8 @@
 
             var g = 0;
             var $elem = typeahead.$element;
-            $elem.on('keyup', function () {
-                var t = g = setTimeout(function () {
+            $elem.on('keyup', function() {
+                var t = g = setTimeout(function() {
                     if (t !== g) return;
                     var query = typeahead.query;
                     if (!query) {
@@ -176,7 +166,7 @@
                         return;
                     }
                     ;
-                    $.get(endpoint, { q: query }, function (data) {
+                    $.get(endpoint, { q: query }, function(data) {
                         if (query !== typeahead.query) return;
                         typeahead.source = filter(data);
                         typeahead.lookup();
@@ -187,4 +177,4 @@
 
         return self;
     };
-} (tw.pages));
+}(tw.pages));

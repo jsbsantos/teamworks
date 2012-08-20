@@ -9,9 +9,9 @@ namespace Teamworks.Web.Helpers.AutoMapper.Profiles
     {
         protected override void Configure()
         {
-
-            Mapper.CreateMap<Timelog_Filter.Result, TimelogViewModel>()
-                .ForMember(r => r.Person, o=> o.Ignore());
+            //todo remove
+            //Mapper.CreateMap<Timelog_Filter.Result, TimelogViewModel>()
+            //    .ForMember(r => r.Person, o=> o.Ignore());
 
             Mapper.CreateMap<Timelog, TimelogViewModel>()
                 .ForMember(r => r.Person, o => o.Ignore());

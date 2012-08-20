@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using AttributeRouting;
 using AttributeRouting.Web.Mvc;
 using Teamworks.Core;
+using Teamworks.Core.Services;
 using Teamworks.Web.Attributes.Mvc;
 using Teamworks.Web.Helpers;
 using Teamworks.Web.Helpers.AutoMapper;
@@ -66,6 +67,21 @@ namespace Teamworks.Web.Controllers.Mvc
             if (Request.IsAjaxRequest())
                 return new JsonNetResult {Data = discussionViewModel};
             return RedirectToRoute("discussions_get");
+        }
+
+        [POST("{discussionid}/delete")]
+        [SecureProject("projects/view/discussions/create")]
+        public ActionResult Delete(int projectId, int discussionid)
+        {
+            if (!ModelState.IsValid)
+                return View("View");
+
+            var discussion = DbSession.Load<Discussion>(discussionid);
+            if (discussion.Entity.ToIdentifier() != projectId)
+                return HttpNotFound();
+
+            DbSession.Delete(discussion);
+            return new HttpStatusCodeResult(HttpStatusCode.NoContent);
         }
 
         [AjaxOnly]

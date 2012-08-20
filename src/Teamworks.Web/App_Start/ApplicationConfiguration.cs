@@ -38,7 +38,7 @@ namespace Teamworks.Web.App_Start
             catch (Exception)
             {
             }
-            
+
             if (Global.Database != null) return; // prevent misuse
 
             Global.Database =
@@ -48,6 +48,7 @@ namespace Teamworks.Web.App_Start
                     }.Initialize();
 
             IndexCreation.CreateIndexes(Assembly.GetExecutingAssembly(), Global.Database);
+            IndexCreation.CreateIndexes(typeof(Core.Services.RavenDb.Indexes.ActivitiesDuration).Assembly, Global.Database);
         }
     }
 }

@@ -65,6 +65,7 @@ namespace Teamworks.Core
             public DateTime Date { get; set; }
             public string Person { get; set; }
             public string Reply { get; set; }
+            public bool NotificationSent { get; set; }
 
             public static Message Forge(string text, string person)
             {
@@ -73,9 +74,11 @@ namespace Teamworks.Core
                     Content = text,
                     Date = DateTime.Now,
                     Person = person,
-                    Reply = null
+                    Reply = null,
+                    NotificationSent = false
                 };
             }
         }
+        
     }
 }
