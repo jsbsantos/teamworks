@@ -89,8 +89,7 @@ namespace Teamworks.Web.Controllers.Api
         [SecureProject("projects/accesses/create")]
         public HttpResponseMessage PostAccesses(int projectId, IEnumerable<int> ids)
         {
-            var people = DbSession
-                .Query<Person>()
+            var people = DbSession.Query<Person>()
                 .Where(p => p.Id.In(ids.Select(i => i.ToId("person"))));
 
             var project = DbSession.Load<Project>(projectId);

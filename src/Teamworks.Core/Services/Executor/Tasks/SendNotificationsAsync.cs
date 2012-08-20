@@ -10,11 +10,11 @@ namespace Teamworks.Core.Services.Tasks
 {
     public class SendNotificationsAsync
     {
-        private  IDocumentStore Store;
+        private IDocumentStore Store;
         private bool run = true;
         private AutoResetEvent ARE;
-        
-        private int tries=1;
+
+        private int tries = 1;
         private int baseTime = 60000;
         public int[] waitTimes = {1, 5, 10};
 
@@ -32,7 +32,7 @@ namespace Teamworks.Core.Services.Tasks
         public SendNotificationsAsync Initialize(IDocumentStore documentStore)
         {
             ARE = new AutoResetEvent(true);
-            Store=documentStore;
+            Store = documentStore;
             return this;
         }
 
@@ -44,22 +44,23 @@ namespace Teamworks.Core.Services.Tasks
             while (run)
             {
                 List<Discussion_Messages_PendingNotification.Result> results;
-                using (var DbSession = Store.OpenSession())
+                using (var session = Store.OpenSession())
                 {
-                    results = Query(DbSession).ToList();
+                    results = Query(session).ToList();
                 }
                 if (results.Count == 0)
-                    {
-                        ARE.WaitOne(waitTimes[tries]*baseTime);
-                        tries = tries == waitTimes.Length - 1 ? tries : tries++;
-                    }
-                    else
-                    {
-                        tries = 1;
+                {
+                    ARE.WaitOne(waitTimes[tries]*baseTime);
+                    tries = tries == waitTimes.Length - 1 ? tries : tries++;
+                }
+                else
+                {
+                    tries = 1;
 
-                        //do stuff
-                    }
+                    //do stuff
+                }
 
             }
         }
     }
+}

@@ -3,7 +3,7 @@ using System.Reflection;
 using Raven.Client.Document;
 using Raven.Client.Indexes;
 using Teamworks.Core.Services;
-using Teamworks.Core.Services.RavenDb;
+using Teamworks.Core.Services.RavenDb.Indexes;
 using Teamworks.Web.Helpers.AutoMapper;
 
 namespace Teamworks.Web.App_Start
@@ -46,9 +46,7 @@ namespace Teamworks.Web.App_Start
                     {
                         ConnectionStringName = "RavenDB"
                     }.Initialize();
-
-            IndexCreation.CreateIndexes(Assembly.GetExecutingAssembly(), Global.Database);
-            IndexCreation.CreateIndexes(typeof(Core.Services.RavenDb.Indexes.ActivitiesDuration).Assembly, Global.Database);
+            IndexCreation.CreateIndexes(typeof(ActivitiesDuration).Assembly, Global.Database);
         }
     }
 }
