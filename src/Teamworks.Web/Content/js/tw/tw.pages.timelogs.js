@@ -22,30 +22,29 @@
                         });
                     }
                 }
-            }
-        };
-        
-        var now = Date.today().toISOString();
-        self.timelogs = ko.mapping.fromJS(json || [], mapping);
-        self.timelogs._create = function () {
-            var entity = ko.mapping.toJS(self.typeahead.entity);
-            $.ajax(
-                '/api/projects/' + entity.project.id
-                    + '/activities/' + entity.activity.id + '/timelogs/',
-                {
-                    type: 'post',
-                    data: ko.toJSON(self.timelogs.input),
-                    statusCode: {
-                        201: /*created*/function (data) {
-                            alert(data);
-                        },
-                        400: /*bad request*/function () {
-                            tw.page.alerts.push({ message: 'An error as ocurred.' });
+            };
 
+            var now = Date.today().toISOString();
+            self.timelogs = ko.mapping.fromJS(json || [], mapping);
+            self.timelogs._create = function() {
+                var entity = ko.mapping.toJS(self.typeahead.entity);
+                $.ajax(
+                    '/api/projects/' + entity.project.id
+                        + '/activities/' + entity.activity.id + '/timelogs/',
+                    {
+                        type: 'post',
+                        data: ko.toJSON(self.timelogs.input),
+                        statusCode: {
+                            201: /*created*/function(data) {
+                                alert(data);
+                            },
+                            400: /*bad request*/function() {
+                                tw.page.alerts.push({ message: 'An error as ocurred.' });
+                            }
                         }
                     });
-                };
-            
+            };
+
             self.timelogs.input = {
                 date: ko.observable(now).extend({
                     isoDate: 'dd/MM/yyyy'
