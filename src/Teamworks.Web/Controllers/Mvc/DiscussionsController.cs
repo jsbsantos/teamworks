@@ -1,9 +1,11 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using AttributeRouting;
 using AttributeRouting.Web.Mvc;
+using Raven.Client.Util;
 using Teamworks.Core;
 using Teamworks.Core.Services;
 using Teamworks.Web.Attributes.Mvc;
@@ -41,15 +43,20 @@ namespace Teamworks.Web.Controllers.Mvc
 
             var discussionViewModel = discussion.MapTo<DiscussionViewModel>();
             discussionViewModel.Entity = entity.MapTo<EntityViewModel>();
+
+            var people = new List<PersonViewModel>();
             foreach (var message in discussion.Messages.OrderByDescending(m => m.Date))
             {
                 var person = DbSession.Load<Person>(message.Person);
                 var messageViewModel = message.MapTo<DiscussionViewModel.Message>();
                 messageViewModel.Person = person.MapTo<PersonViewModel>();
                 messageViewModel.Editable = person.Id == DbSession.GetCurrentPersonId();
+                people.Add(messageViewModel.Person);
 
                 discussionViewModel.Messages.Add(messageViewModel);
             }
+
+            discussionViewModel.People = people.GroupBy(p => p.Id).Select(grp => grp.First()).ToList();
             return View(discussionViewModel);
         }
 

@@ -6,7 +6,7 @@
 }
 
 <div class="row">
-    <div class="span6">
+    <div class="span8">
         <div class="discussions">
             <ul class="breadcrumb">
                 <li>
@@ -33,7 +33,7 @@
             </div>
             <form class="form-horizontal" data-bind="submit: messages._create">
                 <div class="control-group">
-                    <textarea class="span6" data-bind="value: messages.input, valueUpdate: 'afterkeyup'"></textarea>
+                    <textarea class="span8" data-bind="value: messages.input, valueUpdate: 'afterkeyup'"></textarea>
                 </div>
                 <div class="control-group">
                     <button type="submit" class="btn btn-success">Reply</button>                 
@@ -41,11 +41,44 @@
             </form>
         </div>
     </div>
+    <div class="span4">
+        <h2>Participants</h2>
+        <div class="people">
+            @if (Model.People.Count == 0)
+            {
+                <div>No participants.</div>
+            }
+            else
+            {
+                <ul class="thumbnails">
+                    @foreach (var person in Model.People)
+                    {
+                    <li class="dropdown">
+                        <a class="thumbnail dropdown-toggle" data-toggle="dropdown" rel="tooltip-top" href="#" title="@person.Name">
+                            <img src="@person.Gravatar" />
+                        </a>               
+                        <div class="dropdown-menu well-small">
+                            <img class="pull-left" alt="@person.Name" src="@person.Gravatar"/>
+                            <div>
+                                <h3 class="lead">
+                                    <a href="@Url.RouteUrl("profiles_get", new {id = person.Id})">@person.Name</a>
+                                </h3>
+                                <div>@person.Username</div>
+                            </div>
+                        </div>
+                    </li>
+                    }
+                </ul>
+            }
+            
+        </div>
+
+    </div>
 </div>
 
 <script type="text/html" id="message-template">
     <div class="row">
-        <div class="span6 message">
+        <div class="span8 message">
             <h3>
                 <a data-bind="attr: { href: '@Url.RouteUrl("profiles_get")' + id() }">
                     <span data-bind="text: person.name"></span>
@@ -65,7 +98,7 @@
 </script>
     
 <script>
-    var viewmodel = function () {
+    var viewmodel = function() {
         return tw.pages.DiscussionViewModel(@Html.ToJson(Model));
     };
 </script>

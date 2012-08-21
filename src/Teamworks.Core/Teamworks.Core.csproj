@@ -66,7 +66,6 @@
     <Compile Include="Services\Executor\Executor.cs" />
     <Compile Include="Services\EntityExtensions.cs" />
     <Compile Include="Services\Executor\Tasks\SendNotificationsAsync.cs" />
-    <Compile Include="Services\RavenDb\DocumentStoreListener.cs" />
     <Compile Include="Services\RavenDb\Indexes\Activities_ByProject.cs" />
     <Compile Include="Services\RavenDb\Indexes\ActivitiesDuration.cs" />
     <Compile Include="Services\RavenDb\Indexes\Activities_ByPerson.cs" />

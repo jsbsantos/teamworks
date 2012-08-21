@@ -12,7 +12,10 @@ namespace Teamworks.Web.ViewModels.Mvc
         
         public PersonViewModel Person { get; set; }
         public IList<Message> Messages { get; set; }
+
         public EntityViewModel Entity { get; set; }
+        public IList<PersonViewModel> People { get; set; }
+
 
         public class Message
         {

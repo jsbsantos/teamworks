@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Web.Http;
 using System.Web.Http.ModelBinding;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
@@ -13,6 +14,7 @@ using Teamworks.Web.ViewModels.Api;
 
 namespace Teamworks.Web.Controllers.Api
 {
+    [AllowAnonymous]
     [RoutePrefix("api/mailgun")]
     public class MailgunController : RavenApiController
     {
@@ -64,8 +66,6 @@ namespace Teamworks.Web.Controllers.Api
 
                     List<string> emails = DbSession.Load<Person>(discussion.Subscribers)
                         .Select(x => x.Email).ToList();
-
-                    discussion.Notify(message, emails);
                 }
             }
             return new HttpResponseMessage(HttpStatusCode.OK);

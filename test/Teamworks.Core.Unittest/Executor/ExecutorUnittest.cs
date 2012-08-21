@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Teamworks.Core.Services;
+using Teamworks.Core.Services.Executor;
 using Xunit;
 
 namespace Teamworks.Core.Unittest.Executor
@@ -10,7 +10,7 @@ namespace Teamworks.Core.Unittest.Executor
         [Fact]
         public void ForgeTaskPriorityExecution()
         {
-            Services.Executor executor = Services.Executor.Instance;
+            Core.Services.Executor.Executor executor = Core.Services.Executor.Executor.Instance;
             executor.Timeout = 2000;
             int r = 0, o1 = 0, o2 = 0, o3 = 0;
 
@@ -46,7 +46,7 @@ namespace Teamworks.Core.Unittest.Executor
         [Fact]
         public void ForgeTaskPriorityExecution_With_Sleep()
         {
-            Services.Executor executor = Services.Executor.Instance;
+            Core.Services.Executor.Executor executor = Core.Services.Executor.Executor.Instance;
             executor.Initialize();
             executor.Timeout = 2000;
             int r = 0, o1 = 0, o2 = 0, o3 = 0;
