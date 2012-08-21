@@ -9,10 +9,14 @@ namespace Teamworks.Web.ViewModels.Mvc
         public string Name { get; set; }
         public string Content { get; set; }
         public DateTimeOffset Date { get; set; }
+        
+        public PersonViewModel Person { get; set; }
         public IList<Message> Messages { get; set; }
-        public EntityViewModel Project { get; set; }
+
+        public EntityViewModel Entity { get; set; }
         public IList<PersonViewModel> People { get; set; }
         public bool Watching { get; set; }
+
 
         public class Message
         {

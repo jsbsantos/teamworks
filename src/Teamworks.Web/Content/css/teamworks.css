@@ -154,6 +154,8 @@ input.simple {
 
 .discussions .message { margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #ececec; }
 
+.alert-small { padding: 2px 5px; }
+
 @media (max-width: 767px) {
     .people .dropdown-menu {
         left: 0;

@@ -1,5 +1,5 @@
-﻿(function (pages) {
-    pages.ActivityViewModel = function (endpoint, json) {
+(function (pages) {
+    pages.ActivityViewModel = function (json) {
         var errorCallback = function (message) {
             tw.page.alerts.push({ message: 'An error as ocurred.' + message && ('\'' + message + '\'') });
         };
@@ -19,9 +19,9 @@
                         this._remove = function () {
                             var timelog = this;
                             tw.utils.remove(self.timelogs,
-                                    tw.utils.location + '/timelogs/' + timelog.id() + '/delete',
-                                    'You are about to remove the time log for activity ' + self.name() + '.',
-                                    errorCallback).call(timelog);
+                                tw.utils.location + '/timelogs/' + timelog.id() + '/delete',
+                                'You are about to remove the time log for activity ' + self.name() + '.',
+                                errorCallback).call(timelog);
                         };
                         this._update = function () {
                             var timelog = this;
@@ -93,8 +93,8 @@
                             var activity = this;
                             tw.utils.remove(self.precedences,
                                 tw.utils.location + '/precedences/' + activity.id() + '/delete',
-                                    'You are about to remove the dependency on ' + activity.name() + '.',
-                                    errorCallback).call(activity);
+                                'You are about to remove the dependency on ' + activity.name() + '.',
+                                errorCallback).call(activity);
                         };
                         ko.mapping.fromJS(options.data, {}, this);
                     })());
@@ -103,20 +103,34 @@
         };
 
         var self = ko.mapping.fromJS(json || [], mapping);
-
         self.completionPercent = ko.computed(function () {
             return ((self.totalTimeLogged() / self.duration()) * 100).toPrecision(3);
         });
 
+        self.editing_timelog = ko.observable(false);
         self.editing_state = ko.observable(false);
         self.editing_dependencies = ko.observable(false);
 
-        self.discardChanges = function () {
-            ko.mapping.fromJS(json, self);
+        self.discussions.input = ko.observable();
+        self.discussions.editing = ko.observable(false);
+        self.discussions._create = function () {
+            $.ajax({
+                type: 'post',
+                url: tw.utils.location + '/discussions',
+                data: ko.toJSON({ 'name': self.discussions.input() })
+            }).done(function (data) {
+                self.discussions.mappedCreate(data);
+                self.discussions.input("");
+            }).fail(errorCallback);
         };
 
+        self.discardChanges = function () {
+            ko.mapping.fromJS(json.dependencies, self);
+        };
+
+        self.dependenciesChanged = ko.observable(false);
         self._update = function () {
-            $.ajax(endpoint + '/edit',
+            $.ajax(tw.utils.location + '/edit',
                 {
                     type: 'post',
                     data: ko.toJSON({
@@ -125,21 +139,20 @@
                         StartDate: self.startDate(),
                         duration: self.duration(),
                         description: self.description(),
-                        project: self.projectReference.id(),
-                        dependencies: $.map($.grep(self.dependencies(), function (e, i) { return e.dependency(); }), function (e) { return e.id(); })
+                        project: self.project.id(),
+                        dependencies: $.map($.grep(self.dependencies(), function (item) { return item.dependency(); }), function (e) { return e.id(); })
                     })
                 }
             ).done(function (d) {
                 json = d;
-            }).fail(function (jqXHR, textStatus, errorThrown) {
+            }).fail(function (jq, textStatus, errorThrown) {
                 errorCallback(errorThrown);
-                self.discardChanges();
             }).always(function () {
-                self.editing_state(false);
+                self.dependenciesChanged(false);
+                self.editing_description(false);
             });
         };
 
-        //TYPEAHEAD 
         self.people._add = function () {
             var email = self.people.input();
             $.ajax({
@@ -159,16 +172,17 @@
         self.people.input = ko.observable();
         self.people.editing = ko.observable();
         self.people.assigned = ko.computed(function () {
-            return $.grep(self.people(), function (e, i) {
-                return e.assigned();
+            return $.grep(self.people(), function (item) {
+                return item.assigned();
             });
         });
         self.people.unassigned = ko.computed(function () {
-            return $.grep(self.people(), function (e, i) {
-                return !e.assigned();
+            return $.grep(self.people(), function (item) {
+                return !item.assigned();
             });
         });
 
+        // typeahead 
         self.people.typeahead = function (typeahead) {
             var refill = function () {
                 var source = [];

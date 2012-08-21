@@ -14,7 +14,8 @@ namespace Teamworks.Web.Helpers.AutoMapper.Profiles
                 .ForMember(s => s.Id, o => o.MapFrom(d => d.Id.ToIdentifier()))
                 .ForMember(s => s.Dependencies, o => o.Ignore())
                 .ForMember(s => s.Timelogs, o => o.Ignore())
-                .ForMember(s => s.People, o => o.Ignore());
+                .ForMember(s => s.People, o => o.Ignore())
+                .ForMember(s => s.Discussions, o => o.Ignore());
 
             Mapper.CreateMap<Activity, ActivityViewModel>()
                 .ForMember(s => s.Id, o => o.MapFrom(d => d.Id.ToIdentifier()));

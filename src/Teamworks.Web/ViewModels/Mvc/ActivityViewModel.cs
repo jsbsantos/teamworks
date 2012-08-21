@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace Teamworks.Web.ViewModels.Mvc
 {
-
     public class ActivityViewModel
     {
         public int Id { get; set; }
@@ -26,7 +25,7 @@ namespace Teamworks.Web.ViewModels.Mvc
             public string Name { get; set; }
             public string Description { get; set; }
             public int Duration { get; set; }
-            public DateTime StartDate { get; set; }
+            public DateTimeOffset StartDate { get; set; }
 
             public IEnumerable<int> Dependencies { get; set; }
         } 
@@ -41,6 +40,7 @@ namespace Teamworks.Web.ViewModels.Mvc
     public class ActivityViewModelComplete : ActivityViewModel
     {
         public IEnumerable<TimelogViewModel> Timelogs { get; set; }
+        public IEnumerable<DiscussionViewModel> Discussions { get; set; } 
         public IEnumerable<DependencyActivityViewModel> Dependencies { get; set; }
         public IEnumerable<AssignedPersonViewModel> People { get; set; }
 

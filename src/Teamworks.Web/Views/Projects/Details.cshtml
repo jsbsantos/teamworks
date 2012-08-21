@@ -1,5 +1,6 @@
 ﻿@using Teamworks.Web.Helpers.Extensions
-@model Teamworks.Web.ViewModels.Mvc.ProjectViewModel
+@using Teamworks.Web.ViewModels.Mvc
+@model ProjectViewModel
 @{
     ViewBag.Title = Model.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -7,15 +8,7 @@
 
 <div class="row">
     <div class="span8">
-        <ul class="breadcrumb">
-            <li>
-                <a href="@Url.RouteUrl("projects_get")">Projects</a>
-                <span class="divider">/</span>
-            </li>
-            <li>
-                <span data-bind="text: name">@Model.Name</span>
-            </li>
-        </ul>
+        @Html.Breadcrumb(ViewBag.Breadcrumb as BreadcrumbViewModel[])
         <header class="page-header">
             <h1>
                 <span data-bind="text: name">@Model.Name</span>
@@ -36,8 +29,8 @@
                         </a>
                     </small>
                 </h2>
-                <div class="hide" data-bind="css: { hide: !activities.editing() }">
-                    <form class="well form-inline" data-bind="submit: activities._create">
+                <div class="row hide" data-bind="css: { hide: !activities.editing() }">
+                    <form class="span well well-mini form-inline" data-bind="submit: activities._create">
                         <input id="activity_name" name="activity_name" class="span4" autofocus="autofocus" placeholder="Activity name" data-bind="value: activities.input, valueUpdate: 'afterkeyup'" />
                         <button type="submit" class="btn btn-success">
                             Create
@@ -56,8 +49,8 @@
                         <a class="hide btn-mini" data-bind="css: { hide: discussions.editing()}, click: function() { discussions.editing(true); }">One more discussion</a>
                     </small>
                 </h2>
-                <div class="hide" data-bind="css: { hide: !discussions.editing() }">
-                    <form class="well form-inline" data-bind="submit: discussions._create">
+                <div class="row hide" data-bind="css: { hide: !discussions.editing() }">
+                    <form class="span well well-mini form-inline" data-bind="submit: discussions._create">
                         <input id="discussion_name" name="discussion_name" class="span4" autofocus="autofocus" placeholder="Discussion name" data-bind="value: discussions.input, valueUpdate: 'afterkeyup'" />
                         <button type="submit" class="btn btn-success">Create</button>  
                         <a class="btn-mini" data-bind="click: function() { discussions.editing(false) }"><i class="icon-remove"></i></a>                   
@@ -66,7 +59,6 @@
             </div>
             <!-- ko template: { name: 'discussion-template', foreach: discussions } -->
             <!-- /ko -->
-            
         </section>
     </div>
     <div class="span4">

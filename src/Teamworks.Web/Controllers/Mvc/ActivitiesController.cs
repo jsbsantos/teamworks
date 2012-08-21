@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -7,6 +8,7 @@ using AttributeRouting.Web.Http;
 using Raven.Bundles.Authorization.Model;
 using Raven.Client.Authorization;
 using Raven.Client.Linq;
+using Raven.Client.Util;
 using Teamworks.Core;
 using Teamworks.Core.Extensions;
 using Teamworks.Core.Services;
@@ -14,11 +16,12 @@ using Teamworks.Core.Services.RavenDb.Indexes;
 using Teamworks.Web.Attributes.Mvc;
 using Teamworks.Web.Helpers;
 using Teamworks.Web.Helpers.AutoMapper;
+using Teamworks.Web.Helpers.Extensions.Mvc;
 using Teamworks.Web.ViewModels.Mvc;
 
 namespace Teamworks.Web.Controllers.Mvc
 {
-    //[SecureProject("projects/view/activities/view")]
+    [SecureProject("projects/view/activities/view")]
     [RoutePrefix("projects/{projectId}/activities")]
     public class ActivitiesController : RavenController
     {
@@ -43,11 +46,9 @@ namespace Teamworks.Web.Controllers.Mvc
                 return HttpNotFound();
 
             var vm = activity.MapTo<ActivityViewModelComplete>();
-
             vm.ProjectReference = project.MapTo<EntityViewModel>();
-
-            vm.People = DbSession.Load<Person>(project.People).Select(
-                r =>
+            vm.People = DbSession.Load<Person>(project.People)
+                .Select(r =>
                     {
                         var result = r.MapTo<ActivityViewModelComplete.AssignedPersonViewModel>();
                         result.Assigned = r.Id.In(activity.People);
@@ -62,14 +63,19 @@ namespace Teamworks.Web.Controllers.Mvc
                     return result;
                 }).ToList();
 
+            var discussions = activity.Discussions.Select(discussion =>
+                                                          DbSession.Load<Discussion>(discussion).MapTo
+                                                              <DiscussionViewModel>()).ToList();
+            vm.Discussions = discussions;
+
             vm.Dependencies = list
                 .Where(r => r.Id.ToIdentifier() != activityId)
                 .Select(r =>
-                {
-                    var result = r.MapTo<DependencyActivityViewModel>();
-                    result.Dependency = r.Id.In(activity.Dependencies);
-                    return result;
-                })
+                    {
+                        var result = r.MapTo<DependencyActivityViewModel>();
+                        result.Dependency = r.Id.In(activity.Dependencies);
+                        return result;
+                    })
                 .ToList();
             return View(vm);
         }
@@ -83,7 +89,7 @@ namespace Teamworks.Web.Controllers.Mvc
 
             activity.Update(model.MapTo<Activity>(), DbSession);
 
-            return new JsonNetResult { Data = activity.MapTo<ActivityViewModel>() };
+            return new JsonNetResult {Data = activity.MapTo<ActivityViewModel>()};
         }
 
         [POST("")]
@@ -104,7 +110,7 @@ namespace Teamworks.Web.Controllers.Mvc
             if (model.StartDate != DateTimeOffset.MinValue)
                 activity.StartDate = model.StartDate;
 
-            return new JsonNetResult { Data = activity.MapTo<ActivityViewModelComplete>() };
+            return new JsonNetResult {Data = activity.MapTo<ActivityViewModelComplete>()};
         }
 
         [POST("{activityId}/delete")]
@@ -118,7 +124,7 @@ namespace Teamworks.Web.Controllers.Mvc
             return new HttpStatusCodeResult(HttpStatusCode.NoContent);
         }
 
-        [POST("{activityId}/people/{email}")]
+        [POST("{activityId}/people")]
         public ActionResult AddPerson(int projectId, int activityId, string email)
         {
             var _projectId = projectId.ToId("project");
@@ -139,7 +145,7 @@ namespace Teamworks.Web.Controllers.Mvc
             activity.People.Add(person.Id);
             var result = person.MapTo<ActivityViewModelComplete.AssignedPersonViewModel>();
             result.Assigned = true;
-            return new JsonNetResult { Data = result };
+            return new JsonNetResult {Data = result};
         }
 
         [POST("{activityId}/people/{personId}/delete")]
@@ -162,6 +168,72 @@ namespace Teamworks.Web.Controllers.Mvc
 
             activity.People.Remove(person.Id);
             return new HttpStatusCodeResult(HttpStatusCode.NoContent);
+        }
+
+        [AjaxOnly]
+        [POST("{activityId}/discussions")]
+        public ActionResult CreateDiscussion(int projectId, int activityId, DiscussionViewModel.Input model)
+        {
+            // todo error handling
+
+            var activity = GetActivity(projectId, activityId);
+            if (activity == null)
+                return new HttpNotFoundResult();
+
+            var person = DbSession.GetCurrentPerson();
+            var discussion = Discussion.Forge(model.Name, model.Content, activity.Id, person.Id);
+            DbSession.Store(discussion);
+            activity.Discussions.Add(discussion.Id);
+
+            var vm = discussion.MapTo<DiscussionViewModel>();
+            vm.Person = person.MapTo<PersonViewModel>();
+            vm.Entity = activity.MapTo<EntityViewModel>();
+            return new JsonNetResult {Data = vm};
+        }
+
+        [NonAction]
+        public Activity GetActivity(int projectId, int activityId)
+        {
+            var activity = DbSession.Load<Activity>(activityId);
+            if (activity == null || activity.Project.ToIdentifier() != projectId)
+                return null;
+            return activity;
+        }
+
+        [NonAction]
+        public override BreadcrumbViewModel[] CreateBreadcrumb()
+        {
+            var projectId = int.Parse(RouteData.Values["projectId"].ToString());
+            var activityId = int.Parse(RouteData.Values["activityId"].ToString());
+
+            var project = DbSession.Load<Project>(projectId);
+            var activity = DbSession.Load<Activity>(activityId);
+
+            var breadcrumb = new List<BreadcrumbViewModel>
+                {
+                    new BreadcrumbViewModel
+                        {
+                            Url = Url.RouteUrl("projects_get"),
+                            Name = "Projects"
+                        },
+                    new BreadcrumbViewModel
+                        {
+                            Url = Url.RouteUrl("projects_details", new {projectId}),
+                            Name = project.Name
+                        },
+                    new BreadcrumbViewModel
+                        {
+                            Url = Url.RouteUrl("activities_details", new {projectId, activityId = UrlParameter.Optional}),
+                            Name = "Activities"
+                        },
+                    new BreadcrumbViewModel
+                        {
+                            Url = Url.RouteUrl("activities_details", new {projectId, activityId}),
+                            Name = activity.Name
+                        }
+                };
+
+            return breadcrumb.ToArray();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
@@ -65,6 +66,33 @@ namespace Teamworks.Web.Helpers.Extensions
         {
             return new HelperResult(
                 writer => writer.Write(Utils.ToIndentedJson(model)));
+        }
+
+        public static HelperResult Breadcrumb(this HtmlHelper helper, BreadcrumbViewModel[] breadcrumb)
+        {
+            if (breadcrumb == null || breadcrumb.Length == 0)
+            {
+                return new HelperResult(writer => { });
+            }
+            
+            const string last = "<li><span data-bind='text: name'>{1}</span></li>";
+            const string template = "<li><a href='{0}'>{1}</a><span class='divider'>/</span></li>";
+            return new HelperResult(writer =>
+                {
+                    int size = breadcrumb.Length;
+                    writer.WriteLine("<ul class='breadcrumb'>");
+                    for (var i = 0; i < size; i++)
+                    {
+                        var item = breadcrumb[i];
+                        if (i < size - 1)
+                        {
+                            writer.WriteLine(template, item.Url, item.Name);
+                            continue;    
+                        }
+                        writer.WriteLine(last, item.Url, item.Name);
+                    }
+                    writer.WriteLine("</ul>");
+                });
         }
 
         public static bool IsDebugging(this HtmlHelper helper)

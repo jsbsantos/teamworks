@@ -5,7 +5,6 @@ using System.Web;
 using System.Web.Mvc;
 using AttributeRouting;
 using AttributeRouting.Web.Mvc;
-using Raven.Client.Util;
 using Teamworks.Core;
 using Teamworks.Core.Services;
 using Teamworks.Web.Attributes.Mvc;
@@ -16,33 +15,38 @@ using Teamworks.Web.ViewModels.Mvc;
 
 namespace Teamworks.Web.Controllers.Mvc
 {
+    [SecureProject("projects/view/discussions/view")]
     [RoutePrefix("projects/{projectId}/discussions")]
     public class DiscussionsController : RavenController
     {
         [GET("")]
-        [SecureProject("projects/view/discussions/view")]
-        public ActionResult Get(int projectid)
+        [GET("projects/{projectId}/activities/{activityId}/discussions"
+            , IsAbsoluteUrl = true, RouteName = "discussions_activitiesget")]
+        public ActionResult Get(int projectid, int? activityId)
         {
             return HttpNotFound();
         }
 
         [GET("{discussionId}")]
-        [SecureProject("projects/view/discussions/view")]
-        public ActionResult Details(int projectId, int discussionId)
+        [GET("projects/{projectId}/activities/{activityId}/discussions/{discussionId}"
+            , IsAbsoluteUrl = true, RouteName = "discussions_activitiesdetails")]
+        public ActionResult Details(int projectId, int? activityId, int discussionId)
         {
-            var project = DbSession.Load<Project>(projectId);
+            Entity entity = DbSession.Load<Project>(projectId);
             var discussion = DbSession
                 .Include<Discussion>(d => d.Messages.SelectMany(m => m.Person))
                 .Load<Discussion>(discussionId);
 
-            if (discussion == null || !discussion.Entity.Equals(project.Id))
+            if (activityId.HasValue)
+                entity = DbSession.Load<Activity>(activityId);
+
+            if (discussion == null || !discussion.Entity.Equals(entity.Id))
                 return HttpNotFound();
 
             var discussionViewModel = discussion.MapTo<DiscussionViewModel>();
-            discussionViewModel.Project = project.MapTo<EntityViewModel>();
+            discussionViewModel.Entity = entity.MapTo<EntityViewModel>();
 
             var people = new List<PersonViewModel>();
-
             foreach (var message in discussion.Messages.OrderByDescending(m => m.Date))
             {
                 var person = DbSession.Load<Person>(message.Person);
@@ -62,7 +66,6 @@ namespace Teamworks.Web.Controllers.Mvc
         }
 
         [POST("")]
-        [SecureProject("projects/view/discussions/create")]
         public ActionResult Post(int projectId, DiscussionViewModel.Input model)
         {
             if (!ModelState.IsValid)
@@ -81,7 +84,6 @@ namespace Teamworks.Web.Controllers.Mvc
         }
 
         [POST("{discussionid}/delete")]
-        [SecureProject("projects/view/discussions/create")]
         public ActionResult Delete(int projectId, int discussionid)
         {
             if (!ModelState.IsValid)
@@ -127,7 +129,6 @@ namespace Teamworks.Web.Controllers.Mvc
 
         [AjaxOnly]
         [POST("{discussionId}/messages")]
-        [SecureProject("projects/view/discussions/view")]
         public ActionResult PostMessage(int projectId, int discussionId, string content = "")
         {
             content = content.Trim();
@@ -156,7 +157,6 @@ namespace Teamworks.Web.Controllers.Mvc
 
         [AjaxOnly]
         [POST("{discussionId}/messages/{messageId}/delete")]
-        [SecureProject("projects/view/discussions/view")]
         public ActionResult DeleteMessage(int projectId, int discussionId, int messageId)
         {
             var project = DbSession.Load<Project>(projectId);
@@ -175,6 +175,73 @@ namespace Teamworks.Web.Controllers.Mvc
             }
 
             return new HttpStatusCodeResult(HttpStatusCode.NoContent);
+        }
+
+        [NonAction]
+        public override BreadcrumbViewModel[] CreateBreadcrumb()
+        {
+            var activityId = 0;
+            if (RouteData.Values.ContainsKey("activityId"))
+                activityId = int.Parse(RouteData.Values["activityId"].ToString());
+
+            var projectId = int.Parse(RouteData.Values["projectId"].ToString());
+            var discussionId = int.Parse(RouteData.Values["discussionId"].ToString());
+
+
+            var project = DbSession.Load<Project>(projectId);
+            var discussion = DbSession.Load<Discussion>(discussionId);
+
+            var breadcrumb = new List<BreadcrumbViewModel>
+                {
+                    new BreadcrumbViewModel
+                        {
+                            Url = Url.RouteUrl("projects_get"),
+                            Name = "Projects"
+                        },
+                    new BreadcrumbViewModel
+                        {
+                            Url = Url.RouteUrl("projects_get", new {projectId}),
+                            Name = project.Name
+                        }
+                };
+            
+            string get;
+            string details;
+            if (activityId > 0)
+            {
+                var activity = DbSession.Load<Activity>(activityId);
+                breadcrumb.Add(new BreadcrumbViewModel
+                    {
+                        Url = Url.RouteUrl("activities_details", new {projectId, activityId = UrlParameter.Optional}),
+                        Name = "Activities"
+                    });
+
+                breadcrumb.Add(new BreadcrumbViewModel
+                    {
+                        Url = Url.RouteUrl("activities_details", new {projectId, activityId}),
+                        Name = activity.Name
+                    });
+
+                get = Url.RouteUrl("discussions_activitiesget", new { projectId, activityId });
+                details = Url.RouteUrl("discussions_activitiesdetails", new {projectId, activityId, discussionId});
+            }
+            else
+            {
+                get = Url.RouteUrl("discussions_activitiesget", new {projectId, activityId});
+                details = Url.RouteUrl("discussions_activitiesdetails", new {projectId, activityId, discussionId});
+            }
+            breadcrumb.Add(new BreadcrumbViewModel
+                {
+                    Url = get,
+                    Name = "Discussions"
+                });
+            breadcrumb.Add(new BreadcrumbViewModel
+                {
+                    Url = details,
+                    Name = discussion.Name
+                });
+            
+            return breadcrumb.ToArray();
         }
     }
 }

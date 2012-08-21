@@ -1,5 +1,6 @@
 ﻿@using Teamworks.Web.Helpers.Extensions
-@model Teamworks.Web.ViewModels.Mvc.DiscussionViewModel
+@using Teamworks.Web.ViewModels.Mvc
+@model DiscussionViewModel
 
 @{
     Layout = "../Shared/_Layout.cshtml";
@@ -8,23 +9,7 @@
 <div class="row">
     <div class="span8">
         <div class="discussions">
-            <ul class="breadcrumb">
-                <li>
-                    <a href="@Url.RouteUrl("projects_get")">Projects</a>
-                    <span class="divider">/</span>
-                </li>
-                <li>
-                    <a href="@Url.RouteUrl("projects_details")">@Model.Project.Name</a>
-                    <span class="divider">/</span>
-                </li>
-                <li>
-                    <a href="@Url.RouteUrl("discussions_get")">Discussions</a>
-                    <span class="divider">/</span>
-                </li>
-                <li>
-                    <span data-bind="text: name"></span>
-                </li>
-            </ul>
+            @Html.Breadcrumb(ViewBag.Breadcrumb as BreadcrumbViewModel[])
             <header class="page-header">
                 <div class="row">
                     <div class="span6"><h1 data-bind="text: name"></h1></div>

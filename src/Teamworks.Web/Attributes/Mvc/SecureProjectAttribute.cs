@@ -1,7 +1,6 @@
 using System;
-using System.Net;
-using System.Web;
 using System.Web.Mvc;
+using Teamworks.Core;
 using Teamworks.Web.Helpers.Extensions.Mvc;
 
 namespace Teamworks.Web.Attributes.Mvc
@@ -33,7 +32,7 @@ namespace Teamworks.Web.Attributes.Mvc
             }
 
             var session = filterContext.HttpContext.GetCurrentRavenSession();
-            var project = session.Load<Core.Project>(id);
+            var project = session.Load<Project>(id);
             if (project == null)
                 filterContext.Result = new HttpNotFoundResult();
         }

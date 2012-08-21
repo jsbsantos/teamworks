@@ -14,7 +14,7 @@ namespace Teamworks.Web.Helpers.AutoMapper.Profiles
             Mapper.CreateMap<Person, ViewModels.Api.PersonViewModel>()
                .ForMember(s => s.Id, o => o.MapFrom(d => d.Id.ToIdentifier()));
             
-            //MVC
+            // Mvc
             Mapper.CreateMap<Person, ActivityViewModelComplete.AssignedPersonViewModel>()
                .ForMember(s => s.Id, o => o.MapFrom(d => d.Id.ToIdentifier()))
                .ForMember(s => s.Assigned, o => o.Ignore())
