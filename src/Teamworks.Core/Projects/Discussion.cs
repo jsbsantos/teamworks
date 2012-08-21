@@ -38,27 +38,7 @@ namespace Teamworks.Core
                        };
         }
 
-        public void Notify(Message message, IList<string> emails)
-        {
-            if (emails.Count <= 0) return;
-            var notifications = new StringBuilder();
-            foreach (string email in emails)
-            {
-                notifications.Append(email);
-                notifications.Append(";");
-            }
-
-            string id = String.Format("{0}.{1}.{2}@teamworks.mailgun.org",
-                                      Id.ToIdentifier(), message.Id, DateTime.Now.ToString("yyyymmddhhMMss"));
-
-            message.Reply = MailHub.Send(MailgunConfiguration.Host,
-                                         notifications.ToString().TrimEnd(new[] {';'}),
-                                         Name,
-                                         message.Content,
-                                         id);
-        }
-
-        public class Message
+      public class Message
         {
             public int Id { get; set; }
             public string Content { get; set; }

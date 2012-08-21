@@ -4,62 +4,91 @@ using System.Linq;
 using System.Threading;
 using Raven.Client;
 using Raven.Client.Linq;
+using Teamworks.Core.Mailgun;
 using Teamworks.Core.Services.RavenDb.Indexes;
 
-namespace Teamworks.Core.Services.Tasks
+namespace Teamworks.Core.Services.Executor.Tasks
 {
     public class SendNotificationsAsync
     {
-        private  IDocumentStore Store;
         private bool run = true;
-        private AutoResetEvent ARE;
-        
-        private int tries=1;
-        private int baseTime = 60000;
-        public int[] waitTimes = {1, 5, 10};
+        private int checkCount = 1;
+        private const int BaseTimeout = 60000;
+        private const int WaitFactor = 5;
 
-        private List<Discussion_Messages_PendingNotification.Result> Query(IDocumentSession DbSession)
+        private class Notification
         {
-            return
-                DbSession.Query
-                    <Discussion_Messages_PendingNotification.Result, Discussion_Messages_PendingNotification>
-                    ()
-                    .Customize(
-                        c => c.WaitForNonStaleResults())
-                    .AsProjection<Discussion_Messages_PendingNotification.Result>().ToList();
+            public int Discussion { get; set; }
+            public string Name { get; set; }
+            public List<Discussion.Message> Messages { get; set; }
+            public List<string> Subscribers { get; set; }
         }
 
-        public SendNotificationsAsync Initialize(IDocumentStore documentStore)
+        private List<Notification> Query(IDocumentSession dbSession)
         {
-            ARE = new AutoResetEvent(true);
-            Store=documentStore;
-            return this;
+            var query = dbSession.Query<Discussion>()
+                .Customize(c => c.Include<Discussion>(d => d.Subscribers))
+                .Where(d => d.Messages.Any(m => !m.NotificationSent) && d.Subscribers.Count > 0)
+                .ToList();
+
+            return query.Select(d => new Notification
+                {
+                    Discussion = d.Id.ToIdentifier(),
+                    Name = d.Name,
+                    Messages = d.Messages.Where(m => !m.NotificationSent).ToList(),
+                    Subscribers = dbSession.Load<Person>(d.Subscribers).Select(p => p.Email).ToList()
+                }).ToList();
         }
 
-        public void Start()
+        private int GetTimeout()
         {
-            if (Store == null)
+            var result = WaitFactor*checkCount*BaseTimeout;
+            checkCount = ++checkCount%25;
+            return result;
+        }
+
+        public void Run()
+        {
+            if (Global.Database == null)
                 throw new NullReferenceException("Document Store is null.");
 
             while (run)
             {
-                List<Discussion_Messages_PendingNotification.Result> results;
-                using (var DbSession = Store.OpenSession())
+                using (var dbSession = Global.Database.OpenSession())
                 {
-                    results = Query(DbSession).ToList();
+                    var results = Query(dbSession);
+
+                    if (results.Count > 0)
+                    {
+                        checkCount = 0;
+
+                        foreach (var notification in results)
+                        {
+                            foreach (var message in notification.Messages)
+                            {
+                                SendNotificationEmail(notification.Discussion, notification.Name, message,
+                                                      notification.Subscribers);
+                            }
+                        }
+                    }
+
+                    dbSession.SaveChanges();
                 }
-                if (results.Count == 0)
-                    {
-                        ARE.WaitOne(waitTimes[tries]*baseTime);
-                        tries = tries == waitTimes.Length - 1 ? tries : tries++;
-                    }
-                    else
-                    {
-                        tries = 1;
 
-                        //do stuff
-                    }
-
+                Thread.Sleep(GetTimeout());
             }
         }
+
+        private void SendNotificationEmail(int discussion, string name, Discussion.Message message,
+                                           IEnumerable<string> people)
+        {
+            var receivers = string.Join(";", people);
+            string id = String.Format("{0}.{1}.{2}@teamworks.mailgun.org",
+                                      discussion, message.Id,
+                                      DateTime.Now.ToString("yyyymmddhhMMss"));
+
+            message.Reply = MailHub.Send(MailgunConfiguration.Host, receivers, name, message.Content, id);
+            message.NotificationSent = true;
+        }
     }
+}
