@@ -57,6 +57,7 @@
     <Compile Include="Attributes\Mvc\SecureProjectAttribute.cs" />
     <Compile Include="Controllers\Api\ActivitiesController.cs" />
     <Compile Include="Attributes\Api\SecureAttribute.cs" />
+    <Compile Include="ViewModels\Mvc\BreadcrumbViewModel.cs" />
     <Compile Include="Controllers\Mvc\PeopleController.cs" />
     <Compile Include="Controllers\Api\TodoController.cs" />
     <Compile Include="Controllers\Api\TodoListController.cs" />

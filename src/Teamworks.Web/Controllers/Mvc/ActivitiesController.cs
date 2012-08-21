@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -47,30 +48,34 @@ namespace Teamworks.Web.Controllers.Mvc
             var vm = activity.MapTo<ActivityViewModelComplete>();
             vm.ProjectReference = project.MapTo<EntityViewModel>();
             vm.People = DbSession.Load<Person>(project.People)
-                .Select(r => {
+                .Select(r =>
+                    {
                         var result = r.MapTo<ActivityViewModelComplete.AssignedPersonViewModel>();
                         result.Assigned = r.Id.In(activity.People);
                         return result;
                     }).ToList();
 
             vm.TotalTimeLogged = activity.Timelogs.Sum(r => r.Duration);
-            vm.Timelogs = activity.Timelogs.Select(r => {
+            vm.Timelogs = activity.Timelogs.Select(r =>
+                {
                     var result = r.MapTo<TimelogViewModel>();
                     result.Person = DbSession.Load<Person>(r.Person).MapTo<EntityViewModel>();
                     return result;
                 }).ToList();
 
-            var discussions = activity.Discussions.Select(discussion => 
-                DbSession.Load<Discussion>(discussion).MapTo<DiscussionViewModel>()).ToList();
+            var discussions = activity.Discussions.Select(discussion =>
+                                                          DbSession.Load<Discussion>(discussion).MapTo
+                                                              <DiscussionViewModel>()).ToList();
             vm.Discussions = discussions;
 
             vm.Dependencies = list
                 .Where(r => r.Id.ToIdentifier() != activityId)
-                .Select(r => {
-                    var result = r.MapTo<DependencyActivityViewModel>();
-                    result.Dependency = r.Id.In(activity.Dependencies);
-                    return result;
-                })
+                .Select(r =>
+                    {
+                        var result = r.MapTo<DependencyActivityViewModel>();
+                        result.Dependency = r.Id.In(activity.Dependencies);
+                        return result;
+                    })
                 .ToList();
             return View(vm);
         }
@@ -84,7 +89,7 @@ namespace Teamworks.Web.Controllers.Mvc
 
             activity.Update(model.MapTo<Activity>(), DbSession);
 
-            return new JsonNetResult { Data = activity.MapTo<ActivityViewModel>() };
+            return new JsonNetResult {Data = activity.MapTo<ActivityViewModel>()};
         }
 
         [POST("")]
@@ -105,7 +110,7 @@ namespace Teamworks.Web.Controllers.Mvc
             if (model.StartDate != DateTimeOffset.MinValue)
                 activity.StartDate = model.StartDate;
 
-            return new JsonNetResult { Data = activity.MapTo<ActivityViewModelComplete>() };
+            return new JsonNetResult {Data = activity.MapTo<ActivityViewModelComplete>()};
         }
 
         [POST("{activityId}/delete")]
@@ -140,7 +145,7 @@ namespace Teamworks.Web.Controllers.Mvc
             activity.People.Add(person.Id);
             var result = person.MapTo<ActivityViewModelComplete.AssignedPersonViewModel>();
             result.Assigned = true;
-            return new JsonNetResult { Data = result };
+            return new JsonNetResult {Data = result};
         }
 
         [POST("{activityId}/people/{personId}/delete")]
@@ -170,7 +175,7 @@ namespace Teamworks.Web.Controllers.Mvc
         public ActionResult CreateDiscussion(int projectId, int activityId, DiscussionViewModel.Input model)
         {
             // todo error handling
-            
+
             var activity = GetActivity(projectId, activityId);
             if (activity == null)
                 return new HttpNotFoundResult();
@@ -183,7 +188,7 @@ namespace Teamworks.Web.Controllers.Mvc
             var vm = discussion.MapTo<DiscussionViewModel>();
             vm.Person = person.MapTo<PersonViewModel>();
             vm.Entity = activity.MapTo<EntityViewModel>();
-            return new JsonNetResult() { Data = vm };
+            return new JsonNetResult {Data = vm};
         }
 
         [NonAction]
@@ -195,13 +200,40 @@ namespace Teamworks.Web.Controllers.Mvc
             return activity;
         }
 
-        public class MyClass<T> : ObjectReferenceEqualityComparerer<T> where T : Entity
+        [NonAction]
+        public override BreadcrumbViewModel[] CreateBreadcrumb()
         {
+            var projectId = int.Parse(RouteData.Values["projectId"].ToString());
+            var activityId = int.Parse(RouteData.Values["activityId"].ToString());
 
-            public override bool Equals(T a, T b)
-            {
-                return a.Id == b.Id;
-            }
+            var project = DbSession.Load<Project>(projectId);
+            var activity = DbSession.Load<Activity>(activityId);
+
+            var breadcrumb = new List<BreadcrumbViewModel>
+                {
+                    new BreadcrumbViewModel
+                        {
+                            Url = Url.RouteUrl("projects_get"),
+                            Name = "Projects"
+                        },
+                    new BreadcrumbViewModel
+                        {
+                            Url = Url.RouteUrl("projects_details", new {projectId}),
+                            Name = project.Name
+                        },
+                    new BreadcrumbViewModel
+                        {
+                            Url = Url.RouteUrl("activities_details", new {projectId, activityId = UrlParameter.Optional}),
+                            Name = "Activities"
+                        },
+                    new BreadcrumbViewModel
+                        {
+                            Url = Url.RouteUrl("activities_details", new {projectId, activityId}),
+                            Name = activity.Name
+                        }
+                };
+
+            return breadcrumb.ToArray();
         }
     }
 }

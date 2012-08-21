@@ -35,11 +35,11 @@ namespace Teamworks.Web.Controllers.Mvc
                 .ToList();
 
             var vm = new ProjectsViewModel
-                         {
-                             CurrentPage = page,
-                             TotalCount = stats.TotalResults,
-                             Projects = new List<ProjectsViewModel.Project>()
-                         };
+                {
+                    CurrentPage = page,
+                    TotalCount = stats.TotalResults,
+                    Projects = new List<ProjectsViewModel.Project>()
+                };
 
             if (projects.Count > 0)
             {
@@ -149,7 +149,7 @@ namespace Teamworks.Web.Controllers.Mvc
                 return new HttpNotFoundResult();
 
             project.Grant(string.Empty, person);
-            return new JsonNetResult { Data = person.MapTo<PersonViewModel>() };
+            return new JsonNetResult {Data = person.MapTo<PersonViewModel>()};
         }
 
         [AjaxOnly]
@@ -167,7 +167,7 @@ namespace Teamworks.Web.Controllers.Mvc
                 return new HttpNotFoundResult();
 
             project.Revoke(string.Empty, person);
-            return new JsonNetResult { Data = person.MapTo<PersonViewModel>() };
+            return new JsonNetResult {Data = person.MapTo<PersonViewModel>()};
         }
 
         [GET("{projectId}/gantt")]
@@ -187,21 +187,48 @@ namespace Teamworks.Web.Controllers.Mvc
                 .OrderBy(a => a.StartDate)
                 .ToList()
                 .Select(x => new
-                                 {
-                                     x.Dependencies,
-                                     x.Description,
-                                     x.Duration,
-                                     x.Id,
-                                     x.Name,
-                                     x.Project,
-                                     x.StartDate,
-                                     x.TimeUsed,
-                                     AccumulatedTime = x.StartDate.Subtract(project.StartDate).TotalMinutes
-                                 });
+                    {
+                        x.Dependencies,
+                        x.Description,
+                        x.Duration,
+                        x.Id,
+                        x.Name,
+                        x.Project,
+                        x.StartDate,
+                        x.TimeUsed,
+                        AccumulatedTime = x.StartDate.Subtract(project.StartDate).TotalMinutes
+                    });
 
             ViewBag.ChartData = JsonConvert.SerializeObject(act);
 
             return View(project);
+        }
+
+        [NonAction]
+        public override BreadcrumbViewModel[] CreateBreadcrumb()
+        {
+            var breadcrumb = new List<BreadcrumbViewModel>();
+            if (RouteData.Values.ContainsKey("projectId"))
+            {
+                var projectId = int.Parse(RouteData.Values["projectId"].ToString());
+                var project = DbSession.Load<Project>(projectId);
+
+                breadcrumb.Add(
+
+                    new BreadcrumbViewModel
+                        {
+                            Url = Url.RouteUrl("projects_get"),
+                            Name = "Projects"
+                        });
+                breadcrumb.Add(
+                    new BreadcrumbViewModel
+                        {
+                            Url = Url.RouteUrl("projects_get", new {projectId}),
+                            Name = project.Name
+                        }
+                    );
+            }
+            return breadcrumb.ToArray();
         }
     }
 }
