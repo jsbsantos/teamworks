@@ -12,8 +12,10 @@ namespace Teamworks.Web.Helpers.AutoMapper.Profiles
         {
             // Mvc
             Mapper.CreateMap<Discussion, DiscussionViewModel>()
+                .ForMember(s => s.Messages, o => o.UseValue(new List<DiscussionViewModel.Message>()))
                 .ForMember(s => s.Id, o => o.MapFrom(d => d.Id.ToIdentifier()))
-                .ForMember(s => s.Messages, o => o.UseValue(new List<DiscussionViewModel.Message>()));
+                .ForMember(s => s.Person, o => o.Ignore())
+                .ForMember(s => s.Entity, o => o.Ignore());
 
             Mapper.CreateMap<Discussion.Message, DiscussionViewModel.Message>()
                 .ForMember(s => s.Person, o => o.Ignore());

@@ -14,30 +14,33 @@ using Teamworks.Web.ViewModels.Mvc;
 
 namespace Teamworks.Web.Controllers.Mvc
 {
+
+    [SecureProject("projects/view/discussions/view")]
     [RoutePrefix("projects/{projectId}/discussions")]
     public class DiscussionsController : RavenController
     {
         [GET("")]
-        [SecureProject("projects/view/discussions/view")]
         public ActionResult Get(int projectid)
         {
             return HttpNotFound();
         }
 
         [GET("{discussionId}")]
-        [SecureProject("projects/view/discussions/view")]
-        public ActionResult Details(int projectId, int discussionId)
+        public ActionResult Details(int projectId, int? activityId, int discussionId)
         {
-            var project = DbSession.Load<Project>(projectId);
+            Entity entity = DbSession.Load<Project>(projectId);
             var discussion = DbSession
                 .Include<Discussion>(d => d.Messages.SelectMany(m => m.Person))
                 .Load<Discussion>(discussionId);
 
-            if (discussion == null || !discussion.Entity.Equals(project.Id))
+            if (activityId.HasValue)
+                entity = DbSession.Load<Activity>(activityId);
+
+            if (discussion == null || !discussion.Entity.Equals(entity.Id))
                 return HttpNotFound();
 
             var discussionViewModel = discussion.MapTo<DiscussionViewModel>();
-            discussionViewModel.Project = project.MapTo<EntityViewModel>();
+            discussionViewModel.Entity = entity.MapTo<EntityViewModel>();
             foreach (var message in discussion.Messages.OrderByDescending(m => m.Date))
             {
                 var person = DbSession.Load<Person>(message.Person);
@@ -50,8 +53,40 @@ namespace Teamworks.Web.Controllers.Mvc
             return View(discussionViewModel);
         }
 
+        [GET("projects/{projectId}/activities/{activityId}/discussions/{discussionId}", IsAbsoluteUrl = true)]
+        public ActionResult ActivitiesDetails(int projectId, int activityId, int discussionId)
+        {
+            var project = DbSession.Load<Project>(projectId);
+            var activity = DbSession.Load<Activity>(activityId);
+            if (activity == null || activity.Project != project.Id)
+                return HttpNotFound();
+            
+            var discussion = DbSession
+                .Include<Discussion>(d => d.Messages.SelectMany(m => m.Person))
+                .Load<Discussion>(discussionId);
+
+            if (discussion == null || !discussion.Entity.Equals(activity.Id))
+                return HttpNotFound();
+
+            var discussionViewModel = discussion.MapTo<DiscussionViewModel>();
+            discussionViewModel.Entity = activity.MapTo<EntityViewModel>();
+            foreach (var message in discussion.Messages.OrderByDescending(m => m.Date))
+            {
+                var person = DbSession.Load<Person>(message.Person);
+                var messageViewModel = message.MapTo<DiscussionViewModel.Message>();
+                messageViewModel.Person = person.MapTo<PersonViewModel>();
+                messageViewModel.Editable = person.Id == DbSession.GetCurrentPersonId();
+
+                discussionViewModel.Messages.Add(messageViewModel);
+            }
+
+            // todo breadcrumb
+
+            return View("Details", discussionViewModel);
+        }
+
+
         [POST("")]
-        [SecureProject("projects/view/discussions/create")]
         public ActionResult Post(int projectId, DiscussionViewModel.Input model)
         {
             if (!ModelState.IsValid)
@@ -70,7 +105,6 @@ namespace Teamworks.Web.Controllers.Mvc
         }
 
         [POST("{discussionid}/delete")]
-        [SecureProject("projects/view/discussions/create")]
         public ActionResult Delete(int projectId, int discussionid)
         {
             if (!ModelState.IsValid)
@@ -86,7 +120,6 @@ namespace Teamworks.Web.Controllers.Mvc
 
         [AjaxOnly]
         [POST("{discussionId}/messages")]
-        [SecureProject("projects/view/discussions/view")]
         public ActionResult PostMessage(int projectId, int discussionId, string content = "")
         {
             content = content.Trim();
@@ -115,7 +148,6 @@ namespace Teamworks.Web.Controllers.Mvc
 
         [AjaxOnly]
         [POST("{discussionId}/messages/{messageId}/delete")]
-        [SecureProject("projects/view/discussions/view")]
         public ActionResult DeleteMessage(int projectId, int discussionId, int messageId)
         {
             var project = DbSession.Load<Project>(projectId);

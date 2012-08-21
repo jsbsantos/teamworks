@@ -7,6 +7,7 @@ using AttributeRouting.Web.Http;
 using Raven.Bundles.Authorization.Model;
 using Raven.Client.Authorization;
 using Raven.Client.Linq;
+using Raven.Client.Util;
 using Teamworks.Core;
 using Teamworks.Core.Extensions;
 using Teamworks.Core.Services;
@@ -14,11 +15,12 @@ using Teamworks.Core.Services.RavenDb.Indexes;
 using Teamworks.Web.Attributes.Mvc;
 using Teamworks.Web.Helpers;
 using Teamworks.Web.Helpers.AutoMapper;
+using Teamworks.Web.Helpers.Extensions.Mvc;
 using Teamworks.Web.ViewModels.Mvc;
 
 namespace Teamworks.Web.Controllers.Mvc
 {
-    //[SecureProject("projects/view/activities/view")]
+    [SecureProject("projects/view/activities/view")]
     [RoutePrefix("projects/{projectId}/activities")]
     public class ActivitiesController : RavenController
     {
@@ -43,29 +45,28 @@ namespace Teamworks.Web.Controllers.Mvc
                 return HttpNotFound();
 
             var vm = activity.MapTo<ActivityViewModelComplete>();
-
             vm.ProjectReference = project.MapTo<EntityViewModel>();
-
-            vm.People = DbSession.Load<Person>(project.People).Select(
-                r =>
-                    {
+            vm.People = DbSession.Load<Person>(project.People)
+                .Select(r => {
                         var result = r.MapTo<ActivityViewModelComplete.AssignedPersonViewModel>();
                         result.Assigned = r.Id.In(activity.People);
                         return result;
                     }).ToList();
 
             vm.TotalTimeLogged = activity.Timelogs.Sum(r => r.Duration);
-            vm.Timelogs = activity.Timelogs.Select(r =>
-                {
+            vm.Timelogs = activity.Timelogs.Select(r => {
                     var result = r.MapTo<TimelogViewModel>();
                     result.Person = DbSession.Load<Person>(r.Person).MapTo<EntityViewModel>();
                     return result;
                 }).ToList();
 
+            var discussions = activity.Discussions.Select(discussion => 
+                DbSession.Load<Discussion>(discussion).MapTo<DiscussionViewModel>()).ToList();
+            vm.Discussions = discussions;
+
             vm.Dependencies = list
                 .Where(r => r.Id.ToIdentifier() != activityId)
-                .Select(r =>
-                {
+                .Select(r => {
                     var result = r.MapTo<DependencyActivityViewModel>();
                     result.Dependency = r.Id.In(activity.Dependencies);
                     return result;
@@ -118,7 +119,7 @@ namespace Teamworks.Web.Controllers.Mvc
             return new HttpStatusCodeResult(HttpStatusCode.NoContent);
         }
 
-        [POST("{activityId}/people/{email}")]
+        [POST("{activityId}/people")]
         public ActionResult AddPerson(int projectId, int activityId, string email)
         {
             var _projectId = projectId.ToId("project");
@@ -162,6 +163,45 @@ namespace Teamworks.Web.Controllers.Mvc
 
             activity.People.Remove(person.Id);
             return new HttpStatusCodeResult(HttpStatusCode.NoContent);
+        }
+
+        [AjaxOnly]
+        [POST("{activityId}/discussions")]
+        public ActionResult CreateDiscussion(int projectId, int activityId, DiscussionViewModel.Input model)
+        {
+            // todo error handling
+            
+            var activity = GetActivity(projectId, activityId);
+            if (activity == null)
+                return new HttpNotFoundResult();
+
+            var person = DbSession.GetCurrentPerson();
+            var discussion = Discussion.Forge(model.Name, model.Content, activity.Id, person.Id);
+            DbSession.Store(discussion);
+            activity.Discussions.Add(discussion.Id);
+
+            var vm = discussion.MapTo<DiscussionViewModel>();
+            vm.Person = person.MapTo<PersonViewModel>();
+            vm.Entity = activity.MapTo<EntityViewModel>();
+            return new JsonNetResult() { Data = vm };
+        }
+
+        [NonAction]
+        public Activity GetActivity(int projectId, int activityId)
+        {
+            var activity = DbSession.Load<Activity>(activityId);
+            if (activity == null || activity.Project.ToIdentifier() != projectId)
+                return null;
+            return activity;
+        }
+
+        public class MyClass<T> : ObjectReferenceEqualityComparerer<T> where T : Entity
+        {
+
+            public override bool Equals(T a, T b)
+            {
+                return a.Id == b.Id;
+            }
         }
     }
 }

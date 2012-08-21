@@ -71,7 +71,6 @@
     <Compile Include="Helpers\Extensions\DocumentSessionExtensions.cs" />
     <Compile Include="ViewModels\Mvc\DiscussionViewModel.cs" />
     <Compile Include="Helpers\JsonNetResult.cs" />
-    <Compile Include="Helpers\AutoMapper\Profiles\Api\TimelogViewModelMapperProfile.cs" />
     <Compile Include="ViewModels\Mvc\TimelogViewModel.cs" />
     <Compile Include="Helpers\AutoMapper\Profiles\ProfileViewModelMapperProfile.cs" />
     <Compile Include="Helpers\AutoMapper\Profiles\TimelogViewModelMapperProfile.cs" />
@@ -375,12 +374,9 @@
     <Content Include="Views\Password\Change.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Helpers\AutoMapper\Profiles\Mvc\" />
     <Content Include="Views\Password\Expired.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Helpers\AutoMapper\Profiles\Mvc\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
