@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using Raven.Client.Document;
 using Raven.Client.Indexes;
@@ -22,7 +23,11 @@ namespace Teamworks.Web.App_Start
         private static void InitializeMessageNotificationsSender()
         {
             var sender = new Core.Services.Executor.Tasks.SendNotificationsAsync();
-            Task.Factory.StartNew(sender.Run);
+            //Task.Factory.StartNew(sender.Run).ContinueWith(task =>
+            //    {
+            //     //if (task.IsFaulted)
+            //         //TODO LOG ERROR
+            //    });
         }
 
         public static void InitializeExecutor()

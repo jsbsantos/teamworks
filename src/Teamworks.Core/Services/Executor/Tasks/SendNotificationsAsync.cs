@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using Raven.Client;
@@ -14,7 +15,7 @@ namespace Teamworks.Core.Services.Executor.Tasks
         private bool run = true;
         private int checkCount = 1;
         private const int BaseTimeout = 60000;
-        private const int WaitFactor = 5;
+        private const int WaitFactor = 1;
 
         private class Notification
         {
@@ -43,7 +44,7 @@ namespace Teamworks.Core.Services.Executor.Tasks
         private int GetTimeout()
         {
             var result = WaitFactor*checkCount*BaseTimeout;
-            checkCount = ++checkCount%25;
+            checkCount = checkCount == 10 ? 10 : checkCount++;
             return result;
         }
 
@@ -51,7 +52,6 @@ namespace Teamworks.Core.Services.Executor.Tasks
         {
             if (Global.Database == null)
                 throw new NullReferenceException("Document Store is null.");
-
             while (run)
             {
                 using (var dbSession = Global.Database.OpenSession())
@@ -60,26 +60,25 @@ namespace Teamworks.Core.Services.Executor.Tasks
 
                     if (results.Count > 0)
                     {
-                        checkCount = 0;
-
+                        bool success = true;
                         foreach (var notification in results)
                         {
                             foreach (var message in notification.Messages)
                             {
-                                SendNotificationEmail(notification.Discussion, notification.Name, message,
+                                success &= SendNotificationEmail(notification.Discussion, notification.Name, message,
                                                       notification.Subscribers);
                             }
                         }
+                        checkCount = success ? 1 : GetTimeout();
+                        dbSession.SaveChanges();
                     }
-
-                    dbSession.SaveChanges();
                 }
 
                 Thread.Sleep(GetTimeout());
             }
         }
 
-        private void SendNotificationEmail(int discussion, string name, Discussion.Message message,
+        private bool SendNotificationEmail(int discussion, string name, Discussion.Message message,
                                            IEnumerable<string> people)
         {
             var receivers = string.Join(";", people);
@@ -87,8 +86,13 @@ namespace Teamworks.Core.Services.Executor.Tasks
                                       discussion, message.Id,
                                       DateTime.Now.ToString("yyyymmddhhMMss"));
 
-            message.Reply = MailHub.Send(MailgunConfiguration.Host, receivers, name, message.Content, id);
-            message.NotificationSent = true;
+            //try { message.Reply = MailHub.Send(MailgunConfiguration.Host, receivers, name, message.Content, id);}
+            //catch(Exception e)
+            //{
+            //    File.WriteAllText("d:\\downloads\\tw.log", e.Message);
+            //    return false;
+            //}
+            return (message.NotificationSent = true);
         }
     }
 }

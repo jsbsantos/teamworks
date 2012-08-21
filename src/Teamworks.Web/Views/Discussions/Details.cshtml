@@ -26,7 +26,10 @@
                 </li>
             </ul>
             <header class="page-header">
-                <h1 data-bind="text: name"></h1>
+                <div class="row">
+                    <div class="span6"><h1 data-bind="text: name"></h1></div>
+                     <button class="btn pull-right">Watch <i class="icon-eye-open"></i></button>
+                </div>
                 <p data-bind="text: content"></p>
             </header>
             <div data-bind="template: { name: 'message-template', foreach: messages }">
@@ -53,20 +56,20 @@
                 <ul class="thumbnails">
                     @foreach (var person in Model.People)
                     {
-                    <li class="dropdown">
-                        <a class="thumbnail dropdown-toggle" data-toggle="dropdown" rel="tooltip-top" href="#" title="@person.Name">
-                            <img src="@person.Gravatar" />
-                        </a>               
-                        <div class="dropdown-menu well-small">
-                            <img class="pull-left" alt="@person.Name" src="@person.Gravatar"/>
-                            <div>
-                                <h3 class="lead">
-                                    <a href="@Url.RouteUrl("profiles_get", new {id = person.Id})">@person.Name</a>
-                                </h3>
-                                <div>@person.Username</div>
+                        <li class="dropdown">
+                            <a class="thumbnail dropdown-toggle" data-toggle="dropdown" rel="tooltip-top" href="#" title="@person.Name">
+                                <img src="@person.Gravatar" />
+                            </a>               
+                            <div class="dropdown-menu well-small">
+                                <img class="pull-left" alt="@person.Name" src="@person.Gravatar"/>
+                                <div>
+                                    <h3 class="lead">
+                                        <a href="@Url.RouteUrl("profiles_get", new {id = person.Id})">@person.Name</a>
+                                    </h3>
+                                    <div>@person.Username</div>
+                                </div>
                             </div>
-                        </div>
-                    </li>
+                        </li>
                     }
                 </ul>
             }

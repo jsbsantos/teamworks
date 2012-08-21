@@ -48,10 +48,10 @@ else
             <header class="lead">
                 <h2>Your time <small>Where you spent your days</small></h2>
             </header>
-            <p class="tc well hide" data-bind="css: { 'hide': timelogs.length }">
+            <p class="tc well hide" data-bind="css: { 'hide': timelogs().length }">
                 Register your first hours and they will appear here.
             </p>
-            <table class="table table-striped table-bordered table-condensed hide" data-bind="css: { 'hide': !timelogs.length }">
+            <table class="table table-striped table-bordered table-condensed hide" data-bind="css: { 'hide': !timelogs().length }">
                 <thead>
                     <tr>
                         <th>Project, Activity</th>
@@ -60,7 +60,7 @@ else
                         <th>Date</th>
                     </tr>
                 </thead>
-                <tbody data-bind="template: { name: 'timelog-template', foreach: timelogs }">
+                <tbody data-bind="template: { name: 'timelog-template', foreach: timelogs() }">
                 </tbody>
             </table>
             <script type="text/html" id="timelog-template">

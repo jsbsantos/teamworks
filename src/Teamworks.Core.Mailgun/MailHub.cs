@@ -55,8 +55,11 @@ namespace Teamworks.Core.Mailgun
                 client.PostAsync(client.BaseAddress + "/messages", content).Result;
 
             if (!result.IsSuccessStatusCode)
-                throw new HttpRequestException(result.ReasonPhrase);
-            
+            {
+                var m = result.Content.ReadAsStringAsync().Result;
+
+                throw new HttpRequestException(m);
+            }
             //change content type to JSON so we can parse the response
             result.Content.Headers.ContentType.MediaType = "application/json";
 
