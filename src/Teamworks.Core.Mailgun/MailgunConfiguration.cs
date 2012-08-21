@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Text;
 
 namespace Teamworks.Core.Mailgun
@@ -7,7 +8,6 @@ namespace Teamworks.Core.Mailgun
     {
         private static string _user = "api";
 
-        private static string _pwd = "key-5opux2qii1iwgi-ityrwigh3g2zn31i5";
         private static string _host = @"Teamworks <notifications@teamworks.mailgun.org>";
 
         public static string Uri
@@ -17,14 +17,12 @@ namespace Teamworks.Core.Mailgun
 
         public static string Username
         {
-            get { return _user; }
-            set { _user = value; }
+            get { return "api"; }
         }
 
         public static string Password
         {
-            get { return _pwd; }
-            set { _pwd = value; }
+            get { return ConfigurationManager.AppSettings["mailgun:api-key"]; }
         }
 
         public static string Credentials
