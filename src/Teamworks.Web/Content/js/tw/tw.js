@@ -154,7 +154,6 @@ var tw = {
                 }
             }
         });
-        target.formatted(target());
         return target;
     };
     ko.extenders.duration = function(target, message) {

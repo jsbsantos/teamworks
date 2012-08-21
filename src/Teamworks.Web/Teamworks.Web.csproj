@@ -378,6 +378,9 @@
     <Folder Include="Helpers\AutoMapper\Profiles\Mvc\" />
     <Content Include="Views\Password\Expired.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Helpers\AutoMapper\Profiles\Mvc\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

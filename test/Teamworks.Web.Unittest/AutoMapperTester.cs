@@ -17,6 +17,7 @@ namespace Teamworks.Web.Unittest
         {
             var comment = new Project();
             Assert.DoesNotThrow(() => comment.MapTo<ProjectViewModel>());
+            Assert.DoesNotThrow(() => comment.MapTo<ViewModels.Api.ProjectViewModel>());
         }
     }
 }

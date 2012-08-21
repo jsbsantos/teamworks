@@ -24,7 +24,7 @@
                 }
             };
 
-            var now = Date.today().toString('dd/MM/yyyy');
+            var now = Date.today().toISOString();
             self.timelogs = ko.mapping.fromJS(json || [], mapping);
             self.timelogs._create = function() {
                 var entity = ko.mapping.toJS(self.typeahead.entity);
@@ -43,8 +43,8 @@
                             }
                         }
                     });
-                };
-            
+            };
+
             self.timelogs.input = {
                 date: ko.observable(now).extend({
                     isoDate: 'dd/MM/yyyy'
