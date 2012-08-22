@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using Raven.Client;
 using Raven.Client.Linq;
 using Teamworks.Core.Mailgun;
-using Teamworks.Core.Services.RavenDb.Indexes;
 
 namespace Teamworks.Core.Services.Executor.Tasks
 {
@@ -29,7 +27,7 @@ namespace Teamworks.Core.Services.Executor.Tasks
         {
             var query = dbSession.Query<Discussion>()
                 .Customize(c => c.Include<Discussion>(d => d.Subscribers))
-                .Where(d => d.Messages.Any(m => !m.NotificationSent) && d.Subscribers.Count > 0)
+                .Where(d => d.Messages.Any(m => !m.NotificationSent))
                 .ToList();
 
             return query.Select(d => new Notification
@@ -37,7 +35,10 @@ namespace Teamworks.Core.Services.Executor.Tasks
                     Discussion = d.Id.ToIdentifier(),
                     Name = d.Name,
                     Messages = d.Messages.Where(m => !m.NotificationSent).ToList(),
-                    Subscribers = dbSession.Load<Person>(d.Subscribers).Select(p => p.Email).ToList()
+                    Subscribers =
+                        d.Subscribers.Count == 0
+                            ? new List<string>()
+                            : dbSession.Load<Person>(d.Subscribers).Select(p => p.Email).ToList()
                 }).ToList();
         }
 
@@ -66,7 +67,7 @@ namespace Teamworks.Core.Services.Executor.Tasks
                             foreach (var message in notification.Messages)
                             {
                                 success &= SendNotificationEmail(notification.Discussion, notification.Name, message,
-                                                      notification.Subscribers);
+                                                                 notification.Subscribers);
                             }
                         }
                         if (success)
@@ -75,7 +76,7 @@ namespace Teamworks.Core.Services.Executor.Tasks
                         dbSession.SaveChanges();
                     }
                 }
-                   
+
                 Thread.Sleep(GetTimeout());
             }
         }
@@ -83,15 +84,21 @@ namespace Teamworks.Core.Services.Executor.Tasks
         private bool SendNotificationEmail(int discussion, string name, Discussion.Message message,
                                            IEnumerable<string> people)
         {
-            var receivers = string.Join(";", people);
-            string id = String.Format("{0}.{1}.{2}@teamworks.mailgun.org",
-                                      discussion, message.Id,
-                                      DateTime.Now.ToString("yyyymmddhhMMss"));
-
-            try { message.Reply = MailHub.Send(MailgunConfiguration.Host, receivers, name, message.Content, id); }
-            catch (Exception e)
+            if (people.Any())
             {
-                return false;
+                var receivers = string.Join(";", people);
+                string id = String.Format("{0}.{1}.{2}@teamworks.mailgun.org",
+                                          discussion, message.Id,
+                                          DateTime.Now.ToString("yyyymmddhhMMss"));
+
+                try
+                {
+                    message.Reply = MailHub.Send(MailgunConfiguration.Host, receivers, name, message.Content, id);
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
             }
             return (message.NotificationSent = true);
         }

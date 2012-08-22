@@ -106,7 +106,7 @@ namespace Teamworks.Core.Services.Executor
                                 ARE.WaitOne(Timeout);
                         }
                     }
-                );
+                ).ContinueWith(task => task.Dispose());
         }
 
         public void Stop()

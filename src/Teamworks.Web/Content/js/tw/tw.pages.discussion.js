@@ -71,7 +71,7 @@
         };
 
         self.toggleWatch = function () {
-            var endpoint = tw.utils.location + (self.watching ? "/unwatch" : "/watch");
+            var endpoint = tw.utils.location + (self.watching() ? "/unwatch" : "/watch");
             $.ajax({
                 type: 'post',
                 url: endpoint
