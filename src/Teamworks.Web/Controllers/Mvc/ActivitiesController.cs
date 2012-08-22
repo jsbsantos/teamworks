@@ -114,13 +114,13 @@ namespace Teamworks.Web.Controllers.Mvc
         }
 
         [POST("{activityId}/delete")]
-        public ActionResult Remove(int projectId, int activityId)
+        public ActionResult Delete(int projectId, int activityId)
         {
             var activity = DbSession
                 .Query<Activity, Activities_ByProject>()
                 .FirstOrDefault(a => a.Project == projectId.ToId("project")
                                      && a.Id == activityId.ToId("activity"));
-            DbSession.Delete(activity);
+            activity.Delete(DbSession);
             return new HttpStatusCodeResult(HttpStatusCode.NoContent);
         }
 

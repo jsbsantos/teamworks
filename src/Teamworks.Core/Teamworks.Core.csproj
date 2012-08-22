@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="Authentication\PersonIdentity.cs" />
     <Compile Include="Extensions\ActivityExtensions.cs" />
+    <Compile Include="Extensions\DiscussionExtensions.cs" />
     <Compile Include="Extensions\ProjectExtensions.cs" />
     <Compile Include="Projects\Todo.cs" />
     <Compile Include="Projects\TodoList.cs" />

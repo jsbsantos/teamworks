@@ -38,23 +38,19 @@
         <div class="well well-mini" data-bind="css: { well: editing_state(), 'well-mini': editing_state()}">
             <header class="lead">Status</header>
             <div class="row">
-                <div class="span4">
-                    <div>
-                        <strong>Start:</strong> <span data-bind="text: startDate.formatted"></span>
-                        <a class="hide" data-bind="datepicker: startDate.formatted, css: { hide: !editing_state() }" data-date-autoclose="true" data-date-format="dd/MM/yyyy" data-date-enddate="@DateTime.Today.ToString("dd/MM/yyyy")"><i class="icon-calendar"></i></a>
-                    </div>
-                    <div>
-                        <strong>Duration:</strong> <span class="hide" data-bind="css: { hide: editing_state()}, text: duration"></span>
-                        <div class="hide well well-mini"  data-bind="css: { hide: !editing_state(), 'show-inline': editing_state() }">
-                            <form class="form-inline modal-form" data-bind="submit: _update">
-                                <input id="activity_duration" name="activity_duration" class="input-xxsmall" autofocus="autofocus" placeholder="Activity duration" data-bind="value: duration, valueUpdate: 'afterkeyup'" />
-                            </form>
-                        </div>
+                <div class="span2">
+                    <strong>Start:</strong> <span data-bind="text: startDate.formatted"></span>
+                    <a class="hide" data-bind="datepicker: startDate.formatted, css: { hide: !editing_state() }" data-date-autoclose="true" data-date-format="dd/MM/yyyy" data-date-enddate="@DateTime.Today.ToString("dd/MM/yyyy")"><i class="icon-calendar"></i></a>
+                </div>
+                <div class="span2">
+                    <strong>Duration:</strong> <span class="hide" data-bind="css: { hide: editing_state()}, text: duration"></span>
+                    <div class="hide"  data-bind="css: { hide: !editing_state(), 'show-inline': editing_state() }">
+                        <form class="form-inline modal-form" data-bind="submit: _update">
+                            <input id="activity_duration" name="activity_duration" class="input-xxsmall" autofocus="autofocus" placeholder="Activity duration" data-bind="value: duration, valueUpdate: 'afterkeyup'" />
+                        </form>
                     </div>
                 </div>
-                <div class="span3">
-                    <div><strong>Total logged time:</strong> <span data-bind="text: totalTimeLogged"></span> <span data-bind="text: '(' + completionPercent() +'%)'"></span></div>
-                </div>
+                <div class="span3"><strong>Total logged time:</strong> <span data-bind="text: totalTimeLogged"></span> <span data-bind="text: '(' + completionPercent() +'%)'"></span></div>
             </div>
         </div>
         <br />

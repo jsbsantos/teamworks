@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using AttributeRouting;
 using AttributeRouting.Web.Mvc;
 using Teamworks.Core;
+using Teamworks.Core.Extensions;
 using Teamworks.Core.Services;
 using Teamworks.Web.Attributes.Mvc;
 using Teamworks.Web.Helpers;
@@ -59,6 +60,9 @@ namespace Teamworks.Web.Controllers.Mvc
             }
 
             discussionViewModel.People = people.GroupBy(p => p.Id).Select(grp => grp.First()).ToList();
+
+            var personId = DbSession.GetCurrentPersonId();
+            discussionViewModel.Watching = discussion.Subscribers.Contains(personId);
             return View(discussionViewModel);
         }
 
@@ -90,7 +94,37 @@ namespace Teamworks.Web.Controllers.Mvc
             if (discussion.Entity.ToIdentifier() != projectId)
                 return HttpNotFound();
 
-            DbSession.Delete(discussion);
+            discussion.Delete(DbSession);
+            return new HttpStatusCodeResult(HttpStatusCode.NoContent);
+        }
+
+        [POST("{discussionid}/watch")]
+        [SecureProject("projects/view/discussions/view")]
+        public ActionResult Watch(int projectId, int discussionid)
+        {
+            if (!ModelState.IsValid)
+                return View("View");
+
+            var personId = DbSession.GetCurrentPersonId();
+            var discussion = DbSession.Load<Discussion>(discussionid);
+            if (!discussion.Subscribers.Contains(personId))
+                discussion.Subscribers.Add(personId);
+
+            return  new HttpStatusCodeResult(HttpStatusCode.Created);
+        }
+
+        [POST("{discussionid}/unwatch")]
+        [SecureProject("projects/view/discussions/view")]
+        public ActionResult Unwatch(int projectId, int discussionid)
+        {
+            if (!ModelState.IsValid)
+                return View("View");
+
+            var personId = DbSession.GetCurrentPersonId();
+            var discussion = DbSession.Load<Discussion>(discussionid);
+            if (discussion.Subscribers.Contains(personId))
+                discussion.Subscribers.Remove(personId);
+
             return new HttpStatusCodeResult(HttpStatusCode.NoContent);
         }
 

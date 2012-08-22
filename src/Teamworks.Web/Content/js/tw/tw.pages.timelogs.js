@@ -36,7 +36,7 @@
                         data: ko.toJSON(self.timelogs.input),
                         statusCode: {
                             201: /*created*/function(data) {
-                                alert(data);
+                                //alert(data);
                             },
                             400: /*bad request*/function() {
                                 tw.page.alerts.push({ message: 'An error as ocurred.' });

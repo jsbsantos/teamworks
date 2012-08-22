@@ -81,7 +81,7 @@
 </div>
 <script type="text/html" id="activities-template">
     <div>
-        <button class="close" data-bind="click: _remove">&times;</button>
+        <button class="close" data-bind="click: _remove"><i class="icon-trash"></i></button>
         <h3>
             <a data-bind="attr: { href: '@Url.RouteUrl("activities_details", new {projectId = Model.Id, activityId = UrlParameter.Optional})' + id() }">
                 <span data-bind="text: name"></span>
@@ -92,7 +92,7 @@
 </script>
 <script type="text/html" id="discussion-template">
     <div>
-        <button class="close" data-bind="click: _remove">&times;</button>
+        <button class="close" data-bind="click: _remove"><i class="icon-trash"></i></button>
         <h3>
             <a data-bind="text: name, attr: { href: '@Url.RouteUrl("discussions_details", new {projectId = Model.Id, discussionId = UrlParameter.Optional})' + id() }"></a>
         </h3>
