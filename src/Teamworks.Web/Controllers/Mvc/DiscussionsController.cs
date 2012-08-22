@@ -17,7 +17,7 @@ namespace Teamworks.Web.Controllers.Mvc
 {
     [SecureProject("projects/view/discussions/view")]
     [RoutePrefix("projects/{projectId}/discussions")]
-    public class DiscussionsController : RavenController
+    public class DiscussionsController : AppController
     {
         [GET("")]
         [GET("projects/{projectId}/activities/{activityId}/discussions"
@@ -145,7 +145,7 @@ namespace Teamworks.Web.Controllers.Mvc
         }
 
         [NonAction]
-        public override BreadcrumbViewModel[] CreateBreadcrumb()
+        public override Breadcrumb[] CreateBreadcrumb()
         {
             var activityId = 0;
             if (RouteData.Values.ContainsKey("activityId"))
@@ -158,16 +158,16 @@ namespace Teamworks.Web.Controllers.Mvc
             var project = DbSession.Load<Project>(projectId);
             var discussion = DbSession.Load<Discussion>(discussionId);
 
-            var breadcrumb = new List<BreadcrumbViewModel>
+            var breadcrumb = new List<Breadcrumb>
                 {
-                    new BreadcrumbViewModel
+                    new Breadcrumb
                         {
                             Url = Url.RouteUrl("projects_get"),
                             Name = "Projects"
                         },
-                    new BreadcrumbViewModel
+                    new Breadcrumb
                         {
-                            Url = Url.RouteUrl("projects_get", new {projectId}),
+                            Url = Url.RouteUrl("projects_details", new { projectId }),
                             Name = project.Name
                         }
                 };
@@ -177,32 +177,32 @@ namespace Teamworks.Web.Controllers.Mvc
             if (activityId > 0)
             {
                 var activity = DbSession.Load<Activity>(activityId);
-                breadcrumb.Add(new BreadcrumbViewModel
+                breadcrumb.Add(new Breadcrumb
                     {
                         Url = Url.RouteUrl("activities_details", new {projectId, activityId = UrlParameter.Optional}),
                         Name = "Activities"
                     });
 
-                breadcrumb.Add(new BreadcrumbViewModel
+                breadcrumb.Add(new Breadcrumb
                     {
-                        Url = Url.RouteUrl("activities_details", new {projectId, activityId}),
+                        Url = Url.RouteUrl("activities_details"),
                         Name = activity.Name
                     });
 
-                get = Url.RouteUrl("discussions_activitiesget", new { projectId, activityId });
-                details = Url.RouteUrl("discussions_activitiesdetails", new {projectId, activityId, discussionId});
+                get = Url.RouteUrl("discussions_activitiesget");
+                details = Url.RouteUrl("discussions_activitiesdetails");
             }
             else
             {
-                get = Url.RouteUrl("discussions_activitiesget", new {projectId, activityId});
-                details = Url.RouteUrl("discussions_activitiesdetails", new {projectId, activityId, discussionId});
+                get = Url.RouteUrl("discussions_get");
+                details = Url.RouteUrl("discussions_details");
             }
-            breadcrumb.Add(new BreadcrumbViewModel
+            breadcrumb.Add(new Breadcrumb
                 {
                     Url = get,
                     Name = "Discussions"
                 });
-            breadcrumb.Add(new BreadcrumbViewModel
+            breadcrumb.Add(new Breadcrumb
                 {
                     Url = details,
                     Name = discussion.Name

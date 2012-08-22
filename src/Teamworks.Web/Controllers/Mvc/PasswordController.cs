@@ -9,7 +9,7 @@ using Teamworks.Web.Helpers;
 namespace Teamworks.Web.Controllers.Mvc
 {
     [AllowAnonymous]
-    public class PasswordController : RavenController
+    public class PasswordController : AppController
     {
         private const string ResetTokenKey = "Reset-Token";
         private const string ResetTokenDateKey = "Reset-Token-Expiration";

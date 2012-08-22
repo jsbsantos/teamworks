@@ -1,16 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Raven.Client;
 using Teamworks.Web.Helpers.Extensions.Mvc;
-using Teamworks.Web.ViewModels.Mvc;
 
 namespace Teamworks.Web.Controllers
 {
     [Authorize]
-    public abstract class RavenController : Controller
+    public abstract class AppController : Controller
     {
-       
         public IDocumentSession DbSession { get; set; }
+
         protected override void OnActionExecuting(ActionExecutingContext context)
         {
             DbSession = context.HttpContext.GetCurrentRavenSession();
@@ -19,10 +17,11 @@ namespace Teamworks.Web.Controllers
 
         protected override void OnResultExecuting(ResultExecutingContext filterContext)
         {
-            ViewBag.Breadcrumb = CreateBreadcrumb();
+            if (filterContext.Result is ViewResult)
+                ViewBag.Breadcrumb = CreateBreadcrumb();
             base.OnResultExecuting(filterContext);
         }
-        
+
         protected override void OnResultExecuted(ResultExecutedContext context)
         {
             if ((context.Exception == null || context.ExceptionHandled) && DbSession != null)
@@ -35,9 +34,19 @@ namespace Teamworks.Web.Controllers
             base.OnResultExecuted(context);
         }
 
-        public virtual BreadcrumbViewModel[] CreateBreadcrumb()
+        public virtual Breadcrumb[] CreateBreadcrumb()
         {
-            return new BreadcrumbViewModel[0];
+            return new Breadcrumb[0];
         }
+
+        #region Nested type: Breadcrumb
+
+        public class Breadcrumb
+        {
+            public string Url { get; set; }
+            public string Name { get; set; }
+        }
+
+        #endregion
     }
 }

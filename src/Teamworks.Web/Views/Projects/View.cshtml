@@ -5,14 +5,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="row">
+<div class="projects-page row">
     <div class="span8">
         <header class="page-header">
             <h1>Project
                 <small>Here are listed your projects</small>
             </h1>
         </header>
-        <div data-bind="template: { name: 'project-template', foreach: projects }"></div>
+        <div class="row" data-bind="template: { name: 'project-template', foreach: projects }"></div>
     </div>
     <div class="span4">
         <div class="lead">
@@ -39,29 +39,30 @@
     </div>
 </div>
 <script type="text/html" id="project-template">
-    <div class="row well-small">
-        <div class="span">
+        <div class="span4 well well-small">
+            <button class="close" data-bind="click: _remove"><i class="icon-trash"></i></button>
             <h3>
                 <a data-bind="attr: { href: '@Url.RouteUrl("projects_get")' + id() }">
                     <span data-bind="text: name"></span>
                     <small data-bind="text: description"></small>
                 </a>
             </h3>
+            <div class="row">
+                <div class="unstyled span8" data-bind="foreach: people">
+                    <a class="pull-left well-mini" data-bind="attr: { href: '@Url.RouteUrl("profiles_get")' + id()  }">
+                        <img data-bind="attr: { src: gravatar, alt: name }"/>
+                    </a>
+                    
+                </div>
+            </div>
             <div>
                 This project has 
                 <span data-bind="text: numberOfActivities"></span>
                 activities and
                 <span data-bind="text: numberOfDiscussions"></span>
-                discussions. 
-                <a data-bind="click: _remove">Delete project</a>
+                discussions.
             </div>
         </div>
-        <div class="pull-right" data-bind="foreach: people">
-            <a class="pull-left well-mini" data-bind="attr: { href: '@Url.RouteUrl("profiles_get")' + id()  }">
-                <img data-bind="attr: { src: gravatar, alt: name }"/>
-            </a>
-        </div>
-    </div>
 </script>
 <script>
     var viewmodel = function() {

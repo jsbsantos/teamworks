@@ -23,7 +23,7 @@ namespace Teamworks.Web.Controllers.Mvc
 {
     [SecureProject("projects/view/activities/view")]
     [RoutePrefix("projects/{projectId}/activities")]
-    public class ActivitiesController : RavenController
+    public class ActivitiesController : AppController
     {
         [GET("{activityId}")]
         public ActionResult Details(int projectId, int activityId)
@@ -201,7 +201,7 @@ namespace Teamworks.Web.Controllers.Mvc
         }
 
         [NonAction]
-        public override BreadcrumbViewModel[] CreateBreadcrumb()
+        public override Breadcrumb[] CreateBreadcrumb()
         {
             var projectId = int.Parse(RouteData.Values["projectId"].ToString());
             var activityId = int.Parse(RouteData.Values["activityId"].ToString());
@@ -209,24 +209,24 @@ namespace Teamworks.Web.Controllers.Mvc
             var project = DbSession.Load<Project>(projectId);
             var activity = DbSession.Load<Activity>(activityId);
 
-            var breadcrumb = new List<BreadcrumbViewModel>
+            var breadcrumb = new List<Breadcrumb>
                 {
-                    new BreadcrumbViewModel
+                    new Breadcrumb
                         {
                             Url = Url.RouteUrl("projects_get"),
                             Name = "Projects"
                         },
-                    new BreadcrumbViewModel
+                    new Breadcrumb
                         {
                             Url = Url.RouteUrl("projects_details", new {projectId}),
                             Name = project.Name
                         },
-                    new BreadcrumbViewModel
+                    new Breadcrumb
                         {
                             Url = Url.RouteUrl("activities_details", new {projectId, activityId = UrlParameter.Optional}),
                             Name = "Activities"
                         },
-                    new BreadcrumbViewModel
+                    new Breadcrumb
                         {
                             Url = Url.RouteUrl("activities_details", new {projectId, activityId}),
                             Name = activity.Name

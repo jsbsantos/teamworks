@@ -15,7 +15,7 @@ using Teamworks.Web.ViewModels.Mvc;
 namespace Teamworks.Web.Controllers.Mvc
 {
     [AllowAnonymous]
-    public class AccountController : RavenController
+    public class AccountController : AppController
     {
         private const string ReturnUrlKey = "RETURN_URL_KEY";
 

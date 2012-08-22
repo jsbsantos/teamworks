@@ -2,7 +2,7 @@
 
 namespace Teamworks.Web.Controllers.Mvc
 {
-    public class HomeController : RavenController
+    public class HomeController : AppController
     {
         [AllowAnonymous]
         public ActionResult Index()

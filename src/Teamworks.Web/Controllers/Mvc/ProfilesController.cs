@@ -10,7 +10,7 @@ using Teamworks.Web.ViewModels.Mvc;
 namespace Teamworks.Web.Controllers.Mvc
 {
     [RoutePrefix("profiles")]
-    public class ProfilesController : RavenController
+    public class ProfilesController : AppController
     {
         [GET("{id?}")]
         public ActionResult Get(int? id)

@@ -156,6 +156,8 @@ input.simple {
 
 .alert-small { padding: 2px 5px; }
 
+.projects-page .well { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; -o-box-sizing: border-box; box-sizing: border-box;}
+
 @media (max-width: 767px) {
     .people .dropdown-menu {
         left: 0;

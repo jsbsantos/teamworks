@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web.Http;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
-using AutoMapper;
-using Raven.Bundles.Authorization.Model;
-using Raven.Client.Authorization;
 using Raven.Client.Linq;
 using Teamworks.Core;
 using Teamworks.Core.Services;
-using Teamworks.Core.Services.RavenDb.Indexes;
 using Teamworks.Web.Attributes.Api;
+using Teamworks.Web.Helpers.AutoMapper;
 using Teamworks.Web.Helpers.Extensions.Api;
+using Teamworks.Web.ViewModels.Api;
 
 namespace Teamworks.Web.Controllers.Api
 {
@@ -24,62 +22,52 @@ namespace Teamworks.Web.Controllers.Api
     {
         #region General
 
-        public IEnumerable<Activity> GetById(int projectId)
+        public IEnumerable<ActivityViewModel> Get(int projectId)
         {
-            IRavenQueryable<Core.Activity> activities = DbSession
-                .Query<Core.Activity, Activities_ByProject>()
-                .Where(a => a.Project == projectId.ToId("project"));
+            var id = projectId.ToId("project");
+            var activities = DbSession.Query<Activity>()
+                .Where(a => a.Project == id);
 
-            return Mapper.Map<IEnumerable<Core.Activity>,
-                IEnumerable<Activity>>(activities.ToList());
+            return activities.MapTo<ActivityViewModel>();
         }
 
-        public Activity Get(int id, int projectId)
+        public ActivityViewModel GetById(int id, int projectId)
         {
-            Core.Activity activity = DbSession
-                .Query<Core.Activity, Activities_ByProject>()
-                .FirstOrDefault(a => a.Project == projectId.ToId("project")
-                                     && a.Id == id.ToId("activity"));
+            var activity = DbSession.Load<Activity>(id);
+            if (activity == null || activity.Project.ToIdentifier() == projectId)
+                throw new HttpResponseException(HttpStatusCode.NotFound);
 
-            Request.NotFound(activity);
-            return Mapper.Map<Core.Activity, Activity>(activity);
+            return activity.MapTo<ActivityViewModel>();
         }
 
-        public HttpResponseMessage Post(int projectId, Activity model)
+        public HttpResponseMessage Post(int projectId, ActivityViewModel model)
         {
-            var project = DbSession
-                .Load<Project>(projectId);
-
-            Core.Activity activity = Core.Activity.Forge(project.Id.ToIdentifier(), model.Name, model.Description, model.Duration);
+            var project = DbSession.Load<Project>(projectId);
+            var activity = Activity.Forge(projectId, model.Name, model.Description, model.Duration);
 
             DbSession.Store(activity);
-            DbSession.SetAuthorizationFor(activity, new DocumentAuthorization
-            {
-                Tags = { project.Id }
-            });
-
-            // calculate dependency graph 
             if (model.Dependencies != null)
                 activity.Dependencies = model.Dependencies;
 
-            List<Core.Activity> domain = DbSession.Query<Core.Activity>()
+            var domain = DbSession.Query<Activity>()
                 .Where(a => a.Project == project.Id).ToList();
 
-            activity.StartDate = project.StartDate.AddMinutes(Activity.GetAccumulatedDuration(domain, activity));
+            activity.StartDate = project.StartDate
+                .AddMinutes(Activity.GetAccumulatedDuration(domain, activity));
 
-            Activity activities = Mapper.Map<Core.Activity, Activity>(activity);
-
+            var activities = activity.MapTo<ActivityViewModel>();
+            
             // todo add header of location
-
+            
             return Request.CreateResponse(HttpStatusCode.Created, activities);
         }
 
         [PUT("")]
         public HttpResponseMessage Put(int projectId,
-                                       Activity model)
+                                       ActivityViewModel model)
         {
             var activity = DbSession
-                .Load<Core.Activity>(model.Id);
+                .Load<Activity>(model.Id);
 
             Request.NotFound(activity);
 
@@ -87,26 +75,22 @@ namespace Teamworks.Web.Controllers.Api
             activity.Description = model.Description ?? activity.Description;
             if (activity.Duration != model.Duration)
             {
-                List<Core.Activity> domain = DbSession.Query<Core.Activity>()
+                var domain = DbSession.Query<Activity>()
                     .Where(a => a.Project == projectId.ToId("project")).ToList();
                 OffsetDuration(domain, activity, model.Duration - activity.Duration);
             }
 
             activity.Duration = model.Duration;
-            Activity activities = Mapper.Map<Core.Activity, Activity>(activity);
+            var activities = activity.MapTo<ActivityViewModel>();
             return Request.CreateResponse(HttpStatusCode.Created, activities);
         }
 
         public HttpResponseMessage Delete(int id, int projectId)
         {
-            Core.Activity activity = DbSession
-                .Query<Core.Activity, Activities_ByProject>()
-                .FirstOrDefault(a => a.Project == projectId.ToId("project")
-                                     && a.Id == id.ToId("activity"));
+            var activity = DbSession.Load<Activity>(id);
+            if (activity != null && activity.Project.ToIdentifier() != projectId)
+                DbSession.Delete(activity);
 
-            Request.NotFound(activity);
-
-            DbSession.Delete(activity);
             return Request.CreateResponse(HttpStatusCode.NoContent);
         }
 
@@ -130,14 +114,14 @@ namespace Teamworks.Web.Controllers.Api
                 Request.ThrowNotFound();
             return Request.CreateResponse(HttpStatusCode.Created);
         }
-        */
-         
+        
+        */ 
         #region Private
 
-        private void OffsetDuration(List<Core.Activity> domain, Core.Activity parent, int offset)
+        private void OffsetDuration(ICollection<Activity> domain, Activity parent, int offset)
         {
-            List<Core.Activity> children = domain.Where(a => a.Dependencies.Contains(parent.Id)).ToList();
-            foreach (Core.Activity child in children)
+            var children = domain.Where(a => a.Dependencies.Contains(parent.Id)).ToList();
+            foreach (var child in children)
             {
                 child.StartDate = child.StartDate.AddMinutes(offset);
                 child.Name += offset;

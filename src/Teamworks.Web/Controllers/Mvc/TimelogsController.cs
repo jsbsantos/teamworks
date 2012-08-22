@@ -14,7 +14,7 @@ using Teamworks.Web.ViewModels.Mvc;
 namespace Teamworks.Web.Controllers.Mvc
 {
     [RoutePrefix("projects/{projectId}/activities/{activityId}/timelogs")]
-    public class TimelogsController : RavenController
+    public class TimelogsController : AppController
     {
         [GET("timelogs", IsAbsoluteUrl = true)]
         public ActionResult Get()

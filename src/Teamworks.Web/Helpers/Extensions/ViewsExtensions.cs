@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using System.Web.WebPages;
 using Teamworks.Core.Authentication;
+using Teamworks.Web.Controllers;
 using Teamworks.Web.Helpers.AutoMapper;
 using Teamworks.Web.ViewModels.Mvc;
 
@@ -68,7 +69,7 @@ namespace Teamworks.Web.Helpers.Extensions
                 writer => writer.Write(Utils.ToIndentedJson(model)));
         }
 
-        public static HelperResult Breadcrumb(this HtmlHelper helper, BreadcrumbViewModel[] breadcrumb)
+        public static HelperResult Breadcrumb(this HtmlHelper helper, AppController.Breadcrumb[] breadcrumb)
         {
             if (breadcrumb == null || breadcrumb.Length == 0)
             {

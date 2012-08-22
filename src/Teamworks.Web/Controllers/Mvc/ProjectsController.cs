@@ -21,7 +21,7 @@ using Teamworks.Web.ViewModels.Mvc;
 namespace Teamworks.Web.Controllers.Mvc
 {
     [RoutePrefix("projects")]
-    public class ProjectsController : RavenController
+    public class ProjectsController : AppController
     {
         [GET("")]
         [Secure("projects/view")]
@@ -205,23 +205,22 @@ namespace Teamworks.Web.Controllers.Mvc
         }
 
         [NonAction]
-        public override BreadcrumbViewModel[] CreateBreadcrumb()
+        public override Breadcrumb[] CreateBreadcrumb()
         {
-            var breadcrumb = new List<BreadcrumbViewModel>();
+            var breadcrumb = new List<Breadcrumb>();
             if (RouteData.Values.ContainsKey("projectId"))
             {
                 var projectId = int.Parse(RouteData.Values["projectId"].ToString());
                 var project = DbSession.Load<Project>(projectId);
 
                 breadcrumb.Add(
-
-                    new BreadcrumbViewModel
+                    new Breadcrumb
                         {
                             Url = Url.RouteUrl("projects_get"),
                             Name = "Projects"
                         });
                 breadcrumb.Add(
-                    new BreadcrumbViewModel
+                    new Breadcrumb
                         {
                             Url = Url.RouteUrl("projects_get", new {projectId}),
                             Name = project.Name
