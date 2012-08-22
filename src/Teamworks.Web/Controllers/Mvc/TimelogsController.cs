@@ -29,19 +29,24 @@ namespace Teamworks.Web.Controllers.Mvc
                 var activity = act;
                 var project = DbSession.Load<Project>(activity.Project);
                 var option = new RegisterTimelogsViewModel.Typeahead
-                                 {
-                                     Activity = activity.MapTo<EntityViewModel>(),
-                                     Project = project.MapTo<EntityViewModel>()
-                                 };
+                    {
+                        Activity = activity.MapTo<EntityViewModel>(),
+                        Project = project.MapTo<EntityViewModel>()
+                    };
 
                 vm.Options.Add(option);
-                vm.Timelogs = vm.Timelogs.Concat(activity.Timelogs.MapTo<RegisterTimelogsViewModel.Timelog>()
-                                                     .Select(a =>
-                                                                 {
-                                                                     a.Activity = activity.MapTo<EntityViewModel>();
-                                                                     a.Project = project.MapTo<EntityViewModel>();
-                                                                     return a;
-                                                                 })).ToList();
+                vm.Timelogs = vm.Timelogs
+                    .Concat(activity.Timelogs.MapTo<RegisterTimelogsViewModel.Timelog>()
+                                .Select(a =>
+                                    {
+                                        a.Activity = activity.MapTo<EntityViewModel>();
+                                        a.Project = project.MapTo<EntityViewModel>();
+                                        return a;
+                                    }))
+                    .OrderBy(x => x.Project.Id)
+                    .ThenBy(x => x.Activity.Id)
+                    .ThenByDescending(x => x.Date)
+                    .ToList();
             }
             return View("View", vm);
         }
@@ -50,7 +55,11 @@ namespace Teamworks.Web.Controllers.Mvc
         public ActionResult Edit(int projectId, int activityId, TimelogViewModel model)
         {
             var activity = DbSession
+                .Include(projectId.ToId("project"))
                 .Load<Activity>(activityId);
+
+            var project = DbSession
+                .Load<Project>(projectId);
 
             if (activity == null || activity.Project.ToIdentifier() != projectId)
                 return new HttpNotFoundResult();
@@ -60,18 +69,22 @@ namespace Teamworks.Web.Controllers.Mvc
             timelog.Description = model.Description;
             timelog.Duration = model.Duration;
 
-            return new ContentResult
-            {
-                Content = Utils.ToJson(timelog.MapTo<TimelogViewModel>()),
-                ContentType = "application/json"
-            };
+            var result = timelog.MapTo<RegisterTimelogsViewModel.Timelog>();
+            result.Activity = activity.MapTo<EntityViewModel>();
+            result.Project = project.MapTo<EntityViewModel>();
+
+            return new JsonNetResult {Data = result};
         }
 
         [POST("create")]
         public ActionResult Create(int projectId, int activityId, TimelogViewModel model)
         {
             var activity = DbSession
+                .Include(projectId.ToId("project"))
                 .Load<Activity>(activityId);
+
+            var project = DbSession
+                .Load<Project>(projectId);
 
             if (activity == null || activity.Project.ToIdentifier() != projectId)
                 return new HttpNotFoundResult();
@@ -80,11 +93,11 @@ namespace Teamworks.Web.Controllers.Mvc
             timelog.Id = activity.GenerateNewTimeEntryId();
             activity.Timelogs.Add(timelog);
 
-            return new ContentResult
-            {
-                Content = Utils.ToJson(timelog.MapTo<TimelogViewModel>()),
-                ContentType = "application/json"
-            };
+            var result = timelog.MapTo<RegisterTimelogsViewModel.Timelog>();
+            result.Activity = activity.MapTo<EntityViewModel>();
+            result.Project = project.MapTo<EntityViewModel>();
+
+            return new JsonNetResult {Data = result};
         }
 
         [POST("{timelogId}/delete")]

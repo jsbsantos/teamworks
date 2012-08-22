@@ -30,15 +30,23 @@ else
                         </p>
                         <div class="control-group" >
                             <input id="project_name" autofocus="autofocus" class="span4" name="project_name" placeholder="Project name, Activity name" autocomplete="off" data-bind="typeahead: typeahead" />
+                            <span class="hide" data-bind="text: typeahead.validation_message, css:{ hide: !typeahead.has_error() }"></span>
                         </div>
                         <div class="control-group">
                             <input name="project_description" placeholder="Description" class="span4" data-bind="value: timelogs.input.description, valueUpdate: 'afterkeyup'" />
+                            <span class="hide" data-bind="text: timelogs.input.description.validation_message, css:{hide:!timelogs.input.description.has_error}"></span>
                         </div>
                         <div class="control-group">
                             <input name="project_duration" placeholder="ie: 5 hours, 2h 30 minutes, 120m" class="span4" data-bind="value: timelogs.input.duration.duration" />
+                            <span class="hide" data-bind="text: timelogs.input.duration.validation_message, css:{hide:!timelogs.input.duration.has_error}"></span>
                         </div>
                         <div>
-                            <button class="btn btn-large btn-success" type="submit">Register</button>
+                            <button class="btn btn-large btn-success" data-bind="disable: timelogs.input.editing,
+                             css: { 'btn-success': !timelogs.input.has_error(), 'btn-danger': timelogs.input.has_error()}"
+                                    type="submit">Register</button>
+                            <div class="progress progress-success progress-striped active input-small hide" data-bind="css: { hide: !timelogs.input.editing() }">
+                                <div class="bar" style="width: 100%;"></div>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -55,30 +63,57 @@ else
                 <thead>
                     <tr>
                         <th>Project, Activity</th>
-                        <th>Duration</th>
-                        <th>Description</th>
-                        <th>Date</th>
+                        <th><a data-bind="click: function(){ sort('duration'); }">Duration</a></th>
+                        <th><a data-bind="click: function(){ sort('description'); }">Description</a></th>
+                        <th><a data-bind="click: function(){ sort('date'); }">Date</a></th>
+                        <th class="input-small">Edit</th>
                     </tr>
                 </thead>
-                <tbody data-bind="template: { name: 'timelog-template', foreach: timelogs() }">
+                <tbody data-bind="template: { name: 'timelog-template', foreach: sortedTimelog() }">
                 </tbody>
             </table>
             <script type="text/html" id="timelog-template">
                 <tr>
                     <td>
-                        <strong data-bind="text: project.name"></strong>, <span data-bind="text: activity.name"></span>
+                        <strong><a data-bind="attr:{ href: '/projects/' + project.id() }, text: project.name"></a></strong>,
+                        <span><a data-bind="attr:{ href: '/projects/' + project.id() + '/activities/' + activity.id() }, text: activity.name"></a></span>
                     </td>
-                    <td data-bind="text: duration"></td>
-                    <td data-bind="text: description"></td>
-                    <td data-bind="text: date.formatted"></td>
+                    <td>
+                        <span class="hide" data-bind="text: duration, css: {hide: editing()}"></span>
+                        <input name="timelog_duration" class="hide input-small" data-bind="css: { hide: !editing() }, value: duration, valueUpdate: 'afterkeyup'" />
+                    </td>
+                    <td>
+                        <span class="hide" data-bind="text: description, css: {hide: editing()}"></span>
+                        <input name="timelog_description" class="hide" data-bind="css: { hide: !editing() }, value: description, valueUpdate: 'afterkeyup'" />
+                    </td>
+                    <td><span class="hide" data-bind="text: date.formatted, css: { hide: editing() }"></span>
+                        <input name="timelog_date" class="hide input-small" data-bind="css: { hide: !editing() }, value: date.formatted, valueUpdate: 'afterkeyup'" />
+                        <a class="hide" data-bind="datepicker: date.formatted, css: { hide: !editing() }" data-date-autoclose="true" data-date-format="dd/MM/yyyy" data-date-enddate="@DateTime.Today.ToString("dd/MM/yyyy")"><i class="icon-calendar"></i></a>
+                    </td>
+                    <td class="input-small">
+                        <a class="hide" data-bind="css: { hide: editing()}, click: function() { editing(true); }">
+                            <i class="icon-edit"></i> 
+                        </a> 
+                        &nbsp;
+                        <a class="hide" data-bind="css: { hide: editing()}, click: function() { _remove(); }">
+                            <i class="icon-trash"></i> 
+                        </a>
+                        <a class="hide" data-bind="css: { hide: !editing() }, click: function() { editing(false); _update(); }">
+                            <i class="icon-save"></i> 
+                        </a> 
+                        &nbsp;
+                        <a class="hide" data-bind="css: { hide: !editing() }, click: function() { $parent.discardChanges(); editing(false); }">
+                            <i class="icon-remove"></i> 
+                        </a>
+                    </td>
                 </tr>
             </script>
         </div>
     </div>
-    
+
     <script>
         var viewmodel = function() {
             return new tw.pages.RegisterTimelogsViewModel(@Html.ToJson(Model.Options), @Html.ToJson(Model.Timelogs));
-    };
-</script>
+        };
+    </script>
 }

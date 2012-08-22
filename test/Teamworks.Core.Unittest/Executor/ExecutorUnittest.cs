@@ -19,13 +19,13 @@ namespace Teamworks.Core.Unittest.Executor
                                                int local = Interlocked.Increment(ref r);
                                                o3 = local;
                                            }, ExecutePriority.LOW).ContinueWith(
-                                               a => { Assert.False(a.IsFaulted); });
+                                               a => Assert.False(a.IsFaulted));
             Task t2 = executor.Enqueue(() =>
                                            {
                                                int local = Interlocked.Increment(ref r);
                                                o2 = local;
                                            }, ExecutePriority.MEDIUM).ContinueWith(
-                                               a => { Assert.False(a.IsFaulted); });
+                                               a => Assert.False(a.IsFaulted));
 
             Task t3 = executor.Enqueue(() =>
                                            {

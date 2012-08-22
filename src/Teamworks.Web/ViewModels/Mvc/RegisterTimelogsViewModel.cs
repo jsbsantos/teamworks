@@ -21,6 +21,7 @@ namespace Teamworks.Web.ViewModels.Mvc
             public EntityViewModel Project { get; set; }
             public EntityViewModel Activity { get; set; }
 
+            public int Id { get; set; }
             public int Duration { get; set; }
             public string Description { get; set; }
             public DateTime Date { get; set; }

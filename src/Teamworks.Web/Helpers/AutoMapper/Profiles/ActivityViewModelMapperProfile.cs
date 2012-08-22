@@ -20,6 +20,9 @@ namespace Teamworks.Web.Helpers.AutoMapper.Profiles
             Mapper.CreateMap<Activity, ActivityViewModel>()
                 .ForMember(s => s.Id, o => o.MapFrom(d => d.Id.ToIdentifier()));
 
+            Mapper.CreateMap<Activity, EntityViewModel>()
+                .ForMember(s => s.Id, o => o.MapFrom(d => d.Id.ToIdentifier()));
+
             Mapper.CreateMap<ActivityViewModel, Activity>()
                 .ForMember(s => s.Id, o => o.MapFrom(d => d.Id.ToId("activity")))
                 .ForMember(s => s.Project, o => o.MapFrom(d => d.ProjectReference.Id.ToId("project")));
