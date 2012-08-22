@@ -128,7 +128,7 @@ span input.seamless, span input.seamless:focus {
     -ms-transition: background .5s, border .5s, color .5s, border-radius .5s;
     -o-transition: background .5s, border .5s, color .5s, border-radius .5s;
     -webkit-transition: background .5s, border .5s, color .5s, border-radius .5s;
-    transition: background .5s, border .5s, color .5s, boborder-radius .5s;
+    transition: background .5s, border .5s, color .5s, border-radius .5s;
 }
 
 .highlight.alert {

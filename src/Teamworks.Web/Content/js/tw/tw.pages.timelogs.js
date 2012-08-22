@@ -25,7 +25,7 @@
                         this._remove = function () {
                             var timelog = this;
                             tw.utils.remove(self.timelogs,
-                               '/projects/' + timelog.project.id() + '/activities/' + timelog.activity.id() + '/timelogs/' + timelog.id() + '/delete',
+                                '/projects/' + timelog.project.id() + '/activities/' + timelog.activity.id() + '/timelogs/' + timelog.id() + '/delete',
                                 'You are about to remove the time log for activity ' + timelog.activity.name() + ', of project ' + timelog.project.name() + '.',
                                 errorCallback).call(timelog);
                         };
@@ -41,8 +41,8 @@
 
                         var m = {
                             'date': {
-                                create: function (options) {
-                                    return ko.observable(options.data).extend({
+                                create: function (o) {
+                                    return ko.observable(o.data).extend({
                                         isoDate: 'dd/MM/yyyy'
                                     });
                                 }
@@ -144,6 +144,7 @@
 
             };
 
+            //Sorting
             var sortFunction = function (a, b) {
                 var result = a[self.sortProperty()]() > b[self.sortProperty()]() ? 1 : -1;
                 return self.sortAsc() ? result : result * -1;
@@ -160,6 +161,39 @@
             };
             self.sortedTimelog = ko.computed(function () { return self.timelogs().sort(sortFunction); });
 
+            //Filtering
+            var getUnique = function (collection) {
+                var result = [{ name: "All", id: -1, project: -1}];
+                $.each(collection, function (i, e) {
+                    //concat with "t" so the item wont show up on knockout observable iterations
+                    if (!result[e.project + "t" + e.id]) {
+                        result[e.project + "t" + e.id] = 1;
+                        result.push(e);
+                    }
+                });
+                return result;
+            };
+            self.filter = {};
+            self.filter.distinctProjects = ko.computed(function () { return getUnique($.map(data, function (e) { return e.project; })); });
+            self.filter.distinctActivities = ko.computed(function () { return getUnique($.map(data, function (e) { return { id: e.activity.id, name: e.activity.name, project: e.project.id }; })); });
+
+            self.filter.project = ko.observable(self.filter.distinctProjects()[0]);
+            self.filter.activity = ko.observable(self.filter.distinctActivities()[0]);
+            self.filter.dateFrom = ko.observable();
+            self.filter.dateTo = ko.observable();
+
+            self.filter.byProject = function (e) { return self.filter.project().id == -1 || self.filter.project().id == e.project.id(); };
+            self.filter.byActivity = function (e) { return self.filter.activity().id == -1 || (self.filter.project().id == e.project.id() && self.filter.activity().id == e.activity.id()); };
+
+            self.filter.resetProject = function () { self.filter.project(self.filter.distinctProjects()[0]); };
+            self.filter.resetActivity = function () { self.filter.activity(self.filter.distinctActivities()[0]); };
+
+            self.filter.project.subscribe(function (newValue) {
+                if (newValue.id == -1)
+                    self.filter.resetActivity();
+            });
+
+            //done
             return self;
         };
     } (tw.pages));
