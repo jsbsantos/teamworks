@@ -10,9 +10,16 @@ namespace Teamworks.Core.Extensions
 {
     public static class ActivityExtensions
     {
-        public static Activity Update(this Activity activity, Activity newEntity, IDocumentSession DbSession)
+        public static void Delete(this Activity activity,IDocumentSession session)
         {
-            var query = DbSession
+            session.Query<Discussion>()
+                .Where(d => d.Entity == activity.Id).ToList().ForEach(d => d.Delete(session));
+            session.Delete(activity);
+        }
+        
+        public static Activity Update(this Activity activity, Activity newEntity, IDocumentSession session)
+        {
+            var query = session
                 .Query<Activity>()
                 .Where(a => a.Project == newEntity.Project)
                 .ToList();

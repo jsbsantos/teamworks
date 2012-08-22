@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using AttributeRouting;
 using AttributeRouting.Web.Mvc;
 using Teamworks.Core;
+using Teamworks.Core.Extensions;
 using Teamworks.Core.Services;
 using Teamworks.Web.Attributes.Mvc;
 using Teamworks.Web.Helpers;
@@ -93,7 +94,7 @@ namespace Teamworks.Web.Controllers.Mvc
             if (discussion.Entity.ToIdentifier() != projectId)
                 return HttpNotFound();
 
-            DbSession.Delete(discussion);
+            discussion.Delete(DbSession);
             return new HttpStatusCodeResult(HttpStatusCode.NoContent);
         }
 

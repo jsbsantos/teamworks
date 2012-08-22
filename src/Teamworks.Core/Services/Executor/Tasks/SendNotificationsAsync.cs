@@ -44,7 +44,7 @@ namespace Teamworks.Core.Services.Executor.Tasks
         private int GetTimeout()
         {
             var result = WaitFactor*checkCount*BaseTimeout;
-            checkCount = checkCount == 10 ? 10 : checkCount++;
+            checkCount = checkCount == 10 ? 10 : ++checkCount;
             return result;
         }
 
@@ -69,11 +69,13 @@ namespace Teamworks.Core.Services.Executor.Tasks
                                                       notification.Subscribers);
                             }
                         }
-                        checkCount = success ? 1 : GetTimeout();
+                        if (success)
+                            checkCount = 1;
+
                         dbSession.SaveChanges();
                     }
                 }
-
+                   
                 Thread.Sleep(GetTimeout());
             }
         }
@@ -86,12 +88,11 @@ namespace Teamworks.Core.Services.Executor.Tasks
                                       discussion, message.Id,
                                       DateTime.Now.ToString("yyyymmddhhMMss"));
 
-            //try { message.Reply = MailHub.Send(MailgunConfiguration.Host, receivers, name, message.Content, id);}
-            //catch(Exception e)
-            //{
-            //    File.WriteAllText("d:\\downloads\\tw.log", e.Message);
-            //    return false;
-            //}
+            try { message.Reply = MailHub.Send(MailgunConfiguration.Host, receivers, name, message.Content, id); }
+            catch (Exception e)
+            {
+                return false;
+            }
             return (message.NotificationSent = true);
         }
     }

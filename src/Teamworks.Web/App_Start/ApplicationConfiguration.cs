@@ -23,11 +23,10 @@ namespace Teamworks.Web.App_Start
         private static void InitializeMessageNotificationsSender()
         {
             var sender = new Core.Services.Executor.Tasks.SendNotificationsAsync();
-            //Task.Factory.StartNew(sender.Run).ContinueWith(task =>
-            //    {
-            //     //if (task.IsFaulted)
-            //         //TODO LOG ERROR
-            //    });
+            Task.Factory.StartNew(sender.Run).ContinueWith(task =>
+                {
+                    return;
+                });
         }
 
         public static void InitializeExecutor()

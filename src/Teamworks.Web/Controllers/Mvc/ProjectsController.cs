@@ -93,7 +93,6 @@ namespace Teamworks.Web.Controllers.Mvc
             return View(vm);
         }
 
-
         [POST("")]
         public ActionResult Post(ProjectsViewModel.Input model)
         {
@@ -124,7 +123,7 @@ namespace Teamworks.Web.Controllers.Mvc
             if (project == null)
                 return HttpNotFound();
 
-            DbSession.Delete(project);
+            project.Delete(DbSession);
 
             if (Request.IsAjaxRequest())
                 return new HttpStatusCodeResult(HttpStatusCode.NoContent);

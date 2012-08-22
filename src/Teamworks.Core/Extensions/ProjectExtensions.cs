@@ -9,6 +9,15 @@ namespace Teamworks.Core.Extensions
 {
     public static class ProjectExtensions
     {
+        public static void Delete(this Project project, IDocumentSession session)
+        {
+            session.Query<Activity>()
+                .Where(a => a.Project == project.Id).ToList().ForEach(a => a.Delete(session));
+            session.Query<Discussion>()
+                .Where(d => d.Entity == project.Id).ToList().ForEach(d => d.Delete(session));
+            session.Delete(project);
+        }
+
         public static void Grant(this Project project, string operation, Person person)
         {
             var op = Global.Constants.Projects;

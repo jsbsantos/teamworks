@@ -1,7 +1,7 @@
 ﻿(function (pages) {
     pages.DiscussionViewModel = function (json) {
         var removeMessage = function () {
-            return function() {
+            return function () {
                 var discussion = this;
                 if (!discussion.editable()) return;
 
@@ -10,9 +10,9 @@
                     $.ajax({
                         type: 'post',
                         url: tw.utils.location + '/messages/' + discussion.id() + '/delete'
-                    }).success(function() {
+                    }).done(function () {
                         self.messages.mappedRemove(discussion);
-                    }).error(errorCallback);
+                    }).fail(errorCallback);
                 }
             };
         };
@@ -22,6 +22,11 @@
         };
 
         var mapping = {
+            'people': {
+                key: function (data) {
+                    return ko.utils.unwrapObservable(data.id);
+                }
+            },
             'messages': {
                 key: function (data) {
                     return ko.utils.unwrapObservable(data.id);
@@ -57,10 +62,22 @@
                 type: 'post',
                 data: ko.toJSON({ 'content': self.messages.input() }),
                 url: tw.utils.location + '/messages'
-            }).success(function (data) {
-                self.messages.mappedCreate(data);
+            }).done(function (data) {
+                var item =self.messages.mappedCreate(data);
+                if (self.people.mappedIndexOf(item.person) == -1)
+                    self.people.mappedCreate(item.person);
                 self.messages.input("");
-            }).error(errorCallback);
+            }).fail(errorCallback);
+        };
+
+        self.toggleWatch = function () {
+            var endpoint = tw.utils.location + (self.watching ? "/unwatch" : "/watch");
+            $.ajax({
+                type: 'post',
+                url: endpoint
+            }).done(function (data) {
+                self.watching(!self.watching());
+            }).fail(errorCallback);
         };
 
         return self;
