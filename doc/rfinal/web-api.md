@@ -50,8 +50,8 @@ A validação das credenciais enviadas para o servidor utiliza o processo descri
 
 Na resposta se o código for `401 Unhautorized` este elemento adiciona o *header* de autenticação para indicar que aceita autenticação do tipo *Basic*.
 
-O *message handler* responsável pela autenticação, para autenticar o utilizador, necessita de dados presentes na base de dados que são obtidos utilizando uma sessão de comunicação com esta.
-A criação da sessão é feita pelo *message handler* `RavenSession` que instancia uma sessão de acesso e a adiciona às propriedades do pedido, lista \ref{code:opensession}, para que esta esteja disponível durante o o resto do processamento. 
+O *message handler* responsável pela autenticação necessita de dados presentes na base de dados, obtidos utilizando uma sessão *Raven*.
+A criação da sessão é feita pelo *message handler* `RavenSession` que instancia uma sessão de acesso e a adiciona às propriedades do pedido, lista \ref{code:opensession}, disponibilizando a mesma sessão durante o resto do processamento do pedido. 
 
 \lstset{caption={Processamento do pedido da classe `RavenSessionHandler`.},label={code:opensession}}
 

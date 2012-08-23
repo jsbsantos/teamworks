@@ -1,7 +1,6 @@
 ﻿@using Teamworks.Web.Controllers
 @using Teamworks.Web.Helpers.Extensions
-@using Teamworks.Web.ViewModels.Mvc
-@model ActivityViewModelComplete
+@model Teamworks.Web.ViewModels.Mvc.ActivityViewModelComplete
 
 
 @{
@@ -77,6 +76,9 @@
                             </button>  
                             <a class="btn-mini" data-bind="click: function() { discussions.editing(false) }"><i class="icon-remove"></i></a>                                     </form>
                     </div>
+                    <p class="tc well well-small hide" data-bind="css: { 'hide': discussions().length > 0 }">
+                        Create your first discussion clicking <a href="#" data-bind="click: function() { discussions.editing(true) }">here</a>.
+                    </p>
                     <!-- ko template: { name: 'discussion-template', foreach: discussions } -->
                     <!-- /ko -->
                 </div>
@@ -134,7 +136,7 @@
     <div>
         <button class="close"><i class="icon-trash"></i></button>
         <h3>
-            <a data-bind="text: name, attr: { href: '@Url.RouteUrl("discussions_activitiesdetails", new { discussionId = UrlParameter.Optional,})' + id() }"></a>
+            <a data-bind="text: name, attr: { href: '@Url.RouteUrl("discussions_activitiesdetails", new {discussionId = UrlParameter.Optional,})' + id() }"></a>
         </h3>
         <p data-bind="text: content, visible: content().length"></p>
     </div>

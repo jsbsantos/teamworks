@@ -12,7 +12,9 @@ using Raven.Client.Linq;
 using Teamworks.Core;
 using Teamworks.Core.Services;
 using Teamworks.Web.Attributes.Api;
+using Teamworks.Web.Helpers.AutoMapper;
 using Teamworks.Web.Helpers.Extensions.Api;
+using Teamworks.Web.ViewModels.Api;
 
 namespace Teamworks.Web.Controllers.Api
 {
@@ -23,20 +25,24 @@ namespace Teamworks.Web.Controllers.Api
         #region ProjectViewModel Discussion
 
         [GET("discussions")]
-        public IEnumerable<Discussion> Get(int projectId)
+        [GET("activities/{activityId}/discussions", RouteName = "api_discussions_getactivities")]
+        public IEnumerable<DiscussionViewModel> Get(int projectId, int? activityId)
         {
-            IRavenQueryable<Core.Discussion> discussions = DbSession.Query<Core.Discussion>()
-                .Where(d => d.Entity == projectId.ToId("project"));
+            string entity = activityId.HasValue ? 
+                activityId.Value.ToId("activity") 
+                : projectId.ToId("project");
 
-            return Mapper.Map<IEnumerable<Core.Discussion>,
-                IEnumerable<Discussion>>(discussions.ToList());
+            var discussions = DbSession.Query<Discussion>()
+                .Where(d => d.Entity == entity);
+
+            return discussions.MapTo<DiscussionViewModel>();
         }
 
         [GET("discussions/{id}")]
         public Discussion GetById(int id, int projectId)
         {
-            Core.Discussion discussion = DbSession
-                .Query<Core.Discussion>()
+            var discussion = DbSession
+                .Query<Discussion>()
                 .FirstOrDefault(a => a.Entity == projectId.ToId("project")
                                      && a.Id == id.ToId("discussion"));
 

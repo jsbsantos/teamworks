@@ -1,7 +1,6 @@
 ﻿@using Teamworks.Web.Controllers
 @using Teamworks.Web.Helpers.Extensions
-@using Teamworks.Web.ViewModels.Mvc
-@model ProjectViewModel
+@model Teamworks.Web.ViewModels.Mvc.ProjectViewModel
 @{
     ViewBag.Title = Model.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -12,12 +11,15 @@
         @Html.Breadcrumb(ViewBag.Breadcrumb as AppController.Breadcrumb[])
         <header class="page-header">
             <h1>
+                <a href="#editProjectModal" role="button" data-toggle="modal">
+                    <i class="icon-edit"></i>
+                </a>
                 <span data-bind="text: name">@Model.Name</span>
                 <small>
                     <span data-bind="text: description, visible: description">
                         @Model.Description
                     </span>
-                    <i class="icon-edit"></i> 
+                   
                 </small>
             </h1>
         </header>
@@ -30,8 +32,8 @@
                         </a>
                     </small>
                 </h2>
-                <div class="row hide" data-bind="css: { hide: !activities.editing() }">
-                    <form class="span well well-mini form-inline" data-bind="submit: activities._create">
+                <div class="hide" data-bind="css: { hide: !activities.editing() }">
+                    <form class="well well-small form-inline" data-bind="submit: activities._create">
                         <input id="activity_name" name="activity_name" class="span4" autofocus="autofocus" placeholder="Activity name" data-bind="value: activities.input, valueUpdate: 'afterkeyup'" />
                         <button type="submit" class="btn btn-success">
                             Create
@@ -39,6 +41,9 @@
                         <a class="btn-mini" data-bind="click: function() { activities.editing(false) }"><i class="icon-remove"></i></a>                                     </form>
                 </div>
             </div>
+            <p class="tc well well-small hide" data-bind="css: { 'hide': activities().length > 0 }">
+                Create your first activity clicking <a href="#" data-bind="click: function() { activities.editing(true) }">here</a>.
+            </p>
             <!-- ko template: { name: 'activities-template', foreach: activities } -->
             <!-- /ko -->
             
@@ -50,14 +55,17 @@
                         <a class="hide btn-mini" data-bind="css: { hide: discussions.editing()}, click: function() { discussions.editing(true); }">One more discussion</a>
                     </small>
                 </h2>
-                <div class="row hide" data-bind="css: { hide: !discussions.editing() }">
-                    <form class="span well well-mini form-inline" data-bind="submit: discussions._create">
+                <div class="hide" data-bind="css: { hide: !discussions.editing() }">
+                    <form class="well well-small form-inline" data-bind="submit: discussions._create, event: {bl} ">
                         <input id="discussion_name" name="discussion_name" class="span4" autofocus="autofocus" placeholder="Discussion name" data-bind="value: discussions.input, valueUpdate: 'afterkeyup'" />
                         <button type="submit" class="btn btn-success">Create</button>  
                         <a class="btn-mini" data-bind="click: function() { discussions.editing(false) }"><i class="icon-remove"></i></a>                   
                     </form>
                 </div>
             </div>
+            <p class="tc well well-small hide" data-bind="css: { 'hide': discussions().length > 0 }">
+                Create your first discussion clicking <a href="#" data-bind="click: function() { discussions.editing(true) }">here</a>.
+            </p>
             <!-- ko template: { name: 'discussion-template', foreach: discussions } -->
             <!-- /ko -->
         </section>
@@ -78,6 +86,32 @@
         <br/>
         <h2>Actions</h2>
     </div>
+</div>
+<div class="modal fade hide" id="editProjectModal" tabindex="-1" role="dialog">
+    <form class="form-horizontal">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3>Edit Project</h3>
+        </div>
+        <div class="modal-body">
+            <div class="control-group">
+                <label class="control-label" for="inputName">Name</label>
+                <div class="controls">
+                    <input id="inputName" name="name" placeholder="Name" autofocus="autofocus"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputDescription">Description</label>
+                <div class="controls">
+                    <input id="inputDescription" name="description" placeholder="Description"/>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+            <button class="btn btn-primary">Save</button>
+        </div>
+    </form>
 </div>
 <script type="text/html" id="activities-template">
     <div>

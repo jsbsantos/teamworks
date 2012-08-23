@@ -13,11 +13,10 @@ using Xunit;
 
 namespace Teamworks.Web.Unittest.Api
 {
-    
     public class ActivitiesControllerTester : BaseControllerTester
     {
         protected override string Url
-            {
+        {
             get { return "http://localhost/api/projects/1/activities"; }
         }
 
@@ -33,9 +32,9 @@ namespace Teamworks.Web.Unittest.Api
         {
             var store = Configure.OpenStore();
             Configure.Populate(store, Reset);
-            
+
             const int size = 3;
-            const int projectId = 2;
+            const int projectId = 1;
 
             List<ActivityViewModel> result;
             using (var session = store.OpenSession())
@@ -53,7 +52,7 @@ namespace Teamworks.Web.Unittest.Api
         {
             var store = Configure.OpenStore();
             Configure.Populate(store, Reset);
-            
+
             const int projectId = 1;
             const int activityId = 1;
             const string name = "act 1";
@@ -87,83 +86,91 @@ namespace Teamworks.Web.Unittest.Api
             {
                 var controller = ControllerForTests<ActivitiesController>(session, HttpMethod.Post);
                 var response = controller.Post(projectId, new ActivityViewModel
-                                                              {
-                                                                  Name = name,
-                                                                  Description = description
-                                                              });
+                    {
+                        Name = name,
+                        Description = description
+                    });
 
                 session.SaveChanges();
                 Assert.Equal(HttpStatusCode.Created, response.StatusCode);
             }
         }
-        /*
+
         [Fact]
         public void PostActivityIsPersistedInDb()
         {
-            const int projectId = 2;
+            var store = Configure.OpenStore();
+            Configure.Populate(store, Reset);
+
+            const int projectId = 1;
             const string name = "post activity";
             const string description = "post activity description";
 
             ActivityViewModel result;
-            using (var session = ApplicationHelper.DocumentStore.OpenSession())
+            using (var session = store.OpenSession())
             {
                 var controller = ControllerForTests<ActivitiesController>(session, HttpMethod.Post);
                 var response = controller.Post(projectId, new ActivityViewModel
-                                                              {
-                                                                  Name = name,
-                                                                  Description = description
-                                                              });
+                    {
+                        Name = name,
+                        Description = description
+                    });
                 session.SaveChanges();
                 result = response.Content.ReadAsAsync<ActivityViewModel>().Result;
             }
 
-            using (var session = ApplicationHelper.DocumentStore.OpenSession())
+            using (var session = store.OpenSession())
             {
                 var activity = session.Load<Activity>(result.Id);
 
                 Assert.NotNull(activity);
                 Assert.Equal(name, activity.Name);
                 Assert.Equal(description, activity.Description);
+                Assert.Equal(projectId, activity.Project.ToIdentifier());
             }
-           
         }
 
         [Fact]
         public void PostActivityReturnsTheCorrectLocationInResponse()
         {
-            const int projectId = 2;
+            var store = Configure.OpenStore();
+            Configure.Populate(store, Reset);
+
+            const int projectId = 1;
             const string name = "post activity";
             const string description = "post activity description";
 
             HttpResponseMessage response;
-            using (var session = ApplicationHelper.DocumentStore.OpenSession())
+            using (var session = store.OpenSession())
             {
                 var controller = ControllerForTests<ActivitiesController>(session, HttpMethod.Post);
                 response = controller.Post(projectId, new ActivityViewModel
-                                                          {
-                                                              Name = name,
-                                                              Description = description
-                                                          });
+                    {
+                        Name = name,
+                        Description = description
+                    });
                 session.SaveChanges();
             }
 
             var activity = response.Content.ReadAsAsync<ActivityViewModel>().Result;
-            Assert.Equal("http://localhost/api/projects/" + activity.Id, response.Headers.Location.ToString());
+            Assert.Equal("http://localhost/api/projects/" + projectId + "/activities/" + activity.Id,
+                         response.Headers.Location.ToString());
         }
 
         [Fact]
         public void DeleteProjectReturnsNoContentStatusCode()
         {
+            var store = Configure.OpenStore();
+            Configure.Populate(store, Reset);
+
             const int projectId = 1;
-            const int activityId = 100;
-            
-            Configure.Populate(PopulateAnActivity);
+            const int activityId = 2;
+
             HttpResponseMessage response;
-            using (var session = ApplicationHelper.DocumentStore.OpenSession())
+            using (var session = store.OpenSession())
             {
                 var controller = ControllerForTests<ActivitiesController>(session, HttpMethod.Delete);
                 response = controller.Delete(projectId, activityId);
-
                 session.SaveChanges();
             }
             Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
@@ -172,38 +179,35 @@ namespace Teamworks.Web.Unittest.Api
         [Fact]
         public void DeleteActivityPersistedInDb()
         {
-            const int projectId = 1;
-            const int activityId = 100;
+            var store = Configure.OpenStore();
+            Configure.Populate(store, Reset);
 
-            Configure.Populate(PopulateAnActivity);
-            using (var session = ApplicationHelper.DocumentStore.OpenSession())
+            const int projectId = 1;
+            const int activityId = 2;
+
+            using (var session = store.OpenSession())
             {
                 var controller = ControllerForTests<ActivitiesController>(session, HttpMethod.Delete);
-                controller.Delete(projectId, activityId);
+                controller.Delete(activityId, projectId);
                 session.SaveChanges();
             }
 
-            using (var session = ApplicationHelper.DocumentStore.OpenSession())
+            using (var session = store.OpenSession())
             {
                 Assert.Null(session.Load<Activity>(activityId));
             }
         }
 
-        */
+
         public static void Reset(IDocumentSession session)
         {
             var project = Project.Forge("proj 1", "desc 1");
             session.Store(project);
             foreach (var p in Enumerable.Range(1, 3))
             {
-                session.Store(new Activity()
-                {
-                    Id = p.ToId("activity"),
-                    Name = "act " + p,
-                    Description = "description " + p
-                });
+                session.Store(Activity.Forge(project.Id.ToIdentifier(),
+                                             "act " + p, "description " + p, 60));
             }
         }
-        
     }
 }
