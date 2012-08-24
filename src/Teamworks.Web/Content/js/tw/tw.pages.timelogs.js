@@ -80,8 +80,8 @@
                 date: ko.observable(now).extend({
                     isoDate: 'dd/MM/yyyy'
                 }),
-                description: ko.observable().extend({ required: "Describe what have you done." }),
-                duration: ko.observable().extend({ required: "How much time do you used.", duration: "" })
+                description: ko.observable().extend({ required: "What tasks did you perform?" }),
+                duration: ko.observable().extend({ required: "How long did it took?", duration: "" })
             };
             self.timelogs.input.editing = ko.observable(false);
             self.timelogs.input.has_error = ko.computed(function () {
@@ -133,7 +133,7 @@
 
             self.typeahead.has_error = ko.observable(true);
             self.typeahead.validation_message = ko.computed(function () {
-                return self.typeahead.has_error() ? "Specify the activity you worked." : "";
+                return self.typeahead.has_error() ? "What activity were you working on?" : "";
             });
 
             self.typeahead.entity = {};
@@ -146,20 +146,33 @@
 
             //Sorting
             var sortFunction = function (a, b) {
-                var result = a[self.sortProperty()]() > b[self.sortProperty()]() ? 1 : -1;
-                return self.sortAsc() ? result : result * -1;
+                var result = a[self.sort.Property()]() > b[self.sort.Property()]() ? 1 : -1;
+                return self.sort.Asc() ? result : result * -1;
             };
-            self.sortProperty = ko.observable("duration");
-            self.sortAsc = ko.observable(true);
             self.sort = function (property) {
-                if (self.sortProperty() == property)
-                    self.sortAsc(!self.sortAsc());
+                // return _sort(property);
+                if (self.sort.Property() == property)
+                    self.sort.Asc(!self.sort.Asc());
+
                 else {
-                    self.sortProperty(property);
-                    self.sortAsc(true);
+                    self.sort.Property(property);
+                    self.sort.Asc(true);
                 }
             };
-            self.sortedTimelog = ko.computed(function () { return self.timelogs().sort(sortFunction); });
+            self.sort.Property = ko.observable();
+            self.sort.Asc = ko.observable(false);
+
+            self.sortedTimelog = ko.computed(function () {
+                //var tt = new Date().getTime();
+                var result;
+                if (self.sort.Property()) {
+                    result = self.timelogs().sort(sortFunction);
+                } else {
+                    result = self.timelogs();
+                }
+                //alert("Time : " + (new Date().getTime() - tt) + " ms</br>");
+                return result;
+            });
 
             //Filtering
             var getUnique = function (collection) {
@@ -173,24 +186,60 @@
                 });
                 return result;
             };
-            self.filter = {};
+            self.filter = function (e) {
+                return !(self.filter.byProject(e) && self.filter.byActivity(e) && self.filter.byDate(e));
+            };
             self.filter.distinctProjects = ko.computed(function () { return getUnique($.map(data, function (e) { return e.project; })); });
             self.filter.distinctActivities = ko.computed(function () { return getUnique($.map(data, function (e) { return { id: e.activity.id, name: e.activity.name, project: e.project.id }; })); });
 
+            //filter properties
             self.filter.project = ko.observable(self.filter.distinctProjects()[0]);
             self.filter.activity = ko.observable(self.filter.distinctActivities()[0]);
-            self.filter.dateFrom = ko.observable();
-            self.filter.dateTo = ko.observable();
+            self.filter.dateFrom = ko.observable().extend({ isoDate: 'dd/MM/yyyy' });
+            self.filter.dateTo = ko.observable().extend({ isoDate: 'dd/MM/yyyy' });
 
-            self.filter.byProject = function (e) { return self.filter.project().id == -1 || self.filter.project().id == e.project.id(); };
-            self.filter.byActivity = function (e) { return self.filter.activity().id == -1 || (self.filter.project().id == e.project.id() && self.filter.activity().id == e.activity.id()); };
+            //filter functions
+            self.filter.byProject = function (e) {
+                return self.filter.project().id == -1 || self.filter.project().id == e.project.id();
+            };
+            self.filter.byActivity = function (e) {
+                return self.filter.activity().id == -1 ||
+                    (self.filter.project().id == e.project.id() && self.filter.activity().id == e.activity.id());
+            };
+            self.filter.byDate = function (e) {
+                var di = new Date(self.filter.dateFrom() || '1900/01/01'),
+                    df = new Date(self.filter.dateTo() || '9999/12/31'),
+                    date = new Date(e.date());
+                return date >= di && date <= df;
+            };
 
-            self.filter.resetProject = function () { self.filter.project(self.filter.distinctProjects()[0]); };
-            self.filter.resetActivity = function () { self.filter.activity(self.filter.distinctActivities()[0]); };
+            //filter reset
+            self.filter.resetProject = function () {
+                self.filter.project(self.filter.distinctProjects()[0]);
+            };
+            self.filter.resetActivity = function () {
+                self.filter.activity(self.filter.distinctActivities()[0]);
+            };
+            self.filter.resetDates = function () {
+                self.filter.dateFrom(undefined);
+                self.filter.dateTo(undefined);
+            };
+            self.filter.reset = function () {
+                self.filter.resetProject();
+                self.filter.resetDates();
+            };
 
+            //disable activities dropdown list when project changes to "All"
             self.filter.project.subscribe(function (newValue) {
                 if (newValue.id == -1)
                     self.filter.resetActivity();
+            });
+            //needed to avoid wrong date intervals
+            self.filter.dateTo.subscribe(function (newValue) {
+                $('#datepickFrom').data('datepicker').endDate = new Date(newValue);
+            });
+            self.filter.dateFrom.subscribe(function (newValue) {
+                $('#datepickTo').data('datepicker').startDate = new Date(newValue);
             });
 
             //done

@@ -156,7 +156,7 @@
         self.people._add = function () {
             var email = self.people.input();
             $.ajax({
-                url: tw.utils.location + '/people/add',
+                url: tw.utils.location + '/people',
                 type: 'post',
                 data: ko.toJSON({ 'email': email })
             }).done(function (data) {

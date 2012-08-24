@@ -60,33 +60,63 @@ else
                 You have no logged hours.
             </p>
             
-            <div class="well btn-toolbar">
-                <div class="btn-group">
-                    <input type="text" class="btn uneditable-input disabled" data-bind="value: filter.project().name"></input>
-                    <button class="btn dropdown-toggle" data-toggle="dropdown">
+            <div class="well well-mini btn-toolbar">
+                <div class="btn-group input-append">
+                    <input type="text" class="btn uneditable-input" disabled="disabled" data-bind="value: filter.project().name"></input>
+                    <a class="btn dropdown-toggle add-on" data-toggle="dropdown">
                         <span class="caret"></span>
-                    </button>
+                    </a>
                     <ul class="dropdown-menu" data-bind="template: { name: 'dropdown-project-template', foreach: filter.distinctProjects }">
                     </ul>
                 </div>
 
-                <div class="btn-group highlight" data-bind="highlight: 'alert alert-info'">
-                    <input type="text" class="btn uneditable-input disabled " data-bind="value: filter.activity().name, highlight: 'alert alert-info'"></input>
-                    <button class="btn dropdown-toggle" data-toggle="dropdown">
+                <div class="btn-group input-append">
+                    <input type="text" class="btn uneditable-input" disabled="disabled" data-bind="value: filter.activity().name"></input>
+                    <a class="btn dropdown-toggle add-on" data-toggle="dropdown" data-bind="attr:{disabled: filter.project().id == -1}">
                         <span class="caret"></span>
-                    </button>
+                    </a>
                     <ul class="dropdown-menu" data-bind="template: { name: 'dropdown-activity-template', foreach: filter.distinctActivities }">
                     </ul>
                 </div>
-            </div>
 
+                <div class="btn-group input-append">
+                    <input type="text" placeholder="From" class="btn uneditable-input" disabled="disabled" data-bind="value: filter.dateFrom.formatted"></input>
+                    <a id="datepickFrom" class="add-on btn" data-bind="attr:{ 'data-date-enddate': filter.dateTo.formatted }, datepicker: filter.dateFrom.formatted" data-date-autoclose="true" data-date-format="dd/MM/yyyy">
+                        <i class="icon-calendar"></i>
+                    </a>
+                </div>
+
+                <div class="btn-group input-append">
+                    <input type="text"  placeholder="To"  class="btn uneditable-input" disabled="disabled" data-bind="value: filter.dateTo.formatted"></input>
+                    <a id="datepickTo" class="add-on btn datepicker-right" data-bind="datepicker: filter.dateTo.formatted" data-date-autoclose="true" data-date-format="dd/MM/yyyy" data-date-enddate="@DateTime.Today.ToString("dd/MM/yyyy")">
+                        <i class="icon-calendar"></i>
+                    </a>
+                </div>
+
+                <div class="btn-group input-append">
+                    <button class="btn" data-bind="click: filter.reset">Clear</button>
+                </div>
+                    
+            </div>
             <table class="table table-striped table-bordered table-condensed hide" data-bind="css: { 'hide': !timelogs().length }">
                 <thead>
                     <tr>
                         <th>Project, Activity</th>
-                        <th><a data-bind="click: function(){ sort('duration'); }">Duration</a></th>
-                        <th><a data-bind="click: function(){ sort('description'); }">Description</a></th>
-                        <th><a data-bind="click: function(){ sort('date'); }">Date</a></th>
+                        <th><a data-bind="click: function(){ sort('duration'); }">
+                                Duration <i data-bind="css: { 'icon-sort': sort.Property() != 'duration',
+                                 'icon-sort-up':sort.Property() == 'duration' && sort.Asc(),
+                                 'icon-sort-down':sort.Property() == 'duration' && !sort.Asc()}"></i> 
+                            </a></th>
+                        <th><a data-bind="click: function(){ sort('description'); }">
+                                Description <i data-bind="css: { 'icon-sort': sort.Property() != 'description',
+                                 'icon-sort-up':sort.Property() == 'description' && sort.Asc(),
+                                 'icon-sort-down':sort.Property() == 'description' && !sort.Asc()}"></i>  
+                            </a></th>
+                        <th><a data-bind="click: function(){ sort('date'); }">
+                                Date <i data-bind="css: { 'icon-sort': sort.Property() != 'date',
+                                 'icon-sort-up':sort.Property() == 'date' && sort.Asc(),
+                                 'icon-sort-down':sort.Property() == 'date' && !sort.Asc()}"></i> 
+                            </a></th>
                         <th class="input-small">Edit</th>
                     </tr>
                 </thead>
@@ -94,28 +124,26 @@ else
                 </tbody>
             </table>
             <script type="text/html" id="dropdown-activity-template">
-                <li data-bind="css:{hide: $parent.filter.project().id == -1 || $parent.filter.project().id != project }"><a data-bind="text: name, click: function(){ $parent.filter.activity($data); }"></a></li>
+                <li data-bind="css:{ hide: $parent.filter.project().id == -1 || $parent.filter.project().id != project }">
+                    <a data-bind="text: name, click: function(){ $parent.filter.activity($data); }"></a>
+                </li>
             </script>
             <script type="text/html" id="dropdown-project-template">
                 <li><a data-bind="text: name, click: function(){ $parent.filter.project($data); }"></a></li>
             </script>
             <script type="text/html" id="timelog-template">
-                <tr data-bind="css:{hide: !$parent.filter.byProject($data) || !$parent.filter.byActivity($data) }">
+                <tr data-bind="css:{ hide: $parent.filter($data) }">
                     <td>
                         <strong><a data-bind="attr:{ href: '/projects/' + project.id() }, text: project.name"></a></strong>,
                         <span><a data-bind="attr:{ href: '/projects/' + project.id() + '/activities/' + activity.id() }, text: activity.name"></a></span>
                     </td>
                     <td>
                         <span class="hide" data-bind="text: duration, css: {hide: editing()}"></span>
-                        <input name="timelog_duration" class="hide input-small" data-bind="css: { hide: !editing() }, value: duration, valueUpdate: 'afterkeyup'" />
                     </td>
                     <td>
                         <span class="hide" data-bind="text: description, css: {hide: editing()}"></span>
-                        <input name="timelog_description" class="hide" data-bind="css: { hide: !editing() }, value: description, valueUpdate: 'afterkeyup'" />
                     </td>
                     <td><span class="hide" data-bind="text: date.formatted, css: { hide: editing() }"></span>
-                        <input name="timelog_date" class="hide input-small" data-bind="css: { hide: !editing() }, value: date.formatted, valueUpdate: 'afterkeyup'" />
-                        <a class="hide" data-bind="datepicker: date.formatted, css: { hide: !editing() }" data-date-autoclose="true" data-date-format="dd/MM/yyyy" data-date-enddate="@DateTime.Today.ToString("dd/MM/yyyy")"><i class="icon-calendar"></i></a>
                     </td>
                     <td class="input-small">
                         <a class="hide" data-bind="css: { hide: editing()}, click: function() { editing(true); }">

@@ -38,6 +38,11 @@
                 selector = selector && selector.replace(/.*(?=#[^\s]*$)/, ''); //strip for ie7
             }
 
+            // if this target is disabled in any way, don't toggle
+            if ($this.prop("disabled") || $this.is(".disabled") || $this.is("[disabled]")) {
+                return false;
+            }
+
             $parent = $(selector);
             $parent.length || ($parent = $this.parent());
             isActive = $parent.hasClass('open');
