@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -34,7 +35,7 @@ namespace Teamworks.Web.Controllers.Api
         public ActivityViewModel GetById(int id, int projectId)
         {
             var activity = DbSession.Load<Activity>(id);
-            if (activity == null || activity.Project.ToIdentifier() == projectId)
+            if (activity == null || activity.Project.ToIdentifier() != projectId)
                 throw new HttpResponseException(HttpStatusCode.NotFound);
 
             return activity.MapTo<ActivityViewModel>();
@@ -47,7 +48,7 @@ namespace Teamworks.Web.Controllers.Api
 
             DbSession.Store(activity);
             if (model.Dependencies != null)
-                activity.Dependencies = model.Dependencies;
+                activity.Dependencies = model.Dependencies.Select(s=>s.ToId("activity")).ToList();
 
             var domain = DbSession.Query<Activity>()
                 .Where(a => a.Project == project.Id).ToList();
@@ -55,11 +56,12 @@ namespace Teamworks.Web.Controllers.Api
             activity.StartDate = project.StartDate
                 .AddMinutes(Activity.GetAccumulatedDuration(domain, activity));
 
-            var activities = activity.MapTo<ActivityViewModel>();
+            var value = activity.MapTo<ActivityViewModel>();
+            var response = Request.CreateResponse(HttpStatusCode.Created, value);
             
-            // todo add header of location
-            
-            return Request.CreateResponse(HttpStatusCode.Created, activities);
+            var uri = Url.Link("api_activities_getbyid", new {projectId, id = activity.Id.ToIdentifier()});
+            response.Headers.Location = new Uri(uri);
+            return response;
         }
 
         [PUT("")]
@@ -88,7 +90,7 @@ namespace Teamworks.Web.Controllers.Api
         public HttpResponseMessage Delete(int id, int projectId)
         {
             var activity = DbSession.Load<Activity>(id);
-            if (activity != null && activity.Project.ToIdentifier() != projectId)
+            if (activity != null && activity.Project.ToIdentifier() == projectId)
                 DbSession.Delete(activity);
 
             return Request.CreateResponse(HttpStatusCode.NoContent);
@@ -118,7 +120,8 @@ namespace Teamworks.Web.Controllers.Api
         */ 
         #region Private
 
-        private void OffsetDuration(ICollection<Activity> domain, Activity parent, int offset)
+        [NonAction]
+        public void OffsetDuration(ICollection<Activity> domain, Activity parent, int offset)
         {
             var children = domain.Where(a => a.Dependencies.Contains(parent.Id)).ToList();
             foreach (var child in children)

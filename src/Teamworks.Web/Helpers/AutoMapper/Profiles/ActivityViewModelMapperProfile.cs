@@ -35,7 +35,14 @@ namespace Teamworks.Web.Helpers.AutoMapper.Profiles
             Mapper.CreateMap<Activity, DependencyActivityViewModel>()
                 .ForMember(s => s.Id, o => o.MapFrom(d => d.Id.ToIdentifier()))
                 .ForMember(s => s.Dependency, o => o.MapFrom(r => false));
-            
+
+            // Api
+            Mapper.CreateMap<Activity, ViewModels.Api.ActivityViewModel>()
+                .ForMember(s => s.Id, o => o.MapFrom(d => d.Id.ToIdentifier()))
+                .ForMember(s => s.Project, o => o.MapFrom(d => d.Id.ToIdentifier()))
+                .ForMember(s => s.People, o => o.MapFrom(d => d.People.Select(p => p.ToIdentifier())));
+
+
         }
     }
 }
