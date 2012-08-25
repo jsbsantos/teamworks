@@ -31,15 +31,19 @@ namespace Teamworks.Web.ViewModels.Mvc
         #endregion
 
         #region Nested type: TimelogViewModel
+
         public class Timelog
         {
+            public EntityViewModel Project { get; set; }
             public EntityViewModel Activity { get; set; }
+            public EntityViewModel Person { get; set; }
 
             public int Id { get; set; }
             public int Duration { get; set; }
             public string Description { get; set; }
             public DateTime Date { get; set; }
         }
+
         #endregion
 
         #region Nested type: Discussion

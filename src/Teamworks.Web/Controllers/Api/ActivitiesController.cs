@@ -8,6 +8,7 @@ using AttributeRouting;
 using AttributeRouting.Web.Http;
 using Raven.Client.Linq;
 using Teamworks.Core;
+using Teamworks.Core.Extensions;
 using Teamworks.Core.Services;
 using Teamworks.Web.Attributes.Api;
 using Teamworks.Web.Helpers.AutoMapper;
@@ -41,7 +42,7 @@ namespace Teamworks.Web.Controllers.Api
             return activity.MapTo<ActivityViewModel>();
         }
 
-        public HttpResponseMessage Post(int projectId, ActivityViewModel model)
+        public HttpResponseMessage Post(int projectId, CompleteActivityViewModel model)
         {
             var project = DbSession.Load<Project>(projectId);
             var activity = Activity.Forge(projectId, model.Name, model.Description, model.Duration);
@@ -66,13 +67,15 @@ namespace Teamworks.Web.Controllers.Api
 
         [PUT("")]
         public HttpResponseMessage Put(int projectId,
-                                       ActivityViewModel model)
+                                       CompleteActivityViewModel model)
         {
             var activity = DbSession
                 .Load<Activity>(model.Id);
 
             Request.NotFound(activity);
 
+            activity.Update(model.MapTo<Activity>(), DbSession);
+            /*
             activity.Name = model.Name ?? activity.Name;
             activity.Description = model.Description ?? activity.Description;
             if (activity.Duration != model.Duration)
@@ -82,7 +85,7 @@ namespace Teamworks.Web.Controllers.Api
                 OffsetDuration(domain, activity, model.Duration - activity.Duration);
             }
 
-            activity.Duration = model.Duration;
+            activity.Duration = model.Duration;*/
             var activities = activity.MapTo<ActivityViewModel>();
             return Request.CreateResponse(HttpStatusCode.Created, activities);
         }
@@ -99,25 +102,60 @@ namespace Teamworks.Web.Controllers.Api
         #endregion
 
         #region Precedence
-        /*
-        [POST("{id}/precedences")]
-        public HttpResponseMessage PostPre(int id, int projectId,
-                                           int[] precedences)
+        
+        [GET("{id}/precedences")]
+        public IEnumerable<ActivityViewModel> GetPrecedence(int id, int projectId)
         {
-            if (ActivityServices.AddPrecedence(id, projectId, precedences) == null)
-                Request.ThrowNotFound();
+            var pid = projectId.ToId("project");
+            var aid = projectId.ToId("activity");
+
+            var activity = DbSession.Query<Activity>()
+                .Where(a => a.Project == pid && a.Id == aid).FirstOrDefault();
+
+            Request.NotFound(activity);
+
+            return activity.Dependencies.MapTo<ActivityViewModel>();
+        }
+
+        [POST("{id}/precedences")]
+        public HttpResponseMessage PostPrecedence(int id, int projectId, IEnumerable<int> precedences)
+        {
+
+            var pid = projectId.ToId("project");
+            var aid = projectId.ToId("activity");
+
+            var activities = DbSession.Query<Activity>()
+                .Where(a => a.Project == pid).ToList();
+
+            var activity = activities.Where(a => a.Id == aid).FirstOrDefault();
+            Request.NotFound(activity);
+
+            activity.Dependencies = activities.Select(a => a.Id)
+                    .Intersect(precedences.Select(d => d.ToId("activity")))
+                    .ToList();
+
             return Request.CreateResponse(HttpStatusCode.Created);
         }
 
         [DELETE("{id}/precedences")]
-        public HttpResponseMessage Delete(int id, int projectId, int[] precedences)
+        public HttpResponseMessage Delete(int id, int projectId, IEnumerable<int> precedences)
         {
-            if (!ActivityServices.RemovePrecedence(id, projectId, precedences))
-                Request.ThrowNotFound();
-            return Request.CreateResponse(HttpStatusCode.Created);
+            var pid = projectId.ToId("project");
+            var aid = projectId.ToId("activity");
+
+            var activity = DbSession.Query<Activity>()
+                .Where(a => a.Project == pid && a.Id == aid).FirstOrDefault();
+
+            Request.NotFound(activity);
+
+            activity.Dependencies = activity.Dependencies
+                    .Except(precedences.Select(d => d.ToId("activity")))
+                    .ToList();
+
+            return Request.CreateResponse(HttpStatusCode.NoContent);
         }
         
-        */ 
+         
         #region Private
 
         [NonAction]
@@ -138,7 +176,64 @@ namespace Teamworks.Web.Controllers.Api
         #endregion
 
         #region People
+        [GET("{id}/assignees")]
+        public IEnumerable<PersonViewModel> GetAssignees(int id, int projectId)
+        {
 
+            var pid = projectId.ToId("project");
+            var aid = projectId.ToId("activity");
+
+            var activity = DbSession.Query<Activity>()
+                .Where(a => a.Project == pid && a.Id == aid).FirstOrDefault();
+
+            var people = DbSession.Load<Person>(activity.People);
+            return people.MapTo<PersonViewModel>();
+        }
+
+        //todo change response?
+        [POST("{id}/assignees")]
+        public HttpResponseMessage PostAssignees(int id, int projectId, IEnumerable<int> ids)
+        {
+            var pid = projectId.ToId("project");
+            var aid = projectId.ToId("activity");
+
+            var activity = DbSession.Query<Activity>()
+                .Customize(c => c.Include(projectId.ToId("project")))
+                .Where(a => a.Project == pid && a.Id == aid).FirstOrDefault(); 
+            
+            var project = DbSession
+                .Include<Project>(p => p.People)
+                .Load<Project>(projectId);
+
+            var people = DbSession.Query<Person>()
+                .Where(p => p.Id.In(ids.Select(i => i.ToId("person"))));
+
+            activity.People = activity.People.Union(people.Select(p => p.Id).Intersect(project.People)).ToList();
+
+            return new HttpResponseMessage(HttpStatusCode.Created);
+        }
+
+        [DELETE("{id}/assignees")]
+        public HttpResponseMessage DeleteAssignees(int id, int projectId, IEnumerable<int> ids)
+        {
+            var pid = projectId.ToId("project");
+            var aid = projectId.ToId("activity");
+
+            var activity = DbSession.Query<Activity>()
+                .Customize(c => c.Include(projectId.ToId("project")))
+                .Where(a => a.Project == pid && a.Id == aid).FirstOrDefault();
+
+            var project = DbSession
+                .Include<Project>(p => p.People)
+                .Load<Project>(projectId);
+
+            var people = DbSession.Query<Person>()
+                .Where(p => p.Id.In(ids.Select(i => i.ToId("person"))));
+
+            activity.People = activity.People.Except(people.Select(p => p.Id).Intersect(project.People)).ToList();
+
+            return new HttpResponseMessage(HttpStatusCode.NoContent);
+        }
         #endregion
     }
 }

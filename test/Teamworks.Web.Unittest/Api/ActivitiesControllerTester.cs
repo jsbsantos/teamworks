@@ -85,7 +85,7 @@ namespace Teamworks.Web.Unittest.Api
             using (var session = store.OpenSession())
             {
                 var controller = ControllerForTests<ActivitiesController>(session, HttpMethod.Post);
-                var response = controller.Post(projectId, new ActivityViewModel
+                var response = controller.Post(projectId, new CompleteActivityViewModel
                     {
                         Name = name,
                         Description = description
@@ -110,7 +110,7 @@ namespace Teamworks.Web.Unittest.Api
             using (var session = store.OpenSession())
             {
                 var controller = ControllerForTests<ActivitiesController>(session, HttpMethod.Post);
-                var response = controller.Post(projectId, new ActivityViewModel
+                var response = controller.Post(projectId, new CompleteActivityViewModel()
                     {
                         Name = name,
                         Description = description
@@ -144,7 +144,7 @@ namespace Teamworks.Web.Unittest.Api
             using (var session = store.OpenSession())
             {
                 var controller = ControllerForTests<ActivitiesController>(session, HttpMethod.Post);
-                response = controller.Post(projectId, new ActivityViewModel
+                response = controller.Post(projectId, new CompleteActivityViewModel
                     {
                         Name = name,
                         Description = description

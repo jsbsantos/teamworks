@@ -66,9 +66,8 @@ namespace Teamworks.Web.Controllers.Api
         public HttpResponseMessage Delete(int id)
         {
             var project = DbSession.Load<Project>(id);
-            DbSession.Delete(project);
-
-            // todo cascade remove
+            
+            project.Delete(DbSession);
 
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }

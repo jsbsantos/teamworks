@@ -10,12 +10,18 @@ namespace Teamworks.Web.ViewModels.Api
 
         [Required]
         public int Project { get; set; }
+
         [Required]
         public string Name { get; set; }
+
         public string Description { get; set; }
         public DateTimeOffset StartDate { get; set; }
 
         public int Duration { get; set; }
+    }
+
+    public class CompleteActivityViewModel : ActivityViewModel
+    {
         public IList<int> People { get; set; }
         public IList<int> Dependencies { get; set; }
     }

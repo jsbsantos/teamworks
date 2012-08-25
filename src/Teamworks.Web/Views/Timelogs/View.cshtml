@@ -125,7 +125,7 @@ else
                 <tbody data-bind="template: { name: 'timelog-template', foreach: sortedTimelog() }">
                 </tbody>
             </table>
-            <div class="modal fade hide" id="editProjectModal" tabindex="-1" role="dialog">
+            <div class="modal fade hide" id="editTimelogModal" tabindex="-1" role="dialog">
                 <form class="form-horizontal">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -191,7 +191,7 @@ else
                     <td><span data-bind="text: date.formatted"></span>
                     </td>
                     <td class="input-small">
-                        <a href="#editProjectModal" role="button" data-toggle="modal" data-bind="click: function() { $parent.timelogs.editing($data);}">
+                        <a href="#editTimelogModal" role="button" data-toggle="modal" data-bind="click: function() { $parent.timelogs.editing($data);}">
                             <i class="icon-edit"></i> 
                         </a> 
                         &nbsp;

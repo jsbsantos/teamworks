@@ -52,7 +52,7 @@
                     })());
                 }
             };
-            
+
             self.discardChanges = function () {
                 ko.mapping.fromJS(json, self.timelogs);
                 self.timelogs.editing(undefined);
@@ -92,7 +92,7 @@
             self.timelogs.editing._update = function () {
                 self.timelogs.editing()._update.call(self.timelogs.editing());
             };
-            
+
             /***************************************
             *               Typeahead              *
             ****************************************/
@@ -156,11 +156,21 @@
             *               Sort                   *
             ****************************************/
             var sortFunction = function (a, b) {
-                var result = a[self.sort.Property()]() > b[self.sort.Property()]() ? 1 : -1;
+                var p1 = a[self.sort.Property()], p2 = b[self.sort.Property()];
+                var result = 0;
+                if (!($.isFunction(p1) && $.isFunction(p2))) {
+                    p1 = p1.name();
+                    p2 = p2.name();
+                }
+                else {
+                    p1 = p1();
+                    p2 = p2();
+                }
+
+                result = p1 > p2 ? 1 : -1;
                 return self.sort.Asc() ? result : result * -1;
             };
             self.sort = function (property) {
-                // return _sort(property);
                 if (self.sort.Property() == property)
                     self.sort.Asc(!self.sort.Asc());
 
@@ -197,14 +207,16 @@
                 return result;
             };
             self.filter = function (e) {
-                return !(self.filter.byProject(e) && self.filter.byActivity(e) && self.filter.byDate(e));
+                return !(self.filter.byProject(e) && self.filter.byActivity(e) && self.filter.byDate(e) && self.filter.byPerson(e));
             };
-            self.filter.distinctProjects = ko.computed(function () { return getUnique($.map(data, function (e) { return e.project; })); });
-            self.filter.distinctActivities = ko.computed(function () { return getUnique($.map(data, function (e) { return { id: e.activity.id, name: e.activity.name, project: e.project.id }; })); });
+            self.filter.distinctProjects = ko.computed(function () { return getUnique($.map(json, function (e) { return e.project; })); });
+            self.filter.distinctActivities = ko.computed(function () { return getUnique($.map(json, function (e) { return { id: e.activity.id, name: e.activity.name, project: e.project.id }; })); });
+            self.filter.distinctPeople = self.filter.distinctPeople = ko.computed(function () { return getUnique($.map(json, function (e) { return (e.person && { id: e.person.id, name: e.person.name }) || { id: 0, name: "" }; })); });
 
             //filter properties
             self.filter.project = ko.observable(self.filter.distinctProjects()[0]);
             self.filter.activity = ko.observable(self.filter.distinctActivities()[0]);
+            self.filter.person = ko.observable(self.filter.distinctPeople()[0]);
             self.filter.dateFrom = ko.observable().extend({ isoDate: 'dd/MM/yyyy' });
             self.filter.dateTo = ko.observable().extend({ isoDate: 'dd/MM/yyyy' });
 
@@ -213,8 +225,13 @@
                 return self.filter.project().id == -1 || self.filter.project().id == e.project.id();
             };
             self.filter.byActivity = function (e) {
-                return self.filter.activity().id == -1 ||
-                    (self.filter.project().id == e.project.id() && self.filter.activity().id == e.activity.id());
+                return (self.filter.project().id == -1 && self.filter.activity().id == -1) ||
+                    (self.filter.project().id != -1 && (
+                        self.filter.activity().id == -1 ||
+                            (self.filter.activity().id == e.activity.id() && self.filter.activity().project == e.project.id())));
+            };
+            self.filter.byPerson = function (e) {
+                return self.filter.person().id == -1 || self.filter.person().id == e.person.id();
             };
             self.filter.byDate = function (e) {
                 var di = new Date(self.filter.dateFrom() || '1900/01/01'),
@@ -234,15 +251,23 @@
                 self.filter.dateFrom(undefined);
                 self.filter.dateTo(undefined);
             };
+            self.filter.resetPerson = function () {
+                self.filter.person(self.filter.distinctPeople()[0]);
+            };
             self.filter.reset = function () {
                 self.filter.resetProject();
                 self.filter.resetDates();
+                self.filter.resetPerson();
+                self.filter.resetEvent(!self.filter.resetEvent());
             };
+            ///////////
+            //HACK!!!//
+            ///////////
+            self.filter.resetEvent = ko.observable(false);
 
             //disable activities dropdown list when project changes to "All"
             self.filter.project.subscribe(function (newValue) {
-                if (newValue.id == -1)
-                    self.filter.resetActivity();
+                self.filter.resetActivity();
             });
             //needed to avoid wrong date intervals
             self.filter.dateTo.subscribe(function (newValue) {

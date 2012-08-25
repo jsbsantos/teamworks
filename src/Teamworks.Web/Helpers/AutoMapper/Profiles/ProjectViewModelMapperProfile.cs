@@ -22,7 +22,8 @@ namespace Teamworks.Web.Helpers.AutoMapper.Profiles
             Mapper.CreateMap<Discussion, ProjectViewModel.Discussion>()
                 .ForMember(s => s.Id, o => o.MapFrom(d => d.Id.ToIdentifier()));
 
-            Mapper.CreateMap<Timelog, ProjectViewModel.Timelog>();
+            Mapper.CreateMap<Timelog, ProjectViewModel.Timelog>()
+                .ForMember(s => s.Person, o => o.MapFrom(r => new EntityViewModel(){Id = r.Person.ToIdentifier()}));
 
             // Api
             Mapper.CreateMap<Project, ViewModels.Api.ProjectViewModel>()

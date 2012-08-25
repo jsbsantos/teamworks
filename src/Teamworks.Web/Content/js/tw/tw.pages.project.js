@@ -66,7 +66,6 @@
         };
 
         self = ko.mapping.fromJS(json || [], mapping);
-
         self.activities.input = ko.observable();
         self.activities.editing = ko.observable();
 
@@ -175,6 +174,19 @@
             });
         };
 
+        self.timelogs = new tw.pages.RegisterTimelogsViewModel({ }, json.timelogs);
+        ///////////
+        //HACK!!!//
+        ///////////
+        self.timelogs.filter.resetEvent.subscribe(function(newValue) {
+            self.timelogs.filter.project({ id: self.id(), name: self.name() });
+
+        });
+        self.timelogs.filter.project({ id: self.id(), name: self.name() });
+        
+        $('body').ready(function(){
+            $('#tabs a[href="#tab-discussions"]').tab('show');
+        });
         return self;
     };
 }(tw.pages));

@@ -97,6 +97,8 @@ namespace Teamworks.Web.Controllers.Mvc
                                 .Select(a =>
                                 {
                                     a.Activity = activity.MapTo<EntityViewModel>();
+                                    a.Project = project.MapTo<EntityViewModel>();
+                                    a.Person.Name = vm.People.Single(p => p.Id == a.Person.Id).Name;
                                     return a;
                                 }))
                     .ToList();
