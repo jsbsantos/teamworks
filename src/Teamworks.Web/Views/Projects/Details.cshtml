@@ -49,25 +49,185 @@
             
         </section>
         <section>
-            <div class="lead">
-                <h2>Discussion
-                    <small>
-                        <a class="hide btn-mini" data-bind="css: { hide: discussions.editing()}, click: function() { discussions.editing(true); }">One more discussion</a>
-                    </small>
-                </h2>
-                <div class="hide" data-bind="css: { hide: !discussions.editing() }">
-                    <form class="well well-small form-inline" data-bind="submit: discussions._create, event: {bl} ">
-                        <input id="discussion_name" name="discussion_name" class="span4" autofocus="autofocus" placeholder="Discussion name" data-bind="value: discussions.input, valueUpdate: 'afterkeyup'" />
-                        <button type="submit" class="btn btn-success">Create</button>  
-                        <a class="btn-mini" data-bind="click: function() { discussions.editing(false) }"><i class="icon-remove"></i></a>                   
-                    </form>
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#tab-discussions">Discussions<span data-bind="visible: discussions().length > 0, text: ' (' + discussions().length + ')'"></span></a></li>
+                <li><a data-toggle="tab" href="#tab-timelogs">Timelogs <span data-bind="visible: timelogs().length > 0, text: ' (' + timelogs().length + ')'"></span></a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane" id="tab-discussions">
+                    <div class="lead">
+                        <h2>Discussion
+                            <small>
+                                <a class="hide btn-mini" data-bind="css: { hide: discussions.editing()}, click: function() { discussions.editing(true); }">One more discussion</a>
+                            </small>
+                        </h2>
+                        <div class="hide" data-bind="css: { hide: !discussions.editing() }">
+                            <form class="well well-small form-inline" data-bind="submit: discussions._create">
+                                <input id="discussion_name" name="discussion_name" class="span4" autofocus="autofocus" placeholder="Discussion name" data-bind="value: discussions.input, valueUpdate: 'afterkeyup'" />
+                                <button type="submit" class="btn btn-success">Create</button>  
+                                <a class="btn-mini" data-bind="click: function() { discussions.editing(false) }"><i class="icon-remove"></i></a>                   
+                            </form>
+                        </div>
+                    </div>
+                    <p class="tc well well-small hide" data-bind="css: { 'hide': discussions().length > 0 }">
+                        Create your first discussion clicking <a href="#" data-bind="click: function() { discussions.editing(true) }">here</a>.
+                    </p>
+                    <!-- ko template: { name: 'discussion-template', foreach: discussions } -->
+                    <!-- /ko -->
+                </div>
+                <div class="tab-pane" id="tab-timelogs">
+                    
+                    <div class="span12">
+            <header class="lead">
+                <h2>Your time <small>The time used on your daily activities</small></h2>
+            </header>
+            <p class="tc well hide" data-bind="css: { 'hide': timelogs().length }">
+                You have no logged hours.
+            </p>
+            
+            <div class="well well-mini btn-toolbar">
+                <div class="btn-group input-append">
+                    <input type="text" class="btn uneditable-input" disabled="disabled" data-bind="value: filter.project().name"></input>
+                    <a class="btn dropdown-toggle add-on" data-toggle="dropdown">
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" data-bind="template: { name: 'dropdown-project-template', foreach: filter.distinctProjects }">
+                    </ul>
+                </div>
+
+                <div class="btn-group input-append">
+                    <input type="text" class="btn uneditable-input" disabled="disabled" data-bind="value: filter.activity().name"></input>
+                    <a class="btn dropdown-toggle add-on" data-toggle="dropdown" data-bind="attr:{disabled: filter.project().id == -1}">
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" data-bind="template: { name: 'dropdown-activity-template', foreach: filter.distinctActivities }">
+                    </ul>
+                </div>
+
+                <div class="btn-group input-append">
+                    <input type="text" placeholder="From" class="btn uneditable-input" disabled="disabled" data-bind="value: filter.dateFrom.formatted"></input>
+                    <a id="datepickFrom" class="add-on btn" data-bind="attr:{ 'data-date-enddate': filter.dateTo.formatted }, datepicker: filter.dateFrom.formatted" data-date-autoclose="true" data-date-format="dd/MM/yyyy">
+                        <i class="icon-calendar"></i>
+                    </a>
+                </div>
+
+                <div class="btn-group input-append">
+                    <input type="text"  placeholder="To"  class="btn uneditable-input" disabled="disabled" data-bind="value: filter.dateTo.formatted"></input>
+                    <a id="datepickTo" class="add-on btn datepicker-right" data-bind="datepicker: filter.dateTo.formatted" data-date-autoclose="true" data-date-format="dd/MM/yyyy" data-date-enddate="@DateTime.Today.ToString("dd/MM/yyyy")">
+                        <i class="icon-calendar"></i>
+                    </a>
+                </div>
+
+                <div class="btn-group input-append">
+                    <button class="btn" data-bind="click: filter.reset">Clear</button>
+                </div>
+                    
+            </div>
+            <table class="table table-striped table-bordered table-condensed hide" data-bind="css: { 'hide': !timelogs().length }">
+                <thead>
+                    <tr>
+                        <th>Project, Activity</th>
+                        <th><a data-bind="click: function(){ sort('duration'); }">
+                                Duration <i data-bind="css: { 'icon-sort': sort.Property() != 'duration',
+                                 'icon-sort-up':sort.Property() == 'duration' && sort.Asc(),
+                                 'icon-sort-down':sort.Property() == 'duration' && !sort.Asc()}"></i> 
+                            </a></th>
+                        <th><a data-bind="click: function(){ sort('description'); }">
+                                Description <i data-bind="css: { 'icon-sort': sort.Property() != 'description',
+                                 'icon-sort-up':sort.Property() == 'description' && sort.Asc(),
+                                 'icon-sort-down':sort.Property() == 'description' && !sort.Asc()}"></i>  
+                            </a></th>
+                        <th><a data-bind="click: function(){ sort('date'); }">
+                                Date <i data-bind="css: { 'icon-sort': sort.Property() != 'date',
+                                 'icon-sort-up':sort.Property() == 'date' && sort.Asc(),
+                                 'icon-sort-down':sort.Property() == 'date' && !sort.Asc()}"></i> 
+                            </a></th>
+                        <th class="input-small">Edit</th>
+                    </tr>
+                </thead>
+                <tbody data-bind="template: { name: 'timelog-template', foreach: sortedTimelog() }">
+                </tbody>
+            </table>
+            <div class="modal fade hide" id="editProjectModal" tabindex="-1" role="dialog">
+                <form class="form-horizontal">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h3>Edit Timelog</h3>
+                    </div>
+                    <div class="modal-body"  data-bind="if: timelogs.editing">
+                        <div class="control-group">
+                            <label class="control-label">Project, Activity</label>
+                            <div class="controls">
+                                <input class="btn" type="text" name="name" disabled="disabled" placeholder="Project, Activity" data-bind="value: (timelogs.editing().project.name() + ', ' + timelogs.editing().activity.name())"/>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Duration</label>
+                            <div class="controls">
+                                <input name="duration" placeholder="Duration" data-bind="value: timelogs.editing().duration"/>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Description</label>
+                            <div class="controls">
+                                <input name="description" placeholder="Description" data-bind="value: timelogs.editing().description"/>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Date</label>
+                            <div class="controls ">
+                                <div class="btn-group input-append">
+                                    <input type="text" class="btn uneditable-input" disabled="disabled" placeholder="Date" data-bind="value: timelogs.editing().date.formatted"/>
+                                    <a class="add-on btn datepicker-right" data-bind="datepicker: timelogs.editing().date.formatted" data-date-autoclose="true" data-date-format="dd/MM/yyyy" data-date-enddate="@DateTime.Today.ToString("dd/MM/yyyy")">
+                                        <i class="icon-calendar"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer"  data-bind="if: timelogs.editing">
+                        <button class="btn" data-dismiss="modal" aria-hidden="true" data-bind="click: discardChanges">Close</button>
+                        <button class="btn btn-primary" data-dismiss="modal" data-bind="click: timelogs.editing._update">Save</button>
+                    </div>
+                </form>
+            </div>
+            <script type="text/html" id="dropdown-activity-template">
+                <li data-bind="css:{ hide: $parent.filter.project().id == -1 || $parent.filter.project().id != project }">
+                    <a data-bind="text: name, click: function(){ $parent.filter.activity($data); }"></a>
+                </li>
+            </script>
+            <script type="text/html" id="dropdown-project-template">
+                <li><a data-bind="text: name, click: function(){ $parent.filter.project($data); }"></a></li>
+            </script>
+            <script type="text/html" id="timelog-template">
+                <tr data-bind="css:{ hide: $parent.filter($data) }">
+                    <td>
+                        <strong><a data-bind="attr:{ href: '/projects/' + project.id() }, text: project.name"></a></strong>,
+                        <span><a data-bind="attr:{ href: '/projects/' + project.id() + '/activities/' + activity.id() }, text: activity.name"></a></span>
+                    </td>
+                    <td>
+                        <span data-bind="text: duration"></span>
+                    </td>
+                    <td>
+                        <span data-bind="text: description"></span>
+                    </td>
+                    <td><span data-bind="text: date.formatted"></span>
+                    </td>
+                    <td class="input-small">
+                        <a href="#editProjectModal" role="button" data-toggle="modal" data-bind="click: function() { $parent.timelogs.editing($data);}">
+                            <i class="icon-edit"></i> 
+                        </a> 
+                        &nbsp;
+                        <a data-bind="click: function() { _remove(); }">
+                            <i class="icon-trash"></i> 
+                        </a>
+                    </td>
+                </tr>
+            </script>
+        </div>
+
                 </div>
             </div>
-            <p class="tc well well-small hide" data-bind="css: { 'hide': discussions().length > 0 }">
-                Create your first discussion clicking <a href="#" data-bind="click: function() { discussions.editing(true) }">here</a>.
-            </p>
-            <!-- ko template: { name: 'discussion-template', foreach: discussions } -->
-            <!-- /ko -->
         </section>
     </div>
     <div class="span4">

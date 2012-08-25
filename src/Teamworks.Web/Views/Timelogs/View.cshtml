@@ -61,33 +61,35 @@ else
             </p>
             
             <div class="well well-mini btn-toolbar">
-                <div class="btn-group input-append">
+                <div class="btn-group input-append input-prepend input-append">
+                    <span disabled="disabled" class="btn add-on">Project</span>
                     <input type="text" class="btn uneditable-input" disabled="disabled" data-bind="value: filter.project().name"></input>
                     <a class="btn dropdown-toggle add-on" data-toggle="dropdown">
                         <span class="caret"></span>
                     </a>
-                    <ul class="dropdown-menu" data-bind="template: { name: 'dropdown-project-template', foreach: filter.distinctProjects }">
+                    <ul class="dropdown-menu pull-right" data-bind="template: { name: 'dropdown-project-template', foreach: filter.distinctProjects }">
                     </ul>
                 </div>
 
-                <div class="btn-group input-append">
+                <div class="btn-group input-prepend input-append">
+                    <span disabled="disabled" class="btn add-on">Activity</span>
                     <input type="text" class="btn uneditable-input" disabled="disabled" data-bind="value: filter.activity().name"></input>
-                    <a class="btn dropdown-toggle add-on" data-toggle="dropdown" data-bind="attr:{disabled: filter.project().id == -1}">
+                    <a class="btn dropdown-toggle add-on " data-toggle="dropdown" data-bind="attr:{disabled: filter.project().id == -1}">
                         <span class="caret"></span>
                     </a>
-                    <ul class="dropdown-menu" data-bind="template: { name: 'dropdown-activity-template', foreach: filter.distinctActivities }">
+                    <ul class="dropdown-menu pull-right" data-bind="template: { name: 'dropdown-activity-template', foreach: filter.distinctActivities }">
                     </ul>
                 </div>
 
                 <div class="btn-group input-append">
-                    <input type="text" placeholder="From" class="btn uneditable-input" disabled="disabled" data-bind="value: filter.dateFrom.formatted"></input>
+                    <input type="text" placeholder="From" class="btn uneditable-input input-medium" disabled="disabled" data-bind="value: filter.dateFrom.formatted"></input>
                     <a id="datepickFrom" class="add-on btn" data-bind="attr:{ 'data-date-enddate': filter.dateTo.formatted }, datepicker: filter.dateFrom.formatted" data-date-autoclose="true" data-date-format="dd/MM/yyyy">
                         <i class="icon-calendar"></i>
                     </a>
                 </div>
 
                 <div class="btn-group input-append">
-                    <input type="text"  placeholder="To"  class="btn uneditable-input" disabled="disabled" data-bind="value: filter.dateTo.formatted"></input>
+                    <input type="text"  placeholder="To"  class="btn uneditable-input input-medium" disabled="disabled" data-bind="value: filter.dateTo.formatted"></input>
                     <a id="datepickTo" class="add-on btn datepicker-right" data-bind="datepicker: filter.dateTo.formatted" data-date-autoclose="true" data-date-format="dd/MM/yyyy" data-date-enddate="@DateTime.Today.ToString("dd/MM/yyyy")">
                         <i class="icon-calendar"></i>
                     </a>
@@ -123,6 +125,49 @@ else
                 <tbody data-bind="template: { name: 'timelog-template', foreach: sortedTimelog() }">
                 </tbody>
             </table>
+            <div class="modal fade hide" id="editProjectModal" tabindex="-1" role="dialog">
+                <form class="form-horizontal">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h3>Edit Timelog</h3>
+                    </div>
+                    <div class="modal-body"  data-bind="if: timelogs.editing">
+                        <div class="control-group">
+                            <label class="control-label">Project, Activity</label>
+                            <div class="controls">
+                                <input class="btn" type="text" name="name" disabled="disabled" placeholder="Project, Activity" data-bind="value: (timelogs.editing().project.name() + ', ' + timelogs.editing().activity.name())"/>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Duration</label>
+                            <div class="controls">
+                                <input name="duration" placeholder="Duration" data-bind="value: timelogs.editing().duration"/>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Description</label>
+                            <div class="controls">
+                                <input name="description" placeholder="Description" data-bind="value: timelogs.editing().description"/>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Date</label>
+                            <div class="controls ">
+                                <div class="btn-group input-append">
+                                    <input type="text" class="btn uneditable-input" disabled="disabled" placeholder="Date" data-bind="value: timelogs.editing().date.formatted"/>
+                                    <a class="add-on btn datepicker-right" data-bind="datepicker: timelogs.editing().date.formatted" data-date-autoclose="true" data-date-format="dd/MM/yyyy" data-date-enddate="@DateTime.Today.ToString("dd/MM/yyyy")">
+                                        <i class="icon-calendar"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer"  data-bind="if: timelogs.editing">
+                        <button class="btn" data-dismiss="modal" aria-hidden="true" data-bind="click: discardChanges">Close</button>
+                        <button class="btn btn-primary" data-dismiss="modal" data-bind="click: timelogs.editing._update">Save</button>
+                    </div>
+                </form>
+            </div>
             <script type="text/html" id="dropdown-activity-template">
                 <li data-bind="css:{ hide: $parent.filter.project().id == -1 || $parent.filter.project().id != project }">
                     <a data-bind="text: name, click: function(){ $parent.filter.activity($data); }"></a>
@@ -138,31 +183,25 @@ else
                         <span><a data-bind="attr:{ href: '/projects/' + project.id() + '/activities/' + activity.id() }, text: activity.name"></a></span>
                     </td>
                     <td>
-                        <span class="hide" data-bind="text: duration, css: {hide: editing()}"></span>
+                        <span data-bind="text: duration"></span>
                     </td>
                     <td>
-                        <span class="hide" data-bind="text: description, css: {hide: editing()}"></span>
+                        <span data-bind="text: description"></span>
                     </td>
-                    <td><span class="hide" data-bind="text: date.formatted, css: { hide: editing() }"></span>
+                    <td><span data-bind="text: date.formatted"></span>
                     </td>
                     <td class="input-small">
-                        <a class="hide" data-bind="css: { hide: editing()}, click: function() { editing(true); }">
+                        <a href="#editProjectModal" role="button" data-toggle="modal" data-bind="click: function() { $parent.timelogs.editing($data);}">
                             <i class="icon-edit"></i> 
                         </a> 
                         &nbsp;
-                        <a class="hide" data-bind="css: { hide: editing()}, click: function() { _remove(); }">
+                        <a data-bind="click: function() { _remove(); }">
                             <i class="icon-trash"></i> 
-                        </a>
-                        <a class="hide" data-bind="css: { hide: !editing() }, click: function() { editing(false); _update(); }">
-                            <i class="icon-save"></i> 
-                        </a> 
-                        &nbsp;
-                        <a class="hide" data-bind="css: { hide: !editing() }, click: function() { $parent.discardChanges(); editing(false); }">
-                            <i class="icon-remove"></i> 
                         </a>
                     </td>
                 </tr>
             </script>
+     
         </div>
     </div>
 

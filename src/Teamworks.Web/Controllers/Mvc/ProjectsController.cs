@@ -90,6 +90,22 @@ namespace Teamworks.Web.Controllers.Mvc
             vm.People = DbSession.Load<Person>(project.People)
                 .Where(p => p != null).MapTo<PersonViewModel>();
 
+            foreach (var activity in activities)
+            {
+                vm.Timelogs = vm.Timelogs
+                    .Concat(activity.Timelogs.MapTo<ProjectViewModel.Timelog>()
+                                .Select(a =>
+                                {
+                                    a.Activity = activity.MapTo<EntityViewModel>();
+                                    return a;
+                                }))
+                    .ToList();
+            }
+
+            vm.Timelogs = vm.Timelogs
+                .OrderByDescending(x => x.Date)
+                .ThenBy(x => x.Activity.Id).ToList();
+
             return View(vm);
         }
 

@@ -20,7 +20,6 @@
             var mapping = {
                 create: function (options) {
                     return (new (function () {
-                        this.editing = ko.observable(false);
 
                         this._remove = function () {
                             var timelog = this;
@@ -53,8 +52,10 @@
                     })());
                 }
             };
+            
             self.discardChanges = function () {
                 ko.mapping.fromJS(json, self.timelogs);
+                self.timelogs.editing(undefined);
             };
 
             var now = Date.today().toISOString();
@@ -87,7 +88,14 @@
             self.timelogs.input.has_error = ko.computed(function () {
                 return self.timelogs.input.description.has_error() || self.timelogs.input.duration() == undefined;
             });
-
+            self.timelogs.editing = ko.observable();
+            self.timelogs.editing._update = function () {
+                self.timelogs.editing()._update.call(self.timelogs.editing());
+            };
+            
+            /***************************************
+            *               Typeahead              *
+            ****************************************/
             self.source = data;
             self.typeahead = function (typeahead) {
                 var source = [];
@@ -144,7 +152,9 @@
 
             };
 
-            //Sorting
+            /***************************************
+            *               Sort                   *
+            ****************************************/
             var sortFunction = function (a, b) {
                 var result = a[self.sort.Property()]() > b[self.sort.Property()]() ? 1 : -1;
                 return self.sort.Asc() ? result : result * -1;
@@ -163,22 +173,22 @@
             self.sort.Asc = ko.observable(false);
 
             self.sortedTimelog = ko.computed(function () {
-                //var tt = new Date().getTime();
                 var result;
                 if (self.sort.Property()) {
                     result = self.timelogs().sort(sortFunction);
                 } else {
                     result = self.timelogs();
                 }
-                //alert("Time : " + (new Date().getTime() - tt) + " ms</br>");
                 return result;
             });
 
-            //Filtering
+            /***************************************
+            *              Filtering               *
+            ****************************************/
             var getUnique = function (collection) {
                 var result = [{ name: "All", id: -1, project: -1}];
                 $.each(collection, function (i, e) {
-                    //concat with "t" so the item wont show up on knockout observable iterations
+                    //hack:concat with "t" so the item wont show up on knockout observable iterations
                     if (!result[e.project + "t" + e.id]) {
                         result[e.project + "t" + e.id] = 1;
                         result.push(e);

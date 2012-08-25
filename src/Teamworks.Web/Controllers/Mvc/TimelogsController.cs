@@ -43,11 +43,13 @@ namespace Teamworks.Web.Controllers.Mvc
                                         a.Project = project.MapTo<EntityViewModel>();
                                         return a;
                                     }))
-                    .OrderBy(x => x.Project.Id)
-                    .ThenBy(x => x.Activity.Id)
-                    .ThenByDescending(x => x.Date)
                     .ToList();
             }
+
+            vm.Timelogs = vm.Timelogs
+                .OrderByDescending(x => x.Date)
+                .ThenBy(x => x.Project.Id)
+                .ThenBy(x => x.Activity.Id).ToList();
             return View("View", vm);
         }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -12,6 +13,12 @@ namespace Teamworks.Web.ViewModels.Mvc
         public List<PersonViewModel> People { get; set; }
         public IList<Activity> Activities { get; set; }
         public IList<Discussion> Discussions { get; set; }
+        public IList<Timelog> Timelogs { get; set; }
+
+        public ProjectViewModel()
+        {
+            Timelogs=new List<Timelog>(); 
+        }
 
         #region Nested type: ActivityViewModel
 
@@ -21,7 +28,18 @@ namespace Teamworks.Web.ViewModels.Mvc
             public string Name { get; set; }
             public string Description { get; set; }
         }
+        #endregion
 
+        #region Nested type: TimelogViewModel
+        public class Timelog
+        {
+            public EntityViewModel Activity { get; set; }
+
+            public int Id { get; set; }
+            public int Duration { get; set; }
+            public string Description { get; set; }
+            public DateTime Date { get; set; }
+        }
         #endregion
 
         #region Nested type: Discussion
