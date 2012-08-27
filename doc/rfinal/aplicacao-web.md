@@ -4,8 +4,8 @@ Aplicação Web
 \label{sec:app-web}
 
 A aplicação web disponibiliza uma interface para interacção com a infra-estrutura, implementada usando a *framework* ASP.NET MVC \cite{aspnetmvc}.
-
-A aplicação web disponibiliza *controllers*, cujas *actions* têm como resposta aos pedidos uma página web com código *javascript* que tornam o browser um cliente da Api. As páginas web retornadas utilizam as *frameworks javascript* jQuery \cite{jquery} e knockout \cite{knockout} para interacção com o utilizador.
+Numa primeira fase foi decidido que a aplicação Web era apenas um consumidor da Api obtendo toda a informação que necessitava apresentar ao utilizador da Api.
+Com o decorrer do projecto conclui-se que os dados relevantes a apresentar pela aplicação Web não eram possíveis obter da web Api sem desvirtuar o objectivo da Api de expor os objectos de domínio como recursos.
 
 A componente visual é conseguida usando HTML5, CSS3 e o *kit* Twitter Bootstrap \cite{bootstrap}.
 
@@ -21,13 +21,8 @@ A cookie tem como valor o identificador da instância de *Person* que foi obtida
 
 O utilizador mantém a identidade dos pedidos anteriores pois o módulo `FormsAuthenticationModule`, em cada pedido, coloca o valor da *cookie* na propriedade `User` do pedido. A acção do módulo é complementada pelo filtro `FormsAuthenticationAttribute` que substitui o `IIdentity` do pedido por um `PersonIdentity` que disponibiliza a entidade `Person` do utilizador autenticado ao código executado nas *actions*.
 
-Para que um utilizador quando autenticado na aplicação web também esteja autenticado na Api foi acrescentado ao *pipeline* da Api a classe `FormsAuthenticationHandler`.
-Esta implementação de `DelegatingHandler` verifica se o `IPricipal` do pedido está autenticado e se contiver uma instância de `PersonIdentity` coloca a `Person` correspondente na colecção `Properties` utilizando a chave `HttpPropertyKeys.UserPrincipalKey`.
-
 Na aplicação web um utilizador está autorizado a aceder a qualquer um dos *controllers* que interagem com a Api desde que autenticado. 
 
-Cliente da Api
--
 
 A forma como foi desenvolvida a aplicação web torna-a um cliente da Api da plataforma. Este comportamento é conseguido através da utilização da framework javascript knockout e AJAX. Esta framework é usada para fazer actualização de elementos da página web com a informação do servidor, respondendo a interacções com o utilizador. Neste componente é usado o padrão MVVM (**M**odel-**V**iew-**V**iew**M**odel) para tornar as páginas web mais dinâmicas e melhorando a experiência do utilizador. 
 

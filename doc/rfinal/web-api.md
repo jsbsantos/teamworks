@@ -3,13 +3,16 @@ Web Api
 
 \label{sec:api}
 
-A Api assenta sobre modelo de arquitectura ReSTful e todos os objectos de domínio da aplicação são considerados recursos com URL próprio. 
-A comunicação é feita utilizando o protocolo HTTP.
+A Api assenta sobre modelo de arquitectura ReSTful e utiliza a comunicação é feita usando o protocolo HTTP.
+Todos os objectos de domínio da aplicação são considerados recursos com URL próprio e o processamento dos pedidos é feito utilizando a *framework* Asp.Net Web Api \ref{anexo:aspdotnetwebapi}.
+Para implementação da solução foram criados novos *message handlers*, *filters* e *controllers*.
 
-O processamento de um pedido na *framework* ASP.NET Web Api pode ser dividido em três camadas \ref{pfelix}. 
+***Message handlers***
 
-***Hosting***
+Numa aplicação Web todo o processamento de um pedido pode estar relacionado, assim todas as interações com a base de dados devem ser feitas utilizando a mesma sessão (utilização do padrão *unit of work*).
+A criação da sessão é feita pelo *message handler* `RavenSession` que instancia uma sessão e a adiciona às propriedades do pedido, lista \ref{code:opensession}, disponibilizando a sessão para que possa ser usada durante o processamento do pedido. 
 
+<<<<<<< Updated upstream
 A primeira, a camada de *hosting*, recebe o pedido, cria uma instância de `HttpRequestMessage` e passa a instância á camada superior. 
 Esta camada é também responsável por receber a instância de `HttpResponseMessage` retornada pela camada seguinte. 
 
@@ -54,13 +57,16 @@ O *message handler* responsável pela autenticação necessita de dados presente
 A criação da sessão é feita pelo *message handler* `RavenSession` que instância uma sessão de acesso e a adiciona às propriedades do pedido, lista \ref{code:opensession}, disponibilizando a mesma sessão durante o resto do processamento do pedido. 
 
 \lstset{caption={Processamento do pedido da classe `RavenSessionHandler`.},label={code:opensession}}
+=======
+\lstset{caption={Processamento do pedido da classe `RavenSession`.},label={code:opensession}}
+>>>>>>> Stashed changes
 
 ````
 var session = Global.Database.OpenSession();
 request.Properties[Application.Keys.RavenDbSessionKey] = session;
 ````
 
-Se a resposta não contiver erros e decorrer normalmente o *message handler* persiste as alterações à sessão, como demonstra a lista \ref{code:savechanges}. 
+Na resposta ao pedido a instancia de `RavenSession` se a resposta não contiver um  código de erro completa o padrão *unit of work* persistindo as alterações à sessão na base de dados, como demonstra a lista \ref{code:savechanges}. 
 
 \lstset{caption={Processamento da resposta da classe `RavenSessionHandler`.},label={code:savechanges}}
 
@@ -72,13 +78,14 @@ using (session) {
 }  
 ````
 
-Na figura \ref{fig:russiandoll} estão representados os elementos adicionados ao *pipeline* e a ordem por que são executados, `RavenSession` e `BasicAuthentication`.
+Todos os pedidos à Api têm de ser autenticados e a classe `BasicAuthentication` (derivada de `DelegatingHandler`) é responsável pela autenticação.
 
-![Processamento do pedido na Web Api.\label{fig:russiandoll}](http://www.lucidchart.com/publicSegments/view/50291e63-5070-4845-94a2-5c020a7c36ea/image.png)
+Para autenticar os utilizadores é verificada a presença do *header* de nome `Authorization` e se o seu valor é `Basic`. As credenciais são convertidas para a forma original, `nome-de-utilizador:password` e validadas segundo o processo descrito no domínio (ver secção \ref{sec:dominio}).
 
-*Controllers*
--
+À semelhança do *message handler* de sessão este também tem responsabilidades na resposta ao pedido. Caso a autenticação não seja válida este *message handler* é, também, responsável por colocar o *header* de autenticação na resposta. O valor do *header* é `Basic` e só é colocado se a resposta tiver como código `401 Unhauthorized`.
+Para a autenticação são necessários dados da base de dados. Dados que podem ser obtidos com uma sessão Raven \ref{a}.
 
+<<<<<<< Updated upstream
 Para abstrair as *actions* da obtenção da sessão foi criada a classe `RavenApiController` que disponibiliza a propriedade `DbSession`, que retorna uma sessão para acesso à base de dados.
 O propriedade `DbSession` é afectada com a instância passada por parâmetro no construtor do *controller*.
 
@@ -87,6 +94,14 @@ Como indicado anteriormente no fim do *pipeline* é obtido um *controller*. No c
 Os filtros são uma forma de extender o processamento do pedido por parte do *controller* seleccionado.
 Os filtros podem ser globais, associados ao *controller* ou a uma *action* e derivam de `ActionFilterAttribute`. 
 Os filtros globais são registados no início da aplicação e os restantes como atributos aplicados ao *controller* ou *action* dependendo das necessidades de abrangência do filtro.  
+=======
+Na figura \ref{fig:russiandoll} estão representados os elementos adicionados ao *pipeline* e a ordem por que são executados, `RavenSession` e `BasicAuthentication`.
+
+![Processamento do pedido na Web Api.\label{fig:russiandoll}](http://www.lucidchart.com/publicSegments/view/50291e63-5070-4845-94a2-5c020a7c36ea/image.png)
+
+
+***Filters***
+>>>>>>> Stashed changes
 
 Os atributos definidos na implementação da infra-estrutura são os seguintes:
 
@@ -107,4 +122,20 @@ Os atributos definidos na implementação da infra-estrutura são os seguintes:
 
 * `RavenSessionFilterAttribute`
 	
+
+
+
+----
+
+
+*Controllers*
+-
+
+Para abstrair as *actions* da obtenção da sessão foi criada a classe `RavenApiController` que disponibiliza a propriedade `DbSession`, que retorna uma sessão para acesso à base de dados.
+
+Como indicado anteriormente no fim do *pipeline* é obtido um *controller*. No contexto do controller é seleccionada a *action* que processa o pedido mas antes desta ser chamada são executados os filtros e é feito o *model binding* dos parametros da *action*. A *action* é invocada e utilizando os *formatters* registados na *framework* e a negociação de conteúdos com o cliente é criada a resposta.
+
+Os filtros são uma forma de extender o processamento do pedido por parte do *controller* selecionado.
+Os filtros podem ser globais, associados ao *controller* ou a uma *action* e derivam de `ActionFilterAttribute`. 
+Os filtros globais são registados no inicio da aplicação e os restantes como atributos aplicados ao *controller* ou *action* dependendo das necessidades de abrangência do filtro.  
 
