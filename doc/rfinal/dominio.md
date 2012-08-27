@@ -43,6 +43,8 @@ O *hash* da password é gerado usando um algoritmo de dispersão (*SHA-256*) que
 A autenticação é feita usando o nome de utilizador e a *password* e é válida se o resultado da função de dispersão, usada no registo para a *password* for igual ao obtido usando os dados inseridos pelo utilizador.
 A função de dispersão, na autenticação, tem como parâmetro de entrada a concatenação da *password* inserida com o *salt* presente na instância de *Person* obtida.
 
+Em alternativa ao registo e autenticação de utilizadores usando o seu nome e *password*, é suportada ainda a utilização de um *provider* de *OpenID*. Apenas é suportado o *provider* de *OpenID* da *Google*.
+
 A política de acesso é definida individualmente por cada entidade. Sendo que um utilizador só lhe pode aceder se tiver sido criada por si ou se lhe tiverem atribuído permissões.
 
 [^salt]: O *salt* é utilizado para criar aleatoriedade na *password*. Desta maneira o *hash* gerado para a mesma *password* é diferente por utilizador.

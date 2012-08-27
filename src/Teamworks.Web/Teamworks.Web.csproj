@@ -91,9 +91,6 @@
     <Compile Include="Controllers\Api\MailgunController.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controllers\Api\MessagesController.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Controllers\Api\HomeController.cs" />
     <Compile Include="Controllers\Mvc\TimelogsController.cs" />
     <Compile Include="Helpers\AutoMapper\AutoMapperExtensions.cs" />

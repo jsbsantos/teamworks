@@ -12,7 +12,6 @@ using Teamworks.Core.Extensions;
 using Teamworks.Core.Services;
 using Teamworks.Web.Attributes.Api;
 using Teamworks.Web.Helpers.AutoMapper;
-using Teamworks.Web.Helpers.Extensions.Api;
 using Teamworks.Web.ViewModels.Api;
 
 namespace Teamworks.Web.Controllers.Api
@@ -49,7 +48,7 @@ namespace Teamworks.Web.Controllers.Api
 
             DbSession.Store(activity);
             if (model.Dependencies != null)
-                activity.Dependencies = model.Dependencies.Select(s=>s.ToId("activity")).ToList();
+                activity.Dependencies = model.Dependencies.Select(s => s.ToId("activity")).ToList();
 
             var domain = DbSession.Query<Activity>()
                 .Where(a => a.Project == project.Id).ToList();
@@ -59,7 +58,7 @@ namespace Teamworks.Web.Controllers.Api
 
             var value = activity.MapTo<ActivityViewModel>();
             var response = Request.CreateResponse(HttpStatusCode.Created, value);
-            
+
             var uri = Url.Link("api_activities_getbyid", new {projectId, id = activity.Id.ToIdentifier()});
             response.Headers.Location = new Uri(uri);
             return response;
@@ -72,20 +71,11 @@ namespace Teamworks.Web.Controllers.Api
             var activity = DbSession
                 .Load<Activity>(model.Id);
 
-            Request.NotFound(activity);
+            if (activity == null || activity.Project.ToIdentifier() != projectId)
+                throw new HttpResponseException(HttpStatusCode.NotFound);
 
             activity.Update(model.MapTo<Activity>(), DbSession);
-            /*
-            activity.Name = model.Name ?? activity.Name;
-            activity.Description = model.Description ?? activity.Description;
-            if (activity.Duration != model.Duration)
-            {
-                var domain = DbSession.Query<Activity>()
-                    .Where(a => a.Project == projectId.ToId("project")).ToList();
-                OffsetDuration(domain, activity, model.Duration - activity.Duration);
-            }
 
-            activity.Duration = model.Duration;*/
             var activities = activity.MapTo<ActivityViewModel>();
             return Request.CreateResponse(HttpStatusCode.Created, activities);
         }
@@ -102,17 +92,18 @@ namespace Teamworks.Web.Controllers.Api
         #endregion
 
         #region Precedence
-        
+
         [GET("{id}/precedences")]
         public IEnumerable<ActivityViewModel> GetPrecedence(int id, int projectId)
         {
             var pid = projectId.ToId("project");
-            var aid = projectId.ToId("activity");
+            var aid = id.ToId("activity");
 
             var activity = DbSession.Query<Activity>()
                 .Where(a => a.Project == pid && a.Id == aid).FirstOrDefault();
 
-            Request.NotFound(activity);
+            if (activity == null || activity.Project.ToIdentifier() != projectId)
+                throw new HttpResponseException(HttpStatusCode.NotFound);
 
             return activity.Dependencies.MapTo<ActivityViewModel>();
         }
@@ -120,7 +111,6 @@ namespace Teamworks.Web.Controllers.Api
         [POST("{id}/precedences")]
         public HttpResponseMessage PostPrecedence(int id, int projectId, IEnumerable<int> precedences)
         {
-
             var pid = projectId.ToId("project");
             var aid = projectId.ToId("activity");
 
@@ -128,11 +118,12 @@ namespace Teamworks.Web.Controllers.Api
                 .Where(a => a.Project == pid).ToList();
 
             var activity = activities.Where(a => a.Id == aid).FirstOrDefault();
-            Request.NotFound(activity);
+            if (activity == null)
+                throw new HttpResponseException(HttpStatusCode.NotFound);
 
             activity.Dependencies = activities.Select(a => a.Id)
-                    .Intersect(precedences.Select(d => d.ToId("activity")))
-                    .ToList();
+                .Intersect(precedences.Select(d => d.ToId("activity")))
+                .ToList();
 
             return Request.CreateResponse(HttpStatusCode.Created);
         }
@@ -146,16 +137,14 @@ namespace Teamworks.Web.Controllers.Api
             var activity = DbSession.Query<Activity>()
                 .Where(a => a.Project == pid && a.Id == aid).FirstOrDefault();
 
-            Request.NotFound(activity);
-
-            activity.Dependencies = activity.Dependencies
+            if (activity != null && activity.Project.ToIdentifier() == projectId)
+                activity.Dependencies = activity.Dependencies
                     .Except(precedences.Select(d => d.ToId("activity")))
                     .ToList();
 
             return Request.CreateResponse(HttpStatusCode.NoContent);
         }
-        
-         
+
         #region Private
 
         [NonAction]
@@ -176,10 +165,10 @@ namespace Teamworks.Web.Controllers.Api
         #endregion
 
         #region People
+
         [GET("{id}/assignees")]
         public IEnumerable<PersonViewModel> GetAssignees(int id, int projectId)
         {
-
             var pid = projectId.ToId("project");
             var aid = projectId.ToId("activity");
 
@@ -199,8 +188,8 @@ namespace Teamworks.Web.Controllers.Api
 
             var activity = DbSession.Query<Activity>()
                 .Customize(c => c.Include(projectId.ToId("project")))
-                .Where(a => a.Project == pid && a.Id == aid).FirstOrDefault(); 
-            
+                .Where(a => a.Project == pid && a.Id == aid).FirstOrDefault();
+
             var project = DbSession
                 .Include<Project>(p => p.People)
                 .Load<Project>(projectId);
@@ -234,6 +223,7 @@ namespace Teamworks.Web.Controllers.Api
 
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
+
         #endregion
     }
 }

@@ -1,8 +1,6 @@
-﻿using System.Net;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Security.Principal;
 using System.Threading;
-using System.Web.Http;
 using Teamworks.Core;
 using Teamworks.Core.Authentication;
 
@@ -28,17 +26,17 @@ namespace Teamworks.Web.Helpers.Extensions.Api
             return person == null ? null : person.Id;
         }
 
-        public static void ThrowNotFound(this HttpRequestMessage request)
-        {
-            throw new HttpResponseException(request.CreateResponse(HttpStatusCode.NotFound));
-        }
+        //public static void ThrowNotFound(this HttpRequestMessage request)
+        //{
+        //    throw new HttpResponseException(request.CreateResponse(HttpStatusCode.NotFound));
+        //}
 
-        public static void NotFound(this HttpRequestMessage request, object obj)
-        {
-            if (obj == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
-        }
+        //public static void NotFound(this HttpRequestMessage request, object obj)
+        //{
+        //    if (obj == null)
+        //    {
+        //        throw new HttpResponseException(HttpStatusCode.NotFound);
+        //    }
+        //}
     }
 }

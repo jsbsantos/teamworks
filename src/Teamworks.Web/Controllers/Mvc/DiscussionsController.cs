@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.Http;
 using System.Web.Mvc;
 using AttributeRouting;
 using AttributeRouting.Web.Mvc;
@@ -25,7 +26,7 @@ namespace Teamworks.Web.Controllers.Mvc
             , IsAbsoluteUrl = true, RouteName = "discussions_activitiesget")]
         public ActionResult Get(int projectid, int? activityId)
         {
-            return HttpNotFound();
+            throw new HttpResponseException(HttpStatusCode.NotFound);
         }
 
         [GET("{discussionId}")]
@@ -178,7 +179,7 @@ namespace Teamworks.Web.Controllers.Mvc
             return new HttpStatusCodeResult(HttpStatusCode.NoContent);
         }
 
-        [NonAction]
+        [System.Web.Mvc.NonAction]
         public override Breadcrumb[] CreateBreadcrumb()
         {
             var activityId = 0;

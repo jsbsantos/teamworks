@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web.Http;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
-using Raven.Bundles.Authorization.Model;
-using Raven.Client.Authorization;
 using Raven.Client.Linq;
 using Teamworks.Core;
 using Teamworks.Core.Services;
@@ -22,15 +20,13 @@ namespace Teamworks.Web.Controllers.Api
     [RoutePrefix("api/projects/{projectId}")]
     public class DiscussionsController : RavenApiController
     {
-        #region ProjectViewModel Discussion
-
         [GET("discussions")]
         [GET("activities/{activityId}/discussions", RouteName = "api_discussions_getactivities")]
         public IEnumerable<DiscussionViewModel> Get(int projectId, int? activityId)
         {
-            string entity = activityId.HasValue ? 
-                activityId.Value.ToId("activity") 
-                : projectId.ToId("project");
+            var entity = activityId.HasValue
+                             ? activityId.Value.ToId("activity")
+                             : projectId.ToId("project");
 
             var discussions = DbSession.Query<Discussion>()
                 .Where(d => d.Entity == entity);
@@ -39,93 +35,129 @@ namespace Teamworks.Web.Controllers.Api
         }
 
         [GET("discussions/{id}")]
-        public Discussion GetById(int id, int projectId)
+        [GET("activities/{activityId}/discussions/{id}", RouteName = "api_discussions_get_byidactivities")]
+        public Discussion GetById(int id, int projectId, int? activityId)
         {
+            var entity = activityId.HasValue
+                             ? activityId.Value.ToId("activity")
+                             : projectId.ToId("project");
+
             var discussion = DbSession
                 .Query<Discussion>()
-                .FirstOrDefault(a => a.Entity == projectId.ToId("project")
-                                     && a.Id == id.ToId("discussion"));
+                .FirstOrDefault(a => a.Id == id.ToId("discussion"));
 
-            Request.NotFound(discussion);
-            return Mapper.Map<Core.Discussion, Discussion>(discussion);
+            if (discussion == null || discussion.Entity != entity)
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+
+            return Mapper.Map<Discussion, Discussion>(discussion);
         }
 
         [POST("discussions")]
-        public HttpResponseMessage Post(int projectId, Discussion model)
+        [POST("activities/{activityId}/discussions", RouteName = "api_discussions_postactivities")]
+        public HttpResponseMessage Post(int projectId, Discussion model, int? activityId)
         {
-            var project = DbSession.Load<Project>(projectId);
-            Discussion discussion = Discussion.Forge(model.Name, model.Content, project.Id,
-                                                               Request.GetCurrentPersonId());
+            string entity = activityId.HasValue
+                                ? activityId.Value.ToId("activity")
+                                : projectId.ToId("project");
+
+            if ((activityId.HasValue && DbSession.Load<Activity>(entity) == null) ||
+                DbSession.Load<Project>(entity) == null)
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+
+            Discussion discussion = Discussion.Forge(model.Name, model.Content, entity,
+                                                     Request.GetCurrentPersonId());
 
             DbSession.Store(discussion);
-            DbSession.SetAuthorizationFor(discussion, new DocumentAuthorization
-                                                          {
-                                                              Tags = {project.Id}
-                                                          });
-            Discussion response = Mapper.Map<Core.Discussion, Discussion>(discussion);
-
-            // todo add header of location
+            Discussion response = Mapper.Map<Discussion, Discussion>(discussion);
 
             return Request.CreateResponse(HttpStatusCode.Created, response);
         }
 
-        [PUT("discussions/{id}")]
-        public HttpResponseMessage Put(int id, int projectId, Discussion model)
-        {
-            return null;
-        }
-
         [DELETE("discussions/{id}")]
-        public HttpResponseMessage Delete(int id, int projectId)
+        [DELETE("activities/{activityId}/discussions/{id}", RouteName = "api_discussions_deleteactivities")]
+        public HttpResponseMessage Delete(int id, int projectId, int? activityId)
         {
-            Core.Discussion discussion = DbSession
-                .Query<Core.Discussion>()
-                .FirstOrDefault(a => a.Entity == projectId.ToId("project")
-                                     && a.Id == id.ToId("discussion"));
+            string entity = activityId.HasValue
+                                ? activityId.Value.ToId("activity")
+                                : projectId.ToId("project");
 
-            Request.NotFound(discussion);
+            var discussion = DbSession
+                .Query<Discussion>()
+                .FirstOrDefault(a => a.Id == id.ToId("discussion"));
 
-            DbSession.Delete(discussion);
+            if (discussion != null && discussion.Entity == entity)
+                DbSession.Delete(discussion);
+
             return Request.CreateResponse(HttpStatusCode.NoContent);
         }
 
-        #endregion
-
-        [GET("activities/{activityId}/discussions")]
-        public IEnumerable<Discussion> GetActivityDiscussions(int projectId, int activityId)
+        [GET("discussions/{id}/messages")]
+        [GET("activities/{activityId}/discussions/{id}/messages", RouteName = "api_discussions_messages_getactivities")]
+        public IEnumerable<MessageViewModel> GetProjectMessages(int id, int projectId, int? activityId)
         {
-            throw new NotImplementedException();
+            string entity = activityId.HasValue
+                                ? activityId.Value.ToId("activity")
+                                : projectId.ToId("project");
+
+            var discussion = DbSession
+                .Query<Discussion>()
+                .FirstOrDefault(a => a.Id == id.ToId("discussion"));
+
+            if (discussion != null || discussion.Entity == entity)
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+
+            return discussion.Messages.MapTo<MessageViewModel>();
         }
 
-        [GET("activities/{activityId}/discussions/{id}")]
-        public Discussion GetActivityDiscussionById(int id, int projectId, int activityId)
+        //todo test route
+        [POST("discussions/{id}/messages")]
+        [POST("activities/{activityId}/discussions/{id}/messages", RouteName = "api_discussions_messages_postactivities")]
+        public HttpResponseMessage PostProjectMessages(int id, int projectId, int? activityId, MessageViewModel model)
         {
-            throw new NotImplementedException();
+            string entity = activityId.HasValue
+                                ? activityId.Value.ToId("activity")
+                                : projectId.ToId("project");
+
+            var discussion = DbSession
+                .Query<Discussion>()
+                .FirstOrDefault(a => a.Id == id.ToId("discussion"));
+
+            if (discussion != null || discussion.Entity == entity)
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+
+            string current = Request.GetCurrentPersonId();
+            var message = Discussion.Message.Forge(model.Content, current);
+
+            message.Id = discussion.GenerateNewMessageId();
+
+            discussion.Messages.Add(message);
+
+            var value = message.MapTo<MessageViewModel>();
+            return Request.CreateResponse(HttpStatusCode.Created, value);
         }
 
-        [POST("activities/{activityId}/discussions/")]
-        public HttpResponseMessage PostActivityDiscussion(
-            int projectId,
-            int activityId,
-            Discussion model)
+        [DELETE("discussions/{discussionId}/messages/{id}")]
+        [DELETE("activities/{activityId}/discussions/{discussionId}/messages/{id}",
+            RouteName = "api_discussions_messages_deleteactivities")]
+        public HttpResponseMessage DeleteProjectMessages(int id, int discussionId, int projectId, int? activityId)
         {
-            throw new NotImplementedException();
-        }
+            string entity = activityId.HasValue
+                                ? activityId.Value.ToId("activity")
+                                : projectId.ToId("project");
 
-        /// <see cref="http://forums.asp.net/post/4855634.aspx" />
-        [PUT("activities/{activityId}/discussions/{id}")]
-        public HttpResponseMessage PutActivityDiscussion(int id,
-                                                     int projectId,
-                                                     int activityId,
-                                                     Discussion.Message model)
-        {
-            throw new NotImplementedException();
-        }
+            var discussion = DbSession
+                .Query<Discussion>()
+                .FirstOrDefault(a => a.Id == discussionId.ToId("discussion"));
 
-        [DELETE("activities/{activityId}/discussions/{id}")]
-        public HttpResponseMessage DeleteActivityDiscussion(int id, int projectId, int activityId)
-        {
-            throw new NotImplementedException();
+            if (discussion != null || discussion.Entity == entity)
+                throw new HttpResponseException(HttpStatusCode.NoContent);
+
+            Discussion.Message message = discussion.Messages.FirstOrDefault(m => m.Id == id);
+
+            if (message != null)
+                discussion.Messages.Remove(message);
+
+            return Request.CreateResponse(HttpStatusCode.NoContent);
         }
     }
 }

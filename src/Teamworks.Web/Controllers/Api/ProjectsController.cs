@@ -45,11 +45,11 @@ namespace Teamworks.Web.Controllers.Api
             DbSession.Store(project);
             project.Grant(string.Empty, person);
             project.Initialize(DbSession);
-            
+
             var value = project.MapTo<ProjectViewModel>();
             var response = Request.CreateResponse(HttpStatusCode.Created, value);
 
-            var uri = Url.Link("api_projects_getbyid", new { id = project.Id.ToIdentifier() });
+            var uri = Url.Link("api_projects_getbyid", new {id = project.Id.ToIdentifier()});
             response.Headers.Location = new Uri(uri);
             return response;
         }
@@ -62,12 +62,14 @@ namespace Teamworks.Web.Controllers.Api
          * as a single DELETE request. Therefore, the method should not return an error
          * code if the product was already deleted.
          */
+
         [SecureProject("projects/delete", "id")]
         public HttpResponseMessage Delete(int id)
         {
             var project = DbSession.Load<Project>(id);
-            
-            project.Delete(DbSession);
+
+            if (project != null)
+                project.Delete(DbSession);
 
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
@@ -95,7 +97,7 @@ namespace Teamworks.Web.Controllers.Api
             foreach (var person in people)
                 project.Grant(string.Empty, person);
 
-            return new HttpResponseMessage(HttpStatusCode.NoContent);
+            return new HttpResponseMessage(HttpStatusCode.Created);
         }
 
         [DELETE("{projectId}/accesses/{personId}")]
@@ -107,12 +109,11 @@ namespace Teamworks.Web.Controllers.Api
                 .Include(personRavenId)
                 .Load<Project>(projectId);
 
-            if (!project.People.Contains(personRavenId))
-                Request.ThrowNotFound();
-
-            var person = DbSession.Load<Person>(personId);
-            project.Revoke(string.Empty, person);
-            
+            if (project.People.Contains(personRavenId))
+            {
+                var person = DbSession.Load<Person>(personId);
+                project.Revoke(string.Empty, person);
+            }
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
     }

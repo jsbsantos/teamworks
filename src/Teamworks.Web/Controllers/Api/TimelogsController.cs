@@ -7,7 +7,6 @@ using System.Web.Http;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
 using AutoMapper;
-using Raven.Client;
 using Teamworks.Core;
 using Teamworks.Core.Services;
 using Teamworks.Web.Attributes.Api;
@@ -28,8 +27,8 @@ namespace Teamworks.Web.Controllers.Api
                 .Include<Activity>(a => a.Project)
                 .Load<Activity>(activityId);
 
-            if (target.Project.ToIdentifier() != projectId)
-                Request.NotFound(target);
+            if (target == null || target.Project.ToIdentifier() != projectId)
+                throw new HttpResponseException(HttpStatusCode.NotFound);
 
             return target;
         }
@@ -37,8 +36,8 @@ namespace Teamworks.Web.Controllers.Api
         public IEnumerable<TimelogViewModel> Get(int projectId, int activityId)
         {
             Activity activity = GetActivity(projectId, activityId);
-            Request.NotFound(activity);
-            return Mapper.Map<IList<Core.Timelog>, IEnumerable<TimelogViewModel>>(activity.Timelogs);
+
+            return Mapper.Map<IList<Timelog>, IEnumerable<TimelogViewModel>>(activity.Timelogs);
         }
 
         public HttpResponseMessage Post(
@@ -52,12 +51,36 @@ namespace Teamworks.Web.Controllers.Api
                 date = DateTime.Now;
             }
 
-            Timelog timelog = Core.Timelog.Forge(model.Description, model.Duration, date,
+            Timelog timelog = Timelog.Forge(model.Description, model.Duration, date,
                                                       Request.GetCurrentPersonId());
             timelog.Id = activity.GenerateNewTimeEntryId();
             activity.Timelogs.Add(timelog);
 
-            TimelogViewModel value = Mapper.Map<Core.Timelog, TimelogViewModel>(timelog);
+            TimelogViewModel value = Mapper.Map<Timelog, TimelogViewModel>(timelog);
+            value.Activity = activityId;
+            return Request.CreateResponse(HttpStatusCode.Created, value);
+        }
+
+        public HttpResponseMessage Put(
+            int projectId, int activityId, TimelogViewModel model)
+        {
+            Activity activity = GetActivity(projectId, activityId);
+
+            DateTime date;
+            if (!DateTime.TryParse(model.Date, out date))
+            {
+                date = DateTime.Now;
+            }
+
+            var timelog = activity.Timelogs.FirstOrDefault(t => t.Id == model.Id);
+            if(timelog == null)
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+
+            timelog.Date = date;
+            timelog.Description = model.Description;
+            timelog.Duration = model.Duration;
+
+            TimelogViewModel value = Mapper.Map<Timelog, TimelogViewModel>(timelog);
             value.Activity = activityId;
             return Request.CreateResponse(HttpStatusCode.Created, value);
         }
@@ -66,9 +89,9 @@ namespace Teamworks.Web.Controllers.Api
         {
             Activity activity = GetActivity(projectId, activityId);
 
-            Core.Timelog timelog = activity.Timelogs.FirstOrDefault(t => t.Id == id);
-            Request.NotFound(timelog);
-            activity.Timelogs.Remove(timelog);
+            var timelog = activity.Timelogs.FirstOrDefault(t => t.Id == id);
+            if (timelog != null)
+                activity.Timelogs.Remove(timelog);
 
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
