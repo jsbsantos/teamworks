@@ -1,14 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
-<<<<<<< Updated upstream
 using AutoMapper;
-=======
->>>>>>> Stashed changes
 using Raven.Client.Linq;
 using Teamworks.Core;
 using Teamworks.Core.Services;
@@ -38,19 +36,13 @@ namespace Teamworks.Web.Controllers.Api
         }
 
         [GET("discussions/{id}")]
-<<<<<<< Updated upstream
-        [GET("activities/{activityId}/discussions/{id}", RouteName = "api_discussions_get_byidactivities")]
+        [GET("activities/{activityId}/discussions/{id}", RouteName = "api_discussions_getbyidactivities")]
         public Discussion GetById(int id, int projectId, int? activityId)
-=======
-        [GET("activities/{activityId}/discussions", RouteName = "api_discussions_getbyidactivities")]
-        public DiscussionViewModel GetById(int id, int projectId, int? activityId)
->>>>>>> Stashed changes
         {
             var entity = activityId.HasValue
                              ? activityId.Value.ToId("activity")
                              : projectId.ToId("project");
 
-<<<<<<< Updated upstream
             var discussion = DbSession
                 .Query<Discussion>()
                 .FirstOrDefault(a => a.Id == id.ToId("discussion"));
@@ -59,25 +51,10 @@ namespace Teamworks.Web.Controllers.Api
                 throw new HttpResponseException(HttpStatusCode.NotFound);
 
             return Mapper.Map<Discussion, Discussion>(discussion);
-=======
-            if (activityId.HasValue)
-            {
-                var activity = DbSession.Load<Activity>(activityId);
-                if (activity != null && activity.Project == projectId.ToId("project"))
-                    throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
-
-            var discussion = DbSession.Load<Discussion>(id);
-            if (discussion.Entity != entity)
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-
-            return discussion.MapTo<DiscussionViewModel>();
->>>>>>> Stashed changes
         }
 
         [POST("discussions")]
         [POST("activities/{activityId}/discussions", RouteName = "api_discussions_postactivities")]
-<<<<<<< Updated upstream
         public HttpResponseMessage Post(int projectId, Discussion model, int? activityId)
         {
             string entity = activityId.HasValue
@@ -88,68 +65,29 @@ namespace Teamworks.Web.Controllers.Api
                 DbSession.Load<Project>(entity) == null)
                 throw new HttpResponseException(HttpStatusCode.NotFound);
 
-            Discussion discussion = Discussion.Forge(model.Name, model.Content, entity,
+            var discussion = Discussion.Forge(model.Name, model.Content, entity,
                                                      Request.GetCurrentPersonId());
 
             DbSession.Store(discussion);
-            Discussion response = Mapper.Map<Discussion, Discussion>(discussion);
-=======
-        public HttpResponseMessage Post(int projectId, int? activityId, Discussion model)
-        {
-            var entity = activityId.HasValue
-                             ? activityId.Value.ToId("activity")
-                             : projectId.ToId("project");
-
-            if (activityId.HasValue)
-            {
-                var activity = DbSession.Load<Activity>(activityId);
-                if (activity != null && activity.Project == projectId.ToId("project"))
-                    throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
-
-            var discussion = Discussion.Forge(
-                model.Name,
-                model.Content,
-                entity,
-                Request.GetCurrentPersonId());
-
-            DbSession.Store(discussion);
             var value = discussion.MapTo<DiscussionViewModel>();
-
-            object values;
-            if (activityId.HasValue)
-            {
-                values = new {projectId, activityId, id = discussion.Id};
-            }
-            else
-            {
-                values = new {projectId, id = discussion.Id};
-            }
-
-            var uri = Url.Link("api_discussions_post", values);
             var response = Request.CreateResponse(HttpStatusCode.Created, value);
+
+            string uri;
+            uri = activityId.HasValue ?
+                Url.Link("api_activities_getbyidactivities", new { id = discussion.Id.ToIdentifier(), projectId, activityId }) 
+                : Url.Link("api_activities_getbyid", new { id = discussion.Id.ToIdentifier(), projectId });
+
             response.Headers.Location = new Uri(uri);
             return response;
-        }
->>>>>>> Stashed changes
-
-            return Request.CreateResponse(HttpStatusCode.Created, response);
         }
 
         [DELETE("discussions/{id}")]
         [DELETE("activities/{activityId}/discussions/{id}", RouteName = "api_discussions_deleteactivities")]
         public HttpResponseMessage Delete(int id, int projectId, int? activityId)
         {
-<<<<<<< Updated upstream
             string entity = activityId.HasValue
                                 ? activityId.Value.ToId("activity")
                                 : projectId.ToId("project");
-=======
-            var discussion = DbSession
-                .Query<Discussion>()
-                .FirstOrDefault(a => a.Entity == projectId.ToId("project")
-                                     && a.Id == id.ToId("discussion"));
->>>>>>> Stashed changes
 
             var discussion = DbSession
                 .Query<Discussion>()
@@ -161,7 +99,6 @@ namespace Teamworks.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.NoContent);
         }
 
-<<<<<<< Updated upstream
         [GET("discussions/{id}/messages")]
         [GET("activities/{activityId}/discussions/{id}/messages", RouteName = "api_discussions_messages_getactivities")]
         public IEnumerable<MessageViewModel> GetProjectMessages(int id, int projectId, int? activityId)
@@ -174,7 +111,7 @@ namespace Teamworks.Web.Controllers.Api
                 .Query<Discussion>()
                 .FirstOrDefault(a => a.Id == id.ToId("discussion"));
 
-            if (discussion != null || discussion.Entity == entity)
+            if (discussion == null || discussion.Entity == entity)
                 throw new HttpResponseException(HttpStatusCode.NotFound);
 
             return discussion.Messages.MapTo<MessageViewModel>();
@@ -193,7 +130,7 @@ namespace Teamworks.Web.Controllers.Api
                 .Query<Discussion>()
                 .FirstOrDefault(a => a.Id == id.ToId("discussion"));
 
-            if (discussion != null || discussion.Entity == entity)
+            if (discussion == null || discussion.Entity == entity)
                 throw new HttpResponseException(HttpStatusCode.NotFound);
 
             string current = Request.GetCurrentPersonId();
@@ -220,18 +157,15 @@ namespace Teamworks.Web.Controllers.Api
                 .Query<Discussion>()
                 .FirstOrDefault(a => a.Id == discussionId.ToId("discussion"));
 
-            if (discussion != null || discussion.Entity == entity)
+            if (discussion == null || discussion.Entity == entity)
                 throw new HttpResponseException(HttpStatusCode.NoContent);
 
-            Discussion.Message message = discussion.Messages.FirstOrDefault(m => m.Id == id);
+            var message = discussion.Messages.FirstOrDefault(m => m.Id == id);
 
             if (message != null)
                 discussion.Messages.Remove(message);
 
             return Request.CreateResponse(HttpStatusCode.NoContent);
         }
-=======
-        #endregion
->>>>>>> Stashed changes
     }
 }
