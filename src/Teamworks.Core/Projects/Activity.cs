@@ -32,21 +32,23 @@ namespace Teamworks.Core
             return ++LastTodoListId;
         }
 
-        public static Activity Forge(int project, string name, string description, int duration, DateTimeOffset startDate = new DateTimeOffset())
+        public static Activity Forge(int project, string name, string description, int duration,
+                                     DateTimeOffset startDate = new DateTimeOffset())
         {
             return new Activity
-                       {
-                           Name = name,
-                           Project = project.ToId("project"),
-                           Description = description ?? "",
-                           Duration = duration,
-                           Dependencies = new List<string>(),
-                           Discussions = new List<string>(),
-                           People = new List<string>(),
-                           Timelogs = new List<Timelog>(),
-                           Todos = new List<TodoList>(),
-                           LastTimeEntryId = 0
-                       };
+                {
+                    Name = name,
+                    Project = project.ToId("project"),
+                    Description = description ?? "",
+                    Duration = duration,
+                    Dependencies = new List<string>(),
+                    Discussions = new List<string>(),
+                    People = new List<string>(),
+                    Timelogs = new List<Timelog>(),
+                    Todos = new List<TodoList>(),
+                    LastTimeEntryId = 0,
+                    StartDate = startDate == DateTimeOffset.MinValue ? DateTimeOffset.Now : startDate
+                };
         }
 
 
@@ -60,6 +62,5 @@ namespace Teamworks.Core
 
             return GetAccumulatedDuration(domain, parent, duration + parent.Duration);
         }
-
     }
 }

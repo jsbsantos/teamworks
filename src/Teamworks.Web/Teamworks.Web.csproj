@@ -69,6 +69,7 @@
     <Compile Include="Attributes\Api\FormsAuthenticationAttribute.cs" />
     <Compile Include="Helpers\AutoMapper\Profiles\DiscussionViewModelMapperProfile.cs" />
     <Compile Include="Helpers\Extensions\DocumentSessionExtensions.cs" />
+    <Compile Include="ViewModels\Mvc\ProjectDetailViewModel.cs" />
     <Compile Include="ViewModels\Mvc\DiscussionViewModel.cs" />
     <Compile Include="Helpers\JsonNetResult.cs" />
     <Compile Include="ViewModels\Mvc\TimelogViewModel.cs" />

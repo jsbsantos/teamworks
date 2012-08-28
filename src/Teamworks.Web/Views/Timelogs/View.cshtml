@@ -62,7 +62,7 @@ else
             
             <div class="well well-mini btn-toolbar">
                 <div class="btn-group input-append input-prepend input-append">
-                    <span disabled="disabled" class="btn add-on">Project</span>
+                    <span disabled="disabled" class="btn add-on"><strong>Project</strong></span>
                     <input type="text" class="btn uneditable-input" disabled="disabled" data-bind="value: filter.project().name"></input>
                     <a class="btn dropdown-toggle add-on" data-toggle="dropdown">
                         <span class="caret"></span>
@@ -72,7 +72,7 @@ else
                 </div>
 
                 <div class="btn-group input-prepend input-append">
-                    <span disabled="disabled" class="btn add-on">Activity</span>
+                    <span disabled="disabled" class="btn add-on"><strong>Activity</strong></span>
                     <input type="text" class="btn uneditable-input" disabled="disabled" data-bind="value: filter.activity().name"></input>
                     <a class="btn dropdown-toggle add-on " data-toggle="dropdown" data-bind="attr:{disabled: filter.project().id == -1}">
                         <span class="caret"></span>
@@ -122,7 +122,19 @@ else
                         <th class="input-small">Edit</th>
                     </tr>
                 </thead>
-                <tbody data-bind="template: { name: 'timelog-template', foreach: sortedTimelog() }">
+                <tbody>
+                    <!--ko template: { name: 'timelog-template', foreach: sortedTimelog() } -->
+                    <!--/ko -->
+                    <tr>
+                        <td>
+                            <strong>Total</strong>
+                        </td>
+                        <td>
+                            <strong><span data-bind="text: timelogs.total"></span></strong>
+                        </td>
+                        <td colspan="4">
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="modal fade hide" id="editTimelogModal" tabindex="-1" role="dialog">

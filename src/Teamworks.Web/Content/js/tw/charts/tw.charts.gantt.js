@@ -18,7 +18,7 @@ tw.Gantt = function (data, options) {
     }
 
     $.each(data, function (i, e) {
-        e.RealAcc = GetParentDuration(e, data);
+        e.RealAcc = getParentDuration(e, data);
     });
 
     var _default = {
@@ -233,7 +233,7 @@ tw.Gantt = function (data, options) {
             .attr("y", 10)
             .attr("dy", 0)
             .attr("text-anchor", "start")
-            .text("ActivityViewModel \\ Hours")
+            .text("Activity \\ Time")
             .attr("font-size", "0.7em");
     }
 

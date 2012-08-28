@@ -99,7 +99,7 @@ namespace Teamworks.Web.Controllers.Mvc
                 .Load<Project>(projectId);
 
             var activity = Activity.Forge(project.Id.ToIdentifier(), model.Name, model.Description, model.Duration,
-                                          model.StartDate);
+                model.StartDate == DateTimeOffset.MinValue ? project.StartDate : model.StartDate);
 
             DbSession.Store(activity);
             DbSession.SetAuthorizationFor(activity, new DocumentAuthorization

@@ -112,7 +112,7 @@ namespace Teamworks.Web.Controllers.Api
         public HttpResponseMessage PostPrecedence(int id, int projectId, IEnumerable<int> precedences)
         {
             var pid = projectId.ToId("project");
-            var aid = projectId.ToId("activity");
+            var aid = id.ToId("activity");
 
             var activities = DbSession.Query<Activity>()
                 .Where(a => a.Project == pid).ToList();
@@ -129,10 +129,10 @@ namespace Teamworks.Web.Controllers.Api
         }
 
         [DELETE("{id}/precedences")]
-        public HttpResponseMessage Delete(int id, int projectId, IEnumerable<int> precedences)
+        public HttpResponseMessage DeletePrecedence(int id, int projectId, IEnumerable<int> precedences)
         {
             var pid = projectId.ToId("project");
-            var aid = projectId.ToId("activity");
+            var aid = id.ToId("activity");
 
             var activity = DbSession.Query<Activity>()
                 .Where(a => a.Project == pid && a.Id == aid).FirstOrDefault();
@@ -170,7 +170,7 @@ namespace Teamworks.Web.Controllers.Api
         public IEnumerable<PersonViewModel> GetAssignees(int id, int projectId)
         {
             var pid = projectId.ToId("project");
-            var aid = projectId.ToId("activity");
+            var aid = id.ToId("activity");
 
             var activity = DbSession.Query<Activity>()
                 .Where(a => a.Project == pid && a.Id == aid).FirstOrDefault();
@@ -184,7 +184,7 @@ namespace Teamworks.Web.Controllers.Api
         public HttpResponseMessage PostAssignees(int id, int projectId, IEnumerable<int> ids)
         {
             var pid = projectId.ToId("project");
-            var aid = projectId.ToId("activity");
+            var aid = id.ToId("activity");
 
             var activity = DbSession.Query<Activity>()
                 .Customize(c => c.Include(projectId.ToId("project")))
@@ -206,7 +206,7 @@ namespace Teamworks.Web.Controllers.Api
         public HttpResponseMessage DeleteAssignees(int id, int projectId, IEnumerable<int> ids)
         {
             var pid = projectId.ToId("project");
-            var aid = projectId.ToId("activity");
+            var aid = id.ToId("activity");
 
             var activity = DbSession.Query<Activity>()
                 .Customize(c => c.Include(projectId.ToId("project")))

@@ -175,13 +175,12 @@
         };
 
         self.timelogs = new tw.pages.RegisterTimelogsViewModel({ }, json.timelogs);
-        ///////////
-        //HACK!!!//
-        ///////////
-        self.timelogs.filter.resetEvent.subscribe(function(newValue) {
+
+        self.timelogs.filter.clear = function() {
+            self.timelogs.filter.reset();
             self.timelogs.filter.project({ id: self.id(), name: self.name() });
 
-        });
+        };
         self.timelogs.filter.project({ id: self.id(), name: self.name() });
         
         $('body').ready(function(){

@@ -39,9 +39,9 @@ namespace Teamworks.Core.Services.RavenDb.Indexes
             Store(r => r.Content, FieldStorage.Yes);
             Store(r => r.NotificationSent, FieldStorage.Yes);
 
-            Index(x => x.Message, FieldIndexing.NotAnalyzed);
-            Index(x => x.Discussion, FieldIndexing.NotAnalyzed);
-            Index(x => x.Person, FieldIndexing.NotAnalyzed);
+            Index(x => x.Message, FieldIndexing.Analyzed);
+            Index(x => x.Discussion, FieldIndexing.Analyzed);
+            Index(x => x.Person, FieldIndexing.Analyzed);
 
         }
 

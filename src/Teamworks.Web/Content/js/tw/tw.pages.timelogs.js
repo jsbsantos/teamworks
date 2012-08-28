@@ -258,12 +258,8 @@
                 self.filter.resetProject();
                 self.filter.resetDates();
                 self.filter.resetPerson();
-                self.filter.resetEvent(!self.filter.resetEvent());
+                // self.filter.resetEvent(!self.filter.resetEvent());
             };
-            ///////////
-            //HACK!!!//
-            ///////////
-            self.filter.resetEvent = ko.observable(false);
 
             //disable activities dropdown list when project changes to "All"
             self.filter.project.subscribe(function (newValue) {
@@ -275,6 +271,16 @@
             });
             self.filter.dateFrom.subscribe(function (newValue) {
                 $('#datepickTo').data('datepicker').startDate = new Date(newValue);
+            });
+
+            //statistics 
+            self.timelogs.total = ko.computed(function () {
+                var total = 0;
+                $.each(self.sortedTimelog(), function (i,e) {
+                    if (!self.filter(e))
+                        total += parseFloat(e.duration()) || 0;
+                });
+                return total;
             });
 
             //done

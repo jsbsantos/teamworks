@@ -79,15 +79,15 @@
                     
                     <div>
                         <header class="lead">
-                            <h2>Your time <small>The time used on your daily activities</small></h2>
+                            <h2><small>The time logged for this project's activities</small></h2>
                         </header>
                         <p class="tc well hide" data-bind="css: { 'hide': timelogs.timelogs().length }">
-                            You have no logged hours.
+                            This project has no time logged.
                         </p>
             
                         <div class="well well-mini btn-toolbar">
                             <div class="btn-group input-append input-prepend input-append">
-                                <span disabled="disabled" class="btn add-on">Person</span>
+                                <span disabled="disabled" class="btn add-on"><strong>Person</strong></span>
                                 <input type="text" class="btn uneditable-input" disabled="disabled" data-bind="value: timelogs.filter.person().name"></input>
                                 <a class="btn dropdown-toggle add-on" data-toggle="dropdown">
                                     <span class="caret"></span>
@@ -97,7 +97,7 @@
                             </div>
 
                             <div class="btn-group input-prepend input-append">
-                                <span disabled="disabled" class="btn add-on">Activity</span>
+                                <span disabled="disabled" class="btn add-on"><strong>Activity</strong></span>
                                 <input type="text" class="btn uneditable-input" disabled="disabled" data-bind="value: timelogs.filter.activity().name"></input>
                                 <a class="btn dropdown-toggle add-on" data-toggle="dropdown">
                                     <span class="caret"></span>
@@ -121,7 +121,7 @@
                             </div>
 
                             <div class="btn-group input-append">
-                                <button class="btn" data-bind="click: timelogs.filter.reset">Clear</button>
+                                <button class="btn" data-bind="click: timelogs.filter.clear">Clear</button>
                             </div>
                     
                         </div>
@@ -156,7 +156,19 @@
                                     <th class="input-small">Edit</th>
                                 </tr>
                             </thead>
-                            <tbody data-bind="template: { name: 'timelog-template', foreach: timelogs.sortedTimelog() }">
+                            <tbody>
+                                <!--ko template: { name: 'timelog-template', foreach: timelogs.sortedTimelog() } -->
+                                <!--/ko -->
+                                <tr>
+                                    <td>
+                                        <strong>Total</strong>
+                                    </td>
+                                    <td>
+                                        <strong><span data-bind="text: timelogs.timelogs.total"></span></strong>
+                                    </td>
+                                    <td colspan="4">
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                         <div class="modal fade hide" id="editTimelogModal" tabindex="-1" role="dialog">

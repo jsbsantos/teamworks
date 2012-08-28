@@ -1,22 +1,19 @@
-﻿@model dynamic
+﻿@using Teamworks.Web.Controllers
+@using Teamworks.Web.Helpers.Extensions
+@model dynamic
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="row">
     <div class="span9">
-        <div>
-            <ul class="breadcrumb">
-                <li><a href="@Url.RouteUrl("projects_get")">Projects</a> 
-                    <span class="divider">/</span> </li>
-                <li><span>@Model.Name</span> </li>
-            </ul>
-        </div>
-        <header class="lead">
+        @Html.Breadcrumb(ViewBag.Breadcrumb as AppController.Breadcrumb[])
+        <header class="page-header">
             <h1>
-                <span>@Model.Name</span> 
+                <span>@Model.Name</span>
                 <small>
-                    <i class="icon-edit">
-                    </i><span>@Model.Description</span>
+                    <span>
+                        @Model.Description
+                    </span>
                 </small>
             </h1>
         </header>
