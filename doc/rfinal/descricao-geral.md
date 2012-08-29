@@ -4,7 +4,8 @@ Descrição Geral
 \label{sec:descricao-geral}
 
 
-Como indicado anteriormente, a infraestrutura *Teamworks*, tem como objectivo disponibilizar funcionalidades para a gestão de projectos e pessoas. Para isso a cada projecto estão associadas as seguintes funcionalidades:
+Como indicado anteriormente, a infraestrutura *Teamworks*, tem como objectivo disponibilizar funcionalidades para a gestão de projectos e pessoas. 
+As funcionalidades disponibilizadas são as seguintes:
 
 + Possibilidade de criar actividades, gerir o tempo estimado para a sua execução, atribuir responsáveis pela sua realização 
 
@@ -18,18 +19,17 @@ Para promover a colaboração existe ainda a possibilidade dos utilizadores tere
 
 Para além das funcionalidades enunciadas só os utilizadores associados devem ter acesso á informação dos projectos, actividades e discussões.
 
-
-
 Casos de Utilização
 -
 
-A autenticação na plataforma é obrigatória para a sua utilização, sendo que as únicas acções possíveis a um utilizador anónimo são o registo e a autenticação, como indicado na figura \ref{fig:usecase-anonimo}.
+A autenticação na plataforma é obrigatória para todas as ações para além do registo e da autenticação, como indicado na figura \ref{fig:usecase-anonimo}.
 
 ![Caso de utilização de utilizador não autenticado.\label{fig:usecase-anonimo}](http://www.lucidchart.com/publicSegments/view/4fd71023-3b68-497b-b199-60a50a443549/image.png)
 
-Depois de autenticado o utilizador tem a opção de criar um projecto ou alterar um projecto já existente. A um projecto já existente é possível adicionar e remover pessoas, adicionar actividades ou apagar o projecto. Ao criar um projecto o utilizador fica associado a este e tem a possibilidade de fazer todas as acções enunciadas
+Depois de autenticado o utilizador tem a opção de criar um projecto. A um projecto já existente é possível adicionar e remover pessoas, adicionar actividades, alterar ou apagar o projecto. Ao criar um projecto o utilizador fica associado a este e tem a possibilidade de fazer todas as acções enunciadas.
 
-Ao criar uma actividade são disponibilizadas novas acções ao utilizador. O utilizador pode, sobre a actividade criada, criar novas entradas de registo do tempo despendido na sua realização, adicionar e remover pessoas e apagá-la. 
+Ao criar uma actividade são disponibilizadas novas acções ao utilizador. 
+O utilizador pode, sobre a actividade criada, criar novas entradas de registo do tempo despendido na sua realização, adicionar e remover pessoas e apagá-la. 
 
 De forma a promover a troca e partilha de informação é possível aos utilizadores criar e aceder aos debates relacionados com os projectos e/ou tarefas em que estão envolvidos.
 
