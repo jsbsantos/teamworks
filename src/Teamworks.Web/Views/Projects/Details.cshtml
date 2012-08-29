@@ -11,38 +11,29 @@
         @Html.Breadcrumb(ViewBag.Breadcrumb as AppController.Breadcrumb[])
         <header class="page-header">
             <h1>
-                <a href="#editProjectModal" role="button" data-toggle="modal">
-                    <i class="icon-edit"></i>
-                </a>
                 <span data-bind="text: name">@Model.Name</span>
                 <small>
                     <span data-bind="text: description, visible: description">
                         @Model.Description
                     </span>
-                   
                 </small>
+                <a href="#editProjectModal" role="button" data-toggle="modal">
+                    <i class="icon-edit"></i>
+                </a>
             </h1>
         </header>
         <section>
             <div class="lead">
                 <h2>Activities 
                     <small>
-                        <a class="hide btn-mini" data-bind="css: { hide: activities.editing()}, click: function() { activities.editing(true); }">
+                        <a class="btn-mini" href="#addActivityModal" role="button" data-toggle="modal">
                             Add a new activity
                         </a>
                     </small>
                 </h2>
-                <div class="hide" data-bind="css: { hide: !activities.editing() }">
-                    <form class="well well-small form-inline" data-bind="submit: activities._create">
-                        <input id="activity_name" name="activity_name" class="span4" autofocus="autofocus" placeholder="Activity name" data-bind="value: activities.input, valueUpdate: 'afterkeyup'" />
-                        <button type="submit" class="btn btn-success">
-                            Create
-                        </button>  
-                        <a class="btn-mini" data-bind="click: function() { activities.editing(false) }"><i class="icon-remove"></i></a>                                     </form>
-                </div>
             </div>
             <p class="tc well well-small hide" data-bind="css: { 'hide': activities().length > 0 }">
-                Create your first activity clicking <a href="#" data-bind="click: function() { activities.editing(true) }">here</a>.
+                Create your first activity clicking <a href="#addActivityModal" role="button" data-toggle="modal">here</a>.
             </p>
             <!-- ko template: { name: 'activities-template', foreach: activities } -->
             <!-- /ko -->
@@ -58,19 +49,11 @@
                     <div class="lead">
                         <h2>Discussion
                             <small>
-                                <a class="hide btn-mini" data-bind="css: { hide: discussions.editing()}, click: function() { discussions.editing(true); }">One more discussion</a>
-                            </small>
+                                <a class="btn-mini" href="#addDiscussionModal" role="button" data-toggle="modal">Add a new discussion</a></small>
                         </h2>
-                        <div class="hide" data-bind="css: { hide: !discussions.editing() }">
-                            <form class="well well-small form-inline" data-bind="submit: discussions._create">
-                                <input id="discussion_name" name="discussion_name" class="span4" autofocus="autofocus" placeholder="Discussion name" data-bind="value: discussions.input, valueUpdate: 'afterkeyup'" />
-                                <button type="submit" class="btn btn-success">Create</button>  
-                                <a class="btn-mini" data-bind="click: function() { discussions.editing(false) }"><i class="icon-remove"></i></a>                   
-                            </form>
-                        </div>
                     </div>
                     <p class="tc well well-small hide" data-bind="css: { 'hide': discussions().length > 0 }">
-                        Create your first discussion clicking <a href="#" data-bind="click: function() { discussions.editing(true) }">here</a>.
+                        Create your first discussion clicking <a href="#addDiscussionModal" role="button" data-toggle="modal">here</a>.
                     </p>
                     <!-- ko template: { name: 'discussion-template', foreach: discussions } -->
                     <!-- /ko -->
@@ -172,7 +155,7 @@
                             </tbody>
                         </table>
                         <div class="modal fade hide" id="editTimelogModal" tabindex="-1" role="dialog">
-                            <form class="form-horizontal">
+                            <form class="form-horizontal"  data-bind="submit: timelogs.timelogs.editing._update">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                     <h3>Edit Timelog</h3>
@@ -209,8 +192,8 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer"  data-bind="if: timelogs.timelogs.editing">
+                                    <button class="btn btn-primary">Save</button>
                                     <button class="btn" data-dismiss="modal" aria-hidden="true" data-bind="click: timelogs.discardChanges">Close</button>
-                                    <button class="btn btn-primary" data-dismiss="modal" data-bind="click: timelogs.timelogs.editing._update">Save</button>
                                 </div>
                             </form>
                         </div>
@@ -275,29 +258,101 @@
         <h2>Actions</h2>
     </div>
 </div>
+
 <div class="modal fade hide" id="editProjectModal" tabindex="-1" role="dialog">
-    <form class="form-horizontal">
+    <form class="form-horizontal"  data-bind="submit: _update">
         <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" data-bind="click: _discardChanges">×</button>
             <h3>Edit Project</h3>
         </div>
         <div class="modal-body">
             <div class="control-group">
                 <label class="control-label" for="inputName">Name</label>
                 <div class="controls">
-                    <input id="inputName" name="name" placeholder="Name" autofocus="autofocus"/>
+                    <input id="inputName" name="name" placeholder="Name" autofocus="autofocus" data-bind="value: name, valueUpdate: 'afterkeyup'"/>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label" for="inputDescription">Description</label>
                 <div class="controls">
-                    <input id="inputDescription" name="description" placeholder="Description"/>
+                    <input id="inputDescription" name="description" placeholder="Description" data-bind="value: description, valueUpdate: 'afterkeyup'"/>
                 </div>
             </div>
         </div>
         <div class="modal-footer">
-            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
             <button class="btn btn-primary">Save</button>
+            <button class="btn" data-dismiss="modal" aria-hidden="true" data-bind="click: _discardChanges">Close</button>
+        </div>
+    </form>
+</div>
+
+<div class="modal fade hide" id="addActivityModal" tabindex="-1" role="dialog">
+    <form class="form-horizontal" data-bind="submit: activities._create" >
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" data-bind="click: activities.input.reset">×</button>
+            <h3>Add Activity</h3>
+        </div>
+        <div class="modal-body">
+            <div class="control-group">
+                <label class="control-label" for="activity_name">Name</label>
+                <div class="controls">
+                    <input id="activity_name" name="activity_name" autofocus="autofocus" placeholder="Activity name" data-bind="value: activities.input.name, valueUpdate: 'afterkeyup'" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="activity_description">Description</label>
+                <div class="controls">
+                    <input id="activity_description" name="activity_description" placeholder="Activity Description" data-bind="value: activities.input.description, valueUpdate: 'afterkeyup'" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="activity_duration">Duration</label>
+                <div class="controls">
+                    <input id="activity_duration" name="activity_duration" placeholder="Activity Duration" data-bind="value: activities.input.duration, valueUpdate: 'afterkeyup'" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="activity_startDate">Start Date</label>
+                <div class="controls">
+                    <div class="btn-group input-append">
+                        <input id="activity_startDate" type="text" class="btn uneditable-input" disabled="disabled" placeholder="Date" data-bind="value: activities.input.startDate.formatted"/>
+                        <a class="add-on btn datepicker-right" data-bind="datepicker: activities.input.startDate.formatted" data-date-autoclose="true" data-date-format="dd/MM/yyyy" data-date-enddate="@DateTime.Today.ToString("dd/MM/yyyy")">
+                            <i class="icon-calendar"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" >Save</button>
+            <button class="btn" data-dismiss="modal" aria-hidden="true" data-bind="click: activities.input.reset">Close</button>
+        </div>
+    </form>
+</div>
+
+<div class="modal fade hide" id="addDiscussionModal" tabindex="-1" role="dialog">
+    <form class="form-horizontal"  data-bind="submit: discussions._create" >
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" data-bind="click: discussions.input.reset">×</button>
+            <h3>Add Discussion</h3>
+        </div>
+        <div class="modal-body">
+            <div class="control-group">
+                <label class="control-label" for="activity_name">Name</label>
+                <div class="controls">
+                    <input id="discussion_name" name="discussion_name" autofocus="autofocus" placeholder="Discussion title" data-bind="value: discussions.input.name, valueUpdate: 'afterkeyup'" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="activity_description">Description</label>
+                <div class="controls">
+                    <textarea  id="discussion_description" name="discussion_description" placeholder="Message" data-bind="value: discussions.input.content, valueUpdate: 'afterkeyup'"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary">Save</button>
+            <button class="btn" data-dismiss="modal" aria-hidden="true" data-bind="click: discussions.input.reset">Close</button>
         </div>
     </form>
 </div>

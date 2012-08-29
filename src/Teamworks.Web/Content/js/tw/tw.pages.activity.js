@@ -12,39 +12,20 @@
                     });
                 }
             },
-            'timelogs': {
-                create: function (options) {
-                    return (new (function () {
-                        this.editing = ko.observable(false);
-                        this._remove = function () {
-                            var timelog = this;
-                            tw.utils.remove(self.timelogs,
-                                tw.utils.location + '/timelogs/' + timelog.id() + '/delete',
-                                'You are about to remove the time log for activity ' + self.name() + '.',
-                                errorCallback).call(timelog);
+            'discussions': {
+                key: function(data) {
+                    return ko.utils.unwrapObservable(data.id);
+                },
+                create: function(options) {
+                    return (new (function() {
+                        this._remove = function() {
+                            var discussion = this;
+                            tw.utils.remove(self.discussions,
+                                tw.utils.location + '/discussions/' + discussion.id() + '/delete',
+                                'You are about to delete ' + discussion.name() + '.',
+                                errorCallback).call(discussion);
                         };
-                        this._update = function () {
-                            var timelog = this;
-                            $.ajax({
-                                type: 'post',
-                                url: tw.utils.location + '/timelogs/edit',
-                                data: ko.toJSON(timelog)
-                            }).success(function () {
-
-                            }).error(errorCallback);
-                        };
-
-                        var m = {
-                            'date': {
-                                create: function (options) {
-                                    return ko.observable(options.data).extend({
-                                        isoDate: 'dd/MM/yyyy'
-                                    });
-                                }
-                            }
-                        };
-
-                        ko.mapping.fromJS(options.data, m, this);
+                        ko.mapping.fromJS(options.data, { }, this);
                     })());
                 }
             },
@@ -107,21 +88,31 @@
             return ((self.totalTimeLogged() / self.duration()) * 100).toPrecision(3);
         });
 
-        self.editing_timelog = ko.observable(false);
-        self.editing_state = ko.observable(false);
         self.editing_dependencies = ko.observable(false);
 
-        self.discussions.input = ko.observable();
+        self.discussions.input = {
+            name: ko.observable().extend({ required: "Discussion title." }),
+            content: ko.observable().extend({ required: "Discussion message." })
+        };
+
+        self.discussions.input.reset = function () {
+            self.discussions.input.name("");
+            self.discussions.input.content("");
+        };
+
         self.discussions.editing = ko.observable(false);
         self.discussions._create = function () {
             $.ajax({
                 type: 'post',
                 url: tw.utils.location + '/discussions',
-                data: ko.toJSON({ 'name': self.discussions.input() })
+                data: ko.toJSON(self.discussions.input)
             }).done(function (data) {
                 self.discussions.mappedCreate(data);
-                self.discussions.input("");
-            }).fail(errorCallback);
+                self.discussions.input.reset();
+            }).fail(errorCallback)
+                .always(function () {
+                    $('#addDiscussionModal').modal('hide');
+                });
         };
 
         self.discardChanges = function () {
@@ -130,7 +121,7 @@
 
         self.dependenciesChanged = ko.observable(false);
         self._update = function () {
-            $.ajax(tw.utils.location + '/edit',
+            $.ajax(tw.utils.location.substring(0, tw.utils.location.lastIndexOf("/")) + '/edit',
                 {
                     type: 'post',
                     data: ko.toJSON({
@@ -149,7 +140,7 @@
                 errorCallback(errorThrown);
             }).always(function () {
                 self.dependenciesChanged(false);
-                self.editing_description(false);
+                $('#editActivityModal').modal('hide');
             });
         };
 

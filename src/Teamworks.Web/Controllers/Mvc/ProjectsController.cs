@@ -132,6 +132,18 @@ namespace Teamworks.Web.Controllers.Mvc
 
             return RedirectToRoute("projects_get");
         }
+        [POST("edit")]
+        public ActionResult Put(ProjectsViewModel.Input model)
+        {
+            if (!ModelState.IsValid)
+                return View("View");
+
+            var project = DbSession.Load<Project>(model.Id);
+            project.Name = model.Name;
+            project.Description = model.Description;
+
+            return new JsonNetResult { Data = model };
+        }
 
         [POST("{projectId}")]
         [SecureProject("projects/delete")]

@@ -12,42 +12,23 @@
     <div class="span8">
         @Html.Breadcrumb(ViewBag.Breadcrumb as AppController.Breadcrumb[])
         <header class="page-header">
-            <h1 class="well well-mini" data-bind="css: { well: editing_state(), 'well-mini': editing_state()}">
-                <span class="hide" data-bind="text: name, css: { hide: editing_state() }">@Model.Name</span>
-                <small class="hide" data-bind="css: { hide: editing_state() }">
-                    <span data-bind="text: description, visible: description">
-                        @Model.Description
-                    </span>
+            <h1>
+                <span>@Model.Name</span>
+                <small data-bind="text: description">
+                    @Model.Description
                 </small>
-                <input id="activity_name" name="activity_name" class="span3 hide" autofocus="autofocus" placeholder="Activity name" data-bind="css: { hide: !editing_state() }, value: name, valueUpdate: 'afterkeyup'" />
-                <input id="activity_description" name="activity_description" class="span4 hide" autofocus="autofocus" placeholder="Activity description" data-bind="css: { hide: !editing_state() }, value: description, valueUpdate: 'afterkeyup'" />
-                <a class="hide" data-bind="css: { hide: editing_state()}, click: function() { editing_state(true); }">
-                    <i class="icon-edit"></i> 
-                </a>
-                <a class="hide" data-bind="css: { hide: !editing_state() }, click: function() { editing_state(false); _update(); }">
-                    <i class="icon-save"></i> 
-                </a> 
-                &nbsp;
-                <a class="hide" data-bind="css: { hide: !editing_state() }, click: function() { discardChanges(); editing_state(false); }">
-                    <i class="icon-remove"></i> 
-                </a>
+                <a href="#editActivityModal" role="button" data-toggle="modal"><i class="icon-edit"></i></a>
             </h1>
         </header>
 
-        <div class="well well-mini" data-bind="css: { well: editing_state(), 'well-mini': editing_state()}">
+        <div>
             <header class="lead">Status</header>
             <div class="row">
                 <div class="span2">
                     <strong>Start:</strong> <span data-bind="text: startDate.formatted"></span>
-                    <a class="hide" data-bind="datepicker: startDate.formatted, css: { hide: !editing_state() }" data-date-autoclose="true" data-date-format="dd/MM/yyyy" data-date-enddate="@DateTime.Today.ToString("dd/MM/yyyy")"><i class="icon-calendar"></i></a>
                 </div>
                 <div class="span2">
-                    <strong>Duration:</strong> <span class="hide" data-bind="css: { hide: editing_state()}, text: duration"></span>
-                    <div class="hide"  data-bind="css: { hide: !editing_state(), 'show-inline': editing_state() }">
-                        <form class="form-inline modal-form" data-bind="submit: _update">
-                            <input id="activity_duration" name="activity_duration" class="input-xxsmall" autofocus="autofocus" placeholder="Activity duration" data-bind="value: duration, valueUpdate: 'afterkeyup'" />
-                        </form>
-                    </div>
+                    <strong>Duration:</strong> <span data-bind="text: duration"></span>
                 </div>
                 <div class="span3"><strong>Total logged time:</strong> <span data-bind="text: totalTimeLogged"></span> <span data-bind="text: '(' + completionPercent() +'%)'"></span></div>
             </div>
@@ -56,28 +37,19 @@
         <div>
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#tab-discussions">Discussions<span data-bind="visible: discussions().length > 0, text: ' (' + discussions().length + ')'"></span></a></li>
-                <li><a data-toggle="tab" href="#tab-todos">Timelogs</a></li>
+                <li><a data-toggle="tab" href="#tab-todos">Todos</a></li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="tab-discussions">
-                    <h2>Discussions
+                    <h2>Discussions 
                         <small>
-                            <a class="hide btn-mini" data-bind="css: { hide: discussions.editing()}, click: function() { discussions.editing(true); }">
+                            <a class="btn-mini" href="#addDiscussionModal" role="button" data-toggle="modal">
                                 Add a new discussion
                             </a>
-                        </small>
-                    </h2>
+                        </small></h2>
                     <br/>
-                    <div class="row hide" data-bind="css: { hide: !discussions.editing() }">
-                        <form class="span well well-mini form-inline" data-bind="submit: discussions._create">
-                            <input id="discussion_name" name="discussion_name" class="span4" autofocus="autofocus" placeholder="Discussion name" data-bind="value: discussions.input, valueUpdate: 'afterkeyup'" />
-                            <button type="submit" class="btn btn-success">
-                                Create
-                            </button>  
-                            <a class="btn-mini" data-bind="click: function() { discussions.editing(false) }"><i class="icon-remove"></i></a>                                     </form>
-                    </div>
                     <p class="tc well well-small hide" data-bind="css: { 'hide': discussions().length > 0 }">
-                        Create your first discussion clicking <a href="#" data-bind="click: function() { discussions.editing(true) }">here</a>.
+                        Create your first discussion clicking <a href="#addDiscussionModal" role="button" data-toggle="modal">here</a>.
                     </p>
                     <!-- ko template: { name: 'discussion-template', foreach: discussions } -->
                     <!-- /ko -->
@@ -85,7 +57,6 @@
                 <div class="tab-pane" id="tab-todos">
                     <h2>Todo list for this activity</h2>
                     <br/>
-                    
                 </div>
             </div>
         </div>
@@ -122,9 +93,9 @@
 </div>
 <script type="text/html" id="discussion-template">
     <div>
-        <button class="close"><i class="icon-trash"></i></button>
+        <button class="close" data-bind="click: _remove"><i class="icon-trash"></i></button>
         <h3>
-            <a data-bind="text: name, attr: { href: '@Url.RouteUrl("discussions_activitiesdetails", new {discussionId = UrlParameter.Optional,})' + id() }"></a>
+            <a data-bind="text: name, attr: { href: (tw.utils.location + '/discussions/' + id()) }"></a>
         </h3>
         <p data-bind="text: content, visible: content().length"></p>
     </div>
@@ -166,3 +137,74 @@
     @ViewsExtensions.ToIndentedJson(Html, ViewBag.Results)
 </pre>
 </section>
+
+<div class="modal fade hide" id="editActivityModal" tabindex="-1" role="dialog">
+    <form class="form-horizontal"  data-bind="submit: _update">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3>Add Activity</h3>
+        </div>
+        <div class="modal-body">
+            <div class="control-group">
+                <label class="control-label" for="activity_name">Name</label>
+                <div class="controls">
+                    <input id="activity_name" name="activity_name" autofocus="autofocus" placeholder="Activity name" data-bind="value: name, valueUpdate: 'afterkeyup'" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="activity_description">Description</label>
+                <div class="controls">
+                    <input id="activity_description" name="activity_description" placeholder="Activity Description" data-bind="value: description, valueUpdate: 'afterkeyup'" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="activity_duration">Duration</label>
+                <div class="controls">
+                    <input id="activity_duration" name="activity_duration" placeholder="Activity Duration" data-bind="value: duration, valueUpdate: 'afterkeyup'" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="activity_startDate">Start Date</label>
+                <div class="controls">
+                    <div class="btn-group input-append">
+                        <input id="activity_startDate" type="text" class="btn uneditable-input" disabled="disabled" placeholder="Date" data-bind="value: startDate.formatted"/>
+                        <a class="add-on btn datepicker-right" data-bind="datepicker: startDate.formatted" data-date-autoclose="true" data-date-format="dd/MM/yyyy" data-date-enddate="@DateTime.Today.ToString("dd/MM/yyyy")">
+                            <i class="icon-calendar"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary">Save</button>
+            <button class="btn" data-dismiss="modal" aria-hidden="true" >Close</button>
+        </div>
+    </form>
+</div>
+
+<div class="modal fade hide" id="addDiscussionModal" tabindex="-1" role="dialog">
+    <form class="form-horizontal"  data-bind="submit: discussions._create" >
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" data-bind="click: discussions.input.reset">×</button>
+            <h3>Add Discussion</h3>
+        </div>
+        <div class="modal-body">
+            <div class="control-group">
+                <label class="control-label" for="activity_name">Name</label>
+                <div class="controls">
+                    <input id="discussion_name" name="discussion_name" autofocus="autofocus" placeholder="Discussion title" data-bind="value: discussions.input.name, valueUpdate: 'afterkeyup'" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="activity_description">Description</label>
+                <div class="controls">
+                    <textarea  id="discussion_description" name="discussion_description" placeholder="Message" data-bind="value: discussions.input.content, valueUpdate: 'afterkeyup'"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary">Save</button>
+            <button class="btn" data-dismiss="modal" aria-hidden="true" data-bind="click: discussions.input.reset">Close</button>
+        </div>
+    </form>
+</div>

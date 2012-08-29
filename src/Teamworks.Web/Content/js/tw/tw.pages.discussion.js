@@ -34,6 +34,15 @@
                 create: function (options) {
                     return (new (function () {
                         this._remove = removeMessage();
+                        this._update = function () {
+                            var message = this;
+                            $.ajax({
+                                type: 'post',
+                                url: tw.utils.location + '/messages/' + self.id() + '/edit'
+                            }).fail(errorCallback).always(function () {
+                                $('#addDiscussionModal').modal('hide');
+                            }); ;
+                        };
                         var m = {
                             'date': {
                                 create: function (dateOptions) {
@@ -63,7 +72,7 @@
                 data: ko.toJSON({ 'content': self.messages.input() }),
                 url: tw.utils.location + '/messages'
             }).done(function (data) {
-                var item =self.messages.mappedCreate(data);
+                var item = self.messages.mappedCreate(data);
                 if (self.people.mappedIndexOf(item.person) == -1)
                     self.people.mappedCreate(item.person);
                 self.messages.input("");

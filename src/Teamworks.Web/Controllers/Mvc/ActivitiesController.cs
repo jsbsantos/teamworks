@@ -46,7 +46,7 @@ namespace Teamworks.Web.Controllers.Mvc
                 return HttpNotFound();
 
             var vm = activity.MapTo<ActivityViewModelComplete>();
-            vm.ProjectReference = project.MapTo<EntityViewModel>();
+            vm.Project = project.MapTo<EntityViewModel>();
             vm.People = DbSession.Load<Person>(project.People)
                 .Select(r =>
                     {
@@ -86,10 +86,12 @@ namespace Teamworks.Web.Controllers.Mvc
             var activity = DbSession.Load<Activity>(model.Id);
             if (activity == null || activity.Project.ToIdentifier() == projectId)
                 HttpNotFound();
-
+            model.Dependencies = model.Dependencies ?? new List<int>();
             activity.Update(model.MapTo<Activity>(), DbSession);
+            var data = activity.MapTo<ActivityViewModel>();
 
-            return new JsonNetResult {Data = activity.MapTo<ActivityViewModel>()};
+            data.Project = DbSession.Load<Project>(model.Project).MapTo<EntityViewModel>();
+            return new JsonNetResult {Data = data};
         }
 
         [POST("")]
@@ -99,7 +101,9 @@ namespace Teamworks.Web.Controllers.Mvc
                 .Load<Project>(projectId);
 
             var activity = Activity.Forge(project.Id.ToIdentifier(), model.Name, model.Description, model.Duration,
-                model.StartDate == DateTimeOffset.MinValue ? project.StartDate : model.StartDate);
+                                          model.StartDate == DateTimeOffset.MinValue
+                                              ? project.StartDate
+                                              : model.StartDate);
 
             DbSession.Store(activity);
             DbSession.SetAuthorizationFor(activity, new DocumentAuthorization
@@ -223,7 +227,8 @@ namespace Teamworks.Web.Controllers.Mvc
                         },
                     new Breadcrumb
                         {
-                            Url = Url.RouteUrl("activities_details", new {projectId, activityId = UrlParameter.Optional}),
+                            Url =
+                                Url.RouteUrl("activities_details", new {projectId, activityId = UrlParameter.Optional}),
                             Name = "Activities"
                         },
                     new Breadcrumb

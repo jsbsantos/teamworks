@@ -66,34 +66,82 @@
         };
 
         self = ko.mapping.fromJS(json || [], mapping);
-        self.activities.input = ko.observable();
+
+        self._update = function() {
+            $.ajax('edit',
+                {
+                    type: 'post',
+                    data: ko.toJSON({ id: self.id, name: self.name, description: self.description })
+                }
+            ).fail(errorCallback)
+                .always(function() {
+                    $('#editProjectModal').modal('hide');
+                });
+        };
+
+        self._discardChanges = function() {
+            self.name(json.name);
+            self.description(json.description);
+        };
+
+        var now = function() { return Date.today().toISOString(); };
+        self.activities.input = {
+            name: ko.observable().extend({ required: "Activity name." }),
+            description: ko.observable().extend({ required: "Activity description." }),
+            duration: ko.observable().extend({ required: "Activity estimates duration.", duration: "" }),
+            startDate: ko.observable(now()).extend({
+                isoDate: 'dd/MM/yyyy'
+            })
+        };
+        self.activities.input.reset = function() {
+            self.activities.input.name("");
+            self.activities.input.description("");
+            self.activities.input.duration("");
+            self.activities.input.startDate(now());
+        };
+
         self.activities.editing = ko.observable();
 
         self.activities._create = function() {
             $.ajax(tw.utils.location + '/activities/',
                 {
                     type: 'post',
-                    data: ko.toJSON({ 'name': self.activities.input() }),
+                    data: ko.toJSON(self.activities.input),
                 }
             ).done(function(data) {
                 self.activities.mappedCreate(data);
-                self.activities.input("");
-            }).fail(errorCallback);
+                self.activities.input.reset();
+            }).fail(errorCallback)
+                .always(function() {
+                    $('#addActivityModal').modal('hide');
+                });
         };
 
-        self.discussions.input = ko.observable();
+        self.discussions.input = {
+            name: ko.observable().extend({ required: "Discussion title." }),
+            content: ko.observable().extend({ required: "Discussion message." })
+        };
+        self.discussions.input.reset = function() {
+            self.discussions.input.name("");
+            self.discussions.input.content("");
+        };
+
         self.discussions.editing = ko.observable();
 
         self.discussions._create = function() {
             $.ajax(tw.utils.location + '/discussions/',
                 {
                     type: 'post',
-                    data: ko.toJSON({ 'name': self.discussions.input() }),
+                    data: ko.toJSON(self.discussions.input)
                 }
             ).done(function(data) {
                 self.discussions.mappedCreate(data);
-                self.discussions.input("");
-            }).fail(errorCallback);
+                self.discussions.input.reset();
+            }).fail(errorCallback)
+                .always(function() {
+                    $('#addDiscussionModal').modal('hide');
+                });
+            ;
         };
 
         self.people._add = function() {
@@ -182,8 +230,8 @@
 
         };
         self.timelogs.filter.project({ id: self.id(), name: self.name() });
-        
-        $('body').ready(function(){
+
+        $('body').ready(function() {
             $('#tabs a[href="#tab-discussions"]').tab('show');
         });
         return self;

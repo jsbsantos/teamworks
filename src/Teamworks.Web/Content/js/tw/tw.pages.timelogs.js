@@ -35,7 +35,10 @@
                                 type: 'post',
                                 url: '/projects/' + timelog.project.id() + '/activities/' + timelog.activity.id() + '/timelogs/edit',
                                 data: ko.toJSON(timelog)
-                            }).error(errorCallback);
+                            }).error(errorCallback)
+                                .always(function () {
+                                    $('#editTimelogModal').modal('hide');
+                                }); ;
                         };
 
                         var m = {

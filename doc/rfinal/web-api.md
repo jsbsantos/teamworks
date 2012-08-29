@@ -12,7 +12,6 @@ Para implementação da solução foram criados novos *message handlers*, *filte
 Numa aplicação Web todo o processamento de um pedido pode estar relacionado, assim todas as interações com a base de dados devem ser feitas utilizando a mesma sessão (utilização do padrão *unit of work*).
 A criação da sessão é feita pelo *message handler* `RavenSession` que instancia uma sessão e a adiciona às propriedades do pedido, lista \ref{code:opensession}, disponibilizando a sessão para que possa ser usada durante o processamento do pedido. 
 
-<<<<<<< Updated upstream
 A primeira, a camada de *hosting*, recebe o pedido, cria uma instância de `HttpRequestMessage` e passa a instância á camada superior. 
 Esta camada é também responsável por receber a instância de `HttpResponseMessage` retornada pela camada seguinte. 
 
@@ -57,9 +56,7 @@ O *message handler* responsável pela autenticação necessita de dados presente
 A criação da sessão é feita pelo *message handler* `RavenSession` que instância uma sessão de acesso e a adiciona às propriedades do pedido, lista \ref{code:opensession}, disponibilizando a mesma sessão durante o resto do processamento do pedido. 
 
 \lstset{caption={Processamento do pedido da classe `RavenSessionHandler`.},label={code:opensession}}
-=======
-\lstset{caption={Processamento do pedido da classe `RavenSession`.},label={code:opensession}}
->>>>>>> Stashed changes
+
 
 ````
 var session = Global.Database.OpenSession();

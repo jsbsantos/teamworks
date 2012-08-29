@@ -7,7 +7,7 @@ namespace Teamworks.Web.ViewModels.Mvc
     {
         public int Id { get; set; }
 
-        public EntityViewModel ProjectReference { get; set; }
+        public EntityViewModel Project { get; set; }
 
         public string Name { get; set; }
         public string Description { get; set; }

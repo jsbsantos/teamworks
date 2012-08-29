@@ -12,20 +12,23 @@ namespace Teamworks.Web.Helpers.AutoMapper.Profiles
         {
             Mapper.CreateMap<Activity, ActivityViewModelComplete>()
                 .ForMember(s => s.Id, o => o.MapFrom(d => d.Id.ToIdentifier()))
+                .ForMember(s => s.Project, o => o.Ignore())
                 .ForMember(s => s.Dependencies, o => o.Ignore())
                 .ForMember(s => s.Timelogs, o => o.Ignore())
                 .ForMember(s => s.People, o => o.Ignore())
                 .ForMember(s => s.Discussions, o => o.Ignore());
 
             Mapper.CreateMap<Activity, ActivityViewModel>()
-                .ForMember(s => s.Id, o => o.MapFrom(d => d.Id.ToIdentifier()));
+                .ForMember(s => s.Id, o => o.MapFrom(d => d.Id.ToIdentifier()))
+                .ForMember(s => s.Project, o => o.Ignore());
 
             Mapper.CreateMap<Activity, EntityViewModel>()
-                .ForMember(s => s.Id, o => o.MapFrom(d => d.Id.ToIdentifier()));
+                .ForMember(s => s.Id, o => o.MapFrom(d => d.Id.ToIdentifier()))
+                .ForMember(s => s.Name, o => o.MapFrom(d => d.Name));
 
             Mapper.CreateMap<ActivityViewModel, Activity>()
                 .ForMember(s => s.Id, o => o.MapFrom(d => d.Id.ToId("activity")))
-                .ForMember(s => s.Project, o => o.MapFrom(d => d.ProjectReference.Id.ToId("project")));
+                .ForMember(s => s.Project, o => o.MapFrom(d => d.Project.Id.ToId("project")));
 
             Mapper.CreateMap<ActivityViewModel.Input, Activity>()
                 .ForMember(s => s.Dependencies, o => o.MapFrom(d => d.Dependencies.Select(a => a.ToId("activity"))))
@@ -34,6 +37,7 @@ namespace Teamworks.Web.Helpers.AutoMapper.Profiles
 
             Mapper.CreateMap<Activity, DependencyActivityViewModel>()
                 .ForMember(s => s.Id, o => o.MapFrom(d => d.Id.ToIdentifier()))
+                .ForMember(s => s.Project, o => o.Ignore())
                 .ForMember(s => s.Dependency, o => o.MapFrom(r => false));
 
             // Api

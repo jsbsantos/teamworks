@@ -18,30 +18,29 @@ using Teamworks.Web.ViewModels.Mvc;
 namespace Teamworks.Web.Controllers.Mvc
 {
     [SecureProject("projects/view/discussions/view")]
-    [RoutePrefix("projects/{projectId}/discussions")]
+    [RoutePrefix("projects/{projectId}")]
     public class DiscussionsController : AppController
     {
-        [GET("")]
-        [GET("projects/{projectId}/activities/{activityId}/discussions"
-            , IsAbsoluteUrl = true, RouteName = "discussions_activitiesget")]
+        [GET("discussions")]
+        [GET("activities/{activityId}/discussions", RouteName = "discussions_activitiesget")]
         public ActionResult Get(int projectid, int? activityId)
         {
             throw new HttpResponseException(HttpStatusCode.NotFound);
         }
 
-        [GET("{discussionId}")]
-        [GET("projects/{projectId}/activities/{activityId}/discussions/{discussionId}"
-            , IsAbsoluteUrl = true, RouteName = "discussions_activitiesdetails")]
+        [GET("discussions/{discussionId}")]
+        [GET("activities/{activityId}/discussions/{discussionId}", RouteName = "discussions_activitiesdetails")]
         public ActionResult Details(int projectId, int? activityId, int discussionId)
         {
-            Entity entity = DbSession.Load<Project>(projectId);
+            var entity = activityId.HasValue
+                             ? (Entity) DbSession.Load<Activity>(activityId)
+                             : DbSession.Load<Project>(projectId);
+            if (entity == null)
+                return HttpNotFound();
+
             var discussion = DbSession
                 .Include<Discussion>(d => d.Messages.SelectMany(m => m.Person))
                 .Load<Discussion>(discussionId);
-
-            if (activityId.HasValue)
-                entity = DbSession.Load<Activity>(activityId);
-
             if (discussion == null || !discussion.Entity.Equals(entity.Id))
                 return HttpNotFound();
 
@@ -67,15 +66,21 @@ namespace Teamworks.Web.Controllers.Mvc
             return View(discussionViewModel);
         }
 
-        [POST("")]
-        public ActionResult Post(int projectId, DiscussionViewModel.Input model)
+        [POST("discussions")]
+        [POST("activities/{activityId}/discussions", RouteName = "discussions_activitiespost")]
+        public ActionResult Post(int projectId, int? activityId, DiscussionViewModel.Input model)
         {
             if (!ModelState.IsValid)
                 return View("View");
 
+            var entity = activityId.HasValue
+                             ? (Entity) DbSession.Load<Activity>(activityId)
+                             : DbSession.Load<Project>(projectId);
+            if (entity == null)
+                return HttpNotFound();
+
             var personId = DbSession.GetCurrentPersonId();
-            var project = DbSession.Load<Project>(projectId);
-            var discussion = Discussion.Forge(model.Name, model.Content, project.Id, personId);
+            var discussion = Discussion.Forge(model.Name, model.Content, entity.Id, personId);
 
             DbSession.Store(discussion);
 
@@ -85,44 +90,44 @@ namespace Teamworks.Web.Controllers.Mvc
             return RedirectToRoute("discussions_get");
         }
 
-        [POST("{discussionid}/delete")]
-        public ActionResult Delete(int projectId, int discussionid)
+        [POST("discussions/{discussionId}/delete")]
+        [POST("activities/{activityId}/discussions/{discussionId}/delete", RouteName = "discussions_activitiesdelete")]
+        public ActionResult Delete(int discussionId, int projectId, int? activityId)
         {
-            if (!ModelState.IsValid)
-                return View("View");
-
-            var discussion = DbSession.Load<Discussion>(discussionid);
-            if (discussion.Entity.ToIdentifier() != projectId)
+            var entity = activityId.HasValue
+                             ? (Entity) DbSession.Load<Activity>(activityId)
+                             : DbSession.Load<Project>(projectId);
+            if (entity == null)
                 return HttpNotFound();
 
-            discussion.Delete(DbSession);
+            var discussion = DbSession.Load<Discussion>(discussionId);
+            if (discussion != null && discussion.Entity == entity.Id)
+                discussion.Delete(DbSession);
+
             return new HttpStatusCodeResult(HttpStatusCode.NoContent);
         }
 
-        [POST("{discussionid}/watch")]
+        [POST("discussions/{discussionId}/watch")]
+        [POST("activities/{activityId}/discussions/{discussionId}/watch", RouteName = "discussions_activitieswatch")]
         [SecureProject("projects/view/discussions/view")]
-        public ActionResult Watch(int projectId, int discussionid)
+        public ActionResult Watch(int discussionId, int projectId, int? activityId)
         {
-            if (!ModelState.IsValid)
-                return View("View");
-
             var personId = DbSession.GetCurrentPersonId();
-            var discussion = DbSession.Load<Discussion>(discussionid);
+            var discussion = DbSession.Load<Discussion>(discussionId);
             if (!discussion.Subscribers.Contains(personId))
                 discussion.Subscribers.Add(personId);
 
-            return  new HttpStatusCodeResult(HttpStatusCode.Created);
+            return new HttpStatusCodeResult(HttpStatusCode.Created);
         }
 
-        [POST("{discussionid}/unwatch")]
+        [POST("discussions/{discussionId}/unwatch")]
+        [POST("activities/{activityId}/discussions/{discussionId}/unwatch", RouteName = "discussions_activitiesunwatch")
+        ]
         [SecureProject("projects/view/discussions/view")]
-        public ActionResult Unwatch(int projectId, int discussionid)
+        public ActionResult Unwatch(int discussionId, int projectId, int? activityId)
         {
-            if (!ModelState.IsValid)
-                return View("View");
-
             var personId = DbSession.GetCurrentPersonId();
-            var discussion = DbSession.Load<Discussion>(discussionid);
+            var discussion = DbSession.Load<Discussion>(discussionId);
             if (discussion.Subscribers.Contains(personId))
                 discussion.Subscribers.Remove(personId);
 
@@ -130,8 +135,10 @@ namespace Teamworks.Web.Controllers.Mvc
         }
 
         [AjaxOnly]
-        [POST("{discussionId}/messages")]
-        public ActionResult PostMessage(int projectId, int discussionId, string content = "")
+        [POST("discussions/{discussionId}/messages")]
+        [POST("activities/{activityId}/discussions/{discussionId}/messages",
+            RouteName = "discussions_activitiesaddmessage")]
+        public ActionResult PostMessage(int discussionId, int projectId, int? activityId, string content = "")
         {
             content = content.Trim();
             if (string.IsNullOrEmpty(content))
@@ -140,10 +147,15 @@ namespace Teamworks.Web.Controllers.Mvc
             if (!ModelState.IsValid)
                 throw new HttpException((int) HttpStatusCode.BadRequest, ModelState.Values.First().ToString());
 
-            var project = DbSession.Load<Project>(projectId);
+            var entity = activityId.HasValue
+                             ? (Entity) DbSession.Load<Activity>(activityId)
+                             : DbSession.Load<Project>(projectId);
+            if (entity == null)
+                return HttpNotFound();
+
             var discussion = DbSession.Load<Discussion>(discussionId);
 
-            if (discussion == null || discussion.Entity != project.Id)
+            if (discussion == null || discussion.Entity != entity.Id)
                 return new HttpNotFoundResult();
 
             var message = Discussion.Message.Forge(content, DbSession.GetCurrentPersonId());
@@ -158,24 +170,30 @@ namespace Teamworks.Web.Controllers.Mvc
         }
 
         [AjaxOnly]
-        [POST("{discussionId}/messages/{messageId}/delete")]
-        public ActionResult DeleteMessage(int projectId, int discussionId, int messageId)
+        [POST("discussions/{discussionId}/messages/{id}/delete")]
+        [POST("activities/{activityId}/discussions/{discussionId}/messages/{id}/delete",
+            RouteName = "discussions_activitiesdeletemessage")]
+        public ActionResult DeleteMessage(int id, int discussionId, int projectId, int? activityId)
         {
-            var project = DbSession.Load<Project>(projectId);
+            var entity = activityId.HasValue
+                             ? (Entity) DbSession.Load<Activity>(activityId)
+                             : DbSession.Load<Project>(projectId);
+            if (entity == null)
+                return HttpNotFound();
+
             var discussion = DbSession.Load<Discussion>(discussionId);
 
-            if (discussion == null || discussion.Entity != project.Id)
-                return new HttpNotFoundResult();
-
-            var message = discussion.Messages.FirstOrDefault(m => m.Id == messageId);
-            if (message != null)
+            if (discussion != null && discussion.Entity == entity.Id)
             {
-                if (message.Person == DbSession.GetCurrentPersonId())
-                    discussion.Messages.Remove(message);
-                else
-                    return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                var message = discussion.Messages.FirstOrDefault(m => m.Id == id);
+                if (message != null)
+                {
+                    if (message.Person == DbSession.GetCurrentPersonId())
+                        discussion.Messages.Remove(message);
+                    else
+                        return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                }
             }
-
             return new HttpStatusCodeResult(HttpStatusCode.NoContent);
         }
 
@@ -202,11 +220,11 @@ namespace Teamworks.Web.Controllers.Mvc
                         },
                     new Breadcrumb
                         {
-                            Url = Url.RouteUrl("projects_details", new { projectId }),
+                            Url = Url.RouteUrl("projects_details", new {projectId}),
                             Name = project.Name
                         }
                 };
-            
+
             string get;
             string details;
             if (activityId > 0)
@@ -242,7 +260,7 @@ namespace Teamworks.Web.Controllers.Mvc
                     Url = details,
                     Name = discussion.Name
                 });
-            
+
             return breadcrumb.ToArray();
         }
     }

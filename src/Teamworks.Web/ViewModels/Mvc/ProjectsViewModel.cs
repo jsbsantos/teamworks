@@ -31,6 +31,9 @@ namespace Teamworks.Web.ViewModels.Mvc
 
         public class Input
         {
+            [Required(AllowEmptyStrings = true)]
+            public int Id { get; set; }
+
             [Required(AllowEmptyStrings = false)]
             public string Name { get; set; }
             public string Description { get; set; }
