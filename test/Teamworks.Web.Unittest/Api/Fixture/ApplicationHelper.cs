@@ -17,7 +17,7 @@ namespace Teamworks.Web.Unittest.Api.Fixture
                 RunInMemory = true
             }.RegisterListener(new NoStaleQueriesAllowed());
             store.Initialize();
-            IndexCreation.CreateIndexes(typeof(Activities_ByProject).Assembly, store);
+            IndexCreation.CreateIndexes(typeof(Timelog_Filter).Assembly, store);
             return store;
 
         }

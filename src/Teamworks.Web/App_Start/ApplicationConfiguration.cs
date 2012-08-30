@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Raven.Client.Document;
 using Raven.Client.Indexes;
 using Teamworks.Core.Services;
-using Teamworks.Core.Services.Executor;
+using Teamworks.Core.Services.Async;
 using Teamworks.Core.Services.RavenDb.Indexes;
 using Teamworks.Web.Helpers.AutoMapper;
 
@@ -14,7 +14,6 @@ namespace Teamworks.Web.App_Start
     {
         public static void Register()
         {
-            InitializeExecutor();
             InitializeAutoMapper();
             InitializeDocumentStore();
             InitializeMessageNotificationsSender();
@@ -22,18 +21,11 @@ namespace Teamworks.Web.App_Start
 
         private static void InitializeMessageNotificationsSender()
         {
-            var sender = new Core.Services.Executor.Tasks.SendNotificationsAsync();
+            var sender = new SendNotificationsAsync();
             Task.Factory.StartNew(sender.Run).ContinueWith(task =>
                 {
                     return;
                 });
-        }
-
-        public static void InitializeExecutor()
-        {
-            Global.Executor = Executor.Instance;
-            Global.Executor.Timeout = 15000;
-            Global.Executor.Initialize();
         }
 
         public static void InitializeAutoMapper()
