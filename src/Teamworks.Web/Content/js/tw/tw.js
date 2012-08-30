@@ -166,7 +166,10 @@ var tw = {
             write: function(value) {
                 if (value) {
                     try {
-                        target(juration.parse(value));
+                        if (typeof (value)=='string')
+                            target(juration.parse(value));
+                        else 
+                            target(value);
                     } catch(e) {
                         target(message);
                     }

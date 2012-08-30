@@ -68,10 +68,7 @@
                 <p data-bind="text: content"></p>
             </div>
             <div class="pull-left"><p data-bind="text: date.formatted, attr: { title: date }, timeago: ''"></p></div>
-            <div class="pull-right" data-bind="visible: editable">
-                <a href="#editMessageModal" role="button" data-toggle="modal"><i class="icon-edit"></i></a>
-                <a href='#' data-bind="click: _remove"><i class="icon-trash"></i></a>
-            </div>
+            <button class="close " data-bind="visible: editable, click: _remove"><i class="icon-trash"></i></button>
         </div>
     </div>
 </script>

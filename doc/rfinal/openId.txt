@@ -1,0 +1,15 @@
+
+\label{sec:OpenID}
+
+OpenID é um protocolo que descreve a forma de um utilizador se autenticar perante uma entidade, de forma descentralizada, permitindo que os utilizadores usem a mesma identidade nas mais diversas aplicações sem a necessidade de criar, para cada uma delas, uma nova conta com a respectiva password de acesso. Este protocolo funciona através da delegação de autenticação, por parte de uma aplicação, num fornecedor OpenID. Existem diversos fornecedores de OpenID, que implementam este protocolo, como a Google, Yahoo, VeriSign, etc.
+
+
+Quando o utilizador pretende aceder à aplicação pela primeira vez tem que se registar. Quando o faz é redireccionado para o web site do fornecedor OpenID que escolheu usar, onde lhe é pedido que se autentique e que conceda autorização à aplicação que pretende usar para aceder à sua identidade, dando-lhe acesso a informação pessoal, como por exemplo o nome e o email registados no fornecedor. Desta forma, apenas o fornecedor terá acesso à password do utilizador, facilitando a gestão das suas identidades virtuais. Nos acessos subsequentes a aplicação já está autorizada a aceder à informação do utilizador, por isso nunca mais terá que requisitar o acesso essa informação ao utilizador.
+
+\label{sec:DotNetOpenAuth}
+
+Para utilizar este protocolo foi usada a biblioteca DotNetOpenAuth, que permite, entre outras funcionalidades, fazer a autenticação de utilizadores através do protocolo OpenId.
+
+Esta biblioteca disponibiliza a classe OpenIdRelyingParty que é responsável por toda a comunicação relacionada com o protocolo OpenID. As instâncias desta classe são parametrizáveis, permitindo escolher qual o fornecedor que se pretende usar, bem como a informação do utilizador que pretendemos obter.
+
+A autenticação pode acontecer em dois passos, caso o utilizador não esteja já autenticado com o fornecedor OpenID. Quando esta situação acontece, o pedido de autenticação do utilizador na aplicação redirecciona-o para a página de autenticação do fornecedor. Após autenticar-se com o fornecedor, o utilizador será redireccionado para a aplicação, já com a confirmação de identidade dada pelo fornecedor onde lhe será permitida a entrada com a sua conta. Se já estiver autenticado com o fornecedor, o utilizador é automaticamente redireccionado para a aplicação, com a informação de identidade.

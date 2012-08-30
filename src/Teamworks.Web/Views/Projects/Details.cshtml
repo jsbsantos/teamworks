@@ -170,7 +170,7 @@
                                     <div class="control-group">
                                         <label class="control-label">Duration</label>
                                         <div class="controls">
-                                            <input name="duration" placeholder="Duration" data-bind="value: timelogs.timelogs.editing().duration"/>
+                                            <input name="duration" placeholder="Duration" data-bind="value: timelogs.timelogs.editing().duration.duration"/>
                                         </div>
                                     </div>
                                     <div class="control-group">
@@ -213,7 +213,7 @@
                                     <span><a data-bind="attr:{ href: '/projects/' + project.id() + '/activities/' + activity.id() }, text: activity.name"></a></span>
                                 </td>
                                 <td>
-                                    <span data-bind="text: duration"></span>
+                                    <span data-bind="text: duration.duration"></span>
                                 </td>
                                 <td>
                                     <span data-bind="text: description"></span>
