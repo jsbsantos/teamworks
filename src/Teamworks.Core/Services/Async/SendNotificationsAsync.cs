@@ -6,7 +6,7 @@ using Raven.Client;
 using Raven.Client.Linq;
 using Teamworks.Core.Mailgun;
 
-namespace Teamworks.Core.Services.Executor.Tasks
+namespace Teamworks.Core.Services.Async
 {
     public class SendNotificationsAsync
     {

@@ -33,6 +33,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DotNetOpenAuth.Core">
+      <HintPath>..\..\packages\DotNetOpenAuth.Core.4.1.0.12182\lib\net40-full\DotNetOpenAuth.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId">
+      <HintPath>..\..\packages\DotNetOpenAuth.OpenId.Core.4.1.0.12182\lib\net40-full\DotNetOpenAuth.OpenId.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId.RelyingParty">
+      <HintPath>..\..\packages\DotNetOpenAuth.OpenId.RelyingParty.4.1.0.12182\lib\net40-full\DotNetOpenAuth.OpenId.RelyingParty.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -48,6 +57,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.IdentityModel" />
     <Reference Include="Microsoft.CSharp" />
@@ -61,25 +71,18 @@
     <Compile Include="Extensions\ActivityExtensions.cs" />
     <Compile Include="Extensions\DiscussionExtensions.cs" />
     <Compile Include="Extensions\ProjectExtensions.cs" />
-    <Compile Include="Projects\Todo.cs" />
     <Compile Include="Projects\TodoList.cs" />
     <Compile Include="Projects\Event.cs" />
-    <Compile Include="Services\Executor\Executor.cs" />
     <Compile Include="Services\EntityExtensions.cs" />
-    <Compile Include="Services\Executor\Tasks\SendNotificationsAsync.cs" />
-    <Compile Include="Services\RavenDb\Indexes\Activities_ByProject.cs" />
+    <Compile Include="Services\Async\SendNotificationsAsync.cs" />
+    <Compile Include="Services\OpenID\OpenId.cs" />
     <Compile Include="Services\RavenDb\Indexes\ActivitiesDuration.cs" />
-    <Compile Include="Services\RavenDb\Indexes\Activities_ByPerson.cs" />
-    <Compile Include="Projects\DependencyGraph.cs" />
-    <Compile Include="Services\RavenDb\Indexes\ActivitiesTotalDuration.cs" />
-    <Compile Include="Services\RavenDb\Indexes\Discussion_Messages_PendingNotification.cs" />
+    <Compile Include="Services\RavenDb\Indexes\DiscussionMessagesPendingNotification.cs" />
     <Compile Include="Services\RavenDb\Indexes\Timelog_Filter.cs" />
     <Compile Include="Services\RavenDb\Indexes\ProjectEntityCount.cs" />
-    <Compile Include="Services\RavenDb\Indexes\ProjectsRelated.cs" />
     <Compile Include="Projects\Timelog.cs" />
     <Compile Include="Services\Global.cs" />
     <Compile Include="Entity.cs" />
-    <Compile Include="Extensions\Validator.cs" />
     <Compile Include="People\Person.cs" />
     <Compile Include="Projects\Project.cs" />
     <Compile Include="Projects\Activity.cs" />
