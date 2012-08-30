@@ -20,27 +20,24 @@ namespace Teamworks.Core.Extensions
 
         public static void Grant(this Project project, string operation, Person person)
         {
-            var op = Global.Constants.Projects;
             if (!string.IsNullOrWhiteSpace(operation))
-                op += "/" + operation;
-
+                operation = Global.Constants.Projects;
             person.Permissions.Add(new OperationPermission
-                                       {
-                                           Allow = true,
-                                           Operation = op,
-                                           Tags = { project.Id }
-                                       });
+                {
+                    Allow = true,
+                    Operation = operation,
+                    Tags = {project.Id}
+                });
             project.People.Add(person.Id);
         }
 
         public static void Revoke(this Project project, string operation, Person person)
         {
-            var op = Global.Constants.Projects;
             if (!string.IsNullOrWhiteSpace(operation))
-                op += "/" + operation;
-            
+                operation = Global.Constants.Projects;
+
             var permissions = person.Permissions;
-            permissions.Remove(permissions.FirstOrDefault(p => p.Operation == op));
+            permissions.Remove(permissions.FirstOrDefault(p => p.Operation == operation));
 
             if (!permissions.Any(p => p.Operation.StartsWith(project.Id)))
                 project.People.Remove(person.Id);
@@ -50,18 +47,18 @@ namespace Teamworks.Core.Extensions
         {
             if (string.IsNullOrWhiteSpace(entity.Id))
                 throw new NullReferenceException("project.Id");
-            
+
             var permission = new DocumentPermission
-                                 {
-                                     Allow = true,
-                                     Operation =
-                                         Global.Constants.Projects,
-                                 };
+                {
+                    Allow = true,
+                    Operation =
+                        Global.Constants.Projects,
+                };
             var authorization = new DocumentAuthorization
-                                    {
-                                        Permissions = {permission},
-                                        Tags = { entity.Id }
-                                    };
+                {
+                    Permissions = {permission},
+                    Tags = {entity.Id}
+                };
             session.SetAuthorizationFor(entity, authorization);
         }
     }

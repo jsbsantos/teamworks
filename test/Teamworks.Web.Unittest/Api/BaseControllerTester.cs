@@ -33,10 +33,15 @@ namespace Teamworks.Web.Unittest.Api
         protected T ControllerForTests<T>(IDocumentSession session, HttpMethod method) where T : RavenApiController
         {
             var person = Person.Forge("email@mail.pt", "username", "password", "Name");
+            return ControllerForTests<T>(session, method, person);
+        }
+
+        protected T ControllerForTests<T>(IDocumentSession session, HttpMethod method, Person person) where T : RavenApiController
+        {
             Thread.CurrentPrincipal = new GenericPrincipal(new PersonIdentity(person), new string[0]);
-        
-            var controller = Activator.CreateInstance(typeof (T)) as T;
-            if (controller == null) 
+
+            var controller = Activator.CreateInstance(typeof(T)) as T;
+            if (controller == null)
                 throw new NullException("controller");
 
             controller.DbSession = session;
@@ -46,8 +51,8 @@ namespace Teamworks.Web.Unittest.Api
             controller.ControllerContext = new HttpControllerContext(config, routeData, request);
             controller.Request = request;
             controller.Request.Properties[HttpPropertyKeys.HttpConfigurationKey] = config;
+            controller.Request.Properties[Application.Keys.RavenDbSessionKey] = session;
             controller.Request.Properties[HttpPropertyKeys.HttpRouteDataKey] = routeData;
-
             return controller;
         }
 

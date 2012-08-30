@@ -15,7 +15,7 @@ namespace Teamworks.Core
         public string Email { get; set; }
         public string Username { get; set; }
         public IList<string> Roles { get; set; }
-        public IList<IPermission> Permissions { get; set; }
+        public List<OperationPermission> Permissions { get; set; }
 
 
         public static Person Forge(string email, string username, string password, string name)
@@ -28,7 +28,7 @@ namespace Teamworks.Core
                            Name = name,
                            Username = username,
                            Roles = new List<string>(),
-                           Permissions = new List<IPermission>(),
+                           Permissions = new List<OperationPermission>(),
                            Password = EncodePassword(password, salt)
                        };
         }
