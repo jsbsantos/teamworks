@@ -20,8 +20,7 @@ Segurança
 
 \label{seguranca}
 
-A plataforma impõe as políticas de acesso em conjunto com o *Authorization bundle*.
-A autorização é feita quando se tenta aceder a um documento. Se um utilizador tentar aceder a um documento e não tiver permissões para o fazer é lançada uma excepção.
+A plataforma impõe as políticas de acesso em conjunto com o *Authorization bundle*. A autorização é feita quando se tenta aceder a um documento. Se um utilizador tentar aceder a um documento e não tiver permissões para o fazer é lançada uma excepção.
 
 A configuração do cliente, para que este valide se é possível interagir com o documento, é feita utilizando métodos de extensão presentes no `assembly` `Raven.Client.Authorization.dll`.
 
@@ -30,30 +29,28 @@ OpenID
 
 \label{sec:OpenID}
 
-*OpenID* é um protocolo que caracteriza uma forma de um utilizador se autenticar delegando numa entidade externa (fornecedor de identidade) a validação das suas credenciais. Esta forma de autenticação permite que o utilizador use a mesma identidade em múltiplas aplicações sem a necessidade de criar, para cada uma delas, uma nova conta com a respectiva password de acesso. 
+O *OpenID* é um protocolo que caracteriza uma forma de um utilizador se autenticar delegando numa entidade externa (fornecedor de identidade) a validação das suas credenciais. Esta forma de autenticação permite que o utilizador use a mesma identidade em múltiplas aplicações sem a necessidade de criar, para cada uma delas, uma nova conta com a respectiva password de acesso. 
 
-Quando um utilizador acede a uma aplicação web que utiliza esta forma de autenticação, tem que introduzir a sua identidade, previamente criada no fornecedor de identidade. A aplicação web pede ao fornecedor de identidade que verifique se o utilizador é o dono da identidade que introduziu e, uma vez confirmada a identidade do utilizador, o fornecedor redirecciona-o para a aplicação web, enviando na *query string* a informação da identidade do utilizador. 
+Quando um utilizador acede a uma aplicação web que utiliza esta forma de autenticação, tem que introduzir a sua identidade, previamente criada no fornecedor de identidade. A aplicação web pede ao fornecedor de identidade que verifique se o utilizador é o dono dessa identidade e, uma vez confirmada a identidade do utilizador, o fornecedor redirecciona-o para a aplicação web, enviando na *query string* a informação da identidade do utilizador. 
 
 A informação da identidade do utilizador é pedida tirando partido da extensão ao *OpenId*, *Attribute Exchange* \ref{OpenIdAttributeExchange}. Esta extensão permite que sejam disponibilizados, pelos fornecedores de identidade, atributos que podem ser pedidos aquando do pedido de verificação da identidade de um utilizador e o acesso a ela tem que ser autorizado pelo utilizador dono da identidade. 
 
 \label{sec:DotNetOpenAuth}
 
-Para utilizar este protocolo foi usada a biblioteca *DotNetOpenAuth*, que permite fazer a autenticação de utilizadores através do protocolo *OpenID*.
-
-Esta biblioteca disponibiliza a classe *OpenIdRelyingParty* que é responsável por toda a comunicação relacionada com o protocolo *OpenID*. As instâncias desta classe são parametrizáveis, permitindo escolher qual o fornecedor que se pretende usar, bem como a informação da identidade do utilizador que pretendemos obter.
+Para utilizar esta foram de autenticação foi usada a biblioteca *DotNetOpenAuth** que disponibiliza a classe *OpenIdRelyingParty*, responsável por toda a comunicação relacionada com o protocolo *OpenID*. As instâncias desta classe são parametrizáveis, permitindo escolher qual o fornecedor que se pretende usar, bem como a informação da identidade do utilizador que pretendemos obter.
 
 Notificações
 -
 
-Existem situações em que é necessário que a aplicação comunique com os seus utilizadores, quando estes não a estão a usar. Como tal, para fazer essa comunicação, decidiu usar-se emails, uma vez que todos os utilizadores têm um endereço único na aplicação. 
+Existem situações em que é necessário que a aplicação comunique com os seus utilizadores, quando estes não a estão a usar. Como tal, para fazer essa comunicação, decidiu usar-se emails. 
 
 \label{sec:Mailgun}
 
-Estes emails são enviados usando a plataforma web programável Mailgun \ref{mailgun} que oferece as funcionalidades de um servidor de email, como envio e recepção de emails. Além destas funcionalidades o Mailgun permite a sua configuração para fazer o redireccionamento de emails recebidos para um URL. Toda a comunicação com o Mailgun é feita através de pedidos HTTP para a sua API. A identificação de utilizadores é feita através de uma chave única, atribuída aquando do registo no Mailgun, que deve ser enviada em todos os pedidos.
+Os emails são enviados usando a plataforma web programável *Mailgun* \ref{mailgun} que oferece as funcionalidades de um servidor de email, como envio e recepção de emails. Além destas funcionalidades o *Mailgun* suporta o redireccionamento de emails recebidos para um URL definido pelos seus utilizadores. Toda a comunicação com o *Mailgun* é feita através de pedidos HTTP para a sua API publica, sendo necessário que a identificação do utilizador seja enviada em todos os pedidos usando uma chave única atribuída aquando do seu registo no Mailgun.
 
 \label{sec:Configuração}
 
-Para tirar partido da funcionalidade do reencaminhamento de emails oferecida pelo Mailgun foram criadas duas Routes \ref{mailgunroute}, que são compostas por um par de chave-valor: filtro e acção. Os filtros são compostos por funções disponibilizadas pelo Mailgun que indicam a componente do email que deve ser analisada: o endereço receptor da mensagem ou os cabeçalhos que lhe estão associados. Estas funções recebem como parâmetro a expressão por que desejamos filtrar e, no caso de se querer filtrar por um cabeçalho, o nome do cabeçalho.
+Tirando partido da funcionalidade do reencaminhamento de emails do *Mailgun* foram criadas duas *routes* \ref{mailgunroute}, que são compostas por um par de chave-valor: filtro e acção. Os filtros são compostos por funções disponibilizadas pelo *Mailgun* que indicam a componente do email que deve ser analisada: o endereço receptor da mensagem ou os cabeçalhos que lhe estão associados. Estas funções recebem como parâmetro a expressão *regex* \cite{regex} por que desejamos filtrar e, no caso de se querer filtrar por um cabeçalho, o nome do cabeçalho.
 
 As *routes* configuradas são: 
 
@@ -73,11 +70,13 @@ Esta route é usada para que os utilizadores consigam, através do seu *token* �
 
 \label{sec:Integração}
 
-Para fazer o processamento dos pedidos HTTP POST enviados pelo Mailgun, no reencaminhamento de emails, foi criado um *Controller* na API. A informação relativa aos emails é enviada no corpo do pedido POST e, para fazer a leitura e passagem desses valores para um tipo .NET, foi necessário criar o *model binder* *MailgunModelBinder*, que lê o corpo do pedido e transforma-o num dicionário que contém todas as chaves e os respectivos valores. Esta necessidade surgiu porque o *model binder* usado pelo ASP.NET, o *DefaultModelBinder*, não faz o processamento da informação necessária para o preenchimento do tipo .NET usado.
+O reencaminhamento de emails do *Mailgun* é feito através de pedidos HTTP POST enviados para as routes configuradas, sendo que a informação é enviada no corpo do pedido POST. Para fazer o seu processamento dessa informação e convertê-la num tipo .NET, foi necessário criar o *model binder* *MailgunModelBinder*, que lê o corpo do pedido e transforma-o num dicionário que contém todas as chaves e os respectivos valores.
 
 \label{sec:Notificações Assíncronas}
 
-De forma a manter os utilizadores actualizados, relativamente às mensagens que são colocadas nas discussões, foi desenvolvido um mecanismo de notificações de novas mensagens que envia um email, para os utilizadores que associados à discussão, com as novas mensagens. Quando a aplicação Web é iniciada é também iniciada uma *Thread* que, em intervalos de tempo definidos, verifica se existem mensagens para as quais ainda não foram enviados emails de notificação. Quando existem mensagens nessa condição, são enviadas por email para os utilizadores, pela ordem pela qual foram submetidas. Quando não existem notificações por enviar, o intervalo de tempo em que são feitas as verificações aumenta, até chegar aos 10 minutos.
+Uma das utilizações destas funcionalidades é a notificação dos utilizadores com as mensagens que são colocadas nas discussões a que estão associados. Para isso foi desenvolvido um mecanismo de notificação de novas mensagens que envia um email com as novas mensagens. 
+
+Quando a aplicação Web é iniciada é também iniciada uma *Thread* que, em intervalos de tempo definidos, verifica se existem mensagens para as quais ainda não foram enviadas notificações. Se existirem mensagens nessa condição, são enviados emails para os utilizadores, pela ordem pela qual foram submetidas. Caso contrário o intervalo de tempo em que são feitas as verificações aumenta, até chegar aos 10 minutos.
 
 RavenDB
 -

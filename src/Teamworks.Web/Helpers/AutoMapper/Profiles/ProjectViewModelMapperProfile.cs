@@ -13,6 +13,10 @@ namespace Teamworks.Web.Helpers.AutoMapper.Profiles
                 .ForMember(s => s.Id, o => o.MapFrom(d => d.Id.ToIdentifier()))
                 .ForMember(s => s.People, o => o.Ignore());
 
+            Mapper.CreateMap<Project, ProjectWithStatisticsViewModel>()
+                .ForMember(s => s.Id, o => o.MapFrom(d => d.Id.ToIdentifier()))
+                .ForMember(s => s.PeopleCount, o => o.MapFrom(p => p.People.Count));
+
             Mapper.CreateMap<Project, EntityViewModel>()
                 .ForMember(s => s.Id, o => o.MapFrom(d => d.Id.ToIdentifier()));
 
@@ -24,7 +28,7 @@ namespace Teamworks.Web.Helpers.AutoMapper.Profiles
 
             Mapper.CreateMap<Timelog, ProjectViewModel.Timelog>()
                 .ForMember(s => s.Person, o => o.MapFrom(r => new EntityViewModel(){Id = r.Person.ToIdentifier()}));
-
+            
             // Api
             Mapper.CreateMap<Project, ViewModels.Api.ProjectViewModel>()
               .ForMember(s => s.Id, o => o.MapFrom(d => d.Id.ToIdentifier()));

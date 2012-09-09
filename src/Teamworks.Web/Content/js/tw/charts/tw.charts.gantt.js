@@ -3,19 +3,8 @@ tw.Gantt = function (data, options) {
 
     //privates
     var total_duration = [];
-    var total = 0;
+    var total = tw.bindings.vm.totalTime();
     var width = 0;
-
-    for (var e in data) {
-        var d = Math.max(data[e].Duration, data[e].TimeUsed);
-        if (total_duration[data[e].StartDate] == undefined) {
-            total_duration[data[e].StartDate] = d;
-            total += d;
-        } else if (d > total_duration[data[e].StartDate]) {
-            total += d - total_duration[data[e].StartDate];
-            total_duration[data[e].StartDate] = d;
-        }
-    }
 
     $.each(data, function (i, e) {
         e.RealAcc = getParentDuration(e, data);
@@ -24,7 +13,7 @@ tw.Gantt = function (data, options) {
     var _default = {
         //draw area default config
         graphic_width: $("#chart").width(),
-        graphic_height: 150,
+        graphic_height: 100,
         graphic_start_x: 0,
         graphic_start_y: 15,
         //item default config
@@ -47,11 +36,6 @@ tw.Gantt = function (data, options) {
     //configuration
     self.options = $.extend(true, _default, options);
 
-    self.graphic_width = self.options.graphic_width;
-    self.graphic_height = self.options.graphic_height;
-    self.graphic_start_x = self.options.graphic_start_x;
-    self.graphic_start_y = self.options.graphic_start_y;
-
     self.item_unit_width = self.options.item_unit_width;
     self.item_estimated_height = self.options.item_estimated_height;
     self.item_real_height = self.options.item_real_height;
@@ -65,8 +49,14 @@ tw.Gantt = function (data, options) {
     self.grid_horizontal_lines = self.options.grid_horizontal_lines;
     self.grid_header_offset = self.options.grid_header_offset;
 
+    self.graphic_width = self.options.graphic_width;
+    self.graphic_start_x = self.options.graphic_start_x;
+    self.graphic_start_y = self.options.graphic_start_y;
+    self.graphic_height = (data.length * self.item_estimated_height) + self.grid_header_offset + ((data.length - 2) * self.item_offset_y);
+
+
     self.data = data;
-    width = self.graphic_width * .98;
+    width = self.graphic_width * .97;
     self.item_unit_width = (width - self.item_offset_x - self.item_padding_x) / total;
 
     //d3 initialization
@@ -110,9 +100,8 @@ tw.Gantt = function (data, options) {
                 return (d.Duration || (total - Math.max(d.AccumulatedTime, d.RealAcc))) * self.item_unit_width;
             }).attr("height", self.item_estimated_height)
             .attr("class", "gantt_duration_rect")
-            .on("mouseover", function(d, i) { tooltipMousover(d); })
-            .on("mousemove", function(d, i) { tooltipMousemove(d); })
-            .on("mouseout", function(d, i) { tooltipMouseout(d); });
+            .on("mouseover", function (d, i) { tooltipMousover(d, i); })
+            .on("mouseout", function (d, i) { tooltipMouseout(d); });
 
 
         //item real duration bar
@@ -131,10 +120,8 @@ tw.Gantt = function (data, options) {
                     return "gantt_duration_rect_yellow";
                 return "gantt_duration_rect_green";
             })
-
-            .on("mouseover", function(d, i) { tooltipMousover(d); })
-            .on("mousemove", function(d, i) { tooltipMousemove(d); })
-            .on("mouseout", function(d, i) { tooltipMouseout(d); });
+            .on("mouseover", function (d, i) { tooltipMousover(d, i); })
+            .on("mouseout", function (d, i) { tooltipMouseout(d); });
 
         //item duration text
         node.append("text")
@@ -153,21 +140,20 @@ tw.Gantt = function (data, options) {
         var tooltip = $("#gantt_tooltip");
         tooltip.popover();
 
-        function tooltipMousemove(item) {
-
-        }
-
-        function tooltipMousover(item) {
-            tw.page.viewmodel.map(item);
+        function tooltipMousover(item, index) {
+            tw.bindings.vm.tooltip.map(item);
             if ($(item).data('popover') == undefined)
                 $(item).popover({ trigger: "hover", content: $(tooltip).children("#tooltip_body").html(), title: $(tooltip).children("#tooltip_title").text() });
+
             $(item).popover("show");
+
             var elem = $("#chart svg rect.gantt_duration_rect:eq(" + index + ")"),
                 position = elem.position(),
                 popover = $(".popover");
             position.left += parseFloat(elem.attr("width"));
             position.top -= $(".popover-inner").height() / 2;
             popover.offset(position);
+
 
         }
 

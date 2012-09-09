@@ -1,0 +1,228 @@
+﻿@using Teamworks.Web.Controllers
+@using Teamworks.Web.Helpers.Extensions
+@model Teamworks.Web.ViewModels.Mvc.ProjectWithStatisticsViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="span10">
+        @Html.Breadcrumb(ViewBag.Breadcrumb as AppController.Breadcrumb[])
+        <header class="page-header">
+            <h1>
+                <span data-bind="text: name">@Model.Name</span>
+                <small>
+                    <span data-bind="text: description, visible: description">
+                        @Model.Description
+                    </span>
+                </small>
+            </h1>
+        </header>
+
+        <div>
+            <header class="lead">Status</header>
+            <div class="row">
+                <div class="span3">
+                    <strong>Number of Activities:</strong> <span data-bind="text: activitySummary().length"></span>
+                </div>
+                <div class="span3">
+                    <strong>Assigned People:</strong> <span data-bind="text: peopleCount"></span>
+                </div>
+                <div class="span4">
+                    <strong>Estimated end date:</strong> <span data-bind="text: endDate.formatted"></span>
+                </div>
+                <div class="span3">
+                    <strong>Total estimated time:</strong> <span data-bind="text: totalEstimatedTime.duration"></span>
+                </div>
+                <div class="span3">
+                    <strong>Total logged time:</strong> <span data-bind="text: totalTimeLogged.duration"></span>
+                </div>
+            </div>
+        </div>
+        <br />
+
+        <section>
+            <ul class="nav nav-tabs" id="tabs">
+                <li class="active"><a data-toggle="tab" href="#tab-byactivity">Activities</a>
+                </li>
+                <li><a data-toggle="tab" href="#tab-byperson">People</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab-byactivity">
+                    <div class="lead">Statistics by Activity</div>
+                    <div id="chart"></div>
+                    
+                    <p class="tc well hide" data-bind="css: { hide: activitySummary().length }">
+                        This project has no activities.
+                    </p>
+
+                    <div class="hide" data-bind="css: { hide: activitySummary().length == 0 }">
+                        <table class="table table-striped table-bordered table-condensed hide" data-bind="css: { hide: !activitySummary().length }">
+                            <thead>
+                                <tr>
+                                    <th>Activity</th>
+                                    <th>Start Date</th>
+                                    <th>Duration</th>
+                                    <th>Logged Time</th>
+                                    <th>Progress</th>
+                                    <th>Est. End Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!--ko template: { name: 'activity-template', foreach: activitySummary } -->
+                                <!--/ko -->
+                                <tr>
+                                    <td>
+                                        <strong>Total</strong>
+                                    </td>
+                                    <td>
+                                        <strong><span data-bind="text: startDate.formatted"></span></strong>
+                                    </td>
+                                    <td>
+                                        <strong><span data-bind="text: totalEstimatedTime.duration"></span></strong>
+                                    </td>
+                                    <td>
+                                        <strong><span data-bind="text: totalTimeLogged.duration"></span></strong>
+                                    </td>
+                                    <td>
+                                        <strong><span data-bind="text: progress"></span></strong>
+                                    </td>
+                                    <td>
+                                        <strong><span data-bind="text: endDate.formatted"></span></strong>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <small>Note: One work day is considered to have 8 hours.</small>
+
+                        <script type="text/html" id="activity-template">
+                                
+                            <tr>
+                                <td>
+                                    <strong data-bind="text: name"></strong>
+                                </td>
+                                <td>
+                                    <span data-bind="text: startDate.formatted"></span>
+                                </td>
+                                <td>
+                                    <span data-bind="text: _duration.duration"></span>
+                                </td>
+                                <td>
+                                    <span data-bind="text: _logged.duration"></span>
+                                </td>
+                                <td>
+                                    <span data-bind="text: _progress"></span>
+                                </td>
+                                <td>
+                                    <span data-bind="text: endDate.formatted"></span> 
+                                    <i title="End date adjusted because a dependency estimate was exceeded." class="icon-exclamation-sign hide" data-bind="css: { hide: !exceededByDependecy() }"></i>
+                                    <i title="Time estimate exceeded." class="icon-warning-sign hide" data-bind="css: { hide: !exceededEstimate() }"></i>
+                                </td>
+                            </tr>
+
+                        </script>
+                    </div>
+
+                </div>
+                <div class="tab-pane" id="tab-byperson">
+                    <div class="lead">Statistics by Person</div>
+                    <p class="tc well hide" data-bind="css: { hide: timelogs.timelogs().length }">
+                        This project has no time logged.
+                    </p>
+                    <div class="hide" data-bind="css: { hide: timelogs.timelogs().length == 0 }">
+                        <table class="table table-striped table-bordered table-condensed hide" data-bind="css: { hide: !timelogs.timelogs().length }">
+                            <thead>
+                                <tr>
+                                    <th>Activity</th>
+                                    <th>Start Date</th>
+                                    <th>Duration</th>
+                                    <th>Logged Time</th>
+                                    <th>Progress</th>
+                                    <th>Est. End Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @*<!--ko template: { name: 'activity-template', foreach: activitySummary } -->
+                                <!--/ko -->
+                                <tr>
+                                    <td>
+                                        <strong>Total</strong>
+                                    </td>
+                                    <td>
+                                        <strong><span data-bind="text: startDate.formatted"></span></strong>
+                                    </td>
+                                    <td>
+                                        <strong><span data-bind="text: totalEstimatedTime.duration"></span></strong>
+                                    </td>
+                                    <td>
+                                        <strong><span data-bind="text: totalTimeLogged.duration"></span></strong>
+                                    </td>
+                                    <td>
+                                        <strong><span data-bind="text: progress"></span></strong>
+                                    </td>
+                                    <td>
+                                        <strong><span data-bind="text: endDate.formatted"></span></strong>
+                                    </td>
+                                </tr>*@
+                            </tbody>
+                        </table>
+
+                        <small>Note: One work day is considered to have 8 hours.</small>
+
+                        @*<script type="text/html" id="people-template">
+                                
+                            <tr>
+                                <td>
+                                    <strong data-bind="text: name"></strong>
+                                </td>
+                                <td>
+                                    <span data-bind="text: startDate.formatted"></span>
+                                </td>
+                                <td>
+                                    <span data-bind="text: _duration.duration"></span>
+                                </td>
+                                <td>
+                                    <span data-bind="text: _logged.duration"></span>
+                                </td>
+                                <td>
+                                    <span data-bind="text: _progress"></span>
+                                </td>
+                                <td>
+                                    <span data-bind="text: _endDate.formatted"></span>
+                                </td>
+                            </tr>
+
+                        </script>*@
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<script>
+    var viewmodel = function() {
+        return tw.pages.GanttViewmodel(@Html.ToJson(Model));
+    };
+
+
+    var gantt = function() {
+        return new tw.Gantt(@Html.Raw(ViewBag.ChartData));
+    };
+
+</script>
+
+<div hidden="true" id="gantt_tooltip">
+    <div id="tooltip_title"><span data-bind="text: tooltip.name"></span></div>
+    <div id="tooltip_body">
+        <div><strong>Description:</strong><span data-bind="text: tooltip.description"></span></div>
+        <div><strong>StartDate:</strong><span data-bind="text: tooltip.startDate.formatted"></span></div>
+        <div><strong>Duration:</strong><span data-bind="text: tooltip.duration.duration"></span></div>
+        <div><strong>Used:</strong><span data-bind="text: tooltip.timeUsed.duration"></span></div>
+    </div>
+</div>
+
+<section>
+    <pre>@Html.Raw(ViewBag.ChartData)</pre>
+</section>

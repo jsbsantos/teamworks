@@ -13,19 +13,19 @@
                 }
             },
             'discussions': {
-                key: function(data) {
+                key: function (data) {
                     return ko.utils.unwrapObservable(data.id);
                 },
-                create: function(options) {
-                    return (new (function() {
-                        this._remove = function() {
+                create: function (options) {
+                    return (new (function () {
+                        this._remove = function () {
                             var discussion = this;
                             tw.utils.remove(self.discussions,
                                 tw.utils.location + '/discussions/' + discussion.id() + '/delete',
                                 'You are about to delete ' + discussion.name() + '.',
                                 errorCallback).call(discussion);
                         };
-                        ko.mapping.fromJS(options.data, { }, this);
+                        ko.mapping.fromJS(options.data, {}, this);
                     })());
                 }
             },
@@ -77,10 +77,36 @@
                                 'You are about to remove the dependency on ' + activity.name() + '.',
                                 errorCallback).call(activity);
                         };
-                        ko.mapping.fromJS(options.data, {}, this);
+
+                        var m = {
+                            'duration': {
+                                create: function (o) {
+                                    return ko.observable(o.data).extend({ duration: "" });
+                                }
+                            },
+                            'startDate': {
+                                create: function (o) {
+                                    return ko.observable(o.data).extend({
+                                        isoDate: 'dd/MM/yyyy'
+                                    });
+                                }
+                            }
+                        };
+                        ko.mapping.fromJS(options.data, m, this);
                     })());
                 }
+            },
+            'duration': {
+                create: function (o) {
+                    return ko.observable(o.data).extend({ duration: "" });
+                }
+            },
+            'totalTimeLogged': {
+                create: function (o) {
+                    return ko.observable(o.data).extend({ duration: "" });
+                }
             }
+
         };
 
         var self = ko.mapping.fromJS(json || [], mapping);

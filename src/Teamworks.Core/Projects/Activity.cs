@@ -13,9 +13,9 @@ namespace Teamworks.Core
         public int Duration { get; set; }
         public IList<Timelog> Timelogs { get; set; }
         public IList<string> Dependencies { get; set; }
-        public IList<string> Discussions { get; set; }
         public IList<string> People { get; set; }
         public IList<TodoList> Todos { get; set; }
+        public DateTimeOffset StartDateConsecutive { get; set; }
         public DateTimeOffset StartDate { get; set; }
 
         public int LastTimeEntryId { get; private set; }
@@ -42,11 +42,11 @@ namespace Teamworks.Core
                     Description = description ?? "",
                     Duration = duration,
                     Dependencies = new List<string>(),
-                    Discussions = new List<string>(),
                     People = new List<string>(),
                     Timelogs = new List<Timelog>(),
                     Todos = new List<TodoList>(),
                     LastTimeEntryId = 0,
+                    StartDateConsecutive = startDate == DateTimeOffset.MinValue ? DateTimeOffset.Now : startDate,
                     StartDate = startDate == DateTimeOffset.MinValue ? DateTimeOffset.Now : startDate
                 };
         }

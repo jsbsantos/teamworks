@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -23,6 +24,13 @@ namespace Teamworks.Web.Controllers.Mvc
     [RoutePrefix("projects")]
     public class ProjectsController : AppController
     {
+        [GET("{projectId}/activities", RouteName = "project_activity_breadcrumb")]
+        [GET("{projectId}/discussions", RouteName = "project_discussion_breadcrumb")]
+        public ActionResult BreadcrumbRedirect(int projectId)
+        {
+            return RedirectToAction("Details", new {projectId});
+        }
+
         [GET("")]
         [Secure("projects/view")]
         public ActionResult Get(int page = 1)
@@ -95,12 +103,12 @@ namespace Teamworks.Web.Controllers.Mvc
                 vm.Timelogs = vm.Timelogs
                     .Concat(activity.Timelogs.MapTo<ProjectViewModel.Timelog>()
                                 .Select(a =>
-                                {
-                                    a.Activity = activity.MapTo<EntityViewModel>();
-                                    a.Project = project.MapTo<EntityViewModel>();
-                                    a.Person.Name = vm.People.Single(p => p.Id == a.Person.Id).Name;
-                                    return a;
-                                }))
+                                    {
+                                        a.Activity = activity.MapTo<EntityViewModel>();
+                                        a.Project = project.MapTo<EntityViewModel>();
+                                        a.Person.Name = vm.People.Single(p => p.Id == a.Person.Id).Name;
+                                        return a;
+                                    }))
                     .ToList();
             }
 
@@ -132,6 +140,7 @@ namespace Teamworks.Web.Controllers.Mvc
 
             return RedirectToRoute("projects_get");
         }
+
         [POST("edit")]
         public ActionResult Put(ProjectsViewModel.Input model)
         {
@@ -142,7 +151,7 @@ namespace Teamworks.Web.Controllers.Mvc
             project.Name = model.Name;
             project.Description = model.Description;
 
-            return new JsonNetResult { Data = model };
+            return new JsonNetResult {Data = model};
         }
 
         [POST("{projectId}")]
@@ -199,38 +208,96 @@ namespace Teamworks.Web.Controllers.Mvc
             return new JsonNetResult {Data = person.MapTo<PersonViewModel>()};
         }
 
-        [GET("{projectId}/gantt")]
-        public ActionResult Gantt(int projectId)
+        [GET("{projectId}/statistics")]
+        public ActionResult Stats(int projectId)
         {
             ViewBag.Endpoint = "api/projects/" + projectId;
-
-            DbSession.SecureFor(DbSession.GetCurrentPersonId(), "god");
 
             var project = DbSession
                 .Load<Project>(projectId);
 
-            var act = DbSession.Query
+            var activitySummary = DbSession.Query
                 <ActivitiesDuration.Result,
                     ActivitiesDuration>()
                 .Where(a => a.Project == project.Id)
-                .OrderBy(a => a.StartDate)
-                .ToList()
-                .Select(x => new
+                .OrderBy(a => a.Filter)
+                .ToList(); 
+
+            var dtmin = activitySummary.Min(a => a.StartDateConsecutive);
+            activitySummary.ForEach(x =>
+                {
+                    x.AccumulatedTime = x.StartDateConsecutive.Subtract(dtmin).TotalDays * 8;
+                    x.Duration /= 3600;
+                    x.TimeUsed /= 3600;
+                });
+
+
+            var viewmodel = project.MapTo<ProjectWithStatisticsViewModel>();
+            viewmodel.ActivitySummary = activitySummary;
+
+            viewmodel.Timelogs = new List<ProjectViewModel.Timelog>();
+            IEnumerable<string> people = new List<string>();
+            foreach (var act in activitySummary)
+            {
+                var activity = DbSession.Load<Activity>(act.Id);
+                viewmodel.Timelogs = viewmodel.Timelogs
+                    .Concat(activity.Timelogs.MapTo<ProjectViewModel.Timelog>()
+                                .Select(a =>
+                                    {
+                                        a.Activity = activity.MapTo<EntityViewModel>();
+                                        a.Project = project.MapTo<EntityViewModel>();
+                                        a.Duration = a.Duration/3600;
+                                        return a;
+                                    }))
+                    .ToList();
+                people = people.Union(activity.People);
+            }
+
+            viewmodel.Timelogs = viewmodel.Timelogs
+                .OrderByDescending(x => x.Date)
+                .ThenBy(x => x.Activity.Id).ToList();
+
+            viewmodel.PeopleCount = people.Count();
+
+            viewmodel.TotalEstimatedTime = activitySummary.Sum(a => a.Duration)*3600;
+
+            viewmodel.TotalTimeLogged = viewmodel.Timelogs.Sum(t => t.Duration)*3600;
+
+            viewmodel.TotalTime = GetProjectDuration(activitySummary);
+
+            viewmodel.EndDate = activitySummary.Count > 0
+                                    ? activitySummary.Max(
+                                        a => a.EndDate)
+                                    : DateTimeOffset.MaxValue;
+
+            viewmodel.StartDate = activitySummary.Count > 0
+                                      ? activitySummary.Min(a => a.StartDate)
+                                      : project.StartDate;
+
+            ViewBag.ChartData = JsonConvert.SerializeObject(activitySummary);
+            return View("Statistics", viewmodel);
+        }
+
+        private int GetProjectDuration(List<ActivitiesDuration.Result> activitySummary)
+        {
+            var dref = 0;
+            activitySummary.ForEach(a =>
+                {
+                    var act = a;
+                    var dtemp = Math.Max(act.Duration, act.TimeUsed);
+                    while (act.Dependencies != null)
                     {
-                        x.Dependencies,
-                        x.Description,
-                        x.Duration,
-                        x.Id,
-                        x.Name,
-                        x.Project,
-                        x.StartDate,
-                        x.TimeUsed,
-                        AccumulatedTime = x.StartDate.Subtract(project.StartDate).TotalMinutes
-                    });
+                        act =
+                            activitySummary.Where(x => x.Id.In(act.Dependencies)).OrderByDescending(y => Math.Max(act.Duration, act.TimeUsed)).
+                                First();
+                        dtemp += Math.Max(act.Duration, act.TimeUsed);
+                    }
+                    if (dref < dtemp)
+                        dref = dtemp;
+                    a.EndDate = a.StartDate.AddDays(Math.Floor(dtemp/8.0));
+                });
 
-            ViewBag.ChartData = JsonConvert.SerializeObject(act);
-
-            return View(project);
+            return dref;
         }
 
         [NonAction]

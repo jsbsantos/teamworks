@@ -13,6 +13,7 @@ namespace Teamworks.Web.ViewModels.Mvc
         public string Description { get; set; }
         public int Duration { get; set; }
         public int TotalTimeLogged { get; set; }
+        public DateTimeOffset StartDateConsecutive { get; set; }
         public DateTimeOffset StartDate { get; set; }
 
         #region Nested Type: Input

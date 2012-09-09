@@ -63,9 +63,11 @@ namespace Teamworks.Web.Controllers.Mvc
                     return result;
                 }).ToList();
 
-            var discussions = activity.Discussions.Select(discussion =>
-                                                          DbSession.Load<Discussion>(discussion).MapTo
-                                                              <DiscussionViewModel>()).ToList();
+            var discussions = DbSession.Query<Discussion>()
+                .Where(d => d.Entity == activity.Id)
+                .MapTo<DiscussionViewModel>()
+                .ToList();
+
             vm.Discussions = discussions;
 
             vm.Dependencies = list
@@ -112,7 +114,7 @@ namespace Teamworks.Web.Controllers.Mvc
                 });
 
             if (model.StartDate != DateTimeOffset.MinValue)
-                activity.StartDate = model.StartDate;
+                activity.StartDateConsecutive = activity.StartDate = model.StartDate;
 
             return new JsonNetResult {Data = activity.MapTo<ActivityViewModelComplete>()};
         }
@@ -189,7 +191,6 @@ namespace Teamworks.Web.Controllers.Mvc
             var person = DbSession.GetCurrentPerson();
             var discussion = Discussion.Forge(model.Name, model.Content, activity.Id, person.Id);
             DbSession.Store(discussion);
-            activity.Discussions.Add(discussion.Id);
 
             var vm = discussion.MapTo<DiscussionViewModel>();
             vm.Person = person.MapTo<PersonViewModel>();

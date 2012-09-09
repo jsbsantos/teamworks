@@ -28,9 +28,9 @@
                     <strong>Start:</strong> <span data-bind="text: startDate.formatted"></span>
                 </div>
                 <div class="span2">
-                    <strong>Duration:</strong> <span data-bind="text: duration"></span>
+                    <strong>Duration:</strong> <span data-bind="text: duration.duration"></span>
                 </div>
-                <div class="span3"><strong>Total logged time:</strong> <span data-bind="text: totalTimeLogged"></span> <span data-bind="text: '(' + completionPercent() +'%)'"></span></div>
+                <div class="span3"><strong>Total logged time:</strong> <span data-bind="text: totalTimeLogged.duration"></span> <span data-bind="text: '(' + completionPercent() +'%)'"></span></div>
             </div>
         </div>
         <br />
@@ -76,18 +76,15 @@
         </div>
         <br />
         <h2>Related Activities
-            <a class="hide" data-bind="css: { hide:  editing_dependencies() }, click: function() { editing_dependencies(true); }">
-                <i class="icon-edit"></i> 
+            <a class="hide" data-bind="css: { hide:  editing_dependencies() }, click: function() { editing_dependencies(true); }"><i class="icon-edit"></i> 
             </a>
-            <a class="hide" data-bind="css: { hide: !editing_dependencies() }, click: function() { editing_dependencies(false); _update(); }">
-                <i class="icon-save"></i> 
+            <a class="hide" data-bind="css: { hide: !editing_dependencies() }, click: function() { editing_dependencies(false); _update(); }"><i class="icon-save"></i> 
             </a> 
             &nbsp;
-            <a class="hide" data-bind="css: { hide: !editing_dependencies() }, click: function() { discardChanges(); editing_dependencies(false); }">
-                <i class="icon-remove"></i> 
+            <a class="hide" data-bind="css: { hide: !editing_dependencies() }, click: function() { discardChanges(); editing_dependencies(false); }"><i class="icon-remove"></i> 
             </a>
         </h2>
-        <p class="hide" data-bind="css: { hide: dependencies.length == 0 }">No dependencies.</p>
+        <p class="hide" data-bind="css: { hide: !dependencies().length == 0 }">No dependencies.</p>
         <ul class="unstyled well" data-bind="css: { well: editing_dependencies() }, template: { name:'depedency-template', foreach: dependencies }"></ul>
     </div>
 </div>
@@ -122,7 +119,7 @@
         <input class="clear pull-right" type="checkbox"
                data-bind="enable: ($parent.editing_dependencies()), attr: {id: 'chk'+id(), name:'chk'+id()}, checked: dependency, click: function(e){ $parent.dependenciesChanged(true); return true; } " >
         <strong data-bind="text: name"></strong>, <small data-bind="text: description"></small>
-        <span>(Start: <small data-bind="text: startDate.formatted"></small>, Duration: <small data-bind="text: duration"></small>)</span>
+        <span>(Start: <small data-bind="text: startDate.formatted"></small>, Duration: <small data-bind="text: duration.duration"></small>)</span>
     </li>
 </script>  
 <script>
@@ -160,7 +157,7 @@
             <div class="control-group">
                 <label class="control-label" for="activity_duration">Duration</label>
                 <div class="controls">
-                    <input id="activity_duration" name="activity_duration" placeholder="Activity Duration" data-bind="value: duration, valueUpdate: 'afterkeyup'" />
+                    <input id="activity_duration" name="activity_duration" placeholder="Activity Duration" data-bind="value: duration.duration" />
                 </div>
             </div>
             <div class="control-group">
