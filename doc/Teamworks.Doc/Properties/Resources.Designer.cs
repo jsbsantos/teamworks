@@ -76,6 +76,13 @@ namespace Teamworks.Doc.Properties {
             }
         }
         
+        internal static byte[] Signing {
+            get {
+                object obj = ResourceManager.GetObject("Signing", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
         internal static byte[] Template {
             get {
                 object obj = ResourceManager.GetObject("Template", resourceCulture);
