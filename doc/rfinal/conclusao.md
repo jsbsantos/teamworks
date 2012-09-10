@@ -36,3 +36,22 @@ A cobertura dos testes unitários deve ser alargada tanto na Api, como na aplica
 A forma de autenticação usada na api web é pouco segura por isso devem ser estudadas alternativas, como a utilização do esquema HMAC (Hash Message Authentication Code) ou Oauth.
 
 [^ravendberro]: O *topic* http://goo.gl/FpIoq no Google Groups do RavenDB detalha o erro e a solução.
+
+
+Conclusão
+Aprendizagem de novos conceitos e tecnologias
+Estudadas novas frameworks e apis não leccionadas no actual plano de estudos ... 
+Foi utilizada uma versão "beta" da web api
+Nem todas as funcionalidades implementadas têm o grau de "qualidade" esperado
+
+Notas a salientar:
+
+lucidcharts: licensa
+ravendb: ravenhq para configuração da base de dados remota
+mailgun: entramos em contacto para configuração
+utilização de frameworks opensource
+problemas (bug) com frameworks utilizadas
+
+Trabalho futuro:
+monitorização e análise de projectos
+repositório de ficheiros
