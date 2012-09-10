@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Text;
 using Teamworks.Doc.Markdown;
 using Teamworks.Doc.Properties;
 
@@ -11,10 +10,8 @@ namespace Teamworks.Doc
     {
         private static void Main(string[] args)
         {
-            Encoding encoding = new UTF8Encoding(false);
-
             Trace.Listeners.Add(new ConsoleTraceListener(false));
-            string folder = args.Length > 0
+            var folder = args.Length > 0
                             && !string.IsNullOrEmpty(args[0])
                                 ? args[0]
                                 : AppDomain.CurrentDomain.BaseDirectory;
@@ -24,14 +21,18 @@ namespace Teamworks.Doc
 
             string cover = Path.Combine(output, "cover.tex");
             File.WriteAllBytes(cover, Resources.Cover);
+            string signing = Path.Combine(output, "signing.tex");
+            File.WriteAllBytes(signing, Resources.Signing);
 
-            string name = "rb3007130239.tex";
+            string name = "rf3007130239.tex";
             var toTex = new MarkdownToTex();
             toTex.RegisterMarkdownHandler(Path.Combine(folder, "output", "images"));
             toTex.CreateTexFileFromMarkdown(name, folder, output);
 
             RunProcess("pdflatex",
                        string.Format("-output-directory {0} -interaction=batchmode -synctex=1 {1}", output, cover));
+            RunProcess("pdflatex",
+                       string.Format("-output-directory {0} -interaction=batchmode -synctex=1 {1}", output, signing));
             RunProcess("pdflatex",
                        string.Format("-output-directory {0} -interaction=batchmode -synctex=1 {1}", output, name));
             RunProcess("pdflatex",

@@ -76,8 +76,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Resources\resume.tex" />
+    <None Include="Resources\signing.tex" />
     <None Include="Resources\cover.tex" />
-    <None Include="Resources\front.tex" />
     <None Include="Resources\template.latex" />
   </ItemGroup>
   <ItemGroup>
