@@ -71,7 +71,7 @@
     <Compile Include="Extensions\ActivityExtensions.cs" />
     <Compile Include="Extensions\DiscussionExtensions.cs" />
     <Compile Include="Extensions\ProjectExtensions.cs" />
-    <Compile Include="Projects\TodoList.cs" />
+    <Compile Include="Projects\Todo.cs" />
     <Compile Include="Projects\Event.cs" />
     <Compile Include="Services\EntityExtensions.cs" />
     <Compile Include="Services\Async\SendNotificationsAsync.cs" />

@@ -1,11 +1,11 @@
-﻿(function() {
-    (function(String, undefined) {
+﻿(function () {
+    (function (String, undefined) {
         if (!String.prototype.trim) {
-            String.prototype.trim = function() {
+            String.prototype.trim = function () {
                 return this.replace(/^\s+|\s+$/g, '');
             };
         }
-    }(String));
+    } (String));
 
     /**
     * Date.parse with progressive enhancement for ISO 8601 <https://github.com/csnover/js-iso8601>
@@ -16,9 +16,9 @@
     *
     * Edited to change method name to parseISOString
     */
-    (function(Date, undefined) {
+    (function (Date, undefined) {
         var origParse = Date.parse, numericKeys = [1, 4, 5, 6, 7, 10, 11];
-        Date.parseISOString = function(date) {
+        Date.parseISOString = function (date) {
             var timestamp, struct, minutesOffset = 0;
 
             // ES5 §15.9.4.2 states that the string should attempt to be parsed as a Date Time String Format string
@@ -50,14 +50,20 @@
 
             return timestamp;
         };
-    }(Date));
+
+        Date.prototype.toStringLocal = function (format) {
+            var local = new Date(this);
+            local.setHours(local.getHours() - local.getTimezoneOffset() / 60);
+            return local.toString(format);
+        };
+    } (Date));
 
     $.ajaxSetup({
         type: 'get',
         contentType: 'application/json; charset=utf-8',
         cache: false
     });
-}());
+} ());
 
 var tw = {
     pages: { },
@@ -101,7 +107,11 @@ var tw = {
             }
         };
     };
-
+    obj.utils.now = function() {
+        var x = Date.today();
+        x.setHours(Math.abs(x.getTimezoneOffset()) / 60);
+        return x;
+    };
     $(function() {
         $('body').on('focus.datepicker.data-api', '[data-provide="datepicker"]', function(e) {
             var $this = $(this);
@@ -149,7 +159,13 @@ var tw = {
             },
             write: function(value) {
                 if (value) {
-                    target(new Date(Date.parseExact(value, pattern)).toISOString());
+                    var dt = Date.parseExact(value, pattern);
+                    if (dt)
+                        target(new Date(dt).toISOString());
+                    else {
+                        dt = new Date(value);
+                        target(dt.toISOString());
+                    }
                 }
             }
         });
@@ -159,16 +175,18 @@ var tw = {
         target.duration = ko.computed({
             read: function() {
                 var val = parseInt(target());
-                if (isNaN(val))
+                if (isNaN(val) || val == 0)
                     return message;
                 return juration.stringify(val, { format: 'long' });
             },
             write: function(value) {
                 if (value) {
                     try {
-                        if (typeof (value)=='string')
+                        if (typeof (value)=='string') {
+                            if (value.indexOf('h') == -1 && value.indexOf('m') == -1 )
+                                value = value.trim() + "h";
                             target(juration.parse(value));
-                        else 
+                        } else 
                             target(value);
                     } catch(e) {
                         target(message);
@@ -206,7 +224,8 @@ var tw = {
             var value = valueAccessor();
             var datepicker = elem.datepicker(elem.data());
             datepicker.on('changeDate', function(e) {
-                value(e.date.toString(datepicker.data().dateFormat));
+                //value(e.date.toString(datepicker.data().dateFormat));
+                value(e.date.toStringLocal());
             });
         }
     };

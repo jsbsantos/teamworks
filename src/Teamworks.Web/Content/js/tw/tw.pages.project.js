@@ -84,7 +84,7 @@
             self.description(json.description);
         };
 
-        var now = function() { return Date.today().toISOString(); };
+        var now = function() { return tw.utils.now().toISOString(); };
         self.activities.input = {
             name: ko.observable().extend({ required: "Activity name." }),
             description: ko.observable().extend({ required: "Activity description." }),
@@ -96,7 +96,7 @@
         self.activities.input.reset = function() {
             self.activities.input.name("");
             self.activities.input.description("");
-            self.activities.input.duration("");
+            self.activities.input.duration(0);
             self.activities.input.startDate(now());
         };
 

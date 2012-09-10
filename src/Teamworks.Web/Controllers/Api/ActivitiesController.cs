@@ -53,8 +53,7 @@ namespace Teamworks.Web.Controllers.Api
             var domain = DbSession.Query<Activity>()
                 .Where(a => a.Project == project.Id).ToList();
 
-            activity.StartDate = project.StartDate
-                .AddMinutes(Activity.GetAccumulatedDuration(domain, activity));
+            activity.StartDateConsecutive = activity.StartDate = model.StartDate;
 
             var value = activity.MapTo<ActivityViewModel>();
             var response = Request.CreateResponse(HttpStatusCode.Created, value);
@@ -153,8 +152,7 @@ namespace Teamworks.Web.Controllers.Api
             var children = domain.Where(a => a.Dependencies.Contains(parent.Id)).ToList();
             foreach (var child in children)
             {
-                child.StartDate = child.StartDate.AddMinutes(offset);
-                child.Name += offset;
+                child.StartDateConsecutive = child.StartDateConsecutive.AddSeconds(offset);
                 domain.Remove(child);
                 OffsetDuration(domain, child, offset);
             }

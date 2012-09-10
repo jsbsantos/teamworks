@@ -63,9 +63,11 @@ namespace Teamworks.Web.Controllers.Mvc
                     return result;
                 }).ToList();
 
-            var discussions = activity.Discussions.Select(discussion =>
-                                                          DbSession.Load<Discussion>(discussion).MapTo
-                                                              <DiscussionViewModel>()).ToList();
+            var discussions = DbSession.Query<Discussion>()
+                .Where(d => d.Entity == activity.Id)
+                .MapTo<DiscussionViewModel>()
+                .ToList();
+
             vm.Discussions = discussions;
 
             vm.Dependencies = list
@@ -77,6 +79,15 @@ namespace Teamworks.Web.Controllers.Mvc
                         return result;
                     })
                 .ToList();
+
+            vm.Todos = activity.Todos
+                .Select(r =>
+                    {
+                        var result = r.MapTo<TodoViewModel.Output>();
+                        result.Person = r.Person != null ? DbSession.Load<Person>(r.Person).MapTo<EntityViewModel>() : null;
+                        return result;
+                    });
+
             return View(vm);
         }
 
@@ -112,7 +123,7 @@ namespace Teamworks.Web.Controllers.Mvc
                 });
 
             if (model.StartDate != DateTimeOffset.MinValue)
-                activity.StartDate = model.StartDate;
+                activity.StartDateConsecutive = activity.StartDate = model.StartDate;
 
             return new JsonNetResult {Data = activity.MapTo<ActivityViewModelComplete>()};
         }
@@ -189,12 +200,49 @@ namespace Teamworks.Web.Controllers.Mvc
             var person = DbSession.GetCurrentPerson();
             var discussion = Discussion.Forge(model.Name, model.Content, activity.Id, person.Id);
             DbSession.Store(discussion);
-            activity.Discussions.Add(discussion.Id);
 
             var vm = discussion.MapTo<DiscussionViewModel>();
             vm.Person = person.MapTo<PersonViewModel>();
             vm.Entity = activity.MapTo<EntityViewModel>();
             return new JsonNetResult {Data = vm};
+        }
+
+        [AjaxOnly]
+        [POST("{activityId}/todos")]
+        public ActionResult AddTodo(int projectId, int activityId, TodoViewModel model)
+        {
+            var activity = GetActivity(projectId, activityId);
+            if (activity == null)
+                return new HttpNotFoundResult();
+
+            var todo = Todo.Forge(model.Name, model.Description, model.DueDate);
+            todo.Id = activity.GenerateNewTodoId();
+            activity.Todos.Add(todo);
+
+            var vm = todo.MapTo<TodoViewModel.Output>();
+            vm.Person = null;
+            return new JsonNetResult { Data = vm };
+        }
+
+        [AjaxOnly]
+        [POST("{activityId}/todos/{todoid}")]
+        public ActionResult ToggleTodo(int projectId, int activityId, int todoid, bool state)
+        {
+            var activity = GetActivity(projectId, activityId);
+            if (activity == null)
+                return new HttpNotFoundResult();
+
+            var todo = activity.Todos.Where(t => t.Id == todoid).FirstOrDefault();
+            if (todo == null)
+                return new HttpNotFoundResult();
+
+            var person = DbSession.GetCurrentPerson();
+            todo.Completed = state;
+            todo.Person = person.Id;
+
+            var vm = todo.MapTo<TodoViewModel.Output>();
+            vm.Person = person.MapTo<EntityViewModel>();
+            return new JsonNetResult { Data = vm };
         }
 
         [NonAction]

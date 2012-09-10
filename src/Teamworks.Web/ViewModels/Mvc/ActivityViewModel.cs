@@ -13,6 +13,7 @@ namespace Teamworks.Web.ViewModels.Mvc
         public string Description { get; set; }
         public int Duration { get; set; }
         public int TotalTimeLogged { get; set; }
+        public DateTimeOffset StartDateConsecutive { get; set; }
         public DateTimeOffset StartDate { get; set; }
 
         #region Nested Type: Input
@@ -43,6 +44,7 @@ namespace Teamworks.Web.ViewModels.Mvc
         public IEnumerable<DiscussionViewModel> Discussions { get; set; } 
         public IEnumerable<DependencyActivityViewModel> Dependencies { get; set; }
         public IEnumerable<AssignedPersonViewModel> People { get; set; }
+        public IEnumerable<TodoViewModel.Output> Todos { get; set; }
 
         public class AssignedPersonViewModel : PersonViewModel
         {

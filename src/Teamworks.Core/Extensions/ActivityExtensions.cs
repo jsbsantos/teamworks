@@ -37,10 +37,22 @@ namespace Teamworks.Core.Extensions
                 activity.Dependencies = query.Select(a => a.Id)
                     .Intersect(newEntity.Dependencies)
                     .ToList();
+
+                var lastDependencyToEnd = session.Load<Activity>(activity.Dependencies)
+                    .OrderByDescending(a => a.StartDate)
+                    .FirstOrDefault();
+
+                if (lastDependencyToEnd != null)
+                {
+                    activity.StartDateConsecutive =
+                        lastDependencyToEnd.StartDateConsecutive.AddSeconds(lastDependencyToEnd.Duration);
+                    activity.StartDate =
+                        lastDependencyToEnd.StartDate.AddDays(Math.Floor(lastDependencyToEnd.Duration/(8.0*3600)));
+                }
             }
 
             activity.Duration = newEntity.Duration;
-            return activity;
+            return activity;    
         }
 
         private static void OffsetDuration(ICollection<Activity> domain, Activity parent, int offset)
@@ -48,8 +60,7 @@ namespace Teamworks.Core.Extensions
             var children = domain.Where(a => a.Dependencies.Contains(parent.Id)).ToList();
             foreach (var child in children)
             {
-                child.StartDate = child.StartDate.AddMinutes(offset);
-                child.Name += offset;
+                child.StartDateConsecutive = child.StartDateConsecutive.AddSeconds(offset);
                 domain.Remove(child);
                 OffsetDuration(domain, child, offset);
             }

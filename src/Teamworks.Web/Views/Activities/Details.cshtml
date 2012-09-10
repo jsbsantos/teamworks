@@ -28,9 +28,9 @@
                     <strong>Start:</strong> <span data-bind="text: startDate.formatted"></span>
                 </div>
                 <div class="span2">
-                    <strong>Duration:</strong> <span data-bind="text: duration"></span>
+                    <strong>Duration:</strong> <span data-bind="text: duration.duration"></span>
                 </div>
-                <div class="span3"><strong>Total logged time:</strong> <span data-bind="text: totalTimeLogged"></span> <span data-bind="text: '(' + completionPercent() +'%)'"></span></div>
+                <div class="span3"><strong>Total logged time:</strong> <span data-bind="text: totalTimeLogged.duration"></span> <span data-bind="text: '(' + completionPercent() +'%)'"></span></div>
             </div>
         </div>
         <br />
@@ -46,7 +46,8 @@
                             <a class="btn-mini" href="#addDiscussionModal" role="button" data-toggle="modal">
                                 Add a new discussion
                             </a>
-                        </small></h2>
+                        </small>
+                    </h2>
                     <br/>
                     <p class="tc well well-small hide" data-bind="css: { 'hide': discussions().length > 0 }">
                         Create your first discussion clicking <a href="#addDiscussionModal" role="button" data-toggle="modal">here</a>.
@@ -55,8 +56,18 @@
                     <!-- /ko -->
                 </div>
                 <div class="tab-pane" id="tab-todos">
-                    <h2>Todo list for this activity</h2>
+                    <h2>Todo list
+                        <small>
+                            <a class="btn-mini" href="#addTodoModal" role="button" data-toggle="modal">
+                                Add a new todo
+                            </a>
+                        </small>
+                    </h2>
                     <br/>
+                    <p class="tc well well-small hide" data-bind="css: { 'hide': todos().length > 0 }">
+                        Add an item by clicking <a href="#addTodoModal" role="button" data-toggle="modal">here</a>.
+                    </p>
+                    <ul class="unstyled well hide" data-bind="css: { 'hide': todos().length == 0 }, template: { name:'todo-template', foreach: todos }"></ul>
                 </div>
             </div>
         </div>
@@ -76,21 +87,25 @@
         </div>
         <br />
         <h2>Related Activities
-            <a class="hide" data-bind="css: { hide:  editing_dependencies() }, click: function() { editing_dependencies(true); }">
-                <i class="icon-edit"></i> 
+            <a class="hide" data-bind="css: { hide:  editing_dependencies() }, click: function() { editing_dependencies(true); }"><i class="icon-edit"></i> 
             </a>
-            <a class="hide" data-bind="css: { hide: !editing_dependencies() }, click: function() { editing_dependencies(false); _update(); }">
-                <i class="icon-save"></i> 
+            <a class="hide" data-bind="css: { hide: !editing_dependencies() }, click: function() { editing_dependencies(false); _update(); }"><i class="icon-save"></i> 
             </a> 
             &nbsp;
-            <a class="hide" data-bind="css: { hide: !editing_dependencies() }, click: function() { discardChanges(); editing_dependencies(false); }">
-                <i class="icon-remove"></i> 
+            <a class="hide" data-bind="css: { hide: !editing_dependencies() }, click: function() { discardChanges(); editing_dependencies(false); }"><i class="icon-remove"></i> 
             </a>
         </h2>
-        <p class="hide" data-bind="css: { hide: dependencies.length == 0 }">No dependencies.</p>
+        <p class="hide" data-bind="css: { hide: !dependencies().length == 0 }">No dependencies.</p>
         <ul class="unstyled well" data-bind="css: { well: editing_dependencies() }, template: { name:'depedency-template', foreach: dependencies }"></ul>
     </div>
 </div>
+<script type="text/html" id="todo-template">
+    <li>
+        <input class="clear pull-right" type="checkbox"
+               data-bind="attr: {id: 'chk'+id, name:'chk'+id}, checked: completed, click: $parent.todos.todoToggle">
+        <strong data-bind="text: name"></strong>, <small data-bind="text: description"></small>
+    </li>
+</script>
 <script type="text/html" id="discussion-template">
     <div>
         <button class="close" data-bind="click: _remove"><i class="icon-trash"></i></button>
@@ -122,7 +137,7 @@
         <input class="clear pull-right" type="checkbox"
                data-bind="enable: ($parent.editing_dependencies()), attr: {id: 'chk'+id(), name:'chk'+id()}, checked: dependency, click: function(e){ $parent.dependenciesChanged(true); return true; } " >
         <strong data-bind="text: name"></strong>, <small data-bind="text: description"></small>
-        <span>(Start: <small data-bind="text: startDate.formatted"></small>, Duration: <small data-bind="text: duration"></small>)</span>
+        <span>(Start: <small data-bind="text: startDate.formatted"></small>, Duration: <small data-bind="text: duration.duration"></small>)</span>
     </li>
 </script>  
 <script>
@@ -160,7 +175,7 @@
             <div class="control-group">
                 <label class="control-label" for="activity_duration">Duration</label>
                 <div class="controls">
-                    <input id="activity_duration" name="activity_duration" placeholder="Activity Duration" data-bind="value: duration, valueUpdate: 'afterkeyup'" />
+                    <input id="activity_duration" name="activity_duration" placeholder="Activity Duration" data-bind="value: duration.duration" />
                 </div>
             </div>
             <div class="control-group">
@@ -190,13 +205,13 @@
         </div>
         <div class="modal-body">
             <div class="control-group">
-                <label class="control-label" for="activity_name">Name</label>
+                <label class="control-label" for="discussion_name">Name</label>
                 <div class="controls">
                     <input id="discussion_name" name="discussion_name" autofocus="autofocus" placeholder="Discussion title" data-bind="value: discussions.input.name, valueUpdate: 'afterkeyup'" />
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label" for="activity_description">Description</label>
+                <label class="control-label" for="discussion_description">Description</label>
                 <div class="controls">
                     <textarea  id="discussion_description" name="discussion_description" placeholder="Message" data-bind="value: discussions.input.content, valueUpdate: 'afterkeyup'"></textarea>
                 </div>
@@ -205,6 +220,33 @@
         <div class="modal-footer">
             <button class="btn btn-primary">Save</button>
             <button class="btn" data-dismiss="modal" aria-hidden="true" data-bind="click: discussions.input.reset">Close</button>
+        </div>
+    </form>
+</div>
+
+<div class="modal fade hide" id="addTodoModal" tabindex="-1" role="dialog">
+    <form class="form-horizontal"  data-bind="submit: todos._create" >
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" data-bind="click: todos.input.reset">×</button>
+            <h3>Add Todo</h3>
+        </div>
+        <div class="modal-body">
+            <div class="control-group">
+                <label class="control-label" for="todo_name">Name</label>
+                <div class="controls">
+                    <input id="todo_name" name="todo_name" autofocus="autofocus" placeholder="Name" data-bind="value: todos.input.name, valueUpdate: 'afterkeyup'" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="todo_description">Description</label>
+                <div class="controls">
+                    <textarea  id="todo_description" name="todo_description" placeholder="Description" data-bind="value: todos.input.description, valueUpdate: 'afterkeyup'"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary">Save</button>
+            <button class="btn" data-dismiss="modal" aria-hidden="true" data-bind="click: todos.input.reset">Close</button>
         </div>
     </form>
 </div>

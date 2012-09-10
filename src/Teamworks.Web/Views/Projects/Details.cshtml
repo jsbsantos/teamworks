@@ -59,7 +59,6 @@
                     <!-- /ko -->
                 </div>
                 <div class="tab-pane" id="tab-timelogs">
-                    
                     <div>
                         <header class="lead">
                             <h2><small>The time logged for this project's activities</small></h2>
@@ -67,176 +66,176 @@
                         <p class="tc well hide" data-bind="css: { 'hide': timelogs.timelogs().length }">
                             This project has no time logged.
                         </p>
-            
-                        <div class="well well-mini btn-toolbar">
-                            <div class="btn-group input-append input-prepend input-append">
-                                <span disabled="disabled" class="btn add-on"><strong>Person</strong></span>
-                                <input type="text" class="btn uneditable-input" disabled="disabled" data-bind="value: timelogs.filter.person().name"></input>
-                                <a class="btn dropdown-toggle add-on" data-toggle="dropdown">
-                                    <span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu" data-bind="template: { name: 'dropdown-person-template', foreach: timelogs.filter.distinctPeople }">
-                                </ul>
-                            </div>
+                        <div class="hide" data-bind="css: { 'hide': timelogs.timelogs().length == 0 }">
+                            <div class="well well-mini btn-toolbar">
+                                <div class="btn-group input-append input-prepend input-append">
+                                    <span disabled="disabled" class="btn add-on"><strong>Person</strong></span>
+                                    <input type="text" class="btn uneditable-input" disabled="disabled" data-bind="value: timelogs.filter.person().name"></input>
+                                    <a class="btn dropdown-toggle add-on" data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu" data-bind="template: { name: 'dropdown-person-template', foreach: timelogs.filter.distinctPeople }">
+                                    </ul>
+                                </div>
 
-                            <div class="btn-group input-prepend input-append">
-                                <span disabled="disabled" class="btn add-on"><strong>Activity</strong></span>
-                                <input type="text" class="btn uneditable-input" disabled="disabled" data-bind="value: timelogs.filter.activity().name"></input>
-                                <a class="btn dropdown-toggle add-on" data-toggle="dropdown">
-                                    <span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu" data-bind="template: { name: 'dropdown-activity-template', foreach: timelogs.filter.distinctActivities }">
-                                </ul>
-                            </div>
+                                <div class="btn-group input-prepend input-append">
+                                    <span disabled="disabled" class="btn add-on"><strong>Activity</strong></span>
+                                    <input type="text" class="btn uneditable-input" disabled="disabled" data-bind="value: timelogs.filter.activity().name"></input>
+                                    <a class="btn dropdown-toggle add-on" data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu" data-bind="template: { name: 'dropdown-activity-template', foreach: timelogs.filter.distinctActivities }">
+                                    </ul>
+                                </div>
 
-                            <div class="btn-group input-append">
-                                <input type="text" placeholder="From" class="btn uneditable-input" disabled="disabled" data-bind="value: timelogs.filter.dateFrom.formatted"></input>
-                                <a id="datepickFrom" class="add-on btn" data-bind="attr:{ 'data-date-enddate': timelogs.filter.dateTo.formatted }, datepicker: timelogs.filter.dateFrom.formatted" data-date-autoclose="true" data-date-format="dd/MM/yyyy">
-                                    <i class="icon-calendar"></i>
-                                </a>
-                            </div>
+                                <div class="btn-group input-append">
+                                    <input type="text" placeholder="From" class="btn uneditable-input" disabled="disabled" data-bind="value: timelogs.filter.dateFrom.formatted"></input>
+                                    <a id="datepickFrom" class="add-on btn" data-bind="attr:{ 'data-date-enddate': timelogs.filter.dateTo.formatted }, datepicker: timelogs.filter.dateFrom.formatted" data-date-autoclose="true" data-date-format="dd/MM/yyyy">
+                                        <i class="icon-calendar"></i>
+                                    </a>
+                                </div>
 
-                            <div class="btn-group input-append">
-                                <input type="text"  placeholder="To"  class="btn uneditable-input" disabled="disabled" data-bind="value: timelogs.filter.dateTo.formatted"></input>
-                                <a id="datepickTo" class="add-on btn datepicker-right" data-bind="datepicker: timelogs.filter.dateTo.formatted" data-date-autoclose="true" data-date-format="dd/MM/yyyy" data-date-enddate="@DateTime.Today.ToString("dd/MM/yyyy")">
-                                    <i class="icon-calendar"></i>
-                                </a>
-                            </div>
+                                <div class="btn-group input-append">
+                                    <input type="text"  placeholder="To"  class="btn uneditable-input" disabled="disabled" data-bind="value: timelogs.filter.dateTo.formatted"></input>
+                                    <a id="datepickTo" class="add-on btn datepicker-right" data-bind="datepicker: timelogs.filter.dateTo.formatted" data-date-autoclose="true" data-date-format="dd/MM/yyyy" data-date-enddate="@DateTime.Today.ToString("dd/MM/yyyy")">
+                                        <i class="icon-calendar"></i>
+                                    </a>
+                                </div>
 
-                            <div class="btn-group input-append">
-                                <button class="btn" data-bind="click: timelogs.filter.clear">Clear</button>
-                            </div>
+                                <div class="btn-group input-append">
+                                    <button class="btn" data-bind="click: timelogs.filter.clear">Clear</button>
+                                </div>
                     
-                        </div>
-                        <table class="table table-striped table-bordered table-condensed hide" data-bind="css: { 'hide': !timelogs.timelogs().length }">
-                            <thead>
-                                <tr>
-                                    <th><a data-bind="click: function(){ timelogs.sort('activity'); }">
-                                            Activity <i data-bind="css: { 'icon-sort': timelogs.sort.Property() != 'activity',
+                            </div>
+                            <table class="table table-striped table-bordered table-condensed hide" data-bind="css: { 'hide': !timelogs.timelogs().length }">
+                                <thead>
+                                    <tr>
+                                        <th><a data-bind="click: function(){ timelogs.sort('activity'); }">
+                                                Activity <i data-bind="css: { 'icon-sort': timelogs.sort.Property() != 'activity',
                                  'icon-sort-up':timelogs.sort.Property() == 'activity' && timelogs.sort.Asc(),
                                  'icon-sort-down':timelogs.sort.Property() == 'activity' && !timelogs.sort.Asc()}"></i> 
-                                        </a></th>
-                                    <th><a data-bind="click: function(){ timelogs.sort('duration'); }">
-                                            Duration <i data-bind="css: { 'icon-sort': timelogs.sort.Property() != 'duration',
+                                            </a></th>
+                                        <th><a data-bind="click: function(){ timelogs.sort('duration'); }">
+                                                Duration <i data-bind="css: { 'icon-sort': timelogs.sort.Property() != 'duration',
                                  'icon-sort-up':timelogs.sort.Property() == 'duration' && timelogs.sort.Asc(),
                                  'icon-sort-down':timelogs.sort.Property() == 'duration' && !timelogs.sort.Asc()}"></i> 
-                                        </a></th>
-                                    <th><a data-bind="click: function(){ timelogs.sort('description'); }">
-                                            Description <i data-bind="css: { 'icon-sort': timelogs.sort.Property() != 'description',
+                                            </a></th>
+                                        <th><a data-bind="click: function(){ timelogs.sort('description'); }">
+                                                Description <i data-bind="css: { 'icon-sort': timelogs.sort.Property() != 'description',
                                  'icon-sort-up':timelogs.sort.Property() == 'description' && timelogs.sort.Asc(),
                                  'icon-sort-down':timelogs.sort.Property() == 'description' && !timelogs.sort.Asc()}"></i>  
-                                        </a></th>
-                                    <th><a data-bind="click: function(){ timelogs.sort('date'); }">
-                                            Date <i data-bind="css: { 'icon-sort': timelogs.sort.Property() != 'date',
+                                            </a></th>
+                                        <th><a data-bind="click: function(){ timelogs.sort('date'); }">
+                                                Date <i data-bind="css: { 'icon-sort': timelogs.sort.Property() != 'date',
                                  'icon-sort-up':timelogs.sort.Property() == 'date' && timelogs.sort.Asc(),
                                  'icon-sort-down':timelogs.sort.Property() == 'date' && !timelogs.sort.Asc()}"></i> 
-                                        </a></th>
-                                    <th><a data-bind="click: function(){ timelogs.sort('person'); }">
-                                            Person <i data-bind="css: { 'icon-sort': timelogs.sort.Property() != 'person',
+                                            </a></th>
+                                        <th><a data-bind="click: function(){ timelogs.sort('person'); }">
+                                                Person <i data-bind="css: { 'icon-sort': timelogs.sort.Property() != 'person',
                                  'icon-sort-up':timelogs.sort.Property() == 'person' && timelogs.sort.Asc(),
                                  'icon-sort-down':timelogs.sort.Property() == 'person' && !timelogs.sort.Asc()}"></i> 
-                                        </a></th>
-                                    <th class="input-small">Edit</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!--ko template: { name: 'timelog-template', foreach: timelogs.sortedTimelog() } -->
-                                <!--/ko -->
-                                <tr>
-                                    <td>
-                                        <strong>Total</strong>
-                                    </td>
-                                    <td>
-                                        <strong><span data-bind="text: timelogs.timelogs.total"></span></strong>
-                                    </td>
-                                    <td colspan="4">
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="modal fade hide" id="editTimelogModal" tabindex="-1" role="dialog">
-                            <form class="form-horizontal"  data-bind="submit: timelogs.timelogs.editing._update">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                    <h3>Edit Timelog</h3>
-                                </div>
-                                <div class="modal-body"  data-bind="if: timelogs.timelogs.editing">
-                                    <div class="control-group">
-                                        <label class="control-label">Activity</label>
-                                        <div class="controls">
-                                            <input class="btn" type="text" name="name" disabled="disabled" placeholder="Activity" data-bind="value: timelogs.timelogs.editing().activity.name()"/>
-                                        </div>
+                                            </a></th>
+                                        <th class="input-small">Edit</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!--ko template: { name: 'timelog-template', foreach: timelogs.sortedTimelog() } -->
+                                    <!--/ko -->
+                                    <tr>
+                                        <td>
+                                            <strong>Total</strong>
+                                        </td>
+                                        <td>
+                                            <strong><span data-bind="text: timelogs.timelogs.total"></span></strong>
+                                        </td>
+                                        <td colspan="4">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="modal fade hide" id="editTimelogModal" tabindex="-1" role="dialog">
+                                <form class="form-horizontal"  data-bind="submit: timelogs.timelogs.editing._update">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                        <h3>Edit Timelog</h3>
                                     </div>
-                                    <div class="control-group">
-                                        <label class="control-label">Duration</label>
-                                        <div class="controls">
-                                            <input name="duration" placeholder="Duration" data-bind="value: timelogs.timelogs.editing().duration.duration"/>
+                                    <div class="modal-body"  data-bind="if: timelogs.timelogs.editing">
+                                        <div class="control-group">
+                                            <label class="control-label">Activity</label>
+                                            <div class="controls">
+                                                <input class="btn" type="text" name="name" disabled="disabled" placeholder="Activity" data-bind="value: timelogs.timelogs.editing().activity.name()"/>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="control-group">
-                                        <label class="control-label">Description</label>
-                                        <div class="controls">
-                                            <input name="description" placeholder="Description" data-bind="value: timelogs.timelogs.editing().description"/>
+                                        <div class="control-group">
+                                            <label class="control-label">Duration</label>
+                                            <div class="controls">
+                                                <input name="duration" placeholder="Duration" data-bind="value: timelogs.timelogs.editing().duration.duration"/>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="control-group">
-                                        <label class="control-label">Date</label>
-                                        <div class="controls ">
-                                            <div class="btn-group input-append">
-                                                <input type="text" class="btn uneditable-input" disabled="disabled" placeholder="Date" data-bind="value: timelogs.timelogs.editing().date.formatted"/>
-                                                <a class="add-on btn datepicker-right" data-bind="datepicker: timelogs.timelogs.editing().date.formatted" data-date-autoclose="true" data-date-format="dd/MM/yyyy" data-date-enddate="@DateTime.Today.ToString("dd/MM/yyyy")">
-                                                    <i class="icon-calendar"></i>
-                                                </a>
+                                        <div class="control-group">
+                                            <label class="control-label">Description</label>
+                                            <div class="controls">
+                                                <input name="description" placeholder="Description" data-bind="value: timelogs.timelogs.editing().description"/>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label">Date</label>
+                                            <div class="controls ">
+                                                <div class="btn-group input-append">
+                                                    <input type="text" class="btn uneditable-input" disabled="disabled" placeholder="Date" data-bind="value: timelogs.timelogs.editing().date.formatted"/>
+                                                    <a class="add-on btn datepicker-right" data-bind="datepicker: timelogs.timelogs.editing().date.formatted" data-date-autoclose="true" data-date-format="dd/MM/yyyy" data-date-enddate="@DateTime.Today.ToString("dd/MM/yyyy")">
+                                                        <i class="icon-calendar"></i>
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="modal-footer"  data-bind="if: timelogs.timelogs.editing">
-                                    <button class="btn btn-primary">Save</button>
-                                    <button class="btn" data-dismiss="modal" aria-hidden="true" data-bind="click: timelogs.discardChanges">Close</button>
-                                </div>
-                            </form>
+                                    <div class="modal-footer"  data-bind="if: timelogs.timelogs.editing">
+                                        <button class="btn btn-primary">Save</button>
+                                        <button class="btn" data-dismiss="modal" aria-hidden="true" data-bind="click: timelogs.discardChanges">Close</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <script type="text/html" id="dropdown-activity-template">
+                                <li>
+                                    <a data-bind="text: name, click: function(){ $parent.timelogs.filter.activity($data); }"></a>
+                                </li>
+                            </script>
+                            <script type="text/html" id="dropdown-person-template">
+                                <li>
+                                    <a data-bind="text: name, click: function(){ $parent.timelogs.filter.person($data); }"></a>
+                                </li>
+                            </script>
+                            <script type="text/html" id="timelog-template">
+                                <tr data-bind="css:{ hide: $parent.timelogs.filter($data) }">
+                                    <td>
+                                        <span><a data-bind="attr:{ href: '/projects/' + project.id() + '/activities/' + activity.id() }, text: activity.name"></a></span>
+                                    </td>
+                                    <td>
+                                        <span data-bind="text: duration.duration"></span>
+                                    </td>
+                                    <td>
+                                        <span data-bind="text: description"></span>
+                                    </td>
+                                    <td>
+                                        <span data-bind="text: date.formatted"></span>
+                                    </td>
+                                    <td>
+                                        <span><a data-bind="attr:{ href: '/profiles/' + person.id() }, text: person.name"></a></span>
+                                    </td>
+                                    <td class="input-small">
+                                        <a href="#editTimelogModal" role="button" data-toggle="modal" data-bind="click: function() { $parent.timelogs.timelogs.editing($data);}">
+                                            <i class="icon-edit"></i> 
+                                        </a> 
+                                        &nbsp;
+                                        <a data-bind="click: function() { _remove(); }">
+                                            <i class="icon-trash"></i> 
+                                        </a>
+                                    </td>
+                                </tr>
+                            </script>
                         </div>
-                        <script type="text/html" id="dropdown-activity-template">
-                            <li>
-                                <a data-bind="text: name, click: function(){ $parent.timelogs.filter.activity($data); }"></a>
-                            </li>
-                        </script>
-                        <script type="text/html" id="dropdown-person-template">
-                            <li>
-                                <a data-bind="text: name, click: function(){ $parent.timelogs.filter.person($data); }"></a>
-                            </li>
-                        </script>
-                        <script type="text/html" id="timelog-template">
-                            <tr data-bind="css:{ hide: $parent.timelogs.filter($data) }">
-                                <td>
-                                    <span><a data-bind="attr:{ href: '/projects/' + project.id() + '/activities/' + activity.id() }, text: activity.name"></a></span>
-                                </td>
-                                <td>
-                                    <span data-bind="text: duration.duration"></span>
-                                </td>
-                                <td>
-                                    <span data-bind="text: description"></span>
-                                </td>
-                                <td>
-                                    <span data-bind="text: date.formatted"></span>
-                                </td>
-                                <td>
-                                    <span><a data-bind="attr:{ href: '/profiles/' + person.id() }, text: person.name"></a></span>
-                                </td>
-                                <td class="input-small">
-                                    <a href="#editTimelogModal" role="button" data-toggle="modal" data-bind="click: function() { $parent.timelogs.timelogs.editing($data);}">
-                                        <i class="icon-edit"></i> 
-                                    </a> 
-                                    &nbsp;
-                                    <a data-bind="click: function() { _remove(); }">
-                                        <i class="icon-trash"></i> 
-                                    </a>
-                                </td>
-                            </tr>
-                        </script>
                     </div>
-
                 </div>
             </div>
         </section>
@@ -308,7 +307,7 @@
             <div class="control-group">
                 <label class="control-label" for="activity_duration">Duration</label>
                 <div class="controls">
-                    <input id="activity_duration" name="activity_duration" placeholder="Activity Duration" data-bind="value: activities.input.duration, valueUpdate: 'afterkeyup'" />
+                    <input id="activity_duration" name="activity_duration" placeholder="Activity Duration" data-bind="value: activities.input.duration.duration" />
                 </div>
             </div>
             <div class="control-group">
@@ -316,7 +315,7 @@
                 <div class="controls">
                     <div class="btn-group input-append">
                         <input id="activity_startDate" type="text" class="btn uneditable-input" disabled="disabled" placeholder="Date" data-bind="value: activities.input.startDate.formatted"/>
-                        <a class="add-on btn datepicker-right" data-bind="datepicker: activities.input.startDate.formatted" data-date-autoclose="true" data-date-format="dd/MM/yyyy" data-date-enddate="@DateTime.Today.ToString("dd/MM/yyyy")">
+                        <a class="add-on btn datepicker-right" data-bind="datepicker: activities.input.startDate.formatted" data-date-autoclose="true" data-date-format="dd/MM/yyyy" data-date-startdate="@DateTime.Today.ToString("dd/MM/yyyy")">
                             <i class="icon-calendar"></i>
                         </a>
                     </div>
