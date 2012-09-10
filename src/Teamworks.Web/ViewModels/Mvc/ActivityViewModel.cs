@@ -44,6 +44,7 @@ namespace Teamworks.Web.ViewModels.Mvc
         public IEnumerable<DiscussionViewModel> Discussions { get; set; } 
         public IEnumerable<DependencyActivityViewModel> Dependencies { get; set; }
         public IEnumerable<AssignedPersonViewModel> People { get; set; }
+        public IEnumerable<TodoViewModel.Output> Todos { get; set; }
 
         public class AssignedPersonViewModel : PersonViewModel
         {

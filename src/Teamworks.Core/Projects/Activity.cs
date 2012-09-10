@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Teamworks.Core.Services;
 
 namespace Teamworks.Core
@@ -14,22 +13,22 @@ namespace Teamworks.Core
         public IList<Timelog> Timelogs { get; set; }
         public IList<string> Dependencies { get; set; }
         public IList<string> People { get; set; }
-        public IList<TodoList> Todos { get; set; }
+        public IList<Todo> Todos { get; set; }
         public DateTimeOffset StartDateConsecutive { get; set; }
         public DateTimeOffset StartDate { get; set; }
 
         public int LastTimeEntryId { get; private set; }
 
-        public int LastTodoListId { get; private set; }
+        public int LastTodoId { get; private set; }
 
         public int GenerateNewTimeEntryId()
         {
             return ++LastTimeEntryId;
         }
 
-        public int GenerateNewTodoListId()
+        public int GenerateNewTodoId()
         {
-            return ++LastTodoListId;
+            return ++LastTodoId;
         }
 
         public static Activity Forge(int project, string name, string description, int duration,
@@ -44,23 +43,11 @@ namespace Teamworks.Core
                     Dependencies = new List<string>(),
                     People = new List<string>(),
                     Timelogs = new List<Timelog>(),
-                    Todos = new List<TodoList>(),
+                    Todos = new List<Todo>(),
                     LastTimeEntryId = 0,
                     StartDateConsecutive = startDate == DateTimeOffset.MinValue ? DateTimeOffset.Now : startDate,
                     StartDate = startDate == DateTimeOffset.MinValue ? DateTimeOffset.Now : startDate
                 };
-        }
-
-
-        public static double GetAccumulatedDuration(ICollection<Activity> domain, Activity activity, int duration = 0)
-        {
-            var parent = domain.Where(a => activity.Dependencies.Contains(a.Id))
-                .OrderByDescending(a => a.Duration).FirstOrDefault();
-
-            if (parent == null)
-                return duration;
-
-            return GetAccumulatedDuration(domain, parent, duration + parent.Duration);
         }
     }
 }

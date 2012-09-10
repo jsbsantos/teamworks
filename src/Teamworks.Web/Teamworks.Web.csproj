@@ -67,8 +67,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Attributes\Api\FormsAuthenticationAttribute.cs" />
+    <Compile Include="Helpers\AutoMapper\Profiles\TodoViewModelMapperProfile.cs" />
     <Compile Include="Helpers\AutoMapper\Profiles\DiscussionViewModelMapperProfile.cs" />
     <Compile Include="Helpers\Extensions\DocumentSessionExtensions.cs" />
+    <Compile Include="ViewModels\Mvc\TodoViewModel.cs" />
     <Compile Include="ViewModels\Mvc\ProjectWithStatisticsViewModel.cs" />
     <Compile Include="ViewModels\Mvc\ProjectDetailViewModel.cs" />
     <Compile Include="ViewModels\Mvc\DiscussionViewModel.cs" />
