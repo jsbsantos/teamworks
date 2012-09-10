@@ -10,7 +10,7 @@ Na fase inicial do projecto foi nentregue um [documento](https://github.com/isel
 
 ## Relatório de Progresso
 
-O relatório de progresso pode ser consultado nesta [página](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rprogresso/index.md).
+O relatório de progresso pode ser consultado nesta [página](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rprogresso).
 
 ## Relatório (Beta)
 
