@@ -9,7 +9,7 @@ Na figura \ref{fig:interacaoraven} pode observar-se a interacção da plataforma
 
 ![Interacção da plataforma Teamworks com a base de dados.\label{fig:interacaoraven}](http://www.lucidchart.com/publicSegments/view/4fd76e6a-3ef0-4875-99c1-4ac60a78da40/image.png)
 
-A responsabilidade de persistir os dados é do servidor que diponibiliza uma Api ReSTful para todas as comunicações de acesso aos dados.
+A responsabilidade de persistir os dados é do servidor que disponibiliza uma Api ReSTful para todas as comunicações de acesso aos dados.
 
 O cliente expõe as funcionalidades do servidor e permite a interacção através de código .NET . Os dados enviados e recebidos do cliente são instâncias de classes *POCO*s (*Plain Old CLR Object*) o que simplifica a sua utilização.
 

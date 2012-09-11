@@ -3,10 +3,10 @@ Introdução
 
 \label{sec:introducao}
 
-Um projeto é um esforço temporário para criar um produto, serviço ou qualquer outro resultado.
+Um projecto é um esforço temporário para criar um produto, serviço ou qualquer outro resultado.
 Para atingir os objectivos propostos para a realização de um projecto é necessária uma gestão eficiente em áreas como a organização, a utilização de tempo, o planeamento, organização, controlo de recursos e monitorização. 
 
-Este projecto tem como objectivo agilizar a gestão de um projecto através de uma infraestrutura online. 
+Este projecto tem como objectivo agilizar a gestão de um projecto através de uma infra-estrutura online. 
 
 A motivação para realização deste projecto surgiu porque as soluções de *software* existentes ou não oferecem todas as funcionalidades necessárias ou são demasiado complexas.
 
@@ -33,9 +33,9 @@ A aplicação web *LiquidPlanner* oferece as funcionalidades das anteriores e ai
 Solução Teamworks
 -
 
-A solução *Teamworks* é composta por uma aplicação web e por uma web Api. A Api expõe todas as funcionalidades da infraestrutura permitindo o seu acesso através de diversos clientes (e.g. browser, aplicações móveis, aplicações desktop).
+A solução *Teamworks* é composta por uma aplicação web e por uma web Api. A Api expõe todas as funcionalidades da infra-estrutura permitindo o seu acesso através de diversos clientes (e.g. browser, aplicações móveis, aplicações desktop).
 A aplicação web tem uma interface simples com o objectivo de minimizar o tempo utilizado na plataforma.
 
 As funcionalidades disponibilizadas permitem a gestão de projectos e pessoas. 
 Para a gestão de projectos é possível planear tarefas, estimar a sua duração, atribuir-lhes responsáveis e monitorizar o estado global do projecto. 
-Aa pessoas estas podem ver as tarefas que têm a realizar e registar o tempo despendido. Para promover a colaboração e partilha de informações é possível pessoas do mesmo projecto e/ou da mesma tarefa criar discussões.
+As pessoas podem ver as tarefas que têm a realizar e registar o tempo despendido. Para promover a colaboração e partilha de informações é possível pessoas do mesmo projecto e/ou da mesma tarefa criar discussões.

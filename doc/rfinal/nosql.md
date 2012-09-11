@@ -39,29 +39,29 @@ O valor guardado é um blob. Esta característica torna desnecessária a defini�
 
  + **Escalabilidade** - Existem duas formas para o fazer sendo que a mais simples seria separar as chaves. Separar chaves implica decidir a regra de separação, que pode separar as chaves com base no seu primeiro caracter e cada caracter é alojado numa máquina diferente, esta forma torna-se uma não opção quando a máquina onde está a chave não está disponível. Para resolver esse problema é usada replicação.
 
- + **Transações** - A garantia de que as escritas são feitas no contexto de uma transação só é dada se for escrita apenas uma chave. É possível oferecer essas garantias para múltiplas chaves mas tendo em conta que um key-value store permite que diferentes chaves estejam armazenadas em diferenter máquinas torna o processo de dificil implementação.
+ + **Transacções** - A garantia de que as escritas são feitas no contexto de uma transacção só é dada se for escrita apenas uma chave. É possível oferecer essas garantias para múltiplas chaves mas tendo em conta que um key-value store permite que diferentes chaves estejam armazenadas em diferente máquinas torna o processo de difícil implementação.
 
 Base de dados de documentos
 -
 
-Uma base de dados de documentos é na sua essência um key-value store. A diferença é que, numa base de dados de documentos, o blob de informação é persistido de uma forma semi-estruturada, em documentos, utilizando um formato que possa ser interpretado pela base de dados como JSON, BSON, XML, etc, permitindo realizar queries sobre essa informação.
+Uma base de dados de documentos é na sua essência um key-value store. A diferença é que, numa base de dados de documentos, o blob de informação é persistido de uma forma semiestruturada, em documentos, utilizando um formato que possa ser interpretado pela base de dados como JSON, BSON ou XML permitindo realizar *queries* sobre essa informação.
 
- + ***Schema*** - Este tipo de base de dados não necessita que lhe seja definido um *schema à priori* e não têm tabelas, colunas, tuplos ou relações. Uma base de dados orientada a documentos é composta por vários documentos auto-descritivos, ou seja, a informação relativa a um documento está guardada dentro deste. Isso permite que sejam armazenados objectos complexos (i.e. grafos, dicionários, listas, etc) com facilidade. 
+ + ***Schema*** - Este tipo de base de dados não necessita que lhe seja definido um *schema à priori* e não têm tabelas, colunas, tuplos ou relações. Uma base de dados orientada a documentos é composta por vários documentos auto-descritivos, ou seja, a informação relativa a um documento está guardada dentro deste. Isso permite que sejam armazenados objectos complexos (i.e. grafos, dicionários, listas) com facilidade. 
  Esta característica implica que, apesar de poderem existir referências entre documentos a base de dados não garante a integridade dessa relação.
 
  + **Concorrência** - Existem várias abordagens para resolver este problema como a concorrência optimista, pessimista ou *merge*. 
     + Concorrência Optimista: Antes de gravar informação é verificado se o documento foi alterado por outra transacção, sendo a transacção abortada nesse caso;
-	+ Concorrência Péssimista: Usa locks para impedir várias transacções de modificarem o mesmo documento. Esta abordagem é um problema para a escalabilidade destes sistemas;
+	+ Concorrência Pessimista: Usa locks para impedir várias transacções de modificarem o mesmo documento. Esta abordagem é um problema para a escalabilidade destes sistemas;
   	+ Concorrência *merge*: Semelhante à concorrência optimista mas em vez de abortar a transacção permite ao utilizador resolver o conflito entre as versões do documento.
 
- + **Transações**- Em alguns casos é dada a garantia de que as operações cumprem com a regra ACID (atomicity, consistency, isolation, durability). Algumas implementações optam por não seguir a regra ACID, desprezando algumas propriedades em detrimento de um aumento de rendimento, usando as regras CAP (Consistency, Availability, Partition Tolerance) ou BASE (Basically Available, Soft State, Eventually Consistent).
+ + **Transacções**- Em alguns casos é dada a garantia de que as operações cumprem com a regra ACID (atomicity, consistency, isolation, durability). Algumas implementações optam por não seguir a regra ACID, desprezando algumas propriedades em detrimento de um aumento de rendimento, usando as regras CAP (Consistency, Availability, Partition Tolerance) ou BASE (Basically Available, Soft State, Eventually Consistent).
 
  + ***Queries*** - As *queries* são feitas com base em índices inferidos automaticamente ou definidos explicitamente pelo programador. Quando o índice é definido o SGBD executa-o e prepara os resultados minimizando o esforço computacional necessário para responder a uma *query*. 
 
  	A forma de actualização destes índices difere em cada implementação deste tipo de base de dados, podendo ser actualizados quando os documentos associados a estes índices são alterados ou no momento anterior à execução da *query*.
  	No primeiro caso isso significa que podem ser obtidos resultados desactualizados, uma vez que as *queries* aos índices têm resultados imediatos e a actualização pode não estar concluída. Na segunda abordagem, se existirem muitas alterações para fazer a *query* pode demorar algum tempo a responder.
 
- + **Escalabilidade** - Este tipo tipo de base de dados suporta Sharding, ou seja partição horizontal, o que permite separar documentos por vários servidores.
+ + **Escalabilidade** - Este tipo de base de dados suporta Sharding, ou seja partição horizontal, o que permite separar documentos por vários servidores.
 
 RavenDB
 -
@@ -71,11 +71,11 @@ A base de dados é dividida em dois blocos o servidor e o cliente. O servidor é
 
 ###Cliente RavenDB
 
-Para interacção com o cliente são usadas classes *POCO* (*Plain Old CLR Object*) o que torna desnecessária a utilização de um *ORM* ou qualquer sistema de correspondência entre objectos de domínio e os objectos persistidos. O cliente para além de gerir a comunicação com o servidor o cliente é responsável por fazer cache dos pedidos ao servidor e pela implementação do padrão *Unit of Work*.
+Para interacção com o cliente são usadas classes *POCO* (*Plain Old CLR Object*) o que torna desnecessária a utilização de um *ORM* ou qualquer sistema de correspondência entre objectos de domínio e os objectos persistidos. O cliente, para além de gerir a comunicação com o servidor, é responsável por fazer cache dos pedidos ao servidor e pela implementação do padrão *Unit of Work*.
 
 A infra-estrutura utiliza principalmente duas classes do cliente, `IDocumentStore` e `IDocumentSession`.
-A classe `IDocumentSession` representa uma sessão e permite obter dados, persistir dados e apagar dados da base de dados. O padrão *Unit of Work* é implementado nas instâmcias desta classe e é dada a garantia que todas as alterações serão persistidas numa única transacção.
-A classe `IDocumentStore` é uma fabrica para a criação de sessões.
+A classe `IDocumentSession` representa uma sessão e permite obter dados, persistir dados e apagar dados da base de dados. O padrão *Unit of Work* é implementado nas instâncias desta classe e é dada a garantia que todas as alterações serão persistidas numa única transacção.
+A classe `IDocumentStore` é uma fábrica para a criação de sessões.
 
 ###Relações entre documentos
 
@@ -108,13 +108,13 @@ Na implementação deste projecto optou-se por estabelecer relações entre docu
 
 \label{app:ravendb-bundle}
 
-No caso de as funcionalidades disponibilizadas pelo servidor RavenDB não serem suficientes existem Bundles que extendem as funcionalidades oferecidas. 
+No caso de as funcionalidades disponibilizadas pelo servidor RavenDB não serem suficientes existem Bundles que estendem as funcionalidades oferecidas. 
 Os Bundles oferecidos com a build do RavenDB são:
 
  + **Sharding and Replication**.
  + **Quotas**, coloca limites ao tamanho na base de dados.
- + **Expiration**, remove documentos expirados automáticamente.
- + **Index Replication**, replica indices RavenDB para base de dados SQL Server.
+ + **Expiration**, remove documentos expirados automaticamente.
+ + **Index Replication**, replica índices RavenDB para base de dados SQL Server.
  + **Authentication**, autentica utilizadores na base de dados usando OAuth.
  + **Authorization**, permite a gestão de grupos, *roles* e permissões.
  + **Versioning**, automaticamente gera versões dos documentos quando são alterados ou removidos.
@@ -122,4 +122,4 @@ Os Bundles oferecidos com a build do RavenDB são:
  + **More Like This**, retorna documentos relacionados com o documento indicado.
  + **Unique Constraints**, adiciona a possibilidade de definir *unique constraints* em documentos RavenDB.
 
-Os bundles disponibilizados são distribuidos com dois *dll*s, um para utilizar no cliente e outro para colocar numa pasta definida na configuração do servidor onde são colocadas todas as suas extensões.
+Os bundles disponibilizados são distribuídos com dois *dll*s, um para utilizar no cliente e outro para colocar numa pasta definida na configuração do servidor onde são colocadas todas as suas extensões.

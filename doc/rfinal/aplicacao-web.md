@@ -6,7 +6,7 @@ A aplicação web disponibiliza uma interface que possibilita que o utilizador i
 Numa primeira fase decidiu-se que a aplicação web seria apenas um consumidor da Api web e seria através dela que obteria toda a informação que necessitava. Com o decorrer do projecto concluiu-se que os dados necessários para a aplicação web não eram possíveis de obter através da web Api sem desvirtuar o seu objectivo de expor os objectos de domínio como recursos.
 
 À semelhança da Api foi definido um `Controller` base com a propriedade `DBSession`, afectada antes de ser chamada a *action*.
-A persistencia dos dados é feita depois de ser executado o resultado da chamada à *action*
+A persistência dos dados é feita depois de ser executado o resultado da chamada à *action*
 
 
 Componente Visual
@@ -20,15 +20,15 @@ A framework javascript Knockout, foi usada a para tornar as páginas web mais di
 
 Este comportamento é conseguido definindo em javascript um *view model*, que é um objecto javascript que contém propriedades observáveis (observables) por elementos HTML.
 A definição de uma associação entre um elemento HTML e uma propriedade do *view model*, denominada *binding*, permite que seja feita a actualização do elemento com o valor da propriedade que lhe está associada e vice-versa. É através dos atributos definidos como *observables* (tipo introduzido pela *framework knockout*) dos *view model* que é feita a actualização da informação presente na página, através de pedidos AJAX \cite{ajax}, respondendo a interacções do utilizador. 
-É possível que existam vários elementos HTML a observar a mesma propriedade do *view model*, tomando todos o mesmo valor quando esta é alterada. Para extender as funcionalidades da *framework* foram criadas novos *bindings* e novos *extensões*.
+É possível que existam vários elementos HTML a observar a mesma propriedade do *view model*, tomando todos o mesmo valor quando esta é alterada. Para estender as funcionalidades da *framework* foram criadas novos *bindings* e novos *extensões*.
 
 ***Bindings***
 
-Um *binding* é composto por duas funções, *read* e *write*, chamadas quando é feita umaalteração ao atributo do *view model* associado. Quando o valor do *observable* é alterado a função *write* é chamada e para obter o valor do *observable* é chamada a função *read*. 
+Um *binding* é composto por duas funções, *read* e *write*, chamadas quando é feita uma alteração ao atributo do *view model* associado. Quando o valor do *observable* é alterado a função *write* é chamada e para obter o valor do *observable* é chamada a função *read*. 
 
 Para utilizar a componente *typeahead* do *kit* visual foi definido o *binding* *typeahead*. Este *binding* inicia no elemento html a que está associado a componente *typeahead* e se ao binding estiver associada uma função esta é invocada com o *typeahead* criada para que este possa ser configurado.
 
-Assim como o *binding typeahead*, os *bindings datepicker* e *timeago* iniciam componentes de soluções *open source* incluídas na infraestrutura. 
+Assim como o *binding typeahead*, os *bindings datepicker* e *timeago* iniciam componentes de soluções *open source* incluídas na infra-estrutura. 
 O *datepicker* como o próprio nome indica fornece uma forma visual de escolher uma data que quando a data é alterada altera o valor do elemento html a que o binding está associado. 
 O *binding timeago* altera valor do elemento html de uma data para o tempo relativo dessa data para com a data actual.
  
@@ -39,7 +39,7 @@ O *binding timeago* altera valor do elemento html de uma data para o tempo relat
 Uma das extensões criadas está relacionada forma como é apresentada a data, usando a função toString() do objecto Date do javascript, e é aplicada a todas as propriedades do *view model* que representam datas. A extensão *isoDate* cria a propriedade `formatted` na propriedade observável do *view model*, que apresenta a data no formato "dd/mm/yyyy".
 
 O valor registado na propriedade de "Duração" dos registos de horas é persistido em segundos, tornando-se pouco prático fazer a sua apresentação nesse formato.
-Para apresentar ao utilizador esse valor num formato mais perceptivel foi criada a extensão `duration` que transforma essa duração numa string do formato "5h", "5h 20m" ou "20min". Além disso esta extensão permite fazer a conversão inversa, transformando uma string, num dos formatos enumerados anteriormente, no seu correspondente em segundos, facilitando a introdução do tempo dispendido numa actividade, no registo de horas do utilizador.
+Para apresentar ao utilizador esse valor num formato mais perceptível foi criada a extensão `duration` que transforma essa duração numa string do formato "5h", "5h 20m" ou "20min". Além disso esta extensão permite fazer a conversão inversa, transformando uma string, num dos formatos enumerados anteriormente, no seu correspondente em segundos, facilitando a introdução do tempo despendido numa actividade, no registo de horas do utilizador.
 
 Com a associação de propriedades observáveis definidas no *view model* a elementos HTML pertencentes a formulários, surgiu a necessidade de marcar alguns campos como obrigatórios, impedindo a submissão do formulário quando estes não estão preenchidos. Para conseguir este comportamento definiu-se a extensão `required` que suporta a definição de uma mensagem que será mostrada quando a propriedade não se encontrar preenchida.
 
@@ -87,12 +87,12 @@ No desenvolvimento da aplicação foram usadas algumas *frameworks* e biblioteca
 
 \label{sec:Attribute Routing}
 
-Uma das frameworks usadas é o *Attribute Routing* \cite{attributerouting} que permite definir *routes* ASP.NET MVC através de atributos, disponibilizando atributos que representam os métodos HTTP (GET, POST, PUT e DELETE) podem ser apliados em *controllers* ou *actions*. Com a utilização desta biblioteca conseguiram criar-se *routes* intuitivas e de facil reconhecimento para o utilizador, em que cada uma identifica univocamente todas as entidades associadas ao recurso que representa.
+Uma das frameworks usadas é o *Attribute Routing* \cite{attributerouting} que permite definir *routes* ASP.NET MVC através de atributos, disponibilizando atributos que representam os métodos HTTP (GET, POST, PUT e DELETE) podem ser aplicados em *controllers* ou *actions*. Com a utilização desta biblioteca conseguiram criar-se *routes* intuitivas e de fácil reconhecimento para o utilizador, em que cada uma identifica univocamente todas as entidades associadas ao recurso que representa.
 
 \label{sec:Automapper}
 
-Com a utilização de objectos como parâmetros das *actions* advém a necessidade de diferenciar esses parâmetros dos tipos usados para representar as entidades de dominio. Para facilitar a conversão entre estes tipos é usada a biblioteca Automapper que permite configurar a forma como é feita essa conversão, evitando que seja repetido o código de conversão entre objectos.
+Com a utilização de objectos como parâmetros das *actions* advém a necessidade de diferenciar esses parâmetros dos tipos usados para representar as entidades de domínio. Para facilitar a conversão entre estes tipos é usada a biblioteca Automapper que permite configurar a forma como é feita essa conversão, evitando que seja repetido o código de conversão entre objectos.
 
-Devido à complexidade da informação apresentada nas *views* foram definidos tipos que a representam, designados de *view models*. A conversão entre entidades de dominio e os *view model* é feita com recurso à biblioteca Automapper.
+Devido à complexidade da informação apresentada nas *views* foram definidos tipos que a representam, designados de *view models*. A conversão entre entidades de domínio e os *view model* é feita com recurso à biblioteca Automapper.
 
 Esta abordagem foi usada também na web API, existindo *view models* que representam os parâmetros recebidos e os resultados retornados pelas suas *actions* .

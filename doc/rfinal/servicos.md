@@ -46,7 +46,7 @@ Existem situações em que é necessário que a aplicação comunique com os seu
 
 \label{sec:Mailgun}
 
-Os emails são enviados usando a plataforma web programável *Mailgun* \ref{mailgun} que oferece as funcionalidades de um servidor de email, como envio e recepção de emails. Além destas funcionalidades o *Mailgun* suporta o redireccionamento de emails recebidos para um URL definido pelos seus utilizadores. Toda a comunicação com o *Mailgun* é feita através de pedidos HTTP para a sua API publica, sendo necessário que a identificação do utilizador seja enviada em todos os pedidos usando uma chave única atribuída aquando do seu registo no Mailgun.
+Os emails são enviados usando a plataforma web programável *Mailgun* \ref{mailgun} que oferece as funcionalidades de um servidor de email, como envio e recepção de emails. Além destas funcionalidades o *Mailgun* suporta o redireccionamento de emails recebidos para um URL definido pelos seus utilizadores. Toda a comunicação com o *Mailgun* é feita através de pedidos HTTP para a sua API pública, sendo necessário que a identificação do utilizador seja enviada em todos os pedidos usando uma chave única atribuída aquando do seu registo no Mailgun.
 
 \label{sec:Configuração}
 
@@ -78,7 +78,7 @@ Uma das utilizações destas funcionalidades é a notificação dos utilizadores
 Quando a aplicação é iniciada é criada uma *Thread* que, em intervalos de tempo definidos, verifica se existem mensagens para as quais ainda não foram enviadas notificações. Se existirem mensagens nessa condição, são enviados emails para os utilizadores, pela ordem pela qual foram submetidas.
 
 Para atenuar o processamento feito pela thread de notificações o intervalo de tempo entre verificações é aumentado cada vez que não é encontrada nenhuma mensagem para enviar.
-De forma a que as mensagens sejam enviados com a maior celeridade possível o intervalo entre verificações não excede os 10 minutos.
+Para que as mensagens sejam enviados com a maior celeridade possível o intervalo entre verificações não excede os 10 minutos.
 
 RavenDB
 -

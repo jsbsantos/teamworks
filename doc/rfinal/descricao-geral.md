@@ -4,7 +4,7 @@ Descrição Geral
 \label{sec:descricao-geral}
 
 
-Como indicado anteriormente, a infraestrutura *Teamworks*, tem como objectivo disponibilizar funcionalidades para a gestão de projectos e pessoas. 
+Como indicado anteriormente, a infra-estrutura *Teamworks*, tem como objectivo disponibilizar funcionalidades para a gestão de projectos e pessoas. 
 As funcionalidades disponibilizadas são as seguintes:
 
 + Possibilidade de criar actividades, gerir o tempo estimado para a sua execução, atribuir responsáveis pela sua realização 
@@ -22,7 +22,7 @@ Para além das funcionalidades enunciadas só os utilizadores associados devem t
 Casos de Utilização
 -
 
-A autenticação na plataforma é obrigatória para todas as ações para além do registo e da autenticação, como indicado na figura \ref{fig:usecase-anonimo}.
+A autenticação na plataforma é obrigatória para todas as acções para além do registo e da autenticação, como indicado na figura \ref{fig:usecase-anonimo}.
 
 ![Caso de utilização de utilizador não autenticado.\label{fig:usecase-anonimo}](http://www.lucidchart.com/publicSegments/view/4fd71023-3b68-497b-b199-60a50a443549/image.png)
 
