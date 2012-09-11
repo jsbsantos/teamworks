@@ -1,0 +1,95 @@
+\documentclass[pdftex,fontsize=20pt,a4paper]{scrbook}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+% use microtype if available
+\IfFileExists{microtype.sty}{\usepackage[protrusion=true,expansion=true]{microtype}}{}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \usepackage{fontspec}
+  \ifxetex
+    \usepackage{xltxtra,xunicode}
+  \fi
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \newcommand{\euro}{€}
+\fi
+\ifxetex
+  \usepackage[setpagesize=false, % page size defined by xetex
+              unicode=false, % unicode breaks when used with xetex
+              xetex]{hyperref}
+\else
+  \usepackage[unicode=true]{hyperref}
+\fi
+\hypersetup{breaklinks=true,
+            bookmarks=true,
+            pdfauthor={},
+            pdftitle={},
+            colorlinks=true,
+            urlcolor=blue,
+            linkcolor=black,
+            pdfborder={0 0 0}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\ifxetex
+  \usepackage{polyglossia}
+  \setmainlanguage{portuguese}
+\else
+  \usepackage[portuguese]{babel}
+\fi
+
+\usepackage[a4paper,includeall,bindingoffset=0cm,margin=2cm,
+            marginparsep=0cm,marginparwidth=0cm]{geometry}
+
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+\begin{minipage}{0.8\textwidth}
+\begin{center}
+\textsc{\scriptsize Instituto Superior de Engenharia de Lisboa}\\
+\textsc{\footnotesize Licenciatura em Engenharia Informática e de Computadores }\\[1cm]
+\textsc{\footnotesize Projecto e Seminário}\\
+\vspace*{1cm}
+\end{center}
+\end{minipage}
+% Title
+{ \huge\bfseries Teamworks }\\[1cm]
+{ \emph{a solution for project planning, managing and collaboration} }\\[2cm]
+\begin{minipage}{1\textwidth}
+\begin{center}
+\textbf{\small{Alunos}}\\
+\tiny
+\begin{center}
+\line(1,0){250}
+\end{center}
+\vspace{-0.75cm}
+João Santos 30071\\
+\begin{center}
+\line(1,0){250}
+\end{center}
+\vspace{-0.75cm}
+Filipe Pinheiro 30239
+\end{center}
+\end{minipage}\\[1cm]
+\begin{minipage}{1\textwidth}
+\begin{center}
+\textbf{\small{Orientador}}\\
+\tiny
+\begin{center}
+\line(1,0){250}
+\end{center}
+\vspace{-0.75cm}
+João Pedro Patriarca
+\end{center}
+\end{minipage}
+\vfill
+% Bottom of the page
+{\footnotesize \today}
+\end{center}
+\end{titlepage}
+\cleardoublepage
+\end{document}
