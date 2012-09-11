@@ -75,7 +75,7 @@ A propriedade afectada com o valor da sessão é qualquer uma que tenha como val
 *Controllers*
 -
 
-Para abstrair as *actions* da obtenção da sessão foi criada a classe `RavenApiController` que disponibiliza a propriedade `DbSession`, que retorna uma sessão para acesso à base de dados.
+Para abstrair as *actions* da obtenção da sessão foi criada a classe `AppApiController` que disponibiliza a propriedade `DbSession`, que retorna uma sessão para acesso à base de dados.
 
 
 

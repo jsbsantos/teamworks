@@ -115,7 +115,7 @@
     <Compile Include="Controllers\Mvc\DiscussionsController.cs" />
     <Compile Include="Controllers\Mvc\HomeController.cs" />
     <Compile Include="Controllers\Mvc\ProjectsController.cs" />
-    <Compile Include="Controllers\RavenApiController.cs" />
+    <Compile Include="Controllers\AppApiController.cs" />
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
