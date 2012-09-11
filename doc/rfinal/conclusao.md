@@ -1,57 +1,48 @@
 Conclusão
 =
 
-A solução desenvolvida permite aos utilizadores fazer diversas acções sobre a plataforma, como a criação e gestão de projectos, tarefas e debates. No entanto ainda existe trabalho que é necessário fazer para que a plataforma atinja os níveis a que nos propusemos.
+A solução desenvolvida atinge os objectivos propostos permitindo aos utilizadores fazer diversas acções sobre a infra-estrutura, como a criação e gestão de projectos, tarefas e debates. 
 
-No desenvolvimento deste projecto foram usadas técnicas e tecnologias com as quais não estávamos familiarizados, havendo por isso um período de aprendizagem. Como exemplo temos as bases de dados de documentos, *domain driven design*, *RavenDB*, *knockout* e *web Api*.
+No desenvolvimento deste projecto foram usadas técnicas e tecnologias que não fazem parte do actual plano de estudos do curso de Licenciatura em Engenharia Informática de Computadores, com as quais não estávamos familiarizados, e que requereram um período de aprendizagem. Sendo este um projecto académico sentimos que era uma boa oportunidade para aprender e utilizar estas novas tecnologias. Entendemos que a aprendizagem e utilização de novas técnicas e tecnologias é vantajosa para o desenvolvimento das nossas competências e para alargar o nosso espectro de conhecimento. 
 
-Este desconhecimento inicial, principalmente das bases de dados de documentos, *domain driven design* e *RavenDB*, condicionou o desenvolvimento do modelo de dados, tornando-o um processo iterativo. Durante este processo, e com a aprendizagem feita sobre estes temas, o modelo de dados foi alterado até chegar ao estado actual.
+São exemplos dessas tecnologias a base de dados de documentos *RavenDB*, a framework javascript *knockout* e a framework ASP.NET MVC 4 Web Api. A necessidade de aprofundar o conhecimento nestas tecnologias, principalmente dos conceitos de bases de dados de documentos, *domain driven design* e *RavenDB*, condicionou o desenvolvimento do modelo de dados, tornando-o um processo iterativo.
+
+A evolução de cada componente, com a alteração das suas dependências, provocou alguns constrangimentos durante o desenvolvimento do projecto. Por exemplo, a framework ASP.NET MVC 4 Web Api e o cliente RavenDB têm uma dependência da biblioteca *Newtonsoft.JSON*, o que se tornou um problema quando as versões utilizadas por cada um deles era diferente.
+
+Uma vez que estes componentes são recentes ainda estão muito propensos a erros. No decorrer do projecto foi detectado um erro na implementação do *bundle* de autorização disponibilizado pelo RavenDB[^ravendberro] o erro já foi corrigido. 
+
+
+Notas a salientar
+-
+
+Uma vez que usamos serviços fornecidos por entidades externas, foi necessário contactar os seus fornecedores para conseguir junto destes a resolução de problemas e licenciamento. 
+
+Como base de dados usada na infra-estrutura é o *RavenDB*, e a instância que usada fornecida pela empresa *RavenHQ*, foi necessário entrar em contacto com os responsáveis do RavenHQ para que configurassem a instância da base de dados usada por nós de acordo com as nossas necessidades. Esta situação também se verificou com o *Mailgun*, sendo que no caso deste nos foi concedida uma licença de uso académico que permitia o envio de um maior número de emails.
+
+Para elaboração das figuras usadas na documentação deste projecto foram feitas usando a aplicação web lucidcharts \cite{lucidcharts}. Uma vez que este é um produto pago, contactamos os seus responsáveis no sentido de nos cederem uma licença, para uso durante o desenvolvimento do projecto, ao que eles acederam.
+
+utilização de frameworks opensource
+problemas (bug) com frameworks utilizadas
 
 Trabalho Futuro
 -
 
-A versão actual da plataforma permite a edição dos seus dados de uma forma muito básica. 
-Até à data de entrega da versão final pretende-se implementar funcionalidades que complementem as que já estão disponíveis. 
-As funcionalidades a implementar são:
+Apesar de considerarmos que a solução desenvolvida cumpre os objectivos propostos sentimos, no entanto, que esta não tem todas as funcionalidades inicialmente pensadas. Existem aspectos que poderiam ser melhorados, tais como:
 
- * Autorização 
+ * Planeamento de actividades
 
-	No decorrer do projecto foi detectado um erro na implementação do *bundle* de autorização disponibilizado pelo RavenDB[^ravendberro] o erro já foi corrigido.
-
- * Planeamento de tarefas
-
-	Adicionar à gestão de tarefas a possibilidade de lhes atribuir prioridades e que dependam umas das outras. Desta forma é melhorado o controlo e organização das tarefas de um projecto.
+	Apesar de ser possível criar dependência entre actividades, essa dependência não se traduz em nenhuma regra ou proibição. Como trabalho futuro podem ser criadas regras para impedir o registo de tempo despendido na realização de tarefas cujas dependências não se encontrem concluídas.
 
  * Análise e Monitorização 
 
-	Pretende-se implementar indicadores para análise de informação sobre o projecto, as suas tarefas e utilizadores para que o responsável por um projecto seja capaz de avaliar qual o estado em que este se encontra.
+	Implementar novas formas de mostrar a informação disponível apresentando ao utilizador o estado das actividades e diferenciando as actividades concluídas das restantes.
 
- * *Dashboard*
+ * *Timeline*
 
-	Deverá estar disponível aos utilizadores informação sobre quais os projectos e respectivas tarefas que lhe estão atribuídas para um período de tempo (e.g. semana actual).
+	Criação de uma página que resume a actividade recente do utilizador durante um período, por exemplo a semana actual, contendo as actividades que lhe estão atribuídas.
 
-Além de novas funcionalidades existem aspectos da solução que têm de ser melhorados. 
-A cobertura dos testes unitários deve ser alargada tanto na Api, como na aplicação web e em todos os serviços.
-
-A forma de autenticação usada na api web é pouco segura por isso devem ser estudadas alternativas, como a utilização do esquema HMAC (Hash Message Authentication Code) ou Oauth.
-
+ * Repositório de Ficheiros
+ 
+	Criação de um repositório de ficheiros associado aos projectos, onde os seus membros podem alojar informação. Pode também ser implementada a funcionalidade de anexar ficheiros a mensagens de discussões tirando partido desse repositório.
+	
 [^ravendberro]: O *topic* http://goo.gl/FpIoq no Google Groups do RavenDB detalha o erro e a solução.
-
-
-Conclusão
-Aprendizagem de novos conceitos e tecnologias
-Estudadas novas frameworks e apis não leccionadas no actual plano de estudos ... 
-Foi utilizada uma versão "beta" da web api
-Nem todas as funcionalidades implementadas têm o grau de "qualidade" esperado
-
-Notas a salientar:
-
-lucidcharts: licensa
-ravendb: ravenhq para configuração da base de dados remota
-mailgun: entramos em contacto para configuração
-utilização de frameworks opensource
-problemas (bug) com frameworks utilizadas
-
-Trabalho futuro:
-monitorização e análise de projectos
-repositório de ficheiros
