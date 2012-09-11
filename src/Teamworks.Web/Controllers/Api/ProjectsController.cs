@@ -19,7 +19,7 @@ namespace Teamworks.Web.Controllers.Api
 {
     [DefaultHttpRouteConvention]
     [RoutePrefix("api/projects")]
-    public class ProjectsController : RavenApiController
+    public class ProjectsController : AppApiController
     {
         [Secure("projects/view")]
         public IEnumerable<ProjectViewModel> Get()

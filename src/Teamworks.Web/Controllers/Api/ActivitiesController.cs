@@ -19,7 +19,7 @@ namespace Teamworks.Web.Controllers.Api
     [DefaultHttpRouteConvention]
     [SecureProject("projects/view")]
     [RoutePrefix("api/projects/{projectId}/activities")]
-    public class ActivitiesController : RavenApiController
+    public class ActivitiesController : AppApiController
     {
         #region General
 

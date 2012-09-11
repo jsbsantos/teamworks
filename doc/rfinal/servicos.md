@@ -55,28 +55,30 @@ Tirando partido da funcionalidade do reencaminhamento de emails do *Mailgun* for
 As *routes* configuradas são: 
 
 + Recepção de resposta a notificação
-Filtro: match_header("references", ".*@teamworks.mailgun.org")
 
-Acção:  forward("http://http://teamworks/api/mailgun/reply")
+	Filtro: `match_header("references", ".*@teamworks.mailgun.org")`
+	Acção:  `forward("http://http://teamworks/api/mailgun/reply")`
 
 Quando é colocada uma nova mensagem numa discussão, os utilizadores que a seguem são notificados por email. Se responderem a esse email de notificação a sua resposta será adicionada à discussão como uma nova mensagem.
 
-+ Criação de Discussão 
-Filtro: match_recipient("(tw\+{1}.*)@teamworks.mailgun.org")
-
-Acção: forward("http://http://teamworks/api/mailgun/create")
++ Criação de Discussão
+	Filtro: `match_recipient("(tw\+{1}.*)@teamworks.mailgun.org")`
+	Acção: `forward("http://http://teamworks/api/mailgun/create")`
 
 Esta route é usada para que os utilizadores consigam, através do seu *token* único fazer a criação de uma nova discussão.
 
 \label{sec:Integração}
 
-O reencaminhamento de emails do *Mailgun* é feito através de pedidos HTTP POST enviados para as routes configuradas, sendo que a informação é enviada no corpo do pedido POST. Para fazer o seu processamento dessa informação e convertê-la num tipo .NET, foi necessário criar o *model binder* *MailgunModelBinder*, que lê o corpo do pedido e transforma-o num dicionário que contém todas as chaves e os respectivos valores.
+O reencaminhamento de emails do *Mailgun* é feito através de pedidos HTTP POST enviados para as routes configuradas, sendo que a informação é enviada no corpo do pedido. Para processar e converter a informação num tipo .NET, foi criado o *model binder* *MailgunModelBinder*, que lê o corpo do pedido e transforma-o num dicionário que contém todas as chaves e os respectivos valores.
 
 \label{sec:Notificações Assíncronas}
 
 Uma das utilizações destas funcionalidades é a notificação dos utilizadores com as mensagens que são colocadas nas discussões a que estão associados. Para isso foi desenvolvido um mecanismo de notificação de novas mensagens que envia um email com as novas mensagens. 
 
-Quando a aplicação Web é iniciada é também iniciada uma *Thread* que, em intervalos de tempo definidos, verifica se existem mensagens para as quais ainda não foram enviadas notificações. Se existirem mensagens nessa condição, são enviados emails para os utilizadores, pela ordem pela qual foram submetidas. Caso contrário o intervalo de tempo em que são feitas as verificações aumenta, até chegar aos 10 minutos.
+Quando a aplicação é iniciada é criada uma *Thread* que, em intervalos de tempo definidos, verifica se existem mensagens para as quais ainda não foram enviadas notificações. Se existirem mensagens nessa condição, são enviados emails para os utilizadores, pela ordem pela qual foram submetidas.
+
+Para atenuar o processamento feito pela thread de notificações o intervalo de tempo entre verificações é aumentado cada vez que não é encontrada nenhuma mensagem para enviar.
+De forma a que as mensagens sejam enviados com a maior celeridade possível o intervalo entre verificações não excede os 10 minutos.
 
 RavenDB
 -
@@ -85,4 +87,4 @@ Para dar suporte à realização de *queries* complexas sobre os documentos, com
 
 \label{sec:Índices}
 
-No decorrer deste projecto surgiu a necessidade de fazer este tipo de operações e como tal foram criados vários Índices.
+No decorrer deste projecto surgiu a necessidade de fazer este tipo de operações e como tal foram criados vários índices.

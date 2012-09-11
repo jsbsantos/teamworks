@@ -30,13 +30,13 @@ namespace Teamworks.Web.Unittest.Api
 
         #endregion
 
-        protected T ControllerForTests<T>(IDocumentSession session, HttpMethod method) where T : RavenApiController
+        protected T ControllerForTests<T>(IDocumentSession session, HttpMethod method) where T : AppApiController
         {
             var person = Person.Forge("email@mail.pt", "username", "password", "Name");
             return ControllerForTests<T>(session, method, person);
         }
 
-        protected T ControllerForTests<T>(IDocumentSession session, HttpMethod method, Person person) where T : RavenApiController
+        protected T ControllerForTests<T>(IDocumentSession session, HttpMethod method, Person person) where T : AppApiController
         {
             Thread.CurrentPrincipal = new GenericPrincipal(new PersonIdentity(person), new string[0]);
 

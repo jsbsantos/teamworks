@@ -27,7 +27,7 @@ namespace Teamworks.Doc.Markdown
             File.WriteAllText(pre, @"<!--- automatic -->" + Environment.NewLine + Environment.NewLine, Encoding.UTF8);
 
             var c = 0;
-            var before = false;
+            var before = true;
             var index = Path.Combine(input, "index.md");
             using (var stream = File.OpenText(index))
             {
@@ -36,13 +36,13 @@ namespace Teamworks.Doc.Markdown
                 {
                     c++;
                     Trace.WriteLine(String.Format("I[{0}]: {1}", c, line));
-                    if (Regex.IsMatch(line, @"[ ]*<!--[ ]*appendix[ ]*-->[ ]*"))
+                    if (Regex.IsMatch(line, @"[ ]*<!---[ ]*appendix[ ]*-->"))
                     {
                         File.AppendAllText(pre, @"\appendix\def\thesection{\Alph{section}}" + Environment.NewLine);
                     }
-                    else if (Regex.IsMatch(line, @"[ ]*<!--[ ]*main[ ]*-->[ ]*"))
+                    else if (Regex.IsMatch(line, @"[ ]*<!---[ ]*main[ ]*-->[ ]*"))
                     {
-                        before = true;
+                        before = false;
                     }
                     else if (Regex.IsMatch(line, @"^###\s"))
                     {

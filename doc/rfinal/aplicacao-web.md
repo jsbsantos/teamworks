@@ -5,6 +5,10 @@ A aplicação web disponibiliza uma interface que possibilita que o utilizador i
 
 Numa primeira fase decidiu-se que a aplicação web seria apenas um consumidor da Api web e seria através dela que obteria toda a informação que necessitava. Com o decorrer do projecto concluiu-se que os dados necessários para a aplicação web não eram possíveis de obter através da web Api sem desvirtuar o seu objectivo de expor os objectos de domínio como recursos.
 
+À semelhança da Api foi definido um `Controller` base com a propriedade `DBSession`, afectada antes de ser chamada a *action*.
+A persistencia dos dados é feita depois de ser executado o resultado da chamada à *action*
+
+
 Componente Visual
 -
 
@@ -16,11 +20,11 @@ A framework javascript Knockout, foi usada a para tornar as páginas web mais di
 
 Este comportamento é conseguido definindo em javascript um *View Model*, que é um objecto javascript que contém propriedades observáveis (observables) por elementos HTML. A definição de uma associação entre um elemento HTML e uma propriedade do *view model*, denominada *binding*, permite que seja feita a actualização do elemento com o valor da propriedade que lhe está associada e vice-versa. É através destes *view model* que é feita a actualização da informação presente na página, através de pedidos AJAX \cite{ajax}, respondendo a interacções do utilizador. É possível que existam vários elementos HTML a observar a mesma propriedade do *view model*, tomando todos o mesmo valor quando esta é alterada.
 
-** Extensões **
+**Extensões**
 
 É possível ainda alterar o comportamento por omissão que estas propriedades observáveis têm através de extensões. As extensões tiram partido das propriedades observáveis serem definidas como uma função, acrescentando-lhes novas propriedades.
 
-*isoDate*
+*ISODate*
 
 Uma das extensões criadas está relacionada forma como é apresentada a data, usando a função toString() do objecto Date do javascript, e é aplicada a todas as propriedades do *view model* que representam datas. A extensão *isoDate* cria a propriedade "*formatted*" na propriedade observável do *view model*, que apresenta a data no formato "dd/mm/yyyy".
 
@@ -32,8 +36,8 @@ O valor registado na propriedade de "Duração" dos registos de horas é persist
 
 Com a associação de propriedades observáveis definidas no *view model* a elementos HTML pertencentes a formulários, surgiu a necessidade de marcar alguns campos como obrigatórios, impedindo a submissão do formulário quando estes não estão preenchidos. Para conseguir este comportamento definiu-se a extensão *required*que suporta a definição de uma mensagem que será mostrada quando a propriedade não se encontrar preenchida.
 
-** Bindings **
- 
+***Bindings***
+
 typeahead
 
 highlight
@@ -67,16 +71,16 @@ Autenticação
 
 A autenticação na aplicação web é feita através de um formulário onde o utilizador insere o nome de utilizador e a *password*. A validação dos dados inseridos é feita de forma semelhante à utilizada na Api, com a diferença que na aplicação web é usada uma cookie para manter o utilizador autenticado nos pedidos subsequentes. Para isso são usadas funcionalidades do modo de autenticação *forms* da *framework* ASP.NET. 
 
-As classes que expõem as funcionalidades necessárias são a classe *FormsAuthentication*, usada para gerir o *cookie* de autenticação[^cookie], e o módulo *FormsAuthenticationModule* para manter o utilizador autenticado. 
+As classes que expõem as funcionalidades necessárias são a classe `FormsAuthentication`, usada para gerir o *cookie* de autenticação[^cookie], e o módulo `FormsAuthenticationModule` para manter o utilizador autenticado. 
 
-[^cookie]: A cookie usada tem o nome *.tw_auth*
+[^cookie]: A cookie usada tem o nome `.tw_auth`
 
 Além da autenticação por utilizador e password, é possível que o utilizador faça o registo e autenticação através da utilização de um provider OpenID \cite{OpenID}, sendo que apenas é suportado o provider OpenID da Google.
 
-Depois de validar os dados do utilizador com sucesso a cookie é colocada na resposta usando a classe *FormsAuthentication*.
+Depois de validar os dados do utilizador com sucesso a cookie é colocada na resposta usando a classe `FormsAuthentication`.
 A cookie tem como valor o identificador da instância de *Person* que foi obtida da base de dados no processo de autenticação. 
 
-O utilizador mantém a identidade dos pedidos anteriores pois o módulo *FormsAuthenticationModule*, em cada pedido, coloca o valor da *cookie* na propriedade *User* do pedido. A acção do módulo é complementada pelo filtro *FormsAuthenticationAttribute* que substitui o *IIdentity* do pedido por um *PersonIdentity* que disponibiliza a entidade *Person* do utilizador autenticado ao código executado nas *actions*.
+O utilizador mantém a identidade dos pedidos anteriores pois o módulo `FormsAuthenticationModule`, em cada pedido, coloca o valor da *cookie* na propriedade `User` do pedido. A acção do módulo é complementada pelo filtro `FormsAuthenticationAttribute` que substitui o `IIdentity` do pedido por um `PersonIdentity` que disponibiliza a entidade `Person` do utilizador autenticado ao código executado nas *actions*.
 
 
 Ferramentas externas

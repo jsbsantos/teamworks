@@ -19,7 +19,7 @@ namespace Teamworks.Web.Controllers.Api
 {
     [SecureProject("projects/view")]
     [RoutePrefix("api/projects/{projectId}")]
-    public class DiscussionsController : RavenApiController
+    public class DiscussionsController : AppApiController
     {
         [GET("discussions")]
         [GET("activities/{activityId}/discussions", RouteName = "api_discussions_getactivities")]

@@ -45,7 +45,7 @@ Na figura \ref{fig:russiandoll} estão representados os elementos adicionados ao
 
 ***Filters***
 
-para a implementação da Api foram criados os seguintes filtros: `MappingExceptionFilterAttribute`, `ModelStateFilterAttribute`, `SecureForFilterAttribute` e `RavenSessionFilterAttribute`
+para a implementação da Api foram criados os seguintes filtros: `MappingExceptionFilterAttribute`, `ModelStateFilterAttribute`, `SecureAttribute` e `RavenSessionFilterAttribute`
 
 O `ExceptionAttribute` deriva de `ExceptionFilterAttribute `, um tipo especifico de `ActionFilterAttribute`, e para além de redefinir o método `OnException` tem uma propriedade `Mappings` que relaciona um tipo com uma regra(`Rule`). A regra define o código associado à excepção e se no corpo da resposta é incluida a mensagem da excepção.
 
@@ -61,9 +61,14 @@ A excepção `ReadVetoException` é lançada quando o utilizador não tem acesso
 O filtro `ModelStateFilterAttribute` extende `ActionFilterAttribute` e redefine o método `OnActionExecuting`. Este método é chamado depois de ser feito o *model binding* e antes de ser chamada a *action* para processar o pedido. 
 O filtro verifica o resultado do *model binding* e se contiver erros lança uma excepção HTTP com o código `400 Bad Request` no corpo com a informação dos campos inválidos. Este comportamento tem a vantagem de verificar erros de forma global e antes de ser chamada a *action*. 
 
-#todo
+Para aplicar as regras de autorização disponibilizadas pelo *authorization bundle* é chamado o método `SecureFor` sobre a sessão passando como parametro a identificação do utilizador e a operação a efectuar.
+A aplicação destas regras é feita pelo filtro `SecureAttribute` que tem como parametro a operação e utiliza a identificação do utilizador autenticado. 
 
-O filtro `RavenSessionFilterAttribute` funciona em conjunto com o *message handler* apresentado anteriormente, implementado na classe `RavenSession`. 
+Uma das funcionalidades da infraestrutura é que para aceder às actividades,  discussões, assim como todos os elementos associados ao projecto é necessário o utilizador ter acesso ao projecto.
+
+O filtro `SecureProjectAttribute` extende as funcionalidades do filtro enunciado anteriormente e lança a excepção `ReadVetoException` caso o utilizador currente não possa aceder ao projecto presente nos dados da route.
+
+O filtro `RavenSessionFilterAttribute` funciona em conjunto com o *message handler* implementado na classe `RavenSession`, apresentado anteriormente. 
 Este filtro redefine o método exectutado antes se ser chamada a *action* e injecta no *controller* a sessão `Raven` presente nas propriedades do pedido. 
 A propriedade afectada com o valor da sessão é qualquer uma que tenha como valor de retorno `IDocumentSession`.
 
@@ -72,5 +77,5 @@ A propriedade afectada com o valor da sessão é qualquer uma que tenha como val
 
 Para abstrair as *actions* da obtenção da sessão foi criada a classe `RavenApiController` que disponibiliza a propriedade `DbSession`, que retorna uma sessão para acesso à base de dados.
 
-----
+
 

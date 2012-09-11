@@ -9,7 +9,7 @@ using Teamworks.Web.ViewModels.Api;
 namespace Teamworks.Web.Controllers.Api
 {
     [RoutePrefix("api")]
-    public class HomeController : RavenApiController
+    public class HomeController : AppApiController
     {
         [GET("people")]
         public IEnumerable<PersonViewModel> Get(string q)

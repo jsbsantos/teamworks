@@ -16,7 +16,7 @@ namespace Teamworks.Web.Controllers.Api
 {
     [AllowAnonymous]
     [RoutePrefix("api/mailgun")]
-    public class MailgunController : RavenApiController
+    public class MailgunController : AppApiController
     {
         [POST("teste")]
         public HttpResponseMessage PostAll([ModelBinder(typeof (MailgunModelBinderProvider))] Mailgun model)

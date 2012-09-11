@@ -18,7 +18,7 @@ namespace Teamworks.Web.Controllers.Api
     [DefaultHttpRouteConvention]
     [SecureProject("projects/view")]
     [RoutePrefix("api/projects/{projectId}/activities/{activityId}/timelogs")]
-    public class TimelogsController : RavenApiController
+    public class TimelogsController : AppApiController
     {
         [NonAction]
         private Activity GetActivity(int projectId, int activityId)
