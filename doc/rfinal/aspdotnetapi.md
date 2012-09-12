@@ -1,15 +1,15 @@
-O processamento de um pedido na *framework* ASP.NET Web Api pode ser dividido em três camadas \ref{pfelix}. 
+O processamento de um pedido na *framework* ASP.NET Web Api é feito em três camadas \ref{pfelix}. 
 
 ***Hosting***
 
-A primeira, a camada de *hosting*, recebe o pedido, cria uma instância de `HttpRequestMessage` e passa a instância á camada superior. 
+A primeira é a camada de *hosting* que recebe o pedido, cria uma instância de `HttpRequestMessage` e passa a instância á camada superior. 
 Esta camada é também responsável por receber a instância de `HttpResponseMessage` retornada pela camada seguinte. 
 
 ***Message handler pipeline***
 
-Depois da camada de *hosting* a instância de `HttpRequestMessage` é passada ao *message handler pipeline*, a segunda camada. 
-Todos os *message handler* do *pipeline* derivam da classe `HttpMessageHandler` e o primeiro é do tipo `HttpServer`.
-O *pipeline* permite adicionar *message handlers* para processar a mensagem presente no *pipeline* sendo que estes têm de estender `DelegatingHandler` (que deriva de `HttpMessageHandler`). 
+
+A segunda camada é a *message handler pipeline*, que recebe a instância de `HttpRequestMessage` criada na camada de *hosting*. Todos os *message handler* do *pipeline* derivam da classe `HttpMessageHandler`, sendo que o primeiro que é do tipo `HttpServer`.
+O *pipeline* permite adicionar *message handlers*, para processar a mensagem presente no *pipeline*, que têm de estender `DelegatingHandler` (que deriva de `HttpMessageHandler`). 
 A classe `DelegatingHandler` usa o padrão *delegator* [^delegator], sendo que cada instância adicionada passa para a instância seguinte a mensagem criando uma cadeia de processamento sequencial. 
 No final do *pipeline* a mensagem é passada a uma instância do tipo `HttpControllerDispatcher` que, utilizando a tabela de *routing*, obtém e chama o *controller*. 
 

@@ -33,7 +33,7 @@ A aplicação web *LiquidPlanner* oferece as funcionalidades das anteriores e ai
 Solução Teamworks
 -
 
-A solução *Teamworks* é composta por uma aplicação web e por uma web Api. A Api expõe todas as funcionalidades da infra-estrutura permitindo o seu acesso através de diversos clientes (e.g. browser, aplicações móveis, aplicações desktop).
+A solução *Teamworks* é composta por uma aplicação web e por uma web Api. A Api expõe todas os recursos da infra-estrutura permitindo o seu acesso através de diversos clientes (e.g. browser, aplicações móveis, aplicações desktop).
 A aplicação web tem uma interface simples com o objectivo de minimizar o tempo utilizado na plataforma.
 
 As funcionalidades disponibilizadas permitem a gestão de projectos e pessoas. 

@@ -67,9 +67,6 @@
 \bibitem{mailgun} Mailgun Inc, Mailgun [Online - acedido a 27 de Julho de 2012],
 \url{http://www.mailgun.com/}
 
-\bibitem{mailgunroute} Mailgun Inc, Mailgun [Online - acedido a 27 de Julho de 2012],
-\url{http://www.mailgun.com/}
-
 \bibitem{mapreduce} Google Code University, What is MapReduce? [Online - acedido a 27 de Julho de 2012],
 \url{http://code.google.com/edu/parallel/mapreduce-tutorial.html#MapReduce}
 
