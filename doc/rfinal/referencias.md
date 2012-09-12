@@ -40,6 +40,9 @@
 \bibitem{bootstrap} Twitter, Twitter Bootstrap [Online - acedido a 15 de Junho de 2012]
 \url{http://twitter.github.com/bootstrap/}
 
+\bibitem{dotnetopenauth} DotNetOpenAuth, DotNetOpenAuth [Online - acedido a 24 de Julho de 2012],
+\url{http://www.dotnetopenauth.net/}
+
 \bibitem{dropacid} Todd Hoff, Drop ACID and think about data [Online - acedido a 15 de Junho de 2012],
 \url{http://highscalability.com/drop-acid-and-think-about-data}
 
@@ -54,6 +57,21 @@
 
 \bibitem{ibmdocumentdb} IBM, Differences between a document-oriented and a relational database [Online - acedido a 15 de Junho de 2012],
 \url{http://www.ibm.com/developerworks/opensource/library/os-couchdb/index.html#N10062}
+
+\bibitem{openid} OpenID, OpenID [Online - acedido a 27 de Julho de 2012],
+\url{http://openid.net}
+
+\bibitem{openidattributeexchange} OpenID Attribute Exchange, OpenID Attribute Exchange 1.0 - Final [Online - acedido a 12 de Setembro de 2012],
+\url{http://openid.net/specs/openid-attribute-exchange-1_0.html}
+
+\bibitem{mailgun} Mailgun Inc, Mailgun [Online - acedido a 27 de Julho de 2012],
+\url{http://www.mailgun.com/}
+
+\bibitem{mailgunroute} Mailgun Inc, Mailgun [Online - acedido a 27 de Julho de 2012],
+\url{http://www.mailgun.com/}
+
+\bibitem{mapreduce} Google Code University, What is MapReduce? [Online - acedido a 27 de Julho de 2012],
+\url{http://code.google.com/edu/parallel/mapreduce-tutorial.html#MapReduce}
 
 \end{thebibliography}
 \addcontentsline{toc}{section}{Referências}
