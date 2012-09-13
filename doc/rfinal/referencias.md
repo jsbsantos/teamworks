@@ -9,8 +9,14 @@
 \bibitem{freckle} Slash7, Freckle [Online - acedido a 6 de Junho de 2012]
 \url{http://letsfreckle.com/}
 
+\bibitem{trello} Trello, Trello [Online - acedido a 6 de Junho de 2012]
+\url{http://trello.com/}
+
 \bibitem{liquidplanner} LiquidPlanner, LiquidPlanner [Online - acedido a 6 de Junho de 2012]
 \url{http://www.liquidplanner.com/}
+
+\bibitem{lucidchart} Lucid Software Inc, Lucidchart [Online - acedido a 6 de Junho de 2012],
+\url{https://www.lucidchart.com/}
 
 \bibitem{domaindrivendesign} Eric Evans, \emph{Domain-Driven Design: Tackling Complexity in the Heart of Software},  Addison-Wesley, 2011
 
@@ -42,6 +48,9 @@
 
 \bibitem{dotnetopenauth} DotNetOpenAuth, DotNetOpenAuth [Online - acedido a 24 de Julho de 2012],
 \url{http://www.dotnetopenauth.net/}
+
+\bibitem{attributerouting} Tim McCall, AttributeRouting [Online - acedido a 24 de Julho de 2012],
+\url{https://github.com/mccalltd/AttributeRouting}
 
 \bibitem{dropacid} Todd Hoff, Drop ACID and think about data [Online - acedido a 15 de Junho de 2012],
 \url{http://highscalability.com/drop-acid-and-think-about-data}

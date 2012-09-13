@@ -91,7 +91,7 @@ No RavenDB esta opção é suportada pelo método `Include` que recebe os identi
 
 A desnormalização de um documento consiste em extrair as informações relevantes, de outros documentos, e replicá-las no documento a persistir.
 
-A figura \ref{fig:desnormalização} mostra um exemplo de desnormalização. O documento Projecto guarda para além do identificar dos utilizadores que lhe estão associados o seu Nome. Numa situação em que seja necessário apenas o Nome dos utilizadores associados essa informação já está no documento.
+A figura \ref{fig:desnormalizacao} mostra um exemplo de desnormalização. O documento Projecto guarda para além do identificar dos utilizadores que lhe estão associados o seu Nome. Numa situação em que seja necessário apenas o Nome dos utilizadores associados essa informação já está no documento.
 
 ![Exemplo de desnormalização de informação\label{fig:desnormalizacao}](http://www.lucidchart.com/publicSegments/view/4fd722d2-6770-4fe6-951d-51600a5705ae/image.png)
 

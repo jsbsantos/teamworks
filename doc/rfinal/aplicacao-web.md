@@ -74,7 +74,7 @@ As classes que expõem as funcionalidades necessárias são a classe `FormsAuthe
 
 [^cookie]: A *cookie* usada tem o nome `.tw_auth`
 
-Além da autenticação por utilizador e password, é possível que o utilizador faça o registo e autenticação através da utilização de um *provider OpenID* \cite{OpenID}, sendo que apenas é suportado o provider *OpenID* da *Google*.
+Além da autenticação por utilizador e password, é possível que o utilizador faça o registo e autenticação através da utilização de um *provider OpenID* \cite{openid}, sendo que apenas é suportado o provider *OpenID* da *Google*.
 
 Depois de validar os dados do utilizador com sucesso a *cookie* é colocada na resposta usando a classe `FormsAuthentication`.
 A *cookie* tem como valor o identificador da instância de *Person* que foi obtida da base de dados no processo de autenticação. 

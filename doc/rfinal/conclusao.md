@@ -27,7 +27,7 @@ Esta situação também se verificou com o *Mailgun*, sendo que no caso deste no
 
 Para alojar a aplicação web decidiu usar-se a plataforma *AppHarbor* que suporta a disponibilização de aplicações web, tendo por base o código presente em repositórios *git*. Para automatizar este processo foi configurado um *hook* no *GitHub* que desencadeia o processo de compilação do código e execução dos testes unitários da solução no *AppHarbor*. Se o resultado for positivo é criada uma versão da aplicação web passível de ser disponibilizada.
 
-Para elaboração das figuras usadas na documentação deste projecto foram feitas usando a aplicação web *LucidCharts* \cite{lucidcharts}. Uma vez que este é um produto pago, contactamos os seus responsáveis no sentido de nos cederem uma licença, para uso durante o desenvolvimento do projecto, ao que eles acederam.
+Para elaboração das figuras usadas na documentação deste projecto foram feitas usando a aplicação web *LucidChart* \cite{lucidchart}. Uma vez que este é um produto pago, contactamos os seus responsáveis no sentido de nos cederem uma licença, para uso durante o desenvolvimento do projecto, ao que eles acederam.
 
 Durante os desenvolvimento do projecto foram encontrados erros nos componentes utilizados, o que condicionou a sua utilização. Um dos erros detectados estava relacionado com a implementação do *bundle* de autorização disponibilizado pelo *RavenDB*[^ravendberro]. Este erro revelou-se impeditivo para a continuação dos desenvolvimentos da componente de autorização até à disponibilização de uma correcção por parte do fornecedor.
 
