@@ -13,6 +13,6 @@ namespace Teamworks.Web.ViewModels.Api
         [Required]
         public string Description { get; set; }
 
-        public IList<Todo> Todos { get; set; }
+        public IList<TodoViewModel> Todos { get; set; }
     }
 }

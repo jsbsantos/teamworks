@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Teamworks.Web.ViewModels.Api
 {
-    public class Todo
+    public class TodoViewModel
     {
         public int Id { get; set; }
 

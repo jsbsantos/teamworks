@@ -103,7 +103,7 @@
     <Compile Include="Helpers\AutoMapper\Profiles\PersonViewModelMapperProfile.cs" />
     <Compile Include="Helpers\AutoMapper\Profiles\ProjectViewModelMapperProfile.cs" />
     <Compile Include="Helpers\Utils.cs" />
-    <Compile Include="ViewModels\Api\Todo.cs" />
+    <Compile Include="ViewModels\Api\TodoViewModel.cs" />
     <Compile Include="ViewModels\Api\TodoList.cs" />
     <Compile Include="Controllers\Api\ProjectsController.cs" />
     <Compile Include="Controllers\Api\TimelogsController.cs">
