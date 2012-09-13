@@ -10,7 +10,7 @@ namespace Teamworks.Web.Controllers.Api
     public class TodoController : AppApiController
     {
         /*
-        public IEnumerable<Todo> Get(int id, int projectid, int activityid)
+        public IEnumerable<TodoViewModel> Get(int id, int projectid, int activityid)
         {
             var project = DbSession
                             .Include<Core.ProjectViewModel>(p => p.Activities)
@@ -26,10 +26,10 @@ namespace Teamworks.Web.Controllers.Api
             if (list == null)
                 Request.NotFound();
 
-            return Mapper.Map<IEnumerable<Core.Todo>, IEnumerable<Todo>>(list.Todos);
+            return Mapper.Map<IEnumerable<Core.TodoViewModel>, IEnumerable<TodoViewModel>>(list.Todos);
         }
 
-        public Todo Get(int id, int projectid, int activityid, int listid)
+        public TodoViewModel Get(int id, int projectid, int activityid, int listid)
         {
             var project = DbSession
                             .Include<Core.ProjectViewModel>(p => p.Activities)
@@ -42,10 +42,10 @@ namespace Teamworks.Web.Controllers.Api
             var activity = DbSession.Load<Core.ActivityViewModel>(activityid);
 
             var list = activity.Todos.Single(p => p.Id == listid);
-            return Mapper.Map<Core.Todo, Todo>(list.Todos.Single(t => t.Id == id));
+            return Mapper.Map<Core.TodoViewModel, TodoViewModel>(list.Todos.Single(t => t.Id == id));
         }
 
-        public HttpResponseMessage Post(int projectid, int activityid, int listid, Todo model)
+        public HttpResponseMessage Post(int projectid, int activityid, int listid, TodoViewModel model)
         {
             var project = DbSession
                             .Include<Core.ProjectViewModel>(p => p.Activities)
@@ -59,7 +59,7 @@ namespace Teamworks.Web.Controllers.Api
 
             var list = activity.Todos.Single(p => p.Id == listid);
 
-            var todo = Core.Todo.Forge(model.Name, model.Description, model.DueDate);
+            var todo = Core.TodoViewModel.Forge(model.Name, model.Description, model.DueDate);
             todo.Id = list.GenerateNewTodoId();
             list.Todos.Add(todo);
             DbSession.SaveChanges();
@@ -68,7 +68,7 @@ namespace Teamworks.Web.Controllers.Api
         
         //Não reconhece o PUT sem attr; porquê?
         [PUT("")]
-        public HttpResponseMessage Put(int projectid, int activityid, int listid, Todo model)
+        public HttpResponseMessage Put(int projectid, int activityid, int listid, TodoViewModel model)
         {
             var project = DbSession
                             .Include<Core.ProjectViewModel>(p => p.Activities)
