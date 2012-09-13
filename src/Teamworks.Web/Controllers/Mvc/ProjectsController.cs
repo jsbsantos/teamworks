@@ -221,17 +221,19 @@ namespace Teamworks.Web.Controllers.Mvc
                     ActivitiesDuration>()
                 .Where(a => a.Project == project.Id)
                 .OrderBy(a => a.Filter)
-                .ToList(); 
+                .ToList();
 
-            var dtmin = activitySummary.Min(a => a.StartDateConsecutive);
-            activitySummary.ForEach(x =>
-                {
-                    x.AccumulatedTime = x.StartDateConsecutive.Subtract(dtmin).TotalDays * 8;
-                    x.Duration /= 3600;
-                    x.TimeUsed /= 3600;
-                });
+            if (activitySummary.Count > 0)
+            {
+                var dtmin = activitySummary.Min(a => a.StartDateConsecutive);
+                activitySummary.ForEach(x =>
+                    {
+                        x.AccumulatedTime = x.StartDateConsecutive.Subtract(dtmin).TotalDays*8;
+                        x.Duration /= 3600;
+                        x.TimeUsed /= 3600;
+                    });
 
-
+            }
             var viewmodel = project.MapTo<ProjectWithStatisticsViewModel>();
             viewmodel.ActivitySummary = activitySummary;
 
