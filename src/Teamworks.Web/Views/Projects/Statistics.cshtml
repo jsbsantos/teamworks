@@ -125,78 +125,7 @@
                     </div>
 
                 </div>
-                <div class="tab-pane" id="tab-byperson">
-                    <div class="lead">Statistics by Person</div>
-                    <p class="tc well hide" data-bind="css: { hide: timelogs.timelogs().length }">
-                        This project has no time logged.
-                    </p>
-                    <div class="hide" data-bind="css: { hide: timelogs.timelogs().length == 0 }">
-                        <table class="table table-striped table-bordered table-condensed hide" data-bind="css: { hide: !timelogs.timelogs().length }">
-                            <thead>
-                                <tr>
-                                    <th>Activity</th>
-                                    <th>Start Date</th>
-                                    <th>Duration</th>
-                                    <th>Logged Time</th>
-                                    <th>Progress</th>
-                                    <th>Est. End Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @*<!--ko template: { name: 'activity-template', foreach: activitySummary } -->
-                                <!--/ko -->
-                                <tr>
-                                    <td>
-                                        <strong>Total</strong>
-                                    </td>
-                                    <td>
-                                        <strong><span data-bind="text: startDate.formatted"></span></strong>
-                                    </td>
-                                    <td>
-                                        <strong><span data-bind="text: totalEstimatedTime.duration"></span></strong>
-                                    </td>
-                                    <td>
-                                        <strong><span data-bind="text: totalTimeLogged.duration"></span></strong>
-                                    </td>
-                                    <td>
-                                        <strong><span data-bind="text: progress"></span></strong>
-                                    </td>
-                                    <td>
-                                        <strong><span data-bind="text: endDate.formatted"></span></strong>
-                                    </td>
-                                </tr>*@
-                            </tbody>
-                        </table>
-
-                        <small>Note: One work day is considered to have 8 hours.</small>
-
-                        @*<script type="text/html" id="people-template">
-                                
-                            <tr>
-                                <td>
-                                    <strong data-bind="text: name"></strong>
-                                </td>
-                                <td>
-                                    <span data-bind="text: startDate.formatted"></span>
-                                </td>
-                                <td>
-                                    <span data-bind="text: _duration.duration"></span>
-                                </td>
-                                <td>
-                                    <span data-bind="text: _logged.duration"></span>
-                                </td>
-                                <td>
-                                    <span data-bind="text: _progress"></span>
-                                </td>
-                                <td>
-                                    <span data-bind="text: _endDate.formatted"></span>
-                                </td>
-                            </tr>
-
-                        </script>*@
-                    </div>
-
-                </div>
+                
             </div>
         </section>
     </div>

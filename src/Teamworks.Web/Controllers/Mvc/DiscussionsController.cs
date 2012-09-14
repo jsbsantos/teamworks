@@ -25,7 +25,9 @@ namespace Teamworks.Web.Controllers.Mvc
         [GET("activities/{activityId}/discussions", RouteName = "discussions_activitiesget")]
         public ActionResult Get(int projectid, int? activityId)
         {
-            throw new HttpResponseException(HttpStatusCode.NotFound);
+            if (activityId.HasValue)
+                return RedirectToAction("Details", "Activities");
+            return RedirectToAction("Details", "Projects");
         }
 
         [GET("discussions/{discussionId}")]

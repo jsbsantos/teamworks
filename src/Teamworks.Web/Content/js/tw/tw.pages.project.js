@@ -68,22 +68,28 @@
         self = ko.mapping.fromJS(json || [], mapping);
 
         self._update = function() {
-            $.ajax('edit',
+            self.updating(true);
+            $.ajax(tw.utils.location + '/edit',
                 {
                     type: 'post',
                     data: ko.toJSON({ id: self.id, name: self.name, description: self.description })
                 }
             ).fail(errorCallback)
                 .always(function() {
-                    $('#editProjectModal').modal('hide');
+                    //self.updating(false);
+                    // $('#editProjectModal').modal('hide');
                 });
         };
+        self.updating = ko.observable(false);
 
         self._discardChanges = function() {
             self.name(json.name);
             self.description(json.description);
         };
 
+        /***************************************
+        *               Activities             *
+        ****************************************/
         var now = function() { return tw.utils.now().toISOString(); };
         self.activities.input = {
             name: ko.observable().extend({ required: "Activity name." }),
@@ -91,18 +97,21 @@
             duration: ko.observable().extend({ required: "Activity estimates duration.", duration: "" }),
             startDate: ko.observable(now()).extend({
                 isoDate: 'dd/MM/yyyy'
-            })
+            }),
+            updating: ko.observable(false)
         };
         self.activities.input.reset = function() {
             self.activities.input.name("");
             self.activities.input.description("");
             self.activities.input.duration(0);
             self.activities.input.startDate(now());
+            self.activities.input.updating(false);
         };
 
         self.activities.editing = ko.observable();
 
         self.activities._create = function() {
+            self.activities.input.updating(true);
             $.ajax(tw.utils.location + '/activities/',
                 {
                     type: 'post',
@@ -110,25 +119,31 @@
                 }
             ).done(function(data) {
                 self.activities.mappedCreate(data);
-                self.activities.input.reset();
             }).fail(errorCallback)
                 .always(function() {
                     $('#addActivityModal').modal('hide');
+                    self.activities.input.reset();
                 });
         };
 
+        /***************************************
+        *               Discussions            *
+        ****************************************/
         self.discussions.input = {
             name: ko.observable().extend({ required: "Discussion title." }),
-            content: ko.observable().extend({ required: "Discussion message." })
+            content: ko.observable().extend({ required: "Discussion message." }),
+            updating: ko.observable(false)
         };
         self.discussions.input.reset = function() {
             self.discussions.input.name("");
             self.discussions.input.content("");
+            self.discussions.input.updating(false);
         };
 
         self.discussions.editing = ko.observable();
 
         self.discussions._create = function() {
+            self.discussions.input.updating(true);
             $.ajax(tw.utils.location + '/discussions/',
                 {
                     type: 'post',
@@ -136,14 +151,17 @@
                 }
             ).done(function(data) {
                 self.discussions.mappedCreate(data);
-                self.discussions.input.reset();
             }).fail(errorCallback)
                 .always(function() {
                     $('#addDiscussionModal').modal('hide');
+                    self.discussions.input.reset();
                 });
             ;
         };
 
+        /***************************************
+        *               People                 *
+        ****************************************/
         self.people._add = function() {
             var email = self.people.input();
             $.ajax({
@@ -159,6 +177,9 @@
         self.people.input = ko.observable();
         self.people.editing = ko.observable();
 
+        /***************************************
+        *               Typeahead              *
+        ****************************************/
         self.people.typeahead = function(typeahead) {
             var data = { };
             var endpoint = '/people';
@@ -222,6 +243,9 @@
             });
         };
 
+        /***************************************
+        *               Timelogs               *
+        ****************************************/
         self.timelogs = new tw.pages.RegisterTimelogsViewModel({ }, json.timelogs);
 
         self.timelogs.filter.clear = function() {

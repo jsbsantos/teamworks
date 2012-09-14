@@ -157,7 +157,7 @@
     <form class="form-horizontal"  data-bind="submit: _update">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3>Add Activity</h3>
+            <h3>Edit Activity</h3>
         </div>
         <div class="modal-body">
             <div class="control-group">
@@ -191,8 +191,11 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary">Save</button>
-            <button class="btn" data-dismiss="modal" aria-hidden="true" >Close</button>
+            <button class="btn btn-primary" data-bind="disable: updating, css:{hide: updating}">Save</button>
+            <button class="btn pull-right" data-dismiss="modal" aria-hidden="true" data-bind="click: discardChanges">Close</button>
+            <div class="btn-sized slim pull-right progress progress-striped active input-small hide" data-bind="css: { hide: !updating() }">
+                <div class="bar pull-right" style="width: 100%; height: 100%;"></div>
+            </div>
         </div>
     </form>
 </div>
@@ -218,8 +221,11 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary">Save</button>
-            <button class="btn" data-dismiss="modal" aria-hidden="true" data-bind="click: discussions.input.reset">Close</button>
+            <button class="btn btn-primary" data-bind="disable: discussions.input.updating, css:{hide: discussions.input.updating}">Save</button>
+            <button class="btn pull-right" data-dismiss="modal" aria-hidden="true" data-bind="click: discussions.input.reset">Close</button>
+            <div class="btn-sized slim pull-right progress progress-striped active input-small hide" data-bind="css: { hide: !discussions.input.updating() }">
+                <div class="bar pull-right" style="width: 100%; height: 100%;"></div>
+            </div>
         </div>
     </form>
 </div>
@@ -245,8 +251,11 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary">Save</button>
-            <button class="btn" data-dismiss="modal" aria-hidden="true" data-bind="click: todos.input.reset">Close</button>
+            <button class="btn btn-primary" data-bind="disable: todos.input.updating, css:{hide: todos.input.updating}">Save</button>
+            <button class="btn pull-right" data-dismiss="modal" aria-hidden="true" data-bind="click: todos.input.reset">Close</button>
+            <div class="btn-sized slim pull-right progress progress-striped active input-small hide" data-bind="css: { hide: !todos.input.updating() }">
+                <div class="bar pull-right" style="width: 100%; height: 100%;"></div>
+            </div>
         </div>
     </form>
 </div>

@@ -131,26 +131,29 @@
         ****************************************/
         self.discussions.input = {
             name: ko.observable().extend({ required: "Discussion title." }),
-            content: ko.observable().extend({ required: "Discussion message." })
+            content: ko.observable().extend({ required: "Discussion message." }),
+            updating: ko.observable(false)
         };
 
         self.discussions.input.reset = function () {
             self.discussions.input.name("");
             self.discussions.input.content("");
+            self.discussions.input.updating(false);
         };
 
         self.discussions.editing = ko.observable(false);
         self.discussions._create = function () {
+            self.discussions.input.updating(true);
             $.ajax({
                 type: 'post',
                 url: tw.utils.location + '/discussions',
                 data: ko.toJSON(self.discussions.input)
             }).done(function (data) {
                 self.discussions.mappedCreate(data);
-                self.discussions.input.reset();
             }).fail(errorCallback)
                 .always(function () {
                     $('#addDiscussionModal').modal('hide');
+                    self.discussions.input.reset();
                 });
         };
 
@@ -159,26 +162,29 @@
         ****************************************/
         self.todos.input = {
             name: ko.observable().extend({ required: "Todo Name." }),
-            description: ko.observable().extend({ required: "Todo Description." })
+            description: ko.observable().extend({ required: "Todo Description." }),
+            updating: ko.observable(false)
         };
 
         self.todos.input.reset = function () {
             self.todos.input.name("");
             self.todos.input.description("");
+            self.todos.input.updating(false);
         };
 
         self.todos.editing = ko.observable(false);
         self.todos._create = function () {
+            self.todos.input.updating(true);
             $.ajax({
                 type: 'post',
                 url: tw.utils.location + '/todos',
                 data: ko.toJSON(self.todos.input)
             }).done(function (data) {
                 self.todos.mappedCreate(data);
-                self.todos.input.reset();
             }).fail(errorCallback)
                 .always(function () {
                     $('#addTodoModal').modal('hide');
+                    self.todos.input.reset();
                 });
         };
 
@@ -197,15 +203,17 @@
         };
 
         /***************************************
-        *               Dependecies            *
+        *            Self/Dependecies          *
         ****************************************/
         self.discardChanges = function () {
             ko.mapping.fromJS(json.dependencies, self);
         };
         self.editing_dependencies = ko.observable(false);
+        self.updating = ko.observable(false);
         self.dependenciesChanged = ko.observable(false);
         self._update = function () {
-            $.ajax(tw.utils.location.substring(0, tw.utils.location.lastIndexOf("/")) + '/edit',
+           self.updating(true);
+           $.ajax(tw.utils.location + '/edit',
                 {
                     type: 'post',
                     data: ko.toJSON({
@@ -224,6 +232,7 @@
                 errorCallback(errorThrown);
             }).always(function () {
                 self.dependenciesChanged(false);
+                self.updating(false);
                 $('#editActivityModal').modal('hide');
             });
         };

@@ -141,7 +141,7 @@ namespace Teamworks.Web.Controllers.Mvc
             return RedirectToRoute("projects_get");
         }
 
-        [POST("edit")]
+        [POST("{projectId}/edit")]
         public ActionResult Put(ProjectsViewModel.Input model)
         {
             if (!ModelState.IsValid)
@@ -232,7 +232,6 @@ namespace Teamworks.Web.Controllers.Mvc
                         x.Duration /= 3600;
                         x.TimeUsed /= 3600;
                     });
-
             }
             var viewmodel = project.MapTo<ProjectWithStatisticsViewModel>();
             viewmodel.ActivitySummary = activitySummary;
@@ -290,7 +289,11 @@ namespace Teamworks.Web.Controllers.Mvc
                     while (act.Dependencies != null)
                     {
                         act =
-                            activitySummary.Where(x => x.Id.In(act.Dependencies)).OrderByDescending(y => Math.Max(act.Duration, act.TimeUsed)).
+                            activitySummary.Where(x => x.Id.In(act.Dependencies)).OrderByDescending(y =>
+                                {
+                                    var d = Math.Max(y.Duration, y.TimeUsed);
+                                    return y.StartDate.AddDays(Math.Floor(d/8.0));
+                                }).
                                 First();
                         dtemp += Math.Max(act.Duration, act.TimeUsed);
                     }

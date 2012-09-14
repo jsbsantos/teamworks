@@ -17,7 +17,7 @@ namespace Teamworks.Core
             return new Todo
             {
                 Name = name,
-                Description = description,
+                Description = description ?? "",
                 DueDate = dueDate,
                 Completed = false
             };

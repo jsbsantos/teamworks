@@ -25,6 +25,12 @@ namespace Teamworks.Web.Controllers.Mvc
     [RoutePrefix("projects/{projectId}/activities")]
     public class ActivitiesController : AppController
     {
+        [GET("{activityId}/discussions")]
+        public ActionResult BreadcrumbRedirect(int projectId, int activityId)
+        {
+            return RedirectToAction("Details", new { projectId, activityId });
+        }
+        
         [GET("{activityId}")]
         public ActionResult Details(int projectId, int activityId)
         {
@@ -91,10 +97,10 @@ namespace Teamworks.Web.Controllers.Mvc
             return View(vm);
         }
 
-        [POST("edit")]
-        public ActionResult Update(int projectId, ActivityViewModel.Input model)
+        [POST("{activityId}/edit")]
+        public ActionResult Update(int projectId, int activityId, ActivityViewModel.Input model)
         {
-            var activity = DbSession.Load<Activity>(model.Id);
+            var activity = DbSession.Load<Activity>(activityId);
             if (activity == null || activity.Project.ToIdentifier() == projectId)
                 HttpNotFound();
             model.Dependencies = model.Dependencies ?? new List<int>();

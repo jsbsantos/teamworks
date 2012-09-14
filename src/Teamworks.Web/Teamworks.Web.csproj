@@ -202,7 +202,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Discussions\Details.cshtml" />
-    <Content Include="Views\Discussions\View.cshtml" />
     <Content Include="Views\Projects\Details.cshtml" />
     <Content Include="Views\Shared\Partial\Anonymous.cshtml" />
     <Content Include="Views\Shared\Partial\Authenticated.cshtml" />

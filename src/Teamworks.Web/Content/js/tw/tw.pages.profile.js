@@ -16,14 +16,14 @@
             $.ajax('edit',
                         {
                             data: ko.mapping.toJSON(self),
-                            type: 'post',
-                            statusCode: {
-                                200: /*ok*/function (data) {
-                                    ko.mapping.fromJS(data, self);
-                                    self.editing(false);
-                                }
-                            }
-                        });
+                            type: 'post'
+                            })
+            .done(function(data) {
+                ko.mapping.fromJS(data, self);
+                self.editing(false);
+            }).always(function() {
+                
+            });
         };
         return self;
     };

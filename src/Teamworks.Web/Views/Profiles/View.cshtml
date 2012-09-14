@@ -11,7 +11,7 @@
     <h1>
         @if (@Model.IsMyProfile)
         {
-            <a href="#editProfileModal"  role="button" data-toggle="modal"><i style="width: auto" class="icon-edit"></i></a>
+            <a href="#editProfileModal" role="button" data-toggle="modal"><i style="width: auto" class="icon-edit"></i></a>
         }
         <span data-bind="text: name" >@Model.Person.Name</span>
         <small>This is you</small>
@@ -73,35 +73,35 @@
             </div>
         </form>
     </div>
-    <div id="editProfileModal" role="button" class="modal hide fade" data-toggle="modal" tabindex="-1">
-        <form style="margin: 0" class="form-horizontal">
+    <div id="editProfileModal" role="dialog" class="modal hide fade">
+        <form style="margin: 0" class="form-horizontal" action="@Url.Action("Edit","Profiles")" method="POST">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h3>Edit Profile</h3>
             </div>
             <div class="modal-body">
                 <div class="control-group">
-                    <label class="control-label" for="inputName">Name</label>
+                    <label class="control-label" for="name">Name</label>
                     <div class="controls">
                         <input id="inputName" name="name" placeholder="Name" data-bind="value: name" autofocus="autofocus"/>
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label" for="inputUsername">Username</label>
+                    <label class="control-label" for="username">Username</label>
                     <div class="controls">
                         <input id="inputUsername" name="username" placeholder="Username" data-bind="value: username"/>
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label" for="inputEmail">Email</label>
+                    <label class="control-label" for="email">Email</label>
                     <div class="controls">
-                        <input id="inputEmail" name="emaill" placeholder="Email" data-bind="value: email"/>
+                        <input id="inputEmail" name="email" placeholder="Email" data-bind="value: email"/>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
+                <button class="btn btn-primary">Save</button>
                 <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-                <button class="btn btn-primary" type="submit">Save</button>
             </div>
         </form>
     </div>

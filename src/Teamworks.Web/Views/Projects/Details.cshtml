@@ -156,49 +156,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <div class="modal fade hide" id="editTimelogModal" tabindex="-1" role="dialog">
-                                <form class="form-horizontal"  data-bind="submit: timelogs.timelogs.editing._update">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                        <h3>Edit Timelog</h3>
-                                    </div>
-                                    <div class="modal-body"  data-bind="if: timelogs.timelogs.editing">
-                                        <div class="control-group">
-                                            <label class="control-label">Activity</label>
-                                            <div class="controls">
-                                                <input class="btn" type="text" name="name" disabled="disabled" placeholder="Activity" data-bind="value: timelogs.timelogs.editing().activity.name()"/>
-                                            </div>
-                                        </div>
-                                        <div class="control-group">
-                                            <label class="control-label">Duration</label>
-                                            <div class="controls">
-                                                <input name="duration" placeholder="Duration" data-bind="value: timelogs.timelogs.editing().duration.duration"/>
-                                            </div>
-                                        </div>
-                                        <div class="control-group">
-                                            <label class="control-label">Description</label>
-                                            <div class="controls">
-                                                <input name="description" placeholder="Description" data-bind="value: timelogs.timelogs.editing().description"/>
-                                            </div>
-                                        </div>
-                                        <div class="control-group">
-                                            <label class="control-label">Date</label>
-                                            <div class="controls ">
-                                                <div class="btn-group input-append">
-                                                    <input type="text" class="btn uneditable-input" disabled="disabled" placeholder="Date" data-bind="value: timelogs.timelogs.editing().date.formatted"/>
-                                                    <a class="add-on btn datepicker-right" data-bind="datepicker: timelogs.timelogs.editing().date.formatted" data-date-autoclose="true" data-date-format="dd/MM/yyyy" data-date-enddate="@DateTime.Today.ToString("dd/MM/yyyy")">
-                                                        <i class="icon-calendar"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer"  data-bind="if: timelogs.timelogs.editing">
-                                        <button class="btn btn-primary">Save</button>
-                                        <button class="btn" data-dismiss="modal" aria-hidden="true" data-bind="click: timelogs.discardChanges">Close</button>
-                                    </div>
-                                </form>
-                            </div>
+                            
                             <script type="text/html" id="dropdown-activity-template">
                                 <li>
                                     <a data-bind="text: name, click: function(){ $parent.timelogs.filter.activity($data); }"></a>
@@ -260,7 +218,52 @@
         <h2>Actions</h2>
     </div>
 </div>
-
+<div class="modal fade hide" id="editTimelogModal" tabindex="-1" role="dialog">
+    <form class="form-horizontal"  data-bind="submit: timelogs.timelogs.editing._update">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3>Edit Timelog</h3>
+        </div>
+        <div class="modal-body"  data-bind="if: timelogs.timelogs.editing">
+            <div class="control-group">
+                <label class="control-label">Activity</label>
+                <div class="controls">
+                    <input class="btn" type="text" name="name" disabled="disabled" placeholder="Activity" data-bind="value: timelogs.timelogs.editing().activity.name()"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Duration</label>
+                <div class="controls">
+                    <input name="duration" placeholder="Duration" data-bind="value: timelogs.timelogs.editing().duration.duration"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Description</label>
+                <div class="controls">
+                    <input name="description" placeholder="Description" data-bind="value: timelogs.timelogs.editing().description"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Date</label>
+                <div class="controls ">
+                    <div class="btn-group input-append">
+                        <input type="text" class="btn uneditable-input" disabled="disabled" placeholder="Date" data-bind="value: timelogs.timelogs.editing().date.formatted"/>
+                        <a class="add-on btn datepicker-right" data-bind="datepicker: timelogs.timelogs.editing().date.formatted" data-date-autoclose="true" data-date-format="dd/MM/yyyy" data-date-enddate="@DateTime.Today.ToString("dd/MM/yyyy")">
+                            <i class="icon-calendar"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer"  data-bind="if: timelogs.timelogs.editing">
+            <button class="btn btn-primary" data-bind="disable: timelogs.timelogs.input.updating, css:{hide: timelogs.timelogs.input.updating}">Save</button>
+            <button class="btn pull-right" data-dismiss="modal" aria-hidden="true" data-bind="click: timelogs.discardChanges">Close</button>
+            <div class="btn-sized slim pull-right progress progress-striped active input-small hide" data-bind="css: { hide: !timelogs.timelogs.input.updating() }">
+                <div class="bar pull-right" style="width: 100%; height: 100%;"></div>
+            </div>
+        </div>
+    </form>
+</div>
 <div class="modal fade hide" id="editProjectModal" tabindex="-1" role="dialog">
     <form class="form-horizontal"  data-bind="submit: _update">
         <div class="modal-header">
@@ -282,8 +285,11 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary">Save</button>
-            <button class="btn" data-dismiss="modal" aria-hidden="true" data-bind="click: _discardChanges">Close</button>
+            <button class="btn btn-primary" data-bind="disable: updating, css:{hide: updating}">Save</button>
+            <button class="btn pull-right" data-dismiss="modal" aria-hidden="true" data-bind="click: _discardChanges">Close</button>
+            <div class="btn-sized slim pull-right progress progress-striped active input-small hide" data-bind="css: { hide: !updating() }">
+                <div class="bar pull-right" style="width: 100%; height: 100%;"></div>
+            </div>
         </div>
     </form>
 </div>
@@ -326,8 +332,11 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary" >Save</button>
-            <button class="btn" data-dismiss="modal" aria-hidden="true" data-bind="click: activities.input.reset">Close</button>
+            <button class="btn btn-primary" data-bind="disable: activities.input.updating, css:{hide: activities.input.updating}">Save</button>
+            <button class="btn pull-right" data-dismiss="modal" aria-hidden="true" data-bind="click: activities.input.reset">Close</button>
+            <div class="btn-sized slim pull-right progress progress-striped active input-small hide" data-bind="css: { hide: !activities.input.updating() }">
+                <div class="bar pull-right" style="width: 100%; height: 100%;"></div>
+            </div>
         </div>
     </form>
 </div>
@@ -353,8 +362,11 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary">Save</button>
-            <button class="btn" data-dismiss="modal" aria-hidden="true" data-bind="click: discussions.input.reset">Close</button>
+            <button class="btn btn-primary" data-bind="disable: discussions.input.updating, css:{hide: discussions.input.updating}">Save</button>
+            <button class="btn pull-right" data-dismiss="modal" aria-hidden="true" data-bind="click: discussions.input.reset">Close</button>
+            <div class="btn-sized slim pull-right progress progress-striped active input-small hide" data-bind="css: { hide: !discussions.input.updating() }">
+                <div class="bar pull-right" style="width: 100%; height: 100%;"></div>
+            </div>
         </div>
     </form>
 </div>

@@ -41,23 +41,23 @@
             required: "You should provide a name for the project."
         });
         self.projects.editing = ko.observable();
+        self.projects.updating = ko.observable(false);
         self.projects._create = function () {
+            self.projects.updating(true);
             $.ajax("",
                 {
                     type: 'post',
-                    data: ko.toJSON({ 'name': self.projects.input() }),
-                    statusCode: {
-                        200: /*ok*/function (data) {
-                            self.projects.mappedCreate(data);
-                            self.projects.input("");
-                            self.projects.editing(false);
-                        },
-                        400: /*bad request*/function () {
-                            tw.page.alerts.push({ message: 'An error as ocurred.' });
-                        }
-                    }
-                }
-            );
+                    data: ko.toJSON({ 'name': self.projects.input() })
+                }).done(function (data) {
+                    self.projects.mappedCreate(data);
+                }).fail(function () {
+                    tw.page.alerts.push({ message: 'An error as ocurred.' });
+                })
+                .always(function () {
+                    self.projects.input("");
+                    self.projects.editing(false);
+                });
+            ;
         };
         return self;
     };

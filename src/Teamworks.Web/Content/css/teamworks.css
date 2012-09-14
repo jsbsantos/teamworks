@@ -179,3 +179,11 @@ input.simple {
     left: auto;
     right: 7px;
 }
+
+.slim {
+    margin: 0;
+}
+
+.btn-sized {
+    height: 28px;   
+}
