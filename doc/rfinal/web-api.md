@@ -1,10 +1,9 @@
 Web Api 
 =
 
-Para possibilitar a interacção de aplicações externas com a infra-estrutura é disponibilizada uma API web. A Api desenvolvida assenta sobre modelo de arquitectura ReSTful e processa pedidos HTTP utilizando a *framework* Asp.Net Web Api \ref{anexo:aspdotnetwebapi}.
-Para implementação da solução foram criados novos *message handlers*, *filters* e *controllers*.
+Para possibilitar a interacção de aplicações externas com a infra-estrutura é disponibilizada uma API web. A Api desenvolvida assenta sobre modelo de arquitectura ReSTful e processa pedidos HTTP utilizando a *framework* Asp.Net Web Api \ref{anexo:aspdotnetwebapi}. Na configuração da Api é definido que apenas é usado um *formatter* que responde a todos pedidos utilizando o formato JSON e está configurado para ignorar propriedades a *null*, para usar o formato *CamelCase* no nome dos atributos e para formatar as datas de acordo com o ISO 8601.
 
-Todos os objectos de domínio da aplicação são considerados recursos com URL próprio.
+Para implementação da solução foram criados novos *message handlers*, *filters* e *controllers*. Para o registo de *routes* é usado o projecto *open source* AttributeRouting \ref{attributerouting} que permite definir *routes* através de atributos nos *controllers* e *actions*. Todos os objectos de domínio da aplicação são considerados recursos com URL próprio.
 
 ***Message handlers***
 
