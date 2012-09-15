@@ -56,7 +56,7 @@ As *routes* configuradas são:
 
 + Recepção de resposta a notificação
 
-	Filtro: `match\[_]header("references", ".*@teamworks.mailgun.org")`
+	Filtro: `match`_`header("references", ".*@teamworks.mailgun.org")`
 	
 	Acção: `forward("http://http://teamworks/api/mailgun/reply")`
 
@@ -64,7 +64,7 @@ Quando é colocada uma nova mensagem numa debate, os utilizadores que a seguem s
 
 + Criação de Debate
 
-	Filtro: `match\[_]recipient("(tw\+{1}.*)@teamworks.mailgun.org")`
+	Filtro: `match`_`recipient("(tw\+{1}.*)@teamworks.mailgun.org")`
 	
 	Acção: `forward("http://teamworks/api/mailgun/create")`
 
@@ -98,7 +98,7 @@ Para obter o número de actividades e debates associados a projectos foi criado 
 
 A obtenção das entidades associadas a um projecto é feita através da utilização do índice `ProjectsEntitiesRelated`.
 
-O índice `Timelog\[_]Filter` agrega a informação de registo de horas e da respectiva entidade, possibilitando a filtragem de resultados por actividade, utilizador e datas.
+O índice `Timelog`_`Filter` agrega a informação de registo de horas e da respectiva entidade, possibilitando a filtragem de resultados por actividade, utilizador e datas.
 
 Para obter a informação sobre as actividades, a sua duração e datas de início é usado o índice `ActivitiesDuration`.
 
