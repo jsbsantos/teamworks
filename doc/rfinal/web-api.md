@@ -1,9 +1,9 @@
 Web Api 
 =
 
-Para possibilitar a interacção de aplicações externas com a infra-estrutura é disponibilizada uma API web. A Api desenvolvida assenta sobre modelo de arquitectura ReSTful e processa pedidos HTTP utilizando a *framework* Asp.Net Web Api \ref{anexo:aspdotnetwebapi}. Na configuração da Api é definido que apenas é usado um *formatter* que responde a todos pedidos utilizando o formato JSON e está configurado para ignorar propriedades a *null*, para usar o formato *CamelCase* no nome dos atributos e para formatar as datas de acordo com o ISO 8601.
+Para possibilitar a interacção de aplicações externas com a infra-estrutura é disponibilizada uma API web. A Api desenvolvida assenta sobre modelo de arquitectura ReSTful e processa pedidos HTTP utilizando a *framework* Asp.Net Web Api (anexo \ref{anexo:aspdotnetwebapi}). Na configuração da Api é definido que apenas é usado um *formatter* que responde a todos pedidos utilizando o formato JSON e está configurado para ignorar propriedades a *null*, para usar o formato *CamelCase* no nome dos atributos e para formatar as datas de acordo com o ISO 8601.
 
-Para implementação da solução foram criados novos *message handlers*, *filters* e *controllers*. Para o registo de *routes* é usado o projecto *open source* AttributeRouting \ref{attributerouting} que permite definir *routes* através de atributos nos *controllers* e *actions*. Todos os objectos de domínio da aplicação são considerados recursos com URL próprio.
+Para implementação da solução foram criados novos *message handlers*, *filters* e *controllers*. Para o registo de *routes* é usado o projecto *open source* AttributeRouting\cite{attributerouting} que permite definir *routes* através de atributos nos *controllers* e *actions*. Todos os objectos de domínio da aplicação são considerados recursos com URL próprio.
 
 ***Message handlers***
 
@@ -37,7 +37,7 @@ Para autenticar os utilizadores é verificada a presença do *header* `Authoriza
 
 Na figura \ref{fig:russiandoll} estão representados os elementos adicionados ao *pipeline* e a ordem por que são executados.
 
-![Processamento do pedido na Web Api.\label{fig:russiandoll}](http://www.lucidchart.com/publicSegments/view/50291e63-5070-4845-94a2-5c020a7c36ea/image.png)
+![Processamento do pedido na web Api.\label{fig:russiandoll}](http://www.lucidchart.com/publicSegments/view/50291e63-5070-4845-94a2-5c020a7c36ea/image.png)
 
 A ordem de execução dos *message handlers* é relevante porque o *handler* de autenticação tem que aceder à base de dados e, para isso, é necessário que já exista uma sessão associada ao pedido.
 
@@ -68,8 +68,5 @@ O filtro `SecureProjectAttribute` estende as funcionalidades do filtro `SecureFo
 O filtro `RavenSessionFilterAttribute` funciona em conjunto com o *message handler* implementado na classe `RavenSession` apresentado anteriormente. 
 Este filtro redefine o método executado antes se ser chamada a *action* e injecta no *controller* a sessão `Raven` presente nas propriedades do pedido. 
 A propriedade afectada com o valor da sessão é qualquer uma que tenha como valor de retorno `IDocumentSession`.
-
-*Controllers*
--
 
 Para abstrair as *actions* da obtenção da sessão foi criada a classe `AppApiController` que disponibiliza a propriedade `DbSession`, que retorna uma sessão para acesso à base de dados.

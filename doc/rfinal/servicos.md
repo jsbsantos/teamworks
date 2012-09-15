@@ -33,7 +33,8 @@ O *OpenID* \cite{openid} é um protocolo que caracteriza uma forma de um utiliza
 
 Quando um utilizador acede a uma aplicação web que utiliza esta forma de autenticação tipicamente tem que introduzir a sua identidade, previamente criada no fornecedor de identidade. A aplicação web pede ao fornecedor de identidade que verifique se o utilizador é o dono dessa identidade e, uma vez confirmada a identidade do utilizador, o fornecedor redirecciona-o para a aplicação web, enviando na *query string* a informação da identidade do utilizador. 
 
-A informação da identidade do utilizador é pedida tirando partido da extensão ao *OpenId*, *Attribute Exchange* \cite{openidattributeexchange}. Esta extensão permite que sejam disponibilizados, pelos fornecedores de identidade, atributos que podem ser pedidos aquando do pedido de verificação da identidade de um utilizador, no entanto o acesso a esta informação tem que ser autorizado pelo utilizador dono da identidade. 
+A informação da identidade do utilizador é pedida tirando partido da extensão ao *OpenId*, *Attribute Exchange* \cite{openidattributeexchange}.
+Esta extensão permite que sejam disponibilizados, pelos fornecedores de identidade, atributos que podem ser pedidos aquando do pedido de verificação da identidade de um utilizador, no entanto o acesso a esta informação tem que ser autorizado pelo utilizador dono da identidade. 
 
 \label{sec:DotNetOpenAuth}
 
@@ -80,7 +81,7 @@ Uma das utilizações destas funcionalidades é a notificação dos utilizadores
 
 Quando a aplicação é iniciada é criada uma *Thread* que, em intervalos de tempo definidos, verifica se existem mensagens para as quais ainda não foram enviadas notificações. Se existirem mensagens nessa condição, são enviados emails para os utilizadores, pela ordem pela qual foram submetidas.
 
-Para atenuar o processamento feito pela thread de notificações o intervalo de tempo entre verificações é aumentado cada vez que não é encontrada nenhuma mensagem para enviar.
+Para atenuar o processamento feito pela *thread* de notificações o intervalo de tempo entre verificações é aumentado cada vez que não é encontrada nenhuma mensagem para enviar.
 Para que as mensagens sejam enviados com a maior celeridade possível o intervalo entre verificações não excede os 10 minutos.
 
 RavenDB

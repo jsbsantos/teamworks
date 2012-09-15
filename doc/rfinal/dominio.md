@@ -17,11 +17,11 @@ O *email* é usado para comunicar com a pessoa e os outros dois atributos para a
 
 Uma **actividade** (`Activity`) tem nome e descrição e, pode também, ter várias pessoas associadas. Para além destes atributos, tem ainda o tempo estimado para a sua realização (e.g. número de horas), a data prevista de conclusão e **registos de tempo** (`Timelog`) despendido na sua realização, que podem ser adicionados pelas **pessoas** associadas.
 
-Sobre os projectos e tarefas é ainda possível criar **discussões** (`Discussion`), visíveis apenas a **pessoas** que lhes estão associadas, onde é possível criar **mensagens** (`Message`).
+Sobre os projectos e tarefas é ainda possível criar **debates** (`Discussion`), visíveis apenas a **pessoas** que lhes estão associadas, onde é possível criar **mensagens** (`Message`).
 
 As entidades e as suas relações estão representadas no diagrama de classes da figura \ref{fig:diagramadedominio}.
 
-![Diagrama de relação entre os objectos de domínio.\label{fig:diagramadedominio}](http://www.lucidchart.com/publicSegments/view/4fd89208-da90-4b53-8506-66290a443549/image.png)
+![Diagrama classes e representação da relação entre os objectos de domínio.\label{fig:diagramadedominio}](http://www.lucidchart.com/publicSegments/view/4fd89208-da90-4b53-8506-66290a443549/image.png)
 
 Depois de analisadas as relações e responsabilidades de cada entidade foram caracterizados como agregados os objectos de domínio **projecto** e **pessoa**.
 Os objectos **actividade** e **debate** são considerados entidades porque são identificados univocamente.
