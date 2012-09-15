@@ -3,13 +3,12 @@ Introdução
 
 \label{sec:introducao}
 
-O projecto descrito neste documento tem como objectivo agilizar a gestão de um projecto através de uma infra-estrutura *online*. Neste contexto um projecto é um esforço temporário para criar um produto, serviço ou qualquer outro resultado.
+O projecto descrito neste documento tem como objectivo agilizar a gestão de um projecto através de uma infra-estrutura *online*. Neste contexto um projecto é um esforço temporário para criar um produto, serviço ou qualquer outro resultado.  
+Para atingir os objectivos propostos para a realização de um projecto é necessária uma gestão eficiente em áreas como a organização, a utilização de tempo, o planeamento, organização, controlo de recursos e monitorização. 
 Para além da gestão do projecto é também importante gerir as pessoas que dele fazem parte.
 A comunicação entre membros de um projecto pode ter um grande impacto na qualidade e velocidade com que o produto final é entregue. Desta forma a plataforma desenvolvida, para além da gestão de projectos, também possibilita a gestão dos seus membros, facilitando a comunicação e partilha de informação entre eles.
 
-Para atingir os objectivos propostos para a realização de um projecto é necessária uma gestão eficiente em áreas como a organização, a utilização de tempo, o planeamento, organização, controlo de recursos e monitorização.  
 A motivação para realização deste projecto surgiu porque as soluções de *software* existentes ou não oferecem todas as funcionalidades necessárias ou são demasiado complexas. 
-
 Sendo este um projecto académico é oportunidade para alargar conhecimento e desenvolver competências em áreas não abordadas no decorrer do curso. Com isto em mente, um dos objectivos do projecto foi implementar a camada de dados utilizando uma base de dados não relacional e 
 sempre que possível utilizar projectos *open source* para resolver problemas não decorrentes dos objectivo do projecto. A utilização de diferentes projectos *open source* levantam problemas de integração que têm de ser resolvidos.
 
@@ -34,7 +33,7 @@ Solução Teamworks
 -
 
 A solução *Teamworks* é composta por uma aplicação web e por uma web Api. A Api expõe todas os recursos da infra-estrutura permitindo o seu acesso através de diversos clientes (e.g. browser, aplicações móveis, aplicações desktop).
-A aplicação web tem uma interface simples com o objectivo de minimizar o tempo utilizado na plataforma.
+A aplicação web tem uma interface simples com o objectivo de minimizar o tempo utilizado na realização de tarefas administrativas disponibilizadas pela infra-estrutura.
 
 As funcionalidades disponibilizadas permitem a gestão de projectos e pessoas. 
 Para a gestão de projectos é possível planear tarefas, estimar a sua duração, atribuir-lhes responsáveis e monitorizar o estado global do projecto. 

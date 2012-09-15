@@ -3,10 +3,10 @@ Dados
 
 \label{sec:dados}
 
-Como indicado na introdução (capitulo \ref{sec:intro}) é utilizada uma base de dados não relacional. 
-A base de dados escolhida é o RavenDB, que é implementada em .NET, transaccional e *open-source*. Esta base de dados é composta por um servidor e um cliente e os dados são guardados sem *schema* rígido em documentos no formato JSON.
+Como indicado na introdução (capitulo \ref{sec:introducao}) é utilizada uma base de dados não relacional. 
+A base de dados escolhida é o RavenDB, que é implementada em .NET, transaccional e *open-source*. O *Raven* é composto por um servidor e um cliente e os dados são guardados sem *schema* rígido em documentos no formato JSON.
 
-Na figura \ref{fig:interacaoraven} pode observar-se a interacção da plataforma com o cliente RavenDB.
+Na figura \ref{fig:interacaoraven} pode observar-se a interacção da plataforma com o cliente Raven.
 
 ![Interacção da plataforma *Teamworks* com a base de dados.\label{fig:interacaoraven}](http://www.lucidchart.com/publicSegments/view/4fd76e6a-3ef0-4875-99c1-4ac60a78da40/image.png)
 
@@ -38,7 +38,7 @@ using(var session = store.OpenSession()) {
 }
 ```` 
 
-A lista \ref{exemplocliente} demonstra a utilização do cliente. Pode observar-se a utilização de *POCO*s e do padrão *Unit of Work* \cite[pp.~184-194]{patterns} pois todas as alterações feitas ao cliente são persistidas na base de dados numa única transacção quando é chamado o método `SaveChanges`. A variável `store` define a configuração do cliente, a comunicação com o servidor e todos os mecanismos da base de dados.
+A lista \ref{exemplocliente} demonstra a utilização do cliente onde se pode observar a utilização de *POCO*s e do padrão *Unit of Work* \cite[pp.~184-194]{patterns}, pois todas as alterações feitas ao cliente são persistidas na base de dados numa única transacção quando é chamado o método `SaveChanges`. A variável `store` define a configuração do cliente, a comunicação com o servidor e todos os mecanismos da base de dados.
 
 Modelo de Dados
 -
@@ -55,7 +55,7 @@ A figura \ref{fig:diagramadeclassesmodelo} representa o modelo de dados da solu�
 
 ![Diagrama UML de classes do modelo de dados.\label{fig:diagramadeclassesmodelo}](http://www.lucidchart.com/publicSegments/view/4fdbbe6c-4818-4978-a979-22210a490e1b/image.png)
  
-A autorização na plataforma utiliza um *bundle*[^bundle] do *RavenDB*. O *bundle* permite fazer a gestão de obtenção, alteração e remoção de documentos baseado no utilizador. Este *bundle* define quatro intervenientes no processo de autorização: o utilizador (`AuthorizationUser`), o *role* (`AuthorizationRole`), a operação que o utilizador pode fazer (`OperationPermission`) e a permissão necessária para aceder ao documento (`DocumentPermission`). 
+A autorização na plataforma utiliza um *bundle*[^bundle] do *Raven*. O *bundle* permite fazer a gestão de obtenção, alteração e remoção de documentos baseado no utilizador. Este *bundle* define quatro intervenientes no processo de autorização: o utilizador (`AuthorizationUser`), o *role* (`AuthorizationRole`), a operação que o utilizador pode fazer (`OperationPermission`) e a permissão necessária para aceder ao documento (`DocumentPermission`), como ilustra a \ref{autorizacao}.
 
 ![Diagrama UML de autorização.\label{autorizacao}](http://www.lucidchart.com/publicSegments/view/4fd9c8d1-77b0-457e-8520-39800adcb320/image.png)
 

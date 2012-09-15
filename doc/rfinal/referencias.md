@@ -49,11 +49,20 @@
 \bibitem{bootstrap} Twitter, Twitter Bootstrap [Online - acedido a 15 de Junho de 2012]
 \url{http://twitter.github.com/bootstrap/}
 
+\bibitem{iso8601} W3, Date and Time Formats [Online - acedido a 24 de Julho de 2012],
+\url{http://www.w3.org/TR/NOTE-datetime}
+
+\bibitem{json} JSON, JSON [Online - acedido a 24 de Julho de 2012],
+\url{http://www.json.org/}
+
 \bibitem{dotnetopenauth} DotNetOpenAuth, DotNetOpenAuth [Online - acedido a 24 de Julho de 2012],
 \url{http://www.dotnetopenauth.net/}
 
 \bibitem{attributerouting} Tim McCall, AttributeRouting [Online - acedido a 24 de Julho de 2012],
 \url{https://github.com/mccalltd/AttributeRouting}
+
+\bibitem{automapper} Jimmy Bogard, AutoMapper [Online - acedido a 24 de Julho de 2012],
+\url{https://github.com/AutoMapper/AutoMapper}
 
 \bibitem{dropacid} Todd Hoff, Drop ACID and think about data [Online - acedido a 15 de Junho de 2012],
 \url{http://highscalability.com/drop-acid-and-think-about-data}

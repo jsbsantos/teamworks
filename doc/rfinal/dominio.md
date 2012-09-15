@@ -36,13 +36,13 @@ Segurança
 Por questões de segurança todas as acções na infra-estrutura têm de ser feitas por utilizadores autenticados sendo por isso necessário disponibilizar forma dos utilizadores se registarem. 
 Para manter a privacidade dos dados tem ainda de haver, aliado à autenticação, políticas de acesso e autorização.
 
-No registo o utilizador indica o *email*, utilizado como meio de comunicação; o nome de utilizador para o identificar; e a *password*, que em conjunto com o nome de utilizador, é usada para autenticar o utilizador.
+No registo o utilizador indica o *email*, o nome de utilizador e a *password* que, em conjunto com o nome de utilizador, é usada para autenticação.
 Esta informação é persistida na base de dados, à excepção da *password* da qual é apenas persistido o *hash*.
 O *hash* da *password* é gerado usando um algoritmo de dispersão (*SHA-256*) que tem como entrada a concatenação da *password* com um *salt*[^salt] aleatório.
 
-A autenticação é feita usando o nome de utilizador e a *password* e é válida se o resultado da função de dispersão, usada no registo para a *password* for igual ao obtido usando os dados inseridos pelo utilizador.
-A função de dispersão, na autenticação, tem como parâmetro de entrada a concatenação da *password* inserida com o *salt* presente na instância de *Person* obtida.
+A autenticação é feita usando o nome de utilizador e a *password* e é válida se o resultado da função de dispersão, usada no registo para a *password*, for igual ao obtido usando os dados inseridos pelo utilizador.
+A função de dispersão tem como parâmetro de entrada a concatenação da *password* inserida com o *salt* presente na instância de *Person* obtida.
 
-A política de acesso é definida individualmente por cada entidade. Sendo que um utilizador só lhe pode aceder se tiver sido criada por si ou se lhe tiverem atribuído permissões.
+A política de acesso é definida por projecto sendo que um utilizador só lhe pode aceder, e às entidades que lhe estão associadas, se tiver sido criado por si ou se tiver sido associado ao projecto.
 
 [^salt]: O *salt* é utilizado para criar aleatoriedade na *password*. Desta maneira o *hash* gerado para a mesma *password* é diferente por utilizador.

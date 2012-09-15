@@ -13,9 +13,9 @@ Realizado pelos alunos Filipe Pinheiro e João Santos e orientado pelo docente J
 
 ### [Serviços](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rfinal/servicos.md)
 
-### [Web Api](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rfinal/web-api.md)
-
 ### [Aplicação Web](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rfinal/aplicacao-web.md)
+
+### [Web Api](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rfinal/web-api.md)
   
 ### [Conclusão](https://github.com/isel-leic-ps/LI61N-G07/blob/master/doc/rfinal/conclusao.md)
 

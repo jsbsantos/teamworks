@@ -69,7 +69,7 @@ RavenDB
 O RavenDB \cite{ravendb} é uma base de dados de documentos implementada na *framework* .NET \cite{net} que suporta a componente Linq \cite{linq} para *querying*. 
 A base de dados é dividida em dois blocos o servidor e o cliente. O servidor é transaccional, armazena os dados no formato JSON e tem como interface um serviço web disponibilizado através do protocolo HTTP. O cliente tem como função expor todas as funcionalidades do servidor através de uma Api. 
 
-###Cliente RavenDB
+###Cliente Raven
 
 Para interacção com o cliente são usadas classes *POCO* (*Plain Old CLR Object*) o que torna desnecessária a utilização de um *ORM* ou qualquer sistema de correspondência entre objectos de domínio e os objectos persistidos. O cliente, para além de gerir a comunicação com o servidor, é responsável por fazer cache dos pedidos ao servidor e pela implementação do padrão *Unit of Work*.
 
@@ -79,13 +79,13 @@ A classe `IDocumentStore` é uma fábrica para a criação de sessões.
 
 ###Relações entre documentos
 
-As relações entre documentos, devido à inexistência de operações *JOIN*, podem ser representadas de várias formas. As formas consideradas são a utilização do identificador para incluir as entidades no pedido da entidade principal, a desnormalização e as *live projections*.
+As relações entre documentos, devido à inexistência de operações `JOIN`, podem ser representadas de várias formas. As formas consideradas são a utilização do identificador para incluir as entidades no pedido da entidade principal, a desnormalização e as *live projections*.
 
 **Inclusão no pedido**
 
 Nesta opção cada documento guarda o identificador do(s) documento(s) com que está relacionado (e.g. os documentos que representam projectos guardam o identificador dos documentos que representam tarefas) e quando é obtido um documento principal são também obtidos todos os documentos que lhe estão associadas. 
 
-No RavenDB esta opção é suportada pelo método `Include` que recebe os identificadores das entidades a carregar em paralelo com as entidades principais. As entidades incluídas são adicionadas à sessão pelo cliente RavenDB. 
+No Raven esta opção é suportada pelo método `Include` que recebe os identificadores das entidades a carregar em paralelo com as entidades principais. As entidades incluídas são adicionadas à sessão pelo cliente Raven. 
 
 **Desnormalização**
 
@@ -100,35 +100,35 @@ Esta abordagem tem a desvantagem de que qualquer alteração a um documento desn
 
 ***Live Projections***
 
-O *RavenDB* oferece ainda forma de juntar e transformar documentos no servidor obtendo como resultado objectos diferentes dos objectos persistidos. Esta funcionalidade permite carregar documentos relacionados, escolhendo as propriedades de cada um que se pretende.
+O *Raven* oferece ainda forma de juntar e transformar documentos no servidor obtendo como resultado objectos diferentes dos objectos persistidos. Esta funcionalidade permite carregar documentos relacionados, escolhendo as propriedades de cada um que se pretende.
 
-Na implementação deste projecto optou-se por estabelecer relações entre documentos através do seu identificador, tirando partido da funcionalidade *Include* oferecida pelo cliente RavenDB.
+Na implementação deste projecto optou-se por estabelecer relações entre documentos através do seu identificador, tirando partido da funcionalidade *Include* oferecida pelo cliente Raven.
 
 ###Bundles
 
-\label{app:ravendb-bundle}
+\label{app:Raven-bundle}
 
-No caso de as funcionalidades disponibilizadas pelo servidor RavenDB não serem suficientes existem Bundles que estendem as funcionalidades oferecidas. 
-Os Bundles oferecidos com a build do RavenDB são:
+No caso de as funcionalidades disponibilizadas pelo servidor Raven não serem suficientes existem Bundles que estendem as funcionalidades oferecidas. 
+Os Bundles oferecidos com a build do Raven são:
 
  + **Sharding and Replication**.
  + **Quotas**, coloca limites ao tamanho na base de dados.
  + **Expiration**, remove documentos expirados automaticamente.
- + **Index Replication**, replica índices RavenDB para base de dados SQL Server.
+ + **Index Replication**, replica índices Raven para base de dados SQL Server.
  + **Authentication**, autentica utilizadores na base de dados usando OAuth.
  + **Authorization**, permite a gestão de grupos, *roles* e permissões.
  + **Versioning**, automaticamente gera versões dos documentos quando são alterados ou removidos.
  + **Cascade Deletes**, automatiza operações de remoção *cascade*.
  + **More Like This**, retorna documentos relacionados com o documento indicado.
- + **Unique Constraints**, adiciona a possibilidade de definir *unique constraints* em documentos RavenDB.
+ + **Unique Constraints**, adiciona a possibilidade de definir *unique constraints* em documentos Raven.
 
 Os *bundles* disponibilizados são distribuídos com dois *dll*s, um para utilizar no cliente e outro para colocar numa pasta definida na configuração do servidor onde são colocadas todas as suas extensões.
 
 ###Índices
 
-Para diminuir o tempo de resposta a *queries*, por parte do servidor *RavenDB*, são utilizados índices definidos através de expressões *map-reduce*. 
+Para diminuir o tempo de resposta a *queries*, por parte do servidor *Raven*, são utilizados índices definidos através de expressões *map-reduce*. 
 Os índices estão divididos em duas categorias: índices estáticos e dinâmicos.
 
 Os índices estáticos são criados explicitamente pelo programador, usando sintaxe *LINQ* para definir as suas expressões *map-reduce*, e são definidos de forma permanente na base de dados.
 
-Os índices dinâmicos são criados automaticamente pelo *RavenDB* quando são feitas queries para as quais não existe um índice que dê resposta a essa *query*. O RavenDB não oferece garantia quanto à disponibilidade destes índices pois o seu tempo de vida é gerido pela base de dados. De forma a optimizar a utilização destes índices a base de dados pode optar por transforma-los em índices estáticos.
+Os índices dinâmicos são criados automaticamente pelo *Raven* quando são feitas queries para as quais não existe um índice que dê resposta a essa *query*. O Raven não oferece garantia quanto à disponibilidade destes índices pois o seu tempo de vida é gerido pela base de dados. De forma a optimizar a utilização destes índices a base de dados pode optar por transforma-los em índices estáticos.
