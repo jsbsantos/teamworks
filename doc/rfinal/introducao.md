@@ -3,20 +3,20 @@ Introdução
 
 \label{sec:introducao}
 
-Um projecto é um esforço temporário para criar um produto, serviço ou qualquer outro resultado.
+O projecto descrito neste documento tem como objectivo agilizar a gestão de um projecto através de uma infra-estrutura *online*. Um projecto é um esforço temporário para criar um produto, serviço ou qualquer outro resultado.
 Para atingir os objectivos propostos para a realização de um projecto é necessária uma gestão eficiente em áreas como a organização, a utilização de tempo, o planeamento, organização, controlo de recursos e monitorização. 
-
-Este projecto tem como objectivo agilizar a gestão de um projecto através de uma infra-estrutura online. 
-
-A motivação para realização deste projecto surgiu porque as soluções de *software* existentes ou não oferecem todas as funcionalidades necessárias ou são demasiado complexas.
 
 Para além da gestão do projecto é também importante gerir as pessoas que dele fazem parte.
 A comunicação entre membros de um projecto pode ter um grande impacto na qualidade e velocidade com que o produto final é entregue. Desta forma a plataforma desenvolvida, para além da gestão de projectos, também possibilita a gestão dos seus membros, facilitando a comunicação e partilha de informação entre eles.
 
+A motivação para realização deste projecto surgiu porque as soluções de *software* existentes ou não oferecem todas as funcionalidades necessárias ou são demasiado complexas. 
+
+Sendo este o projecto académico é oportunidade para alargar conhecimento e desenvolver competências em àreas não abordadas no decorrer do curso. Com isto em mente, um dos objectivos do projecto foi implementar a camada de dados utilizando uma base de dados não relacional e sempre que possível utilizar projectos *open source* para resolver problemas secundários ao objectivo do projecto.
+
 Soluções Existentes
 -
 
-As soluções existentes que pretendem agilizar a gestão de projectos e podem ser encontradas sobre a forma de aplicações desktop ou web. 
+As soluções existentes que pretendem agilizar a gestão de projectos e podem ser encontradas sobre a forma de aplicações *desktop ou web*. 
 
 As aplicações desktop são usadas em ambiente local limitando a interacção e partilha de resultados com outras pessoas do projecto.
 Um exemplo deste tipo de aplicações é o *Microsoft Project* \cite{mproject} usado para o planeamento de tarefas, estimar a sua duração e atribuir-lhe recursos. 
@@ -39,3 +39,11 @@ A aplicação web tem uma interface simples com o objectivo de minimizar o tempo
 As funcionalidades disponibilizadas permitem a gestão de projectos e pessoas. 
 Para a gestão de projectos é possível planear tarefas, estimar a sua duração, atribuir-lhes responsáveis e monitorizar o estado global do projecto. 
 As pessoas podem ver as tarefas que têm a realizar e registar o tempo despendido. Para promover a colaboração e partilha de informações é possível pessoas do mesmo projecto e/ou da mesma tarefa criar discussões.
+
+Organização do documento
+-
+
+O restante documento está organizado da seguinte forma. 
+O capítulo 2 apresenta os casos de utilização e a arquitectura da solução, nos capítulos seguintes são derscritos o domínio do problema e o modelo de dados. 
+Apartir do capítulo 5 é descrito de forma mais detalhada a implementação da infra-estrutura, os serviços, a web Api e a aplicação web. 
+O capítulo 8 apresenta alguns desafios técnicos encontrados durante a realização deste projecto.

@@ -49,5 +49,23 @@ namespace Teamworks.Web.Controllers.Mvc
             }
             return RedirectToRoute("profiles_get");
         }
+
+        [POST("password", RouteName = "profiles_password")]
+        public ActionResult ChangePassword(string old, string password, string passwordConfirm)
+        {
+            var person = DbSession.GetCurrentPerson();
+            if (!person.IsThePassword(old))
+                ModelState.AddModelError("model.password", "Your old password is wrong");
+
+            if (password != passwordConfirm)
+                ModelState.AddModelError("model.password", "Password and confirmation must match");
+
+            if (!ModelState.IsValid)
+                return View("View");
+
+            person.ChangePassword(password);
+            return RedirectToRoute("View");
+        }
+
     }
 }

@@ -5,6 +5,7 @@ using Teamworks.Core;
 using Teamworks.Core.Mailgun;
 using Teamworks.Web.Helpers.Extensions;
 using Teamworks.Web.Helpers;
+using Teamworks.Web.Helpers.Extensions.Mvc;
 
 namespace Teamworks.Web.Controllers.Mvc
 {
