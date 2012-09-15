@@ -3,7 +3,9 @@ ASP.NET Web Api
 
 \label{anexo:aspdotnetwebapi}
 
-O processamento de um pedido na *framework* ASP.NET Web Api é feito em três camadas \ref{pfelix}. 
+ASP.NET Web API é uma framework que usada para construir serviços HTTP usando a arquitectura ReSTful, tornando-os acessiveis através de uma vasta gama de clientes, browsers e dispositivos.
+
+O processamento de um pedido na framework ASP.NET Web Api é feito em três camadas: hosting, pipeline e o processamento do controller \cite{pfelix}.
 
 ***Hosting***
 

@@ -7,7 +7,7 @@ Para a realização deste projecto foi usada a base de dados de documentos Raven
 
 Na figura \ref{fig:interacaoraven} pode observar-se a interacção da plataforma com o cliente RavenDB.
 
-![Interacção da plataforma Teamworks com a base de dados.\label{fig:interacaoraven}](http://www.lucidchart.com/publicSegments/view/4fd76e6a-3ef0-4875-99c1-4ac60a78da40/image.png)
+![Interacção da plataforma *Teamworks* com a base de dados.\label{fig:interacaoraven}](http://www.lucidchart.com/publicSegments/view/4fd76e6a-3ef0-4875-99c1-4ac60a78da40/image.png)
 
 A responsabilidade de persistir os dados é do servidor que disponibiliza uma Api ReSTful para todas as comunicações de acesso aos dados.
 
@@ -54,7 +54,7 @@ A figura \ref{fig:diagramadeclassesmodelo} representa o modelo de dados da solu�
 
 ![Diagrama UML de classes do modelo de dados.\label{fig:diagramadeclassesmodelo}](http://www.lucidchart.com/publicSegments/view/4fdbbe6c-4818-4978-a979-22210a490e1b/image.png)
  
-A autorização na plataforma utiliza um *bundle*[^bundle] do RavenDB. O *bundle* permite fazer a gestão de obtenção, alteração e remoção de documentos baseado no utilizador. Este *bundle* define quatro intervenientes no processo de autorização: o utilizador (`AuthorizationUser`), o *role* (`AuthorizationRole`), a operação que o utilizador pode fazer (`OperationPermission`) e a permissão necessária para aceder ao documento (`DocumentPermission`). 
+A autorização na plataforma utiliza um *bundle*[^bundle] do *RavenDB*. O *bundle* permite fazer a gestão de obtenção, alteração e remoção de documentos baseado no utilizador. Este *bundle* define quatro intervenientes no processo de autorização: o utilizador (`AuthorizationUser`), o *role* (`AuthorizationRole`), a operação que o utilizador pode fazer (`OperationPermission`) e a permissão necessária para aceder ao documento (`DocumentPermission`). 
 
 ![Diagrama UML de autorização.\label{autorizacao}](http://www.lucidchart.com/publicSegments/view/4fd9c8d1-77b0-457e-8520-39800adcb320/image.png)
 

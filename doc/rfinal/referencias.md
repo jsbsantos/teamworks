@@ -34,6 +34,9 @@
 \bibitem{ravendb} Hibernating Rhinos, RavenDB [Online - acedido a 15 de Junho de 2012]
 \url{http://ravendb.net/}
 
+\bibitem{attributerouting} Attribute Routing, Tim McCall [Online - acedido a 12 de Setembro de 2012] 
+\url{http://https://github.com/mccalltd/AttributeRouting}
+
 \bibitem{aspnetmvc} Microsoft, ASP.NET MVC [Online - acedido a 15 de Junho de 2012]
 \url{http://www.asp.net/mvc}
 
@@ -78,6 +81,9 @@
 
 \bibitem{mapreduce} Google Code University, What is MapReduce? [Online - acedido a 27 de Julho de 2012],
 \url{http://code.google.com/edu/parallel/mapreduce-tutorial.html#MapReduce}
+
+\bibitem{pfelix} Pedro Félix’s shared memory, ASP.NET Web API Processing Architecture [Online - acedido a 12 de Setembro de 2012]
+\url{http://pfelix.wordpress.com/2012/03/05/asp-net-web-api-processing-architecture/}
 
 \end{thebibliography}
 \addcontentsline{toc}{section}{Referências}

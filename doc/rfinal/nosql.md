@@ -6,7 +6,7 @@ As bases de dados NoSQL diferem do modelo relacional porque são tipicamente des
  * Não têm *schema* fixo;
  * Não suportam operações de `JOIN`;
  * Suportam o conceito de BASE[^base];
- * Suportam o conceito de CAP[^CAP];  
+ * Suportam o conceito de CAP[^cap];  
 
 [^base]: BASE - **B**asically **A**vailable, **S**oft state, **E**ventual consistency.
 
@@ -19,7 +19,7 @@ As base de dados de grafos e implementações BigTable não foram consideras par
 Key-value stores
 -
 
-A função principal de um key-value store é guardar um valor associado a uma chave. Para essa função é disponibilizada uma variação da Api descrita na lista [valuestore](#):
+A função principal de um key-value store é guardar um valor associado a uma chave. Para essa função é disponibilizada uma variação da Api descrita na lista \ref{valuestore}:
 
 \lstset{caption={Api simplificada de um key-value store.},label={valuestore}}
 
@@ -29,7 +29,7 @@ byte[] Get(string key);
 void Remove(string key);
 ````
 
-O valor guardado é um blob. Esta característica torna desnecessária a definição de um *schema* dando assim total flexibilidade no armazenamento de dados. Devido ao acesso ser feito através de uma chave este tipo de persistência pode facilmente ser optimizada e ter a sua performance melhorada.
+O valor guardado é um *blob*. Esta característica torna desnecessária a definição de um *schema* dando assim total flexibilidade no armazenamento de dados. Devido ao acesso ser feito através de uma chave este tipo de persistência pode facilmente ser optimizada e ter a sua performance melhorada.
 
  + ***Schema*** - O *schema* neste tipo de base de dados é simples, a chave é uma string e o valor é um blob. O tipo e a forma como os dados são estruturados é da responsabilidade do utilizador.
 
