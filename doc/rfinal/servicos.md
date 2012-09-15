@@ -92,4 +92,14 @@ Para dar suporte à realização de *queries* complexas sobre os documentos, com
 
 No decorrer deste projecto surgiu a necessidade de fazer este tipo de operações e como tal foram criados vários índices.
 
+O índice `DiscussionMessagesPendingNotification` foi criado para agregar a informação de debates e respectivas mensagens e obter da informação relevante para o envio de notificações por email. Além disso este índice permite filtrar as mensagens para as quais ainda não foram enviadas notificações.
+
+Para obter o numero de actividades e debates associados a projectos foi criado o ìndice `ProjectEntityCount`. Este índice agrega a informação de projectos, debates e actividades retornando as contagens enunciadas anteriormente para cada um dos projectos.
+
+A obtenção das entidades associadas a um projecto é feita através da utilização do ìndice `ProjectsEntitiesRelated`.
+
+O índice `Timelog_Filter` agrega a informação de registo de horas e da respectiva entidade, possibilitando a filtragem de resultados por actividade, utilizador e datas.
+
+Para obter a informação sobre as actividades, a sua duração e datas de inicio é usado o índice `ActivitiesDuration`.
+
 [^regex]: Regular Expression

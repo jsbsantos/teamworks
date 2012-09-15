@@ -123,3 +123,12 @@ Os Bundles oferecidos com a build do RavenDB são:
  + **Unique Constraints**, adiciona a possibilidade de definir *unique constraints* em documentos RavenDB.
 
 Os bundles disponibilizados são distribuídos com dois *dll*s, um para utilizar no cliente e outro para colocar numa pasta definida na configuração do servidor onde são colocadas todas as suas extensões.
+
+###Índices
+
+Para diminuir o tempo de resposta a *queries*, por parte do servidor *RavenDB*, são utilizados índices definidos através de expressões *map-reduce*. 
+Os índices estão divididos em duas categorias: índices estáticos e dinâmicos.
+
+Os índices estáticos são criados explicitamente pelo programador, usando sintaxe *LINQ* para definir as suas expressões *map-reduce*, e são definidos de forma permanente na base de dados.
+
+Os índices dinâmicos são criados automaticamente pelo *RavenDB* quando são feitas queries para as quais não existe um índice que dê resposta a essa *query*. O RavenDB não oferece garantia quanto à disponibilidade destes indices pois o seu tempo de vida é gerido pela base de dados. De forma a optimizar a utilização destes índices a base de dados pode optar por transforma-los em índices estáticos.
