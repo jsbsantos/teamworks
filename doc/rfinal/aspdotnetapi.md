@@ -3,9 +3,9 @@ ASP.NET Web Api
 
 \label{anexo:aspdotnetwebapi}
 
-ASP.NET Web API é uma framework que usada para construir serviços HTTP usando a arquitectura ReSTful, tornando-os acessiveis através de uma vasta gama de clientes, browsers e dispositivos.
+ASP.NET Web API é uma framework que usada para construir serviços HTTP usando a arquitectura ReSTful, tornando-os acessíveis através de uma vasta gama de clientes, browsers e dispositivos.
 
-O processamento de um pedido na framework ASP.NET Web Api é feito em três camadas: hosting, pipeline e o processamento do controller \cite{pfelix}.
+O processamento de um pedido na *framework ASP.NET Web Api* é feito em três camadas: *hosting*, *pipeline* e o processamento do *controller* \cite{pfelix}.
 
 ***Hosting***
 

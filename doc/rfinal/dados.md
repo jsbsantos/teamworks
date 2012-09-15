@@ -4,7 +4,7 @@ Dados
 \label{sec:dados}
 
 Como indicado na introdução (capitulo \ref{sec:intro}) é utilizada uma base de dados não relacional. 
-A base de dados escolhida é o RavenDB implementada em .NET, transaccional e *open-source*. Esta base de dados é composta por um servidor e um cliente e os dados são guardados sem *schema* rígido em documentos no formato JSON.
+A base de dados escolhida é o RavenDB, que é implementada em .NET, transaccional e *open-source*. Esta base de dados é composta por um servidor e um cliente e os dados são guardados sem *schema* rígido em documentos no formato JSON.
 
 Na figura \ref{fig:interacaoraven} pode observar-se a interacção da plataforma com o cliente RavenDB.
 

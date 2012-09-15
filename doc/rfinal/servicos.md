@@ -43,7 +43,7 @@ Para utilizar esta foram de autenticação foi usada a biblioteca *DotNetOpenAut
 Notificações
 -
 
-Existem situações em que é necessário que a aplicação comunique com os seus utilizadores, quando estes não a estão a usar. Como tal, para fazer essa comunicação, decidiu usar-se emails. 
+Existem situações em que é necessário que a aplicação comunique com os seus utilizadores, quando estes não a estão a usar. Como tal, para fazer essa comunicação, decidiu usar-se o email, que é a forma mais comum neste tipo de aplicações.
 
 \label{sec:Mailgun}
 
@@ -95,12 +95,12 @@ No decorrer deste projecto surgiu a necessidade de fazer este tipo de operaçõe
 
 O índice `DiscussionMessagesPendingNotification` foi criado para agregar a informação de debates e respectivas mensagens e obter da informação relevante para o envio de notificações por email. Além disso este índice permite filtrar as mensagens para as quais ainda não foram enviadas notificações.
 
-Para obter o numero de actividades e debates associados a projectos foi criado o ìndice `ProjectEntityCount`. Este índice agrega a informação de projectos, debates e actividades retornando as contagens enunciadas anteriormente para cada um dos projectos.
+Para obter o número de actividades e debates associados a projectos foi criado o índice `ProjectEntityCount`. Este índice agrega a informação de projectos, debates e actividades retornando as contagens enunciadas anteriormente para cada um dos projectos.
 
-A obtenção das entidades associadas a um projecto é feita através da utilização do ìndice `ProjectsEntitiesRelated`.
+A obtenção das entidades associadas a um projecto é feita através da utilização do índice `ProjectsEntitiesRelated`.
 
 O índice `Timelog_Filter` agrega a informação de registo de horas e da respectiva entidade, possibilitando a filtragem de resultados por actividade, utilizador e datas.
 
-Para obter a informação sobre as actividades, a sua duração e datas de inicio é usado o índice `ActivitiesDuration`.
+Para obter a informação sobre as actividades, a sua duração e datas de início é usado o índice `ActivitiesDuration`.
 
 [^regex]: Regular Expression

@@ -44,14 +44,14 @@ O valor guardado é um *blob*. Esta característica torna desnecessária a defin
 Base de dados de documentos
 -
 
-Uma base de dados de documentos é na sua essência um key-value store. A diferença é que, numa base de dados de documentos, o blob de informação é persistido de uma forma semiestruturada, em documentos, utilizando um formato que possa ser interpretado pela base de dados como JSON, BSON ou XML permitindo realizar *queries* sobre essa informação.
+Uma base de dados de documentos é na sua essência um key-value store. A diferença é que, numa base de dados de documentos, o *blob* de informação é persistido de uma forma semiestruturada, em documentos, utilizando um formato que possa ser interpretado pela base de dados como JSON, BSON ou XML permitindo realizar *queries* sobre essa informação.
 
  + ***Schema*** - Este tipo de base de dados não necessita que lhe seja definido um *schema à priori* e não têm tabelas, colunas, tuplos ou relações. Uma base de dados orientada a documentos é composta por vários documentos auto-descritivos, ou seja, a informação relativa a um documento está guardada dentro deste. Isso permite que sejam armazenados objectos complexos (i.e. grafos, dicionários, listas) com facilidade. 
  Esta característica implica que, apesar de poderem existir referências entre documentos a base de dados não garante a integridade dessa relação.
 
  + **Concorrência** - Existem várias abordagens para resolver este problema como a concorrência optimista, pessimista ou *merge*. 
     + Concorrência Optimista: Antes de gravar informação é verificado se o documento foi alterado por outra transacção, sendo a transacção abortada nesse caso;
-	+ Concorrência Pessimista: Usa locks para impedir várias transacções de modificarem o mesmo documento. Esta abordagem é um problema para a escalabilidade destes sistemas;
+	+ Concorrência Pessimista: Usa *locks* para impedir várias transacções de modificarem o mesmo documento. Esta abordagem é um problema para a escalabilidade destes sistemas;
   	+ Concorrência *merge*: Semelhante à concorrência optimista mas em vez de abortar a transacção permite ao utilizador resolver o conflito entre as versões do documento.
 
  + **Transacções**- Em alguns casos é dada a garantia de que as operações cumprem com a regra ACID (atomicity, consistency, isolation, durability). Algumas implementações optam por não seguir a regra ACID, desprezando algumas propriedades em detrimento de um aumento de rendimento, usando as regras CAP (Consistency, Availability, Partition Tolerance) ou BASE (Basically Available, Soft State, Eventually Consistent).
@@ -122,7 +122,7 @@ Os Bundles oferecidos com a build do RavenDB são:
  + **More Like This**, retorna documentos relacionados com o documento indicado.
  + **Unique Constraints**, adiciona a possibilidade de definir *unique constraints* em documentos RavenDB.
 
-Os bundles disponibilizados são distribuídos com dois *dll*s, um para utilizar no cliente e outro para colocar numa pasta definida na configuração do servidor onde são colocadas todas as suas extensões.
+Os *bundles* disponibilizados são distribuídos com dois *dll*s, um para utilizar no cliente e outro para colocar numa pasta definida na configuração do servidor onde são colocadas todas as suas extensões.
 
 ###Índices
 
@@ -131,4 +131,4 @@ Os índices estão divididos em duas categorias: índices estáticos e dinâmico
 
 Os índices estáticos são criados explicitamente pelo programador, usando sintaxe *LINQ* para definir as suas expressões *map-reduce*, e são definidos de forma permanente na base de dados.
 
-Os índices dinâmicos são criados automaticamente pelo *RavenDB* quando são feitas queries para as quais não existe um índice que dê resposta a essa *query*. O RavenDB não oferece garantia quanto à disponibilidade destes indices pois o seu tempo de vida é gerido pela base de dados. De forma a optimizar a utilização destes índices a base de dados pode optar por transforma-los em índices estáticos.
+Os índices dinâmicos são criados automaticamente pelo *RavenDB* quando são feitas queries para as quais não existe um índice que dê resposta a essa *query*. O RavenDB não oferece garantia quanto à disponibilidade destes índices pois o seu tempo de vida é gerido pela base de dados. De forma a optimizar a utilização destes índices a base de dados pode optar por transforma-los em índices estáticos.

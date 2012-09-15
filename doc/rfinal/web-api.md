@@ -31,7 +31,7 @@ using (session) {
 
 Todos os pedidos à Api têm de ser autenticados e a classe `BasicAuthentication` (que estende de `DelegatingHandler`) é responsável pela autenticação.
 
-Para autenticar os utilizadores é verificada a presença do *header* `Authorization` e se o seu valor tem o formato `Basic token`. O token é convertido para a forma original, `nome-de-utilizador:password`, e é validado segundo o processo descrito no domínio (ver secção \ref{sec:dominio}).
+Para autenticar os utilizadores é verificada a presença do *header* `Authorization` e se o seu valor tem o formato `Basic token`. O *token* é convertido para a forma original, `nome-de-utilizador:password`, e é validado segundo o processo descrito no domínio (ver secção \ref{sec:dominio}).
 
 À semelhança do *message handler* de sessão este também tem responsabilidades na resposta ao pedido. Caso a autenticação não seja válida este *message handler* é responsável por colocar o *header* de autenticação na resposta. O valor do *header* é `Basic` e só é colocado se a resposta tiver como código `401 Unhauthorized`.
 

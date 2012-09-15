@@ -3,7 +3,7 @@
 
 \label{app:domaindrivendesign}
 
-Esta abordagem defende que o foco principal no desenvolvimento de software é o modelo de domínio do problema.
+Esta abordagem defende que o foco principal no desenvolvimento de *software* é o modelo de domínio do problema.
 
 O modelo de domínio é o conjunto de vários termos, diagramas e conceitos que representam a informação e o comportamento da aplicação face ao problema.
 Para representar o modelo de domínio podem ser usados diagramas UML, texto detalhado, esquemas entidade-associação, use cases, etc.

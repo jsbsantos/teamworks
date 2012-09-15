@@ -36,7 +36,7 @@ Os casos de utilização enunciados podem ser observados na figura \ref{fig:usec
 
 ![Casos de utilização de um utilizador autenticado\label{fig:usecase-global}](http://www.lucidchart.com/publicSegments/view/4fda0b7b-a694-44fe-85d8-4de80adcb320/image.png)
 
-O acesso à plataforma pode ser feito através de um browser ou de um cliente da Api.
+O acesso à plataforma pode ser feito através de um *browser* ou de um cliente da Api.
 
 Arquitectura
 -
