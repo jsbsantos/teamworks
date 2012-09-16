@@ -20,9 +20,9 @@ namespace Teamworks.Doc.Markdown
 
         public void CreateTexFileFromMarkdown(string name, string input, string output)
         {
-            var front = Path.Combine(output, "front.tex");
+            var front = Path.Combine(output, "front.tex.pre");
             var pre = Path.Combine(output, name + ".pre");
-            
+
             File.WriteAllBytes(Path.Combine(output, "template.latex"), Resources.Template);
             File.WriteAllText(pre, @"<!--- automatic -->" + Environment.NewLine + Environment.NewLine, Encoding.UTF8);
 
@@ -80,14 +80,43 @@ namespace Teamworks.Doc.Markdown
                 bib += " --bibliography=" + file;
             }
 
+            string args;
+            Process process;
+            string frontTex = Path.Combine(output, "front.tex");
             var exists = File.Exists(front);
-            var args = String.Format(
+            if (exists)
+            {
+                args = String.Format(
+                    @"--variable=lang:portuguese --variable=fontsize:12pt --variable=linkcolor:black --variable=tables:true --variable=graphics:true --from=markdown --to=latex --output={0} {1}",
+                    frontTex, front);
+
+                Trace.WriteLine("pandoc " + args);
+                process = new Process
+                    {
+                        StartInfo =
+                            {
+                                FileName = "pandoc",
+                                Arguments = args,
+                                UseShellExecute = false,
+                                RedirectStandardError = true,
+                                RedirectStandardOutput = true
+                            }
+                    };
+                process.Start();
+
+                process.ErrorDataReceived += (s, e) => Console.WriteLine(e.Data);
+                process.OutputDataReceived += (s, e) => Console.WriteLine(e.Data);
+                process.WaitForExit();
+            }
+
+
+            args = String.Format(
                 @"--variable=lang:portuguese --variable=fontsize:12pt --variable=linkcolor:black --variable=tables:true --variable=graphics:true --from=markdown --to=latex --output={0} --listings --standalone --template={1}  --number-sections {2} --toc {3} {4}",
                 Path.Combine(output, name), Path.Combine(output, "template.latex"), bib,
-                exists ? "--include-before=" + front : "", pre);
+                exists ? "--include-before=" + frontTex : "", pre);
 
             Trace.WriteLine("pandoc " + args);
-            var process = new Process
+            process = new Process
                 {
                     StartInfo =
                         {

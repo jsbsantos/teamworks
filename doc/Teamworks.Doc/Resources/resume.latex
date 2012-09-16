@@ -181,7 +181,7 @@ $endif$
 
 \pagenumbering{gobble}
 
-\includepdf[pages=-]{cover.pdf}
+\includepdf{cover.pdf}
 
 $for(include-before)$
 $include-before$
