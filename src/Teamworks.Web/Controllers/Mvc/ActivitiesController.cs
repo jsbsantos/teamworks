@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Web.Mvc;
 using AttributeRouting;
 using AttributeRouting.Web.Http;
@@ -35,7 +36,8 @@ namespace Teamworks.Web.Controllers.Mvc
             var list = DbSession.Query<Activity>()
                 .Include(a => a.Project)
                 .Include(a => a.People)
-                .Where(r => r.Project == projectId.ToId("project")).ToList();
+                .Where(r => r.Project == projectId.ToId("project"))
+                .OrderBy(a => a.Id).ToList();
 
             var activity = list.FirstOrDefault(a => a.Id == activityId.ToId("activity"));
 
@@ -69,6 +71,7 @@ namespace Teamworks.Web.Controllers.Mvc
 
             var discussions = DbSession.Query<Discussion>()
                 .Where(d => d.Entity == activity.Id)
+                .OrderBy(d => d.Id)
                 .MapTo<DiscussionViewModel>()
                 .ToList();
 
@@ -84,7 +87,7 @@ namespace Teamworks.Web.Controllers.Mvc
                     })
                 .ToList();
 
-            vm.Todos = activity.Todos
+            vm.Todos = activity.Todos.OrderBy(t => t.Id)
                 .Select(r =>
                     {
                         var result = r.MapTo<TodoViewModel.Output>();
@@ -92,6 +95,7 @@ namespace Teamworks.Web.Controllers.Mvc
                         return result;
                     });
 
+            vm.Token = Convert.ToBase64String(Encoding.UTF8.GetBytes(string.Format("{0}:{1}", DbSession.GetCurrentPersonId(), activity.Id)));
             return View(vm);
         }
 

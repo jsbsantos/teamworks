@@ -1,4 +1,5 @@
-﻿@using Teamworks.Web.Controllers
+﻿@using System.Configuration
+@using Teamworks.Web.Controllers
 @using Teamworks.Web.Helpers.Extensions
 @model Teamworks.Web.ViewModels.Mvc.ProjectViewModel
 @{
@@ -60,6 +61,10 @@
                     </p>
                     <!-- ko template: { name: 'discussion-template', foreach: discussions } -->
                     <!-- /ko -->
+                    
+                    <small class="tc"><i class="icon-info-sign"></i> You can also create a discussion by sending us an email. Send an email to  
+                        <a target="_blank" href="mailto:@("tw+" + @Model.Token + "@" + ConfigurationManager.AppSettings["mailgun:domain"])">here</a>.
+                    </small>
                 </div>
                 <div class="tab-pane" id="tab-timelogs">
                     <div>
@@ -293,7 +298,6 @@
         </div>
     </form>
 </div>
-
 <div class="modal fade hide" id="addActivityModal" tabindex="-1" role="dialog">
     <form class="form-horizontal" data-bind="submit: activities._create" >
         <div class="modal-header">
@@ -340,7 +344,6 @@
         </div>
     </form>
 </div>
-
 <div class="modal fade hide" id="addDiscussionModal" tabindex="-1" role="dialog">
     <form class="form-horizontal"  data-bind="submit: discussions._create" >
         <div class="modal-header">
@@ -374,7 +377,7 @@
     <div>
         <button class="close" data-bind="click: _remove"><i class="icon-trash"></i></button>
         <h3>
-            <a data-bind="attr: { href: '@Url.RouteUrl("activities_details", new {projectId = Model.Id, activityId = UrlParameter.Optional})' + id() }">
+            <a data-bind="attr: { href: '@Url.RouteUrl("activities_details", new { projectId = Model.Id, activityId = UrlParameter.Optional })' + id() }">
                 <span data-bind="text: name"></span>
                 <small data-bind="text: description"></small>
             </a>
@@ -385,7 +388,7 @@
     <div>
         <button class="close" data-bind="click: _remove"><i class="icon-trash"></i></button>
         <h3>
-            <a data-bind="text: name, attr: { href: '@Url.RouteUrl("discussions_details", new {projectId = Model.Id, discussionId = UrlParameter.Optional})' + id() }"></a>
+            <a data-bind="text: name, attr: { href: '@Url.RouteUrl("discussions_details", new { projectId = Model.Id, discussionId = UrlParameter.Optional })' + id() }"></a>
         </h3>
         <p data-bind="text: content, visible: content().length"></p>
     </div>

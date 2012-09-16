@@ -15,6 +15,8 @@ namespace Teamworks.Web.ViewModels.Mvc
         public IList<Discussion> Discussions { get; set; }
         public IList<Timelog> Timelogs { get; set; }
 
+        public string Token { get; set; }
+
         public ProjectViewModel()
         {
             Timelogs=new List<Timelog>(); 

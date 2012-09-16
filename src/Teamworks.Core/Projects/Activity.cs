@@ -46,7 +46,7 @@ namespace Teamworks.Core
                     Todos = new List<Todo>(),
                     LastTimeEntryId = 0,
                     StartDateConsecutive = startDate == DateTimeOffset.MinValue ? DateTimeOffset.Now : startDate,
-                    StartDate = startDate == DateTimeOffset.MinValue ? DateTimeOffset.Now : startDate
+                    StartDate = startDate == DateTimeOffset.MinValue ? DateTimeOffset.Now : startDate,
                 };
         }
     }

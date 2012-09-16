@@ -73,7 +73,7 @@ namespace Teamworks.Web.Controllers.Mvc
         public ActionResult Post(int projectId, int? activityId, DiscussionViewModel.Input model)
         {
             if (!ModelState.IsValid)
-                return View("View");
+                return View("Details");
 
             var entity = activityId.HasValue
                              ? (Entity) DbSession.Load<Activity>(activityId)

@@ -106,7 +106,7 @@ Na implementação deste projecto optou-se por estabelecer relações entre docu
 
 ###Bundles
 
-\label{app:Raven-bundle}
+\label{app:raven-bundle}
 
 No caso de as funcionalidades disponibilizadas pelo servidor Raven não serem suficientes existem Bundles que estendem as funcionalidades oferecidas. 
 Os Bundles oferecidos com a build do Raven são:
