@@ -20,7 +20,7 @@
         foreach (var activity in Model)
         {
             <div class="lead">
-                <h3><a href="@Url.RouteUrl("activities_details", new { projectId = activity.Project.ToIdentifier(), activityId = activity.Id})">@activity.Name</a>
+                <h3><a href="@Url.RouteUrl("activities_details", new { projectId = activity.Project.ToIdentifier(), activityId = activity.Id.ToIdentifier() })">@activity.Name</a>
                 <small>
                     @activity.Description
                 </small>
