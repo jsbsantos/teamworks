@@ -1,5 +1,9 @@
 ﻿(function (pages) {
     pages.DiscussionViewModel = function (json) {
+        var errorCallback = function (data) {
+            tw.bindings.alerts.push({ message: ((data && data.statusText) || 'An error as ocurred.') });
+        };
+        
         var removeMessage = function () {
             return function () {
                 var discussion = this;
@@ -15,10 +19,6 @@
                     }).fail(errorCallback);
                 }
             };
-        };
-
-        var errorCallback = function () {
-            tw.page.alerts.push({ message: 'An error as ocurred.' });
         };
 
         var mapping = {

@@ -1,9 +1,8 @@
 (function (pages) {
     pages.ActivityViewModel = function (json) {
-        var errorCallback = function (message) {
-            tw.page.alerts.push({ message: 'An error as ocurred.' + message && ('\'' + message + '\'') });
+        var errorCallback = function (data) {
+            tw.bindings.alerts.push({ message: ((data && data.statusText) || 'An error as ocurred.') });
         };
-
         var mapping = {
             'startDate': {
                 create: function (options) {

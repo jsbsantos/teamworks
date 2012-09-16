@@ -40,7 +40,12 @@ namespace Teamworks.Core.Extensions
             permissions.Remove(permissions.FirstOrDefault(p => p.Operation == operation));
 
             if (!permissions.Any(p => p.Operation.StartsWith(project.Id)))
+            {
+             if (project.People.Count == 1)
+                 throw new InvalidOperationException("Project must always have at least one person.");
+
                 project.People.Remove(person.Id);
+            }
         }
 
         public static void Initialize(this Entity entity, IDocumentSession session)

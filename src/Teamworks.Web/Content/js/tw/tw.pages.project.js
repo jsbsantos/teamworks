@@ -1,7 +1,7 @@
 (function(pages) {
     pages.ProjectViewModel = function(json) {
-        var errorCallback = function() {
-            tw.page.alerts.push({ message: 'An error as ocurred.' });
+        var errorCallback = function(data) {
+            tw.bindings.alerts.push({ message: ((data && data.statusText) || 'An error as ocurred.') });
         };
         var self = { };
         var mapping = {
@@ -48,7 +48,7 @@
                         this._remove = function() {
                             var discussion = this;
                             tw.utils.remove(self.people,
-                                tw.utils.location + '/people/' + this.id() + '/delete',
+                                tw.utils.location + '/people/remove/' + this.id() ,
                                 'You are about to delete ' + this.name() + '.',
                                 errorCallback).call(discussion);
                         };
@@ -76,8 +76,8 @@
                 }
             ).fail(errorCallback)
                 .always(function() {
-                    //self.updating(false);
-                    // $('#editProjectModal').modal('hide');
+                    self.updating(false);
+                    $('#editProjectModal').modal('hide');
                 });
         };
         self.updating = ko.observable(false);

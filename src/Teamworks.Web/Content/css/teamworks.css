@@ -17,6 +17,10 @@ body {
 
 .main-wrapper { min-height: 100%; }
 
+.main.container {
+    margin-bottom: 75px;
+}
+
 .main-footer {
     height: 75px;
     margin-top: -75px;
@@ -186,4 +190,9 @@ input.simple {
 
 .btn-sized {
     height: 28px;   
+}
+
+.alert-box 
+{
+    overflow: hidden;
 }

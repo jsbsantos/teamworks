@@ -59,7 +59,7 @@
     <div class="row">
         <div class="span8 message">
             <h3>
-                <a data-bind="attr: { href: '@Url.RouteUrl("profiles_get")' + id() }">
+                <a data-bind="attr: { href: '@Url.RouteUrl("profiles_get")' + person.id() }">
                     <span data-bind="text: person.name"></span>
                     <small data-bind="text: '@@' + person.username()"></small>
                 </a>

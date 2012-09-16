@@ -58,6 +58,10 @@
                 </div>
             </div>
             <div class="hide" data-bind="css: { 'hide': !tw.ready() }">
+                <div class="alert-box row hide" data-bind="css: { 'hide': tw.bindings.alerts().length == 0 }">
+                    <!-- ko template: { name: 'alert-template', foreach: tw.bindings.alerts } -->
+                    <!-- /ko -->
+                </div>
                 <!-- ko with: tw.bindings.vm -->
                 @RenderBody()
                 <!-- /ko -->
@@ -73,12 +77,18 @@
     </div>
     <footer class="main-footer">
         @RenderSection("footer", false)
-        <div class="well-large tc">
+        <div class="well-mini tc">
             <p>© Copyright 2012 <a href="http://www.linkedin.com/in/fampinheiro">Filipe Pinheiro</a> e <a href="http://www.linkedin.com/pub/jo%C3%A3o-santos/18/482/97">João Santos</a>.</p>
         </div>
     </footer>
     <!-- JavaScript at the bottom for fast page loading -->
     <!-- Placed at the end of the document so the layout load faster -->
     @Scripts.Render("~/js")
+    <script type="text/html" id="alert-template">
+        <div class="span10 alert alert-error">
+            <button type="button" class="close" data-dismiss="alert" data-bind="click: function(){ tw.bindings.alerts._remove($data); }">&times;</button>
+            <strong>Error!</strong> <span data-bind="text:message"></span>
+        </div>
+    </script>
 </body>
 </html>
