@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Web.Mvc;
 using AttributeRouting;
 using AttributeRouting.Web.Mvc;
@@ -86,11 +87,14 @@ namespace Teamworks.Web.Controllers.Mvc
             var activities = DbSession
                 .Query<Activity>()
                 .Statistics(out stats)
-                .Where(r => r.Project == id);
+                .Where(r => r.Project == id)
+                .OrderBy(a => a.Id);
+
             var discussions = DbSession
                 .Query<Discussion>()
                 .Statistics(out stats)
-                .Where(r => r.Entity == id);
+                .Where(r => r.Entity == id)
+                .OrderBy(a => a.Id);
 
             var vm = project.MapTo<ProjectViewModel>();
             vm.Activities = activities.MapTo<ProjectViewModel.Activity>();
@@ -115,6 +119,8 @@ namespace Teamworks.Web.Controllers.Mvc
             vm.Timelogs = vm.Timelogs
                 .OrderByDescending(x => x.Date)
                 .ThenBy(x => x.Activity.Id).ToList();
+
+            vm.Token = Convert.ToBase64String(Encoding.UTF8.GetBytes(string.Format("{0}:{1}", DbSession.GetCurrentPersonId(), project.Id)));
 
             return View(vm);
         }

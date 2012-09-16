@@ -31,14 +31,10 @@ namespace Teamworks.Web.Controllers.Api
                 Encoding.UTF8.GetString(Convert.FromBase64String(model.Recipient.Substring(3).Split(new[] {'@'})[0]));
             string[] split = str.Split(new[] {':'});
             string person = split[0];
-            string project = split[1];
+            string entity = split[1];
 
-            Discussion discussion = Discussion.Forge(model.Subject, model.Message, project, person);
+            Discussion discussion = Discussion.Forge(model.Subject, model.Message, entity, person);
             DbSession.Store(discussion);
-
-            var ent = DbSession.Load<Entity>(project);
-            var list = ent.GetType().GetProperty("Messages").GetValue(ent, null) as List<string>;
-            list.Add(discussion.Id);
             DbSession.SaveChanges();
             return new HttpResponseMessage(HttpStatusCode.OK);
         }

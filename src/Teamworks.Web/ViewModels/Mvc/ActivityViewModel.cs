@@ -46,6 +46,8 @@ namespace Teamworks.Web.ViewModels.Mvc
         public IEnumerable<AssignedPersonViewModel> People { get; set; }
         public IEnumerable<TodoViewModel.Output> Todos { get; set; }
 
+        public string Token { get; set; }
+
         public class AssignedPersonViewModel : PersonViewModel
         {
             public bool Assigned { get; set; }

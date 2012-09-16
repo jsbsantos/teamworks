@@ -1,4 +1,5 @@
-﻿@using Teamworks.Web.Controllers
+﻿@using System.Configuration
+@using Teamworks.Web.Controllers
 @using Teamworks.Web.Helpers.Extensions
 @model Teamworks.Web.ViewModels.Mvc.ActivityViewModelComplete
 
@@ -54,6 +55,9 @@
                     </p>
                     <!-- ko template: { name: 'discussion-template', foreach: discussions } -->
                     <!-- /ko -->
+                     <small class="tc"><i class="icon-info-sign"></i> You can also create a discussion by sending us an email. Send an email to  
+                        <a target="_blank" href="mailto:@("tw+" + @Model.Token + "@" + ConfigurationManager.AppSettings["mailgun:domain"])">here</a>.
+                    </small>
                 </div>
                 <div class="tab-pane" id="tab-todos">
                     <h2>Todo list
