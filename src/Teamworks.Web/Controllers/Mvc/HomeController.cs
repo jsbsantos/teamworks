@@ -1,4 +1,8 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
+using Raven.Client.Linq;
+using Teamworks.Core;
+using Teamworks.Web.Helpers.Extensions.Mvc;
 
 namespace Teamworks.Web.Controllers.Mvc
 {
@@ -9,13 +13,20 @@ namespace Teamworks.Web.Controllers.Mvc
         {
             if (Request.IsAuthenticated)
             {
-                return View();
+                var current = DbSession.GetCurrentPerson();
+
+                var activities = DbSession.Query<Activity>()
+                    .Include(a => a.Project)
+                    .Where(a => a.People.Any(p => p == current.Id)).ToList();
+                
+                return View(activities);
             }
             return View("Welcome");
         }
 
         public ActionResult Welcome()
         {
+           
             return View();
         }
     }

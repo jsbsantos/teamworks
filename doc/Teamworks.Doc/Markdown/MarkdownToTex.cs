@@ -82,7 +82,7 @@ namespace Teamworks.Doc.Markdown
 
             var exists = File.Exists(front);
             var args = String.Format(
-                @"--variable=lang:portuguese --variable=fontssize:11pt --variable=linkcolor:black --variable=tables:true --variable=graphics:true --from=markdown --to=latex --output={0} --listings --standalone --template={1}  --number-sections {2} --toc {3} {4}",
+                @"--variable=lang:portuguese --variable=fontsize:12pt --variable=linkcolor:black --variable=tables:true --variable=graphics:true --from=markdown --to=latex --output={0} --listings --standalone --template={1}  --number-sections {2} --toc {3} {4}",
                 Path.Combine(output, name), Path.Combine(output, "template.latex"), bib,
                 exists ? "--include-before=" + front : "", pre);
 

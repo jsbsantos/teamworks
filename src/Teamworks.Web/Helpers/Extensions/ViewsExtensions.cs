@@ -76,7 +76,7 @@ namespace Teamworks.Web.Helpers.Extensions
                 return new HelperResult(writer => { });
             }
             
-            const string last = "<li><span data-bind='text: name'>{1}</span></li>";
+            const string last = "<li><span data-bind='text: name'>{0}</span></li>";
             const string template = "<li><a href='{0}'>{1}</a><span class='divider'>/</span></li>";
             return new HelperResult(writer =>
                 {
@@ -90,7 +90,7 @@ namespace Teamworks.Web.Helpers.Extensions
                             writer.WriteLine(template, item.Url, item.Name);
                             continue;    
                         }
-                        writer.WriteLine(last, item.Url, item.Name);
+                        writer.WriteLine(last, item.Name);
                     }
                     writer.WriteLine("</ul>");
                 });
