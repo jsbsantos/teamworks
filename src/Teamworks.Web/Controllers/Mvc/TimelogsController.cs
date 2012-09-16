@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -35,6 +36,7 @@ namespace Teamworks.Web.Controllers.Mvc
                     };
 
                 vm.Options.Add(option);
+
                 vm.Timelogs = vm.Timelogs
                     .Concat(activity.Timelogs.MapTo<RegisterTimelogsViewModel.Timelog>()
                                 .Select(a =>
@@ -90,7 +92,7 @@ namespace Teamworks.Web.Controllers.Mvc
 
             if (activity == null || activity.Project.ToIdentifier() != projectId)
                 return new HttpNotFoundResult();
-
+            
             var timelog = Timelog.Forge(model.Description, model.Duration, model.Date, DbSession.GetCurrentPerson().Id);
             timelog.Id = activity.GenerateNewTimeEntryId();
             activity.Timelogs.Add(timelog);

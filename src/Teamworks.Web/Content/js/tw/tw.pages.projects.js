@@ -1,5 +1,9 @@
 ﻿(function (pages) {
     pages.ProjectsViewModel = function (json) {
+        var errorCallback = function (data) {
+            tw.bindings.alerts.push({ message: ((data && data.statusText) || 'An error as ocurred.') });
+        };
+        
         var mapping = {
             'projects': {
                 key: function (data) {
@@ -50,9 +54,7 @@
                     data: ko.toJSON({ 'name': self.projects.input() })
                 }).done(function (data) {
                     self.projects.mappedCreate(data);
-                }).fail(function () {
-                    tw.page.alerts.push({ message: 'An error as ocurred.' });
-                })
+                }).fail(errorCallback)
                 .always(function () {
                     self.projects.input("");
                     self.projects.editing(false);

@@ -101,9 +101,9 @@ var tw = {
                 $.ajax({
                     type: 'post',
                     url: endpoint
-                }).success(function(data) {
+                }).done(function(data) {
                     collection.mappedRemove(_obj);
-                }).error(errorCallback);
+                }).fail(errorCallback);
             }
         };
     };

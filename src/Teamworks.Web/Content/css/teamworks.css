@@ -187,3 +187,8 @@ input.simple {
 .btn-sized {
     height: 28px;   
 }
+
+.alert-box 
+{
+    overflow: hidden;
+}

@@ -1,8 +1,8 @@
 ﻿    (function (pages) {
         pages.RegisterTimelogsViewModel = function (data, json) {
             var self = this;
-            var errorCallback = function (message) {
-                tw.page.alerts.push({ message: 'An error as ocurred.' + message && ('\'' + message + '\'') });
+            var errorCallback = function (d) {
+                tw.bindings.alerts.push({ message: ((d && d.statusText) || 'An error as ocurred.') });
             };
 
             self._select = function (i) {

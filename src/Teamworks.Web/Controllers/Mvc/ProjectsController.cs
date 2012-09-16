@@ -210,6 +210,10 @@ namespace Teamworks.Web.Controllers.Mvc
             if (project == null)
                 return new HttpNotFoundResult();
 
+            if (project.People.Count == 1)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden, "Project must have at least one person.");
+            }
             project.Revoke(string.Empty, person);
             return new JsonNetResult {Data = person.MapTo<PersonViewModel>()};
         }
