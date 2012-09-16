@@ -188,8 +188,10 @@
     <Content Include="Content\js\libs\knockout.mapping.js" />
     <Content Include="Content\js\libs\modernizr-2.5.3-respond-1.1.0.min.js" />
     <Content Include="Content\js\libs\_references.js" />
+    <Content Include="404.htm" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="error.htm" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

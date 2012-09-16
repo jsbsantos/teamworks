@@ -11,6 +11,7 @@ namespace Teamworks.Doc
         private static void Main(string[] args)
         {
             Trace.Listeners.Add(new ConsoleTraceListener(false));
+            
             var folder = args.Length > 0
                             && !string.IsNullOrEmpty(args[0])
                                 ? args[0]
@@ -25,6 +26,8 @@ namespace Teamworks.Doc
             File.WriteAllBytes(signing, Resources.Signing);
 
             string name = "rf3007130239.tex";
+            string resume = "r3007130239.tex";
+            
             var toTex = new MarkdownToTex();
             toTex.RegisterMarkdownHandler(Path.Combine(folder, "output", "images"));
             toTex.CreateTexFileFromMarkdown(name, folder, output);
@@ -34,14 +37,20 @@ namespace Teamworks.Doc
             RunProcess("pdflatex",
                        string.Format("-output-directory {0} -interaction=batchmode -synctex=1 {1}", output, signing));
             RunProcess("pdflatex",
+                       string.Format("-output-directory {0} -interaction=batchmode -synctex=1 {1}", output, resume));
+            RunProcess("pdflatex",
                        string.Format("-output-directory {0} -interaction=batchmode -synctex=1 {1}", output, name));
             RunProcess("pdflatex",
                        string.Format("-output-directory {0} -interaction=batchmode -synctex=1 {1}", output, name));
+
             RunProcess("pandoc", string.Format("-s {0} -o {1} ", output + "/" + name + ".pre", name + ".docx"));
 
             name = name.Replace(".tex", ".pdf");
+            resume = resume.Replace(".tex", ".pdf");
             string srcFile = Path.Combine(output, name);
+            string srcResume = Path.Combine(output, resume);
             string dstFile = Path.Combine(folder, name);
+            string dstResume = Path.Combine(folder, resume);
 
             if (File.Exists(srcFile))
             {
@@ -50,6 +59,15 @@ namespace Teamworks.Doc
                     File.Delete(dstFile);
                 }
                 File.Move(srcFile, dstFile);
+            }
+
+            if (File.Exists(srcResume))
+            {
+                if (File.Exists(dstResume))
+                {
+                    File.Delete(dstResume);
+                }
+                File.Move(srcResume, dstResume);
             }
 
 

@@ -103,6 +103,32 @@ namespace Teamworks.Doc.Markdown
             process.ErrorDataReceived += (s, e) => Console.WriteLine(e.Data);
             process.OutputDataReceived += (s, e) => Console.WriteLine(e.Data);
             process.WaitForExit();
+
+            File.WriteAllText(Path.Combine(output, "r3007130239.pre"), "", Encoding.UTF8);
+            File.WriteAllBytes(Path.Combine(output, "resume.latex"), Resources.Resume);
+
+            if (!exists) return;
+            args = String.Format(
+                @"--variable=lang:portuguese --variable=fontsize:12pt --variable=linkcolor:black --variable=tables:true --variable=graphics:true --from=markdown --to=latex --output={0} --listings --standalone --template={1} {2}",
+                Path.Combine(output, "r3007130239.tex"), Path.Combine(output, "resume.latex"), front);
+
+            Trace.WriteLine("pandoc " + args);
+            process = new Process
+                {
+                    StartInfo =
+                        {
+                            FileName = "pandoc",
+                            Arguments = args,
+                            UseShellExecute = false,
+                            RedirectStandardError = true,
+                            RedirectStandardOutput = true
+                        }
+                };
+            process.Start();
+
+            process.ErrorDataReceived += (s, e) => Console.WriteLine(e.Data);
+            process.OutputDataReceived += (s, e) => Console.WriteLine(e.Data);
+            process.WaitForExit();
         }
 
 

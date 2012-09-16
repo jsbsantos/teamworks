@@ -185,18 +185,20 @@ $endif$
 \includepdf[pages=-]{signing.pdf}
 
 \vspace*{15cm}
-\footnotesize{Relatório do projecto Teamworks, desenvolvido no âmbito da unidade curricular de Projecto e Seminário do ano lectivo 2011/2012. Realizado pelos alunos Filipe Pinheiro e João Santos e orientado pelo docente João Pedro Patriarca.}\\
-\pagebreak
+\footnotesize{
+Relatório do projecto Teamworks, desenvolvido no âmbito da unidade curricular de Projecto e Seminário do ano lectivo 2011/2012. Realizado pelos alunos Filipe Pinheiro e João Santos e orientado pelo docente João Pedro Patriarca.
+}
 \cleardoublepage
+\afterpage{\null\newpage}
 
-\pagestyle{empty}
+\pagestyle{plain}
 \pagenumbering{roman}
 
 $for(include-before)$
 $include-before$
 $endfor$
-
-\pagestyle{plain}
+\cleardoublepage
+\afterpage{\null\newpage}
 
 $if(graphics)$
 % We will generate all images so they have a width \maxwidth. This means
@@ -220,6 +222,9 @@ $endif$
 
 \pagenumbering{arabic}
 \setcounter{page}{1}
+
+\setcounter{section}{0}
+\setcounter{chapter}{0}
 
 $body$
 

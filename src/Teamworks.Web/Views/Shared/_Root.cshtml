@@ -47,8 +47,10 @@
                 </nav>
             </div>
         </header>
-        @Html.ValidationSummary()
-        <div class="main container" role="main">
+       <div class="main container" role="main">
+            <div>
+                @Html.ValidationSummary()
+            </div>
             <div class="page-progress" data-bind="css: { 'hide': tw.ready() }">
                 <div class="progress progress-striped active">
                     <div class="bar"
