@@ -76,8 +76,8 @@
                 }
             ).fail(errorCallback)
                 .always(function() {
-                    //self.updating(false);
-                    // $('#editProjectModal').modal('hide');
+                    self.updating(false);
+                    $('#editProjectModal').modal('hide');
                 });
         };
         self.updating = ko.observable(false);
